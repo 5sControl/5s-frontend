@@ -3,6 +3,7 @@ import { Fragment, useEffect, useState } from 'react';
 import axios from "axios";
 
 import { API_URL, API_IMAGES } from '../../api/api.js';
+import { Algorithm, Camera } from '../../assets/svg/SVGcomponent';
 
 function Dashboard() {
 
@@ -48,10 +49,10 @@ function Dashboard() {
                   {data && data.results.map((el)=>{
                     return (
                       <div className='dashboard__reports_item' key={el.id} onClick={()=>setCurrentReport(el)}>
-                        <div className='dashboard__reports_item_title'>{el.date_created}</div>
+                        <div className={currentReport.id === el.id ? 'dashboard__reports_item_title active': 'dashboard__reports_item_title'}>{el.date_created}</div>
                         <div>{`# ${el.id}`}</div>
-                        <div>{el.camera}</div>
-                        <div>Safety control:{el.action}</div>
+                        <div><Camera/> {el.camera}</div>
+                        <div><Algorithm/> Safety control:{el.action}</div>
                       </div>
                     )
                   })}
