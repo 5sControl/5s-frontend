@@ -10,18 +10,18 @@ export const Authorization = () => {
     const [correctEmail, setCorrectEmail] = useState(false)
     const [correctPassword, setCorrectPassword] = useState(false)
 
-    const validate = (text) => {
-        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        if (reg.test(text) === false) {
-          setCorrectEmail(false)
-          setEmail(text)
-          return false;
-        }
-        else {
-          setEmail(text)
-          setCorrectEmail(true)
-        }
-      }
+    // const validate = (text) => {
+    //     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    //     if (reg.test(text) === false) {
+    //       setCorrectEmail(false)
+    //       setEmail(text)
+    //       return false;
+    //     }
+    //     else {
+    //       setEmail(text)
+    //       setCorrectEmail(true)
+    //     }
+    //   }
 
       useEffect(()=>{
         if (password.length > 4 && password.length < 20){
