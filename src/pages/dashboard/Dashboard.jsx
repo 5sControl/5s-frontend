@@ -1,25 +1,25 @@
 import './Dashboard.scss';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useCookies } from 'react-cookie';
 
-import { API_URL, API_IMAGES } from '../../api/api.js';
+import { API_URL, API_IMAGES} from '../../api/api.js';
 import { Algorithm, Camera } from '../../assets/svg/SVGcomponent';
 import { proxy } from '../../api/proxy';
-
 function Dashboard() {
 
   const [data, setData] = useState(false)
   const [currentReport, setCurrentReport] = useState(false)
-  const [cookies, setCookie] = useCookies(['name']);
+  const [cookies, setCookie] = useCookies(['token']);
   
   useEffect(()=>{
-    proxy('local', API_URL, "GET", {
-      'Authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc1OTU0NTAzLCJqdGkiOiI4N2NlYjIwNTg2YWM0YzUyYTM0MGYzMTk3ODIyZTZiMiIsInVzZXJfaWQiOjF9.cQsQQW6FS2nrN2oR7mQ2AgyH_WJ7lfrmP7KitisQz2Q"
+    proxy('docker', API_URL, "GET", {
+      'Authorization': cookies.token
+      // 'Authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc1OTU0NTAzLCJqdGkiOiI4N2NlYjIwNTg2YWM0YzUyYTM0MGYzMTk3ODIyZTZiMiIsInVzZXJfaWQiOjF9.cQsQQW6FS2nrN2oR7mQ2AgyH_WJ7lfrmP7KitisQz2Q"
     })
       .then(el => {
-          el.data.detail === 'Authentication credentials were not provided.' ? setData(false) : setData(el.data)
-          console.log(el.data)
+        console.log(el)
+          el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(false) : setData(el.data)
         })
   },[])
   
