@@ -1,12 +1,11 @@
 import './Dashboard.scss';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useCookies } from 'react-cookie';
 
-import { API_URL, API_IMAGES, API_REGISTRATION, API_AUTH } from '../../api/api.js';
+import { API_URL, API_IMAGES} from '../../api/api.js';
 import { Algorithm, Camera } from '../../assets/svg/SVGcomponent';
-import { proxy, proxyPOST } from '../../api/proxy';
-import axios from 'axios';
+import { proxy } from '../../api/proxy';
 function Dashboard() {
 
   const [data, setData] = useState(false)
@@ -14,13 +13,13 @@ function Dashboard() {
   const [cookies, setCookie] = useCookies(['token']);
   
   useEffect(()=>{
-    console.log(cookies)
     proxy('docker', API_URL, "GET", {
       'Authorization': cookies.token
+      // 'Authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc1OTU0NTAzLCJqdGkiOiI4N2NlYjIwNTg2YWM0YzUyYTM0MGYzMTk3ODIyZTZiMiIsInVzZXJfaWQiOjF9.cQsQQW6FS2nrN2oR7mQ2AgyH_WJ7lfrmP7KitisQz2Q"
     })
       .then(el => {
-          el.data.detail === 'Authentication credentials were not provided.' ? setData(false) : setData(el.data)
-          console.log(el)
+        console.log(el)
+          el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(false) : setData(el.data)
         })
   },[])
   
