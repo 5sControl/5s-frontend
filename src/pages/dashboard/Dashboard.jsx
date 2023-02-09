@@ -1,6 +1,7 @@
 import './Dashboard.scss';
 import { Fragment, useEffect, useState } from 'react';
-import axios from "axios";
+
+import { useCookies } from 'react-cookie';
 
 import { API_URL, API_IMAGES } from '../../api/api.js';
 import { Algorithm, Camera } from '../../assets/svg/SVGcomponent';
@@ -10,7 +11,8 @@ function Dashboard() {
 
   const [data, setData] = useState(false)
   const [currentReport, setCurrentReport] = useState(false)
-
+  const [cookies, setCookie] = useCookies(['name']);
+  
   useEffect(()=>{
     proxy(API_URL, "GET", {
       'Authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc1OTU0NTAzLCJqdGkiOiI4N2NlYjIwNTg2YWM0YzUyYTM0MGYzMTk3ODIyZTZiMiIsInVzZXJfaWQiOjF9.cQsQQW6FS2nrN2oR7mQ2AgyH_WJ7lfrmP7KitisQz2Q"
