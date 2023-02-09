@@ -7,7 +7,7 @@ export const API_URL = `${url}api/safety/action/`
 export const API_IMAGES = url
 export const API_STATIC_MEDIA = `${url}static/`
 export const API_CAMERA = `${url}api/locations/get_all_cameras/`
-export const API_ADMIN = `${url}api/employees/admin/`
+export const API_USERLIST = `${url}api/employees/admin/`
 export const API_REGISTRATION = `${url}api/register/`
 export const API_AUTH = `${url}auth/jwt/create/`
 

@@ -66,10 +66,13 @@ const post = () =>{
         })
         
         .then((response)=>{
-          console.log(response)
-            if (response.status === 200){
+            if (response.status === 200 && response.data.access){
+              // console.log(response.data.access)
                 setCookie('token', `JWT ${response.data.access}`, { path: '/'})
             }  
+            if(!response.data.access){
+              setErrorResponse(true)
+            }
           })
           .catch(() =>{
             setErrorResponse(true)
