@@ -2,7 +2,8 @@ import './Authorization.scss'
 
 import logo from '../../assets/svg/icon.svg'
 import { useEffect, useState } from 'react'
-
+import { proxyPOST } from '../../api/proxy';
+import { API_AUTH } from '../../api/api';
 import { useCookies } from 'react-cookie';
 
 export const Authorization = () => {
@@ -11,8 +12,8 @@ export const Authorization = () => {
     const [password, setPassword] = useState('')
     const [correctEmail, setCorrectEmail] = useState(false)
     const [correctPassword, setCorrectPassword] = useState(false)
-
-    const [cookies, setCookie] = useCookies(['name']);
+    const [errorResponse, setErrorResponse] = useState(false)
+    const [cookies, setCookie] = useCookies(['token']);
 
     // const validate = (text) => {
     //     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -38,14 +39,27 @@ export const Authorization = () => {
       useEffect(()=>{
         if (email.length > 4 && email.length < 20){
             setCorrectEmail(true)
-            // setCookie('name', "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc1OTU0NTAzLCJqdGkiOiI4N2NlYjIwNTg2YWM0YzUyYTM0MGYzMTk3ODIyZTZiMiIsInVzZXJfaWQiOjF9.cQsQQW6FS2nrN2oR7mQ2AgyH_WJ7lfrmP7KitisQz2Q", { path: '/'});
         }
         else{
             setCorrectEmail(false)
         }
       },[email])
 
+      const post = () =>{
+        proxyPOST(API_AUTH, {
+            "username": email,
+            "password": password,
+          }).then((response)=>{
+            if (response.status === 200){
+                setCookie('token', `JWT ${response.data.access}`, { path: '/'})
+            }  
+          })
+          .catch(() =>{
+            setErrorResponse(true)
+          })
+      }
    return (
+
     <div className="authorization">
         <img src={logo} alt='logo' className='authorization__logo'/>
         <h2 className='authorization__title'>Sign in to 5S Control</h2>
@@ -68,7 +82,8 @@ export const Authorization = () => {
                 onChange={(e)=>setPassword(e.target.value)}
             />
             {!correctPassword && <span className='authorization__error'>This field is required</span>}
-            <button className='authorization__button' onClick={()=>console.log({email:email, password:password})}>Log In</button>
+            {errorResponse && <span className='authorization__error_response'>Incorrect email or password. Please, try again.</span>}
+            <button className='authorization__button' onClick={post}>Log In</button>
         </div>
 
     </div>
