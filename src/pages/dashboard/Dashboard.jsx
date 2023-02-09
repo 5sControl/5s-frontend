@@ -16,14 +16,14 @@ function Dashboard() {
   
   useEffect(()=>{
 //////////////////////////////////////////////////////////////////////CHANGE/////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // proxy(API_URL, "GET", {
-    //   'Authorization': cookies.token
-    // })
-    axios.get(API_URL,{
-      headers: {
-        'Authorization': cookies.token
-      },
+    proxy(API_URL, "GET", {
+      'Authorization': cookies.token
     })
+    // axios.get(API_URL,{
+    //   headers: {
+    //     'Authorization': cookies.token
+    //   },
+    // })
       .then(el => {
         console.log(el)
           el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(false) : setData(el.data)
