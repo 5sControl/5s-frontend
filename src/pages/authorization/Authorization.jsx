@@ -3,12 +3,16 @@ import './Authorization.scss'
 import logo from '../../assets/svg/icon.svg'
 import { useEffect, useState } from 'react'
 
+import { useCookies } from 'react-cookie';
+
 export const Authorization = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [correctEmail, setCorrectEmail] = useState(false)
     const [correctPassword, setCorrectPassword] = useState(false)
+
+    const [cookies, setCookie] = useCookies(['name']);
 
     // const validate = (text) => {
     //     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -34,7 +38,9 @@ export const Authorization = () => {
       useEffect(()=>{
         if (email.length > 4 && email.length < 20){
             setCorrectEmail(true)
-        }else{
+            // setCookie('name', "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc1OTU0NTAzLCJqdGkiOiI4N2NlYjIwNTg2YWM0YzUyYTM0MGYzMTk3ODIyZTZiMiIsInVzZXJfaWQiOjF9.cQsQQW6FS2nrN2oR7mQ2AgyH_WJ7lfrmP7KitisQz2Q", { path: '/'});
+        }
+        else{
             setCorrectEmail(false)
         }
       },[email])
