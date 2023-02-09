@@ -1,16 +1,15 @@
 import './Camera.scss';
 import { API_CAMERA } from '../../api/api';
-import axios from "axios";
 import { useEffect } from 'react';
 import { proxy } from '../../api/proxy';
 
 function Camera() {
 
   useEffect(()=>{
-    proxy(API_CAMERA, "GET",{
-      
+    proxy('internet',API_CAMERA, "GET",{
+        'Authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc1OTU0NTAzLCJqdGkiOiI4N2NlYjIwNTg2YWM0YzUyYTM0MGYzMTk3ODIyZTZiMiIsInVzZXJfaWQiOjF9.cQsQQW6FS2nrN2oR7mQ2AgyH_WJ7lfrmP7KitisQz2Q"
     })
-    axios.get(API_CAMERA).then(data => {
+    .then(data => {
       // setData(data.data)
       console.log(data)
     })
