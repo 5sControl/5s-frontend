@@ -33,7 +33,6 @@ export const AddUser = ({close}) =>{
             if(res.data.message === "User has been successfully created"){
                 close()
             }
-            
         })
     }
     
@@ -63,8 +62,8 @@ export const AddUser = ({close}) =>{
                 <label>Select a role of the account. Not today.</label>
                 <h3>Worker</h3>
                 <div className='add-user__footer'>
-                    <button className='add-user__button_cancel' onClick={close}>Cancel</button>
-                    <button className='add-user__button_create' onClick={registration}>Create</button>
+                    <button className='add-user__cancel' onClick={close}>Cancel</button>
+                    <button className='add-user__create' onClick={registration}>Create</button>
                 </div>
            </div>
         </div>

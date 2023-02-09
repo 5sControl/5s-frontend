@@ -47,4 +47,19 @@
         gap:15px;
         margin-top: 30px;
     }
+    &__cancel{
+        padding: 4px 10px;
+        background: #FFFFFF;
+        color: #FE6100;
+        border: none;
+        cursor: pointer;
+    }
+    &__create{
+        padding: 4px 10px;
+        background:  #FE6100;
+        color: #FFFFFF;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+    }
 }
