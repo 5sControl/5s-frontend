@@ -2,31 +2,32 @@ import { useState } from 'react'
 import { API_REGISTRATION } from '../../../../api/api'
 import './addUser.scss'
 import axios from 'axios'
-
+import { proxyPOST } from '../../../../api/proxy'
 export const AddUser = ({close}) =>{
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const registration = () =>{
+        
+//////////////////////////////////////////////////////////////////////CHANGE/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // proxyPOST(API_REGISTRATION, {
-            // username: email,
-            // password: password,
-            // repeat_password: password
-        //   })
-
-        axios.post("https://5scontrol.pl/proxy_to_ngrok",{
-            url: API_REGISTRATION,
-            method:"POST",
-            headers:{
-              "Content-Type": "application/json"
-            },
-            body:JSON.stringify({
-              username: email,
+        // axios.post("https://5scontrol.pl/proxy_to_ngrok",{
+        //     url: API_REGISTRATION,
+        //     method:"POST",
+        //     headers:{
+        //       "Content-Type": "application/json"
+        //     },
+        //     body:JSON.stringify({
+        //       username: email,
+        //       password: password,
+        //       repeat_password: password
+        //     })
+        // })
+        proxyPOST(API_REGISTRATION, {
+            username: email,
               password: password,
               repeat_password: password
-            })
-        })
+          })
         .then(res => {
             console.log(res)
             if(res.data.message === "User has been successfully created"){

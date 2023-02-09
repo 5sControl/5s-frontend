@@ -48,22 +48,22 @@ export const Authorization = () => {
 //////////////////////////////////////////////////////////////////////CHANGE/////////////////////////////////////////////////////////////////////////////////////////////////////////
      
 const post = () =>{
-        // proxyPOST(API_AUTH, {
-        //     "username": email,
-        //     "password": password,
-        //   })
+        proxyPOST(API_AUTH, {
+            "username": email,
+            "password": password,
+          })
 
-          axios.post("https://5scontrol.pl/proxy_to_ngrok",{
-            url: API_AUTH,
-            method:"POST",
-            headers:{
-              "Content-Type": "application/json"
-            },
-            body:JSON.stringify({
-              username: email,
-              password: password,
-            })
-        })
+        //   axios.post("https://5scontrol.pl/proxy_to_ngrok",{
+        //     url: API_AUTH,
+        //     method:"POST",
+        //     headers:{
+        //       "Content-Type": "application/json"
+        //     },
+        //     body:JSON.stringify({
+        //       username: email,
+        //       password: password,
+        //     })
+        // })
         
         .then((response)=>{
             if (response.status === 200 && response.data.access){
