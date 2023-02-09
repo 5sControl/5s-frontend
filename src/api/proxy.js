@@ -1,18 +1,11 @@
 import axios from "axios";
 
-export const proxy =  (type, URL, method, headers) =>{
-    if (type ==='internet'){
+export const proxy =  (URL, method, headers) =>{
         return axios.post("https://5scontrol.pl/proxy_to_ngrok",{
             url: URL,
             method: method,
             headers: headers,
         })
-    }else{
-        return axios.get(URL,{
-            headers: headers,
-          })
-    }
-  
 }
 
 export const proxyPOST = (URL, method) =>{
