@@ -5,14 +5,14 @@ import './index.scss';
 import Dashboard from './pages/dashboard/Dashboard';
 import { RoutesOutlet } from './routes/Routes';
 import Camera from './pages/camera/Camera';
-import { Authorization } from './pages/authorization/Authorization';
+import { Company } from './pages/company/company';
 
 function App() {
     return (
       <BrowserRouter>
       <Routes>
             <Route element={<RoutesOutlet/>}>
-                <Route path="/" element={<Authorization/>}/>
+                <Route path="/" element={<Company/>}/>
                 <Route
                     path="/dashboard"
                     element={<Dashboard/>}
