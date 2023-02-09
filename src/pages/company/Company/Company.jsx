@@ -4,12 +4,14 @@ import { proxy } from '../../../api/proxy'
 import { API_USERLIST} from '../../../api/api'
 
 import { useCookies } from "react-cookie"
+import { AddUser } from './components/addUser'
 export const CompanyComponent = () =>{
 
     const [cookies, setCookie] = useCookies(['token']);
 
     const [userList, setUserList] = useState([]);
-    
+    const [isAddAccount, setIsAddAccount] = useState(false);
+
     useEffect(() =>{
         proxy(API_USERLIST, "GET", {
             'Authorization': cookies.token
@@ -19,9 +21,6 @@ export const CompanyComponent = () =>{
         })
     },[])
 
-    const buttonAdd = () => {
-        console.log('click')
-    }
     return(
         <div className='company'>
             <h2>Company</h2>
@@ -30,8 +29,9 @@ export const CompanyComponent = () =>{
             </div>
             <div className='company__accounts_tab'>
                 <h2>Accounts</h2>
-                <button className='company__add' onClick={buttonAdd}>+ Add Account</button>
+                <button className='company__add' onClick={() => setIsAddAccount(true)}>+ Add Account</button>
             </div>
+
             <div className='company__accounts_container'>
                 {userList.map((user) => 
                 <Fragment key={user.id}>
@@ -46,9 +46,8 @@ export const CompanyComponent = () =>{
                     </div>
                 </Fragment>
                 )}
-                    
-                
             </div>
+            {isAddAccount && <AddUser close={() =>{setIsAddAccount(false)}}/>}
         </div>
     )
 }

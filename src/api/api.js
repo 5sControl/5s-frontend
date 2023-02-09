@@ -8,6 +8,6 @@ export const API_IMAGES = url
 export const API_STATIC_MEDIA = `${url}static/`
 export const API_CAMERA = `${url}api/locations/get_all_cameras/`
 export const API_USERLIST = `${url}api/employees/admin/`
-export const API_REGISTRATION = `${url}api/register/`
+export const API_REGISTRATION = `${url}register/`
 export const API_AUTH = `${url}auth/jwt/create/`
 
