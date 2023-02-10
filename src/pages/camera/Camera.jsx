@@ -9,7 +9,7 @@ function Camera() {
   const [cookies, setCookie] = useCookies(['token']);
 
   useEffect(()=>{
-    axios.get("192.168.1.101:8008/find_cameras",{
+    axios.get("http://192.168.1.101:8008/find_cameras",{
       headers: {
         'Authorization': cookies.token
       },
