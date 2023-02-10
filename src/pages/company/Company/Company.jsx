@@ -16,14 +16,14 @@ export const CompanyComponent = () =>{
 
     useEffect(() =>{
 
-        proxy(API_USERLIST, "GET", {
-            'Authorization': cookies.token
-          })
-        //   axios.get(API_USERLIST,{
-        //     headers: {
-        //       'Authorization': cookies.token
-        //     },
+        // proxy(API_USERLIST, "GET", {
+        //     'Authorization': cookies.token
         //   })
+          axios.get(API_USERLIST,{
+            headers: {
+              'Authorization': cookies.token
+            },
+          })
           .then(res => {
             console.log(res.data.results)
             setUserList(res.data.results)

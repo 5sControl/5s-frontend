@@ -11,23 +11,23 @@ export const AddUser = ({close}) =>{
         
 //////////////////////////////////////////////////////////////////////CHANGE/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        axios.post("https://5scontrol.pl/proxy_to_ngrok",{
-            url: API_REGISTRATION,
-            method:"POST",
-            headers:{
-              "Content-Type": "application/json"
-            },
-            body:JSON.stringify({
-              username: email,
-              password: password,
-              repeat_password: password
-            })
-        })
-        // proxyPOST(API_REGISTRATION, {
-        //     username: email,
+        // axios.post("https://5scontrol.pl/proxy_to_ngrok",{
+        //     url: API_REGISTRATION,
+        //     method:"POST",
+        //     headers:{
+        //       "Content-Type": "application/json"
+        //     },
+        //     body:JSON.stringify({
+        //       username: email,
         //       password: password,
         //       repeat_password: password
-        //   })
+        //     })
+        // })
+        proxyPOST(API_REGISTRATION, {
+            username: email,
+              password: password,
+              repeat_password: password
+          })
         .then(res => {
             console.log(res)
             if(res.data.message === "User has been successfully created"){
