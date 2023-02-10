@@ -47,9 +47,32 @@
       padding: 4px 8px;
     }
   }
+  &__paginator{
+    margin: 20px 0 10px 0;
+    padding-right: 20px;
+    display: flex;
+    justify-content: space-between;
+    &_text{
+      margin: 0 10px;
+    }
+    &_button{
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: red;
+      font-weight: 900;
+      &_noactive{
+      background: none;
+      border: none;
+      pointer-events: none;
+      cursor: default;
+      opacity: 0.5;
+      }
+    }
+  }
   &__reports{
     width: 100%;
-    height: calc(100vh - 280px);
+    height: calc(100vh - 320px);
     overflow: auto;
     &_item{
       display: flex;

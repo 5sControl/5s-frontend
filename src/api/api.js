@@ -11,3 +11,6 @@ export const API_USERLIST = `${url}api/employees/admin/`
 export const API_REGISTRATION = `${url}register/`
 export const API_AUTH = `${url}auth/jwt/create/`
 
+export const API_DASHBOARD_PAGE = (page) =>{
+    return `${url}api/safety/action/?page=${page}`
+}

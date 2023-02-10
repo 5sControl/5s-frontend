@@ -3,23 +3,25 @@ import { useEffect, useState } from 'react';
 
 import { useCookies } from 'react-cookie';
 
-import { API_URL, API_IMAGES} from '../../api/api.js';
+import { API_URL, API_IMAGES, API_DASHBOARD_PAGE} from '../../api/api.js';
 import { Algorithm, Camera } from '../../assets/svg/SVGcomponent';
 import { proxy } from '../../api/proxy';
 import axios from 'axios';
+
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 function Dashboard() {
 
   const [data, setData] = useState(false)
   const [currentReport, setCurrentReport] = useState(false)
   const [cookies, setCookie] = useCookies(['token']);
-  
-  useEffect(()=>{
-//////////////////////////////////////////////////////////////////////CHANGE/////////////////////////////////////////////////////////////////////////////////////////////////////////
-    proxy(API_URL, "GET", {
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const paginator = (page) =>{
+    proxy(API_DASHBOARD_PAGE(page), "GET", {
       'Authorization': cookies.token
     })
-    // axios.get(API_URL,{
+    // axios.get(API_DASHBOARD_PAGE(page),{
     //   headers: {
     //     'Authorization': cookies.token
     //   },
@@ -28,7 +30,11 @@ function Dashboard() {
         console.log(el)
           el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(false) : setData(el.data)
         })
-  },[])
+  }
+  
+  useEffect(()=>{
+    paginator(currentPage)
+  },[currentPage])
   
   return (
     <>
@@ -50,6 +56,25 @@ function Dashboard() {
                   <span>Algorithm</span>
                   <span>Sort: Newest</span>
                 </div>
+               {data && <>
+                <div className='dashboard__paginator'>
+                  <span>{`Reports per page: ${currentPage === Math.ceil(data.count / 20) ? data.count % 20 : 20}`}</span>
+                    <div className='dashboard__paginator_container'>
+                      <button 
+                          className={currentPage === 1? 'dashboard__paginator_button_noactive': 'dashboard__paginator_button'} 
+                          onClick={()=>setCurrentPage(currentPage - 1)}>
+                        <AiOutlineLeft/>
+                      </button>
+                      <span className='dashboard__paginator_text'> {`${currentPage} of ${Math.ceil(data.count / 20)}`}</span>
+                      <button 
+                          className={currentPage === Math.ceil(data.count / 20)? 'dashboard__paginator_button_noactive': 'dashboard__paginator_button'}  
+                          onClick={()=>setCurrentPage(currentPage + 1)}>
+                        <AiOutlineRight/>
+                      </button>
+                    </div>
+                  </div>
+               </>}
+               
                 <div className='dashboard__reports'>
                   {data && data.results.map((el)=>{
                     return (
