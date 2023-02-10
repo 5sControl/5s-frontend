@@ -18,15 +18,14 @@ function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1)
 
   const paginator = (page) =>{
-    
-  //   proxy(API_DASHBOARD_PAGE(page), "GET", {
-  //     'Authorization': cookies.token
-  //   })
-    axios.get(API_DASHBOARD_PAGE(page),{
-      headers: {
-        'Authorization': cookies.token
-      },
+    proxy(API_DASHBOARD_PAGE(page), "GET", {
+      'Authorization': cookies.token
     })
+    // axios.get(API_DASHBOARD_PAGE(page),{
+    //   headers: {
+    //     'Authorization': cookies.token
+    //   },
+    // })
       .then(el => {
         console.log(el)
           el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(false) : setData(el.data)
