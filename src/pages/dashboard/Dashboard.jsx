@@ -9,6 +9,7 @@ import { proxy } from '../../api/proxy';
 import axios from 'axios';
 
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { Link } from 'react-router-dom';
 
 function Dashboard() {
 
@@ -28,7 +29,7 @@ function Dashboard() {
     // })
       .then(el => {
         console.log(el)
-          el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(false) : setData(el.data)
+          el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(0) : setData(el.data)
         })
   }
   
@@ -39,7 +40,7 @@ function Dashboard() {
   return (
     <>
         {
-        data  &&  
+        !!data  &&  
           <div className='dashboard'>
             <h1>Dashboard</h1>
             <h2>
@@ -112,6 +113,13 @@ function Dashboard() {
              
             </div>
           </div>
+     }
+     {
+      data === 0 && 
+      <h2 className='dashboard__noauth'>
+        Log in to view the reports
+        <Link to ='/company'> Log In</Link>
+      </h2>
      }
     </>
    

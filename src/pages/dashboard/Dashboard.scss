@@ -3,6 +3,28 @@
   height: 100%;
   padding: 60px 60px 0 60px;
   color: #212121;
+  &__noauth{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    a{
+      margin-top: 10px;
+      padding: 5px 10px;
+      background: #FE6100;
+      text-decoration: none;
+      color: #fff;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.5s;
+      &:hover{
+        background: rgb(206, 51, 51);
+      }
+    }
+  }
   > h1{
     font-weight: 600;
     font-size: 24px;
