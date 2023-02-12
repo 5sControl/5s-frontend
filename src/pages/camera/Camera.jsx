@@ -9,10 +9,8 @@ function Camera() {
   const [cookies, setCookie] = useCookies(['token']);
 
   useEffect(()=>{
-    axios.get("http://192.168.1.101:8008/find_cameras",{
-      headers: {
-        'Authorization': cookies.token
-      },
+    proxy(API_CAMERA, "GET",{
+      'Authorization': cookies.token
     })
     .then(data => {
       // setData(data.data)

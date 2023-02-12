@@ -6,6 +6,7 @@ import { API_USERLIST } from '../../../api/api'
 import { useCookies } from "react-cookie"
 import { AddUser } from './components/addUser'
 import axios from 'axios'
+import { getIsInternet } from '../../../functions/getURL'
 
 export const CompanyComponent = () =>{
 
@@ -15,19 +16,26 @@ export const CompanyComponent = () =>{
     const [isAddAccount, setIsAddAccount] = useState(false);
 
     useEffect(() =>{
-
-        // proxy(API_USERLIST, "GET", {
-        //     'Authorization': cookies.token
-        //   })
-          axios.get(API_USERLIST,{
-            headers: {
-              'Authorization': cookies.token
-            },
+       if (getIsInternet(window.location.host)) {
+        proxy(API_USERLIST, "GET", {
+            'Authorization': cookies.token
           })
           .then(res => {
             console.log(res.data.results)
             setUserList(res.data.results)
         })
+       }
+       else{
+        axios.get(API_USERLIST,{
+                headers: {
+                'Authorization': cookies.token
+                },
+            })
+            .then(res => {
+                console.log(res.data.results)
+                setUserList(res.data.results)
+            })
+       }
     },[])
 
     return(

@@ -9,6 +9,8 @@ import { proxy } from '../../api/proxy';
 import axios from 'axios';
 
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { Link } from 'react-router-dom';
+import { getIsInternet } from '../../functions/getURL';
 
 function Dashboard() {
 
@@ -19,18 +21,27 @@ function Dashboard() {
 
   const paginator = (page) =>{
     
-  //   proxy(API_DASHBOARD_PAGE(page), "GET", {
-  //     'Authorization': cookies.token
-  //   })
-    axios.get(API_DASHBOARD_PAGE(page),{
-      headers: {
+    if (getIsInternet(window.location.host)){
+
+      proxy(API_DASHBOARD_PAGE(page), "GET", {
         'Authorization': cookies.token
-      },
-    })
-      .then(el => {
-        console.log(el)
-          el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(false) : setData(el.data)
-        })
+      })
+        .then(el => {
+          console.log(el)
+            el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(0) : setData(el.data)
+          })
+    }
+    else{
+      axios.get(API_DASHBOARD_PAGE(page),{
+            headers: {
+              'Authorization': cookies.token
+            },
+          })
+        .then(el => {
+          console.log(el)
+            el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(0) : setData(el.data)
+          })
+      }
   }
   
   useEffect(()=>{
@@ -40,7 +51,7 @@ function Dashboard() {
   return (
     <>
         {
-        data  &&  
+        !!data  &&  
           <div className='dashboard'>
             <h1>Dashboard</h1>
             <h2>
@@ -113,6 +124,13 @@ function Dashboard() {
              
             </div>
           </div>
+     }
+     {
+      data === 0 && 
+      <h2 className='dashboard__noauth'>
+        Log in to view the reports
+        <Link to ='/company'> Log In</Link>
+      </h2>
      }
     </>
    
