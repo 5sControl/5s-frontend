@@ -39,7 +39,7 @@
     height: calc(100vh - 80px);
     display: flex;
     flex-direction: column;
-    padding: 60px 20%;
+    padding: 60px 20% 0 20%;
     overflow: auto;
     &__container{
         display: flex;
@@ -155,3 +155,11 @@
   .novisible{
     display: none;
   }
+  .noAccess{
+    input{
+        display: none;
+    }
+    h4,h5{
+        color: #9E9E9E !important;
+        }
+}

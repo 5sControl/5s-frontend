@@ -31,35 +31,35 @@ export const Main = () =>{
                     </div>
                     <input type='radio' className='readiobutton' checked={true}/>
                 </div>
-                <div className='selection__container'>
+                <div className='selection__container noAccess'>
                     <div>
                         <h4>Safety Control: Head protection</h4>
                         <h5>Detects if worker is not wearing protective helmet.</h5>
                     </div>
                     <input type='radio' className='readiobutton'/>
                 </div>
-                <div className='selection__container'>
+                <div className='selection__container noAccess'>
                     <div>
                         <h4>Safety Control: Hand protection</h4>
                         <h5>Detects if worker is not wearing protective gloves.</h5>
                     </div>
                     <input type='radio' className='readiobutton'/>
                 </div>
-                <div className='selection__container'>
+                <div className='selection__container noAccess' >
                     <div>
                         <h4>Safety Control: Reflective jacket</h4>
                         <h5>Detects if worker is not wearing reflective jacket.</h5>
                     </div>
                     <input type='radio' className='readiobutton'/>
                 </div>
-                <div className='selection__container'>
+                <div className='selection__container noAccess'>
                     <div>
                         <h4>Idle Control</h4>
                         <h5>Detects if worker is idle.</h5>
                     </div>
                     <input type='radio' className='readiobutton'/>
                 </div>
-                <div className='selection__container'>
+                <div className='selection__container noAccess'>
                     <div>
                         <h4>Tool Control</h4>
                         <h5>Detects when worker takes tools from the bench.</h5>
