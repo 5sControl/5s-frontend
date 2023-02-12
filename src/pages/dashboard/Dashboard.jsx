@@ -10,6 +10,7 @@ import axios from 'axios';
 
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { Link } from 'react-router-dom';
+import { getIsInternet } from '../../functions/getURL';
 
 function Dashboard() {
 
@@ -19,18 +20,28 @@ function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1)
 
   const paginator = (page) =>{
-    proxy(API_DASHBOARD_PAGE(page), "GET", {
-      'Authorization': cookies.token
-    })
-    // axios.get(API_DASHBOARD_PAGE(page),{
-    //   headers: {
-    //     'Authorization': cookies.token
-    //   },
-    // })
-      .then(el => {
-        console.log(el)
-          el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(0) : setData(el.data)
-        })
+    
+    if (getIsInternet(window.location.host)){
+
+      proxy(API_DASHBOARD_PAGE(page), "GET", {
+        'Authorization': cookies.token
+      })
+        .then(el => {
+          console.log(el)
+            el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(0) : setData(el.data)
+          })
+    }
+    else{
+      axios.get(API_DASHBOARD_PAGE(page),{
+            headers: {
+              'Authorization': cookies.token
+            },
+          })
+        .then(el => {
+          console.log(el)
+            el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(0) : setData(el.data)
+          })
+      }
   }
   
   useEffect(()=>{

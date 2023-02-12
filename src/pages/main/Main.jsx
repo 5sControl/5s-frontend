@@ -1,10 +1,11 @@
 import './main.scss'
 import logo from '../../assets/svg/icon.svg'
 import { useState } from 'react'
+import { getIsInternet } from '../../functions/getURL'
 export const Main = () =>{
 
     const [stage, setStage] = useState('begin')
-
+   
     return (
         <>
         {
