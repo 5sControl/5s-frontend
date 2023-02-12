@@ -67,7 +67,10 @@ export const Main = () =>{
                     <input type='radio' className='readiobutton'/>
                 </div>
             </div>
-        }   
+        }  
+        <div className={stage!=='begin' ? 'visible' : 'novisible'}>
+            <button>Continue</button>
+        </div> 
         </>
     )
 }
