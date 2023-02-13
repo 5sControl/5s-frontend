@@ -2,8 +2,8 @@
 // const url = "http://0.0.0.0:8080"
 
 // const url = "https://a91c-134-17-26-206.eu.ngrok.io"
-const url = "http://192.168.1.101"
-// const url = process.env.HOST_IP
+// const url = "http://192.168.1.101"
+const url = window.location.host
 export const API_URL = `${url}/api/safety_control/safety/action/`
 export const API_IMAGES = `${url}/`
 export const API_STATIC_MEDIA = `${url}/static/`

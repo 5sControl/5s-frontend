@@ -8,7 +8,7 @@ import {AiOutlineRight } from "react-icons/ai";
 import close from '../../assets/svg/close.svg'
 import camera from '../../assets/png/camera.png'
 export const Main = () =>{
-
+    // console.log(window.location.host)
     const [stage, setStage] = useState('begin')
     const [selectType, setSelectType] = useState('')
 
@@ -42,7 +42,7 @@ export const Main = () =>{
     const onChangeHandler = (id) => {
         setCameras( cameras.map(el => el.id === id ? {...el, isSelected:!el.isSelected} :el ))
     }
-
+    
     return (
         <>
         {

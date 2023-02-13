@@ -14,7 +14,7 @@ export const CompanyComponent = () =>{
 
     const [userList, setUserList] = useState([]);
     const [isAddAccount, setIsAddAccount] = useState(false);
-
+    
     useEffect(() =>{
        if (getIsInternet(window.location.host)) {
         proxy(API_USERLIST, "GET", {
