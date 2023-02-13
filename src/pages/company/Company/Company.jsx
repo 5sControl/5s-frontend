@@ -10,7 +10,7 @@ import { getIsInternet } from '../../../functions/getURL'
 
 export const CompanyComponent = () =>{
 
-    const [cookies, setCookie] = useCookies(['token']);
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
     const [userList, setUserList] = useState([]);
     const [isAddAccount, setIsAddAccount] = useState(false);
@@ -21,8 +21,13 @@ export const CompanyComponent = () =>{
             'Authorization': cookies.token
           })
           .then(res => {
-            console.log(res.data.results)
-            setUserList(res.data.results)
+            console.log(res.data)
+            if (res.data.detail !=='Authentication credentials were not provided.' && res.data.detail!== 'Given token not valid for any token type') {
+                setUserList(res.data.results)
+            }
+            else{
+                removeCookie('token')
+            }
         })
        }
        else{
@@ -33,12 +38,19 @@ export const CompanyComponent = () =>{
             })
             .then(res => {
                 console.log(res.data.results)
-                setUserList(res.data.results)
+                if (res.data.detail !=='Authentication credentials were not provided.' && res.data.detail!== 'Given token not valid for any token type') {
+                    setUserList(res.data.results)
+                }
+                else{
+                    removeCookie('token')
+                }
             })
        }
     },[])
 
     return(
+    <>
+        {userList.length > 0 && 
         <div className='company'>
             <h2>Company</h2>
             <div className='company__name'>
@@ -65,6 +77,8 @@ export const CompanyComponent = () =>{
                 )}
             </div>
             {isAddAccount && <AddUser close={() =>{setIsAddAccount(false)}}/>}
-        </div>
+        </div> 
+        }
+    </>
     )
 }
