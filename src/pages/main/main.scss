@@ -69,6 +69,7 @@
         line-height: 24px;
         margin-bottom: 30px;
     }
+ 
 }
 
 .readiobutton {
@@ -150,6 +151,10 @@
         &:hover{
             background: #833505; 
         }
+    }
+    .noclick{
+      pointer-events: none ;
+      background-color: #9E9E9E ;
     }
   }
   .novisible{

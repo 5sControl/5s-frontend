@@ -62,6 +62,7 @@ export const Main = () =>{
             <div className='selection'>
                 <h2 className='selection__title'>Initial Setup</h2>
                 <h3 className='selection__subtitle'>Select algorithms and cameras that will use them to start monitoring. You can always change your setup by going to the specific algorithms from Algorithms tab.</h3>
+                <h2>{cameras.filter(el=>el.isSelected).length} / algorithms used </h2>
                 <div className='selection__container' onClick={() => setSelectType('ear')}>
                     <div>
                         <h4>Safety Control: Ear protection</h4>
@@ -106,7 +107,9 @@ export const Main = () =>{
             </div>
         }  
         <div className={stage!=='begin' ? 'visible' : 'novisible'}>
-            <button onClick={() => console.log({
+            <button 
+            className={cameras.filter(el=>el.isSelected).length === 0 ? 'noclick':''}
+            onClick={() => console.log({
                 ear:cameras.filter(el=>el.isSelected),
                 head:null,
                 hand:null
