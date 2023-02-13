@@ -4,17 +4,28 @@ import { useEffect } from 'react';
 import { proxy } from '../../api/proxy';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+
+import { getIsInternet } from '../../functions/getURL';
 function Camera() {
 
   const [cookies, setCookie] = useCookies(['token']);
 
   useEffect(()=>{
-    axios.get(API_CAMERA)
 
+    if (getIsInternet(window.location.host)){
+    axios.post("https://5scontrol.pl/proxy_to_ngrok",{
+            url: API_CAMERA,
+            method: "GET",
+        })
     .then(response => {
       console.log(response.data.results)
     })
-    
+  } else{
+    axios.get(API_CAMERA)
+      .then(response => {
+        console.log(response.data.results)
+      })
+  }
 },[])
   return (
     <>
