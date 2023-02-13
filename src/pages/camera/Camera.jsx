@@ -1,5 +1,5 @@
 import './Camera.scss';
-import { API_CAMERA } from '../../api/api';
+import { API_CAMERA, API_CAMERA_I } from '../../api/api';
 import { useEffect } from 'react';
 import { proxy } from '../../api/proxy';
 import { useCookies } from 'react-cookie';
@@ -14,7 +14,7 @@ function Camera() {
 
     if (getIsInternet(window.location.host)){
     axios.post("https://5scontrol.pl/proxy_to_ngrok",{
-            url: API_CAMERA,
+            url: API_CAMERA_I,
             method: "GET",
         })
     .then(response => {

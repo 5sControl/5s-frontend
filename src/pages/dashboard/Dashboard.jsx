@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { useCookies } from 'react-cookie';
 
-import { API_URL, API_IMAGES, API_DASHBOARD_PAGE} from '../../api/api.js';
+import { API_URL, API_IMAGES,API_IMAGES_I, API_DASHBOARD_PAGE, API_DASHBOARD_PAGE_I} from '../../api/api.js';
 import { Algorithm, Camera } from '../../assets/svg/SVGcomponent';
 import { proxy } from '../../api/proxy';
 import axios from 'axios';
@@ -22,7 +22,7 @@ function Dashboard() {
   const paginator = (page) =>{
     if (getIsInternet(window.location.host)){
 
-      proxy(API_DASHBOARD_PAGE(page), "GET", {
+      proxy(API_DASHBOARD_PAGE_I(page), "GET", {
         'Authorization': cookies.token
       })
         .then(el => {
@@ -101,7 +101,7 @@ function Dashboard() {
               </div>
               {currentReport &&
                 <div className='dashboard__report'>
-                   <img src={`${API_IMAGES + currentReport.image}`} alt='report img' className='dashboard__report_image'/>
+                   <img src={getIsInternet(window.location.hostname)?`${API_IMAGES + currentReport.image}`:`${API_IMAGES_I + currentReport.image}`} alt='report img' className='dashboard__report_image'/>
                    <div className='dashboard__report_item'>
                     <span>Date & Time</span>
                     <span>{currentReport.date_created}</span>

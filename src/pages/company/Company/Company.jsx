@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import './Company.scss'
 import { proxy } from '../../../api/proxy'
-import { API_USERLIST } from '../../../api/api'
+import { API_USERLIST, API_USERLIST_I } from '../../../api/api'
 
 import { useCookies } from "react-cookie"
 import { AddUser } from './components/addUser'
@@ -17,7 +17,7 @@ export const CompanyComponent = () =>{
     
     useEffect(() =>{
        if (getIsInternet(window.location.host)) {
-        proxy(API_USERLIST, "GET", {
+        proxy(API_USERLIST_I, "GET", {
             'Authorization': cookies.token
           })
           .then(res => {

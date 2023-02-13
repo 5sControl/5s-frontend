@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { API_REGISTRATION } from '../../../../api/api'
+import { API_REGISTRATION, API_REGISTRATION_I } from '../../../../api/api'
 import './addUser.scss'
 import axios from 'axios'
 import { proxyPOST } from '../../../../api/proxy'
@@ -12,7 +12,7 @@ export const AddUser = ({close}) =>{
         
         if (getIsInternet(window.location.host)) {
             axios.post("https://5scontrol.pl/proxy_to_ngrok",{
-                url: API_REGISTRATION,
+                url: API_REGISTRATION_I,
                 method:"POST",
                 headers:{
                   "Content-Type": "application/json"
