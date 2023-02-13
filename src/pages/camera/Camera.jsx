@@ -11,9 +11,8 @@ function Camera() {
   useEffect(()=>{
     axios.get(API_CAMERA)
 
-    .then(data => {
-      // setData(data.data)
-      console.log(data)
+    .then(response => {
+      console.log(response.data.results)
     })
     
 },[])
