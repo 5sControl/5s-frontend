@@ -101,7 +101,7 @@ function Dashboard() {
               </div>
               {currentReport &&
                 <div className='dashboard__report'>
-                   <img src={getIsInternet(window.location.hostname)?`${API_IMAGES + currentReport.image}`:`${API_IMAGES_I + currentReport.image}`} alt='report img' className='dashboard__report_image'/>
+                   <img src={getIsInternet(window.location.hostname)?`${API_IMAGES_I + currentReport.image}`:`${API_IMAGES + currentReport.image}`} alt='report img' className='dashboard__report_image'/>
                    <div className='dashboard__report_item'>
                     <span>Date & Time</span>
                     <span>{currentReport.date_created}</span>
