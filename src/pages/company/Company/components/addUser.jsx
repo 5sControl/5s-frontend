@@ -12,7 +12,7 @@ export const AddUser = ({close}) =>{
         
         if (getIsInternet(window.location.host)) {
             axios.post("https://5scontrol.pl/proxy_to_ngrok",{
-                url: `http://${window.location.hostname}`+API_REGISTRATION,
+                url: API_REGISTRATION,
                 method:"POST",
                 headers:{
                   "Content-Type": "application/json"
@@ -31,7 +31,7 @@ export const AddUser = ({close}) =>{
                 })
         }
         else{
-            proxyPOST(`http://${window.location.hostname}`+API_REGISTRATION, {
+            proxyPOST(`http://${window.location.hostname}${API_REGISTRATION}`, {
                 username: email,
                   password: password,
                   repeat_password: password

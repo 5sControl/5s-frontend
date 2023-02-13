@@ -13,5 +13,5 @@ export const API_REGISTRATION = `/register/`
 export const API_AUTH = `$/auth/jwt/create/`
 
 export const API_DASHBOARD_PAGE = (page) =>{
-    return `?page=${page}`
+    return `${API_URL}?page=${page}`
 }

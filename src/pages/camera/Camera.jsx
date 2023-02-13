@@ -14,14 +14,14 @@ function Camera() {
 
     if (getIsInternet(window.location.host)){
     axios.post("https://5scontrol.pl/proxy_to_ngrok",{
-            url: `http://${window.location.hostname}`+API_CAMERA,
+            url: API_CAMERA,
             method: "GET",
         })
     .then(response => {
       console.log(response.data.results)
     })
   } else{
-    axios.get(`http://${window.location.hostname}`+API_CAMERA)
+    axios.get(`http://${window.location.hostname}${API_CAMERA}`)
       .then(response => {
         console.log(response.data.results)
       })

@@ -20,10 +20,9 @@ function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1)
 
   const paginator = (page) =>{
-    console.log(window.location.hostname)
     if (getIsInternet(window.location.host)){
 
-      proxy(`http://${window.location.hostname}`+API_DASHBOARD_PAGE(page), "GET", {
+      proxy(API_DASHBOARD_PAGE(page), "GET", {
         'Authorization': cookies.token
       })
         .then(el => {
@@ -32,7 +31,7 @@ function Dashboard() {
           })
     }
     else{
-      axios.get(`http://${window.location.hostname}`+API_DASHBOARD_PAGE(page),{
+      axios.get(`http://${window.location.hostname}${API_DASHBOARD_PAGE(page)}`,{
             headers: {
               'Authorization': cookies.token
             },
