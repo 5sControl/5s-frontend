@@ -22,14 +22,20 @@ export const Main = () =>{
 
     // axios.get(`http://192.168.1.101${API_CAMERA}`)
     useEffect(() => {
-        axios.get(`http://${window.location.hostname}${API_CAMERA}`)
-        .then(response => {
-          setCameras(response.data.results.map((el, ind)=>{return{
+        // axios.get(`http://${window.location.hostname}${API_CAMERA}`)
+        // .then(response => {
+        //   setCameras(response.data.results.map((el, ind)=>{return{
+        //     id:ind + 1,
+        //     isSelected:false,
+        //     ip:el
+        //   }}))
+        // })
+
+        setCameras(new Array(5).fill(4).map((el, ind)=>{return{
             id:ind + 1,
             isSelected:false,
-            ip:el
+            ip:ind === 1? '192.168.0.160':'192.168.0.161'
           }}))
-        })
     },[])
     
 
@@ -100,7 +106,11 @@ export const Main = () =>{
             </div>
         }  
         <div className={stage!=='begin' ? 'visible' : 'novisible'}>
-            <button onClick={() => console.log(cameras.filter(el=>el.isSelected))}>Continue</button>
+            <button onClick={() => console.log({
+                ear:cameras.filter(el=>el.isSelected),
+                head:null,
+                hand:null
+            })}>Continue</button>
         </div> 
         {
         selectType !== '' &&
@@ -115,7 +125,7 @@ export const Main = () =>{
                             {
                                 cameras.map((el,ind) =>
                                     <Fragment key={el.id}>
-                                        <div className='select__cameras_item'>
+                                        <div className={el.ip.includes('160')? 'select__cameras_item' :'select__cameras_noitem' }>
                                             <img src={el.ip.includes('160')? cam160 :
                                                       el.ip.includes('161')? cam161 : 
                                                       el.ip.includes('162')? cam162 : 
