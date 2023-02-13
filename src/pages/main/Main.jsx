@@ -2,42 +2,33 @@ import './main.scss'
 import logo from '../../assets/svg/icon.svg'
 import { Fragment, useState } from 'react'
 import { getIsInternet } from '../../functions/getURL'
-
+import { API_CAMERA } from '../../api/api'
 import {AiOutlineRight } from "react-icons/ai";
 
 import close from '../../assets/svg/close.svg'
 import camera from '../../assets/png/camera.png'
+
+import cam160 from '../../assets/jpg/160.jpeg'
+import cam161 from '../../assets/jpg/161.jpeg'
+import cam162 from '../../assets/jpg/162.jpeg'
+
+import axios from 'axios';
+
 export const Main = () =>{
+    const [cameras, setCameras] = useState([])
     // console.log(window.location.host)
     const [stage, setStage] = useState('begin')
     const [selectType, setSelectType] = useState('')
 
-    const [cameras, setCameras] = useState([
-        {
-            id:1,
-            ip:'192.168.0.1',
-            position:'hall',
-            isSelected: false
-        },
-        {
-            id:2,
-            ip:'192.168.0.2',
-            position:'main',
-            isSelected: false
-        },
-        {
-            id:3,
-            ip:'192.168.0.3',
-            position:'main',
-            isSelected: false
-        },
-        {
-            id:4,
-            ip:'192.168.0.3',
-            position:'main',
-            isSelected: false
-        },
-    ])
+    // axios.get(`http://192.168.1.101${API_CAMERA}`)
+    axios.get(`http://${window.location.hostname}${API_CAMERA}`)
+    .then(response => {
+      setCameras(response.data.results.map((el, ind)=>{return{
+        id:ind + 1,
+        isSelected:false,
+        ip:el
+      }}))
+    })
 
     const onChangeHandler = (id) => {
         setCameras( cameras.map(el => el.id === id ? {...el, isSelected:!el.isSelected} :el ))
@@ -119,10 +110,13 @@ export const Main = () =>{
                         </div>
                         <div className='select__cameras'>
                             {
-                                cameras.map(el =>
+                                cameras.map((el,ind) =>
                                     <Fragment key={el.id}>
                                         <div className='select__cameras_item'>
-                                            <img src={camera} alt='Camera'/>
+                                            <img src={el.ip.includes('160')? cam160 :
+                                                      el.ip.includes('161')? cam161 : 
+                                                      el.ip.includes('162')? cam162 : 
+                                                      camera} alt='Camera'/>
                                             <div className='select__cameras_item_footer'>
                                                 <span>{el.ip}</span>
                                                 <input type='checkbox'
