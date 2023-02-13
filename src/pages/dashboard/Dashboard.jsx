@@ -20,7 +20,7 @@ function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1)
 
   const paginator = (page) =>{
-    
+    console.log(window.location.hostname)
     if (getIsInternet(window.location.host)){
 
       proxy(API_DASHBOARD_PAGE(page), "GET", {
