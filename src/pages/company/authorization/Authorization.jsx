@@ -52,7 +52,7 @@ const post = () =>{
 
   if (getIsInternet(window.location.host)) {
     axios.post("https://5scontrol.pl/proxy_to_ngrok",{
-      url: API_AUTH,
+      url: `http://${window.location.hostname}`+API_AUTH,
       method:"POST",
       headers:{
         "Content-Type": "application/json"
@@ -77,7 +77,7 @@ const post = () =>{
     })
   }
   else{
-    proxyPOST(API_AUTH, {
+    proxyPOST(`http://${window.location.hostname}`+API_AUTH, {
       "username": email,
       "password": password,
     })

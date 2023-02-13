@@ -17,7 +17,7 @@ export const CompanyComponent = () =>{
     
     useEffect(() =>{
        if (getIsInternet(window.location.host)) {
-        proxy(API_USERLIST, "GET", {
+        proxy(`http://${window.location.hostname}`+API_USERLIST, "GET", {
             'Authorization': cookies.token
           })
           .then(res => {
@@ -31,7 +31,7 @@ export const CompanyComponent = () =>{
         })
        }
        else{
-        axios.get(API_USERLIST,{
+        axios.get(`http://${window.location.hostname}`+API_USERLIST,{
                 headers: {
                 'Authorization': cookies.token
                 },

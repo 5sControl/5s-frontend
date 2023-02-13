@@ -23,7 +23,7 @@ function Dashboard() {
     console.log(window.location.hostname)
     if (getIsInternet(window.location.host)){
 
-      proxy(API_DASHBOARD_PAGE(page), "GET", {
+      proxy(`http://${window.location.hostname}`+API_DASHBOARD_PAGE(page), "GET", {
         'Authorization': cookies.token
       })
         .then(el => {
@@ -32,7 +32,7 @@ function Dashboard() {
           })
     }
     else{
-      axios.get(API_DASHBOARD_PAGE(page),{
+      axios.get(`http://${window.location.hostname}`+API_DASHBOARD_PAGE(page),{
             headers: {
               'Authorization': cookies.token
             },
