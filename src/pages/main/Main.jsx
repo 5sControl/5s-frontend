@@ -2,7 +2,7 @@ import './main.scss'
 import logo from '../../assets/svg/icon.svg'
 import { Fragment, useEffect, useState } from 'react'
 import { getIsInternet } from '../../functions/getURL'
-import { API_CAMERA } from '../../api/api'
+import { API_CAMERA, API_POSTALGORITHM } from '../../api/api'
 import {AiOutlineRight } from "react-icons/ai";
 
 import close from '../../assets/svg/close.svg'
@@ -111,7 +111,7 @@ export const Main = () =>{
         <div className={stage!=='begin' ? 'visible' : 'novisible'}>
             <button 
             className={cameras.filter(el=>el.isSelected).length === 0 ? 'noclick':''}
-            onClick={() => console.log({
+            onClick={() => axios.post(API_POSTALGORITHM,{
                 Safety_Control_Reflective_jacket:null,
                 Safety_Control_Hand_protection:null,
                 Safety_Control_Head_protection:null,
@@ -119,7 +119,7 @@ export const Main = () =>{
                 Tool_control:null,
                 Idle_control:null,
                 Staff_Control:null
-            })}>Continue</button>
+            }).then((e) => console.log(e))}>Continue</button>
         </div> 
         {
         selectType !== '' &&
