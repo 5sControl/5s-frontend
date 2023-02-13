@@ -10,7 +10,7 @@ export const API_STATIC_MEDIA = `/static/`
 export const API_CAMERA = `:8008/find_cameras/`
 export const API_USERLIST = `/api/staff_control/employees/admin/`
 export const API_REGISTRATION = `/register/`
-export const API_AUTH = `$/auth/jwt/create/`
+export const API_AUTH = `/auth/jwt/create/`
 
 export const API_DASHBOARD_PAGE = (page) =>{
     return `${API_URL}?page=${page}`
