@@ -20,22 +20,24 @@ export const Main = () =>{
     const [stage, setStage] = useState('begin')
     const [selectType, setSelectType] = useState('')
 
-    // axios.get(`http://192.168.1.101${API_CAMERA}`)
+    
     useEffect(() => {
-        // axios.get(`http://${window.location.hostname}${API_CAMERA}`)
-        // .then(response => {
-        //   setCameras(response.data.results.map((el, ind)=>{return{
-        //     id:ind + 1,
-        //     isSelected:false,
-        //     ip:el
-        //   }}))
-        // })
-
-        setCameras(new Array(5).fill(4).map((el, ind)=>{return{
+        // axios.get(`http://192.168.1.101${API_CAMERA}`)
+        
+        axios.get(`http://${window.location.hostname}${API_CAMERA}`)
+        .then(response => {
+          setCameras(response.data.results.map((el, ind)=>{return{
             id:ind + 1,
             isSelected:false,
-            ip:ind === 1 ? '192.168.0.160':'192.168.0.161'
+            ip:el
           }}))
+        })
+
+        // setCameras(new Array(5).fill(4).map((el, ind)=>{return{
+        //     id:ind + 1,
+        //     isSelected:false,
+        //     ip:ind === 1 ? '192.168.0.160':'192.168.0.161'
+        //   }}))
     },[])
     
 
