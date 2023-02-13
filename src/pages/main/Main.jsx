@@ -34,7 +34,7 @@ export const Main = () =>{
         setCameras(new Array(5).fill(4).map((el, ind)=>{return{
             id:ind + 1,
             isSelected:false,
-            ip:ind === 1? '192.168.0.160':'192.168.0.161'
+            ip:ind === 1 ? '192.168.0.160':'192.168.0.161'
           }}))
     },[])
     
@@ -62,7 +62,7 @@ export const Main = () =>{
             <div className='selection'>
                 <h2 className='selection__title'>Initial Setup</h2>
                 <h3 className='selection__subtitle'>Select algorithms and cameras that will use them to start monitoring. You can always change your setup by going to the specific algorithms from Algorithms tab.</h3>
-                <h2>{cameras.filter(el=>el.isSelected).length} / algorithms used </h2>
+                <h2>{cameras.filter(el=>el.isSelected).length} / 5 algorithms used </h2>
                 <div className='selection__container' onClick={() => setSelectType('ear')}>
                     <div>
                         <h4>Safety Control: Ear protection</h4>
@@ -110,9 +110,13 @@ export const Main = () =>{
             <button 
             className={cameras.filter(el=>el.isSelected).length === 0 ? 'noclick':''}
             onClick={() => console.log({
-                ear:cameras.filter(el=>el.isSelected),
-                head:null,
-                hand:null
+                Safety_Control_Reflective_jacket:null,
+                Safety_Control_Hand_protection:null,
+                Safety_Control_Head_protection:null,
+                Safety_Control_Ear_protection:cameras.filter(el=>el.isSelected).map(e=>e.ip),
+                Tool_control:null,
+                Idle_control:null,
+                Staff_Control:null
             })}>Continue</button>
         </div> 
         {
@@ -128,7 +132,7 @@ export const Main = () =>{
                             {
                                 cameras.map((el,ind) =>
                                     <Fragment key={el.id}>
-                                        <div className={el.ip.includes('160')? 'select__cameras_item' :'select__cameras_noitem' }>
+                                        <div className={el.ip.includes('160') ? 'select__cameras_item' :'select__cameras_noitem' }>
                                             <img src={el.ip.includes('160')? cam160 :
                                                       el.ip.includes('161')? cam161 : 
                                                       el.ip.includes('162')? cam162 : 
