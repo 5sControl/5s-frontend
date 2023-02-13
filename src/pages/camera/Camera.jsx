@@ -9,9 +9,8 @@ function Camera() {
   const [cookies, setCookie] = useCookies(['token']);
 
   useEffect(()=>{
-    proxy(API_CAMERA, "GET",{
-      'Authorization': cookies.token
-    })
+    axios.get(API_CAMERA)
+
     .then(data => {
       // setData(data.data)
       console.log(data)
