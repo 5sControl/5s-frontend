@@ -156,10 +156,97 @@
     display: none;
   }
   .noAccess{
-    input{
-        display: none;
-    }
+    pointer-events: none;
     h4,h5{
         color: #9E9E9E !important;
         }
+}
+.select{
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top:0;
+  left: 0;
+  z-index: 3;
+  background-color: #00000050;
+  &__container{
+    margin: 0 auto;
+    padding: 20px;
+    height: 70vh;
+    width: 590px;
+    background-color: #fff;
+    margin-top: 70px;
+  }
+  &__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    h1{
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 150%;
+    }
+    img{
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      transition: all 0.5s;
+      &:hover{
+        transform: scale(1.2);
+      }
+    }
+  }
+  &__cameras{
+    width: 100%;
+    height: calc(70vh - 140px);
+    overflow: auto;
+    display: flex;
+    gap:20px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #E0E0E0;
+    &_item{
+      width: calc(50% - 10px);
+      height: 220px;
+      img{
+        width: 100%;
+        height: 180px;
+        object-fit: contain;
+      }
+      &_footer{
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+  &__buttons{
+    display: flex;
+    justify-content: flex-end;
+    gap:20px;
+    margin-top: 10px;
+    &_cancel{
+      padding: 4px 10px;
+      background: #FFFFFF;
+      color: #FE6100;
+      border: none;
+      cursor: pointer;
+      transition: all 0.5s;
+      &:hover{
+        background: #FE6100;
+        color: #FFFFFF;;
+      }
+    }
+    &_done{
+        padding: 4px 10px;
+        background:  #FE6100;
+        color: #FFFFFF;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.5s;
+        &:hover{
+          background: #a74b12;
+        }
+    }
+  }
 }
