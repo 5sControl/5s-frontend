@@ -1,6 +1,6 @@
 import './main.scss'
 import logo from '../../assets/svg/icon.svg'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { getIsInternet } from '../../functions/getURL'
 import { API_CAMERA } from '../../api/api'
 import {AiOutlineRight } from "react-icons/ai";
@@ -21,14 +21,17 @@ export const Main = () =>{
     const [selectType, setSelectType] = useState('')
 
     // axios.get(`http://192.168.1.101${API_CAMERA}`)
-    axios.get(`http://${window.location.hostname}${API_CAMERA}`)
-    .then(response => {
-      setCameras(response.data.results.map((el, ind)=>{return{
-        id:ind + 1,
-        isSelected:false,
-        ip:el
-      }}))
-    })
+    useEffect(() => {
+        axios.get(`http://${window.location.hostname}${API_CAMERA}`)
+        .then(response => {
+          setCameras(response.data.results.map((el, ind)=>{return{
+            id:ind + 1,
+            isSelected:false,
+            ip:el
+          }}))
+        })
+    },[])
+    
 
     const onChangeHandler = (id) => {
         setCameras( cameras.map(el => el.id === id ? {...el, isSelected:!el.isSelected} :el ))
