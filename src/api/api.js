@@ -1,7 +1,7 @@
-// const url = "http://0.0.0.0:8080"
+const url = "http://0.0.0.0:8080"
 
 // const url = "https://a91c-134-17-26-206.eu.ngrok.io"
-const url = "http://django"
+// const url = "http://django"
 
 export const API_URL = `${url}/api/safety_control/safety/action/`
 export const API_IMAGES = `${url}/`
