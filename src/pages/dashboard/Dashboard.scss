@@ -132,7 +132,7 @@
   }
   &__report{
     width: 50%;
-    height: 100%;
+    height: calc(100vh - 320px);
     padding: 45px 0px 30px 30px;
     &_image{
       width: 100%;
