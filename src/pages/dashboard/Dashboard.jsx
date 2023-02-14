@@ -19,6 +19,8 @@ function Dashboard() {
   const [cookies, setCookie] = useCookies(['token']);
   const [currentPage, setCurrentPage] = useState(1)
 
+  const [fullImage, setFullImage] = useState(false)
+
   const paginator = (page) =>{
     if (getIsInternet(window.location.host)){
 
@@ -99,9 +101,17 @@ function Dashboard() {
                   })}
                 </div>
               </div>
+
               {currentReport &&
                 <div className='dashboard__report'>
-                   <img src={getIsInternet(window.location.hostname)?`${API_IMAGES_I + currentReport.image}`:`${API_IMAGES + currentReport.image}`} alt='report img' className='dashboard__report_image'/>
+                   <img 
+                      src={getIsInternet(window.location.hostname) ? 
+                        `${API_IMAGES_I + currentReport.image}` : 
+                        `${API_IMAGES + currentReport.image}`} 
+                        alt='report img' 
+                        className='dashboard__report_image'
+                        onClick={()=>setFullImage(true)}
+                      />
                    <div className='dashboard__report_item'>
                     <span>Date & Time</span>
                     <span>{currentReport.date_created}</span>
@@ -130,6 +140,19 @@ function Dashboard() {
         Log in to view the reports
         <Link to ='/company'> Log In</Link>
       </h2>
+     }
+     {
+      fullImage && <>
+        <div className='dashboard__fullimage' onClick={()=>setFullImage(false)}>
+        <img 
+            src={getIsInternet(window.location.hostname) ? 
+              `${API_IMAGES_I + currentReport.image}` : 
+              `${API_IMAGES + currentReport.image}`} 
+              alt='report img' 
+              className='dashboard__fullimage_image'
+            />
+        </div>
+      </>
      }
     </>
    

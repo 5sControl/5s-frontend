@@ -136,9 +136,10 @@
     padding: 45px 0px 30px 30px;
     &_image{
       width: 100%;
-      max-height: 40vh;
+      max-height: calc(100vh - 480px);
       object-fit: contain;
       object-position:center center;
+      cursor: pointer;
       // background-color: rgb(45, 45, 45);
     }
     &_item{
@@ -146,6 +147,26 @@
       justify-content: space-between;
       padding: 10px 0;
       border-bottom: 1px solid #E0E0E0;
+    }
+  }
+  &__fullimage{
+    width:100vw;
+    height:100vh;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top:0;
+    left:0;
+    background-color: #00000070;
+    backdrop-filter: blur(5px);
+    z-index: 4;
+    cursor: pointer;
+    &_image{
+      margin: 0 auto;
+      width:80%;
+      height: 80%;
+      object-fit: contain;
     }
   }
 }
