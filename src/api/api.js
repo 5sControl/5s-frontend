@@ -24,6 +24,7 @@ export const API_REGISTRATION_I = `${url}/register/`
 export const API_AUTH_I = `${url}/auth/jwt/create/`
 export const API_ALGORITHM_I = `${url}/api/algorithms/available/`
 export const API_MACHINE_I = `${url}/api/machine_control/action/`
+export const API_POSTALGORITHM_I = `${url}/api/algorithms/create/`
 
 export const API_DASHBOARD_PAGE = (page) =>{
     return `${API_URL}?page=${page}`

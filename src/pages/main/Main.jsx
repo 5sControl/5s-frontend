@@ -2,8 +2,9 @@ import './main.scss'
 import logo from '../../assets/svg/icon.svg'
 import { Fragment, useEffect, useState } from 'react'
 import { getIsInternet } from '../../functions/getURL'
-import { API_ALGORITHM_I, API_ALGORITHM, API_POSTALGORITHM } from '../../api/api'
+import { API_ALGORITHM_I, API_ALGORITHM, API_POSTALGORITHM_I, API_POSTALGORITHM, API_CAMERA } from '../../api/api'
 import {AiOutlineRight } from "react-icons/ai";
+import { proxyPOST } from '../../api/proxy'
 
 import close from '../../assets/svg/close.svg'
 import camera from '../../assets/png/camera.png'
@@ -17,31 +18,94 @@ import { proxy } from '../../api/proxy'
 import { useCookies } from 'react-cookie'
 
 export const Main = () =>{
-    const [cameras, setCameras] = useState([])
+    const [camerasSafety_Control_Ear_protection, setCamerasSafety_Control_Ear_protection] = useState([])
+    const [camerasTool_control, setCamerasTool_control] = useState([])
+    const [camerasStaff_control, setCamerasStaff_control] = useState([])
     // console.log(window.location.host)
     const [stage, setStage] = useState('begin')
     const [selectType, setSelectType] = useState('')
     const [cookies, setCookie] = useCookies(['token'])
     const [algorithmList, setAlgorithmList] = useState({})
 
+    const continueHandler = () =>{
+
+        if (getIsInternet(window.location.host)) {
+            axios.post("https://5scontrol.pl/proxy_to_ngrok",{
+                url: API_POSTALGORITHM_I,
+                method:"POST",
+                headers:{
+                    "Content-Type": "application/json",
+                    'Authorization': cookies.token
+                  },
+                body:JSON.stringify({
+                    Safety_Control_Reflective_jacket:null,
+                    Safety_Control_Hand_protection:null,
+                    Safety_Control_Head_protection:null,
+                    Safety_Control_Ear_protection:camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip),
+                    Tool_control:camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip),
+                    Idle_control:null,
+                    Staff_Control:camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip)
+                })
+            })
+       .then((e) => console.log(e))
+        }
+        else{
+            proxyPOST(`http://${window.location.hostname}${API_POSTALGORITHM}`, {
+                Safety_Control_Reflective_jacket:null,
+                Safety_Control_Hand_protection:null,
+                Safety_Control_Head_protection:null,
+                Safety_Control_Ear_protection:camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip),
+                Tool_control:null,
+                Idle_control:null,
+                Staff_Control:null
+            })
+                .then(res => {
+                    console.log(res)
+                })
+        }
+
+    }
+
+    const doneHandler = () =>{
+        if (selectType.type === 'camerasSafety_Control_Ear_protection'){
+            setCamerasSafety_Control_Ear_protection(selectType.obj)
+        }
+        if (selectType.type === 'camerasStaff_control'){
+            setCamerasStaff_control(selectType.obj)
+        }
+        if (selectType.type === 'camerasTool_control'){
+            setCamerasTool_control(selectType.obj)
+        }
+        setSelectType('')
+    }
     useEffect(() => {
         // axios.get(`http://192.168.1.101${API_CAMERA}`)
         
-        // axios.get(`http://${window.location.hostname}${API_CAMERA}`)
-        // .then(response => {
-        //   setCameras(response.data.results.map((el, ind)=>{return{
-        //     id:ind + 1,
-        //     isSelected:false,
-        //     ip:el
-        //   }}))
-        // })
-
-        setCameras(new Array(5).fill(4).map((el, ind)=>{return{
-            id:ind + 1,
-            isSelected:false,
-            ip:ind === 1 ? '192.168.0.160':'192.168.0.161'
-          }}))
-
+        if (getIsInternet(window.location.host)) {
+            let buf = new Array(5).fill(4).map((el, ind)=>{return{
+                id:ind + 1,
+                isSelected:false,
+                ip:ind === 1 ? '192.168.0.160':'192.168.0.161'
+              }})
+    
+              setCamerasSafety_Control_Ear_protection(buf)
+              setCamerasTool_control(buf)
+              setCamerasStaff_control(buf)
+        } 
+        else{
+            axios.get(`http://${window.location.hostname}${API_CAMERA}`)
+                .then(response => {
+                    let buf = response.map((el, ind)=>{return{
+                        id:ind + 1,
+                        isSelected:false,
+                        ip:ind === 1 ? '192.168.0.160':'192.168.0.161'
+                      }})
+                setCamerasSafety_Control_Ear_protection(buf)
+                setCamerasTool_control(buf)
+                setCamerasStaff_control(buf)
+            })
+        }
+     
           if (getIsInternet(window.location.host)) {
             proxy(API_ALGORITHM_I, "GET", {
                 'Authorization': cookies.token
@@ -66,7 +130,11 @@ export const Main = () =>{
     
 
     const onChangeHandler = (id) => {
-        setCameras( cameras.map(el => el.id === id ? {...el, isSelected:!el.isSelected} :el ))
+        console.log(selectType)
+        setSelectType( {
+            obj:selectType.obj.map(el => el.id === id ? {...el, isSelected:!el.isSelected} :el ),
+            type:selectType.type
+        })
     }
     
     return (
@@ -88,15 +156,22 @@ export const Main = () =>{
             <div className='selection'>
                 <h2 className='selection__title'>Initial Setup</h2>
                 <h3 className='selection__subtitle'>Select algorithms and cameras that will use them to start monitoring. You can always change your setup by going to the specific algorithms from Algorithms tab.</h3>
-                <h2>{cameras.filter(el=>el.isSelected).length} / 5 algorithms used </h2>
-                <div className={algorithmList.Safety_Control_Ear_protection ? 'selection__container' : 'selection__container '} onClick={() => setSelectType('Safety_Control_Ear_protection')}>
+                <h2>{camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).length} / 5 algorithms used </h2>
+                <div className={algorithmList.Safety_Control_Ear_protection ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType({obj:camerasSafety_Control_Ear_protection, type:'camerasSafety_Control_Ear_protection'})}>
                     <div>
                         <h4>Safety Control: Ear protection</h4>
                         <h5>Detects if worker is not wearing protective headphones.</h5>
                     </div>
                     <AiOutlineRight/>
                 </div>
-                <div className={algorithmList.Tool_Control ? 'selection__container' : 'selection__container '} onClick={() => setSelectType('Tool_Control')}>
+                <div className={algorithmList.Staff_Control ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType({obj:camerasStaff_control, type:'camerasStaff_control'})}>
+                    <div>
+                        <h4>Staff Control</h4>
+                        <h5>Detects if worker is staff.</h5>
+                    </div>
+                    <AiOutlineRight/>
+                </div>
+                <div className={algorithmList.Tool_Control ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType({obj:camerasTool_control, type:'camerasTool_control'})}>
                     <div>
                         <h4>Tool Control</h4>
                         <h5>Detects when worker takes tools from the bench.</h5>
@@ -136,16 +211,8 @@ export const Main = () =>{
         }  
         <div className={stage!=='begin' ? 'visible' : 'novisible'}>
             <button 
-            className={cameras.filter(el=>el.isSelected).length === 0 ? 'noclick':''}
-            onClick={() => axios.post(API_POSTALGORITHM,{
-                Safety_Control_Reflective_jacket:null,
-                Safety_Control_Hand_protection:null,
-                Safety_Control_Head_protection:null,
-                Safety_Control_Ear_protection:cameras.filter(el=>el.isSelected).map(e=>e.ip),
-                Tool_control:null,
-                Idle_control:null,
-                Staff_Control:null
-            }).then((e) => console.log(e))}>Continue</button>
+            // className={camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).length === 0 ? 'noclick':''}
+            onClick={continueHandler}>Continue</button>
         </div> 
         {
         selectType !== '' &&
@@ -158,7 +225,7 @@ export const Main = () =>{
                         </div>
                         <div className='select__cameras'>
                             {
-                                cameras.map((el,ind) =>
+                                selectType.obj.map((el,ind) =>
                                     <Fragment key={el.id}>
                                         <div className={el.ip.includes('160') ? 'select__cameras_item' :'select__cameras_noitem' }>
                                             <img src={el.ip.includes('160')? cam160 :
@@ -179,7 +246,7 @@ export const Main = () =>{
                         </div>
                         <div className='select__buttons'>
                             <button className='select__buttons_cancel' onClick={() => setSelectType('')}>Cancel</button>
-                            <button className='select__buttons_done' onClick={() => setSelectType('')}>Done</button>
+                            <button className='select__buttons_done' onClick={doneHandler}>Done</button>
                         </div>
                     </div>
                 </div>
