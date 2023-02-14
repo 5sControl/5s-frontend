@@ -1,7 +1,7 @@
 import './Algorithm.scss'
 import {  useEffect } from 'react'
 import { getIsInternet } from '../../functions/getURL'
-import { API_ALGORITHM_I, API_ALGORITHM } from '../../api/api'
+import { API_ALGORITHM_I, API_ALGORITHM, API_MACHINE_I } from '../../api/api'
 
 
 import axios from 'axios';
@@ -14,7 +14,7 @@ export const Algorithm = () =>{
     
     useEffect(() => {
         if (getIsInternet(window.location.host)) {
-            proxy(API_ALGORITHM_I, "GET", {
+            proxy(API_MACHINE_I, "GET", {
                 'Authorization': cookies.token
               })
               .then(res => {

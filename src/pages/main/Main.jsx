@@ -85,7 +85,7 @@ export const Main = () =>{
             let buf = new Array(5).fill(4).map((el, ind)=>{return{
                 id:ind + 1,
                 isSelected:false,
-                ip:ind === 1 ? '192.168.0.160':'192.168.0.161'
+                ip:ind === 1 ? '192.168.1.160':'192.168.1.161'
               }})
     
               setCamerasSafety_Control_Ear_protection(buf)
@@ -98,7 +98,7 @@ export const Main = () =>{
                     let buf = response.map((el, ind)=>{return{
                         id:ind + 1,
                         isSelected:false,
-                        ip:ind === 1 ? '192.168.0.160':'192.168.0.161'
+                        ip:ind === response.data.ip
                       }})
                 setCamerasSafety_Control_Ear_protection(buf)
                 setCamerasTool_control(buf)
