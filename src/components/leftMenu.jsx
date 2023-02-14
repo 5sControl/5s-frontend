@@ -28,8 +28,10 @@ export const LeftMenu = () =>{
                 </Link>
             </li>
             <li className={window.location.pathname.includes('algorithm') ? 'active' : 'noActive'}>
-                <Algorithm/>
-                <span>Algorithm</span>
+                <Link to='/algorithm' onClick={send}>
+                    <Algorithm/>
+                    <span>Algorithm</span>
+                </Link>
             </li>
             <li className={window.location.pathname.includes('company') ? 'active' : 'noActive'}>
                 <Link to='/company' onClick={send}>

@@ -2,7 +2,7 @@ import './main.scss'
 import logo from '../../assets/svg/icon.svg'
 import { Fragment, useEffect, useState } from 'react'
 import { getIsInternet } from '../../functions/getURL'
-import { API_CAMERA, API_POSTALGORITHM } from '../../api/api'
+import { API_ALGORITHM_I, API_CAMERA, API_POSTALGORITHM } from '../../api/api'
 import {AiOutlineRight } from "react-icons/ai";
 
 import close from '../../assets/svg/close.svg'
@@ -13,31 +13,34 @@ import cam161 from '../../assets/jpg/161.jpeg'
 import cam162 from '../../assets/jpg/162.jpeg'
 
 import axios from 'axios';
+import { proxy } from '../../api/proxy'
+import { useCookies } from 'react-cookie'
 
 export const Main = () =>{
     const [cameras, setCameras] = useState([])
     // console.log(window.location.host)
     const [stage, setStage] = useState('begin')
     const [selectType, setSelectType] = useState('')
-
+    const [cookies, setCookie] = useCookies(['token'])
     
     useEffect(() => {
         // axios.get(`http://192.168.1.101${API_CAMERA}`)
         
-        axios.get(`http://${window.location.hostname}${API_CAMERA}`)
-        .then(response => {
-          setCameras(response.data.results.map((el, ind)=>{return{
-            id:ind + 1,
-            isSelected:false,
-            ip:el
-          }}))
-        })
-
-        // setCameras(new Array(5).fill(4).map((el, ind)=>{return{
+        // axios.get(`http://${window.location.hostname}${API_CAMERA}`)
+        // .then(response => {
+        //   setCameras(response.data.results.map((el, ind)=>{return{
         //     id:ind + 1,
         //     isSelected:false,
-        //     ip:ind === 1 ? '192.168.0.160':'192.168.0.161'
+        //     ip:el
         //   }}))
+        // })
+
+        setCameras(new Array(5).fill(4).map((el, ind)=>{return{
+            id:ind + 1,
+            isSelected:false,
+            ip:ind === 1 ? '192.168.0.160':'192.168.0.161'
+          }}))
+
     },[])
     
 
