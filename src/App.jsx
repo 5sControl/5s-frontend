@@ -7,10 +7,17 @@ import { RoutesOutlet } from './routes/Routes';
 import Camera from './pages/camera/Camera';
 import { CompanyHub } from './pages/company/CompanyHub';
 import { Main } from './pages/main/Main';
+import { Authorization } from './pages/company/authorization/Authorization';
+import { useCookies } from 'react-cookie';
 function App() {
+
+    const [cookies, setCookie] = useCookies(['token']);
+
     return (
       <BrowserRouter>
       <Routes>
+        {
+            cookies.token ?
             <Route element={<RoutesOutlet/>}>
                 <Route path="/" element={<Main/>}/>
                 <Route path="/company" element={<CompanyHub/>}/>
@@ -23,6 +30,10 @@ function App() {
                     element={<Camera/>}
                 />
             </Route>
+            :
+            <Route path="/*" element={<Authorization/>}/>
+            
+        }
         </Routes>
        </BrowserRouter>
     );
