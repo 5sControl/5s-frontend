@@ -2,7 +2,7 @@ import './main.scss'
 import logo from '../../assets/svg/icon.svg'
 import { Fragment, useEffect, useState } from 'react'
 import { getIsInternet } from '../../functions/getURL'
-import { API_ALGORITHM_I, API_CAMERA, API_POSTALGORITHM } from '../../api/api'
+import { API_ALGORITHM_I, API_ALGORITHM, API_POSTALGORITHM } from '../../api/api'
 import {AiOutlineRight } from "react-icons/ai";
 
 import close from '../../assets/svg/close.svg'
@@ -22,7 +22,8 @@ export const Main = () =>{
     const [stage, setStage] = useState('begin')
     const [selectType, setSelectType] = useState('')
     const [cookies, setCookie] = useCookies(['token'])
-    
+    const [algorithmList, setAlgorithmList] = useState({})
+
     useEffect(() => {
         // axios.get(`http://192.168.1.101${API_CAMERA}`)
         
@@ -40,6 +41,26 @@ export const Main = () =>{
             isSelected:false,
             ip:ind === 1 ? '192.168.0.160':'192.168.0.161'
           }}))
+
+          if (getIsInternet(window.location.host)) {
+            proxy(API_ALGORITHM_I, "GET", {
+                'Authorization': cookies.token
+              })
+              .then(res => {
+                setAlgorithmList(res.data)
+                console.log(res.data)
+            })
+           }
+           else{
+            axios.get(`http://${window.location.hostname}${API_ALGORITHM}`,{
+                    headers: {
+                    'Authorization': cookies.token
+                    },
+                })
+                .then(res => {
+                    console.log(res.data.results)
+                })
+           }
 
     },[])
     
@@ -68,47 +89,49 @@ export const Main = () =>{
                 <h2 className='selection__title'>Initial Setup</h2>
                 <h3 className='selection__subtitle'>Select algorithms and cameras that will use them to start monitoring. You can always change your setup by going to the specific algorithms from Algorithms tab.</h3>
                 <h2>{cameras.filter(el=>el.isSelected).length} / 5 algorithms used </h2>
-                <div className='selection__container' onClick={() => setSelectType('ear')}>
+                <div className={algorithmList.Safety_Control_Ear_protection ? 'selection__container' : 'selection__container '} onClick={() => setSelectType('Safety_Control_Ear_protection')}>
                     <div>
                         <h4>Safety Control: Ear protection</h4>
                         <h5>Detects if worker is not wearing protective headphones.</h5>
                     </div>
                     <AiOutlineRight/>
                 </div>
-                <div className='selection__container noAccess'>
+                <div className={algorithmList.Tool_Control ? 'selection__container' : 'selection__container '} onClick={() => setSelectType('Tool_Control')}>
+                    <div>
+                        <h4>Tool Control</h4>
+                        <h5>Detects when worker takes tools from the bench.</h5>
+                    </div>
+                    <AiOutlineRight/>
+                </div>
+                <div className={algorithmList.Safety_Control_Head_protection ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Head_protection')}>
                     <div>
                         <h4>Safety Control: Head protection</h4>
                         <h5>Detects if worker is not wearing protective helmet.</h5>
                     </div>
                     <AiOutlineRight/>
                 </div>
-                <div className='selection__container noAccess'>
+                <div className={algorithmList.Safety_Control_Hand_protection ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Hand_protection')}>
                     <div>
                         <h4>Safety Control: Hand protection</h4>
                         <h5>Detects if worker is not wearing protective gloves.</h5>
                     </div>
                     <AiOutlineRight/>
                 </div>
-                <div className='selection__container noAccess' >
+                <div className={algorithmList.Safety_Control_Reflective_jacket ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Reflective_jacket')}>
                     <div>
                         <h4>Safety Control: Reflective jacket</h4>
                         <h5>Detects if worker is not wearing reflective jacket.</h5>
                     </div>
                     <AiOutlineRight/>
                 </div>
-                <div className='selection__container noAccess'>
+                <div className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Idle_Control')}>
                     <div>
                         <h4>Idle Control</h4>
                         <h5>Detects if worker is idle.</h5>
                     </div>
                     <AiOutlineRight/>
                 </div>
-                <div className='selection__container noAccess'>
-                    <div>
-                        <h4>Tool Control</h4>
-                        <h5>Detects when worker takes tools from the bench.</h5>
-                    </div>
-                </div>
+             
             </div>
         }  
         <div className={stage!=='begin' ? 'visible' : 'novisible'}>
