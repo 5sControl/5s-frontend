@@ -67,11 +67,13 @@ const post = () =>{
           setCookie('token', `JWT ${response.data.access}`, { path: '/'})
       }  
       if(!response.data.access){
-        setErrorResponse(true)
+        console.log(response)
+        setErrorResponse('Incorrect email or password. Please, try again.')
       }
     })
-    .catch(() =>{
-      setErrorResponse(true)
+    .catch((error) =>{
+      console.log(error.message)
+      setErrorResponse(error.message)
     })
   }
   else{
@@ -88,8 +90,8 @@ const post = () =>{
         setErrorResponse(true)
       }
     })
-    .catch(() =>{
-      setErrorResponse(true)
+    .catch((error) =>{
+      setErrorResponse(error.message)
     })
   }
 }
@@ -117,7 +119,7 @@ const post = () =>{
                 onChange={(e)=>setPassword(e.target.value)}
             />
             {!correctPassword && <span className='authorization__error'>This field is required</span>}
-            {errorResponse && <span className='authorization__error_response'>Incorrect email or password. Please, try again.</span>}
+            {errorResponse && <span className='authorization__error_response'>{errorResponse}</span>}
             <button className='authorization__button' onClick={post}>Log In</button>
         </div>
 
