@@ -191,6 +191,7 @@ export const Main = () =>{
                 camerasSafety_Control_Ear_protection = {camerasSafety_Control_Ear_protection}
                 camerasStaff_control = {camerasStaff_control}
                 camerasTool_control = {camerasTool_control}
+                algorithmPage={'main'}
             />
          }  
          <div className={stage!=='begin' ? 'visible' : 'novisible'}>
