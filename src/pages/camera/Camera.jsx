@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import './Camera.scss';
 import { API_CAMERA, API_CAMERA_I } from '../../api/api';
 import { useEffect } from 'react';

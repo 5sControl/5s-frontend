@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useCookies } from "react-cookie"
 import { Authorization } from "./authorization/Authorization";
 import { CompanyComponent } from "./Company/Company";

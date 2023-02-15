@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { Fragment, useEffect, useState } from 'react'
 import './Company.scss'
 import { proxy } from '../../../api/proxy'

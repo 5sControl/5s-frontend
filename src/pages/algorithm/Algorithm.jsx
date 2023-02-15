@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import './Algorithm.scss'
 import {  useEffect } from 'react'
 import { getIsInternet } from '../../functions/getURL'

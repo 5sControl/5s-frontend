@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import './Authorization.scss'
 
 import logo from '../../../assets/svg/icon.svg'

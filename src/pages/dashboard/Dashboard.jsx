@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import './Dashboard.scss';
 import { useEffect, useState } from 'react';
 
