@@ -43,7 +43,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <AiOutlineRight/>
             </div>
             <div 
-                className={algorithmList.Machine_Control ? 'selection__container' : 'selection__container '} 
+                className={algorithmList.Machine_Control ? 'selection__container' : 'selection__container noAccess'} 
                 onClick={() => pushTheButton("Machine_Control")}>
                 <div>
                     <h4>Machine Control</h4>
@@ -52,8 +52,9 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <AiOutlineRight/>
             </div>
             <div 
-                className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container'} 
+                className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container noAccess'} 
                 onClick={() => pushTheButton("Idle_Control")}>
+
                 <div>
                     <h4>Idle Control</h4>
                     <h5>Detects if worker is idle.</h5>

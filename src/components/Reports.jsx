@@ -14,6 +14,10 @@ export const Reports = ({data, paginator}) =>{
         paginator(currentPage)
       },[currentPage])
 
+      useEffect(() => {
+        console.log(currentReport)
+      }, [currentReport])
+      
     return (
         <>
         <div className='dashboard__container'>
@@ -48,7 +52,8 @@ export const Reports = ({data, paginator}) =>{
                   {data && data.results.map((el)=>{
                     return (
                       <div className='dashboard__reports_item' key={el.id} onClick={()=>setCurrentReport(el)}>
-                        <div className={currentReport.id === el.id ? 'dashboard__reports_item_title active': 'dashboard__reports_item_title'}>{el.date_created}</div>
+                       {  (window.location.pathname.includes('safety') || window.location.pathname.includes('dashboard'))&& <div className={currentReport.id === el.id ? 'dashboard__reports_item_title active': 'dashboard__reports_item_title'}>{el.date_created}</div>}
+                       { (window.location.pathname.includes('idle') || window.location.pathname.includes('machine'))  && <div className={currentReport.id === el.id ? 'dashboard__reports_item_title active': 'dashboard__reports_item_title'}>{el.start_tracking} - {el.stop_tracking}</div>}
                         <div>{`# ${el.id}`}</div>
                         <div><Camera/> {el.camera}</div>
                         <div><Algorithm/> Safety control:{el.action}</div>
@@ -60,14 +65,59 @@ export const Reports = ({data, paginator}) =>{
 
               {currentReport &&
                 <div className='dashboard__report'>
-                   <img 
-                      src={getIsInternet(window.location.hostname) ? 
-                        `${API_IMAGES_I + currentReport.image}` : 
-                        `${API_IMAGES + currentReport.image}`} 
-                        alt='report img' 
-                        className='dashboard__report_image'
-                        onClick={()=>setFullImage(true)}
-                      />
+                     { 
+                     (window.location.pathname.includes('safety') || window.location.pathname.includes('dashboard')) && 
+                       <img 
+                       src={getIsInternet(window.location.hostname) ? 
+                         `${API_IMAGES_I + currentReport.image}` : 
+                         `${API_IMAGES + currentReport.image}`} 
+                         alt='report img' 
+                         className='dashboard__report_image'
+                         onClick={()=>setFullImage(true)}
+                       />
+                       }
+                 
+                    { 
+                     window.location.pathname.includes('machine') && 
+                     <>
+                        <img 
+                        src={getIsInternet(window.location.hostname) ? 
+                            `${API_IMAGES_I + currentReport.photo_start}` : 
+                            `${API_IMAGES + currentReport.photo_start}`} 
+                            alt='report img' 
+                            className='dashboard__report_image'
+                            onClick={()=>setFullImage(true)}
+                        />
+                            <img 
+                        src={getIsInternet(window.location.hostname) ? 
+                            `${API_IMAGES_I + currentReport.photo_start}` : 
+                            `${API_IMAGES + currentReport.photo_start}`} 
+                            alt='report img' 
+                            className='dashboard__report_image'
+                            onClick={()=>setFullImage(true)}
+                        />
+                       </>
+                       }
+
+                    { 
+                     window.location.pathname.includes('idle') && 
+                     <>
+                     {currentReport.photos.map((photo, id) =>{
+                        return(
+                            <img 
+                            key={id}
+                            src={getIsInternet(window.location.hostname) ? 
+                            `${API_IMAGES_I + photo.image}` : 
+                            `${API_IMAGES +  photo.image}`} 
+                            alt='report img' 
+                            className='dashboard__report_image'
+                            onClick={()=>setFullImage(true)}
+                        />
+                        )
+                     })}
+                        
+                       </>
+                       }
                    <div className='dashboard__report_item'>
                     <span>Date & Time</span>
                     <span>{currentReport.date_created}</span>
