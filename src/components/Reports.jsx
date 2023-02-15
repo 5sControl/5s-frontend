@@ -73,7 +73,9 @@ export const Reports = ({data, paginator}) =>{
                          `${API_IMAGES + currentReport.image}`} 
                          alt='report img' 
                          className='dashboard__report_image'
-                         onClick={()=>setFullImage(true)}
+                         onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
+                            `${API_IMAGES_I + currentReport.image}` : 
+                            `${API_IMAGES +  currentReport.image}`)}
                        />
                        }
                  
@@ -86,15 +88,19 @@ export const Reports = ({data, paginator}) =>{
                             `${API_IMAGES + currentReport.photo_start}`} 
                             alt='report img' 
                             className='dashboard__report_image'
-                            onClick={()=>setFullImage(true)}
+                            onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
+                                `${API_IMAGES_I + currentReport.photo_start}` : 
+                                `${API_IMAGES +  currentReport.photo_start}`)}
                         />
                             <img 
                         src={getIsInternet(window.location.hostname) ? 
-                            `${API_IMAGES_I + currentReport.photo_start}` : 
-                            `${API_IMAGES + currentReport.photo_start}`} 
+                            `${API_IMAGES_I + currentReport.photo_stop}` : 
+                            `${API_IMAGES + currentReport.photo_stop}`} 
                             alt='report img' 
                             className='dashboard__report_image'
-                            onClick={()=>setFullImage(true)}
+                            onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
+                                `${API_IMAGES_I + currentReport.photo_stop}` : 
+                                `${API_IMAGES +  currentReport.photo_stop}`)}
                         />
                        </>
                        }
@@ -111,7 +117,9 @@ export const Reports = ({data, paginator}) =>{
                             `${API_IMAGES +  photo.image}`} 
                             alt='report img' 
                             className='dashboard__report_image'
-                            onClick={()=>setFullImage(true)}
+                            onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
+                                `${API_IMAGES_I + photo.image}` : 
+                                `${API_IMAGES +  photo.image}`)}
                         />
                         )
                      })}
@@ -143,9 +151,7 @@ export const Reports = ({data, paginator}) =>{
             <>
                 <div className='dashboard__fullimage' onClick={()=>setFullImage(false)}>
                 <img 
-                    src={getIsInternet(window.location.hostname) ? 
-                    `${API_IMAGES_I + currentReport.image}` : 
-                    `${API_IMAGES + currentReport.image}`} 
+                    src={fullImage} 
                     alt='report img' 
                     className='dashboard__fullimage_image'
                     />
