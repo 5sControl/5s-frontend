@@ -8,6 +8,8 @@ import { API_ALGORITHM_I, API_ALGORITHM, API_POSTALGORITHM_I, API_POSTALGORITHM,
 import {AiOutlineRight } from "react-icons/ai";
 import { proxyPOST } from '../../api/proxy'
 
+import { useNavigate } from 'react-router-dom'
+
 import close from '../../assets/svg/close.svg'
 import camera from '../../assets/png/camera.png'
 
@@ -28,7 +30,8 @@ export const Main = () =>{
     const [selectType, setSelectType] = useState('')
     const [cookies, setCookie] = useCookies(['token'])
     const [algorithmList, setAlgorithmList] = useState({})
-
+    const [showAfterRegistration, setShowAfterRegistration] = useState(false)
+    const navigate = useNavigate()
     const reducer = () => { 
         return      camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip).length +
                     camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length +
@@ -43,12 +46,8 @@ export const Main = () =>{
         let response = {
             // Safety_Control_Reflective_jacket:null,
             // Safety_Control_Hand_protection:null,
-            // Safety_Control_Head_protection:null,
-            // Staff_Control:camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip) : null,
-            // Safety_Control_Ear_protection:camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip) : null,
-            // Tool_control:camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip) : null,
-            // Idle_control:null,
-          
+            // Safety_Control_Head_protection:null,       
+            // Idle_control:null,   
         }
         
 
@@ -62,8 +61,6 @@ export const Main = () =>{
             response.Tool_control = camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip)
         }
 
-        console.log(response)
-        
         if (getIsInternet(window.location.host)) {
             axios.post("https://5scontrol.pl/proxy_to_ngrok",{
                 url: API_POSTALGORITHM_I,
@@ -74,13 +71,19 @@ export const Main = () =>{
                   },
                 body:JSON.stringify( response )
             })
-       .then((e) => console.log(e))
+            .then((e) => {
+                if (e.data.message === "Camera Algorithm records created successfully"){
+                    setShowAfterRegistration(e.data.message)
+                    localStorage.setItem('registration', 'true')
+                }})
         }
         else{
             proxyPOST(`http://${window.location.hostname}${API_POSTALGORITHM}`,response )
-                .then(res => {
-                    console.log(res)
-                })
+                .then((e) => {
+                    if (e.data.message === "Camera Algorithm records created successfully"){
+                        setShowAfterRegistration(e.data.message)
+                        localStorage.setItem('registration', 'true')
+                    }})
         }
 
     }
@@ -158,119 +161,140 @@ export const Main = () =>{
     
     return (
         <>
-        {
-        stage ==='begin' &&
-            <div className='main'>
-                <img src={logo} alt='logo' className='main__logo'/>
-                <span className='main__span'>
-                    Congratulations! <br/>You have successfully installed the 5S Control’s Docker and now ready to use it. Complete the setup to start.
-                </span>
-                <button className='main__start' onClick={() => setStage('algorithm')}>
-                    Start Setup
-                </button>
-            </div>
-        } 
-        {
-        stage ==='algorithm' &&
-            <div className='selection'>
-                <h2 className='selection__title'>Initial Setup</h2>
-                <h3 className='selection__subtitle'>Select algorithms and cameras that will use them to start monitoring. You can always change your setup by going to the specific algorithms from Algorithms tab.</h3>
-                <h2>{algorithmCount} / 5 algorithms used </h2>
-                <div className={algorithmList.Safety_Control_Ear_protection ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType({obj:camerasSafety_Control_Ear_protection, type:'camerasSafety_Control_Ear_protection'})}>
-                    <div>
-                        <h4>Safety Control: Ear protection</h4>
-                        <h5>Detects if worker is not wearing protective headphones.</h5>
-                    </div>
-                    <AiOutlineRight/>
-                </div>
-                <div className={algorithmList.Staff_Control ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType({obj:camerasStaff_control, type:'camerasStaff_control'})}>
-                    <div>
-                        <h4>Staff Control</h4>
-                        <h5>Detects if worker is staff.</h5>
-                    </div>
-                    <AiOutlineRight/>
-                </div>
-                <div className={algorithmList.Tool_Control ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType({obj:camerasTool_control, type:'camerasTool_control'})}>
-                    <div>
-                        <h4>Tool Control</h4>
-                        <h5>Detects when worker takes tools from the bench.</h5>
-                    </div>
-                    <AiOutlineRight/>
-                </div>
-                <div className={algorithmList.Safety_Control_Head_protection ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Head_protection')}>
-                    <div>
-                        <h4>Safety Control: Head protection</h4>
-                        <h5>Detects if worker is not wearing protective helmet.</h5>
-                    </div>
-                    <AiOutlineRight/>
-                </div>
-                <div className={algorithmList.Safety_Control_Hand_protection ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Hand_protection')}>
-                    <div>
-                        <h4>Safety Control: Hand protection</h4>
-                        <h5>Detects if worker is not wearing protective gloves.</h5>
-                    </div>
-                    <AiOutlineRight/>
-                </div>
-                <div className={algorithmList.Safety_Control_Reflective_jacket ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Reflective_jacket')}>
-                    <div>
-                        <h4>Safety Control: Reflective jacket</h4>
-                        <h5>Detects if worker is not wearing reflective jacket.</h5>
-                    </div>
-                    <AiOutlineRight/>
-                </div>
-                <div className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Idle_Control')}>
-                    <div>
-                        <h4>Idle Control</h4>
-                        <h5>Detects if worker is idle.</h5>
-                    </div>
-                    <AiOutlineRight/>
-                </div>
-             
-            </div>
-        }  
-        <div className={stage!=='begin' ? 'visible' : 'novisible'}>
-            <button 
-             className={algorithmCount === 0 || algorithmCount > 5? 'noclick':''}
-            onClick={continueHandler}>Continue</button>
-        </div> 
-        {
-        selectType !== '' &&
-            <>
-                <div className='select'>
-                    <div className='select__container'>
-                        <div className='select__header'>
-                            <h1>Select up to 5 more cameras to use</h1>
-                            <img src={close} alt='Close' onClick={() => setSelectType('')}/>
-                        </div>
-                        <div className='select__cameras'>
-                            {
-                                selectType.obj.map((el,ind) =>
-                                    <Fragment key={el.id}>
-                                        <div className={el.ip.includes('.') ? 'select__cameras_item' :'select__cameras_noitem' }>
-                                            <img src={el.ip.includes('160')? cam160 :
-                                                      el.ip.includes('161')? cam161 : 
-                                                      el.ip.includes('162')? cam162 : 
-                                                      camera} alt='Camera'/>
-                                            <div className='select__cameras_item_footer'>
-                                                <span>{el.ip}</span>
-                                                <input type='checkbox'
-                                                    checked={el.isSelected}
-                                                     onChange={()=>onChangeHandler(el.id)}
-                                                    />
-                                            </div>
-                                           
-                                        </div>
-                                    </Fragment>)
-                            }
-                        </div>
-                        <div className='select__buttons'>
-                            <button className='select__buttons_cancel' onClick={() => setSelectType('')}>Cancel</button>
-                            <button className='select__buttons_done' onClick={doneHandler}>Done</button>
-                        </div>
-                    </div>
-                </div>
-            </>
+        {localStorage.getItem('registration') === 'true' ? 
+         <div className='showAfterRegistration'>
+         <div className='showAfterRegistration__container'>
+             <h4>You alredy registrated</h4>
+             <button className='showAfterRegistration__button' onClick={() => navigate('/dashboard')}>Dashboard</button>
+         </div>
+     </div>
+        :
+        <>
+         {
+         stage ==='begin' &&
+             <div className='main'>
+                 <img src={logo} alt='logo' className='main__logo'/>
+                 <span className='main__span'>
+                     Congratulations! <br/>You have successfully installed the 5S Control’s Docker and now ready to use it. Complete the setup to start.
+                 </span>
+                 <button className='main__start' onClick={() => setStage('algorithm')}>
+                     Start Setup
+                 </button>
+             </div>
+         } 
+         {
+         stage ==='algorithm' &&
+             <div className='selection'>
+                 <h2 className='selection__title'>Initial Setup</h2>
+                 <h3 className='selection__subtitle'>Select algorithms and cameras that will use them to start monitoring. You can always change your setup by going to the specific algorithms from Algorithms tab.</h3>
+                 <h2>{algorithmCount} / 5 algorithms used </h2>
+                 <div className={algorithmList.Safety_Control_Ear_protection ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType({obj:camerasSafety_Control_Ear_protection, type:'camerasSafety_Control_Ear_protection'})}>
+                     <div>
+                         <h4>Safety Control: Ear protection</h4>
+                         <h5>Detects if worker is not wearing protective headphones.</h5>
+                     </div>
+                     <AiOutlineRight/>
+                 </div>
+                 <div className={algorithmList.Staff_Control ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType({obj:camerasStaff_control, type:'camerasStaff_control'})}>
+                     <div>
+                         <h4>Staff Control</h4>
+                         <h5>Detects if worker is staff.</h5>
+                     </div>
+                     <AiOutlineRight/>
+                 </div>
+                 <div className={algorithmList.Tool_Control ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType({obj:camerasTool_control, type:'camerasTool_control'})}>
+                     <div>
+                         <h4>Tool Control</h4>
+                         <h5>Detects when worker takes tools from the bench.</h5>
+                     </div>
+                     <AiOutlineRight/>
+                 </div>
+                 <div className={algorithmList.Safety_Control_Head_protection ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Head_protection')}>
+                     <div>
+                         <h4>Safety Control: Head protection</h4>
+                         <h5>Detects if worker is not wearing protective helmet.</h5>
+                     </div>
+                     <AiOutlineRight/>
+                 </div>
+                 <div className={algorithmList.Safety_Control_Hand_protection ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Hand_protection')}>
+                     <div>
+                         <h4>Safety Control: Hand protection</h4>
+                         <h5>Detects if worker is not wearing protective gloves.</h5>
+                     </div>
+                     <AiOutlineRight/>
+                 </div>
+                 <div className={algorithmList.Safety_Control_Reflective_jacket ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Reflective_jacket')}>
+                     <div>
+                         <h4>Safety Control: Reflective jacket</h4>
+                         <h5>Detects if worker is not wearing reflective jacket.</h5>
+                     </div>
+                     <AiOutlineRight/>
+                 </div>
+                 <div className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Idle_Control')}>
+                     <div>
+                         <h4>Idle Control</h4>
+                         <h5>Detects if worker is idle.</h5>
+                     </div>
+                     <AiOutlineRight/>
+                 </div>
+              
+             </div>
+         }  
+         <div className={stage!=='begin' ? 'visible' : 'novisible'}>
+             <button 
+              className={algorithmCount === 0 || algorithmCount > 5? 'noclick':''}
+             onClick={continueHandler}>Continue</button>
+         </div> 
+         {
+         selectType !== '' &&
+             <>
+                 <div className='select'>
+                     <div className='select__container'>
+                         <div className='select__header'>
+                             <h1>Select up to 5 more cameras to use</h1>
+                             <img src={close} alt='Close' onClick={() => setSelectType('')}/>
+                         </div>
+                         <div className='select__cameras'>
+                             {
+                                 selectType.obj.map((el,ind) =>
+                                     <Fragment key={el.id}>
+                                         <div className={el.ip.includes('.') ? 'select__cameras_item' :'select__cameras_noitem' }>
+                                             <img src={el.ip.includes('160')? cam160 :
+                                                       el.ip.includes('161')? cam161 : 
+                                                       el.ip.includes('162')? cam162 : 
+                                                       camera} alt='Camera'/>
+                                             <div className='select__cameras_item_footer'>
+                                                 <span>{el.ip}</span>
+                                                 <input type='checkbox'
+                                                     checked={el.isSelected}
+                                                      onChange={()=>onChangeHandler(el.id)}
+                                                     />
+                                             </div>
+                                            
+                                         </div>
+                                     </Fragment>)
+                             }
+                         </div>
+                         <div className='select__buttons'>
+                             <button className='select__buttons_cancel' onClick={() => setSelectType('')}>Cancel</button>
+                             <button className='select__buttons_done' onClick={doneHandler}>Done</button>
+                         </div>
+                     </div>
+                 </div>
+             </>
+         }
+         {
+             showAfterRegistration && 
+             <div className='showAfterRegistration'>
+                 <div className='showAfterRegistration__container'>
+                     <h4>{showAfterRegistration}</h4>
+                     <button className='showAfterRegistration__button' onClick={() => navigate('/dashboard')}>Close</button>
+                 </div>
+             </div>
+         }
+         </>
         }
         </>
+       
     )
 }

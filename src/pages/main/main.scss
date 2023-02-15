@@ -274,3 +274,42 @@
     }
   }
 }
+.showAfterRegistration{
+  width: 100vw;
+  height: 100vh;
+  position:absolute;
+  top: 0;
+  left: 0;
+  z-index: 6;
+  background-color: #00000070;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+  &__container{
+    width: 400px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 6px;
+    button{
+      padding: 8px 44px;
+        text-align: center;
+        background: #FE6100;
+        border-radius: 4px;
+        color:#FFFFFF;
+        border: none;
+        font-size: 14px;
+        line-height: 24px;
+        cursor: pointer;
+        transition: all 0.5s;
+        &:hover{
+            background: #833505; 
+        }
+    }
+  }
+}
