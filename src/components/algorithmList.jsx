@@ -18,7 +18,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
         }
 
         if (algorithmPage === 'algorithm'){
-            navigate(`/${algorithm}`)
+            navigate(`/${algorithm.toLowerCase()}`)
          }
 }
     return (
@@ -39,6 +39,24 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <div>
                     <h4>Safety Control: Ear protection</h4>
                     <h5>Detects if worker is not wearing protective headphones.</h5>
+                </div>
+                <AiOutlineRight/>
+            </div>
+            <div 
+                className={algorithmList.Machine_Control ? 'selection__container' : 'selection__container '} 
+                onClick={() => pushTheButton("Machine_Control")}>
+                <div>
+                    <h4>Machine Control</h4>
+                    <h5>Detects is machine.</h5>
+                </div>
+                <AiOutlineRight/>
+            </div>
+            <div 
+                className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container'} 
+                onClick={() => pushTheButton("Idle_Control")}>
+                <div>
+                    <h4>Idle Control</h4>
+                    <h5>Detects if worker is idle.</h5>
                 </div>
                 <AiOutlineRight/>
             </div>
@@ -78,13 +96,6 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <div>
                     <h4>Safety Control: Reflective jacket</h4>
                     <h5>Detects if worker is not wearing reflective jacket.</h5>
-                </div>
-                <AiOutlineRight/>
-            </div>
-            <div className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Idle_Control')}>
-                <div>
-                    <h4>Idle Control</h4>
-                    <h5>Detects if worker is idle.</h5>
                 </div>
                 <AiOutlineRight/>
             </div>

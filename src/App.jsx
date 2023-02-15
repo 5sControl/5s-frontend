@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import './index.scss';
@@ -11,6 +11,7 @@ import { Main } from './pages/main/Main';
 import { Authorization } from './pages/company/authorization/Authorization';
 import { useCookies } from 'react-cookie';
 import { Algorithm } from './pages/algorithm/Algorithm';
+import { ReportPage } from './pages/Reports/ReportsPage';
 function App() {
 
     const [cookies, setCookie] = useCookies(['token']);
@@ -34,6 +35,22 @@ function App() {
                 <Route
                     path="/algorithm"
                     element={<Algorithm/>}
+                />
+                <Route
+                    path="/machine_control"
+                    element={<ReportPage control={"machine_control"}/>}
+                />
+                <Route
+                    path="/safety_control_ear_protection"
+                    element={<ReportPage control={"safety_control/safety"}/>}
+                />
+                 <Route
+                    path="/idle_control"
+                    element={<ReportPage control={"idle_control"}/>}
+                />
+                 <Route
+                    path="/staff_control"
+                    element={<ReportPage control={"staff_control"}/>}
                 />
             </Route>
             :

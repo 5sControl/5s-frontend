@@ -32,3 +32,11 @@ export const API_DASHBOARD_PAGE = (page) =>{
 export const API_DASHBOARD_PAGE_I = (page) =>{
     return `${API_URL_I}?page=${page}`
 }
+
+export const API_REPORT_PAGE = (control,page) =>{
+    return `api/${control}/action/?page=${page}`
+}
+
+export const API_REPORT_PAGE_I = (control, page) =>{
+    return `${url}/api/${control}/action/?page=${page}`
+}
