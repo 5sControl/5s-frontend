@@ -41,15 +41,16 @@ export const Main = () =>{
     })
     const continueHandler = () =>{
         const response = {
-            Safety_Control_Reflective_jacket:null,
-            Safety_Control_Hand_protection:null,
-            Safety_Control_Head_protection:null,
-            Safety_Control_Ear_protection:camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip),
-            Tool_control:camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip),
-            Idle_control:null,
-            Staff_Control:camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip)
+            Safety_Control_Reflective_jacket:NaN,
+            Safety_Control_Hand_protection:NaN,
+            Safety_Control_Head_protection:NaN,
+            Safety_Control_Ear_protection:camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip) : NaN,
+            Tool_control:camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip) : NaN,
+            Idle_control:NaN,
+            Staff_Control:camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip) : NaN,
         }
         if (getIsInternet(window.location.host)) {
+            console.log(response)
             axios.post("https://5scontrol.pl/proxy_to_ngrok",{
                 url: API_POSTALGORITHM_I,
                 method:"POST",
@@ -57,12 +58,12 @@ export const Main = () =>{
                     "Content-Type": "application/json",
                     'Authorization': cookies.token
                   },
-                body:JSON.stringify({ response })
+                body:JSON.stringify( response )
             })
        .then((e) => console.log(e))
         }
         else{
-            proxyPOST(`http://${window.location.hostname}${API_POSTALGORITHM}`, { response })
+            proxyPOST(`http://${window.location.hostname}${API_POSTALGORITHM}`,response )
                 .then(res => {
                     console.log(res)
                 })
@@ -134,7 +135,6 @@ export const Main = () =>{
     
 
     const onChangeHandler = (id) => {
-        console.log(selectType)
         setSelectType( {
             obj:selectType.obj.map(el => el.id === id ? {...el, isSelected:!el.isSelected} :el ),
             type:selectType.type
