@@ -12,7 +12,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const seconds = 86400
+const seconds = 86400 * 2
 
 export const Reports = ({data, paginator}) =>{
     const [fullImage, setFullImage] = useState(false)
@@ -26,16 +26,19 @@ export const Reports = ({data, paginator}) =>{
 
       useEffect(()=>{
            if (window.location.href.includes('machine')){
-                let buf = [moment().format('YYYY-MM-DD HH:mm:ss')]
-                // console.log(new Date(data.results[0].start_tracking))
+                let buf = [moment("20230217").format('YYYY-MM-DD HH:mm:ss')]
                 data.results.forEach(el => {
                     buf.push(moment(new Date(el.stop_tracking)).format('YYYY-MM-DD HH:mm:ss'))
                     buf.push(moment(new Date(el.start_tracking)).format('YYYY-MM-DD HH:mm:ss'))
                 })
-                buf.push(moment("20230216").format('YYYY-MM-DD HH:mm:ss'))
+                buf.push(moment("20230215").format('YYYY-MM-DD HH:mm:ss'))
                 buf.reverse()
+                console.log(buf)
                 buf = buf.map((el, index,array) => index < array.length - 1 ? moment(array[index + 1]).diff(moment(el), 'seconds') : 0)
                 buf.pop()
+                buf.pop()
+                
+                
                 setTimeLine(buf)
             }
       },[])
@@ -47,7 +50,15 @@ export const Reports = ({data, paginator}) =>{
         <>
         {timeLine.length > 0 && 
             <div className="timeline">
-                {timeLine.map((el, ind) =><span style={{width:`${el/seconds*100}%`}}className={ind % 2 ? 'timeline_red' : 'timeline_green'}></span>)}
+                {timeLine.map((el, ind) =>
+                    <span 
+                        key={ind}
+                        style={{width:`${el/seconds*100}%`}}
+                        className={ind % 2 ? 'timeline_green' : 'timeline_red'}
+                        title ={`Duration: ${el} seconds`}
+                    >
+                        
+                    </span>)}
             </div>
         }
 
