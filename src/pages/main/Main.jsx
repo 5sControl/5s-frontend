@@ -41,16 +41,15 @@ export const Main = () =>{
     })
     const continueHandler = () =>{
         const response = {
-            Safety_Control_Reflective_jacket:NaN,
-            Safety_Control_Hand_protection:NaN,
-            Safety_Control_Head_protection:NaN,
-            Safety_Control_Ear_protection:camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip) : NaN,
-            Tool_control:camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip) : NaN,
-            Idle_control:NaN,
-            Staff_Control:camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip) : NaN,
+            Safety_Control_Reflective_jacket:null,
+            Safety_Control_Hand_protection:null,
+            Safety_Control_Head_protection:null,
+            Safety_Control_Ear_protection:camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip) : null,
+            Tool_control:camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip) : null,
+            Idle_control:null,
+            Staff_Control:camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip) : null,
         }
         if (getIsInternet(window.location.host)) {
-            console.log(response)
             axios.post("https://5scontrol.pl/proxy_to_ngrok",{
                 url: API_POSTALGORITHM_I,
                 method:"POST",
@@ -135,6 +134,7 @@ export const Main = () =>{
     
 
     const onChangeHandler = (id) => {
+        console.log(selectType)
         setSelectType( {
             obj:selectType.obj.map(el => el.id === id ? {...el, isSelected:!el.isSelected} :el ),
             type:selectType.type
