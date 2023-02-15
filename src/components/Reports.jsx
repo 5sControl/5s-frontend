@@ -4,6 +4,12 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { Algorithm, Camera } from '../assets/svg/SVGcomponent';
 import {  API_IMAGES,API_IMAGES_I } from '../api/api.js';
 import { getIsInternet } from '../functions/getURL';
+import {Navigation, Pagination} from 'swiper';
+import {Swiper, SwiperSlide} from 'swiper/react';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 export const Reports = ({data, paginator}) =>{
     const [fullImage, setFullImage] = useState(false)
@@ -67,68 +73,92 @@ export const Reports = ({data, paginator}) =>{
                 <div className='dashboard__report'>
                      { 
                      (window.location.pathname.includes('safety') || window.location.pathname.includes('dashboard')) && 
-                       <img 
-                       src={getIsInternet(window.location.hostname) ? 
-                         `${API_IMAGES_I + currentReport.image}` : 
-                         `${API_IMAGES + currentReport.image}`} 
-                         alt='report img' 
-                         className='dashboard__report_image'
-                         onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
+                     <div className='dashboard__report_image'>
+                        <img 
+                        src={getIsInternet(window.location.hostname) ? 
                             `${API_IMAGES_I + currentReport.image}` : 
-                            `${API_IMAGES +  currentReport.image}`)}
-                       />
+                            `${API_IMAGES + currentReport.image}`} 
+                            alt='report img' 
+                            className='dashboard__report_image_src'
+                            onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
+                                `${API_IMAGES_I + currentReport.image}` : 
+                                `${API_IMAGES +  currentReport.image}`)}
+                        />
+                       </div>
                        }
                  
                     { 
                      window.location.pathname.includes('machine') && 
-                     <>
-                        <img 
-                        src={getIsInternet(window.location.hostname) ? 
-                            `${API_IMAGES_I + currentReport.photo_start}` : 
-                            `${API_IMAGES + currentReport.photo_start}`} 
-                            alt='report img' 
-                            className='dashboard__report_image'
-                            onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
-                                `${API_IMAGES_I + currentReport.photo_start}` : 
-                                `${API_IMAGES +  currentReport.photo_start}`)}
-                        />
-                            <img 
-                        src={getIsInternet(window.location.hostname) ? 
-                            `${API_IMAGES_I + currentReport.photo_stop}` : 
-                            `${API_IMAGES + currentReport.photo_stop}`} 
-                            alt='report img' 
-                            className='dashboard__report_image'
-                            onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
-                                `${API_IMAGES_I + currentReport.photo_stop}` : 
-                                `${API_IMAGES +  currentReport.photo_stop}`)}
-                        />
-                       </>
+                     <div className='dashboard__report_image'>
+                         <Swiper
+                            className={'dashboard__report_image'}
+                            modules={[Navigation, Pagination]}
+                            navigation={true}
+                            pagination={{type: 'fraction'}}
+                            spaceBetween={50}
+                            slidesPerView={1}
+                            onSlideChange={(swiperCore) => {
+                                const {activeIndex} = swiperCore;
+                                console.log(activeIndex);
+                            }}
+                        >
+                            {[currentReport.photo_start, currentReport.photo_stop].map((photo, id) =>
+                                <SwiperSlide key={id}>
+                                      <img 
+                                        key={id}
+                                        src={getIsInternet(window.location.hostname) ? 
+                                        `${API_IMAGES_I + photo}` : 
+                                        `${API_IMAGES +  photo}`} 
+                                        alt='report img' 
+                                        className='dashboard__report_image_src'
+                                        onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
+                                            `${API_IMAGES_I + photo}` : 
+                                            `${API_IMAGES +  photo}`)}
+                                    />
+                                </SwiperSlide>)}
+                        </Swiper>
+                    </div>
                        }
 
                     { 
                      window.location.pathname.includes('idle') && 
-                     <>
-                     {currentReport.photos.map((photo, id) =>{
-                        return(
-                            <img 
-                            key={id}
-                            src={getIsInternet(window.location.hostname) ? 
-                            `${API_IMAGES_I + photo.image}` : 
-                            `${API_IMAGES +  photo.image}`} 
-                            alt='report img' 
-                            className='dashboard__report_image'
-                            onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
-                                `${API_IMAGES_I + photo.image}` : 
-                                `${API_IMAGES +  photo.image}`)}
-                        />
-                        )
-                     })}
-                        
-                       </>
+                     <div className='dashboard__report_image'>
+                         <Swiper
+                            className={'dashboard__report_image'}
+                            modules={[Navigation, Pagination]}
+                            navigation={true}
+                            pagination={{type: 'fraction'}}
+                            spaceBetween={50}
+                            slidesPerView={1}
+                            onSlideChange={(swiperCore) => {
+                                const {activeIndex} = swiperCore;
+                                console.log(activeIndex);
+                            }}
+                        >
+                            {currentReport.photos.map((photo, id) =>
+                                <SwiperSlide key={id}>
+                                      <img 
+                                        key={id}
+                                        src={getIsInternet(window.location.hostname) ? 
+                                        `${API_IMAGES_I + photo.image}` : 
+                                        `${API_IMAGES +  photo.image}`} 
+                                        alt='report img' 
+                                        className='dashboard__report_image_src'
+                                        onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
+                                            `${API_IMAGES_I + photo.image}` : 
+                                            `${API_IMAGES +  photo.image}`)}
+                                    />
+                                </SwiperSlide>)}
+                        </Swiper>
+                    </div>
                        }
                    <div className='dashboard__report_item'>
                     <span>Date & Time</span>
-                    <span>{currentReport.date_created}</span>
+                    {(window.location.pathname.includes('safety') || window.location.pathname.includes('dashboard')) && 
+                    <span>{currentReport.date_created}</span>}
+                    {(window.location.pathname.includes('idle') || window.location.pathname.includes('machine'))  && 
+                    <span>{currentReport.start_tracking} - {currentReport.stop_tracking}</span>}
+                
                    </div>
                    <div className='dashboard__report_item'>
                     <span>Camera</span>
@@ -136,7 +166,12 @@ export const Reports = ({data, paginator}) =>{
                    </div>
                    <div className='dashboard__report_item'>
                     <span>Algorithm</span>
-                    <span>Safety control:{currentReport.action}</span>
+                    {(window.location.pathname.includes('safety') || window.location.pathname.includes('dashboard')) && 
+                    <span>Safety control:{currentReport.action}</span>}
+                    {window.location.pathname.includes('idle') &&
+                    <span>Idle control</span>}
+                     {window.location.pathname.includes('machine') &&
+                    <span>Machine control</span>}
                    </div>
                    <div className='dashboard__report_item'>
                     <span>Status</span>

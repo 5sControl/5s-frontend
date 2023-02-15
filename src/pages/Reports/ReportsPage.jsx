@@ -8,7 +8,7 @@ import { getIsInternet } from "../../functions/getURL"
 import { proxy } from "../../api/proxy"
 import { API_REPORT_PAGE, API_REPORT_PAGE_I } from "../../api/api"
 export const ReportPage = ({control}) => {
-
+    const url = window.location.pathname
     const [data, setData] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(["token"])
 
@@ -44,10 +44,14 @@ export const ReportPage = ({control}) => {
         {
         !!data  &&  
           <div className='dashboard'>
-            <h1>Dashboard</h1>
+            <h1>{
+              url.includes('safety') ? 'Safety Control: Ear protection'.toUpperCase() :
+              url.includes('idle') ? 'Idle Control'.toUpperCase() :
+              url.includes('machine') ? 'Machine Control'.toUpperCase() : ''
+            }</h1>
             <h2>
               <span className='dashboard__count'>{data.count}&nbsp;</span>
-              <span className='dashboard__span'> reports generated today</span>
+              <span className='dashboard__span'> reports generated </span>
             </h2>
             <h3>Reports</h3>
             <Reports 
