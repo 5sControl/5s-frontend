@@ -40,15 +40,30 @@ export const Main = () =>{
         setAlgorithmCount(reducer())
     })
     const continueHandler = () =>{
-        const response = {
-            Safety_Control_Reflective_jacket:null,
-            Safety_Control_Hand_protection:null,
-            Safety_Control_Head_protection:null,
-            Safety_Control_Ear_protection:camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip) : null,
-            Tool_control:camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip) : null,
-            Idle_control:null,
-            Staff_Control:camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip) : null,
+        let response = {
+            // Safety_Control_Reflective_jacket:null,
+            // Safety_Control_Hand_protection:null,
+            // Safety_Control_Head_protection:null,
+            // Staff_Control:camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip) : null,
+            // Safety_Control_Ear_protection:camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip) : null,
+            // Tool_control:camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ? camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip) : null,
+            // Idle_control:null,
+          
         }
+        
+
+        if (camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
+            response.Safety_Control_Ear_protection = camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip)
+        }
+        if (camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
+            response.Staff_Control = camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip)
+        }
+        if (camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
+            response.Tool_control = camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip)
+        }
+
+        console.log(response)
+        
         if (getIsInternet(window.location.host)) {
             axios.post("https://5scontrol.pl/proxy_to_ngrok",{
                 url: API_POSTALGORITHM_I,
