@@ -6,26 +6,51 @@ import {  API_IMAGES,API_IMAGES_I } from '../api/api.js';
 import { getIsInternet } from '../functions/getURL';
 import {Navigation, Pagination} from 'swiper';
 import {Swiper, SwiperSlide} from 'swiper/react';
+import moment from 'moment';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
+const seconds = 86400
+
 export const Reports = ({data, paginator}) =>{
     const [fullImage, setFullImage] = useState(false)
     const [currentReport, setCurrentReport] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
+    const [timeLine, setTimeLine] = useState([])
 
     useEffect(()=>{
         paginator(currentPage)
-      },[currentPage])
+    },[currentPage])
 
-      useEffect(() => {
-        console.log(currentReport)
-      }, [currentReport])
-      
+      useEffect(()=>{
+           if (window.location.href.includes('machine')){
+                let buf = [moment().format('YYYY-MM-DD HH:mm:ss')]
+                // console.log(new Date(data.results[0].start_tracking))
+                data.results.forEach(el => {
+                    buf.push(moment(new Date(el.stop_tracking)).format('YYYY-MM-DD HH:mm:ss'))
+                    buf.push(moment(new Date(el.start_tracking)).format('YYYY-MM-DD HH:mm:ss'))
+                })
+                buf.push(moment("20230216").format('YYYY-MM-DD HH:mm:ss'))
+                buf.reverse()
+                buf = buf.map((el, index,array) => index < array.length - 1 ? moment(array[index + 1]).diff(moment(el), 'seconds') : 0)
+                buf.pop()
+                setTimeLine(buf)
+            }
+      },[])
+   useEffect(() => {
+    console.log(timeLine)
+   },[timeLine])
+
     return (
         <>
+        {timeLine.length > 0 && 
+            <div className="timeline">
+                {timeLine.map((el, ind) =><span style={{width:`${el/seconds*100}%`}}className={ind % 2 ? 'timeline_red' : 'timeline_green'}></span>)}
+            </div>
+        }
+
         <div className='dashboard__container'>
               <div className='dashboard__choose'>
                 <div className='dashboard__tabs'>
