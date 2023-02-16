@@ -22,7 +22,11 @@ function Camera() {
       console.log(response.data.results)
     })
   } else{
-    axios.get(`http://${window.location.hostname}${API_CAMERA}`)
+    axios.get(`http://${window.location.hostname}${API_CAMERA}`,{
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE',
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+    })
       .then(response => {
         console.log(response.data.results)
       })
