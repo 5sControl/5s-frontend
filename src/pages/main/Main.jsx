@@ -84,7 +84,6 @@ export const Main = () =>{
                         localStorage.setItem('registration', 'true')
                     }})
         }
-
     }
 
     const doneHandler = () =>{
