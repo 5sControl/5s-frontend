@@ -212,10 +212,7 @@ export const Main = () =>{
                                  selectType.obj.map((el,ind) =>
                                      <Fragment key={el.id}>
                                          <div className={el.ip.includes('.') ? 'select__cameras_item' :'select__cameras_noitem' }>
-                                             <img src={el.ip.includes('160')? cam160 :
-                                                       el.ip.includes('161')? cam161 : 
-                                                       el.ip.includes('162')? cam162 : 
-                                                       camera} alt='Camera'/>
+                                             <img src={camera} alt='Camera'/>
                                              <div className='select__cameras_item_footer'>
                                                  <span>{el.ip}</span>
                                                  <input type='checkbox'
