@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react"
 import moment from "moment"
+import './timeline.scss'
 const seconds = 86400
 
 export const Timeline = ({data}) => {
 
     const [timeLine, setTimeLine] = useState([])
+
     useEffect(()=>{
              let buf = [moment().format('YYYY-MM-DD HH:mm:ss')]
              data.results.forEach(el => {
@@ -21,26 +23,21 @@ export const Timeline = ({data}) => {
              setTimeLine(buf)
    },[])
 
-useEffect(() => {
- console.log(timeLine)
-},[timeLine])
-
-    
     return (
-        <>{timeLine.length > 0 &&  
-        <div className="timeline">
-            {timeLine.map((el, ind) =>
-                <span 
-                    key={ind}
-                    style={{width:`${el/seconds*100}%`}}
-                    className={ind % 2 ? 'timeline_green' : 'timeline_red'}
-                    title ={`Duration: ${el} seconds`}
-                >
-                    
-                </span>)}
-        </div> 
-    }
-           
+        <>
+        {
+        timeLine.length > 0 &&  
+            <div className="timeline">
+                {timeLine.map((el, ind) =>
+                    <span 
+                        key={ind}
+                        style={{width:`${el/seconds*100}%`}}
+                        className={ind % 2 ? 'timeline_green' : 'timeline_red'}
+                        title ={`Duration: ${el} seconds`}
+                    >     
+                    </span>)}
+            </div> 
+        } 
         </>
     )
 }

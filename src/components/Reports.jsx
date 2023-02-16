@@ -11,22 +11,18 @@ import moment from 'moment';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Timeline } from "./timeline";
 
 export const Reports = ({data, paginator}) =>{
     const [fullImage, setFullImage] = useState(false)
     const [currentReport, setCurrentReport] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     
-
     useEffect(()=>{
         paginator(currentPage)
     },[currentPage])
 
     return (
         <>
-        {window.location.href.includes('machine') && <Timeline data={data}/>}
-        
 
         <div className='dashboard__container'>
               <div className='dashboard__choose'>

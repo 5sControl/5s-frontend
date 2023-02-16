@@ -8,11 +8,12 @@ import { Reports } from "../../components/Reports"
 import { getIsInternet } from "../../functions/getURL"
 import { proxy } from "../../api/proxy"
 import { API_REPORT_PAGE, API_REPORT_PAGE_I } from "../../api/api"
+import { Timeline } from "../../components/timeline"
+import './reportPage.scss'
 export const ReportPage = ({control}) => {
     const url = window.location.pathname
     const [data, setData] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(["token"])
-
     const paginator = (page) =>{
         if (getIsInternet(window.location.host)){
           proxy(API_REPORT_PAGE_I(control,page), "GET", {
@@ -50,10 +51,18 @@ export const ReportPage = ({control}) => {
               url.includes('idle') ? 'Idle Control'.toUpperCase() :
               url.includes('machine') ? 'Machine Control'.toUpperCase() : ''
             }</h1>
-            <h2>
-              <span className='dashboard__count'>{data.count}&nbsp;</span>
-              <span className='dashboard__span'> reports generated </span>
-            </h2>
+           
+            {window.location.href.includes('machine') && 
+              <section className="report-page_timeline">
+                  <div className="report-page_timeline_header">
+                    <ul>
+                      <li className="green-li"><span>Supervised</span></li>
+                      <li className="red-li"><span>Unsupervised</span></li>
+                    </ul>
+                  </div>
+                  <Timeline data={data}/>
+              </section>
+              }
             <h3>Reports</h3>
             <Reports 
               data={data}

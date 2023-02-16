@@ -1,0 +1,37 @@
+.report-page_timeline{
+    width: 100%;
+    ul{
+        display: flex;
+        list-style-position: inside;
+        list-style-type: square;
+        gap:40px;
+        .green-li{
+            &::before {
+                color: #87BC45;
+                content: "▪"; 
+                padding-right: 10px; 
+                font-size: 40px;
+               }
+            
+        }
+        .red-li{
+            &::before {
+                color: #EA5545;
+                content: "▪"; 
+                padding-right: 10px; 
+                font-size: 40px;
+               }
+        }
+        li{
+            list-style-type: none;
+            display: flex;
+            align-items: center; 
+            span{
+                font-size: 16px;
+                color: #1f1f1f;
+                margin-bottom: -6px;
+            }
+        }
+    }
+
+}
