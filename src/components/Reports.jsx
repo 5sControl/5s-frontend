@@ -12,7 +12,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const seconds = 86400 * 2
+const seconds = 86400
 
 export const Reports = ({data, paginator}) =>{
     const [fullImage, setFullImage] = useState(false)
@@ -26,13 +26,14 @@ export const Reports = ({data, paginator}) =>{
 
       useEffect(()=>{
            if (window.location.href.includes('machine')){
-                let buf = [moment("20230217").format('YYYY-MM-DD HH:mm:ss')]
+                let buf = [moment().format('YYYY-MM-DD HH:mm:ss')]
                 data.results.forEach(el => {
                     buf.push(moment(new Date(el.stop_tracking)).format('YYYY-MM-DD HH:mm:ss'))
                     buf.push(moment(new Date(el.start_tracking)).format('YYYY-MM-DD HH:mm:ss'))
                 })
-                buf.push(moment("20230215").format('YYYY-MM-DD HH:mm:ss'))
+                buf.push(moment("20230216").format('YYYY-MM-DD HH:mm:ss'))
                 buf.reverse()
+                buf = buf.filter(el => el.includes(moment().format("YYYY-MM-DD")))
                 console.log(buf)
                 buf = buf.map((el, index,array) => index < array.length - 1 ? moment(array[index + 1]).diff(moment(el), 'seconds') : 0)
                 buf.pop()
@@ -95,7 +96,7 @@ export const Reports = ({data, paginator}) =>{
                     return (
                       <div className='dashboard__reports_item' key={el.id} onClick={()=>setCurrentReport(el)}>
                        {  (window.location.pathname.includes('safety') || window.location.pathname.includes('dashboard'))&& <div className={currentReport.id === el.id ? 'dashboard__reports_item_title active': 'dashboard__reports_item_title'}>{el.date_created}</div>}
-                       { (window.location.pathname.includes('idle') || window.location.pathname.includes('machine'))  && <div className={currentReport.id === el.id ? 'dashboard__reports_item_title active': 'dashboard__reports_item_title'}>{el.start_tracking} - {el.stop_tracking}</div>}
+                       { (window.location.pathname.includes('idle') || window.location.pathname.includes('machine'))  && <div className={currentReport.id === el.id ? 'dashboard__reports_item_title active': 'dashboard__reports_item_title'}>{moment(new Date(el.start_tracking)).format('YYYY-MM-DD')} |  {moment(new Date(el.start_tracking)).format('HH:mm:ss') } - {moment(new Date(el.stop_tracking)).format('HH:mm:ss') }</div>}
                         <div>{`# ${el.id}`}</div>
                         <div><Camera/> {el.camera}</div>
                         <div><Algorithm/> Safety control:{el.action}</div>
@@ -193,7 +194,7 @@ export const Reports = ({data, paginator}) =>{
                     {(window.location.pathname.includes('safety') || window.location.pathname.includes('dashboard')) && 
                     <span>{currentReport.date_created}</span>}
                     {(window.location.pathname.includes('idle') || window.location.pathname.includes('machine'))  && 
-                    <span>{currentReport.start_tracking} - {currentReport.stop_tracking}</span>}
+                    <span>{moment(new Date(currentReport.start_tracking)).format('YYYY-MM-DD')} |  {moment(new Date(currentReport.start_tracking)).format('HH:mm:ss') } - {moment(new Date(currentReport.stop_tracking)).format('HH:mm:ss') }</span>}
                 
                    </div>
                    <div className='dashboard__report_item'>
