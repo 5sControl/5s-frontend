@@ -118,7 +118,7 @@ export const Main = () =>{
                     let buf = response.data.results.map((el, ind)=>{return{
                         id:ind + 1,
                         isSelected:false,
-                        ip:ind === response.data.ip
+                        ip:el
                       }})
                 setCamerasSafety_Control_Ear_protection(buf)
                 setCamerasTool_control(buf)
