@@ -115,7 +115,7 @@ export const Main = () =>{
         else{
             axios.get(`http://${window.location.hostname}${API_CAMERA}`)
                 .then(response => {
-                    let buf = response.map((el, ind)=>{return{
+                    let buf = response.data.results.map((el, ind)=>{return{
                         id:ind + 1,
                         isSelected:false,
                         ip:ind === response.data.ip
@@ -142,6 +142,7 @@ export const Main = () =>{
                     },
                 })
                 .then(res => {
+                    setAlgorithmList(res.data)
                     console.log(res.data.results)
                 })
            }
