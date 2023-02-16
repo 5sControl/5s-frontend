@@ -62,20 +62,20 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <AiOutlineRight/>
             </div>
             <div 
-                className={algorithmList.Staff_Control ? 'selection__container' : 'selection__container noAccess'} 
-                onClick={() => pushTheButton("Staff_control")}>
-                <div>
-                    <h4>Staff Control</h4>
-                    <h5>Detects if worker is staff.</h5>
-                </div>
-                <AiOutlineRight/>
-            </div>
-            <div 
                 className={algorithmList.Tool_Control ? 'selection__container' : 'selection__container noAccess'} 
                 onClick={() => pushTheButton("Tool_control")}>
                 <div>
                     <h4>Tool Control</h4>
                     <h5>Detects when worker takes tools from the bench.</h5>
+                </div>
+                <AiOutlineRight/>
+            </div>
+            <div 
+                className={algorithmList.Staff_Control ? 'selection__container noAccess' : 'selection__container noAccess'} 
+                onClick={() => pushTheButton("Staff_control")}>
+                <div>
+                    <h4>Staff Control</h4>
+                    <h5>Detects if worker is staff.</h5>
                 </div>
                 <AiOutlineRight/>
             </div>
