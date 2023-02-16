@@ -70,6 +70,7 @@ export const Algorithm = () =>{
        <AlgorithmList 
             algorithmList={algorithmList} 
             algorithmPage={'algorithm'}
+            algorithmCount = {3}
         />
        </div>
     )
