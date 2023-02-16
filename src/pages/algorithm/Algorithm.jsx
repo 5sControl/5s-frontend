@@ -20,7 +20,7 @@ export const Algorithm = () =>{
     useEffect(() => {
         // axios.get(`http://192.168.1.101${API_CAMERA}`)
         
-        if (getIsInternet(window.location.host)) {
+        if (false) {
             let buf = new Array(5).fill(4).map((el, ind)=>{return{
                 id:ind + 1,
                 isSelected:false,
@@ -38,7 +38,7 @@ export const Algorithm = () =>{
             })
         }
      
-          if (getIsInternet(window.location.host)) {
+          if (false) {
             proxy(API_ALGORITHM_I, "GET", {
                 'Authorization': cookies.token
               })

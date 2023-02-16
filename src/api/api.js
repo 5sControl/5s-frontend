@@ -13,8 +13,8 @@ export const API_USERLIST = `/api/staff_control/employees/admin/`
 export const API_REGISTRATION = `/register/`
 export const API_AUTH = `/auth/jwt/create/`
 export const API_POSTALGORITHM = `/api/algorithms/create/`
-export const API_ALGORITHM = 'api/algorithms/available/'
-export const API_MACHINE = `api/machine_control/action/`
+export const API_ALGORITHM = '/api/algorithms/available/'
+export const API_MACHINE = `/api/machine_control/action/`
 
 export const API_URL_I = `${url}/api/safety_control/safety/action/`
 export const API_IMAGES_I = `${url}/`

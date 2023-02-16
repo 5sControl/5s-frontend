@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react'
 import { API_REGISTRATION, API_REGISTRATION_I } from '../../../../api/api'
 import './addUser.scss'
@@ -10,7 +11,7 @@ export const AddUser = ({close}) =>{
 
     const registration = () =>{
         
-        if (getIsInternet(window.location.host)) {
+        if (false) {
             axios.post("https://5scontrol.pl/proxy_to_ngrok",{
                 url: API_REGISTRATION_I,
                 method:"POST",

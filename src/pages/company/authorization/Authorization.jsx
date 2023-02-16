@@ -49,7 +49,7 @@ export const Authorization = () => {
      
 const post = () =>{
 
-  if (getIsInternet(window.location.host)) {
+  if (false) {
     axios.post("https://5scontrol.pl/proxy_to_ngrok",{
       url: API_AUTH_I,
       method:"POST",
