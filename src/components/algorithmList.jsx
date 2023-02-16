@@ -33,7 +33,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
             
             <h2>{algorithmCount} / 5 algorithms used </h2>
             <div 
-                className={algorithmList.Safety_Control_Ear_protection ? 'selection__container' : 'selection__container '} 
+                className={algorithmList.Safety_Control_Ear_protection ? 'selection__container' : 'selection__container noAccess'} 
                 onClick={() => pushTheButton('Safety_control_ear_protection')}
             >
                 <div>
@@ -43,7 +43,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <AiOutlineRight/>
             </div>
             <div 
-                className={algorithmList.Machine_Control ? 'selection__container' : 'selection__container '} 
+                className={algorithmList.Machine_Control ? 'selection__container' : 'selection__container noAccess'} 
                 onClick={() => pushTheButton("Machine_Control")}>
                 <div>
                     <h4>Machine Control</h4>
@@ -52,21 +52,12 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <AiOutlineRight/>
             </div>
             <div 
-                className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container '} 
+                className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container noAccess'} 
                 onClick={() => pushTheButton("Idle_Control")}>
 
                 <div>
                     <h4>Idle Control</h4>
                     <h5>Detects if worker is idle.</h5>
-                </div>
-                <AiOutlineRight/>
-            </div>
-            <div 
-                className={algorithmList.Tool_Control ? 'selection__container' : 'selection__container noAccess'} 
-                onClick={() => pushTheButton("Tool_control")}>
-                <div>
-                    <h4>Tool Control</h4>
-                    <h5>Detects when worker takes tools from the bench.</h5>
                 </div>
                 <AiOutlineRight/>
             </div>

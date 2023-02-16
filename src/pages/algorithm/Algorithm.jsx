@@ -58,6 +58,7 @@ export const Algorithm = () =>{
                     },
                 })
                 .then(res => {
+                    setAlgorithmList(res.data)
                     console.log(res.data.results)
                 })
            }
