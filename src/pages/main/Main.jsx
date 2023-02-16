@@ -50,7 +50,6 @@ export const Main = () =>{
             // Idle_control:null,   
         }
         
-
         if (camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
             response.Safety_Control_Ear_protection = camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip)
         }

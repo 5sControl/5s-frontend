@@ -11,57 +11,22 @@ import moment from 'moment';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-
-const seconds = 86400
+import { Timeline } from "./timeline";
 
 export const Reports = ({data, paginator}) =>{
     const [fullImage, setFullImage] = useState(false)
     const [currentReport, setCurrentReport] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
-    const [timeLine, setTimeLine] = useState([])
+    
 
     useEffect(()=>{
         paginator(currentPage)
     },[currentPage])
 
-      useEffect(()=>{
-           if (window.location.href.includes('machine')){
-                let buf = [moment().format('YYYY-MM-DD HH:mm:ss')]
-                data.results.forEach(el => {
-                    buf.push(moment(new Date(el.stop_tracking)).format('YYYY-MM-DD HH:mm:ss'))
-                    buf.push(moment(new Date(el.start_tracking)).format('YYYY-MM-DD HH:mm:ss'))
-                })
-                buf.push(moment("20230216").format('YYYY-MM-DD HH:mm:ss'))
-                buf.reverse()
-                buf = buf.filter(el => el.includes(moment().format("YYYY-MM-DD")))
-                console.log(buf)
-                buf = buf.map((el, index,array) => index < array.length - 1 ? moment(array[index + 1]).diff(moment(el), 'seconds') : 0)
-                buf.pop()
-                buf.pop()
-                
-                
-                setTimeLine(buf)
-            }
-      },[])
-   useEffect(() => {
-    console.log(timeLine)
-   },[timeLine])
-
     return (
         <>
-        {timeLine.length > 0 && 
-            <div className="timeline">
-                {timeLine.map((el, ind) =>
-                    <span 
-                        key={ind}
-                        style={{width:`${el/seconds*100}%`}}
-                        className={ind % 2 ? 'timeline_green' : 'timeline_red'}
-                        title ={`Duration: ${el} seconds`}
-                    >
-                        
-                    </span>)}
-            </div>
-        }
+        {window.location.href.includes('machine') && <Timeline data={data}/>}
+        
 
         <div className='dashboard__container'>
               <div className='dashboard__choose'>
