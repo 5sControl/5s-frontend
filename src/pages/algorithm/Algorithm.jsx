@@ -28,7 +28,11 @@ export const Algorithm = () =>{
               }})
         } 
         else{
-            axios.get(`http://${window.location.hostname}${API_CAMERA}`)
+            axios.get(`http://${window.location.hostname}${API_CAMERA}`,{
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE',
+                'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+              })
                 .then(response => {
                     let buf = response.map((el, ind)=>{return{
                         id:ind + 1,
