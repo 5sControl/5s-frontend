@@ -22,7 +22,7 @@ function Dashboard() {
   
 
   const paginator = (page) =>{
-    if (false){
+    if (getIsInternet(window.location.host)){
 
       proxy(API_DASHBOARD_PAGE_I(page), "GET", {
         'Authorization': cookies.token

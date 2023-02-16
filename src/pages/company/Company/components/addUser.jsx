@@ -11,7 +11,7 @@ export const AddUser = ({close}) =>{
 
     const registration = () =>{
         
-        if (false) {
+        if (getIsInternet(window.location.host)){
             axios.post("https://5scontrol.pl/proxy_to_ngrok",{
                 url: API_REGISTRATION_I,
                 method:"POST",

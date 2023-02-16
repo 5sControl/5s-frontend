@@ -15,7 +15,7 @@ export const ReportPage = ({control}) => {
     const [data, setData] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(["token"])
     const paginator = (page) =>{
-        if (false){
+      if (getIsInternet(window.location.host)){
           proxy(API_REPORT_PAGE_I(control,page), "GET", {
             'Authorization': cookies.token
           })

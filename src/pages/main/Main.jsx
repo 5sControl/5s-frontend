@@ -60,7 +60,7 @@ export const Main = () =>{
             response.Tool_control = camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip)
         }
 
-        if (false) {
+        if (getIsInternet(window.location.host)){
             axios.post("https://5scontrol.pl/proxy_to_ngrok",{
                 url: API_POSTALGORITHM_I,
                 method:"POST",
@@ -102,7 +102,7 @@ export const Main = () =>{
     useEffect(() => {
         // axios.get(`http://192.168.1.101${API_CAMERA}`)
         
-        if (false) {
+        if (getIsInternet(window.location.host)){
             let buf = new Array(5).fill(4).map((el, ind)=>{return{
                 id:ind + 1,
                 isSelected:false,
@@ -127,7 +127,7 @@ export const Main = () =>{
             })
         }
      
-          if (false) {
+        if (getIsInternet(window.location.host)){
             proxy(API_ALGORITHM_I, "GET", {
                 'Authorization': cookies.token
               })

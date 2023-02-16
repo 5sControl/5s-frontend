@@ -18,7 +18,7 @@ export const CompanyComponent = () =>{
     const [isAddAccount, setIsAddAccount] = useState(false);
     
     useEffect(() =>{
-       if (false) {
+        if (getIsInternet(window.location.host)){
         proxy(API_USERLIST_I, "GET", {
             'Authorization': cookies.token
           })
