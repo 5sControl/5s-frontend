@@ -33,7 +33,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
             
             <h2>{algorithmCount} / 5 algorithms used </h2>
             <div 
-                className={algorithmList.Safety_Control_Ear_protection ? 'selection__container' : 'selection__container noAccess'} 
+                className={algorithmList.Safety_Control_Ear_protection ? 'selection__container' : 'selection__container '} 
                 onClick={() => pushTheButton('Safety_control_ear_protection')}
             >
                 <div>
@@ -43,7 +43,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <AiOutlineRight/>
             </div>
             <div 
-                className={algorithmList.Machine_Control ? 'selection__container' : 'selection__container noAccess'} 
+                className={algorithmList.Machine_Control ? 'selection__container' : 'selection__container '} 
                 onClick={() => pushTheButton("Machine_Control")}>
                 <div>
                     <h4>Machine Control</h4>
@@ -52,7 +52,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <AiOutlineRight/>
             </div>
             <div 
-                className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container noAccess'} 
+                className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container '} 
                 onClick={() => pushTheButton("Idle_Control")}>
 
                 <div>
