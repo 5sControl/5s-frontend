@@ -106,7 +106,7 @@ export const Reports = ({data, paginator}) =>{
                                         key={id}
                                         src={getIsInternet(window.location.hostname) ? 
                                         `${API_IMAGES_I + photo}` : 
-                                        `${API_IMAGES +  photo}`} 
+                                        `http://${window.location.hostname}/${photo}`} 
                                         alt='report img' 
                                         className='dashboard__report_image_src'
                                         onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
@@ -138,8 +138,8 @@ export const Reports = ({data, paginator}) =>{
                                       <img 
                                         key={id}
                                         src={getIsInternet(window.location.hostname) ? 
-                                        `${API_IMAGES_I + photo.image}` : 
-                                        `${API_IMAGES +  photo.image}`} 
+                                        `${API_IMAGES_I + photo.image}` :
+                                        `http://${window.location.hostname}/${photo.image}`}  
                                         alt='report img' 
                                         className='dashboard__report_image_src'
                                         onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
