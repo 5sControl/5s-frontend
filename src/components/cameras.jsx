@@ -18,7 +18,7 @@ export const Cameras = () => {
 
     useEffect(() => {
         
-        axios.get(`http://${window.location.hostname}/find_cameras/`)
+        axios.get(`http://${window.location.hostname}:8008/find_cameras/`)
             .then(response => {setCamerasList(response.data.results)})
         axios.get(`http://${window.location.hostname}/api/staff_control/locations/camera/`,{
             headers: {
