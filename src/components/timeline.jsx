@@ -50,8 +50,8 @@ export const Timeline = ({data}) => {
                 </div> 
             </div>
             <div className="timeline__line">
-                <span>start</span>
-                <span>end</span>
+                <span>{moment().add(-1, 'days').format('YYYY-MM-DD HH:mm:ss')}</span>
+                <span>{moment().format('YYYY-MM-DD HH:mm:ss')}</span>
             </div>
         </section>
         } 
