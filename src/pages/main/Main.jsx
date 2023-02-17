@@ -149,7 +149,6 @@ export const Main = () =>{
 
     },[])
     
-
     const onChangeHandler = (id) => {
         console.log(selectType)
         setSelectType( {

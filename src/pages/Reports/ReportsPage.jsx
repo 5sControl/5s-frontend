@@ -10,6 +10,7 @@ import { proxy } from "../../api/proxy"
 import { API_REPORT_PAGE, API_REPORT_PAGE_I } from "../../api/api"
 import { Timeline } from "../../components/timeline"
 import './reportPage.scss'
+import { Back } from "../../assets/svg/SVGcomponent"
 
 export const ReportPage = ({control}) => {
 
@@ -45,17 +46,17 @@ export const ReportPage = ({control}) => {
     
     return (
        <>
-       {window.location.href.includes('machine') && <Timeline data={data}/> }
+       
         {
         !!data  &&  
           <div className='dashboard'>
-            <h1>{
+            <h1><Back className="back-button"/>{
               url.includes('safety') ? 'Safety Control: Ear protection'.toUpperCase() :
               url.includes('idle') ? 'Idle Control'.toUpperCase() :
               url.includes('machine') ? 'Machine Control'.toUpperCase() : ''
             }</h1>
            
-            
+           {window.location.href.includes('machine') && <Timeline data={data}/> }
             <h3>Reports</h3>
             <Reports 
               data={data}
