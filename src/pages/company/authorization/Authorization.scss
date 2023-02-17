@@ -51,6 +51,11 @@
             background: #833505; 
         }
     }
+    .disableButton{
+        background: grey; 
+        pointer-events: none;
+        cursor: default;
+    }
     &__error{
         font-weight: 400;
         font-size: 12px;

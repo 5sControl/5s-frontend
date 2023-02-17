@@ -44,7 +44,7 @@ export const Algorithm = () =>{
     
     return (
        <div className='algorithm'>
-       <h1>Algorithms</h1>
+       <h1 className='algorithm__title'>Algorithms</h1>
        <AlgorithmList 
             algorithmList={algorithmList} 
             algorithmPage={'algorithm'}

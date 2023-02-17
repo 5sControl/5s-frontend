@@ -129,7 +129,7 @@ const post = () =>{
                 value={email} 
                 onChange={(e)=>setEmail(e.target.value)}
             />
-            {!correctEmail && <span className='authorization__error'>Email isn't correct!</span>}
+            {/* {!correctEmail && <span className='authorization__error'>Email isn't correct!</span>} */}
             <label>Password</label>
             <input 
                 type='password' 
@@ -138,9 +138,9 @@ const post = () =>{
                 value={password} 
                 onChange={(e)=>setPassword(e.target.value)}
             />
-            {!correctPassword && <span className='authorization__error'>This field is required</span>}
+            {/* {!correctPassword && <span className='authorization__error'>This field is required</span>} */}
             {errorResponse && <span className='authorization__error_response'>{errorResponse}</span>}
-            <button className='authorization__button' onClick={post}>Log In</button>
+            <button className={correctEmail && correctPassword ? 'authorization__button' : 'authorization__button disableButton'} onClick={post}>Log In</button>
         </div>
 
     </div>

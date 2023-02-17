@@ -10,7 +10,9 @@ import { proxy } from "../../api/proxy"
 import { API_REPORT_PAGE, API_REPORT_PAGE_I } from "../../api/api"
 import { Timeline } from "../../components/timeline"
 import './reportPage.scss'
+
 export const ReportPage = ({control}) => {
+
     const url = window.location.pathname
     const [data, setData] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(["token"])
@@ -43,6 +45,7 @@ export const ReportPage = ({control}) => {
     
     return (
        <>
+       {window.location.href.includes('machine') && <Timeline data={data}/> }
         {
         !!data  &&  
           <div className='dashboard'>
@@ -52,17 +55,7 @@ export const ReportPage = ({control}) => {
               url.includes('machine') ? 'Machine Control'.toUpperCase() : ''
             }</h1>
            
-            {window.location.href.includes('machine') && 
-              <section className="report-page_timeline">
-                  <div className="report-page_timeline_header">
-                    <ul>
-                      <li className="green-li"><span>Supervised</span></li>
-                      <li className="red-li"><span>Unsupervised</span></li>
-                    </ul>
-                  </div>
-                  <Timeline data={data}/>
-              </section>
-              }
+            
             <h3>Reports</h3>
             <Reports 
               data={data}
