@@ -17,9 +17,10 @@ export const Cameras = () => {
     const [createdCameras, setCreatedCameras] = useState([])
 
     useEffect(() => {
-        axios.get(`http://${window.location.host}:8008/find_cameras/`)
+        
+        axios.get(`http://${window.location.hostname}/find_cameras/`)
             .then(response => {setCamerasList(response.data.results)})
-        axios.get(`http://${window.location.host}/api/staff_control/locations/camera/`,{
+        axios.get(`http://${window.location.hostname}/api/staff_control/locations/camera/`,{
             headers: {
             'Authorization': cookies.token
             },
@@ -33,11 +34,12 @@ export const Cameras = () => {
         setIsShowModal(true)
     }
     const connect = () => {
-        axios.post(`http://${window.location.host}/api/staff_control/locations/post_camera/`,{
+        
+        axios.post(`http://${window.location.hostname}/api/staff_control/locations/post_camera/`,{
                 ip: IPCamera,
                 username: username,
                 password: password,
-                url: `http://${window.location.host}:8008/`
+                url: `http://${window.location.hostname}:8008/`
         },{
             headers: {
                 'Authorization': cookies.token
@@ -63,7 +65,9 @@ export const Cameras = () => {
             <div className='cameras__list'>
                 {createdCameras.map((el, ind) =>{
                     return(
-                        <div key={ind}>{el.id}</div>
+                        <div key={ind} className="cameras__list_item">
+                            <span>IP: {el.id}</span>
+                        </div>
                     )
                     
                 })}

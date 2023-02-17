@@ -106,4 +106,15 @@
             }
         }
     }
+    &__list{
+        margin-bottom: 50px;
+        &_item{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #E0E0E0;
+            cursor: pointer;
+        }
+    }
 }
