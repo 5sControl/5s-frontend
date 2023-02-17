@@ -40,7 +40,7 @@ export const Main = () =>{
     })
     const continueHandler = () =>{
         let response = {
-            server_url: `http://${window.location.hostname}/`
+            server_url: `http://${window.location.hostname}`
             // Safety_Control_Reflective_jacket:null,
             // Safety_Control_Hand_protection:null,
             // Safety_Control_Head_protection:null,       
