@@ -41,6 +41,7 @@ export const Main = () =>{
     const continueHandler = () =>{
         let response = {
             server_url: `http://${window.location.hostname}`
+            // server_url: `http://192.168.1.101`
             // Safety_Control_Reflective_jacket:null,
             // Safety_Control_Hand_protection:null,
             // Safety_Control_Head_protection:null,       
@@ -48,13 +49,13 @@ export const Main = () =>{
         }
         
         if (camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
-            response.Safety_Control_Ear_protection = camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip)
+            response.safety_control_ear_protection = camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip)
         }
         if (camerasMachine_Control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
-            response.Machine_Control = camerasMachine_Control.filter(el=>el.isSelected).map(e=>e.ip)
+            response.machine_control = camerasMachine_Control.filter(el=>el.isSelected).map(e=>e.ip)
         }
         if (camerasIdle_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
-            response.Idle_control = camerasIdle_control.filter(el=>el.isSelected).map(e=>e.ip)
+            response.idle_control = camerasIdle_control.filter(el=>el.isSelected).map(e=>e.ip)
         }
 
         if (getIsInternet(window.location.host)){
@@ -99,6 +100,7 @@ export const Main = () =>{
     useEffect(() => {
         if (stage === 'algorithm'){
             axios.get(`http://${window.location.hostname}${API_CAMERASELECT}`,{
+            // axios.get(`http://192.168.1.101${API_CAMERASELECT}`,{
                 headers:{
                     "Content-Type": "application/json",
                     'Authorization': cookies.token

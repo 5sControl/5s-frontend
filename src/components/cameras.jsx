@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {AiOutlineRight } from "react-icons/ai";
 import axios from 'axios'
 import { useEffect, useState } from 'react'
@@ -19,8 +20,11 @@ export const Cameras = () => {
     useEffect(() => {
         
         axios.get(`http://${window.location.hostname}:8008/find_cameras/`)
+        // axios.get(`http://192.168.1.101:8008/find_cameras/`)
             .then(response => {setCamerasList(response.data.results)})
+
         axios.get(`http://${window.location.hostname}/api/staff_control/locations/camera/`,{
+        // axios.get(`http://192.168.1.101/api/staff_control/locations/camera/`,{
             headers: {
             'Authorization': cookies.token
             },
@@ -35,10 +39,12 @@ export const Cameras = () => {
     }
     const connect = () => {
         
-        axios.post(`http://${window.location.hostname}/api/staff_control/locations/post_camera/`,{
+       axios.post(`http://${window.location.hostname}/api/staff_control/locations/post_camera/`,{
+        // axios.post(`http://192.168.1.101/api/staff_control/locations/post_camera/`,{
                 ip: IPCamera,
                 username: username,
                 password: password,
+                // url: `http://192.168.1.101:8008/`
                 url: `http://${window.location.hostname}:8008/`
         },{
             headers: {
@@ -46,11 +52,10 @@ export const Cameras = () => {
                 },
         }).then((e)=>
         {
-            console.log(e)
-            setStage('selectCamera')
-            setIPCamera('')
+            localStorage.setItem(e.data.ip, e.data.snapshot)
+            console.log(e.data)
+            setStage('cameraCreated')
             setPassword('')
-            setIsShowModal(false)
         })
     }
 
@@ -126,6 +131,18 @@ export const Cameras = () => {
                                     <div className='cameras__modal__login__footer'>
                                         <button className='cameras__modal__login__cancel' onClick={() => setStage('selectCamera')}>Cancel</button>
                                         <button className="cameras__modal__login__create" onClick={connect}>Connect</button>
+                                    </div>
+                                </div>   
+                            </>
+                        } 
+                         { 
+                        stage === 'cameraCreated' && 
+                            <>
+                                <div className='cameras__modal__showCamera'>
+                                    <img src={`data:image/png;base64, ${localStorage.getItem(IPCamera)}`} alt='camera'/>
+                                    <div className='cameras__modal__login__footer'>
+                                      
+                                        <button className="cameras__modal__login__create" onClick={()=>setIsShowModal(false)}>Close</button>
                                     </div>
                                 </div>   
                             </>

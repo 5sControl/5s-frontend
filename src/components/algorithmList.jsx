@@ -1,7 +1,7 @@
 import {AiOutlineRight } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, camerasSafety_Control_Ear_protection, camerasMachine_Control, camerasIdle_Control, algorithmPage}) =>{
-    console.log(camerasIdle_Control)
+    
     const navigate = useNavigate()
     const pushTheButton = (algorithm) =>{
         if (algorithmPage === 'main'){
@@ -34,7 +34,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
             
             <h2>{algorithmCount} / 5 algorithms used </h2>
             <div 
-                className={algorithmList.Safety_Control_Ear_protection ? 'selection__container' : 'selection__container noAccess'} 
+                className={algorithmList.safety_control_ear_protection ? 'selection__container' : 'selection__container noAccess'} 
                 onClick={() => pushTheButton('Safety_control_ear_protection')}
             >
                 <div>
@@ -44,7 +44,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <AiOutlineRight/>
             </div>
             <div 
-                className={algorithmList.Machine_Control ? 'selection__container' : 'selection__container noAccess'} 
+                className={algorithmList.machine_control ? 'selection__container' : 'selection__container noAccess'} 
                 onClick={() => pushTheButton("Machine_Control")}>
                 <div>
                     <h4>Machine Control</h4>
@@ -53,7 +53,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <AiOutlineRight/>
             </div>
             <div 
-                className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container noAccess'} 
+                className={algorithmList.idle_control ? 'selection__container' : 'selection__container noAccess'} 
                 onClick={() => pushTheButton("Idle_Control")}>
 
                 <div>
@@ -63,7 +63,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <AiOutlineRight/>
             </div>
             <div 
-                className={algorithmList.Staff_Control ? 'selection__container noAccess' : 'selection__container noAccess'} 
+                className={algorithmList.staff_control ? 'selection__container noAccess' : 'selection__container noAccess'} 
                 onClick={() => pushTheButton("Staff_control")}>
                 <div>
                     <h4>Staff Control</h4>
@@ -71,21 +71,21 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 </div>
                 <AiOutlineRight/>
             </div>
-            <div className={algorithmList.Safety_Control_Head_protection ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Head_protection')}>
+            <div className={algorithmList.safety_control_head_protection ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Head_protection')}>
                 <div>
                     <h4>Safety Control: Head protection</h4>
                     <h5>Detects if worker is not wearing protective helmet.</h5>
                 </div>
                 <AiOutlineRight/>
             </div>
-            <div className={algorithmList.Safety_Control_Hand_protection ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Hand_protection')}>
+            <div className={algorithmList.safety_control_hand_protection ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Hand_protection')}>
                 <div>
                     <h4>Safety Control: Hand protection</h4>
                     <h5>Detects if worker is not wearing protective gloves.</h5>
                 </div>
                 <AiOutlineRight/>
             </div>
-            <div className={algorithmList.Safety_Control_Reflective_jacket ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Reflective_jacket')}>
+            <div className={algorithmList.safety_control_reflective_jacket ? 'selection__container' : 'selection__container noAccess'} onClick={() => setSelectType('Safety_Control_Reflective_jacket')}>
                 <div>
                     <h4>Safety Control: Reflective jacket</h4>
                     <h5>Detects if worker is not wearing reflective jacket.</h5>

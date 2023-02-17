@@ -2,9 +2,6 @@ import { Fragment } from "react"
 
 import camera from '../assets/png/camera.png'
 import close from '../assets/svg/close.svg'
-import cam160 from '../assets/jpg/160.jpeg'
-import cam161 from '../assets/jpg/161.jpeg'
-import cam162 from '../assets/jpg/162.jpeg'
 
 const CameraChoise = ({selectType, onChangeHandler}) => {
     console.log(selectType)
