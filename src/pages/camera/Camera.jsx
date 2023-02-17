@@ -13,7 +13,7 @@ function Camera() {
 
   useEffect(()=>{
 
-    if (getIsInternet(window.location.host)){
+    if (getIsInternet(window.location.hostname)){
     axios.post("https://5scontrol.pl/proxy_to_ngrok",{
             url: API_CAMERA_I,
             method: "GET",
