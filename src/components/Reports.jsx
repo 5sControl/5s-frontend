@@ -75,7 +75,7 @@ export const Reports = ({data, paginator}) =>{
                         <img 
                         src={getIsInternet(window.location.hostname) ? 
                             `${API_IMAGES_I + currentReport.image}` : 
-                            `${API_IMAGES + currentReport.image}`} 
+                            `http://${window.location.hostname}/ + ${currentReport.image}`} 
                             alt='report img' 
                             className='dashboard__report_image_src'
                             onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
