@@ -97,7 +97,7 @@ export const Main = () =>{
     }
     useEffect(() => {
         if (stage === 'algorithm'){
-            axios.get(`http://${window.location.host}${API_CAMERASELECT}`,{
+            axios.get(`http://${window.location.hostname}${API_CAMERASELECT}`,{
                 headers:{
                     "Content-Type": "application/json",
                     'Authorization': cookies.token
