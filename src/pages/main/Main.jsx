@@ -9,22 +9,16 @@ import { proxyPOST } from '../../api/proxy'
 
 import { useNavigate } from 'react-router-dom'
 
-import close from '../../assets/svg/close.svg'
-import camera from '../../assets/png/camera.png'
-
-import cam160 from '../../assets/jpg/160.jpeg'
-import cam161 from '../../assets/jpg/161.jpeg'
-import cam162 from '../../assets/jpg/162.jpeg'
-
 import axios from 'axios';
 import { proxy } from '../../api/proxy'
 import { useCookies } from 'react-cookie'
 import { AlgorithmList } from '../../components/algorithmList'
+import { CameraSelect } from '../../components/cameraChoise'
 
 export const Main = () =>{
     const [camerasSafety_Control_Ear_protection, setCamerasSafety_Control_Ear_protection] = useState([])
-    const [camerasTool_control, setCamerasTool_control] = useState([])
-    const [camerasStaff_control, setCamerasStaff_control] = useState([])
+    const [camerasIdle_control, setCamerasIdle_control] = useState([])
+    const [camerasMachine_Control, setCamerasMachine_Control] = useState([])
     // console.log(window.location.host)
     const [stage, setStage] = useState('begin')
     const [selectType, setSelectType] = useState('')
@@ -32,10 +26,11 @@ export const Main = () =>{
     const [algorithmList, setAlgorithmList] = useState({})
     const [showAfterRegistration, setShowAfterRegistration] = useState(false)
     const navigate = useNavigate()
+
     const reducer = () => { 
-        return      camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip).length +
+        return      camerasIdle_control.filter(el=>el.isSelected).map(e=>e.ip).length +
                     camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length +
-                    camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip).length
+                    camerasMachine_Control.filter(el=>el.isSelected).map(e=>e.ip).length
     }
     
     const [algorithmCount, setAlgorithmCount] = useState(reducer())
@@ -53,11 +48,11 @@ export const Main = () =>{
         if (camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
             response.Safety_Control_Ear_protection = camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip)
         }
-        if (camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
-            response.Staff_Control = camerasStaff_control.filter(el=>el.isSelected).map(e=>e.ip)
+        if (camerasMachine_Control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
+            response.Machine_Control = camerasMachine_Control.filter(el=>el.isSelected).map(e=>e.ip)
         }
-        if (camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
-            response.Tool_control = camerasTool_control.filter(el=>el.isSelected).map(e=>e.ip)
+        if (camerasIdle_control.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
+            response.Idle_control = camerasIdle_control.filter(el=>el.isSelected).map(e=>e.ip)
         }
 
         if (getIsInternet(window.location.host)){
@@ -87,14 +82,15 @@ export const Main = () =>{
     }
 
     const doneHandler = () =>{
-        if (selectType.type === 'camerasSafety_Control_Ear_protection'){
+        if (selectType.type === 'Safety_Control_Ear_protection'){
             setCamerasSafety_Control_Ear_protection(selectType.obj)
         }
-        if (selectType.type === 'camerasStaff_control'){
-            setCamerasStaff_control(selectType.obj)
+        if (selectType.type === 'Machine_Control'){
+            setCamerasMachine_Control(selectType.obj)
         }
-        if (selectType.type === 'camerasTool_control'){
-            setCamerasTool_control(selectType.obj)
+        if (selectType.type === 'Idle_Control'){
+            console.log(selectType.obj)
+            setCamerasIdle_control(selectType.obj)
         }
         setSelectType('')
     }
@@ -109,8 +105,8 @@ export const Main = () =>{
               }})
     
               setCamerasSafety_Control_Ear_protection(buf)
-              setCamerasTool_control(buf)
-              setCamerasStaff_control(buf)
+              setCamerasIdle_control(buf)
+              setCamerasMachine_Control(buf)
         } 
         else{
             axios.get(`http://${window.location.hostname}${API_CAMERA}`)
@@ -121,8 +117,8 @@ export const Main = () =>{
                         ip:el
                       }})
                 setCamerasSafety_Control_Ear_protection(buf)
-                setCamerasTool_control(buf)
-                setCamerasStaff_control(buf)
+                setCamerasIdle_control(buf)
+                setCamerasMachine_Control(buf)
             })
         }
      
@@ -135,28 +131,27 @@ export const Main = () =>{
                 console.log(res.data)
             })
            }
-           else{
-            axios.get(`http://${window.location.hostname}${API_ALGORITHM}`,{
-                    headers: {
-                    'Authorization': cookies.token
-                    },
-                })
-                .then(res => {
-                    setAlgorithmList(res.data)
-                    console.log(res.data.results)
-                })
-           }
+        else{
+        axios.get(`http://${window.location.hostname}${API_ALGORITHM}`,{
+                headers: {
+                'Authorization': cookies.token
+                },
+            })
+            .then(res => {
+                setAlgorithmList(res.data)
+                console.log(res.data.results)
+            })
+        }
 
     },[])
     
     const onChangeHandler = (id) => {
-        console.log(selectType)
         setSelectType( {
             obj:selectType.obj.map(el => el.id === id ? {...el, isSelected:!el.isSelected} :el ),
             type:selectType.type
         })
     }
-    
+
     return (
         <>
         {localStorage.getItem('registration') === 'true' ? 
@@ -187,50 +182,24 @@ export const Main = () =>{
                 algorithmCount={algorithmCount}
                 setSelectType = {(e)=>{setSelectType(e)}}
                 camerasSafety_Control_Ear_protection = {camerasSafety_Control_Ear_protection}
-                camerasStaff_control = {camerasStaff_control}
-                camerasTool_control = {camerasTool_control}
+                camerasMachine_Control = {camerasMachine_Control}
+                camerasIdle_Control = {camerasIdle_control}
                 algorithmPage={'main'}
             />
          }  
          <div className={stage!=='begin' ? 'visible' : 'novisible'}>
              <button 
               className={algorithmCount === 0 || algorithmCount > 5? 'noclick':''}
-             onClick={continueHandler}>Continue</button>
+              onClick={continueHandler}>Continue</button>
          </div> 
          {
          selectType !== '' &&
-             <>
-                 <div className='select'>
-                     <div className='select__container'>
-                         <div className='select__header'>
-                             <h1>Select up to 5 more cameras to use</h1>
-                             <img src={close} alt='Close' onClick={() => setSelectType('')}/>
-                         </div>
-                         <div className='select__cameras'>
-                             {
-                                 selectType.obj.map((el,ind) =>
-                                     <Fragment key={el.id}>
-                                         <div className={el.ip.includes('.') ? 'select__cameras_item' :'select__cameras_noitem' }>
-                                             <img src={camera} alt='Camera'/>
-                                             <div className='select__cameras_item_footer'>
-                                                 <span>{el.ip}</span>
-                                                 <input type='checkbox'
-                                                     checked={el.isSelected}
-                                                      onChange={()=>onChangeHandler(el.id)}
-                                                     />
-                                             </div>
-                                            
-                                         </div>
-                                     </Fragment>)
-                             }
-                         </div>
-                         <div className='select__buttons'>
-                             <button className='select__buttons_cancel' onClick={() => setSelectType('')}>Cancel</button>
-                             <button className='select__buttons_done' onClick={doneHandler}>Done</button>
-                         </div>
-                     </div>
-                 </div>
-             </>
+             <CameraSelect
+                selectType={selectType}
+                onChangeHandler={(e) => onChangeHandler(e)}
+                setSelectType = {(e) => setSelectType(e)}
+                doneHandler = {doneHandler}
+             />
          }
          {
              showAfterRegistration && 

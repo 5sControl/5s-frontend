@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { useCookies } from "react-cookie"
-import { Reports } from "../../components/Reports"
+import { useNavigate } from "react-router-dom"
 
+import { Reports } from "../../components/Reports"
 import { getIsInternet } from "../../functions/getURL"
 import { proxy } from "../../api/proxy"
 import { API_REPORT_PAGE, API_REPORT_PAGE_I } from "../../api/api"
@@ -13,10 +14,11 @@ import './reportPage.scss'
 import { Back } from "../../assets/svg/SVGcomponent"
 
 export const ReportPage = ({control}) => {
-
+    const navigate = useNavigate()
     const url = window.location.pathname
     const [data, setData] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(["token"])
+
     const paginator = (page) =>{
       if (getIsInternet(window.location.host)){
           proxy(API_REPORT_PAGE_I(control,page), "GET", {
@@ -37,7 +39,7 @@ export const ReportPage = ({control}) => {
               console.log(el)
                 el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(0) : setData(el.data)
               })
-          }
+        }
       }
 
       useEffect(() => {
@@ -46,11 +48,10 @@ export const ReportPage = ({control}) => {
     
     return (
        <>
-       
         {
         !!data  &&  
           <div className='dashboard'>
-            <h1><Back className="back-button"/>{
+            <h1><Back className="back-button" onClick={() => navigate(-1)}/>{
               url.includes('safety') ? 'Safety Control: Ear protection'.toUpperCase() :
               url.includes('idle') ? 'Idle Control'.toUpperCase() :
               url.includes('machine') ? 'Machine Control'.toUpperCase() : ''

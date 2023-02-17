@@ -1,18 +1,19 @@
 import {AiOutlineRight } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, camerasSafety_Control_Ear_protection, camerasStaff_control, camerasTool_control, algorithmPage}) =>{
+export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, camerasSafety_Control_Ear_protection, camerasMachine_Control, camerasIdle_Control, algorithmPage}) =>{
+    console.log(camerasIdle_Control)
     const navigate = useNavigate()
     const pushTheButton = (algorithm) =>{
         if (algorithmPage === 'main'){
-
+            console.log(algorithm)
             if (algorithm === 'Safety_control_ear_protection'){
-                setSelectType({obj:camerasSafety_Control_Ear_protection, type:'camerasSafety_Control_Ear_protection'})
+                setSelectType({obj:camerasSafety_Control_Ear_protection, type:'Safety_Control_Ear_protection'})
             }
-            if (algorithm === 'Staff_control'){
-                setSelectType({obj:camerasStaff_control, type:'camerasStaff_control'})
+            if (algorithm === 'Machine_Control'){
+                setSelectType({obj:camerasMachine_Control, type:'Machine_Control'})
             }
-            if (algorithm === 'Tool_control'){
-                setSelectType({obj:camerasTool_control, type:'camerasTool_control'})
+            if (algorithm === 'Idle_Control'){
+                setSelectType({obj:camerasIdle_Control, type:'Idle_Control'})
             }
             return
         }
@@ -33,7 +34,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
             
             <h2>{algorithmCount} / 5 algorithms used </h2>
             <div 
-                className={algorithmList.Safety_Control_Ear_protection ? 'selection__container' : 'selection__container noAccess'} 
+                className={algorithmList.Safety_Control_Ear_protection ? 'selection__container' : 'selection__container'} 
                 onClick={() => pushTheButton('Safety_control_ear_protection')}
             >
                 <div>
@@ -43,7 +44,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <AiOutlineRight/>
             </div>
             <div 
-                className={algorithmList.Machine_Control ? 'selection__container' : 'selection__container noAccess'} 
+                className={algorithmList.Machine_Control ? 'selection__container' : 'selection__container '} 
                 onClick={() => pushTheButton("Machine_Control")}>
                 <div>
                     <h4>Machine Control</h4>
@@ -52,7 +53,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <AiOutlineRight/>
             </div>
             <div 
-                className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container noAccess'} 
+                className={algorithmList.Idle_Control ? 'selection__container' : 'selection__container '} 
                 onClick={() => pushTheButton("Idle_Control")}>
 
                 <div>
@@ -62,7 +63,7 @@ export const AlgorithmList = ({algorithmList, algorithmCount, setSelectType, cam
                 <AiOutlineRight/>
             </div>
             <div 
-                className={algorithmList.Staff_Control ? 'selection__container noAccess' : 'selection__container noAccess'} 
+                className={algorithmList.Staff_Control ? 'selection__container ' : 'selection__container noAccess'} 
                 onClick={() => pushTheButton("Staff_control")}>
                 <div>
                     <h4>Staff Control</h4>
