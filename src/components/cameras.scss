@@ -1,0 +1,30 @@
+.cameras{
+    width: 100%;
+    height: 100%;
+    padding: 60px;
+    &__title{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        h1{
+            font-size: 32px;
+            font-weight: 600;
+        }
+        button{
+            padding: 8px 44px;
+            text-align: center;
+            background: #FE6100;
+            border-radius: 4px;
+            color:#FFFFFF;
+            border: none;
+            font-size: 14px;
+            line-height: 24px;
+            cursor: pointer;
+            transition: all 0.5s;
+            &:hover{
+                background: #833505; 
+            }
+        }
+    }
+}

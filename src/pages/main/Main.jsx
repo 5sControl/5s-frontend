@@ -14,6 +14,7 @@ import { proxy } from '../../api/proxy'
 import { useCookies } from 'react-cookie'
 import { AlgorithmList } from '../../components/algorithmList'
 import { CameraSelect } from '../../components/cameraChoise'
+import { Cameras } from '../../components/cameras'
 
 export const Main = () =>{
     const [camerasSafety_Control_Ear_protection, setCamerasSafety_Control_Ear_protection] = useState([])
@@ -170,10 +171,13 @@ export const Main = () =>{
                  <span className='main__span'>
                      Congratulations! <br/>You have successfully installed the 5S Control’s Docker and now ready to use it. Complete the setup to start.
                  </span>
-                 <button className='main__start' onClick={() => setStage('algorithm')}>
+                 <button className='main__start' onClick={() => setStage('cameras')}>
                      Start Setup
                  </button>
              </div>
+         }
+         {
+            stage === 'cameras' && <Cameras/>
          } 
          {
          stage ==='algorithm' &&

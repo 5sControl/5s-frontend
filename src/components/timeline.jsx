@@ -43,7 +43,7 @@ export const Timeline = ({data}) => {
                         <span 
                             key={ind}
                             style={{width:`${el/seconds*100}%`}}
-                            className={ind % 2 ? 'timeline_green' : 'timeline_red'}
+                            className={ind % 2 ? 'timeline_red' : 'timeline_green'}
                             title ={`Duration: ${el} seconds`}
                         >     
                         </span>)}
