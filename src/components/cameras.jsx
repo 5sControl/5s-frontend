@@ -1,6 +1,6 @@
 import {AiOutlineRight } from "react-icons/ai";
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './cameras.scss'
 import { Close } from "../assets/svg/SVGcomponent";
 
@@ -10,11 +10,13 @@ export const Cameras = () => {
     const [isShowModal, setIsShowModal] = useState(false)
     const [stage, setStage] = useState('selectCamera')
     const [IPCamera, setIPCamera] = useState('')
+    useEffect(() => {
+        axios.get('http://192.168.1.101:8008/find_cameras/')
+            .then(response => {setCamerasList(response.data.results)})
+    },[])
     const showAddCameras = () => {
         console.log(`http://192.168.1.101:8008/`)
         setIsShowModal(true)
-        axios.get('http://192.168.1.101:8008/find_cameras/')
-            .then(response => {setCamerasList(response.data.results)})
     }
 
     return (
@@ -66,7 +68,7 @@ export const Cameras = () => {
                                     <label>Password</label>
                                     <input type='password' placeholder='Password'/>
                                     <div className='cameras__modal__login__footer'>
-                                        <button className='cameras__modal__login__cancel' onClick={() => setIsShowModal(false)}>Cancel</button>
+                                        <button className='cameras__modal__login__cancel' onClick={() => setStage('selectCamera')}>Cancel</button>
                                         <button className="cameras__modal__login__create">Connect</button>
                                     </div>
                                 </div>   
