@@ -111,7 +111,7 @@ export const Reports = ({data, paginator}) =>{
                                         className='dashboard__report_image_src'
                                         onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
                                             `${API_IMAGES_I + photo}` : 
-                                            `${API_IMAGES +  photo}`)}
+                                            `http://${window.location.hostname}/${photo}`)} 
                                     />
                                 </SwiperSlide>)}
                         </Swiper>
@@ -144,7 +144,7 @@ export const Reports = ({data, paginator}) =>{
                                         className='dashboard__report_image_src'
                                         onClick={()=>setFullImage(getIsInternet(window.location.hostname) ? 
                                             `${API_IMAGES_I + photo.image}` : 
-                                            `${API_IMAGES +  photo.image}`)}
+                                            `http://${window.location.hostname}/${photo.image}`)}  
                                     />
                                 </SwiperSlide>)}
                         </Swiper>
