@@ -4,7 +4,7 @@ import './main.scss'
 import logo from '../../assets/svg/icon.svg'
 import { Fragment, useEffect, useState } from 'react'
 import { getIsInternet } from '../../functions/getURL'
-import { API_ALGORITHM_I, API_ALGORITHM, API_POSTALGORITHM_I, API_POSTALGORITHM, API_CAMERA } from '../../api/api'
+import { API_ALGORITHM_I, API_ALGORITHM, API_POSTALGORITHM_I, API_POSTALGORITHM, API_CAMERASELECT } from '../../api/api'
 import { proxyPOST } from '../../api/proxy'
 
 import { useNavigate } from 'react-router-dom'
@@ -96,32 +96,45 @@ export const Main = () =>{
         setSelectType('')
     }
     useEffect(() => {
+        if (stage === 'algorithm'){
+            axios.get(`http://${window.location.host}${API_CAMERASELECT}`,{
+                headers:{
+                    "Content-Type": "application/json",
+                    'Authorization': cookies.token
+                  },
+            })
+            .then(response => {
+            console.log(response)
+                let buf = response.data.results.map((el, ind)=>{return{
+                    id:ind + 1,
+                    isSelected:false,
+                    ip:el.id,
+                    name:el.name
+                  }})
+            setCamerasSafety_Control_Ear_protection(buf)
+            setCamerasIdle_control(buf)
+            setCamerasMachine_Control(buf)})
+        }
+    },[stage])
+    useEffect(() => {
         // axios.get(`http://192.168.1.101${API_CAMERA}`)
         
-        if (getIsInternet(window.location.host)){
-            let buf = new Array(5).fill(4).map((el, ind)=>{return{
-                id:ind + 1,
-                isSelected:false,
-                ip:ind === 1 ? '192.168.1.160':'192.168.1.161'
-              }})
+        // if (getIsInternet(window.location.host)){
+        //     let buf = new Array(5).fill(4).map((el, ind)=>{return{
+        //         id:ind + 1,
+        //         isSelected:false,
+        //         ip:ind === 1 ? '192.168.1.160':'192.168.1.161'
+        //       }})
     
-              setCamerasSafety_Control_Ear_protection(buf)
-              setCamerasIdle_control(buf)
-              setCamerasMachine_Control(buf)
-        } 
-        else{
-            axios.get(`http://${window.location.hostname}${API_CAMERA}`)
-                .then(response => {
-                    let buf = response.data.results.map((el, ind)=>{return{
-                        id:ind + 1,
-                        isSelected:false,
-                        ip:el
-                      }})
-                setCamerasSafety_Control_Ear_protection(buf)
-                setCamerasIdle_control(buf)
-                setCamerasMachine_Control(buf)
-            })
-        }
+        //       setCamerasSafety_Control_Ear_protection(buf)
+        //       setCamerasIdle_control(buf)
+        //       setCamerasMachine_Control(buf)
+        // } 
+        // else{
+        //     //${window.location.hostname}
+           
+        //     })
+        // }
      
         if (getIsInternet(window.location.host)){
             proxy(API_ALGORITHM_I, "GET", {
@@ -192,9 +205,19 @@ export const Main = () =>{
             />
          }  
          <div className={stage!=='begin' ? 'visible' : 'novisible'}>
+            {stage === "cameras" && 
              <button 
-              className={algorithmCount === 0 || algorithmCount > 5? 'noclick':''}
-              onClick={continueHandler}>Continue</button>
+                className={ algorithmCount > 5? 'noclick':''}
+                onClick={() => setStage('algorithm')}>Continue
+              </button>
+              }
+              {stage === "algorithm" && 
+              <button 
+                className={ algorithmCount > 5? 'noclick':''}
+                onClick={continueHandler}>Continue
+              </button>
+              }
+               
          </div> 
          {
          selectType !== '' &&

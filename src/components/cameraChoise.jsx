@@ -13,7 +13,7 @@ const CameraChoise = ({selectType, onChangeHandler}) => {
         {
             selectType.obj.map((el,ind) =>
                 <Fragment key={el.id}>
-                    <div className={el.ip.includes('.') ? 'select__cameras_item' :'select__cameras_noitem' }>
+                    <div className={'select__cameras_item'}>
                         <img src={camera} alt='Camera'/>
                         <div className='select__cameras_item_footer'>
                             <span>{el.ip}</span>
