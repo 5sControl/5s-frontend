@@ -15,7 +15,7 @@ export const Timeline = ({data}) => {
                  buf.push(moment(new Date(el.stop_tracking)).format('YYYY-MM-DD HH:mm:ss'))
                  buf.push(moment(new Date(el.start_tracking)).format('YYYY-MM-DD HH:mm:ss'))
              })
-             buf.push(moment('20230217').format('YYYY-MM-DD HH:mm:ss'))
+             buf.push(moment('20230218').format('YYYY-MM-DD HH:mm:ss'))
              buf.reverse()
              buf = buf.filter(el => el.includes(moment().format("YYYY-MM-DD")))
              console.log(buf)
