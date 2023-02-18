@@ -7,24 +7,23 @@ const seconds = 86400
 export const Timeline = ({data}) => {
 
     const [timeLine, setTimeLine] = useState([])
-
     useEffect(()=>{
         if (data.results){
              let buf = [moment().format('YYYY-MM-DD HH:mm:ss')]
              data.results.forEach(el => {
+                console.log(el)
                  buf.push(moment(new Date(el.stop_tracking)).format('YYYY-MM-DD HH:mm:ss'))
                  buf.push(moment(new Date(el.start_tracking)).format('YYYY-MM-DD HH:mm:ss'))
              })
              buf.push(moment('20230218').format('YYYY-MM-DD HH:mm:ss'))
              buf.reverse()
              buf = buf.filter(el => el.includes(moment().format("YYYY-MM-DD")))
-             console.log(buf)
              buf = buf.map((el, index,array) => index < array.length - 1 ? moment(array[index + 1]).diff(moment(el), 'seconds') : 0)
              buf.pop()
              setTimeLine(buf)
         }
    },[])
-
+   
     return (
         <>
         {
@@ -43,7 +42,7 @@ export const Timeline = ({data}) => {
                         <span 
                             key={ind}
                             style={{width:`${el/seconds*100}%`}}
-                            className={ind % 2 ? 'timeline_red' : 'timeline_green'}
+                            className={ind % 2 ? 'timeline_green' : 'timeline_red'}
                             title ={`Duration: ${el} seconds`}
                         >     
                         </span>)}

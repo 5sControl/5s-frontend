@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {AiOutlineRight } from "react-icons/ai";
 import axios from 'axios'
