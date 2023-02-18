@@ -50,18 +50,6 @@ export const Authorization = () => {
 const post = () =>{
 
   if (getIsInternet(window.location.host)){
-    axios.post("https://5scontrol.pl/proxy_to_ngrok",{
-                url: API_REGISTRATION_I,
-                method:"POST",
-                headers:{
-                  "Content-Type": "application/json"
-                },
-                body:JSON.stringify({
-                  username: email,
-                  password: password,
-                  repeat_password: password
-                })
-            }).then(()=>{
               axios.post("https://5scontrol.pl/proxy_to_ngrok",{
                 url: API_AUTH_I,
                 method:"POST",
@@ -87,14 +75,9 @@ const post = () =>{
                 console.log(error.message)
                 setErrorResponse(error.message)
               })
-            })
-  }
-  else{
-    proxyPOST(`http://${window.location.hostname}${API_REGISTRATION}`, {
-                username: email,
-                  password: password,
-                  repeat_password: password
-              }).then(() => {
+            
+          }
+          else{
                 proxyPOST(`http://${window.location.hostname}${API_AUTH}`, {
                   "username": email,
                   "password": password,
@@ -111,7 +94,6 @@ const post = () =>{
                 .catch((error) =>{
                   setErrorResponse(error.message)
                 })
-              })
   
   }
 }
