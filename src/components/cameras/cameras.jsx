@@ -4,7 +4,7 @@ import {AiOutlineRight } from "react-icons/ai";
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import './cameras.scss'
-import { Close } from "../assets/svg/SVGcomponent";
+import { Close } from "../../assets/svg/SVGcomponent";
 import { useCookies } from "react-cookie";
 
 export const Cameras = () => {

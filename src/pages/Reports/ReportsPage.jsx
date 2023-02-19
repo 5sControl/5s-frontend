@@ -9,7 +9,7 @@ import { Reports } from "../../components/Reports"
 import { getIsInternet } from "../../api/getURL"
 import { proxy } from "../../api/proxy"
 import { API_REPORT_PAGE, API_REPORT_PAGE_I } from "../../api/api"
-import { Timeline } from "../../components/timeline"
+import { Timeline } from "../../components/timeline/timeline"
 import './reportPage.scss'
 import { Back } from "../../assets/svg/SVGcomponent"
 
@@ -57,7 +57,7 @@ export const ReportPage = ({control}) => {
               url.includes('machine') ? 'Machine Control'.toUpperCase() : ''
             }</h1>
            
-           {window.location.href.includes('machine') && <Timeline data={data}/> }
+           <Timeline data={data}/> 
             <h3>Reports</h3>
             <Reports 
               data={data}

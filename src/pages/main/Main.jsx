@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 import { AlgorithmList } from '../../components/algorithmList'
 import { CameraSelect } from '../../components/cameraChoise'
-import { Cameras } from '../../components/cameras'
+import { Cameras } from '../../components/cameras/cameras'
 import { getAveilableAlgorithms, getSelectedCameras, postAlgorithnDependences } from '../../api/requests'
 
 export const Main = () =>{

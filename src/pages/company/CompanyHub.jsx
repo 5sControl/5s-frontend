@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useCookies } from "react-cookie"
-import { Authorization } from "./authorization/Authorization";
+import { Authorization } from "../../components/authorization/Authorization";
 import { CompanyComponent } from "./Company/Company";
 
 export const CompanyHub = () => {

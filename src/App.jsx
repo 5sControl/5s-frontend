@@ -8,7 +8,7 @@ import { RoutesOutlet } from './routes/Routes';
 import Camera from './pages/camera/Camera';
 import { CompanyHub } from './pages/company/CompanyHub';
 import { Main } from './pages/main/Main';
-import { Authorization } from './pages/company/authorization/Authorization';
+import { Authorization } from './components/authorization/Authorization';
 import { useCookies } from 'react-cookie';
 import { Algorithm } from './pages/algorithm/Algorithm';
 import { ReportPage } from './pages/Reports/ReportsPage';

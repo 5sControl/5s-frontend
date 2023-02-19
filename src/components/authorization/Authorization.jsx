@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import './Authorization.scss'
 
-import logo from '../../../assets/svg/icon.svg'
+import logo from '../../assets/svg/icon.svg'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
-import { authorizationRequest } from '../../../api/requests';
+import { authorizationRequest } from '../../api/requests';
 export const Authorization = () => {
 
     const [email, setEmail] = useState('')
