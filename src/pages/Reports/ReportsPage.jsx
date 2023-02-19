@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie"
 import { useNavigate } from "react-router-dom"
 
 import { Reports } from "../../components/Reports"
-import { getIsInternet } from "../../functions/getURL"
+import { getIsInternet } from "../../api/getURL"
 import { proxy } from "../../api/proxy"
 import { API_REPORT_PAGE, API_REPORT_PAGE_I } from "../../api/api"
 import { Timeline } from "../../components/timeline"

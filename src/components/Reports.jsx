@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { Algorithm, Camera } from '../assets/svg/SVGcomponent';
 import {  API_IMAGES,API_IMAGES_I } from '../api/api.js';
-import { getIsInternet } from '../functions/getURL';
+import { getIsInternet } from '../api/getURL';
 import {Navigation, Pagination} from 'swiper';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import moment from 'moment';

@@ -8,7 +8,7 @@ import { API_USERLIST, API_USERLIST_I } from '../../../api/api'
 import { useCookies } from "react-cookie"
 import { AddUser } from './components/addUser'
 import axios from 'axios'
-import { getIsInternet } from '../../../functions/getURL'
+import { getIsInternet } from '../../../api/getURL'
 
 export const CompanyComponent = () =>{
 

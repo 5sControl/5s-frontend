@@ -4,7 +4,7 @@ import { API_REGISTRATION, API_REGISTRATION_I } from '../../../../api/api'
 import './addUser.scss'
 import axios from 'axios'
 import { proxyPOST } from '../../../../api/proxy'
-import { getIsInternet } from '../../../../functions/getURL'
+import { getIsInternet } from '../../../../api/getURL'
 export const AddUser = ({close}) =>{
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')

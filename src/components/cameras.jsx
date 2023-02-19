@@ -54,7 +54,6 @@ export const Cameras = () => {
         }).then((e)=>
         {
             localStorage.setItem(e.data.ip, e.data.snapshot)
-            console.log(e.data)
             setStage('cameraCreated')
             setPassword('')
         })

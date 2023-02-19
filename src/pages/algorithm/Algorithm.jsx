@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import './Algorithm.scss'
 import {  useEffect, useState } from 'react'
-import { getIsInternet } from '../../functions/getURL'
+import { getIsInternet } from '../../api/getURL'
 import { API_ALGORITHM_I, API_ALGORITHM, API_CAMERA } from '../../api/api'
 
 

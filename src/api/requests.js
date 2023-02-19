@@ -10,7 +10,7 @@ import {
 
 } from "./api"
 import { proxy } from "./proxy"
-import { getIsInternet } from "../functions/getURL"
+import { getIsInternet } from "./getURL"
 
 export const authorizationRequest = (hostname, email, password) => {
     if (getIsInternet(hostname)) {

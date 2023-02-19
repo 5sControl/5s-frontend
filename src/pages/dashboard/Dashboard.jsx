@@ -11,7 +11,7 @@ import { proxy } from '../../api/proxy';
 import axios from 'axios';
 
 import { Link } from 'react-router-dom';
-import { getIsInternet } from '../../functions/getURL';
+import { getIsInternet } from '../../api/getURL';
 import { Reports } from '../../components/Reports';
 
 function Dashboard() {
