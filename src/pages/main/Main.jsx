@@ -2,19 +2,15 @@
 /* eslint-disable no-unused-vars */
 import './main.scss'
 import logo from '../../assets/svg/icon.svg'
-import { Fragment, useEffect, useState } from 'react'
-import { getIsInternet } from '../../functions/getURL'
-import { API_ALGORITHM_I, API_ALGORITHM, API_POSTALGORITHM_I, API_POSTALGORITHM, API_CAMERASELECT } from '../../api/api'
-import { proxyPOST } from '../../api/proxy'
+import { useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import axios from 'axios';
-import { proxy } from '../../api/proxy'
 import { useCookies } from 'react-cookie'
 import { AlgorithmList } from '../../components/algorithmList'
 import { CameraSelect } from '../../components/cameraChoise'
 import { Cameras } from '../../components/cameras'
+import { getAveilableAlgorithms, getSelectedCameras, postAlgorithnDependences } from '../../api/requests'
 
 export const Main = () =>{
     const [camerasSafety_Control_Ear_protection, setCamerasSafety_Control_Ear_protection] = useState([])
@@ -42,10 +38,6 @@ export const Main = () =>{
         let response = {
             server_url: `http://${window.location.hostname}`
             // server_url: `http://192.168.1.101`
-            // Safety_Control_Reflective_jacket:null,
-            // Safety_Control_Hand_protection:null,
-            // Safety_Control_Head_protection:null,       
-            // Idle_control:null,   
         }
         
         if (camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
@@ -58,30 +50,12 @@ export const Main = () =>{
             response.idle_control = camerasIdle_control.filter(el=>el.isSelected).map(e=>e.ip)
         }
 
-        if (getIsInternet(window.location.host)){
-            axios.post("https://5scontrol.pl/proxy_to_ngrok",{
-                url: API_POSTALGORITHM_I,
-                method:"POST",
-                headers:{
-                    "Content-Type": "application/json",
-                    'Authorization': cookies.token
-                  },
-                body:JSON.stringify( response )
-            })
+        postAlgorithnDependences(window.location.hostname, cookies.token, response)
             .then((e) => {
                 if (e.data.message === "Camera Algorithm records created successfully"){
                     setShowAfterRegistration(e.data.message)
                     localStorage.setItem('registration', 'true')
                 }})
-        }
-        else{
-            proxyPOST(`http://${window.location.hostname}${API_POSTALGORITHM}`,response )
-                .then((e) => {
-                    if (e.data.message === "Camera Algorithm records created successfully"){
-                        setShowAfterRegistration(e.data.message)
-                        localStorage.setItem('registration', 'true')
-                    }})
-        }
     }
 
     const doneHandler = () =>{
@@ -97,69 +71,32 @@ export const Main = () =>{
         }
         setSelectType('')
     }
+
     useEffect(() => {
         if (stage === 'algorithm'){
-            axios.get(`http://${window.location.hostname}${API_CAMERASELECT}`,{
-            // axios.get(`http://192.168.1.101${API_CAMERASELECT}`,{
-                headers:{
-                    "Content-Type": "application/json",
-                    'Authorization': cookies.token
-                  },
-            })
+           getSelectedCameras(window.location.hostname, cookies.token)
             .then(response => {
-            console.log(response)
-                let buf = response.data.results.map((el, ind)=>{return{
-                    id:ind + 1,
-                    isSelected:false,
-                    ip:el.id,
-                    name:el.name
-                  }})
-            setCamerasSafety_Control_Ear_protection(buf)
-            setCamerasIdle_control(buf)
-            setCamerasMachine_Control(buf)})
+                console.log(response)
+                    let buf = response.data.results.map((el, ind)=>{
+                    return{
+                        id:ind + 1,
+                        isSelected:false,
+                        ip:el.id,
+                        name:el.name
+                    }})
+                setCamerasSafety_Control_Ear_protection(buf)
+                setCamerasIdle_control(buf)
+                setCamerasMachine_Control(buf)
+            })
         }
     },[stage])
+
     useEffect(() => {
-        // axios.get(`http://192.168.1.101${API_CAMERA}`)
-        
-        // if (getIsInternet(window.location.host)){
-        //     let buf = new Array(5).fill(4).map((el, ind)=>{return{
-        //         id:ind + 1,
-        //         isSelected:false,
-        //         ip:ind === 1 ? '192.168.1.160':'192.168.1.161'
-        //       }})
-    
-        //       setCamerasSafety_Control_Ear_protection(buf)
-        //       setCamerasIdle_control(buf)
-        //       setCamerasMachine_Control(buf)
-        // } 
-        // else{
-        //     //${window.location.hostname}
-           
-        //     })
-        // }
-     
-        if (getIsInternet(window.location.host)){
-            proxy(API_ALGORITHM_I, "GET", {
-                'Authorization': cookies.token
-              })
+        getAveilableAlgorithms(window.location.hostname, cookies.token)
               .then(res => {
                 setAlgorithmList(res.data)
                 console.log(res.data)
             })
-           }
-        else{
-        axios.get(`http://${window.location.hostname}${API_ALGORITHM}`,{
-                headers: {
-                'Authorization': cookies.token
-                },
-            })
-            .then(res => {
-                setAlgorithmList(res.data)
-                console.log(res.data.results)
-            })
-        }
-
     },[])
     
     const onChangeHandler = (id) => {
