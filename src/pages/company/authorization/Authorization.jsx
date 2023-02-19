@@ -3,11 +3,8 @@ import './Authorization.scss'
 
 import logo from '../../../assets/svg/icon.svg'
 import { useEffect, useState } from 'react'
-import { proxyPOST } from '../../../api/proxy';
-import { API_AUTH, API_AUTH_I, API_REGISTRATION_I, API_REGISTRATION } from '../../../api/api';
 import { useCookies } from 'react-cookie';
-import axios from 'axios';
-import { getIsInternet } from '../../../functions/getURL';
+import { authorizationRequest } from '../../../api/requests';
 export const Authorization = () => {
 
     const [email, setEmail] = useState('')
@@ -47,56 +44,23 @@ export const Authorization = () => {
         }
       },[email])
      
-const post = () =>{
+  const post = () =>{
+    authorizationRequest(window.location.hostname, email, password)
+        .then((response)=>{
+            if (response.status === 200 && response.data.access){
+                setCookie('token', `JWT ${response.data.access}`, { path: '/'})
+            }  
+            if(!response.data.access){
+              console.log(response)
+              setErrorResponse('Incorrect email or password. Please, try again.')
+            }
+          })
+          .catch((error) =>{
+            console.log(error.message)
+            setErrorResponse(error.message)
+          })
+    }
 
-  if (getIsInternet(window.location.host)){
-              axios.post("https://5scontrol.pl/proxy_to_ngrok",{
-                url: API_AUTH_I,
-                method:"POST",
-                headers:{
-                  "Content-Type": "application/json"
-                },
-                body:JSON.stringify({
-                  username: email,
-                  password: password,
-                })
-            })
-            .then((response)=>{
-                if (response.status === 200 && response.data.access){
-                  // console.log(response.data.access)
-                    setCookie('token', `JWT ${response.data.access}`, { path: '/'})
-                }  
-                if(!response.data.access){
-                  console.log(response)
-                  setErrorResponse('Incorrect email or password. Please, try again.')
-                }
-              })
-              .catch((error) =>{
-                console.log(error.message)
-                setErrorResponse(error.message)
-              })
-            
-          }
-          else{
-                proxyPOST(`http://${window.location.hostname}${API_AUTH}`, {
-                  "username": email,
-                  "password": password,
-                })
-              .then((response)=>{
-                  if (response.status === 200 && response.data.access){
-                    // console.log(response.data.access)
-                      setCookie('token', `JWT ${response.data.access}`, { path: '/'})
-                  }  
-                  if(!response.data.access){
-                    setErrorResponse(true)
-                  }
-                })
-                .catch((error) =>{
-                  setErrorResponse(error.message)
-                })
-  
-  }
-}
    return (
 
     <div className="authorization">
