@@ -141,7 +141,6 @@ export const Cameras = () => {
                                 <div className='cameras__modal__showCamera'>
                                     <img src={`data:image/png;base64, ${localStorage.getItem(IPCamera)}`} alt='camera'/>
                                     <div className='cameras__modal__login__footer'>
-                                      
                                         <button className="cameras__modal__login__create" onClick={()=>setIsShowModal(false)}>Close</button>
                                     </div>
                                 </div>   
