@@ -1,50 +1,21 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react'
-import { API_REGISTRATION, API_REGISTRATION_I } from '../../../../api/api'
+
+import { registerNewUser } from '../../../../api/requests'
+
 import './addUser.scss'
-import axios from 'axios'
-import { proxyPOST } from '../../../../api/proxy'
-import { getIsInternet } from '../../../../api/getURL'
 export const AddUser = ({close}) =>{
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const registration = () =>{
-        
-        if (getIsInternet(window.location.host)){
-            axios.post("https://5scontrol.pl/proxy_to_ngrok",{
-                url: API_REGISTRATION_I,
-                method:"POST",
-                headers:{
-                  "Content-Type": "application/json"
-                },
-                body:JSON.stringify({
-                  username: email,
-                  password: password,
-                  repeat_password: password
-                })
-            })
+        registerNewUser(window.location.hostname, email, password)
                 .then(res => {
                     console.log(res)
                     if(res.data.message === "User has been successfully created"){
                         close()
                     }
-                })
-        }
-        else{
-            proxyPOST(`http://${window.location.hostname}${API_REGISTRATION}`, {
-                username: email,
-                  password: password,
-                  repeat_password: password
-              })
-                .then(res => {
-                    console.log(res)
-                    if(res.data.message === "User has been successfully created"){
-                        close()
-                    }
-                })
-        }
-        
+                }) 
     }
     
     return(

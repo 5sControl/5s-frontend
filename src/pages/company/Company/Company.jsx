@@ -2,13 +2,10 @@
 /* eslint-disable no-unused-vars */
 import { Fragment, useEffect, useState } from 'react'
 import './Company.scss'
-import { proxy } from '../../../api/proxy'
-import { API_USERLIST, API_USERLIST_I } from '../../../api/api'
 
 import { useCookies } from "react-cookie"
 import { AddUser } from './components/addUser'
-import axios from 'axios'
-import { getIsInternet } from '../../../api/getURL'
+import { getUserList } from '../../../api/requests'
 
 export const CompanyComponent = () =>{
 
@@ -18,10 +15,7 @@ export const CompanyComponent = () =>{
     const [isAddAccount, setIsAddAccount] = useState(false);
     
     useEffect(() =>{
-        if (getIsInternet(window.location.host)){
-        proxy(API_USERLIST_I, "GET", {
-            'Authorization': cookies.token
-          })
+        getUserList(window.location.hostname, cookies.token)
           .then(res => {
             console.log(res.data)
             if (res.data.detail !=='Authentication credentials were not provided.' && res.data.detail!== 'Given token not valid for any token type') {
@@ -31,23 +25,6 @@ export const CompanyComponent = () =>{
                 removeCookie('token')
             }
         })
-       }
-       else{
-        axios.get(`http://${window.location.hostname}${API_USERLIST}`,{
-                headers: {
-                'Authorization': cookies.token
-                },
-            })
-            .then(res => {
-                console.log(res.data.results)
-                if (res.data.detail !=='Authentication credentials were not provided.' && res.data.detail!== 'Given token not valid for any token type') {
-                    setUserList(res.data.results)
-                }
-                else{
-                    removeCookie('token')
-                }
-            })
-       }
     },[])
 
     return(

@@ -7,6 +7,10 @@ import {
     API_CAMERASELECT,
     API_ALGORITHM_I,
     API_ALGORITHM,
+    API_USERLIST,
+    API_USERLIST_I,
+    API_REGISTRATION,
+    API_REGISTRATION_I
 
 } from "./api"
 import { proxy } from "./proxy"
@@ -74,5 +78,44 @@ else{
         'Authorization': cookies
         },
     })
+}
+}
+
+export const getUserList = (hostname, cookies) => {
+  if (getIsInternet(hostname)){
+  return  proxy(API_USERLIST_I, "GET", {
+        'Authorization': cookies
+      })
+   }
+   else{
+   return axios.get(`http://${hostname}${API_USERLIST}`,{
+            headers: {
+            'Authorization': cookies
+            },
+        })
+   }
+}
+
+export const registerNewUser = (hostname, email, password) => {
+  if (getIsInternet(hostname)){
+    axios.post("https://5scontrol.pl/proxy_to_ngrok",{
+        url: API_REGISTRATION_I,
+        method:"POST",
+        headers:{
+          "Content-Type": "application/json"
+        },
+        body:JSON.stringify({
+          username: email,
+          password: password,
+          repeat_password: password
+        })
+    })
+}
+else{
+    axios.post(`http://${hostname}${API_REGISTRATION}`, {
+          username: email,
+          password: password,
+          repeat_password: password
+      })
 }
 }
