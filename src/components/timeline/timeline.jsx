@@ -11,7 +11,6 @@ export const Timeline = ({data}) => {
         if (data.results){
              let buf = [moment().format('YYYY-MM-DD HH:mm:ss')]
              data.results.forEach(el => {
-                console.log(el)
                  buf.push(moment(new Date(el.stop_tracking)).format('YYYY-MM-DD HH:mm:ss'))
                  buf.push(moment(new Date(el.start_tracking)).format('YYYY-MM-DD HH:mm:ss'))
              })

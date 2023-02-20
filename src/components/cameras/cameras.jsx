@@ -20,6 +20,7 @@ export const Cameras = () => {
     const [createdCameras, setCreatedCameras] = useState([])
     const [connectMessage, setConnectMessage] = useState('')
     const [error, setError] = useState(false)
+    const [cameraName, setCameraName] = useState('')
 
     useEffect(() => {
         
@@ -64,10 +65,25 @@ export const Cameras = () => {
     const showAddCameras = () => {
         setIsShowModal(true)
     }
+
+    const changeCameraName = () => {
+        setIsShowModal(false)
+        setStage('selectCamera') 
+        axios.patch('http://192.168.1.101/api/staff_control/locations/update_camera/',{
+            ip:IPCamera,
+            name: cameraName
+        },{
+            headers: {
+                'Authorization': cookies.token
+              },
+        })
+    }
+
     const connect = () => {
     postCamera(window.location.hostname , IPCamera, username, password, cookies.token )
        .then((e)=>
-            {   console.log(e)
+            {   
+                console.log(e.data)
                 localStorage.setItem(e.data.ip, e.data.snapshot)
                 if (!e.data.message.includes('failed')){
                     setStage('cameraCreated')
@@ -82,7 +98,6 @@ export const Cameras = () => {
     return (
         <section className="cameras">
             <div className='cameras__title'>
-                {console.log(createdCameras)}
                 <h1>Cameras</h1>
                 <button className='cameras__button' onClick={showAddCameras}>+ Add Camera</button>
             </div>
@@ -163,8 +178,9 @@ export const Cameras = () => {
                             <>
                                 <div className='cameras__modal__showCamera'>
                                     <img src={`data:image/png;base64, ${localStorage.getItem(IPCamera)}`} alt='camera'/>
+                                    <input type="text" value={cameraName} onChange={(e) => setCameraName(e.target.value)}/>
                                     <div className='cameras__modal__login__footer'>
-                                        <button className="cameras__modal__login__create" onClick={()=>{setIsShowModal(false);setStage('selectCamera') }}>Close</button>
+                                        <button className="cameras__modal__login__create" onClick={changeCameraName}>Close</button>
                                     </div>
                                 </div>   
                             </>

@@ -31,9 +31,11 @@ export const Main = () =>{
     }
     
     const [algorithmCount, setAlgorithmCount] = useState(reducer())
+    
     useEffect(() => {
         setAlgorithmCount(reducer())
     })
+
     const continueHandler = () =>{
         let response = {
             server_url: window.location.hostname.includes('localhost') ? `http://192.168.1.101`: `http://${window.location.hostname}`
