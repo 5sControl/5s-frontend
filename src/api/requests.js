@@ -121,17 +121,4 @@ else{
 }
 }
 
-export const getDashboardDate = (hostname, cookies, date) => {
-  if (getIsInternet(hostname)){
-    proxy(`/api/dashboard/${date}/`, "GET", {
-      'Authorization': cookies
-    })
-  }
-  else{
-    axios.get(`http://${hostname}/api/dashboard/${date}/`,{
-          headers: {
-            'Authorization': cookies
-          },
-        })
-    }
-}
+

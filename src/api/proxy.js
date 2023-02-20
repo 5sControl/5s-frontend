@@ -7,7 +7,3 @@ export const proxy =  (URL, method, headers) =>{
             headers: headers,
         })
 }
-
-export const proxyPOST = (URL, method) =>{
-    return axios.post(URL,method)
-}

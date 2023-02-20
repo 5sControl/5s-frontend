@@ -180,4 +180,8 @@
       object-fit: contain;
     }
   }
+  &__error{
+    color: #FF0000;
+    font-size: 24px;
+  }
 }
