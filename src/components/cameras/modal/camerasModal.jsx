@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Close } from "../../../assets/svg/SVGcomponent";
 import {AiOutlineRight } from "react-icons/ai";
 import { patchCamera, postCamera } from "../../../api/requestHomeAndOffice";
-
+import { getIsInternet } from "../../../api/getURL";
+import { API_IMAGES_I } from "../../../api/api";
 export const CamerasModal = ({setIsShowModal, cookies, camerasList}) => {
 
     console.log(camerasList);
@@ -95,7 +96,10 @@ export const CamerasModal = ({setIsShowModal, cookies, camerasList}) => {
         stage === 'cameraCreated' && 
             <>
                 <div className='cameras__modal__showCamera'>
-                    <img src={`data:image/png;base64, ${localStorage.getItem(IPCamera)}`} alt='camera'/>
+                <img  src={getIsInternet(window.location.hostname) ? 
+                                `${API_IMAGES_I}/images/${IPCamera}/snapshot.jpg` : 
+                                `http://${window.location.hostname}/images/${IPCamera}/snapshot.jpg`}  alt='Camera'
+                        />
                     <input type="text" value={cameraName} onChange={(e) => setCameraName(e.target.value)}/>
                     <div className='cameras__modal__login__footer'>
                         <button className="cameras__modal__login__create" onClick={changeCameraName}>Save</button>
