@@ -10,7 +10,8 @@ import {
     API_USERLIST,
     API_USERLIST_I,
     API_REGISTRATION,
-    API_REGISTRATION_I
+    API_REGISTRATION_I,
+
 
 } from "./api"
 import { proxy } from "./proxy"
@@ -118,4 +119,19 @@ else{
           repeat_password: password
       })
 }
+}
+
+export const getDashboardDate = (hostname, cookies, date) => {
+  if (getIsInternet(hostname)){
+    proxy(`/api/dashboard/${date}/`, "GET", {
+      'Authorization': cookies
+    })
+  }
+  else{
+    axios.get(`http://${hostname}/api/dashboard/${date}/`,{
+          headers: {
+            'Authorization': cookies
+          },
+        })
+    }
 }
