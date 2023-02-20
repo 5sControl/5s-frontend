@@ -6,12 +6,12 @@ import { url } from "./api"
 
 export const getDashboardDate = (hostname, cookies, date) => {
     if (getIsInternet(hostname)){
-    return  proxy(`${url}/api/dashboard/${date}/`, "GET", {
+    return  proxy(`${url}/api/reports/all_reports/`, "GET", {
         'Authorization': cookies
       })
     }
     else{
-    return  axios.get(`http://${hostname}/api/dashboard/${date}/`,{
+    return  axios.get(`http://${hostname}/api/reports/all_reports/`,{
             headers: {
               'Authorization': cookies
             },
