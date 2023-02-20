@@ -13,7 +13,7 @@ export const Cameras = () => {
     const [cookies, setCookie] = useCookies(['token']);
     const [camerasList, setCamerasList] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
-    const [stage, setStage] = useState('cameraCreated')
+    const [stage, setStage] = useState('selectCamera')
     const [IPCamera, setIPCamera] = useState('')
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
