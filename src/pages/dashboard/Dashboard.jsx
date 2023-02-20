@@ -15,7 +15,6 @@ function Dashboard() {
   const [errorCatch, setErrorCatch] = useState(false)
   const [cookies, setCookie] = useCookies(['token']);
 
-
   const paginator = (page) =>{
     getDashboardDate(window.location.hostname, cookies.token, moment().format('YYYY-MM-DD'))
         .then(el => {
@@ -61,9 +60,6 @@ function Dashboard() {
                 </h2>
               }
           </div>
-     
-    
-    
     </>
    
   );

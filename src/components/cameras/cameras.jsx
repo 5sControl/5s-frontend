@@ -19,29 +19,33 @@ export const Cameras = () => {
     const [username, setUsername] = useState('')
     const [createdCameras, setCreatedCameras] = useState([])
     const [connectMessage, setConnectMessage] = useState('')
+    const [error, setError] = useState(false)
+
     useEffect(() => {
         
         if (window.location.hostname.includes('localhost')) {
 
         axios.get(`http://192.168.1.101:8008/find_cameras/`)
             .then(response => {setCamerasList(response.data.results)})
+            .catch((error)=>setError(error.message))
 
         axios.get(`http://192.168.1.101/api/staff_control/locations/camera/`,{
                 headers: {
                 'Authorization': cookies.token
                 },
             })
-                .then(response => {
-                    console.log(response)
-                    if(response.data.length > 0){
-                        setCreatedCameras(response.data)
-                    }
-                })
+            .then(response => {
+                console.log(response)
+                if(response.data.length > 0){
+                    setCreatedCameras(response.data)
+                }
+            })
+            .catch((error)=>setError(error.message))
         }
         else{
         axios.get(`http://${window.location.hostname}:8008/find_cameras/`)
                 .then(response => {setCamerasList(response.data.results)})
-
+                .catch((error)=>setError(error.message))
         axios.get(`http://${window.location.hostname}/api/staff_control/locations/camera/`,{
             headers: {
                 'Authorization': cookies.token
@@ -53,6 +57,7 @@ export const Cameras = () => {
                         setCreatedCameras(response.data)
                     }
                 })
+                .catch((error)=>setError(error.message))
         }
     },[])
 
@@ -71,6 +76,7 @@ export const Cameras = () => {
                     setConnectMessage(e.data.message)
                 }
             })
+       
     }
 
     return (
@@ -92,6 +98,7 @@ export const Cameras = () => {
                 })}
             </div>
             }
+            {error && <div style={{color:'red', fontSize:'26px'}}>{error}</div>}
             {
                 isShowModal &&
                     <div className='cameras__modal'>
