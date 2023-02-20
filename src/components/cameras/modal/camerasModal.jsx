@@ -24,13 +24,11 @@ export const CamerasModal = ({setIsShowModal, cookies, camerasList}) => {
         postCamera(window.location.hostname , IPCamera, username, password, cookies.token )
            .then((e)=>
                 {   
-                    console.log(e.data)
-                    localStorage.setItem(e.data.ip, e.data.snapshot)
-                    if (!e.data.message.includes('failed')){
-                        setStage('cameraCreated')
-                    }else{
+                    if (e.data.message.includes('failed')){
                         console.log(e.data.message)
                         setConnectMessage(e.data.message)
+                    }else{
+                        setStage('cameraCreated')
                     }
                 })
         }

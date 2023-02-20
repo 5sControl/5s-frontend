@@ -10,7 +10,6 @@ const CameraChoise = ({selectType, onChangeHandler}) => {
         {
             selectType.obj.map((el,ind) =>
                 <Fragment key={el.id}>
-                    {console.log(el)}
                     <div className={'select__cameras_item'}>
                         <img  src={getIsInternet(window.location.hostname) ? 
                                 `${API_IMAGES_I}/images/${el.ip}/snapshot.jpg` : 
