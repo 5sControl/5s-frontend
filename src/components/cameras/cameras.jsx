@@ -7,13 +7,13 @@ import { Close } from "../../assets/svg/SVGcomponent";
 import { useCookies } from "react-cookie";
 
 import './cameras.scss'
-import { postCamera } from "../../api/requestHomeAndOffice";
+import { patchCamera, postCamera } from "../../api/requestHomeAndOffice";
 export const Cameras = () => {
 
     const [cookies, setCookie] = useCookies(['token']);
     const [camerasList, setCamerasList] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
-    const [stage, setStage] = useState('selectCamera')
+    const [stage, setStage] = useState('cameraCreated')
     const [IPCamera, setIPCamera] = useState('')
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
@@ -69,14 +69,8 @@ export const Cameras = () => {
     const changeCameraName = () => {
         setIsShowModal(false)
         setStage('selectCamera') 
-        axios.patch('http://192.168.1.101/api/staff_control/locations/update_camera/',{
-            ip:IPCamera,
-            name: cameraName
-        },{
-            headers: {
-                'Authorization': cookies.token
-              },
-        })
+        patchCamera(window.location.hostname, IPCamera, cameraName)
+            .then((res)=>console.log(res))
     }
 
     const connect = () => {
@@ -92,7 +86,6 @@ export const Cameras = () => {
                     setConnectMessage(e.data.message)
                 }
             })
-       
     }
 
     return (
@@ -180,7 +173,7 @@ export const Cameras = () => {
                                     <img src={`data:image/png;base64, ${localStorage.getItem(IPCamera)}`} alt='camera'/>
                                     <input type="text" value={cameraName} onChange={(e) => setCameraName(e.target.value)}/>
                                     <div className='cameras__modal__login__footer'>
-                                        <button className="cameras__modal__login__create" onClick={changeCameraName}>Close</button>
+                                        <button className="cameras__modal__login__create" onClick={changeCameraName}>Save</button>
                                     </div>
                                 </div>   
                             </>
