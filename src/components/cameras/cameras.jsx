@@ -65,7 +65,7 @@ export const Cameras = () => {
         setIsShowModal(true)
     }
     const connect = () => {
-    postCamera(window.location.hostname,IPCamera, username, password, cookies )
+    postCamera(window.location.hostname , IPCamera, username, password, cookies.token )
        .then((e)=>
             {   console.log(e)
                 localStorage.setItem(e.data.ip, e.data.snapshot)

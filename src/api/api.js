@@ -1,7 +1,7 @@
 
 // const url = "http://0.0.0.0:8080"
 
-export const url = "https://11e8-134-17-26-206.eu.ngrok.io"
+export const url = "https://c5c4-134-17-26-206.eu.ngrok.io/"
 
 export const API_URL = `/api/safety_control/safety/action/`
 export const API_IMAGES = ``
