@@ -26,7 +26,6 @@ export const Algorithm = () =>{
     return (
        <div className='algorithm'>
        <h1 className='algorithm__title'>Algorithms</h1>
-       {console.log(algorithmList)}
        <AlgorithmList 
             algorithmList={algorithmList} 
             algorithmPage={'algorithm'}

@@ -1,5 +1,6 @@
 import { Fragment } from "react"
-
+import { getIsInternet } from "../api/getURL"
+import { API_IMAGES_I } from "../api/api"
 import close from '../assets/svg/close.svg'
 
 const CameraChoise = ({selectType, onChangeHandler}) => {
@@ -9,8 +10,12 @@ const CameraChoise = ({selectType, onChangeHandler}) => {
         {
             selectType.obj.map((el,ind) =>
                 <Fragment key={el.id}>
+                    {console.log(el)}
                     <div className={'select__cameras_item'}>
-                        <img src={`data:image/png;base64, ${localStorage.getItem(el.ip)}`} alt='Camera'/>
+                        <img  src={getIsInternet(window.location.hostname) ? 
+                                `${API_IMAGES_I}/images/${el.ip}/snapshot.jpg` : 
+                                `http://${window.location.hostname}/images/${el.ip}/snapshot.jpg`}  alt='Camera'
+                        />
                         <div className='select__cameras_item_footer'>
                             <span>{el.ip}</span>
                             <input type='checkbox'
