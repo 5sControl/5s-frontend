@@ -3,10 +3,10 @@
 import {AiOutlineRight } from "react-icons/ai";
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import './cameras.scss'
 import { Close } from "../../assets/svg/SVGcomponent";
 import { useCookies } from "react-cookie";
 
+import './cameras.scss'
 export const Cameras = () => {
 
     const [cookies, setCookie] = useCookies(['token']);
@@ -17,7 +17,7 @@ export const Cameras = () => {
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
     const [createdCameras, setCreatedCameras] = useState([])
-
+    const [connectMessage, setConnectMessage] = useState('')
     useEffect(() => {
         
         axios.get(`http://${window.location.hostname}:8008/find_cameras/`)
@@ -31,7 +31,10 @@ export const Cameras = () => {
             },
         })
             .then(response => {
-                setCreatedCameras(response.data.results)
+                if(response.data.results){
+                    setCreatedCameras(response.data.results)
+                }
+                
             })
     },[])
 
@@ -50,13 +53,18 @@ export const Cameras = () => {
         },{
             headers: {
                 'Authorization': cookies.token
-                },
+            },
         }).then((e)=>
-        {
-            localStorage.setItem(e.data.ip, e.data.snapshot)
-            setStage('cameraCreated')
-            setPassword('')
-        })
+            {   console.log(e)
+                localStorage.setItem(e.data.ip, e.data.snapshot)
+                if (!e.data.message.includes('failed')){
+                    setStage('cameraCreated')
+                }else{
+                    console.log(e.data.message)
+                    setConnectMessage(e.data.message)
+                }
+                
+            })
     }
 
     return (
@@ -74,7 +82,6 @@ export const Cameras = () => {
                             <span>IP: {el.id}</span>
                         </div>
                     )
-                    
                 })}
             </div>
             }
@@ -120,6 +127,7 @@ export const Cameras = () => {
                                         placeholder='Username'
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
+                                        onFocus={() => setConnectMessage('')}
                                         />
                                     <label>Password</label>
                                     <input 
@@ -127,7 +135,9 @@ export const Cameras = () => {
                                         placeholder='Password'
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
+                                        onFocus={() => setConnectMessage('')}
                                     />
+                                    <div style={{color:'red'}}>{connectMessage}</div>
                                     <div className='cameras__modal__login__footer'>
                                         <button className='cameras__modal__login__cancel' onClick={() => setStage('selectCamera')}>Cancel</button>
                                         <button className="cameras__modal__login__create" onClick={connect}>Connect</button>
@@ -141,7 +151,7 @@ export const Cameras = () => {
                                 <div className='cameras__modal__showCamera'>
                                     <img src={`data:image/png;base64, ${localStorage.getItem(IPCamera)}`} alt='camera'/>
                                     <div className='cameras__modal__login__footer'>
-                                        <button className="cameras__modal__login__create" onClick={()=>setIsShowModal(false)}>Close</button>
+                                        <button className="cameras__modal__login__create" onClick={()=>{setIsShowModal(false);setStage('selectCamera') }}>Close</button>
                                     </div>
                                 </div>   
                             </>

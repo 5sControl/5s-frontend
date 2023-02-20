@@ -31,7 +31,6 @@ function Dashboard() {
 
   return (
     <>
-     
           <div className='dashboard'>
             <h1>Dashboard</h1>
             {
@@ -54,15 +53,16 @@ function Dashboard() {
                 {errorCatch}
               </div>
             }
+             {
+                data === 0 && 
+                <h2 className='dashboard__noauth'>
+                  Log in to view the reports
+                  <Link to ='/company'> Log In</Link>
+                </h2>
+              }
           </div>
      
-     {
-      data === 0 && 
-      <h2 className='dashboard__noauth'>
-        Log in to view the reports
-        <Link to ='/company'> Log In</Link>
-      </h2>
-     }
+    
     
     </>
    
