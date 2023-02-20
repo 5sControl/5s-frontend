@@ -6,7 +6,7 @@ import moment from 'moment';
 import { useCookies } from 'react-cookie';
 
 import { Link } from 'react-router-dom';
-import { Reports } from '../../components/Reports';
+import { Reports } from '../../components/reports/Reports';
 import { getDashboardDate } from '../../api/requestReport';
 
 function Dashboard() {

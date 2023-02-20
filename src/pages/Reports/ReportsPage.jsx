@@ -5,7 +5,7 @@ import axios from "axios"
 import { useCookies } from "react-cookie"
 import { useNavigate } from "react-router-dom"
 
-import { Reports } from "../../components/Reports"
+import { Reports } from "../../components/reports/Reports"
 import { getIsInternet } from "../../api/getURL"
 import { proxy } from "../../api/proxy"
 import { API_REPORT_PAGE, API_REPORT_PAGE_I } from "../../api/api"

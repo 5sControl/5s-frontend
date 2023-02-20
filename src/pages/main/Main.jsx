@@ -76,17 +76,16 @@ export const Main = () =>{
         if (stage === 'algorithm'){
            getSelectedCameras(window.location.hostname, cookies.token)
             .then(response => {
-                console.log(response)
-                    let buf = response.data.results.map((el, ind)=>{
-                    return{
-                        id:ind + 1,
-                        isSelected:false,
-                        ip:el.id,
-                        name:el.name
-                    }})
-                setCamerasSafety_Control_Ear_protection(buf)
-                setCamerasIdle_control(buf)
-                setCamerasMachine_Control(buf)
+                let buf = response.data.results.map((el, ind)=>{
+                return{
+                    id:ind + 1,
+                    isSelected:false,
+                    ip:el.id,
+                    name:el.name
+                }})
+            setCamerasSafety_Control_Ear_protection(buf)
+            setCamerasIdle_control(buf)
+            setCamerasMachine_Control(buf)
             })
         }
     },[stage])
