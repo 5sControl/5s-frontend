@@ -22,7 +22,6 @@ export const getSelectedCameras = (hostname, cookies) => {
   }
 
 export const postCamera = (hostname, IPCamera, username, password, cookies) => {
-    console.log(cookies)
     if (hostname.includes("localhost")) {
        return  axios.post(`http://192.168.1.101/api/staff_control/locations/post_camera/`,{
                 ip: IPCamera,
