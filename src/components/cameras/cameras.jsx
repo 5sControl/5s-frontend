@@ -12,7 +12,7 @@ export const Cameras = () => {
     const [cookies, setCookie] = useCookies(['token']);
     const [camerasList, setCamerasList] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)
-    const [createdCameras, setCreatedCameras] = useState([])
+    const [createdCameras, setCreatedCameras] = useState(false)
     
     const [error, setError] = useState(false)
     
@@ -71,7 +71,7 @@ export const Cameras = () => {
                 <button className='cameras__button' onClick={showAddCameras}>+ Add Camera</button>
             </div>
             {
-            camerasList && 
+            createdCameras && 
             <div className='cameras__list'>
                 {createdCameras.map((el, ind) =>{
                     return(
@@ -85,15 +85,11 @@ export const Cameras = () => {
             {error && <div style={{color:'red', fontSize:'26px'}}>{error}</div>}
             {
                 isShowModal && 
-                <>
                 <CamerasModal 
                     setIsShowModal = {(e) => setIsShowModal(e)}
                     cookies = {cookies}
                     camerasList = {camerasList}
-                />
-                {console.log(camerasList)}
-                </>
-                  
+                />                 
             }
         </section>
     )
