@@ -7,6 +7,7 @@ import { Close } from "../../assets/svg/SVGcomponent";
 import { useCookies } from "react-cookie";
 
 import './cameras.scss'
+import { postCamera } from "../../api/requestHomeAndOffice";
 export const Cameras = () => {
 
     const [cookies, setCookie] = useCookies(['token']);
@@ -20,41 +21,47 @@ export const Cameras = () => {
     const [connectMessage, setConnectMessage] = useState('')
     useEffect(() => {
         
-        axios.get(`http://${window.location.hostname}:8008/find_cameras/`)
-        // axios.get(`http://192.168.1.101:8008/find_cameras/`)
+        if (window.location.hostname.includes('localhost')) {
+
+        axios.get(`http://192.168.1.101:8008/find_cameras/`)
             .then(response => {setCamerasList(response.data.results)})
 
-        axios.get(`http://${window.location.hostname}/api/staff_control/locations/camera/`,{
-        // axios.get(`http://192.168.1.101/api/staff_control/locations/camera/`,{
-            headers: {
-            'Authorization': cookies.token
-            },
-        })
-            .then(response => {
-                if(response.data.results){
-                    setCreatedCameras(response.data.results)
-                }
-                
+        axios.get(`http://192.168.1.101/api/staff_control/locations/camera/`,{
+                headers: {
+                'Authorization': cookies.token
+                },
             })
+                .then(response => {
+                    console.log(response)
+                    if(response.data.length > 0){
+                        setCreatedCameras(response.data)
+                    }
+                })
+        }
+        else{
+        axios.get(`http://${window.location.hostname}:8008/find_cameras/`)
+                .then(response => {setCamerasList(response.data.results)})
+
+        axios.get(`http://${window.location.hostname}/api/staff_control/locations/camera/`,{
+            headers: {
+                'Authorization': cookies.token
+                },
+            })
+                .then(response => {
+                    console.log(response)
+                    if(response.data.length > 0){
+                        setCreatedCameras(response.data)
+                    }
+                })
+        }
     },[])
 
     const showAddCameras = () => {
         setIsShowModal(true)
     }
     const connect = () => {
-        
-       axios.post(`http://${window.location.hostname}/api/staff_control/locations/post_camera/`,{
-        // axios.post(`http://192.168.1.101/api/staff_control/locations/post_camera/`,{
-                ip: IPCamera,
-                username: username,
-                password: password,
-                // url: `http://192.168.1.101:8008/`
-                url: `http://${window.location.hostname}:8008/`
-        },{
-            headers: {
-                'Authorization': cookies.token
-            },
-        }).then((e)=>
+    postCamera(window.location.hostname,IPCamera, username, password, cookies )
+       .then((e)=>
             {   console.log(e)
                 localStorage.setItem(e.data.ip, e.data.snapshot)
                 if (!e.data.message.includes('failed')){
@@ -63,13 +70,13 @@ export const Cameras = () => {
                     console.log(e.data.message)
                     setConnectMessage(e.data.message)
                 }
-                
             })
     }
 
     return (
         <section className="cameras">
             <div className='cameras__title'>
+                {console.log(createdCameras)}
                 <h1>Cameras</h1>
                 <button className='cameras__button' onClick={showAddCameras}>+ Add Camera</button>
             </div>
@@ -88,7 +95,6 @@ export const Cameras = () => {
             {
                 isShowModal &&
                     <div className='cameras__modal'>
-                        
                         <div className='cameras__modal__container'>
                         { 
                         stage === 'selectCamera' && camerasList.length > 0 && 

@@ -10,13 +10,13 @@ import { useCookies } from 'react-cookie'
 import { AlgorithmList } from '../../components/algorithmList'
 import { CameraSelect } from '../../components/cameraChoise'
 import { Cameras } from '../../components/cameras/cameras'
-import { getAveilableAlgorithms, getSelectedCameras, postAlgorithnDependences } from '../../api/requests'
+import { getAveilableAlgorithms, postAlgorithnDependences } from '../../api/requests'
+import { getSelectedCameras } from '../../api/requestHomeAndOffice'
 
 export const Main = () =>{
     const [camerasSafety_Control_Ear_protection, setCamerasSafety_Control_Ear_protection] = useState([])
     const [camerasIdle_control, setCamerasIdle_control] = useState([])
     const [camerasMachine_Control, setCamerasMachine_Control] = useState([])
-    // console.log(window.location.host)
     const [stage, setStage] = useState('begin')
     const [selectType, setSelectType] = useState('')
     const [cookies, setCookie] = useCookies(['token'])
@@ -36,8 +36,7 @@ export const Main = () =>{
     })
     const continueHandler = () =>{
         let response = {
-            server_url: `http://${window.location.hostname}`
-            // server_url: `http://192.168.1.101`
+            server_url: window.location.hostname.includes('localhost') ? `http://192.168.1.101`: `http://${window.location.hostname}`
         }
         
         if (camerasSafety_Control_Ear_protection.filter(el=>el.isSelected).map(e=>e.ip).length > 0 ){
@@ -50,7 +49,7 @@ export const Main = () =>{
             response.idle_control = camerasIdle_control.filter(el=>el.isSelected).map(e=>e.ip)
         }
 
-        postAlgorithnDependences(window.location.hostname, cookies.token, response)
+        postAlgorithnDependences( window.location.hostname, cookies.token, response)
             .then((e) => {
                 if (e.data.message === "Camera Algorithm records created successfully"){
                     setShowAfterRegistration(e.data.message)
@@ -76,7 +75,7 @@ export const Main = () =>{
         if (stage === 'algorithm'){
            getSelectedCameras(window.location.hostname, cookies.token)
             .then(response => {
-                let buf = response.data.results.map((el, ind)=>{
+                let buf = response.data.map((el, ind)=>{
                 return{
                     id:ind + 1,
                     isSelected:false,

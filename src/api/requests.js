@@ -4,7 +4,6 @@ import {
     API_AUTH_I, 
     API_POSTALGORITHM_I, 
     API_POSTALGORITHM, 
-    API_CAMERASELECT,
     API_ALGORITHM_I,
     API_ALGORITHM,
     API_USERLIST,
@@ -52,18 +51,8 @@ export const postAlgorithnDependences = (hostname, cookies, response) => {
   })
   }
   else{
-    return  axios.post(`http://${window.location.hostname}${API_POSTALGORITHM}`,response )
+    return  axios.post(`http://${hostname}${API_POSTALGORITHM}`,response,{headers:cookies})
   }
-}
-
-export const getSelectedCameras = (hostname, cookies) => {
-  return  axios.get(`http://${hostname}${API_CAMERASELECT}`,{
-    // axios.get(`http://192.168.1.101${API_CAMERASELECT}`,{
-        headers:{
-            "Content-Type": "application/json",
-            'Authorization': cookies
-          },
-    })
 }
 
 export const getAveilableAlgorithms = (hostname, cookies) => {

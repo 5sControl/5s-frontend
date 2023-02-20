@@ -2,8 +2,7 @@
 // const url = "http://0.0.0.0:8080"
 
 export const url = "https://11e8-134-17-26-206.eu.ngrok.io"
-// const url = "http://192.168.1.101"
-// const url = `http://${window.location.hostname}`
+
 export const API_URL = `/api/safety_control/safety/action/`
 export const API_IMAGES = ``
 export const API_CAMERA = `:8008/find_cameras/`

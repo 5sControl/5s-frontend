@@ -1,6 +1,5 @@
 import { Fragment } from "react"
 
-import camera from '../assets/png/camera.png'
 import close from '../assets/svg/close.svg'
 
 const CameraChoise = ({selectType, onChangeHandler}) => {
@@ -11,7 +10,7 @@ const CameraChoise = ({selectType, onChangeHandler}) => {
             selectType.obj.map((el,ind) =>
                 <Fragment key={el.id}>
                     <div className={'select__cameras_item'}>
-                        <img src={camera} alt='Camera'/>
+                        <img src={`data:image/png;base64, ${localStorage.getItem(el.ip)}`} alt='Camera'/>
                         <div className='select__cameras_item_footer'>
                             <span>{el.ip}</span>
                             <input type='checkbox'
