@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Paginator } from "./Paginator";
 import { ReportListItem } from "./ReportListItem";
 import { CurrentReport } from "./currentReport";
-
+import { DataPicker } from "../dataPicker";
 export const Reports = ({data, paginator}) =>{
     const [fullImage, setFullImage] = useState(false)
     const [currentReport, setCurrentReport] = useState(false)
@@ -20,7 +20,7 @@ export const Reports = ({data, paginator}) =>{
         <div className='dashboard__container'>
               <div className='dashboard__choose'>
                 <div className='dashboard__tabs'>
-                  <span>Date</span>
+                  <DataPicker/>
                   <span>Status</span>
                   <span>Camera</span>
                   <span>Algorithm</span>

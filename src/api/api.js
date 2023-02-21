@@ -3,13 +3,16 @@
 
 export const url = "https://fe9e-134-17-26-206.eu.ngrok.io/"
 
+export const API_POSTALGORITHM = `api/cameras/create-camera/`
+export const API_POSTALGORITHM_I = `${url}api/cameras/create-camera/`
+
 export const API_URL = `/api/safety_control/safety/action/`
 export const API_IMAGES = ``
 export const API_CAMERA = `:8008/find_cameras/`
 export const API_USERLIST = `/api/staff_control/employees/admin/`
 export const API_REGISTRATION = `/register/`
 export const API_AUTH = `/auth/jwt/create/`
-export const API_POSTALGORITHM = `api/cameras/create-camera/`
+
 export const API_ALGORITHM = '/api/algorithms/available/'
 export const API_CAMERASELECT = '/api/staff_control/locations/camera/'
 
@@ -20,7 +23,7 @@ export const API_USERLIST_I = `${url}/api/staff_control/employees/admin/`
 export const API_REGISTRATION_I = `${url}/register/`
 export const API_AUTH_I = `${url}/auth/jwt/create/`
 export const API_ALGORITHM_I = `${url}/api/algorithms/available/`
-export const API_POSTALGORITHM_I = `${url}api/cameras/create-camera/`
+
 export const API_DASHBOARD = `${url}/api/machine_control/machine_actions/2023-02-17/`
 
 export const API_DASHBOARD_PAGE = (page) =>{
