@@ -34,7 +34,7 @@ export const Reports = ({data, paginator}) =>{
                 />} */}
                
                 <div className='dashboard__reports'>
-                  {data && data.results.map((el, ind)=>{
+                  {data && data.map((el, ind)=>{
                     return (
                       <ReportListItem 
                           key={ind}

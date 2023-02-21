@@ -25,10 +25,12 @@ function Dashboard() {
     }
   
   useEffect(() =>{
-    getDashboardDate(window.location.hostname, cookies.token, moment().format('2023-02-20'))
+    getDashboardDate(window.location.hostname, cookies.token, moment().format('YYYY-MM-DD'))
         .then(el => {
           console.log(el)
-            el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(0) : setData(el.data)
+            el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? 
+            setData(0) : 
+            setData(el.data)
           })
           .catch(error => setErrorCatch(error.message))
   },[])
@@ -41,7 +43,7 @@ function Dashboard() {
               !!data  &&  
               <>
               <h2>
-                <span className='dashboard__count'>{data.count}&nbsp;</span>
+                <span className='dashboard__count'>{data.length}&nbsp;</span>
                 <span className='dashboard__span'> reports generated today</span>
               </h2>
               <h3>Reports</h3>

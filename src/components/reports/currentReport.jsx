@@ -10,7 +10,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 export const CurrentReport = ({currentReport, setFullImage, actionReport}) => {
-    console.log(currentReport)
     return (
         <>
         <div className='dashboard__report'>
