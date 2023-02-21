@@ -13,8 +13,8 @@ export const Timeline = ({data, startDate, endDate}) => {
         if (data){
              let buf = [moment().format('YYYY-MM-DD HH:mm:ss')]
              data.forEach(el => {
-                 buf.push(moment(new Date(el.stop_tracking)).format('YYYY-MM-DD HH:mm:ss'))
-                 buf.push(moment(new Date(el.start_tracking)).format('YYYY-MM-DD HH:mm:ss'))
+                 buf.push(moment(new Date(el.stop_tracking)).add(3,'hours').format('YYYY-MM-DD HH:mm:ss'))
+                 buf.push(moment(new Date(el.start_tracking)).add(3,'hours').format('YYYY-MM-DD HH:mm:ss'))
              })
              buf.push(startDate)
              buf.reverse()
