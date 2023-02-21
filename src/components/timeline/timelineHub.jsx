@@ -29,14 +29,14 @@ export const TimelineHub = ({data, startDate, endDate}) => {
                             {
                                 algorithm.map((algorithm, id)=>{
                                     return(
-                                        <Fragment key={id}>
-                                        <Timeline 
-                                            data={data.filter(e => e.camera.name === el).filter(cam => cam.algorithm.name === algorithm)}
-                                            startDate={startDate}
-                                            endDate={endDate}
-                                            algorithm= {algorithm}
-                                        />
-                                        </Fragment>
+                                        <div className="timeline-hub__camera" key={id}>
+                                            <Timeline 
+                                                data={data.filter(e => e.camera.name === el).filter(cam => cam.algorithm.name === algorithm)}
+                                                startDate={startDate}
+                                                endDate={endDate}
+                                                algorithm= {algorithm}
+                                            />
+                                        </div>
                                     )
                                 })
                             }

@@ -89,4 +89,9 @@
       background-color: white;
       padding: 20px;
     }
+    &__camera{
+      display: flex;
+      flex-direction: column;
+      gap:20px;
+    }
   }
