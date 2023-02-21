@@ -8,8 +8,7 @@ import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import { Reports } from '../../components/reports/Reports';
 import { getDashboardDate } from '../../api/requestReport';
-import { DataPicker } from '../../components/dataPicker';
-import { Timeline } from '../../components/timeline/timeline';
+import { TimelineHub } from '../../components/timeline/timelineHub';
 
 function Dashboard() {
   const [data, setData] = useState(false)
@@ -24,16 +23,23 @@ function Dashboard() {
           })
           .catch(error => setErrorCatch(error.message))
     }
-  
-  useEffect(() =>{
+  const update = () => {
     getDashboardDate(window.location.hostname, cookies.token, moment().format('YYYY-MM-DD'))
-        .then(el => {
-          console.log(el)
-            el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? 
-            setData(0) : 
-            setData(el.data)
-          })
-          .catch(error => setErrorCatch(error.message))
+    .then(el => {
+      console.log(el)
+        el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? 
+        setData(0) : 
+        el.data.length !== data.length? setData(el.data) : setData(data)
+      })
+      .catch(error => setErrorCatch(error.message))
+  }
+
+  useEffect(() =>{
+    update()
+    const interval = setInterval(() =>{
+      update()
+    },30000)
+    return () => clearInterval(interval)
   },[])
 
   return (
@@ -43,11 +49,11 @@ function Dashboard() {
             {
               !!data  &&  
               <>
-                <Timeline 
-                data={data}
-                startDate = {moment().format('YYYY-MM-DD 00:00:00')}
-                endDate = {moment().add(+1, 'days').format('YYYY-MM-DD 00:00:00')}
-              />
+                <TimelineHub 
+                  data={data}
+                  startDate = {moment().format('YYYY-MM-DD 00:00:00')}
+                  endDate = {moment().add(+1, 'days').format('YYYY-MM-DD 00:00:00')}
+                />
               <h2>
                 <span className='dashboard__count'>{data.length}&nbsp;</span>
                 <span className='dashboard__span'> reports generated today</span>

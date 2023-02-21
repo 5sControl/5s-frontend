@@ -5,7 +5,6 @@ import './timeline.scss'
 const seconds = 86400
 
 export const Timeline = ({data, startDate, endDate}) => {
-    console.log(data)
 
     const [timeLine, setTimeLine] = useState([])
 
