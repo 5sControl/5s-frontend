@@ -28,7 +28,7 @@ export const Cameras = () => {
             })
             .catch((error)=>setError(error.message))
 
-        axios.get(`http://192.168.1.101/api/staff_control/locations/camera/`,{
+        axios.get(`http://192.168.1.101/api/cameras/`,{
                 headers: {
                 'Authorization': cookies.token
                 },
@@ -45,7 +45,7 @@ export const Cameras = () => {
         axios.get(`http://${window.location.hostname}:8008/find_cameras/`)
                 .then(response => {setCamerasList(response.data.results)})
                 .catch((error)=>setError(error.message))
-        axios.get(`http://${window.location.hostname}/api/staff_control/locations/camera/`,{
+        axios.get(`http://${window.location.hostname}/api/cameras/`,{
             headers: {
                 'Authorization': cookies.token
                 },
