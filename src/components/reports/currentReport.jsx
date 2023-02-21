@@ -56,12 +56,8 @@ export const CurrentReport = ({currentReport, setFullImage, actionReport}) => {
                    </div>
                    <div className='dashboard__report_item'>
                         <span>Algorithm</span>
-                        {(actionReport.includes('safety') || actionReport.includes('dashboard')) && 
-                        <span>Safety control:{currentReport.action}</span>}
-                        {actionReport.includes('idle') &&
-                        <span>Idle control</span>}
-                        {actionReport.includes('machine') &&
-                        <span>Machine control</span>}
+
+                        <span>{currentReport.algorithm}</span>
                    </div>
                    <div className='dashboard__report_item'>
                     <span>Status</span>
