@@ -39,19 +39,15 @@ function Dashboard() {
   return (
     <>
           <div className='dashboard'>
-            {
-                !!data  && 
-              <Timeline 
-                data={data}
-                startDate = {moment().format('YYYY-MM-DD 00:00:00')}
-                endDate = {moment().add(+1, 'days').format('YYYY-MM-DD 00:00:00')}
-              />
-            }
-            
             <h1>Dashboard</h1>
             {
               !!data  &&  
               <>
+                <Timeline 
+                data={data}
+                startDate = {moment().format('YYYY-MM-DD 00:00:00')}
+                endDate = {moment().add(+1, 'days').format('YYYY-MM-DD 00:00:00')}
+              />
               <h2>
                 <span className='dashboard__count'>{data.length}&nbsp;</span>
                 <span className='dashboard__span'> reports generated today</span>
