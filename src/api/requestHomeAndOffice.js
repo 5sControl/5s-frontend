@@ -51,7 +51,7 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
 
 export const patchCamera = (hostname, IPCamera, cameraName, cookies) => {
     if (hostname.includes('localhost')) {
-       return axios.patch('http://192.168.1.101/api/staff_control/locations/update_camera/',{
+       return axios.patch('http://192.168.1.101/api/cameras/update-camera/',{
             ip:IPCamera,
             name: cameraName
         },{
@@ -61,7 +61,7 @@ export const patchCamera = (hostname, IPCamera, cameraName, cookies) => {
         })
         }
         else{
-        return axios.patch(`http://${hostname}/api/staff_control/locations/update_camera/`,{
+        return axios.patch(`http://${hostname}/api/cameras/update-camera/`,{
             ip:IPCamera,
             name: cameraName
         },{
