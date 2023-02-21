@@ -4,7 +4,7 @@ import {AiOutlineRight } from "react-icons/ai";
 import { patchCamera, postCamera } from "../../../api/requestHomeAndOffice";
 import { getIsInternet } from "../../../api/getURL";
 import { API_IMAGES_I } from "../../../api/api";
-export const CamerasModal = ({setIsShowModal, cookies, camerasList}) => {
+export const CamerasModal = ({setIsShowModal, cookies, camerasList, setCamerasList}) => {
 
     console.log(camerasList);
     const [stage, setStage] = useState('selectCamera')
@@ -17,6 +17,7 @@ export const CamerasModal = ({setIsShowModal, cookies, camerasList}) => {
     const changeCameraName = () => {
         setIsShowModal(false)
         setStage('selectCamera') 
+        setCamerasList(IPCamera)
         patchCamera(window.location.hostname, IPCamera, cameraName)
             .then((res)=>console.log(res))
     }
@@ -102,7 +103,7 @@ export const CamerasModal = ({setIsShowModal, cookies, camerasList}) => {
                         />
                     <input type="text" value={cameraName} onChange={(e) => setCameraName(e.target.value)}/>
                     <div className='cameras__modal__login__footer'>
-                        <button className="cameras__modal__login__create" onClick={changeCameraName}>Save</button>
+                        <button className="cameras__modal__login__create" onClick={changeCameraName}>Done</button>
                     </div>
                 </div>   
             </>
