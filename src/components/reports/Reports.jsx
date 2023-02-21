@@ -11,7 +11,7 @@ export const Reports = ({data, paginator}) =>{
     const [currentPage, setCurrentPage] = useState(1)
     
     useEffect(()=>{
-        paginator(currentPage)
+        // paginator(currentPage)
     },[currentPage])
 
     return (
@@ -26,11 +26,11 @@ export const Reports = ({data, paginator}) =>{
                   <span>Algorithm</span>
                   <span>Sort: Newest</span>
                 </div>
-               {data && <Paginator 
+               {/* {data && <Paginator 
                     data={data}
                     setCurrentPage={e=>setCurrentPage(e)}
                     currentPage={currentPage}
-                />}
+                />} */}
                
                 <div className='dashboard__reports'>
                   {data && data.results.map((el, ind)=>{

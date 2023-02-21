@@ -8,9 +8,9 @@ import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import { Reports } from '../../components/reports/Reports';
 import { getDashboardDate } from '../../api/requestReport';
+import { DataPicker } from '../../components/dataPicker';
 
 function Dashboard() {
-
   const [data, setData] = useState(false)
   const [errorCatch, setErrorCatch] = useState(false)
   const [cookies, setCookie] = useCookies(['token']);
@@ -25,13 +25,18 @@ function Dashboard() {
     }
   
   useEffect(() =>{
-    paginator(1)
+    getDashboardDate(window.location.hostname, cookies.token, moment().format('2023-02-20'))
+        .then(el => {
+          console.log(el)
+            el.data.detail === 'Authentication credentials were not provided.' || el.data.detail === "Given token not valid for any token type" ? setData(0) : setData(el.data)
+          })
+          .catch(error => setErrorCatch(error.message))
   },[])
 
   return (
     <>
           <div className='dashboard'>
-            <h1>Dashboard</h1>
+            <h1>Dashboard <DataPicker/></h1>
             {
               !!data  &&  
               <>
@@ -42,7 +47,7 @@ function Dashboard() {
               <h3>Reports</h3>
               <Reports 
                 data={data}
-                paginator={(e) =>paginator(e)}
+                // paginator={(e) =>paginator(e)}
                 />
               </>
             }
