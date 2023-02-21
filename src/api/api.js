@@ -3,8 +3,8 @@
 
 export const url = "https://fe9e-134-17-26-206.eu.ngrok.io/"
 
-export const API_POSTALGORITHM = `api/cameras/create-camera/`
-export const API_POSTALGORITHM_I = `${url}api/cameras/create-camera/`
+export const API_POSTALGORITHM = `/api/algorithms/create_process/`
+export const API_POSTALGORITHM_I = `${url}/api/algorithms/create_process/`
 
 export const API_URL = `/api/safety_control/safety/action/`
 export const API_IMAGES = ``
