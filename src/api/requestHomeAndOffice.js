@@ -23,7 +23,7 @@ export const getSelectedCameras = (hostname, cookies) => {
 
 export const postCamera = (hostname, IPCamera, username, password, cookies) => {
     if (hostname.includes("localhost")) {
-       return  axios.post(`http://192.168.1.101/api/algorithms/create_process/ `,{
+       return  axios.post(`http://192.168.1.101/api/cameras/create-camera/`,{
                 ip: IPCamera,
                 username: username,
                 password: password,
@@ -35,7 +35,7 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
             },
         })
     }else{
-       return axios.post(`http://${hostname}/api/algorithms/create_process/ `,{
+       return axios.post(`http://${hostname}/api/cameras/create-camera/`,{
         ip: IPCamera,
         username: username,
         password: password,
