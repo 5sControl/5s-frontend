@@ -28,7 +28,6 @@ export const Timeline = ({data, startDate, endDate, algorithm}) => {
         <>
         {
         <section className="report-page_timeline">
-
             <div className="timeline">
                 <span className="timeline__text"> {algorithm}</span>
                 <div className="timeline__container">

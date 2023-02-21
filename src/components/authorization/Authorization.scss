@@ -1,72 +1,72 @@
-.authorization{
-    width: 100%;
-    height: 100%;
+.authorization {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #212121;
+  &__logo {
+    width: 160px;
+    height: 160px;
+    margin-top: 53px;
+  }
+  &__title {
+    font-weight: 600;
+    font-size: 24px;
+  }
+  &__container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    label {
+      margin-top: 40px;
+      margin-bottom: 6px;
+    }
+  }
+  &__input {
+    width: 480px;
+    height: 51px;
+    border: 1px solid #9e9e9e;
+    border-radius: 4px;
+    padding: 16px 13px;
     color: #212121;
-    &__logo{
-        width: 160px;
-        height: 160px;
-        margin-top: 53px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  &__button {
+    margin: 0 auto;
+    width: 260px;
+    padding: 6px;
+    margin-top: 59px;
+    text-align: center;
+    background: #fe6100;
+    border-radius: 4px;
+    color: #ffffff;
+    border: none;
+    font-size: 14px;
+    line-height: 24px;
+    cursor: pointer;
+    transition: all 0.5s;
+    &:hover {
+      background: #833505;
     }
-    &__title{
-        font-weight: 600;
-        font-size: 24px;
+  }
+  .disableButton {
+    background: grey;
+    pointer-events: none;
+    cursor: default;
+  }
+  &__error {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 24px;
+    color: #db2820;
+    &_response {
+      margin: 0 auto;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: #db2820;
     }
-    &__container{
-        display: flex;
-        flex-direction: column;
-        label{
-            margin-top: 40px;
-            margin-bottom: 6px;
-        }
-    }
-    &__input{
-        width: 480px;
-        height: 51px;
-        border: 1px solid #9E9E9E;
-        border-radius: 4px;
-        padding: 16px 13px;
-        color: #212121;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 24px;
-    }
-    &__button{
-        margin: 0 auto;
-        width: 260px;
-        padding: 6px;
-        margin-top: 59px;
-        text-align: center;
-        background: #FE6100;
-        border-radius: 4px;
-        color:#FFFFFF;
-        border: none;
-        font-size: 14px;
-        line-height: 24px;
-        cursor: pointer;
-        transition: all 0.5s;
-        &:hover{
-            background: #833505; 
-        }
-    }
-    .disableButton{
-        background: grey; 
-        pointer-events: none;
-        cursor: default;
-    }
-    &__error{
-        font-weight: 400;
-        font-size: 12px;
-        line-height: 24px;
-        color: #DB2820;
-        &_response{
-            margin: 0 auto;
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 24px;
-            color: #DB2820;
-        }
-    }
+  }
 }

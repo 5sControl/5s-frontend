@@ -1,36 +1,34 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import './Algorithm.scss'
-import {  useEffect, useState } from 'react'
+import "./Algorithm.scss";
+import { useEffect, useState } from "react";
 
-import { useCookies } from 'react-cookie'
-import { AlgorithmList } from '../../components/algorithmList';
-import { getAveilableAlgorithms } from '../../api/requests';
+import { useCookies } from "react-cookie";
+import { AlgorithmList } from "../../components/algorithmList";
+import { getAveilableAlgorithms } from "../../api/requests";
 
-export const Algorithm = () =>{
+export const Algorithm = () => {
+  const [cookies, setCookie] = useCookies(["token"]);
 
-    const [cookies, setCookie] = useCookies(['token'])
+  const [algorithmList, setAlgorithmList] = useState({});
 
-    const [algorithmList, setAlgorithmList] = useState({})
+  useEffect(() => {
+    getAveilableAlgorithms(window.location.hostname, cookies.token).then(
+      (res) => {
+        setAlgorithmList(res.data);
+        console.log(res.data);
+      }
+    );
+  }, []);
 
-    useEffect(() => {
-     
-        getAveilableAlgorithms(window.location.hostname, cookies.token)
-              .then(res => {
-                setAlgorithmList(res.data)
-                console.log(res.data)
-            })
-
-    },[])
-    
-    return (
-       <div className='algorithm'>
-       <h1 className='algorithm__title'>Algorithms</h1>
-       <AlgorithmList 
-            algorithmList={algorithmList} 
-            algorithmPage={'algorithm'}
-            algorithmCount = {3}
-        />
-       </div>
-    )
-}
+  return (
+    <div className="algorithm">
+      <h1 className="algorithm__title">Algorithms</h1>
+      <AlgorithmList
+        algorithmList={algorithmList}
+        algorithmPage={"algorithm"}
+        algorithmCount={3}
+      />
+    </div>
+  );
+};
