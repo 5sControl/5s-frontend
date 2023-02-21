@@ -14,7 +14,7 @@ export const getDashboardDate = (hostname, cookies, date) => {
       })
     }
     else{
-    return  axios.get(`http://${hostname + URL_DASHBOARD + date}/}`,{
+    return  axios.get(`http://${hostname + URL_DASHBOARD + date}/`,{
             headers: {
               'Authorization': cookies
             },
