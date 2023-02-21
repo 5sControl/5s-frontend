@@ -13,7 +13,7 @@ export const ReportListItem = ({item, setCurrentReport, currentReport}) =>{
                 
                 <div>{`# ${item.id}`}</div>
                 <div><Camera/> {item.camera}</div>
-                   <div><Algorithm/>{item.algorithm}</div>    
+                   <div><Algorithm/>{item.algorithm.name}</div>    
             </div>
         </>
     )

@@ -57,7 +57,7 @@ export const CurrentReport = ({currentReport, setFullImage, actionReport}) => {
                    <div className='dashboard__report_item'>
                         <span>Algorithm</span>
 
-                        <span>{currentReport.algorithm}</span>
+                        <span>{currentReport.algorithm.name}</span>
                    </div>
                    <div className='dashboard__report_item'>
                     <span>Status</span>
