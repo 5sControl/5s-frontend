@@ -1,5 +1,5 @@
 
-import {  API_IMAGES,API_IMAGES_I } from '../../api/api.js';
+import {  API_IMAGES_I } from '../../api/api.js';
 import { getIsInternet } from '../../api/getURL';
 import {Navigation, Pagination} from 'swiper';
 import {Swiper, SwiperSlide} from 'swiper/react';
