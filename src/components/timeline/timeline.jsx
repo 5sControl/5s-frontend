@@ -5,6 +5,7 @@ import './timeline.scss'
 const seconds = 86400
 
 export const Timeline = ({data, startDate, endDate}) => {
+    console.log(data)
 
     const [timeLine, setTimeLine] = useState([])
 
@@ -27,12 +28,7 @@ export const Timeline = ({data, startDate, endDate}) => {
         <>
         {
         <section className="report-page_timeline">
-            <div className="report-page_timeline_header">
-                <ul>
-                    <li className="green-li"><span>Supervised</span></li>
-                    <li className="red-li"><span>Unsupervised</span></li>
-                </ul>
-            </div>
+
             <div className="timeline">
                 <span className="timeline__text"> Camera 1</span>
                 <div className="timeline__container">
