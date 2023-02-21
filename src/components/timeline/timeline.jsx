@@ -4,7 +4,7 @@ import moment from "moment"
 import './timeline.scss'
 const seconds = 86400
 
-export const Timeline = ({data, startDate, endDate}) => {
+export const Timeline = ({data, startDate, endDate, algorithm}) => {
     console.log(data)
 
     const [timeLine, setTimeLine] = useState([])
@@ -30,7 +30,7 @@ export const Timeline = ({data, startDate, endDate}) => {
         <section className="report-page_timeline">
 
             <div className="timeline">
-                <span className="timeline__text"> Camera 1</span>
+                <span className="timeline__text"> {algorithm}</span>
                 <div className="timeline__container">
                     {timeLine.map((el, ind) =>
                         <span 

@@ -80,5 +80,13 @@
       display: flex;
       justify-content: space-between;
     }
-
+  }
+  .timeline-hub{
+    h1{
+      margin-bottom: 20px;
+    }
+    &__container{
+      background-color: white;
+      padding: 20px;
+    }
   }
