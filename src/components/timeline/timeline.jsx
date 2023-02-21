@@ -4,18 +4,19 @@ import moment from "moment"
 import './timeline.scss'
 const seconds = 86400
 
-export const Timeline = ({data}) => {
-    
+export const Timeline = ({data, startDate, endDate}) => {
+    console.log(data)
+
     const [timeLine, setTimeLine] = useState([])
+
     useEffect(()=>{
-        if (data.results){
+        if (data){
              let buf = [moment().format('YYYY-MM-DD HH:mm:ss')]
-             data.results.forEach(el => {
+             data.forEach(el => {
                  buf.push(moment(new Date(el.stop_tracking)).format('YYYY-MM-DD HH:mm:ss'))
                  buf.push(moment(new Date(el.start_tracking)).format('YYYY-MM-DD HH:mm:ss'))
              })
-
-             buf.push(moment().add(-1, 'days').format('YYYY-MM-DD HH:mm:ss'))
+             buf.push(startDate)
              buf.reverse()
             //  buf = buf.filter(el => el.includes(moment().format("YYYY-MM-DD")))
              buf = buf.map((el, index,array) => index < array.length - 1 ? moment(array[index + 1]).diff(moment(el), 'seconds') : 0)
@@ -26,7 +27,6 @@ export const Timeline = ({data}) => {
     return (
         <>
         {
-        timeLine.length > 0 &&  
         <section className="report-page_timeline">
             <div className="report-page_timeline_header">
                 <ul>
@@ -48,8 +48,8 @@ export const Timeline = ({data}) => {
                 </div> 
             </div>
             <div className="timeline__line">
-                <span>{moment().add(-1, 'days').format('YYYY-MM-DD HH:mm:ss')}</span>
-                <span>{moment().format('YYYY-MM-DD HH:mm:ss')}</span>
+                <span>{startDate}</span>
+                <span>{endDate}</span>
             </div>
         </section>
         } 

@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { Reports } from '../../components/reports/Reports';
 import { getDashboardDate } from '../../api/requestReport';
 import { DataPicker } from '../../components/dataPicker';
+import { Timeline } from '../../components/timeline/timeline';
 
 function Dashboard() {
   const [data, setData] = useState(false)
@@ -38,6 +39,15 @@ function Dashboard() {
   return (
     <>
           <div className='dashboard'>
+            {
+                !!data  && 
+              <Timeline 
+                data={data}
+                startDate = {moment().format('YYYY-MM-DD 00:00:00')}
+                endDate = {moment().add(+1, 'days').format('YYYY-MM-DD 00:00:00')}
+              />
+            }
+            
             <h1>Dashboard</h1>
             {
               !!data  &&  

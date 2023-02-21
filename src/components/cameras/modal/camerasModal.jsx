@@ -26,7 +26,7 @@ export const CamerasModal = ({setIsShowModal, cookies, camerasList, setCamerasLi
         postCamera(window.location.hostname , IPCamera, username, password, cookies.token )
            .then((e)=>
                 {   
-                    if (e.data.message.includes('failed')){
+                    if (e.data.message && e.data.message.includes('failed')){
                         console.log(e.data.message)
                         setConnectMessage(e.data.message)
                     }else{
