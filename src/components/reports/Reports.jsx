@@ -5,6 +5,7 @@ import { Paginator } from "./Paginator";
 import { ReportListItem } from "./ReportListItem";
 import { CurrentReport } from "./currentReport";
 import { DataPicker } from "../dataPicker";
+
 export const Reports = ({data, paginator}) =>{
     const [fullImage, setFullImage] = useState(false)
     const [currentReport, setCurrentReport] = useState(false)
