@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { AlgorithmList } from "../../components/algorithmList";
 import { getAveilableAlgorithms } from "../../api/requests";
+import axios from "axios";
 
 export const Algorithm = () => {
   const [cookies, setCookie] = useCookies(["token"]);
@@ -19,6 +20,13 @@ export const Algorithm = () => {
         console.log(res.data);
       }
     );
+    axios.get("http://192.168.1.101/api/algorithms/get-process/", {
+      headers: {
+        Authorization: cookies.token,
+      },
+    }).then((e) => {
+      console.log(e)
+    })
   }, []);
 
   return (

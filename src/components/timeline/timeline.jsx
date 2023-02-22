@@ -17,7 +17,7 @@ export const Timeline = ({data, startDate, endDate, algorithm, startTime, endTim
 
     useEffect(()=>{
         if (data){
-             let buf = [{id:0,time:moment().format(`YYYY-MM-DD ${endTime}`)}]
+             let buf = [{id:0,time:moment().format(`YYYY-MM-DD ${endTime}`)}, {id:0,time:moment().format(`YYYY-MM-DD HH:mm:ss`)}]
              data.forEach(el => {
                  buf.push({id:el.id, time:moment(new Date(el.stop_tracking)).add(3,'hours').format('YYYY-MM-DD HH:mm:ss')})
                  buf.push({id:el.id, time:moment(new Date(el.start_tracking)).add(3,'hours').format('YYYY-MM-DD HH:mm:ss')})

@@ -73,10 +73,10 @@ useEffect(() => {
 
   useEffect(() => {
     update();
-    // const interval = setInterval(() => {
-    //   update();
-    // }, 30000);
-    // return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      update();
+    }, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   return (

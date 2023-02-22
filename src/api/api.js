@@ -1,7 +1,7 @@
 
 // const url = "http://0.0.0.0:8080"
 
-export const url = "https://fe9e-134-17-26-206.eu.ngrok.io/"
+export const url = "https://9a0a-134-17-26-206.eu.ngrok.io/"
 
 export const API_POSTALGORITHM = `/api/algorithms/create-process/`
 export const API_POSTALGORITHM_I = `${url}/api/algorithms/create-process/`
