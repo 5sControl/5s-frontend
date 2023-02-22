@@ -13,7 +13,7 @@ import { TimelineHub } from "../../components/timeline/timelineHub";
 function Dashboard() {
   const [data, setData] = useState(false);
   const [errorCatch, setErrorCatch] = useState(false);
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies, setCookie, deleteCookie] = useCookies(["token"]);
 
   const paginator = (page) => {
     getDashboardDate(
@@ -34,7 +34,9 @@ function Dashboard() {
     getDashboardDate(
       window.location.hostname,
       cookies.token,
-      moment().format("YYYY-MM-DD")
+      moment().add(-1, "day").format("YYYY-MM-DD"),
+      "00:00:00",
+      "23:59:59"
     )
       .then((el) => {
         console.log(el);
@@ -82,7 +84,7 @@ function Dashboard() {
         {data === 0 && (
           <h2 className="dashboard__noauth">
             Log in to view the reports
-            <Link to="/company"> Log In</Link>
+            <Link to="/company" onClick={()=>deleteCookie('token')}> Log In</Link>
           </h2>
         )}
       </div>

@@ -9,6 +9,7 @@ export const API_POSTALGORITHM_I = `${url}/api/algorithms/create-process/`
 export const API_GETALGORITHMS = `/api/algorithms/get-process/`
 export const API_GETALGORITHMS_I = `${url}/api/algorithms/get-process/`
 
+export const API_ALLREPORTS = `"/api/reports/all_reports/"`
 export const API_URL = `/api/safety_control/safety/action/`
 export const API_IMAGES = ``
 export const API_CAMERA = `:8008/find_cameras/`

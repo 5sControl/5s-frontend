@@ -10,7 +10,6 @@ export const CamerasModal = ({
   camerasList,
   setCamerasList,
 }) => {
-  console.log(camerasList);
   const [stage, setStage] = useState("selectCamera");
   const [IPCamera, setIPCamera] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +21,7 @@ export const CamerasModal = ({
     setIsShowModal(false);
     setStage("selectCamera");
     setCamerasList(IPCamera);
-    patchCamera(window.location.hostname, IPCamera, cameraName).then((res) =>
+    patchCamera(window.location.hostname, IPCamera, cameraName, cookies.token).then((res) =>
       console.log(res)
     );
   };
