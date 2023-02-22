@@ -76,7 +76,6 @@ function Dashboard() {
         <div className="dashboard__title">
         <h1>Dashboard</h1>
         <div>
-            start time
             <select value={startTime} onChange={(e) => setStartTime(e.target.value)}>
               <option value="7:00:00">7:00</option>
               <option value="8:00:00">8:00</option>
@@ -107,7 +106,6 @@ function Dashboard() {
               <option value="18:00:00">18:00</option>
               <option value="19:00:00">19:00</option>
             </select>
-
               <button onClick={update}>Set new Time</button>
           </div>
         </div>

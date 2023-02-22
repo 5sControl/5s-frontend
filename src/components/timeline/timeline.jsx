@@ -30,7 +30,7 @@ export const Timeline = ({data, startDate, endDate, algorithm, startTime, endTim
              setTimeLine(buf)
         }
    },[data])
-   
+
     return (
         <>
         {
@@ -44,6 +44,7 @@ export const Timeline = ({data, startDate, endDate, algorithm, startTime, endTim
                             style={{width:`${el/seconds*100}%`}}
                             className={ind % 2 ? 'timeline_green' : 'timeline_red'}
                             title ={`Duration: ${el} seconds`}
+                            onClick = {() => console.log(ind)}
                         >     
                         </span>)}
                 </div> 
