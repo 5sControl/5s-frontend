@@ -1,4 +1,5 @@
 import { Timeline } from "./timeline";
+import { calculateTimeCenter } from "../../functions/calculateTimeCenter";
 import "./timeline";
 export const TimelineHub = ({
   data,
@@ -15,8 +16,6 @@ export const TimelineHub = ({
   const cameras = data.reduce((prev, curr) => {
     return [...new Set([...prev, curr.camera.name])];
   }, []);
-
-  console.log(algorithm, cameras);
 
   return (
     <div className="timeline-hub">
@@ -51,6 +50,12 @@ export const TimelineHub = ({
                 </div>
               );
             })}
+              <div className="timeline__line">
+                <span>{startTime.split(':').slice(0,2).join(':')}</span>
+                {calculateTimeCenter(startTime,endDate)}
+                {/* <span>{endTime.split(':').slice(0,2).join(':')}</span> */}
+                <span>{endTime.split(':').slice(0,2).join(':')}</span>
+              </div>
           </div>
         );
       })}
