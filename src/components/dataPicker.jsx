@@ -18,7 +18,6 @@ export const DataPicker = () => {
   }, [startDate, endDate]);
 
   return (
-    <>
         <DatePicker
           selected={startDate}
           onChange={onChange}
@@ -31,6 +30,5 @@ export const DataPicker = () => {
           inline
           className="datepicker"
         />
-    </>
   );
 };

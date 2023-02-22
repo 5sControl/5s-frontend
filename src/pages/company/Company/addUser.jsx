@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react'
 
-import { registerNewUser } from '../../../../api/requests'
+import { registerNewUser } from '../../../api/requests'
 
 import './addUser.scss'
 export const AddUser = ({close}) =>{

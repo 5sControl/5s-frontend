@@ -26,7 +26,7 @@ export const Authorization = () => {
   //       setCorrectEmail(true)
   //     }
   //   }
-
+  
   useEffect(() => {
     if (password.length > 4 && password.length < 20) {
       setCorrectPassword(true);

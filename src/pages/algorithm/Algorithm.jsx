@@ -21,14 +21,15 @@ export const Algorithm = () => {
       }
     );
 
-    axios.get("http://192.168.1.101/api/algorithms/get-process/", {
-      headers: {
-        Authorization: cookies.token,
-      },
-    }).then((e) => {
-      console.log(e)
-    })
-    
+    axios
+      .get("http://192.168.1.101/api/algorithms/get-process/", {
+        headers: {
+          Authorization: cookies.token,
+        },
+      })
+      .then((e) => {
+        console.log(e);
+      });
   }, []);
 
   return (

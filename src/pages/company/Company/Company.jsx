@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from 'react'
 import './Company.scss'
 
 import { useCookies } from "react-cookie"
-import { AddUser } from './components/addUser'
+import { AddUser } from './addUser'
 import { getUserList } from '../../../api/requests'
 
 export const CompanyComponent = () =>{
