@@ -16,7 +16,7 @@ function Dashboard() {
   const [startTime, setStartTime] = useState("7:00:00");
   const [endTime, setEndTime] = useState("19:00:00");
   const [cookies, setCookie, deleteCookie] = useCookies(["token"]);
-
+  const [currentReportMain, setCurrentReportMain] = useState(false);
   useEffect(() => {
     let bufStart = new Date()
     let bufEnd = new Date()
@@ -43,6 +43,7 @@ function Dashboard() {
   };
 
   const update = () => {
+
     getDashboardDate(
       window.location.hostname,
       cookies.token,
@@ -61,6 +62,10 @@ function Dashboard() {
       })
       .catch((error) => setErrorCatch(error.message));
   };
+
+useEffect(() => {
+  console.log(currentReportMain)
+},[currentReportMain])
 
   useEffect(() => {
     update();
@@ -110,7 +115,6 @@ function Dashboard() {
           </div>
         </div>
        
-        
         {!!data && (
           <>
             <TimelineHub
@@ -119,6 +123,7 @@ function Dashboard() {
               endDate={moment().add(+1, "days").format("YYYY-MM-DD 00:00:00")}
               startTime={startTime}
               endTime={endTime}
+              setCurrentReportMain = {(e) => setCurrentReportMain(e)}
             />
             <h2>
               <span className="dashboard__count">{data.length}&nbsp;</span>
@@ -127,6 +132,7 @@ function Dashboard() {
             <h3>Reports</h3>
             <Reports
               data={data}
+              currentReportMain = {currentReportMain}
               // paginator={(e) =>paginator(e)}
             />
           </>

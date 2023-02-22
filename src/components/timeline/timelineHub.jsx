@@ -1,6 +1,6 @@
 import { Timeline } from "./timeline";
 import "./timeline";
-export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) => {
+export const TimelineHub = ({ data, startDate, endDate, startTime, endTime, setCurrentReportMain }) => {
   const algorithm = data.reduce((prev, curr) => {
     return [...new Set([...prev, curr.algorithm.name])];
   }, []);
@@ -39,6 +39,7 @@ export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) =>
                     algorithm={algorithm}
                     startTime = {startTime}
                     endTime = {endTime}
+                    setCurrentReportMain = {(e)=>setCurrentReportMain(e)}
                   />
                 </div>
               );

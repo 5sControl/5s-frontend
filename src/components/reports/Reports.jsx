@@ -7,14 +7,16 @@ import { ReportListItem } from "./ReportListItem";
 import { CurrentReport } from "./currentReport";
 import { DataPicker } from "../dataPicker";
 
-export const Reports = ({ data, paginator }) => {
+export const Reports = ({ data, paginator, currentReportMain }) => {
   const [fullImage, setFullImage] = useState(false);
   const [currentReport, setCurrentReport] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    // paginator(currentPage)
-  }, [currentPage]);
+    if (data && currentReportMain){
+      setCurrentReport(data.filter(data => data.id === currentReportMain)[0])
+    }
+    
+  },[currentReportMain])
 
   return (
     <>
