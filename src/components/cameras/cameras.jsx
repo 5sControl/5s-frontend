@@ -90,7 +90,7 @@ export const Cameras = () => {
           setIsShowModal={(e) => setIsShowModal(e)}
           cookies={cookies}
           camerasList={camerasList}
-          setCamerasList={(e) => setCamerasList([...camerasList, e])}
+          setCreatedCameras={(e) => setCreatedCameras([...camerasList, e])}
         />
       )}
     </section>
