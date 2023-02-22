@@ -31,6 +31,7 @@ export const Timeline = ({data, startDate, endDate, algorithm, startTime, endTim
                 time:moment(array[index + 1].time).diff(moment(el.time), 'seconds') }
              : 0)
              buf.pop()
+             buf.pop()
              setTimeLine(buf)
         }
    },[data])
@@ -42,7 +43,6 @@ export const Timeline = ({data, startDate, endDate, algorithm, startTime, endTim
         <section className="report-page_timeline">
             <div className="timeline">
                 <span className="timeline__text"> {algorithm}</span>
-              
                     <div className="timeline__container">
                     {timeLine.map((el, ind) =>
                         <span 
@@ -61,7 +61,6 @@ export const Timeline = ({data, startDate, endDate, algorithm, startTime, endTim
             </div>
         </section>
         } 
-       
         </>
     )
 }
