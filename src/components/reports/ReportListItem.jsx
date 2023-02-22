@@ -26,7 +26,7 @@ export const ReportListItem = ({ item, setCurrentReport, currentReport }) => {
         </div>
         <div>
           <Algorithm />
-          {item.algorithm.name}
+           {item.algorithm.name}
         </div>
       </div>
     </>

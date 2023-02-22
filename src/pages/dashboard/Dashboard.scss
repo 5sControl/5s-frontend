@@ -4,9 +4,19 @@
   padding: 60px 60px 0 60px;
   color: #212121;
   overflow: auto;
+  &__datapicker{
+    position: fixed;
+    top:100px;
+    right: 20px;
+  }
   &__title{
     display: flex;
     justify-content: space-between;
+    &__filter{
+      display: flex;
+      gap:10px;
+    
+    }
     &_button{
       background: #E0E0E0;
       padding: 4px 12px;

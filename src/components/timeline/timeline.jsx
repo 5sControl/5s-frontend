@@ -35,7 +35,7 @@ export const Timeline = ({data, startDate, endDate, algorithm, startTime, endTim
              setTimeLine(buf)
         }
    },[data])
-   console.log(timeLine)
+
     return (
         <>
         {  

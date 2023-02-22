@@ -10,6 +10,7 @@ import { Reports } from "../../components/reports/Reports";
 import { getDashboardDate } from "../../api/requestReport";
 import { TimelineHub } from "../../components/timeline/timelineHub";
 import { SelectTimeDiapason } from "../../components/selectTimeDiapason";
+import { DataPicker } from "../../components/dataPicker";
 
 function Dashboard() {
   const [data, setData] = useState(false);
@@ -19,6 +20,7 @@ function Dashboard() {
   const [cookies, setCookie, deleteCookie] = useCookies(["token"]);
   const [currentReportMain, setCurrentReportMain] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
+  const [visibleModalDate, setVisibleModalDate] = useState(false);
   useEffect(() => {
     let bufStart = new Date()
     let bufEnd = new Date()
@@ -82,12 +84,27 @@ useEffect(() => {
       <div className="dashboard">
         <div className="dashboard__title">
         <h1>Dashboard</h1>
-        <button 
-            onClick={()=>setVisibleModal(!visibleModal)}
-            className="dashboard__title_button"
+        <div className="dashboard__title__filter">
+          <button 
+              onClick={()=>setVisibleModal(!visibleModal)}
+              className="dashboard__title_button"
           >
-              {`${startTime.split(':').slice(0,2).join(':')} - ${endTime.split(':').slice(0,2).join(':')}`}
-        </button>
+            {`${startTime.split(':').slice(0,2).join(':')} - ${endTime.split(':').slice(0,2).join(':')}`}
+          </button>
+          <button 
+              onClick={()=>setVisibleModalDate(!visibleModalDate)}
+              className="dashboard__title_button"
+          >
+            {`${moment().format("YYYY-MM-DD")}`}
+          </button>
+        </div>
+        
+        {visibleModalDate && 
+        <div className="dashboard__datapicker">
+          <DataPicker/>
+        </div>
+        }
+
         {visibleModal && 
           <SelectTimeDiapason
             startTime={startTime}

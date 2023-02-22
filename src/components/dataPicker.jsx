@@ -12,23 +12,13 @@ export const DataPicker = () => {
     setEndDate(end);
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-
   useEffect(() => {
     console.log(startDate);
     console.log(endDate);
   }, [startDate, endDate]);
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    setIsOpen(!isOpen);
-  };
   return (
     <>
-      <button className="example-custom-input" onClick={handleClick}>
-        Select Date
-      </button>
-      {isOpen && (
         <DatePicker
           selected={startDate}
           onChange={onChange}
@@ -39,8 +29,8 @@ export const DataPicker = () => {
           selectsDisabledDaysInRange
           maxDate={new Date()}
           inline
+          className="datepicker"
         />
-      )}
     </>
   );
 };
