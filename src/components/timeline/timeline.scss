@@ -3,6 +3,7 @@
   align-items: center;
   height: 30px;
   width: 100%;
+  margin: 7px 0;
   &__description {
     width: 100%;
     ul {
@@ -64,6 +65,7 @@
     height: 30px;
     background-color: rgb(156, 154, 154);
     display: flex;
+
   }
   &__text {
     width: 120px;
