@@ -13,6 +13,8 @@ import { TimelineHub } from "../../components/timeline/timelineHub";
 function Dashboard() {
   const [data, setData] = useState(false);
   const [errorCatch, setErrorCatch] = useState(false);
+  const [startTime, setStartTime] = useState("00:00:00");
+  const [endTime, setEndTime] = useState("23:59:59");
   const [cookies, setCookie, deleteCookie] = useCookies(["token"]);
 
   const paginator = (page) => {
@@ -30,13 +32,14 @@ function Dashboard() {
       })
       .catch((error) => setErrorCatch(error.message));
   };
+
   const update = () => {
     getDashboardDate(
       window.location.hostname,
       cookies.token,
       moment().format("YYYY-MM-DD"),
-      "00:00:00",
-      "23:59:59"
+      startTime,
+      endTime
     )
       .then((el) => {
         console.log(el);
