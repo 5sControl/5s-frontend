@@ -23,7 +23,7 @@ export const Reports = ({ data, paginator, currentReportMain }) => {
       <div className="dashboard__container">
         <div className="dashboard__choose">
           <div className="dashboard__tabs">
-            <DataPicker />
+            {/* <DataPicker /> */}
             <span>Status</span>
             <span>Camera</span>
             <span>Algorithm</span>

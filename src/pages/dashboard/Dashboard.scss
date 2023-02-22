@@ -7,6 +7,62 @@
   &__title{
     display: flex;
     justify-content: space-between;
+    &_button{
+      background: #E0E0E0;
+      padding: 4px 12px;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.5s;
+      &:hover{
+        background: #f3e0e0;
+      }
+    }
+  }
+  &__time{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 290px;
+    width: 290px;
+    position: fixed;
+    top:100px;
+    right: 70px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    z-index: 10;
+    box-shadow: 0px 4px 8px rgba(73, 72, 55, 0.5);
+    border-radius: 4px;
+    &_select{
+      width: 100%;
+      margin: 10px 0 50px 0;
+      border: 1px solid #9E9E9E;
+      border-radius: 4px;
+      padding: 10px 13px;
+      color: #212121 !important;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+    }
+    &_footer{
+      display: flex;
+      justify-content: flex-end;
+      &_cancel{
+        padding: 4px 10px;
+        background: #FFFFFF;
+        color: #FE6100;
+        border: none;
+        cursor: pointer;
+    }
+      &_create{
+          padding: 4px 10px;
+          background:  #FE6100;
+          color: #FFFFFF;
+          border: none;
+          cursor: pointer;
+          border-radius: 4px;
+      }
+    }
   }
   &__noauth{
     display: flex;
