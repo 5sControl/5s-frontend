@@ -190,7 +190,7 @@ export const Main = () => {
         <div className={stage !== "begin" ? "visible" : "novisible"}>
           {stage === "cameras" && (
             <button
-              className={algorithmCount > 5 ? "noclick" : ""}
+              // className={algorithmCount > 5 ? "noclick" : ""}
               onClick={() => setStage("algorithm")}
             >
               Continue
@@ -198,7 +198,7 @@ export const Main = () => {
           )}
           {stage === "algorithm" && (
             <button
-              className={algorithmCount > 5 ? "noclick" : ""}
+              // className={algorithmCount > 5 ? "noclick" : ""}
               onClick={continueHandler}
             >
               Continue

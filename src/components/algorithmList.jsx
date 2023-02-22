@@ -45,7 +45,7 @@ export const AlgorithmList = ({
         </>
       )}
 
-      <h2>{algorithmCount} / 5 algorithms used </h2>
+      <h2>{algorithmCount} algorithms used </h2>
       <div
         className={
           algorithmList.safety_control_ear_protection

@@ -20,6 +20,7 @@ export const Algorithm = () => {
         console.log(res.data);
       }
     );
+
     axios.get("http://192.168.1.101/api/algorithms/get-process/", {
       headers: {
         Authorization: cookies.token,
@@ -27,6 +28,7 @@ export const Algorithm = () => {
     }).then((e) => {
       console.log(e)
     })
+    
   }, []);
 
   return (
