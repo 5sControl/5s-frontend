@@ -15,9 +15,9 @@ export const ReportListItem = ({ item, setCurrentReport, currentReport }) => {
               : "dashboard__reports_item_title"
           }
         >
-          {moment(new Date(item.start_tracking)).format("YYYY-MM-DD")} |{" "}
-          {moment(new Date(item.start_tracking)).format("HH:mm:ss")} -{" "}
-          {moment(new Date(item.stop_tracking)).format("HH:mm:ss")}
+          {moment(new Date(item.start_tracking)).add(3,'hours').format("YYYY-MM-DD")} |{" "}
+          {moment(new Date(item.start_tracking)).add(3,'hours').format("HH:mm:ss")} -{" "}
+          {moment(new Date(item.stop_tracking)).add(3,'hours').format("HH:mm:ss")}
         </div>
 
         <div>{`# ${item.id}`}</div>

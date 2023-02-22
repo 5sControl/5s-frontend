@@ -56,12 +56,12 @@ export const CurrentReport = ({
         <div className="dashboard__report_item">
           <span>Date & Time</span>
           <span>
-            {moment(new Date(currentReport.start_tracking)).format(
+            {moment(new Date(currentReport.start_tracking)).add(3,'hours').format(
               "YYYY-MM-DD"
             )}{" "}
             |{" "}
-            {moment(new Date(currentReport.start_tracking)).format("HH:mm:ss")}{" "}
-            - {moment(new Date(currentReport.stop_tracking)).format("HH:mm:ss")}
+            {moment(new Date(currentReport.start_tracking)).add(3,'hours').format("HH:mm:ss")}{" "}
+            - {moment(new Date(currentReport.stop_tracking)).add(3,'hours').format("HH:mm:ss")}
           </span>
         </div>
         <div className="dashboard__report_item">
