@@ -34,14 +34,16 @@ export const Timeline = ({data, startDate, endDate, algorithm, startTime, endTim
              setTimeLine(buf)
         }
    },[data])
-
+   console.log(timeLine)
     return (
         <>
-        {
+        {  
+        timeLine.length > 1 &&
         <section className="report-page_timeline">
             <div className="timeline">
                 <span className="timeline__text"> {algorithm}</span>
-                <div className="timeline__container">
+              
+                    <div className="timeline__container">
                     {timeLine.map((el, ind) =>
                         <span 
                             key={ind}
