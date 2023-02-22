@@ -34,7 +34,7 @@ function Dashboard() {
     getDashboardDate(
       window.location.hostname,
       cookies.token,
-      moment().add(-1, "day").format("YYYY-MM-DD"),
+      moment().format("YYYY-MM-DD"),
       "00:00:00",
       "23:59:59"
     )
