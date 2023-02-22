@@ -15,6 +15,7 @@ import {
   postAlgorithnDependences,
 } from "../../api/requests";
 import { getSelectedCameras } from "../../api/requestHomeAndOffice";
+import axios from "axios";
 
 export const Main = () => {
   const [
@@ -135,6 +136,13 @@ export const Main = () => {
         console.log(res.data);
       }
     );
+    axios.get("http://192.168.1.101/api/algorithms/get-process/", {
+      headers: {
+        Authorization: cookies.token,
+      },
+    }).then((e) => {
+      console.log(e)
+    })
   }, []);
 
   const onChangeHandler = (id) => {

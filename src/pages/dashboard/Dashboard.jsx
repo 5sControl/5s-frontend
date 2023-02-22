@@ -13,9 +13,18 @@ import { TimelineHub } from "../../components/timeline/timelineHub";
 function Dashboard() {
   const [data, setData] = useState(false);
   const [errorCatch, setErrorCatch] = useState(false);
-  const [startTime, setStartTime] = useState("00:00:00");
-  const [endTime, setEndTime] = useState("23:59:59");
+  const [startTime, setStartTime] = useState("7:00:00");
+  const [endTime, setEndTime] = useState("19:00:00");
   const [cookies, setCookie, deleteCookie] = useCookies(["token"]);
+
+  useEffect(() => {
+    let bufStart = new Date()
+    let bufEnd = new Date()
+
+    bufStart.setHours(Number(startTime.split(':')[0]), Number(startTime.split(':')[1]), Number(startTime.split(':')[2]))
+    bufEnd.setHours(Number(endTime.split(':')[0]), Number(endTime.split(':')[1]), Number(endTime.split(':')[2]))
+    console.log((bufEnd - bufStart) / 1000)
+  },[startTime, endTime])
 
   const paginator = (page) => {
     getDashboardDate(
@@ -38,8 +47,8 @@ function Dashboard() {
       window.location.hostname,
       cookies.token,
       moment().format("YYYY-MM-DD"),
-      startTime,
-      endTime
+      startTime.split(":").map((el, ind) => ind ===0 ? el - 1 : el ).join(":") ,
+      endTime.split(":").map((el, ind) => ind ===0 ? el - 1 : el ).join(":") 
     )
       .then((el) => {
         console.log(el);
@@ -55,22 +64,33 @@ function Dashboard() {
 
   useEffect(() => {
     update();
-    const interval = setInterval(() => {
-      update();
-    }, 30000);
-    return () => clearInterval(interval);
+    // const interval = setInterval(() => {
+    //   update();
+    // }, 30000);
+    // return () => clearInterval(interval);
   }, []);
 
   return (
     <>
       <div className="dashboard">
         <h1>Dashboard</h1>
+        start time
+          <input type="text" 
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}/>
+            end time
+          <input type="text" 
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}/>
+            <button onClick={update}>Set new Time</button>
         {!!data && (
           <>
             <TimelineHub
               data={data}
               startDate={moment().format("YYYY-MM-DD 00:00:00")}
               endDate={moment().add(+1, "days").format("YYYY-MM-DD 00:00:00")}
+              startTime={startTime}
+              endTime={endTime}
             />
             <h2>
               <span className="dashboard__count">{data.length}&nbsp;</span>
