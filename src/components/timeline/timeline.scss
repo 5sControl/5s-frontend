@@ -80,6 +80,9 @@
   }
 }
 .timeline-hub {
+  display: flex;
+  flex-direction: column;
+  gap:20px;
   h1 {
     margin-bottom: 20px;
   }

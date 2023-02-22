@@ -14,7 +14,6 @@ const calculateTime = (startTime, endTime) => {
 export const Timeline = ({data, startDate, endDate, algorithm, startTime, endTime}) => {
     const seconds = calculateTime(startTime, endTime)
     const [timeLine, setTimeLine] = useState([])
-    const [trash, setTrash] = useState(false)
 
     useEffect(()=>{
         if (data){
@@ -31,6 +30,7 @@ export const Timeline = ({data, startDate, endDate, algorithm, startTime, endTim
              setTimeLine(buf)
         }
    },[data])
+   
     return (
         <>
         {
