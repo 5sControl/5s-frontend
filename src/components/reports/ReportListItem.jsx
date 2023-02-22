@@ -22,7 +22,7 @@ export const ReportListItem = ({ item, setCurrentReport, currentReport }) => {
 
         <div>{`# ${item.id}`}</div>
         <div>
-          <Camera /> {item.camera.id}
+          <Camera /> {item.camera.name}
         </div>
         <div>
           <Algorithm />
