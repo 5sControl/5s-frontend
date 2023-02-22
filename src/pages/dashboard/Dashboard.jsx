@@ -86,7 +86,7 @@ useEffect(() => {
             onClick={()=>setVisibleModal(!visibleModal)}
             className="dashboard__title_button"
           >
-              {`${startTime} - ${endTime}`}
+              {`${startTime.split(':').slice(0,2).join(':')} - ${endTime.split(':').slice(0,2).join(':')}`}
         </button>
         {visibleModal && 
           <SelectTimeDiapason
