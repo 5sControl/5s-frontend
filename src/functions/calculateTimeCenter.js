@@ -12,5 +12,5 @@ export const calculateTimeCenter = (startTime, endTime) => {
       Number(endTime.split(":")[2])
     );
     
-    console.log( (bufStart + bufEnd) / 2 * 1000)
+    //console.log( (bufStart + bufEnd) / 2 * 1000)
 }

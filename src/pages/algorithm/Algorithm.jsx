@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { useCookies } from "react-cookie";
 import { AlgorithmList } from "../../components/algorithmList";
-import { getAveilableAlgorithms, getProcess } from "../../api/requests";
+import { getAveilableAlgorithms } from "../../api/requests";
 
 export const Algorithm = () => {
   const [cookies, setCookie] = useCookies(["token"]);
@@ -19,11 +19,6 @@ export const Algorithm = () => {
         console.log(res.data);
       }
     );
-
-   getProcess(window.location.hostname, cookies.token)
-      .then((e) => {
-        console.log(e);
-      });
   }, []);
 
   return (

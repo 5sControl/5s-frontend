@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import "./Dashboard.scss";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import moment from "moment";
 import { useCookies } from "react-cookie";
 
@@ -11,6 +11,7 @@ import {  getData } from "../../api/requestReport";
 import { TimelineHub } from "../../components/timeline/timelineHub";
 import { SelectTimeDiapason } from "../../components/selectTimeDiapason";
 import { DataPicker } from "../../components/dataPicker";
+import { getProcess } from "../../api/requests";
 
 function Dashboard() {
   const [data, setData] = useState(false);
@@ -22,6 +23,8 @@ function Dashboard() {
   const [visibleModal, setVisibleModal] = useState(false);
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"));
+  const [selectCameras, setSelectCameras] = useState([]);
+  const [cameraToResponse, setCameraToResponse] = useState('camera');
 
   useEffect(() => {
     let bufStart = new Date()
@@ -54,7 +57,9 @@ function Dashboard() {
       cookies.token,
       selectDate,
       startTime.split(":").map((el, ind) => ind ===0 ? el - 1 : el ).join(":") ,
-      endTime.split(":").map((el, ind) => ind ===0 ? el - 1 : el ).join(":") 
+      endTime.split(":").map((el, ind) => ind ===0 ? el - 1 : el ).join(":") ,
+      false,
+      cameraToResponse
     )
       .then((el) => {
         console.log(el);
@@ -74,15 +79,34 @@ function Dashboard() {
     //   update();
     // }, 30000);
     // return () => clearInterval(interval);
-  }, [selectDate]);
+  }, [selectDate, cameraToResponse]);
 
+  useEffect(() => {
+    getProcess(window.location.hostname, cookies.token)
+      .then((e) => {
+        console.log(e)
+        if (e.data){
+          let buf = e.data;
+          buf = buf.map(el=>el.camera)
+          setSelectCameras([...new Set(buf)]);
+        }
+        
+      });
+  },[])
   return (
     <>
       <div className="dashboard">
         <div className="dashboard__title">
         <h1>Dashboard</h1>
         <div className="dashboard__title__filter">
-            <span className="dashboard__title_button">Camera</span>
+            <select value={cameraToResponse} onChange={(e) => setCameraToResponse(e.target.value)}>
+              <option value="camera">Select cameras</option>
+              {selectCameras.map((el,ind) => {
+                return (
+                    <option value={el.id} key={ind}>{el.name}</option>
+                )
+              })}
+            </select>
             <span className="dashboard__title_button">Algorithm</span>
             <span className="dashboard__title_button">Sort: Newest</span>
           <button 
