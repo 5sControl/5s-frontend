@@ -82,7 +82,6 @@ function Dashboard() {
         <div className="dashboard__title">
         <h1>Dashboard</h1>
         <div className="dashboard__title__filter">
-            <span className="dashboard__title_button">Status</span>
             <span className="dashboard__title_button">Camera</span>
             <span className="dashboard__title_button">Algorithm</span>
             <span className="dashboard__title_button">Sort: Newest</span>
@@ -133,11 +132,8 @@ function Dashboard() {
               endTime={endTime}
               setCurrentReportMain = {(e) => setCurrentReportMain(e)}
             />
-            <h2>
-              <span className="dashboard__count">{data.length}&nbsp;</span>
-              <span className="dashboard__span"> reports generated today</span>
-            </h2>
-            <h3>Reports</h3>
+
+            <h3>Reports <span>{data.length}</span></h3>
             <Reports
               data={data}
               currentReportMain = {currentReportMain}
