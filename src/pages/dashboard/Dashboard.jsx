@@ -104,7 +104,7 @@ function Dashboard() {
         <div className="dashboard__title">
         <h1>Dashboard</h1>
         <div className="dashboard__title__filter">
-            <select value={cameraToResponse} onChange={(e) => setCameraToResponse(e.target.value)}>
+            <select value={cameraToResponse} onChange={(e) => setCameraToResponse(e.target.value)} className="dashboard__title_button">
               <option value="camera">Select cameras</option>
               {selectCameras.map((el,ind) => {
                 return (
@@ -112,7 +112,7 @@ function Dashboard() {
                 )
               })}
             </select>
-            <select value={algorithmToResponse} onChange={(e) => setAlgorithmToResponse(e.target.value)}>
+            <select value={algorithmToResponse} onChange={(e) => setAlgorithmToResponse(e.target.value)} className="dashboard__title_button">
               <option value="algorithm">Select algorithm</option>
               {selectAlgorithm.map((el,ind) => {
                 return (
