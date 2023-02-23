@@ -24,6 +24,8 @@ export const API_URL_I = `${url}/api/safety_control/safety/action/`
 export const API_IMAGES_I = `${url}/`
 export const API_CAMERA_I = `${url}:8008/find_cameras/`
 export const API_USERLIST_I = `${url}/api/staff-control/employees/admin/`
+
+export const API_GETPROCESS_I = `${url}/api/algorithms/get-process/`
 export const API_REGISTRATION_I = `${url}/register/`
 export const API_AUTH_I = `${url}/auth/jwt/create/`
 export const API_ALGORITHM_I = `${url}/api/algorithms/available-process/`

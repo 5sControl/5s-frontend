@@ -10,6 +10,7 @@ import {
     API_USERLIST_I,
     API_REGISTRATION,
     API_REGISTRATION_I,
+    API_GETPROCESS_I,
 } from "./api"
 import { proxy } from "./proxy"
 import { getIsInternet } from "./getURL"
@@ -108,4 +109,19 @@ else{
 }
 }
 
+export const getProcess = (hostname, cookies ) => {
+  if (getIsInternet(hostname)){
+    return  proxy(API_GETPROCESS_I, "GET", {
+      'Authorization': cookies
+    })
+  }
+  else{
+   return  axios.get(`http://${hostname}/api/algorithms/get-process/`, {
+                headers: {
+                  Authorization: cookies
+                },
+              })
+  }
+ 
+}
 

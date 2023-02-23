@@ -16,10 +16,9 @@ export const TimelineHub = ({
   const cameras = data.reduce((prev, curr) => {
     return [...new Set([...prev, curr.camera.name])];
   }, []);
-console.log(startDate)
   return (
     <div className="timeline-hub">
-      <div className="timeline__description">
+      {/* <div className="timeline__description">
         <ul>
           <li className="green-li">
             <span>Supervised</span>
@@ -28,7 +27,7 @@ console.log(startDate)
             <span>Unsupervised</span>
           </li>
         </ul>
-      </div>
+      </div> */}
       {cameras.map((el, id) => {
         return (
           <div key={id} className="timeline-hub__container">

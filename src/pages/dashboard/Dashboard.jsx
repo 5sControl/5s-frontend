@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 
 import { Link } from "react-router-dom";
 import { Reports } from "../../components/reports/Reports";
-import { getDashboardDate } from "../../api/requestReport";
+import {  getData } from "../../api/requestReport";
 import { TimelineHub } from "../../components/timeline/timelineHub";
 import { SelectTimeDiapason } from "../../components/selectTimeDiapason";
 import { DataPicker } from "../../components/dataPicker";
@@ -28,11 +28,11 @@ function Dashboard() {
     let bufEnd = new Date()
     bufStart.setHours(Number(startTime.split(':')[0]), Number(startTime.split(':')[1]), Number(startTime.split(':')[2]))
     bufEnd.setHours(Number(endTime.split(':')[0]), Number(endTime.split(':')[1]), Number(endTime.split(':')[2]))
-    console.log((bufEnd - bufStart) / 1000)
+    // console.log((bufEnd - bufStart) / 1000)
   },[startTime, endTime])
 
   const paginator = (page) => {
-    getDashboardDate(
+    getData(
       window.location.hostname,
       cookies.token,
       moment().format("YYYY-MM-DD")
@@ -49,7 +49,7 @@ function Dashboard() {
 
   const update = () => {
     setVisibleModal(false)
-    getDashboardDate(
+    getData(
       window.location.hostname,
       cookies.token,
       selectDate,
@@ -106,7 +106,7 @@ function Dashboard() {
              update = {update}
              setVisibleModalDate = {(e) => setVisibleModalDate(e)}
              selectDateDash = {selectDate}
-             />
+          />
         </div>
         }
 
@@ -122,7 +122,7 @@ function Dashboard() {
         }
         </div>
        
-        {!!data && (
+        {!!data && data.length > 0 ? 
           <>
             <TimelineHub
               data={data}
@@ -139,8 +139,12 @@ function Dashboard() {
               currentReportMain = {currentReportMain}
               // paginator={(e) =>paginator(e)}
             />
+          </> 
+          :
+          <>
+          No reports
           </>
-        )}
+        }
         {errorCatch && <div className="dashboard__error">{errorCatch}</div>}
         {data === 0 && (
           <h2 className="dashboard__noauth">

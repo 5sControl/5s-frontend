@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 
 import { useCookies } from "react-cookie";
 import { AlgorithmList } from "../../components/algorithmList";
-import { getAveilableAlgorithms } from "../../api/requests";
-import axios from "axios";
+import { getAveilableAlgorithms, getProcess } from "../../api/requests";
 
 export const Algorithm = () => {
   const [cookies, setCookie] = useCookies(["token"]);
@@ -21,12 +20,7 @@ export const Algorithm = () => {
       }
     );
 
-    axios
-      .get("http://192.168.1.101/api/algorithms/get-process/", {
-        headers: {
-          Authorization: cookies.token,
-        },
-      })
+   getProcess(window.location.hostname, cookies.token)
       .then((e) => {
         console.log(e);
       });
@@ -35,11 +29,11 @@ export const Algorithm = () => {
   return (
     <div className="algorithm">
       <h1 className="algorithm__title">Algorithms</h1>
-      <AlgorithmList
-        algorithmList={algorithmList}
-        algorithmPage={"algorithm"}
-        algorithmCount={3}
-      />
+        <AlgorithmList
+          algorithmList={algorithmList}
+          algorithmPage={"algorithm"}
+          algorithmCount={3}
+        />
     </div>
   );
 };
