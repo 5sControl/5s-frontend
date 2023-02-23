@@ -16,7 +16,7 @@ export const TimelineHub = ({
   const cameras = data.reduce((prev, curr) => {
     return [...new Set([...prev, curr.camera.name])];
   }, []);
-
+console.log(startDate)
   return (
     <div className="timeline-hub">
       <div className="timeline__description">

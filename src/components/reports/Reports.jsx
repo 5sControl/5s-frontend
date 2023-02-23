@@ -2,10 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 
-import { Paginator } from "./Paginator";
 import { ReportListItem } from "./ReportListItem";
 import { CurrentReport } from "./currentReport";
-import { DataPicker } from "../dataPicker";
 
 export const Reports = ({ data, paginator, currentReportMain }) => {
   const [fullImage, setFullImage] = useState(false);
@@ -22,13 +20,6 @@ export const Reports = ({ data, paginator, currentReportMain }) => {
     <>
       <div className="dashboard__container">
         <div className="dashboard__choose">
-          <div className="dashboard__tabs">
-            {/* <DataPicker /> */}
-            <span>Status</span>
-            <span>Camera</span>
-            <span>Algorithm</span>
-            <span>Sort: Newest</span>
-          </div>
           {/* {data && <Paginator 
                     data={data}
                     setCurrentPage={e=>setCurrentPage(e)}

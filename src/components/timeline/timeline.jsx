@@ -19,8 +19,8 @@ export const Timeline = ({
   useEffect(() => {
     if (data) {
       let buf = [
-        { id: 0, time: moment().format(`YYYY-MM-DD ${endTime}`) },
-        { id: 0, time: moment().format(`YYYY-MM-DD HH:mm:ss`) },
+        { id: 0, time: moment(startDate).format(`YYYY-MM-DD ${endTime}`) },
+        { id: 0, time: moment(startDate).format(`YYYY-MM-DD HH:mm:ss`) },
       ];
       data.forEach((el) => {
         buf.push({
@@ -36,7 +36,7 @@ export const Timeline = ({
             .format("YYYY-MM-DD HH:mm:ss"),
         });
       });
-      buf.push({ id: 0, time: moment().format(`YYYY-MM-DD ${startTime}`) });
+      buf.push({ id: 0, time: moment(startDate).format(`YYYY-MM-DD ${startTime}`) });
       buf.reverse();
       //  buf = buf.filter(el => el.includes(moment().format("YYYY-MM-DD")))
       buf = buf.map((el, index, array) =>

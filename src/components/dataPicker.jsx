@@ -1,34 +1,19 @@
-import { useEffect, useState } from "react";
+import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export const DataPicker = () => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(null);
+export const DataPicker = ({setSelectDate, setVisibleModalDate, selectDateDash}) => {
 
-  const onChange = (dates) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
-  };
-
-  useEffect(() => {
-    console.log(startDate);
-    console.log(endDate);
-  }, [startDate, endDate]);
-
+  const selectDate = (date) => {
+    setSelectDate(moment(date).format("YYYY-MM-DD"))
+    setVisibleModalDate(false)
+  }
   return (
         <DatePicker
-          selected={startDate}
-          onChange={onChange}
-          startDate={startDate}
-          endDate={endDate}
-          //excludeDates={[addDays(new Date(), 1), addDays(new Date(), 5)]}
-          selectsRange
-          selectsDisabledDaysInRange
-          maxDate={new Date()}
-          inline
-          className="datepicker"
-        />
+        selected={new Date(selectDateDash)}
+        onChange={(date) => selectDate(date)}
+        inline
+        maxDate={new Date()}
+      />
   );
 };

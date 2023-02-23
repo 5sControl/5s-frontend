@@ -21,10 +21,11 @@ function Dashboard() {
   const [currentReportMain, setCurrentReportMain] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
   const [visibleModalDate, setVisibleModalDate] = useState(false);
+  const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"));
+
   useEffect(() => {
     let bufStart = new Date()
     let bufEnd = new Date()
-
     bufStart.setHours(Number(startTime.split(':')[0]), Number(startTime.split(':')[1]), Number(startTime.split(':')[2]))
     bufEnd.setHours(Number(endTime.split(':')[0]), Number(endTime.split(':')[1]), Number(endTime.split(':')[2]))
     console.log((bufEnd - bufStart) / 1000)
@@ -51,7 +52,7 @@ function Dashboard() {
     getDashboardDate(
       window.location.hostname,
       cookies.token,
-      moment().format("YYYY-MM-DD"),
+      selectDate,
       startTime.split(":").map((el, ind) => ind ===0 ? el - 1 : el ).join(":") ,
       endTime.split(":").map((el, ind) => ind ===0 ? el - 1 : el ).join(":") 
     )
@@ -67,17 +68,13 @@ function Dashboard() {
       .catch((error) => setErrorCatch(error.message));
   };
 
-useEffect(() => {
-  console.log(currentReportMain)
-},[currentReportMain])
-
   useEffect(() => {
     update();
-    const interval = setInterval(() => {
-      update();
-    }, 30000);
-    return () => clearInterval(interval);
-  }, []);
+    // const interval = setInterval(() => {
+    //   update();
+    // }, 30000);
+    // return () => clearInterval(interval);
+  }, [selectDate]);
 
   return (
     <>
@@ -85,6 +82,10 @@ useEffect(() => {
         <div className="dashboard__title">
         <h1>Dashboard</h1>
         <div className="dashboard__title__filter">
+            <span className="dashboard__title_button">Status</span>
+            <span className="dashboard__title_button">Camera</span>
+            <span className="dashboard__title_button">Algorithm</span>
+            <span className="dashboard__title_button">Sort: Newest</span>
           <button 
               onClick={()=>setVisibleModal(!visibleModal)}
               className="dashboard__title_button"
@@ -95,13 +96,18 @@ useEffect(() => {
               onClick={()=>setVisibleModalDate(!visibleModalDate)}
               className="dashboard__title_button"
           >
-            {`${moment().format("YYYY-MM-DD")}`}
+            {`${selectDate}`}
           </button>
         </div>
         
         {visibleModalDate && 
         <div className="dashboard__datapicker">
-          <DataPicker/>
+          <DataPicker
+             setSelectDate = {(e) => setSelectDate(e)}
+             update = {update}
+             setVisibleModalDate = {(e) => setVisibleModalDate(e)}
+             selectDateDash = {selectDate}
+             />
         </div>
         }
 
@@ -121,8 +127,8 @@ useEffect(() => {
           <>
             <TimelineHub
               data={data}
-              startDate={moment().format("YYYY-MM-DD 00:00:00")}
-              endDate={moment().add(+1, "days").format("YYYY-MM-DD 00:00:00")}
+              startDate={moment(selectDate).format("YYYY-MM-DD 00:00:00")}
+              endDate={moment(selectDate).add(+1, "days").format("YYYY-MM-DD 00:00:00")}
               startTime={startTime}
               endTime={endTime}
               setCurrentReportMain = {(e) => setCurrentReportMain(e)}
