@@ -25,6 +25,8 @@ function Dashboard() {
   const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"));
   const [selectCameras, setSelectCameras] = useState([]);
   const [cameraToResponse, setCameraToResponse] = useState('camera');
+  const [selectAlgorithm, setSelectAlgorithm] = useState([]);
+  const [algorithmToResponse, setAlgorithmToResponse] = useState('algorithm');
 
   useEffect(() => {
     let bufStart = new Date()
@@ -58,7 +60,7 @@ function Dashboard() {
       selectDate,
       startTime.split(":").map((el, ind) => ind ===0 ? el - 1 : el ).join(":") ,
       endTime.split(":").map((el, ind) => ind ===0 ? el - 1 : el ).join(":") ,
-      false,
+      algorithmToResponse,
       cameraToResponse
     )
       .then((el) => {
@@ -79,16 +81,19 @@ function Dashboard() {
     //   update();
     // }, 30000);
     // return () => clearInterval(interval);
-  }, [selectDate, cameraToResponse]);
+  }, [selectDate, cameraToResponse, algorithmToResponse]);
 
   useEffect(() => {
     getProcess(window.location.hostname, cookies.token)
       .then((e) => {
         console.log(e)
         if (e.data){
-          let buf = e.data;
-          buf = buf.map(el=>el.camera)
-          setSelectCameras([...new Set(buf)]);
+          let bufCam = e.data;
+          bufCam = bufCam.map(el=>el.camera)
+          setSelectCameras([...new Set(bufCam)]);
+          let bufAlg = e.data;
+          bufAlg = bufAlg.map(el=>el.algorithm.name)
+          setSelectAlgorithm([...new Set(bufAlg)]); 
         }
         
       });
@@ -107,7 +112,14 @@ function Dashboard() {
                 )
               })}
             </select>
-            <span className="dashboard__title_button">Algorithm</span>
+            <select value={algorithmToResponse} onChange={(e) => setAlgorithmToResponse(e.target.value)}>
+              <option value="algorithm">Select algorithm</option>
+              {selectAlgorithm.map((el,ind) => {
+                return (
+                    <option value={el} key={ind}>{el}</option>
+                )
+              })}
+            </select>
             <span className="dashboard__title_button">Sort: Newest</span>
           <button 
               onClick={()=>setVisibleModal(!visibleModal)}
