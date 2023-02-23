@@ -20,7 +20,8 @@ export const Timeline = ({
     if (data) {
       let buf = [
         { id: 0, time: moment(startDate).format(`YYYY-MM-DD ${endTime}`) },
-        { id: 0, time: moment(startDate).format(`YYYY-MM-DD HH:mm:ss`) },
+        
+
       ];
       data.forEach((el) => {
         buf.push({
@@ -51,7 +52,7 @@ export const Timeline = ({
           : 0
       );
       buf.pop();
-      buf.pop();
+      
       setTimeLine(buf);
     }
   }, [data]);
