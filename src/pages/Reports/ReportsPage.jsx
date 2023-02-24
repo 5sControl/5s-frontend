@@ -5,7 +5,8 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { getData } from "../../api/requestReport";
 import { Reports } from "../../components/reports/Reports";
-import { Timeline } from "../../components/timeline/timeline";
+import { DataPicker } from "../../components/dataPicker";
+import { SelectTimeDiapason } from "../../components/selectTimeDiapason";
 import moment from "moment";
 import "./reportPage.scss";
 import { Back } from "../../assets/svg/SVGcomponent";
@@ -24,21 +25,28 @@ export const ReportPage = ({ control }) => {
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"));
   const [selectCameras, setSelectCameras] = useState([]);
-  const [cameraToResponse, setCameraToResponse] = useState('camera');
-  const [algorithmToResponse, setAlgorithmToResponse] = useState(window.location.pathname.substring(1));
-  
+  const [cameraToResponse, setCameraToResponse] = useState("camera");
+  const [algorithmToResponse, setAlgorithmToResponse] = useState(
+    window.location.pathname.substring(1)
+  );
+
   const paginator = () => {
     getData(
       window.location.hostname,
       cookies.token,
       selectDate,
-      startTime.split(":").map((el, ind) => ind ===0 ? el - 1 : el ).join(":") ,
-      endTime.split(":").map((el, ind) => ind ===0 ? el - 1 : el ).join(":") ,
+      startTime
+        .split(":")
+        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .join(":"),
+      endTime
+        .split(":")
+        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .join(":"),
       algorithmToResponse,
       cameraToResponse
     )
       .then((el) => {
-        console.log(el);
         el.data.detail === "Authentication credentials were not provided." ||
         el.data.detail === "Given token not valid for any token type"
           ? setData(0)
@@ -50,76 +58,113 @@ export const ReportPage = ({ control }) => {
   };
 
   useEffect(() => {
-    paginator()
-    
+    paginator();
   }, []);
 
   return (
     <>
       {!!data && (
         <div className="dashboard">
-          <h1>
-            <Back className="back-button" onClick={() => navigate(-1)} />
-            {url.includes("safety")
-              ? "Safety Control: Ear protection".toUpperCase()
-              : url.includes("idle")
-              ? "Idle Control".toUpperCase()
-              : url.includes("machine")
-              ? "Machine Control".toUpperCase()
-              : ""}
-          </h1>
-          <div className="dashboard__title__filter">
-            <select value={cameraToResponse} onChange={(e) => setCameraToResponse(e.target.value)} className="dashboard__title_button">
-              <option value="camera">Select cameras</option>
-              {selectCameras.map((el,ind) => {
-                return (
-                    <option value={el.id} key={ind}>{el.name}</option>
-                )
-              })}
-            </select>
-            <select value={algorithmToResponse} className="dashboard__title_button">
-              <option value="algorithm">{algorithmToResponse}</option>
-             
-            </select>
-            <span className="dashboard__title_button">Sort: Newest</span>
-          <button 
-              onClick={()=>setVisibleModal(!visibleModal)}
-              className="dashboard__title_button"
-          >
-            {`${startTime.split(':').slice(0,2).join(':')} - ${endTime.split(':').slice(0,2).join(':')}`}
-          </button>
-          <button 
-              onClick={()=>setVisibleModalDate(!visibleModalDate)}
-              className="dashboard__title_button"
-          >
-            {`${selectDate}`}
-          </button>
-        </div>
-          {/* <Timeline data={data} /> */}
-          <h3>Reports</h3>
-          {!!data && data.length > 0 ? 
-          <>
-            <TimelineHub
-              data={data}
-              startDate={moment(selectDate).format("YYYY-MM-DD 00:00:00")}
-              endDate={moment(selectDate).add(+1, "days").format("YYYY-MM-DD 00:00:00")}
+          <div className="dashboard__title">
+            <div>
+              <Back className="back-button" onClick={() => navigate(-1)} />
+              <span className="dashboard__title_h1">
+                {url.includes("safety")
+                  ? "Safety Control: Ear protection".toUpperCase()
+                  : url.includes("idle")
+                  ? "Idle Control".toUpperCase()
+                  : url.includes("machine")
+                  ? "Machine Control".toUpperCase()
+                  : ""}
+              </span>
+            </div>
+            <div className="dashboard__title__filter">
+              <select
+                value={cameraToResponse}
+                onChange={(e) => setCameraToResponse(e.target.value)}
+                className="dashboard__title_button"
+              >
+                <option value="camera">Select cameras</option>
+                {selectCameras.map((el, ind) => {
+                  return (
+                    <option value={el.id} key={ind}>
+                      {el.name}
+                    </option>
+                  );
+                })}
+              </select>
+              <select
+                value={algorithmToResponse}
+                className="dashboard__title_button"
+              >
+                <option value="algorithm">{algorithmToResponse}</option>
+              </select>
+              <span className="dashboard__title_button">Sort: Newest</span>
+              <button
+                onClick={() => setVisibleModal(!visibleModal)}
+                className="dashboard__title_button"
+              >
+                {`${startTime.split(":").slice(0, 2).join(":")} - ${endTime
+                  .split(":")
+                  .slice(0, 2)
+                  .join(":")}`}
+              </button>
+              <button
+                onClick={() => setVisibleModalDate(!visibleModalDate)}
+                className="dashboard__title_button"
+              >
+                {`${selectDate}`}
+              </button>
+            </div>
+          </div>
+
+          {!!data && data.length > 0 ? (
+            <>
+              <TimelineHub
+                data={data}
+                startDate={moment(selectDate).format("YYYY-MM-DD 00:00:00")}
+                endDate={moment(selectDate)
+                  .add(+1, "days")
+                  .format("YYYY-MM-DD 00:00:00")}
+                startTime={startTime}
+                endTime={endTime}
+                setCurrentReportMain={(e) => setCurrentReportMain(e)}
+              />
+              {console.log(endTime)}
+              <h3>
+                Reports <span>{data.length}</span>
+              </h3>
+              <Reports
+                data={data}
+                currentReportMain={currentReportMain}
+                // paginator={(e) =>paginator(e)}
+              />
+            </>
+          ) : (
+            <>No reports</>
+          )}
+          {visibleModalDate && (
+            <div className="dashboard__datapicker">
+              <DataPicker
+                setSelectDate={(e) => setSelectDate(e)}
+                update={paginator}
+                setVisibleModalDate={(e) => setVisibleModalDate(e)}
+                selectDateDash={selectDate}
+              />
+            </div>
+          )}
+
+          {visibleModal && (
+            <SelectTimeDiapason
               startTime={startTime}
+              setStartTime={(e) => setStartTime(e)}
               endTime={endTime}
-              setCurrentReportMain = {(e) => setCurrentReportMain(e)}
+              setEndTime={(e) => setEndTime(e)}
+              update={paginator}
+              setVisibleModal={(e) => setVisibleModal(e)}
             />
-            {console.log(endTime)}
-            <h3>Reports <span>{data.length}</span></h3>
-            <Reports
-              data={data}
-              currentReportMain = {currentReportMain}
-              // paginator={(e) =>paginator(e)}
-            />
-          </> 
-          :
-          <>
-          No reports
-          </>
-        }
+          )}
+          {errorCatch && <div className="dashboard__error">{errorCatch}</div>}
         </div>
       )}
     </>

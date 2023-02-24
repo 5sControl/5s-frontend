@@ -14,6 +14,10 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    &_h1{
+      font-size: 20px;
+      font-weight: 700;
+    }
     &__filter{
       display: flex;
       gap:10px;
