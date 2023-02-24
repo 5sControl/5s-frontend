@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { useCookies } from "react-cookie";
 import { AlgorithmList } from "../../components/algorithmList";
-import { getAveilableAlgorithms } from "../../api/requests";
+import { getAveilableAlgorithms, getProcess } from "../../api/requests";
 
 export const Algorithm = () => {
   const [cookies, setCookie] = useCookies(["token"]);
@@ -13,22 +13,30 @@ export const Algorithm = () => {
   const [algorithmList, setAlgorithmList] = useState({});
 
   useEffect(() => {
-    getAveilableAlgorithms(window.location.hostname, cookies.token).then(
-      (res) => {
-        setAlgorithmList(res.data);
-        console.log(res.data);
+    getProcess(window.location.hostname, cookies.token).then((res) => {
+      const bufferObject = {
+        
       }
-    );
+      const arrayObject = 
+        [...new Set(res.data.map((el) => el.algorithm.name))].map((el) => {
+          return {
+            [el]: true,
+          };
+        }
+      );
+        Object.assign(bufferObject, ...arrayObject);
+        setAlgorithmList(bufferObject);
+    });
   }, []);
 
   return (
     <div className="algorithm">
       <h1 className="algorithm__title">Algorithms</h1>
-        <AlgorithmList
-          algorithmList={algorithmList}
-          algorithmPage={"algorithm"}
-          algorithmCount={3}
-        />
+      <AlgorithmList
+        algorithmList={algorithmList}
+        algorithmPage={"algorithm"}
+        algorithmCount={3}
+      />
     </div>
   );
 };

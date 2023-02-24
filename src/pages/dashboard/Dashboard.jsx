@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 
 import { Link } from "react-router-dom";
 import { Reports } from "../../components/reports/Reports";
-import {  getData } from "../../api/requestReport";
+import { getData } from "../../api/requestReport";
 import { TimelineHub } from "../../components/timeline/timelineHub";
 import { SelectTimeDiapason } from "../../components/selectTimeDiapason";
 import { DataPicker } from "../../components/dataPicker";
@@ -24,25 +24,39 @@ function Dashboard() {
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"));
   const [selectCameras, setSelectCameras] = useState([]);
-  const [cameraToResponse, setCameraToResponse] = useState('camera');
+  const [cameraToResponse, setCameraToResponse] = useState("camera");
   const [selectAlgorithm, setSelectAlgorithm] = useState([]);
-  const [algorithmToResponse, setAlgorithmToResponse] = useState('algorithm');
+  const [algorithmToResponse, setAlgorithmToResponse] = useState("algorithm");
   useEffect(() => {
-    let bufStart = new Date()
-    let bufEnd = new Date()
-    bufStart.setHours(Number(startTime.split(':')[0]), Number(startTime.split(':')[1]), Number(startTime.split(':')[2]))
-    bufEnd.setHours(Number(endTime.split(':')[0]), Number(endTime.split(':')[1]), Number(endTime.split(':')[2]))
+    let bufStart = new Date();
+    let bufEnd = new Date();
+    bufStart.setHours(
+      Number(startTime.split(":")[0]),
+      Number(startTime.split(":")[1]),
+      Number(startTime.split(":")[2])
+    );
+    bufEnd.setHours(
+      Number(endTime.split(":")[0]),
+      Number(endTime.split(":")[1]),
+      Number(endTime.split(":")[2])
+    );
     // console.log((bufEnd - bufStart) / 1000)
-  },[startTime, endTime])
+  }, [startTime, endTime]);
 
   const update = () => {
-    setVisibleModal(false)
+    setVisibleModal(false);
     getData(
       window.location.hostname,
       cookies.token,
       selectDate,
-      startTime.split(":").map((el, ind) => ind ===0 ? el - 1 : el ).join(":") ,
-      endTime.split(":").map((el, ind) => ind ===0 ? el - 1 : el ).join(":") ,
+      startTime
+        .split(":")
+        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .join(":"),
+      endTime
+        .split(":")
+        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .join(":"),
       algorithmToResponse,
       cameraToResponse
     )
@@ -63,107 +77,125 @@ function Dashboard() {
   }, [selectDate, cameraToResponse, algorithmToResponse]);
 
   useEffect(() => {
-    getProcess(window.location.hostname, cookies.token)
-      .then((e) => {
-        console.log(e)
-        if (e.data){
-          let bufCam = e.data;
-          bufCam = bufCam.map(el=>el.camera)
-          setSelectCameras([...new Set(bufCam)]);
-          let bufAlg = e.data;
-          bufAlg = bufAlg.map(el=>el.algorithm.name)
-          setSelectAlgorithm([...new Set(bufAlg)]); 
-        }
-      });
-  },[])
+    getProcess(window.location.hostname, cookies.token).then((e) => {
+      console.log(e);
+      if (e.data) {
+        let bufCam = e.data;
+        bufCam = bufCam.map((el) => el.camera);
+        setSelectCameras([...new Set(bufCam)]);
+        let bufAlg = e.data;
+        bufAlg = bufAlg.map((el) => el.algorithm.name);
+        setSelectAlgorithm([...new Set(bufAlg)]);
+      }
+    });
+  }, []);
   return (
     <>
       <div className="dashboard">
         <div className="dashboard__title">
-        <h1>Dashboard</h1>
-        <div className="dashboard__title__filter">
-            <select value={cameraToResponse} onChange={(e) => setCameraToResponse(e.target.value)} className="dashboard__title_button">
+          <h1>Dashboard</h1>
+          <div className="dashboard__title__filter">
+            <select
+              value={cameraToResponse}
+              onChange={(e) => setCameraToResponse(e.target.value)}
+              className="dashboard__title_button"
+            >
               <option value="camera">Select cameras</option>
-              {selectCameras.map((el,ind) => {
+              {selectCameras.map((el, ind) => {
                 return (
-                    <option value={el.id} key={ind}>{el.name}</option>
-                )
+                  <option value={el.id} key={ind}>
+                    {el.name}
+                  </option>
+                );
               })}
             </select>
-            <select value={algorithmToResponse} onChange={(e) => setAlgorithmToResponse(e.target.value)} className="dashboard__title_button">
+            <select
+              value={algorithmToResponse}
+              onChange={(e) => setAlgorithmToResponse(e.target.value)}
+              className="dashboard__title_button"
+            >
               <option value="algorithm">Select algorithm</option>
-              {selectAlgorithm.map((el,ind) => {
+              {selectAlgorithm.map((el, ind) => {
                 return (
-                    <option value={el} key={ind}>{el}</option>
-                )
+                  <option value={el} key={ind}>
+                    {el}
+                  </option>
+                );
               })}
             </select>
             <span className="dashboard__title_button">Sort: Newest</span>
-          <button 
-              onClick={()=>setVisibleModal(!visibleModal)}
+            <button
+              onClick={() => setVisibleModal(!visibleModal)}
               className="dashboard__title_button"
-          >
-            {`${startTime.split(':').slice(0,2).join(':')} - ${endTime.split(':').slice(0,2).join(':')}`}
-          </button>
-          <button 
-              onClick={()=>setVisibleModalDate(!visibleModalDate)}
+            >
+              {`${startTime.split(":").slice(0, 2).join(":")} - ${endTime
+                .split(":")
+                .slice(0, 2)
+                .join(":")}`}
+            </button>
+            <button
+              onClick={() => setVisibleModalDate(!visibleModalDate)}
               className="dashboard__title_button"
-          >
-            {`${selectDate}`}
-          </button>
-        </div>
-        
-        {visibleModalDate && 
-        <div className="dashboard__datapicker">
-          <DataPicker
-             setSelectDate = {(e) => setSelectDate(e)}
-             update = {update}
-             setVisibleModalDate = {(e) => setVisibleModalDate(e)}
-             selectDateDash = {selectDate}
-          />
-        </div>
-        }
+            >
+              {`${selectDate}`}
+            </button>
+          </div>
 
-        {visibleModal && 
-          <SelectTimeDiapason
-            startTime={startTime}
-            setStartTime = {(e) => setStartTime(e)}
-            endTime={endTime}
-            setEndTime = {(e) => setEndTime(e)}
-            update = {update}
-            setVisibleModal = {(e) => setVisibleModal(e)}
-          />
-        }
+          {visibleModalDate && (
+            <div className="dashboard__datapicker">
+              <DataPicker
+                setSelectDate={(e) => setSelectDate(e)}
+                update={update}
+                setVisibleModalDate={(e) => setVisibleModalDate(e)}
+                selectDateDash={selectDate}
+              />
+            </div>
+          )}
+
+          {visibleModal && (
+            <SelectTimeDiapason
+              startTime={startTime}
+              setStartTime={(e) => setStartTime(e)}
+              endTime={endTime}
+              setEndTime={(e) => setEndTime(e)}
+              update={update}
+              setVisibleModal={(e) => setVisibleModal(e)}
+            />
+          )}
         </div>
-       
-        {!!data && data.length > 0 ? 
+
+        {!!data && data.length > 0 ? (
           <>
             <TimelineHub
               data={data}
               startDate={moment(selectDate).format("YYYY-MM-DD 00:00:00")}
-              endDate={moment(selectDate).add(+1, "days").format("YYYY-MM-DD 00:00:00")}
+              endDate={moment(selectDate)
+                .add(+1, "days")
+                .format("YYYY-MM-DD 00:00:00")}
               startTime={startTime}
               endTime={endTime}
-              setCurrentReportMain = {(e) => setCurrentReportMain(e)}
+              setCurrentReportMain={(e) => setCurrentReportMain(e)}
             />
-            {console.log(endTime)}
-            <h3>Reports <span>{data.length}</span></h3>
+            <h3>
+              Reports <span>{data.length}</span>
+            </h3>
             <Reports
               data={data}
-              currentReportMain = {currentReportMain}
+              currentReportMain={currentReportMain}
               // paginator={(e) =>paginator(e)}
             />
-          </> 
-          :
-          <>
-          No reports
           </>
-        }
+        ) : (
+          <>No reports</>
+        )}
         {errorCatch && <div className="dashboard__error">{errorCatch}</div>}
         {data === 0 && (
           <h2 className="dashboard__noauth">
             Log in to view the reports
-            <Link to="/company" onClick={()=>deleteCookie('token')}> Log In</Link>
+            <Link to="/company" onClick={() => deleteCookie("token")}>
+              {" "}
+              Log In
+            </Link>
           </h2>
         )}
       </div>
