@@ -48,20 +48,6 @@ export const AlgorithmList = ({
       <h2>{algorithmCount} algorithms used </h2>
       <div
         className={
-          algorithmList.safety_control_ear_protection
-            ? "selection__container"
-            : "selection__container noAccess"
-        }
-        onClick={() => pushTheButton("Safety_control_ear_protection")}
-      >
-        <div>
-          <h4>Safety Control: Ear protection</h4>
-          <h5>Detects if worker is not wearing protective headphones.</h5>
-        </div>
-        <AiOutlineRight />
-      </div>
-      <div
-        className={
           algorithmList.machine_control
             ? "selection__container"
             : "selection__container noAccess"
@@ -85,6 +71,20 @@ export const AlgorithmList = ({
         <div>
           <h4>Idle Control</h4>
           <h5>Detects if worker is idle.</h5>
+        </div>
+        <AiOutlineRight />
+      </div>
+      <div
+        className={
+          algorithmList.safety_control_ear_protection
+            ? "selection__container"
+            : "selection__container noAccess"
+        }
+        onClick={() => pushTheButton("Safety_control_ear_protection")}
+      >
+        <div>
+          <h4>Safety Control: Ear protection</h4>
+          <h5>Detects if worker is not wearing protective headphones.</h5>
         </div>
         <AiOutlineRight />
       </div>
