@@ -68,7 +68,7 @@ export const Timeline = ({
                 <span
                   key={ind}
                   style={{ width: `${(el.time / seconds) * 100}%` }}
-                  className={ind % 2 ? "timeline_green" : "timeline_red"}
+                  className={ind % 2 ? "timeline_red" : " timeline_green"}
                   title={`Duration: ${el.time} seconds`}
                   onClick={() =>
                     el.id !== 0 ? setCurrentReportMain(el.id) : undefined
