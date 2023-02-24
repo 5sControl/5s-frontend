@@ -17,7 +17,7 @@ export const SelectTimeDiapason = ({startTime, setStartTime, setEndTime, endTime
             <div>
               <p>Starting time</p>
               <select value={date.startTime} onChange={(e) => setDate({...date, startTime: e.target.value})}className="dashboard__time_select">
-                <option value="1:00:00">1:00</option>
+                <option value="3:00:00">3:00</option>
                 <option value="7:00:00">7:00</option>
                 <option value="7:30:00">7:30</option>
                 <option value="8:00:00">8:00</option>
@@ -47,7 +47,7 @@ export const SelectTimeDiapason = ({startTime, setStartTime, setEndTime, endTime
               </select>
               <p>End time</p>
               <select value={date.endTime} onChange={(e) => setDate({...date, endTime: e.target.value})} className="dashboard__time_select">
-              <option value="1:00:00">1:00</option>
+              <option value="3:00:00">3:00</option>
                 <option value="7:00:00">7:00</option>
                 <option value="7:30:00">7:30</option>
                 <option value="8:00:00">8:00</option>

@@ -51,11 +51,11 @@ function Dashboard() {
       selectDate,
       startTime
         .split(":")
-        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .map((el, ind) => (ind === 0 ? el - 3 : el))
         .join(":"),
       endTime
         .split(":")
-        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .map((el, ind) => (ind === 0 ? el - 3 : el))
         .join(":"),
       algorithmToResponse,
       cameraToResponse
@@ -78,7 +78,6 @@ function Dashboard() {
 
   useEffect(() => {
     getProcess(window.location.hostname, cookies.token).then((e) => {
-      console.log(e);
       if (e.data) {
         let bufCam = e.data;
         bufCam = bufCam.map((el) => el.camera);
