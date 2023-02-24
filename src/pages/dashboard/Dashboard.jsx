@@ -27,7 +27,6 @@ function Dashboard() {
   const [cameraToResponse, setCameraToResponse] = useState('camera');
   const [selectAlgorithm, setSelectAlgorithm] = useState([]);
   const [algorithmToResponse, setAlgorithmToResponse] = useState('algorithm');
-
   useEffect(() => {
     let bufStart = new Date()
     let bufEnd = new Date()
@@ -168,7 +167,7 @@ function Dashboard() {
               endTime={endTime}
               setCurrentReportMain = {(e) => setCurrentReportMain(e)}
             />
-
+            {console.log(endTime)}
             <h3>Reports <span>{data.length}</span></h3>
             <Reports
               data={data}

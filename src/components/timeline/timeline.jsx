@@ -15,14 +15,11 @@ export const Timeline = ({
 }) => {
   const seconds = calculateTime(startTime, endTime);
   const [timeLine, setTimeLine] = useState([]);
-  console.log(startDate)
-  console.log(startTime)
+  
   useEffect(() => {
     if (data) {
       let buf = [
         { id: 0, time: moment(startDate).format(`YYYY-MM-DD ${endTime}`) },
-        
-
       ];
       data.forEach((el) => {
         buf.push({

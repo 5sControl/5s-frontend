@@ -1,6 +1,7 @@
 import { Timeline } from "./timeline";
 import { calculateTimeCenter } from "../../functions/calculateTimeCenter";
 import "./timeline";
+import { useEffect } from "react";
 export const TimelineHub = ({
   data,
   startDate,
@@ -9,10 +10,11 @@ export const TimelineHub = ({
   endTime,
   setCurrentReportMain,
 }) => {
+
   const algorithm = data.reduce((prev, curr) => {
     return [...new Set([...prev, curr.algorithm.name])];
   }, []);
-
+  
   const cameras = data.reduce((prev, curr) => {
     return [...new Set([...prev, curr.camera.name])];
   }, []);
@@ -51,8 +53,7 @@ export const TimelineHub = ({
             })}
               <div className="timeline__line">
                 <span>{startTime.split(':').slice(0,2).join(':')}</span>
-                {calculateTimeCenter(startTime,endDate)}
-                {/* <span>{endTime.split(':').slice(0,2).join(':')}</span> */}
+                <span>{calculateTimeCenter(endTime, startTime )}</span>
                 <span>{endTime.split(':').slice(0,2).join(':')}</span>
               </div>
           </div>
