@@ -15,7 +15,8 @@ export const Timeline = ({
 }) => {
   const seconds = calculateTime(startTime, endTime);
   const [timeLine, setTimeLine] = useState([]);
-
+  console.log(startDate)
+  console.log(startTime)
   useEffect(() => {
     if (data) {
       let buf = [
@@ -67,7 +68,7 @@ export const Timeline = ({
               {timeLine.map((el, ind) => (
                 <span
                   key={ind}
-                  style={{ width: `${(el.time / seconds) * 100}%` }}
+                  style={el.time > 0 ?{ width: `${(el.time / seconds) * 100}%` } : {}}
                   className={ind % 2 ? "timeline_red" : " timeline_green"}
                   title={`Duration: ${el.time} seconds`}
                   onClick={() =>
