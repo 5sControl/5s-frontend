@@ -4,6 +4,7 @@
   height: 30px;
   width: 100%;
   margin: 7px 0;
+  
   &__description {
     width: 100%;
     ul {
@@ -60,12 +61,17 @@
     height: 100%;
     background-color: #87bc45;
   }
+  &_grey{
+    height: 100%;
+    background-color: #838383;
+  }
   &__container {
     width: calc(100% - 120px);
     height: 30px;
     background-color: rgb(156, 154, 154);
     display: flex;
-
+    border-radius: 6px;
+    overflow: hidden;
   }
   &__text {
     width: 120px;
