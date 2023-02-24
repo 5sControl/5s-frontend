@@ -5,6 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Slider } from "../swiper.js";
+import { ViolintationFalse, ViolintationTrue } from "../../assets/svg/SVGcomponent.js";
 
 export const CurrentReport = ({
   currentReport,
@@ -43,7 +44,7 @@ export const CurrentReport = ({
         </div>
         <div className="dashboard__report_item">
           <span>Status</span>
-          <span className={currentReport.violation_found ?"dashboard__report_item_red" : "dashboard__report_item_green"}></span>
+          <span >{currentReport.violation_found ? <ViolintationFalse/>:<ViolintationTrue/>}</span>
         </div>
       </div>
     </>

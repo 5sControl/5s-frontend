@@ -23,8 +23,8 @@ export const LeftMenu = () => {
         <li
           className={
             window.location.pathname.includes("dashboard")
-              ? "active"
-              : "noActive"
+              ? "activeMenu"
+              : "noActiveMenu"
           }
         >
           <Link to="dashboard" onClick={send}>
@@ -34,7 +34,9 @@ export const LeftMenu = () => {
         </li>
         <li
           className={
-            window.location.pathname.includes("camera") ? "active" : "noActive"
+            window.location.pathname.includes("camera")
+              ? "activeMenu"
+              : "noActiveMenu"
           }
         >
           <Link to="camera" onClick={send}>
@@ -45,8 +47,8 @@ export const LeftMenu = () => {
         <li
           className={
             window.location.pathname.includes("algorithm")
-              ? "active"
-              : "noActive"
+              ? "activeMenu"
+              : "noActiveMenu"
           }
         >
           <Link to="/algorithm" onClick={send}>
@@ -56,7 +58,9 @@ export const LeftMenu = () => {
         </li>
         <li
           className={
-            window.location.pathname.includes("company") ? "active" : "noActive"
+            window.location.pathname.includes("company")     
+            ? "activeMenu"
+            : "noActiveMenu"
           }
         >
           <Link to="/company" onClick={send}>

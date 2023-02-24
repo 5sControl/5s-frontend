@@ -67,7 +67,7 @@ body {
         transition: all 0.4s;
       }
     }
-    .noActive{
+    .noActiveMenu{
       cursor: pointer;
       svg{
         fill:#666666;
@@ -76,7 +76,7 @@ body {
         color: #666666;
       }
     }
-    .active{
+    .activeMenu{
       svg{
         fill:#FE6100;
       }
