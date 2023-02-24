@@ -1,9 +1,20 @@
 export const SelectTimeDiapason = ({startTime, setStartTime, setEndTime, endTime, setVisibleModal, update}) => {
+  
+  let date = {
+    startTime: startTime,
+    endTime: endTime
+  }
+
+  const setData = () => {
+    setStartTime(date.startTime)
+    setEndTime(date.endTime)
+    update()
+  }
     return (
         <div className="dashboard__time">
             <div>
                 <p>Starting time</p>
-              <select value={startTime} onChange={(e) => setStartTime(e.target.value)} className="dashboard__time_select">
+              <select value={startTime} onChange={(e) => date.startTime = e.target.value} className="dashboard__time_select">
                 <option value="1:00:00">1:00</option>
                 <option value="7:00:00">7:00</option>
                 <option value="7:30:00">7:30</option>
@@ -33,7 +44,7 @@ export const SelectTimeDiapason = ({startTime, setStartTime, setEndTime, endTime
                 <option value="23:59:00">23:59</option>
               </select>
               <p>End time</p>
-              <select value={endTime} onChange={(e) => setEndTime(e.target.value)} className="dashboard__time_select">
+              <select value={endTime} onChange={(e) => date.endTime = e.target.value} className="dashboard__time_select">
               <option value="1:00:00">1:00</option>
                 <option value="7:00:00">7:00</option>
                 <option value="7:30:00">7:30</option>
@@ -65,7 +76,7 @@ export const SelectTimeDiapason = ({startTime, setStartTime, setEndTime, endTime
             </div>
               <div className="dashboard__time_footer">
                 <button className="dashboard__time_footer_cancel" onClick={() => setVisibleModal(false)}>Cancel</button>
-                <button className="dashboard__time_footer_create" onClick={update}>Apply</button>
+                <button className="dashboard__time_footer_create" onClick={setData}>Apply</button>
               </div>
                 
           </div>
