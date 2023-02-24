@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { useCookies } from "react-cookie";
 import { AlgorithmList } from "../../components/algorithmList";
-import { getAveilableAlgorithms, getProcess } from "../../api/requests";
+import { getProcess } from "../../api/requests";
 
 export const Algorithm = () => {
   const [cookies, setCookie] = useCookies(["token"]);
@@ -35,7 +35,7 @@ export const Algorithm = () => {
       <AlgorithmList
         algorithmList={algorithmList}
         algorithmPage={"algorithm"}
-        algorithmCount={3}
+        algorithmCount={Object.keys(algorithmList).length}
       />
     </div>
   );
