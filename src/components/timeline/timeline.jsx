@@ -19,7 +19,7 @@ export const Timeline = ({
   useEffect(() => {
     if (data) {
       let buf = [
-        { id: 0, time: moment(startDate).format(`YYYY-MM-DD ${endTime}`) },
+        { id: 0, time: moment(startDate).format(`YYYY-MM-DD ${endTime}`), violation_found:false},
       ];
       data.forEach((el) => {
         buf.push({
@@ -27,15 +27,17 @@ export const Timeline = ({
           time: moment(new Date(el.stop_tracking))
             .add(3, "hours")
             .format("YYYY-MM-DD HH:mm:ss"),
+            violation_found:el.violation_found
         });
         buf.push({
           id: el.id,
           time: moment(new Date(el.start_tracking))
             .add(3, "hours")
             .format("YYYY-MM-DD HH:mm:ss"),
+            violation_found:el.violation_found
         });
       });
-      buf.push({ id: 0, time: moment(startDate).format(`YYYY-MM-DD ${startTime}`) });
+      buf.push({ id: 0, time: moment(startDate).format(`YYYY-MM-DD ${startTime}`), violation_found:false });
       buf.reverse();
       //  buf = buf.filter(el => el.includes(moment().format("YYYY-MM-DD")))
       buf = buf.map((el, index, array) =>
@@ -46,6 +48,7 @@ export const Timeline = ({
                 moment(el.time),
                 "seconds"
               ),
+              violation_found:el.violation_found
             }
           : 0
       );
@@ -66,8 +69,8 @@ export const Timeline = ({
                 <span
                   key={ind}
                   style={el.time > 0 ?{ width: `${(el.time / seconds) * 100}%` } : {}}
-                  className={ind % 2 ? "timeline_red" : " timeline_green"}
-                  title={`Duration: ${el.time} seconds`}
+                  className={ind % 2 && el.violation_found? "timeline_red" : " timeline_green"}
+                  title={`${el.violation_found}`}
                   onClick={() =>
                     el.id !== 0 ? setCurrentReportMain(el.id) : undefined
                   }
