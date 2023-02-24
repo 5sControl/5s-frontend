@@ -5,28 +5,44 @@ export const ReportListItem = ({ item, setCurrentReport, currentReport }) => {
   return (
     <>
       <div
-        className="dashboard__reports_item"
+         className={
+          currentReport.id === item.id
+            ? "dashboard__reports_item active"
+            : "dashboard__reports_item"
+        }
         onClick={() => setCurrentReport(item)}
       >
-        <div
-          className={
-            currentReport.id === item.id
-              ? "dashboard__reports_item_title active"
-              : "dashboard__reports_item_title"
-          }
-        >
-          {moment(new Date(item.start_tracking)).add(3,'hours').format("YYYY-MM-DD")} |{" "}
-          {moment(new Date(item.start_tracking)).add(3,'hours').format("HH:mm:ss")} -{" "}
-          {moment(new Date(item.stop_tracking)).add(3,'hours').format("HH:mm:ss")}
-        </div>
+        <div className="dashboard__reports_item_container">
+          <div className={`dashboard__reports_item_container_status_${item.violation_found?'red':'green'}`}>
 
-        <div>{`# ${item.id}`}</div>
-        <div>
-          <Camera /> {item.camera.name}
-        </div>
-        <div>
-          <Algorithm />
-           {item.algorithm.name}
+          </div>
+          <div className="dashboard__reports_item_container_content">
+              <div
+                className={"dashboard__reports_item_title"}
+              >
+                {moment(new Date(item.start_tracking))
+                  .add(3, "hours")
+                  .format("YYYY-MM-DD")}{" "}
+                |{" "}
+                {moment(new Date(item.start_tracking))
+                  .add(3, "hours")
+                  .format("HH:mm:ss")}{" "}
+                -{" "}
+                {moment(new Date(item.stop_tracking))
+                  .add(3, "hours")
+                  .format("HH:mm:ss")}
+              </div>
+
+              <div>{`# ${item.id}`}</div>
+              <div>
+                <Camera /> {item.camera.name}
+              </div>
+              <div>
+                <Algorithm />
+                {item.algorithm.name}
+              </div>
+          </div>
+         
         </div>
       </div>
     </>

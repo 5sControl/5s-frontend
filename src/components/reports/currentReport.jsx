@@ -41,10 +41,10 @@ export const CurrentReport = ({
 
           <span>{currentReport.algorithm.name}</span>
         </div>
-        {/* <div className="dashboard__report_item">
+        <div className="dashboard__report_item">
           <span>Status</span>
-          <span>Not Checked</span>
-        </div> */}
+          <span className={currentReport.violation_found ?"dashboard__report_item_red" : "dashboard__report_item_green"}></span>
+        </div>
       </div>
     </>
   );
