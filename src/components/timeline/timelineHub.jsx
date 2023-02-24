@@ -52,7 +52,12 @@ export const TimelineHub = ({
             })}
               <div className="timeline__line">
                 <span>{startTime.split(':').slice(0,2).join(':')}</span>
-                <span>{calculateTimeCenter(endTime, startTime )}</span>
+                {
+                  calculateTimeCenter(endTime, startTime).map((el, id) => 
+                    <span key={id}>{el.split(':').slice(0,2).join(':')}</span>
+                  )
+                }
+                
                 <span>{endTime.split(':').slice(0,2).join(':')}</span>
               </div>
           </div>
