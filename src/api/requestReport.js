@@ -31,7 +31,7 @@ export const getData = (hostname, cookies, date, startTime, endTime, algorithm, 
   if (camera && camera!== "camera"){
     urlString += `&camera__id=${camera}`
   }
-  // /api/reports/search_params/?date=2023-02-22&start_time=10:30:00&end_time=18:30:00&algorithm=idle_control&camera__id=192.168.1.161
+  
   if (getIsInternet(hostname)) {
     return proxy(`${url + urlString}`, "GET", {
       Authorization: cookies,
