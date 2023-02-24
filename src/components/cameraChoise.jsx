@@ -4,7 +4,7 @@ import { API_IMAGES_I } from "../api/api";
 import close from "../assets/svg/close.svg";
 
 const CameraChoise = ({ selectType, onChangeHandler }) => {
-  console.log(selectType);
+  
   return (
     <div className="select__cameras">
       {selectType.obj.map((el, ind) => (

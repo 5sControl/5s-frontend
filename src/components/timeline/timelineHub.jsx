@@ -1,7 +1,6 @@
 import { Timeline } from "./timeline";
 import { calculateTimeCenter } from "../../functions/calculateTimeCenter";
 import "./timeline";
-import { useEffect } from "react";
 export const TimelineHub = ({
   data,
   startDate,
