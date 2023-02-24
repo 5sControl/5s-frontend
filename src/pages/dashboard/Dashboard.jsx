@@ -35,22 +35,6 @@ function Dashboard() {
     // console.log((bufEnd - bufStart) / 1000)
   },[startTime, endTime])
 
-  const paginator = (page) => {
-    getData(
-      window.location.hostname,
-      cookies.token,
-      moment().format("YYYY-MM-DD")
-    )
-      .then((el) => {
-        console.log(el);
-        el.data.detail === "Authentication credentials were not provided." ||
-        el.data.detail === "Given token not valid for any token type"
-          ? setData(0)
-          : setData(el.data);
-      })
-      .catch((error) => setErrorCatch(error.message));
-  };
-
   const update = () => {
     setVisibleModal(false)
     getData(
@@ -76,10 +60,6 @@ function Dashboard() {
 
   useEffect(() => {
     update();
-    // const interval = setInterval(() => {
-    //   update();
-    // }, 30000);
-    // return () => clearInterval(interval);
   }, [selectDate, cameraToResponse, algorithmToResponse]);
 
   useEffect(() => {
@@ -94,7 +74,6 @@ function Dashboard() {
           bufAlg = bufAlg.map(el=>el.algorithm.name)
           setSelectAlgorithm([...new Set(bufAlg)]); 
         }
-        
       });
   },[])
   return (
