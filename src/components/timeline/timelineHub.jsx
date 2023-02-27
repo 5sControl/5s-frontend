@@ -7,7 +7,6 @@ export const TimelineHub = ({
   endDate,
   startTime,
   endTime,
-  setCurrentReportMain,
 }) => {
 
   const algorithm = data.reduce((prev, curr) => {
@@ -45,7 +44,6 @@ export const TimelineHub = ({
                     algorithm={algorithm}
                     startTime={startTime}
                     endTime={endTime}
-                    setCurrentReportMain={(e) => setCurrentReportMain(e)}
                   />
                 </div>
               );
