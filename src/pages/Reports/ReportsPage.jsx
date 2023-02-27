@@ -128,9 +128,7 @@ export const ReportPage = () => {
                   .format("YYYY-MM-DD 00:00:00")}
                 startTime={startTime}
                 endTime={endTime}
-                
               />
-              {console.log(endTime)}
               <h3>
                 Reports <span>{data.length}</span>
               </h3>

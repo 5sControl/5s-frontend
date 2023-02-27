@@ -1,16 +1,30 @@
-import { useEffect } from "react"
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Fragment, useEffect, useState } from "react"
 import { ReportPage } from "../Reports/ReportsPage"
-import { getSelectedCameras } from "../../api/requestHomeAndOffice"
+import { getProcess } from "../../api/requests"
+import { useCookies } from "react-cookie"
 
 export const AlgorithmPage = ({control}) => {
+    const [cookies] = useCookies(['token'])
+    const [camera, setCamera] = useState(false)
     useEffect(() => {
-        getSelectedCameras(window.location.hostname).then(e=> {
-            console.log(e)
+        getProcess(window.location.hostname, cookies.token).then(e=> {
+            setCamera(e.data.filter(cam => cam.algorithm.name === control))
         })
     },[])
     return (
         <>
             <ReportPage control={control} />
+            {
+                camera && 
+                camera.map((data, index) => {
+                    return (
+                        <Fragment key={index}>
+                            <div>{data.camera.name}</div>
+                        </Fragment>
+                    )
+                })
+            }
         </>
     )
 }
