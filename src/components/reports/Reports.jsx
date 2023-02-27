@@ -10,12 +10,6 @@ export const Reports = ({ data, paginator }) => {
     <>
       <div className="dashboard__container">
         <div className="dashboard__choose">
-          {/* {data && <Paginator 
-                    data={data}
-                    setCurrentPage={e=>setCurrentPage(e)}
-                    currentPage={currentPage}
-                />} */}
-
           <div className="dashboard__reports">
             {data &&
               data.map((el, ind) => {

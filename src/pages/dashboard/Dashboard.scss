@@ -235,12 +235,12 @@
   }
   &__report{
     width: 50%;
-    height: calc(100vh - 320px);
+   
     padding: 45px 0px 30px 30px;
     &_image{
       position: relative;
       width: 100%;
-      height: 350px;
+      height: calc(100vh - 560px);
       // object-fit: contain;
       // object-position:center center;
       cursor: pointer;
