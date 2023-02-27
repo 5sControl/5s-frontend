@@ -1,14 +1,80 @@
 /* eslint-disable no-unused-vars */
-import "./Camera.scss";
+/* eslint-disable react-hooks/exhaustive-deps */
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-import { Cameras } from "../../components/cameras/cameras";
+import { useCookies } from "react-cookie";
+import { CamerasModal } from "../../pages/camera/modal/camerasModal";
 
-function Camera() {
+import "./cameras.scss";
+import { getSelectedCameras } from "../../api/requestHomeAndOffice";
+export const Camera = () => {
+  const [cookies, setCookie] = useCookies(["token"]);
+  const [camerasList, setCamerasList] = useState(false);
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [createdCameras, setCreatedCameras] = useState(false);
+
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    getSelectedCameras(window.location.hostname, cookies.token)
+    .then((response) => {
+      console.log(response);
+      if (response.data.length > 0) {
+        setCreatedCameras(response.data);
+      }
+    })
+    .catch((error) => setError(error.message));
+    if (window.location.hostname.includes("localhost")) {
+      axios
+        .get(`http://192.168.1.101:8008/find_cameras/`)
+        .then((response) => {
+          setCamerasList(response.data.results);
+          console.log(response.data.results);
+        })
+        .catch((error) => setError(error.message));
+    } else {
+      axios
+        .get(`http://${window.location.hostname}:8008/find_cameras/`)
+        .then((response) => {
+          setCamerasList(response.data.results);
+        })
+        .catch((error) => setError(error.message));
+    }
+  }, []);
+
+  const showAddCameras = () => {
+    setIsShowModal(true);
+  };
+
   return (
-    <>
-      <Cameras />
-    </>
+    <section className="cameras">
+      <div className="cameras__title">
+        <h1>Cameras</h1>
+        <button className="cameras__button" onClick={showAddCameras}>
+          + Add Camera
+        </button>
+      </div>
+      {createdCameras && (
+        <div className="cameras__list">
+          {createdCameras.map((el, ind) => {
+            return (
+              <div key={ind} className="cameras__list_item">
+                <span>IP: {el.id}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      {error && <div style={{ color: "red", fontSize: "26px" }}>{error}</div>}
+      {isShowModal && (
+        <CamerasModal
+          setIsShowModal={(e) => setIsShowModal(e)}
+          cookies={cookies}
+          camerasList={camerasList}
+          setCreatedCameras={(e) => setCreatedCameras([...camerasList, e])}
+        />
+      )}
+    </section>
   );
-}
-
-export default Camera;
+};

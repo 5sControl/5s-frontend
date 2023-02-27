@@ -1,15 +1,18 @@
 import axios from "axios"
 import { 
-    API_CAMERASELECT 
+    API_CAMERASELECT_I,
+    API_CAMERASELECT
 } from "./api"
 
 export const getSelectedCameras = (hostname, cookies) => {
     if (hostname.includes("localhost")) {
-        return axios.get(`http://192.168.1.101${API_CAMERASELECT}`,{
+        return  axios.post("https://5scontrol.pl/proxy_to_ngrok",{
+            url: API_CAMERASELECT_I,
+            method:"GET",
             headers:{
                 "Content-Type": "application/json",
                 'Authorization': cookies
-              },
+            }
         })
     }else{
          return  axios.get(`http://${hostname}${API_CAMERASELECT}`,{

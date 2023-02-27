@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { AlgorithmList } from "../../components/algorithmList";
 import { CameraSelect } from "../../components/cameraChoise";
-import { Cameras } from "../../components/cameras/cameras";
+import { Camera } from "../camera/Camera";
 import {
   getAveilableAlgorithms,
   postAlgorithnDependences,
@@ -169,7 +169,7 @@ export const Main = () => {
             </button>
           </div>
         )}
-        {stage === "cameras" && <Cameras />}
+        {stage === "cameras" && <Camera />}
         {stage === "algorithm" && (
           <AlgorithmList
             algorithmList={algorithmList}

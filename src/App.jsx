@@ -5,13 +5,14 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.scss";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { RoutesOutlet } from "./routes/Routes";
-import Camera from "./pages/camera/Camera";
+import {Camera} from "./pages/camera/Camera";
 import { CompanyHub } from "./pages/company/CompanyHub";
 import { Main } from "./pages/main/Main";
 import { Authorization } from "./components/authorization/Authorization";
 import { useCookies } from "react-cookie";
 import { Algorithm } from "./pages/algorithm/Algorithm";
-import { ReportPage } from "./pages/Reports/ReportsPage";
+
+import { AlgorithmPage } from "./pages/algorithmReport/AlgorithmPage";
 function App() {
   const [cookies, setCookie] = useCookies(["token"]);
 
@@ -27,19 +28,19 @@ function App() {
             <Route path="/algorithm" element={<Algorithm />} />
             <Route
               path="/machine_control"
-              element={<ReportPage control={"machine_control"} />}
+              element={<AlgorithmPage control={"machine_control"} />}
             />
             <Route
               path="/safety_control_ear_protection"
-              element={<ReportPage control={"safety_control/safety"} />}
+              element={<AlgorithmPage control={"safety_control/safety"} />}
             />
             <Route
               path="/idle_control"
-              element={<ReportPage control={"idle_control"} />}
+              element={<AlgorithmPage control={"idle_control"} />}
             />
             <Route
               path="/staff_control"
-              element={<ReportPage control={"staff_control"} />}
+              element={<AlgorithmPage control={"staff_control"} />}
             />
           </Route>
         ) : (

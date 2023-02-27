@@ -177,7 +177,7 @@
   }
   &__reports{
     width: 100%;
-    height: 90vh;
+    height: 80vh;
     overflow: auto;
     &_item{
       display: flex;
@@ -240,7 +240,7 @@
     &_image{
       position: relative;
       width: 100%;
-      height: calc(100vh - 290px);
+      height: calc(80vh - 290px);
       // object-fit: contain;
       // object-position:center center;
       cursor: pointer;

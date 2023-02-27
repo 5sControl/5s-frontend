@@ -19,6 +19,7 @@ export const API_AUTH = `/auth/jwt/create/`
 
 export const API_ALGORITHM = '/api/algorithms/available-process/'
 export const API_CAMERASELECT = '/api/cameras/'
+export const API_CAMERASELECT_I = `${url}/api/cameras/`
 
 export const API_URL_I = `${url}/api/safety_control/safety/action/`
 export const API_IMAGES_I = `${url}/`

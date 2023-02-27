@@ -12,7 +12,7 @@ import "./reportPage.scss";
 import { Back } from "../../assets/svg/SVGcomponent";
 import { TimelineHub } from "../../components/timeline/timelineHub";
 
-export const ReportPage = ({ control }) => {
+export const ReportPage = () => {
   const navigate = useNavigate();
   const url = window.location.pathname;
   const [data, setData] = useState(false);
@@ -95,6 +95,7 @@ export const ReportPage = ({ control }) => {
               <select
                 value={algorithmToResponse}
                 className="dashboard__title_button"
+                onChange={() => console.log()}
               >
                 <option value="algorithm">{algorithmToResponse}</option>
               </select>

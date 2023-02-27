@@ -15,7 +15,6 @@ export const Algorithm = () => {
   useEffect(() => {
     getProcess(window.location.hostname, cookies.token).then((res) => {
       const bufferObject = {
-        
       }
       const arrayObject = 
         [...new Set(res.data.map((el) => el.algorithm.name))].map((el) => {
