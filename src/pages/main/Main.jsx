@@ -15,7 +15,6 @@ import {
   postAlgorithnDependences,
 } from "../../api/requests";
 import { getSelectedCameras } from "../../api/requestHomeAndOffice";
-import axios from "axios";
 
 export const Main = () => {
   const [
@@ -133,7 +132,6 @@ export const Main = () => {
     getAveilableAlgorithms(window.location.hostname, cookies.token).then(
       (res) => {
         setAlgorithmList(res.data);
-        console.log(res.data);
       }
     );
   }, []);
@@ -227,7 +225,6 @@ export const Main = () => {
           </div>
         )}
       </>
-      }
     </>
   );
 };

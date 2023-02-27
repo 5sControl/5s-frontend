@@ -72,8 +72,7 @@ export const Timeline = ({
                 <span
                   key={ind}
                   style={el.time > 0 ?{ width: `${(el.time / seconds) * 100}%` } : {}}
-                  className={ind % 2
-                     ? "timeline_red" : " timeline_green"}
+                  className={ind % 2 && el.violation_found? "timeline_red" : " timeline_green"}
                   title={`${el.violation_found}`}
                   onClick={() =>
                     el.id !== 0 ? 
