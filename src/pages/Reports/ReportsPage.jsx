@@ -11,8 +11,9 @@ import moment from "moment";
 import "./reportPage.scss";
 import { Back } from "../../assets/svg/SVGcomponent";
 import { TimelineHub } from "../../components/timeline/timelineHub";
+import { getProcess } from "../../api/requests";
 
-export const ReportPage = () => {
+export const ReportPage = ({control}) => {
   const navigate = useNavigate();
   const url = window.location.pathname;
   const [data, setData] = useState(false);
@@ -58,8 +59,16 @@ export const ReportPage = () => {
 
   useEffect(() => {
     paginator();
+      getProcess(window.location.hostname, cookies.token).then((e) => {
+        if (e.data) {
+          let bufCam = e.data;
+          bufCam = bufCam.filter((el) => el.algorithm.name === control).map((el) => el.camera);
+          setSelectCameras([...new Set(bufCam)]);
+        }
+      });
   }, []);
 
+  
   return (
     <>
       {!!data && (
