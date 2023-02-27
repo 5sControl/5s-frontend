@@ -1,24 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from "react";
 
 import { ReportListItem } from "./ReportListItem";
 import { CurrentReport } from "./currentReport";
 
-import { useSelector } from "react-redux";
-
 export const Reports = ({ data, paginator }) => {
-  const [fullImage, setFullImage] = useState(false);
-  const [currentReport, setCurrentReport] = useState(false);
-
-  const currentReportMain = useSelector((state) => state.currentReport.report);
-
-  useEffect(() => {
-    console.log(currentReportMain)
-    if (data && currentReportMain){
-      setCurrentReport(data.filter(data => data.id === currentReportMain)[0])
-    }
-  },[currentReportMain])
 
   return (
     <>
@@ -37,36 +23,15 @@ export const Reports = ({ data, paginator }) => {
                   <ReportListItem
                     key={ind}
                     item={el}
-                    setCurrentReport={(el) => setCurrentReport(el)}
-                    currentReport={currentReport}
                   />
                 );
               })}
           </div>
         </div>
-
-        {currentReport && (
           <CurrentReport
-            currentReport={currentReport}
-            setFullImage={(el) => setFullImage(el)}
             actionReport={window.location.pathname}
           />
-        )}
       </div>
-      {fullImage && (
-        <>
-          <div
-            className="dashboard__fullimage"
-            onClick={() => setFullImage(false)}
-          >
-            <img
-              src={fullImage}
-              alt="report img"
-              className="dashboard__fullimage_image"
-            />
-          </div>
-        </>
-      )}
     </>
   );
 };

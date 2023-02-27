@@ -18,7 +18,7 @@ export const Timeline = ({
   const seconds = calculateTime(startTime, endTime);
   const [timeLine, setTimeLine] = useState([]);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     if (data) {
       let buf = [
@@ -76,7 +76,9 @@ export const Timeline = ({
                      ? "timeline_red" : " timeline_green"}
                   title={`${el.violation_found}`}
                   onClick={() =>
-                    el.id !== 0 ? dispatch(addCurrentReport(el.id)) : undefined
+                    el.id !== 0 ? 
+                    dispatch(addCurrentReport(data.filter(item=>item.id === el.id)[0])) 
+                    : undefined
                   }
                 ></span>
               ))}
