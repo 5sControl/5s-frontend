@@ -9,8 +9,8 @@ import './index.scss';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-    <Provider>
-        <CookiesProvider store={store}>
+    <Provider store={store}>
+        <CookiesProvider >
             <App />
         </CookiesProvider>
     </Provider>
