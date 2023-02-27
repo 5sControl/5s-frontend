@@ -19,7 +19,6 @@ function Dashboard() {
   const [startTime, setStartTime] = useState("7:00:00");
   const [endTime, setEndTime] = useState("19:00:00");
   const [cookies, setCookie, deleteCookie] = useCookies(["token"]);
-  const [currentReportMain, setCurrentReportMain] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"));
@@ -173,14 +172,14 @@ function Dashboard() {
                 .format("YYYY-MM-DD 00:00:00")}
               startTime={startTime}
               endTime={endTime}
-              setCurrentReportMain={(e) => setCurrentReportMain(e)}
+              
             />
             <h3>
               Reports <span>{data.length}</span>
             </h3>
             <Reports
               data={data}
-              currentReportMain={currentReportMain}
+              
               // paginator={(e) =>paginator(e)}
             />
           </>

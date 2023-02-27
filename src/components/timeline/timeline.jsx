@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import { calculateTime } from "../../functions/calculateTimeDuration";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { addCurrentReport } from "../../store/dataSlice";
+
 import "./timeline.scss";
 
 export const Timeline = ({
@@ -11,10 +14,10 @@ export const Timeline = ({
   algorithm,
   startTime,
   endTime,
-  setCurrentReportMain,
 }) => {
   const seconds = calculateTime(startTime, endTime);
   const [timeLine, setTimeLine] = useState([]);
+  const dispatch = useDispatch();
   
   useEffect(() => {
     if (data) {
@@ -69,10 +72,11 @@ export const Timeline = ({
                 <span
                   key={ind}
                   style={el.time > 0 ?{ width: `${(el.time / seconds) * 100}%` } : {}}
-                  className={ind % 2 && el.violation_found? "timeline_red" : " timeline_green"}
+                  className={ind % 2
+                     ? "timeline_red" : " timeline_green"}
                   title={`${el.violation_found}`}
                   onClick={() =>
-                    el.id !== 0 ? setCurrentReportMain(el.id) : undefined
+                    el.id !== 0 ? dispatch(addCurrentReport(el.id)) : undefined
                   }
                 ></span>
               ))}

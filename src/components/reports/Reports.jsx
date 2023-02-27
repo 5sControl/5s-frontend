@@ -5,15 +5,19 @@ import { useState, useEffect } from "react";
 import { ReportListItem } from "./ReportListItem";
 import { CurrentReport } from "./currentReport";
 
-export const Reports = ({ data, paginator, currentReportMain }) => {
+import { useSelector } from "react-redux";
+
+export const Reports = ({ data, paginator }) => {
   const [fullImage, setFullImage] = useState(false);
   const [currentReport, setCurrentReport] = useState(false);
 
+  const currentReportMain = useSelector((state) => state.currentReport.report);
+
   useEffect(() => {
+    console.log(currentReportMain)
     if (data && currentReportMain){
       setCurrentReport(data.filter(data => data.id === currentReportMain)[0])
     }
-    
   },[currentReportMain])
 
   return (

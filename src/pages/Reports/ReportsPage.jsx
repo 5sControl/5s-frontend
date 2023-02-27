@@ -20,7 +20,6 @@ export const ReportPage = ({ control }) => {
   const [errorCatch, setErrorCatch] = useState(false);
   const [startTime, setStartTime] = useState("7:00:00");
   const [endTime, setEndTime] = useState("19:00:00");
-  const [currentReportMain, setCurrentReportMain] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"));
@@ -128,7 +127,7 @@ export const ReportPage = ({ control }) => {
                   .format("YYYY-MM-DD 00:00:00")}
                 startTime={startTime}
                 endTime={endTime}
-                setCurrentReportMain={(e) => setCurrentReportMain(e)}
+                
               />
               {console.log(endTime)}
               <h3>
@@ -136,7 +135,7 @@ export const ReportPage = ({ control }) => {
               </h3>
               <Reports
                 data={data}
-                currentReportMain={currentReportMain}
+                
                 // paginator={(e) =>paginator(e)}
               />
             </>
