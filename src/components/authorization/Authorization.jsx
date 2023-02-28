@@ -60,6 +60,12 @@ export const Authorization = () => {
       });
   };
 
+  const pressEnter = (event) => {
+    if (event.key === "Enter" && correctEmail && correctPassword) {
+      post()
+    }
+  }
+  
   return (
     <div className="authorization">
       <img src={logo} alt="logo" className="authorization__logo" />
@@ -81,6 +87,7 @@ export const Authorization = () => {
           placeholder="Enter Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => pressEnter(e)}
         />
         {/* {!correctPassword && <span className='authorization__error'>This field is required</span>} */}
         {errorResponse && (
