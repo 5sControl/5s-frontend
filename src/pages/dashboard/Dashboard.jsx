@@ -13,6 +13,7 @@ import { SelectTimeDiapason } from "../../components/selectTimeDiapason";
 import { DataPicker } from "../../components/dataPicker";
 import { getProcess } from "../../api/requests";
 import { parsingAlgorithmName } from "../../functions/parsingAlgorithmName";
+import {Preloader} from "../../components/preloader";
 
 function Dashboard() {
   const [data, setData] = useState(false);
@@ -149,7 +150,9 @@ function Dashboard() {
           )}
         </div>
 
-        {!!data && data.length > 0 ? (
+        {!data ? 
+        <Preloader loading={true}/> :
+        data.length > 0 ? (
           <>
             <TimelineHub
               data={data}
@@ -166,13 +169,11 @@ function Dashboard() {
             </h3>
             <Reports
               data={data}
-              
-              // paginator={(e) =>paginator(e)}
             />
           </>
-        ) : (
-          <>No reports</>
-        )}
+        ) : 
+        <>No reports</>
+        }
         {errorCatch && <div className="dashboard__error">{errorCatch}</div>}
         {data === 0 && (
           <h2 className="dashboard__noauth">
@@ -184,6 +185,7 @@ function Dashboard() {
           </h2>
         )}
       </div>
+     
     </>
   );
 }

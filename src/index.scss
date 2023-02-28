@@ -97,3 +97,10 @@ body {
 .swiper-pagination-fraction{
   color: red !important;
 }
+.preloader-wrapper{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
