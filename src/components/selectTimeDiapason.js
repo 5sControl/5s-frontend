@@ -5,6 +5,7 @@ export const SelectTimeDiapason = ({startTime, setStartTime, setEndTime, endTime
   const setDataToResponse = () => {
     setStartTime(date.startTime)
     setEndTime(date.endTime)
+    setVisibleModal(false)
     update()
   }
 

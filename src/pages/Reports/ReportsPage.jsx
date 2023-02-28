@@ -60,17 +60,21 @@ export const ReportPage = ({control}) => {
   };
 
   useEffect(() => {
-    updateFromDB();
+   
       getProcess(window.location.hostname, cookies.token).then((e) => {
         if (e.data) {
           let bufCam = e.data;
+          console.log(bufCam)
           bufCam = bufCam.filter((el) => el.algorithm.name === control).map((el) => el.camera);
+          
           setSelectCameras([...new Set(bufCam)]);
         }
       });
   }, []);
 
-  
+  useEffect(() => {
+    updateFromDB();
+  },[cameraToResponse, selectDate])
   return (
     <>
       {!!data && (

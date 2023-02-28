@@ -32,7 +32,7 @@ function App() {
             />
             <Route
               path="/safety_control_ear_protection"
-              element={<AlgorithmPage control={"safety_control/safety"} />}
+              element={<AlgorithmPage control={"safety_control_ear_protection"} />}
             />
               <Route
               path="/safety_control_reflective_jacket"
