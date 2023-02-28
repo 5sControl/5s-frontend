@@ -12,6 +12,7 @@ import { TimelineHub } from "../../components/timeline/timelineHub";
 import { SelectTimeDiapason } from "../../components/selectTimeDiapason";
 import { DataPicker } from "../../components/dataPicker";
 import { getProcess } from "../../api/requests";
+import { parsingAlgorithmName } from "../../functions/parsingAlgorithmName";
 
 function Dashboard() {
   const [data, setData] = useState(false);
@@ -116,7 +117,7 @@ function Dashboard() {
               {selectAlgorithm.map((el, ind) => {
                 return (
                   <option value={el} key={ind}>
-                    {el}
+                    {parsingAlgorithmName(el)}
                   </option>
                 );
               })}

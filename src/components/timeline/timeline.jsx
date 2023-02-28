@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { addCurrentReport } from "../../store/dataSlice";
 
 import "./timeline.scss";
+import { parsingAlgorithmName } from "../../functions/parsingAlgorithmName";
 
 export const Timeline = ({
   data,
@@ -66,7 +67,7 @@ export const Timeline = ({
       {timeLine.length > 1 && (
         <section className="report-page_timeline">
           <div className="timeline">
-            <span className="timeline__text"> {algorithm}</span>
+            <span className="timeline__text"> {parsingAlgorithmName(algorithm)}</span>
             <div className="timeline__container">
               {timeLine.map((el, ind) => (
                 <span

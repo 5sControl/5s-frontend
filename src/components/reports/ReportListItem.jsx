@@ -3,6 +3,7 @@ import { Camera, Algorithm } from "../../assets/svg/SVGcomponent";
 import { useDispatch } from "react-redux";
 import { addCurrentReport } from "../../store/dataSlice";
 import { useSelector } from "react-redux";
+import { parsingAlgorithmName } from "../../functions/parsingAlgorithmName";
 export const ReportListItem = ({ item}) => {
   const dispatch = useDispatch();
   const currentReport = useSelector((state) => state.currentReport.report);
@@ -43,7 +44,7 @@ export const ReportListItem = ({ item}) => {
               </div>
               <div>
                 <Algorithm />
-                {item.algorithm.name}
+                {parsingAlgorithmName(item.algorithm.name)}
               </div>
           </div>
          

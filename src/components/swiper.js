@@ -14,10 +14,6 @@ export const Slider = ({currentReport, setFullImage} ) => {
             pagination={{ type: "fraction" }}
             spaceBetween={50}
             slidesPerView={1}
-            onSlideChange={(swiperCore) => {
-              const { activeIndex } = swiperCore;
-              console.log(activeIndex);
-            }}
           >
             {currentReport.photos.map((photo, id) => (
               <SwiperSlide key={id}>

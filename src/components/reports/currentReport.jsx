@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { parsingAlgorithmName } from "../../functions/parsingAlgorithmName.js";
 
 export const CurrentReport = () => {
   const currentReport = useSelector((state) => state.currentReport.report);
@@ -22,24 +23,28 @@ export const CurrentReport = () => {
         <>
           <div className="dashboard__report">
             <div className="dashboard__report_image">
-              <Slider
-                currentReport={currentReport}
-                setFullImage={(e) => setFullImage(e)}
-              />
+              {
+                currentReport && 
+                <Slider
+                  currentReport={currentReport}
+                  setFullImage={(e) => setFullImage(e)}
+                />
+              }
+             
             </div>
 
             <div className="dashboard__report_item">
               <span>Date & Time</span>
               <span>
-                {moment(new Date(currentReport.start_tracking))
+                {moment(currentReport.start_tracking)
                   .add(3, "hours")
-                  .format("YYYY-MM-DD")}{" "}
-                |{" "}
-                {moment(new Date(currentReport.start_tracking))
+                  .format("YYYY-MM-DD ")}
+                |
+                {moment(currentReport.start_tracking)
                   .add(3, "hours")
-                  .format("HH:mm:ss")}{" "}
-                -{" "}
-                {moment(new Date(currentReport.stop_tracking))
+                  .format("HH:mm:ss")}
+                -
+                {moment(currentReport.stop_tracking)
                   .add(3, "hours")
                   .format("HH:mm:ss")}
               </span>
@@ -51,7 +56,7 @@ export const CurrentReport = () => {
             <div className="dashboard__report_item">
               <span>Algorithm</span>
 
-              <span>{currentReport.algorithm.name}</span>
+              <span>{parsingAlgorithmName(currentReport.algorithm.name)}</span>
             </div>
             <div className="dashboard__report_item">
               <span>Status</span>
