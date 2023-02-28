@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import "./Dashboard.scss";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import { useCookies } from "react-cookie";
 
@@ -27,21 +27,7 @@ function Dashboard() {
   const [cameraToResponse, setCameraToResponse] = useState("camera");
   const [selectAlgorithm, setSelectAlgorithm] = useState([]);
   const [algorithmToResponse, setAlgorithmToResponse] = useState("algorithm");
-  useEffect(() => {
-    let bufStart = new Date();
-    let bufEnd = new Date();
-    bufStart.setHours(
-      Number(startTime.split(":")[0]),
-      Number(startTime.split(":")[1]),
-      Number(startTime.split(":")[2])
-    );
-    bufEnd.setHours(
-      Number(endTime.split(":")[0]),
-      Number(endTime.split(":")[1]),
-      Number(endTime.split(":")[2])
-    );
-    // console.log((bufEnd - bufStart) / 1000)
-  }, [startTime, endTime]);
+
 
   const update = () => {
     setVisibleModal(false);
