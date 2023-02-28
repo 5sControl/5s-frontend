@@ -36,14 +36,10 @@ export const Main = () => {
 
   const reducer = () => {
     return (
-      camerasIdle_control.filter((el) => el.isSelected).map((e) => e.ip)
-        .length +
-      camerasSafety_Control_Ear_protection
-        .filter((el) => el.isSelected)
-        .map((e) => e.ip).length +
-      camerasMachine_Control.filter((el) => el.isSelected).map((e) => e.ip)
-        .length +
-      camerasSafety_Control_Reflective_jacket.filter((el) => el.isSelected).map((e) => e.ip)
+      camerasIdle_control.filter((el) => el.isSelected).map((e) => e.ip).length +
+      camerasSafety_Control_Ear_protection.filter((el) => el.isSelected).map((e) => e.ip).length +
+      camerasMachine_Control.filter((el) => el.isSelected).map((e) => e.ip).length +
+      camerasSafety_Control_Reflective_jacket.filter((el) => el.isSelected).map((e) => e.ip).length
     );
   };
 
