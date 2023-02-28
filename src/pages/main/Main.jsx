@@ -21,6 +21,10 @@ export const Main = () => {
     camerasSafety_Control_Ear_protection,
     setCamerasSafety_Control_Ear_protection,
   ] = useState([]);
+  const [
+    camerasSafety_Control_Reflective_jacket,
+    setCamerasSafety_Control_Reflective_jacket,
+  ] = useState([]);
   const [camerasIdle_control, setCamerasIdle_control] = useState([]);
   const [camerasMachine_Control, setCamerasMachine_Control] = useState([]);
   const [stage, setStage] = useState("begin");
@@ -38,7 +42,8 @@ export const Main = () => {
         .filter((el) => el.isSelected)
         .map((e) => e.ip).length +
       camerasMachine_Control.filter((el) => el.isSelected).map((e) => e.ip)
-        .length
+        .length +
+      camerasSafety_Control_Reflective_jacket.filter((el) => el.isSelected).map((e) => e.ip)
     );
   };
 
@@ -62,6 +67,16 @@ export const Main = () => {
     ) {
       response.safety_control_ear_protection =
         camerasSafety_Control_Ear_protection
+          .filter((el) => el.isSelected)
+          .map((e) => e.ip);
+    }
+    if (
+      camerasSafety_Control_Reflective_jacket
+        .filter((el) => el.isSelected)
+        .map((e) => e.ip).length > 0
+    ) {
+      response.safety_Control_Reflective_jacket =
+      camerasSafety_Control_Reflective_jacket
           .filter((el) => el.isSelected)
           .map((e) => e.ip);
     }
@@ -98,11 +113,13 @@ export const Main = () => {
     if (selectType.type === "Safety_Control_Ear_protection") {
       setCamerasSafety_Control_Ear_protection(selectType.obj);
     }
+    if (selectType.type === "Safety_Control_Reflective_jacket") {
+      setCamerasSafety_Control_Reflective_jacket(selectType.obj);
+    }
     if (selectType.type === "Machine_Control") {
       setCamerasMachine_Control(selectType.obj);
     }
     if (selectType.type === "Idle_Control") {
-      console.log(selectType.obj);
       setCamerasIdle_control(selectType.obj);
     }
     setSelectType("");
@@ -121,6 +138,7 @@ export const Main = () => {
             };
           });
           setCamerasSafety_Control_Ear_protection(buf);
+          setCamerasSafety_Control_Reflective_jacket(buf);
           setCamerasIdle_control(buf);
           setCamerasMachine_Control(buf);
         }
@@ -177,9 +195,8 @@ export const Main = () => {
             setSelectType={(e) => {
               setSelectType(e);
             }}
-            camerasSafety_Control_Ear_protection={
-              camerasSafety_Control_Ear_protection
-            }
+            camerasSafety_Control_Ear_protection={ camerasSafety_Control_Ear_protection }
+            camerasSafety_Control_Reflective_jacket = {camerasSafety_Control_Reflective_jacket}
             camerasMachine_Control={camerasMachine_Control}
             camerasIdle_Control={camerasIdle_control}
             algorithmPage={"main"}

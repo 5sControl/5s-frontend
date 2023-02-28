@@ -8,8 +8,10 @@ export const AlgorithmList = ({
   camerasMachine_Control,
   camerasIdle_Control,
   algorithmPage,
+  camerasSafety_Control_Reflective_jacket
 }) => {
   const navigate = useNavigate();
+
   const pushTheButton = (algorithm) => {
     if (algorithmPage === "main") {
       console.log(algorithm);
@@ -17,6 +19,12 @@ export const AlgorithmList = ({
         setSelectType({
           obj: camerasSafety_Control_Ear_protection,
           type: "Safety_Control_Ear_protection",
+        });
+      }
+      if (algorithm === "Safety_Control_Reflective_jacket") {
+        setSelectType({
+          obj: camerasSafety_Control_Reflective_jacket,
+          type: "Safety_Control_Reflective_jacket",
         });
       }
       if (algorithm === "Machine_Control") {
@@ -90,6 +98,20 @@ export const AlgorithmList = ({
       </div>
       <div
         className={
+          algorithmList.safety_control_reflective_jacket
+            ? "selection__container"
+            : "selection__container noAccess"
+        }
+        onClick={() => pushTheButton("Safety_Control_Reflective_jacket")}
+      >
+        <div>
+          <h4>Safety Control: Reflective jacket</h4>
+          <h5>Detects if worker is not wearing reflective jacket.</h5>
+        </div>
+        <AiOutlineRight />
+      </div>
+      <div
+        className={
           algorithmList.staff_control
             ? "selection__container noAccess"
             : "selection__container noAccess"
@@ -127,20 +149,6 @@ export const AlgorithmList = ({
         <div>
           <h4>Safety Control: Hand protection</h4>
           <h5>Detects if worker is not wearing protective gloves.</h5>
-        </div>
-        <AiOutlineRight />
-      </div>
-      <div
-        className={
-          algorithmList.safety_control_reflective_jacket
-            ? "selection__container"
-            : "selection__container noAccess"
-        }
-        onClick={() => setSelectType("Safety_Control_Reflective_jacket")}
-      >
-        <div>
-          <h4>Safety Control: Reflective jacket</h4>
-          <h5>Detects if worker is not wearing reflective jacket.</h5>
         </div>
         <AiOutlineRight />
       </div>
