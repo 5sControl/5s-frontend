@@ -48,6 +48,7 @@
         padding: 20px 0px;
         border-bottom: 1px solid #E0E0E0;
         cursor: pointer;
+        order: 1;
         h4{
             font-weight: 600;
             font-size: 16px;
@@ -163,6 +164,7 @@
   }
   .noAccess{
     pointer-events: none;
+    order: 2;
     h4,h5{
         color: #9E9E9E !important;
         }
