@@ -8,16 +8,18 @@ import { Reports } from "../../components/reports/Reports";
 import { DataPicker } from "../../components/dataPicker";
 import { SelectTimeDiapason } from "../../components/selectTimeDiapason";
 import moment from "moment";
-import "./reportPage.scss";
+
 import { Back } from "../../assets/svg/SVGcomponent";
 import { TimelineHub } from "../../components/timeline/timelineHub";
 import { getProcess } from "../../api/requests";
+
+import "./reportPage.scss";
 
 export const ReportPage = ({control}) => {
   const navigate = useNavigate();
   const url = window.location.pathname;
   const [data, setData] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
   const [errorCatch, setErrorCatch] = useState(false);
   const [startTime, setStartTime] = useState("7:00:00");
   const [endTime, setEndTime] = useState("19:00:00");
@@ -30,7 +32,7 @@ export const ReportPage = ({control}) => {
     window.location.pathname.substring(1)
   );
 
-  const paginator = () => {
+  const updateFromDB = () => {
     getData(
       window.location.hostname,
       cookies.token,
@@ -58,7 +60,7 @@ export const ReportPage = ({control}) => {
   };
 
   useEffect(() => {
-    paginator();
+    updateFromDB();
       getProcess(window.location.hostname, cookies.token).then((e) => {
         if (e.data) {
           let bufCam = e.data;
@@ -152,7 +154,7 @@ export const ReportPage = ({control}) => {
             <div className="dashboard__datapicker">
               <DataPicker
                 setSelectDate={(e) => setSelectDate(e)}
-                update={paginator}
+                update={updateFromDB}
                 setVisibleModalDate={(e) => setVisibleModalDate(e)}
                 selectDateDash={selectDate}
               />
@@ -165,7 +167,7 @@ export const ReportPage = ({control}) => {
               setStartTime={(e) => setStartTime(e)}
               endTime={endTime}
               setEndTime={(e) => setEndTime(e)}
-              update={paginator}
+              update={updateFromDB}
               setVisibleModal={(e) => setVisibleModal(e)}
             />
           )}
