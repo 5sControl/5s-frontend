@@ -13,19 +13,6 @@ export const Authorization = () => {
   const [correctPassword, setCorrectPassword] = useState(false);
   const [errorResponse, setErrorResponse] = useState(false);
   const [cookies, setCookie] = useCookies(["token"]);
-
-  // const validate = (text) => {
-  //     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-  //     if (reg.test(text) === false) {
-  //       setCorrectEmail(false)
-  //       setEmail(text)
-  //       return false;
-  //     }
-  //     else {
-  //       setEmail(text)
-  //       setCorrectEmail(true)
-  //     }
-  //   }
   
   useEffect(() => {
     if (password.length > 4 && password.length < 20) {
@@ -65,7 +52,7 @@ export const Authorization = () => {
       post()
     }
   }
-  
+
   return (
     <div className="authorization">
       <img src={logo} alt="logo" className="authorization__logo" />

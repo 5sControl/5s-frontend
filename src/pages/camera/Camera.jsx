@@ -22,6 +22,7 @@ export const Camera = () => {
       console.log(response);
       if (response.data.length > 0) {
         setCreatedCameras(response.data);
+        console.log(createdCameras);
       }
     })
     .catch((error) => setError(error.message));

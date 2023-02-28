@@ -143,8 +143,6 @@ export const ReportPage = ({control}) => {
               </h3>
               <Reports
                 data={data}
-                
-                // paginator={(e) =>paginator(e)}
               />
             </>
           ) : (

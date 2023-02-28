@@ -9,6 +9,7 @@ export const CamerasModal = ({
   cookies,
   camerasList,
   setCamerasList,
+  setCreatedCameras,
 }) => {
   const [stage, setStage] = useState("selectCamera");
   const [IPCamera, setIPCamera] = useState("");
@@ -22,7 +23,16 @@ export const CamerasModal = ({
     setStage("selectCamera");
     setCamerasList(IPCamera);
     patchCamera(window.location.hostname, IPCamera, cameraName, cookies.token).then((res) =>
+    {
       console.log(res)
+      setCreatedCameras({
+        description: null,
+        id :  IPCamera,
+        is_active : true,
+        name : cameraName,
+      })
+    }
+     
     );
   };
 
@@ -35,7 +45,6 @@ export const CamerasModal = ({
       cookies.token
     ).then((e) => {
       if (e.data.message && e.data.message.includes("failed")) {
-        console.log(e.data.message);
         setConnectMessage(e.data.message);
       } else {
         setStage("cameraCreated");
