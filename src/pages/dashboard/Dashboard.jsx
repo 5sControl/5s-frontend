@@ -172,7 +172,7 @@ function Dashboard() {
             />
           </>
         ) : 
-        <>No reports</>
+        <div className="dashboard__noreports">No reports found</div>
         }
         {errorCatch && <div className="dashboard__error">{errorCatch}</div>}
         {data === 0 && (
