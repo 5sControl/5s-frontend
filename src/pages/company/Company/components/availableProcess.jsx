@@ -14,6 +14,7 @@ export const AvailableProcess = () => {
             setProcess(el.data)
         })
     },[])
+    
     return (
         <div className="company__available">
             <h1>Available process</h1>

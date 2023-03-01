@@ -41,7 +41,7 @@ export const CompanyComponent = () =>{
             <div className='company__name'>
                 <h3>Taqtile</h3>
             </div>
-            <LicenseKey/>
+            <LicenseKey cookies= {cookies.token}/>
             <AvailableProcess />
             <div className='company__accounts_tab'>
                 <h2>Accounts</h2>
