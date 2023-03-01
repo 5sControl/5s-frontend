@@ -46,7 +46,7 @@ export const AlgorithmPage = ({control}) => {
                     }) 
                 }
                 {
-                showModal && <CameraModal token={cookies.token} activeCameras = {camera}/>
+                showModal && <CameraModal token={cookies.token} activeCameras = {camera.map(item => item.camera.id)}/>
                 }
             </div>
             

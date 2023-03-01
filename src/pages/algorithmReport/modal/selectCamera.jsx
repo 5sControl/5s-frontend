@@ -1,46 +1,52 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useEffect } from "react"
 import { getIsInternet } from "../../../api/getURL"
 import { API_IMAGES_I,  } from "../../../api/api"
 import { getSelectedCameras } from "../../../api/requestHomeAndOffice"
+import { useState } from "react"
 
 export const CameraModal = ({token, activeCameras}) => {
-    
+
+    const [allCameras, setAllCameras] = useState([])
+
     useEffect(() => {
-        console.log(activeCameras);
         getSelectedCameras(window.location.hostname, token)
-        .then((response) => {
-          console.log(response);
-          
+            .then((response) => {
+            setAllCameras(response.data.map(item => {
+                return{
+                    ...item,
+                    isSelected: activeCameras.includes(item.id)
+                }
+            }));
         })
-        
     },[])
- 
+
+    console.log(allCameras)
     return (
         <section className="camera-modal">
             <div className="camera-modal__container">
-            {/* {selectType.obj.map((el) => (
-                <Fragment key={el.id}>
-                
+            {allCameras.map((el, index) => (
+                <Fragment key={index}>
                 <div className={"select__cameras_item"}>
                     <img
-                    src={
-                        getIsInternet(window.location.hostname)
-                        ? `${API_IMAGES_I}/images/${el.ip}/snapshot.jpg`
-                        : `http://${window.location.hostname}/images/${el.ip}/snapshot.jpg`
-                    }
-                    alt="Camera"
+                        src={
+                            getIsInternet(window.location.hostname)
+                            ? `${API_IMAGES_I}/images/${el.id}/snapshot.jpg`
+                            : `http://${window.location.hostname}/images/${el.id}/snapshot.jpg`
+                        }
+                        alt="Camera"
                     />
                     <div className="select__cameras_item_footer">
-                    <span>{el.ip}</span>
+                    <span>{el.id}</span>
                     <input
                         type="checkbox"
                         checked={el.isSelected}
-                        onChange={() => onChangeHandler(el.id)}
+                        onChange={() => setAllCameras([...allCameras, allCameras[index].isSelected = !allCameras[index].isSelected].slice(0, -1))}
                     />
                     </div>
                 </div>
                 </Fragment>
-            ))} */}
+            ))}
             </div>
         </section>  
     )
