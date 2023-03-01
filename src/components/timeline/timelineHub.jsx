@@ -1,6 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { Timeline } from "./timeline";
 import { calculateTimeCenter } from "../../functions/calculateTimeCenter";
 import "./timeline";
+import { useEffect } from "react";
+import { getProcess } from "../../api/requests";
+import { useCookies } from "react-cookie";
 export const TimelineHub = ({
   data,
   startDate,
@@ -8,7 +13,7 @@ export const TimelineHub = ({
   startTime,
   endTime,
 }) => {
-
+  const [cookies] = useCookies();
   const algorithm = data.reduce((prev, curr) => {
     return [...new Set([...prev, curr.algorithm.name])];
   }, []);
@@ -16,6 +21,13 @@ export const TimelineHub = ({
   const cameras = data.reduce((prev, curr) => {
     return [...new Set([...prev, curr.camera.name])];
   }, []);
+
+  useEffect(() => {
+    getProcess(window.location.hostname, cookies.token).then((res) => {
+      console.log(res);
+    })
+  },[])
+
   return (
     <div className="timeline-hub">
       {/* <div className="timeline__description">

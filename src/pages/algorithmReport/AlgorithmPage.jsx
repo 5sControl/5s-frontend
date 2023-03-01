@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useEffect, useState } from "react"
 import { ReportPage } from "../Reports/ReportsPage"
-import { getProcess } from "../../api/requests"
+import { deleteProcess, getProcess } from "../../api/requests"
 import { useCookies } from "react-cookie"
 
 export const AlgorithmPage = ({control}) => {
@@ -15,12 +15,13 @@ export const AlgorithmPage = ({control}) => {
     return (
         <>
             <ReportPage control={control} />
+            {console.log(camera)}
             {
                 camera && 
                 camera.map((data, index) => {
                     return (
                         <Fragment key={index}>
-                            <div>{data.camera.name}</div>
+                            <div onClick={() => deleteProcess(window.location.hostname, cookies.token, data.process_id)}>{data.camera.name}</div>
                         </Fragment>
                     )
                 })

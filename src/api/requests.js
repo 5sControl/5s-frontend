@@ -11,6 +11,8 @@ import {
     API_REGISTRATION,
     API_REGISTRATION_I,
     API_GETPROCESS_I,
+    API_DELPROCESS_I,
+    API_DELPROCESS
 } from "./api"
 import { proxy } from "./proxy"
 import { getIsInternet } from "./getURL"
@@ -125,3 +127,27 @@ export const getProcess = (hostname, cookies ) => {
  
 }
 
+export const deleteProcess = (hostname, cookies, pid ) => {
+  if (false){
+    return axios.post("https://5scontrol.pl/proxy_to_ngrok",{
+            url: API_DELPROCESS_I,
+            method: "GET",
+            headers:{
+              'Authorization': cookies
+            },
+            body:JSON.stringify({
+              pid: pid,
+            })
+        })
+  }
+  else{
+   return  axios.get(`http://192.168.1.101${API_DELPROCESS}`, {
+                headers:{
+                  'Authorization': cookies,
+                  "pid":pid
+                },
+               
+              })
+  }
+ 
+}
