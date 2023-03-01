@@ -22,7 +22,8 @@ export const AlgorithmPage = ({control}) => {
                 camera.map((data, index) => {
                     return (
                         <Fragment key={index}>
-                            <div onClick={() => deleteProcess(window.location.hostname, cookies.token, data.process_id)}>{data.camera.name}</div>
+                            <div 
+                                onClick={() => deleteProcess(window.location.hostname, cookies.token, data.process_id)}>{data.camera.name}</div>
                         </Fragment>
                     )
                 })
