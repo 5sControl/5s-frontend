@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { Fragment, useEffect, useState } from 'react'
 import './Company.scss'
-
+import moment from 'moment'
 import { useCookies } from "react-cookie"
 import { AddUser } from './components/addUser'
 import { getUserList } from '../../../api/requests'
@@ -16,7 +16,7 @@ export const CompanyComponent = () =>{
     const [cookies, setCookie, removeCookie] = useCookies(['token'])
     const [userList, setUserList] = useState([]);
     const [isAddAccount, setIsAddAccount] = useState(false);
-
+    const [companyInfo, setCompanyInfo] = useState({});
     useEffect(() =>{
         getUserList(window.location.hostname, cookies.token)
           .then(res => {
@@ -28,8 +28,9 @@ export const CompanyComponent = () =>{
             }
         })
         getCompanyInfo(window.location.hostname, cookies.token)
-            .then((data) => {
-                console.log(data)
+            .then((response) => {
+                console.log(response)
+                setCompanyInfo(response.data)
             })
     },[])
 
@@ -39,7 +40,13 @@ export const CompanyComponent = () =>{
         <div className='company'>
             <h2>Company</h2>
             <div className='company__name'>
-                <h3>Taqtile</h3>
+                <h3>{companyInfo.name_company}</h3>
+                <br></br>
+                <h4>Date joined: {moment(companyInfo.date_joined).format("DD-MM-YYYY")}</h4>
+                <h4>Days left: {companyInfo.days_left}</h4>
+                <h4>Cameras count: {companyInfo.count_cameras}</h4>
+                <h4>Active neurons: {companyInfo.neurons_active}</h4>
+                
             </div>
             <LicenseKey cookies= {cookies.token}/>
             <AvailableProcess />
