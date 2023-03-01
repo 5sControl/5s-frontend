@@ -3,9 +3,6 @@
 import { Timeline } from "./timeline";
 import { calculateTimeCenter } from "../../functions/calculateTimeCenter";
 import "./timeline";
-import { useEffect } from "react";
-import { getProcess } from "../../api/requests";
-import { useCookies } from "react-cookie";
 export const TimelineHub = ({
   data,
   startDate,
