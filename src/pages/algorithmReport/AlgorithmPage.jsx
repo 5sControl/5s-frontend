@@ -3,7 +3,7 @@ import { Fragment, useEffect, useState } from "react"
 import { ReportPage } from "../Reports/ReportsPage"
 import { deleteProcess, getProcess } from "../../api/requests"
 import { useCookies } from "react-cookie"
-import { getSelectedCameras } from "../../api/requestHomeAndOffice"
+
 
 import './algorithmPage.scss'
 import { CameraModal } from "./modal/selectCamera"
@@ -12,11 +12,7 @@ export const AlgorithmPage = ({control}) => {
     const [cookies] = useCookies(['token'])
     const [camera, setCamera] = useState(false)
     const [showModal, setShowModal] = useState(false)
-    getSelectedCameras(window.location.hostname, cookies.token)
-    .then((response) => {
-      console.log(response);
-     
-    })
+
     useEffect(() => {
         getProcess(window.location.hostname, cookies.token).then(e=> {
             setCamera(e.data.filter(cam => cam.algorithm.name === control))
@@ -50,7 +46,7 @@ export const AlgorithmPage = ({control}) => {
                     }) 
                 }
                 {
-                showModal && <CameraModal/>
+                showModal && <CameraModal token={cookies.token} activeCameras = {camera}/>
                 }
             </div>
             

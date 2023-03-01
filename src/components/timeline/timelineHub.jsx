@@ -13,7 +13,6 @@ export const TimelineHub = ({
   startTime,
   endTime,
 }) => {
-  const [cookies] = useCookies();
   const algorithm = data.reduce((prev, curr) => {
     return [...new Set([...prev, curr.algorithm.name])];
   }, []);
@@ -21,12 +20,6 @@ export const TimelineHub = ({
   const cameras = data.reduce((prev, curr) => {
     return [...new Set([...prev, curr.camera.name])];
   }, []);
-
-  useEffect(() => {
-    getProcess(window.location.hostname, cookies.token).then((res) => {
-      console.log(res);
-    })
-  },[])
 
   return (
     <div className="timeline-hub">

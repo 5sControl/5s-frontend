@@ -1,7 +1,20 @@
-import { Fragment } from "react"
+import { Fragment, useEffect } from "react"
 import { getIsInternet } from "../../../api/getURL"
 import { API_IMAGES_I,  } from "../../../api/api"
-export const CameraModal = () => {
+import { getSelectedCameras } from "../../../api/requestHomeAndOffice"
+
+export const CameraModal = ({token, activeCameras}) => {
+    
+    useEffect(() => {
+        console.log(activeCameras);
+        getSelectedCameras(window.location.hostname, token)
+        .then((response) => {
+          console.log(response);
+          
+        })
+        
+    },[])
+ 
     return (
         <section className="camera-modal">
             <div className="camera-modal__container">
