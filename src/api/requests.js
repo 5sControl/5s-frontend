@@ -143,7 +143,7 @@ export const deleteProcess = (hostname, cookies, pid ) => {
     })
 }
 else{
-      return  axios.get(`${url}/${API_DELPROCESS}`, {
+      return  axios.get(`${url}${API_DELPROCESS}`, {
       "pid":pid
       },{
         headers:{

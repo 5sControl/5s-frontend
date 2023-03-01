@@ -6,7 +6,7 @@ import close from "../assets/svg/close.svg";
 const CameraChoise = ({ selectType, onChangeHandler }) => {
   return (
     <div className="select__cameras">
-      {selectType.obj.map((el, ind) => (
+      {selectType.obj.map((el) => (
         <Fragment key={el.id}>
         
           <div className={"select__cameras_item"}>
