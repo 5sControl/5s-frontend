@@ -43,13 +43,14 @@
     justify-content: center;
     align-items: center;
     &__container{
-        margin: 0 auto;
         padding: 20px;
+        margin: 0 auto;
         height: 70vh;
         width: 590px;
         background-color: #fff;
         margin-top: 70px;
         display: flex;
         flex-wrap: wrap;
+        overflow: auto;
     }
 }
