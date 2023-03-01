@@ -9,12 +9,13 @@ import { getUserList } from '../../../api/requests'
 import { getCompanyInfo } from '../../../api/requestCompany'
 import {LicenseKey} from './components/licenseKey'
 import {UserList} from './components/UserList'
+import { AvailableProcess } from './components/availableProcess'
+
 export const CompanyComponent = () =>{
 
     const [cookies, setCookie, removeCookie] = useCookies(['token'])
     const [userList, setUserList] = useState([]);
     const [isAddAccount, setIsAddAccount] = useState(false);
-
 
     useEffect(() =>{
         getUserList(window.location.hostname, cookies.token)
@@ -41,11 +42,13 @@ export const CompanyComponent = () =>{
                 <h3>Taqtile</h3>
             </div>
             <LicenseKey/>
+            <AvailableProcess />
             <div className='company__accounts_tab'>
                 <h2>Accounts</h2>
                 <button className='company__add' onClick={() => setIsAddAccount(true)}>+ Add Account</button>
             </div>
             <UserList userList={userList}/>
+            
             {isAddAccount && <AddUser close={() =>{setIsAddAccount(false)}}/>}
         </div> 
         }
