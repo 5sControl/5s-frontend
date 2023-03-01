@@ -4,20 +4,21 @@ import { Fragment, useEffect, useState } from 'react'
 import './Company.scss'
 
 import { useCookies } from "react-cookie"
-import { AddUser } from './addUser'
+import { AddUser } from './components/addUser'
 import { getUserList } from '../../../api/requests'
-
+import { getCompanyInfo } from '../../../api/requestCompany'
+import {LicenseKey} from './components/licenseKey'
+import {UserList} from './components/UserList'
 export const CompanyComponent = () =>{
 
-    const [cookies, setCookie, removeCookie] = useCookies(['token']);
-
+    const [cookies, setCookie, removeCookie] = useCookies(['token'])
     const [userList, setUserList] = useState([]);
     const [isAddAccount, setIsAddAccount] = useState(false);
-    
+
+
     useEffect(() =>{
         getUserList(window.location.hostname, cookies.token)
           .then(res => {
-            console.log(res.data)
             if (res.data.detail !=='Authentication credentials were not provided.' && res.data.detail!== 'Given token not valid for any token type') {
                 setUserList(res.data.results)
             }
@@ -25,6 +26,10 @@ export const CompanyComponent = () =>{
                 removeCookie('token')
             }
         })
+        getCompanyInfo(window.location.hostname, cookies.token)
+            .then((data) => {
+                console.log(data)
+            })
     },[])
 
     return(
@@ -35,26 +40,12 @@ export const CompanyComponent = () =>{
             <div className='company__name'>
                 <h3>Taqtile</h3>
             </div>
+            <LicenseKey/>
             <div className='company__accounts_tab'>
                 <h2>Accounts</h2>
                 <button className='company__add' onClick={() => setIsAddAccount(true)}>+ Add Account</button>
             </div>
-
-            <div className='company__accounts_container'>
-                {userList.map((user) => 
-                <Fragment key={user.id}>
-                    <div className='company__user'>
-                        <span>{user.username}</span>
-                        {user.id === 1 ?
-                        <div className='company__user_owner'>Owner</div>
-                        :
-                        <div className='company__user_worker'>Worker</div>
-                        }
-                        
-                    </div>
-                </Fragment>
-                )}
-            </div>
+            <UserList userList={userList}/>
             {isAddAccount && <AddUser close={() =>{setIsAddAccount(false)}}/>}
         </div> 
         }

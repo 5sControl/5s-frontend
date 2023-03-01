@@ -7,15 +7,16 @@ import { useCookies } from "react-cookie"
 export const AlgorithmPage = ({control}) => {
     const [cookies] = useCookies(['token'])
     const [camera, setCamera] = useState(false)
+
     useEffect(() => {
         getProcess(window.location.hostname, cookies.token).then(e=> {
             setCamera(e.data.filter(cam => cam.algorithm.name === control))
         })
     },[])
+
     return (
         <>
             <ReportPage control={control} />
-            {console.log(camera)}
             {
                 camera && 
                 camera.map((data, index) => {

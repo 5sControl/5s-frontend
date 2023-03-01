@@ -128,7 +128,7 @@ export const getProcess = (hostname, cookies ) => {
 }
 
 export const deleteProcess = (hostname, cookies, pid ) => {
-  if (false){
+  if (getIsInternet(hostname)){
     return axios.post("https://5scontrol.pl/proxy_to_ngrok",{
             url: API_DELPROCESS_I,
             method: "GET",
