@@ -18,6 +18,7 @@ body {
   height: 100vh;
   display: flex;
   .leftMenu{
+    position: relative;
     min-width: 120px;
     width: 120px;
     height: 100vh;
@@ -29,6 +30,32 @@ body {
     align-items: center;
     padding: 20px 0;
     z-index: 2;
+    &__company{
+      position: absolute;
+      width: 100%;
+      padding: 0 10px;
+      bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      h2{
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 24px;
+        color: #666666;
+      }
+      h3{
+        width: 100%;
+        text-align: center;
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 24px;
+        color: #FE6100;
+        background: #FFD1B4;
+        padding: 2px;
+        border-radius: 2px;
+      }
+    }
     ul{
       margin-top: 40px;
       padding: 0;

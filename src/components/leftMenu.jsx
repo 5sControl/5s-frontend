@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Link } from "react-router-dom";
 import {
   Algorithm,
@@ -6,14 +7,26 @@ import {
   Dashboard,
 } from "../assets/svg/SVGcomponent";
 import logo from "../assets/svg/icon.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getCompanyInfo } from "../api/requestCompany";
+import { useCookies } from "react-cookie";
 
 export const LeftMenu = () => {
   const [useless, setUseless] = useState(false);
-
+  const [cookies] = useCookies(["token"]);
+  const [companyInfo, setCompanyInfo] = useState([]);
   const send = () => {
     setUseless(!useless);
   };
+
+ useEffect(() => {
+  getCompanyInfo(window.location.hostname, cookies.token)
+  .then((response) => {
+      // console.log(response.data)
+      setCompanyInfo(response.data)
+  })
+ },[])
+
   return (
     <aside className="leftMenu">
       <Link to="/" onClick={send}>
@@ -69,6 +82,10 @@ export const LeftMenu = () => {
           </Link>
         </li>
       </ul>
+      <div className={'leftMenu__company'}>
+          <h2>{companyInfo.name_company}</h2>
+          <h3>{companyInfo.days_left}</h3>
+      </div>
     </aside>
   );
 };

@@ -29,7 +29,6 @@ export const CompanyComponent = () =>{
         })
         getCompanyInfo(window.location.hostname, cookies.token)
             .then((response) => {
-                console.log(response)
                 setCompanyInfo(response.data)
             })
     },[])
