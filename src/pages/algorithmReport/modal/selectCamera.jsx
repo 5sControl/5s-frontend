@@ -31,8 +31,6 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
         // console.log(whatIsDelete.map(IPcamera =>  ))
         whatIsDelete = whatIsDelete.map(IPcamera =>ProccessIDInObject[IPcamera][0])
         const whatIsAdd = afterSelectedCameras?.true.filter(activeCamera => previousNonActiveCameras.includes(activeCamera) )
-        console.log(whatIsDelete)
-        console.log(whatIsAdd)
         await whatIsDelete.forEach(processID => deleteProcessFromDB(processID))
         await  postAlgorithnDependences(
             window.location.hostname,
@@ -45,7 +43,7 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
               },
           ).then((e) => {
             if (e.data.message === "Camera Algorithm records created successfully") {
-                console.log('sdfsdfsdfsdf')
+                setShowModal()
             }
           }); 
     }

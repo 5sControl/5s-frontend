@@ -24,7 +24,6 @@ export const CamerasModal = ({
     setCamerasList(IPCamera);
     patchCamera(window.location.hostname, IPCamera, cameraName, cookies.token).then((res) =>
     {
-      console.log(res)
       setCreatedCameras({
         description: null,
         id :  IPCamera,

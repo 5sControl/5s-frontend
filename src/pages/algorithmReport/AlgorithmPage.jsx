@@ -16,7 +16,7 @@ export const AlgorithmPage = ({control}) => {
         getProcess(window.location.hostname, cookies.token).then(e=> {
             setCamera(e.data.filter(cam => cam.algorithm.name === control))
         })
-    },[])
+    },[showModal])
 
     return (
         <>
