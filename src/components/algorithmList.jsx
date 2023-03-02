@@ -7,6 +7,7 @@ export const AlgorithmList = ({
   camerasSafety_Control_Ear_protection,
   camerasMachine_Control,
   camerasIdle_Control,
+  camerasStaff_control,
   algorithmPage,
   camerasSafety_Control_Reflective_jacket
 }) => {
@@ -32,6 +33,9 @@ export const AlgorithmList = ({
       }
       if (algorithm === "Idle_Control") {
         setSelectType({ obj: camerasIdle_Control, type: "Idle_Control" });
+      }
+      if (algorithm === "Staff_control") {
+        setSelectType({ obj: camerasStaff_control, type: "Staff_Control" });
       }
       return;
     }
@@ -113,8 +117,8 @@ export const AlgorithmList = ({
       <div
         className={
           algorithmList.staff_control
-            ? "selection__container noAccess"
-            : "selection__container noAccess"
+            ? "selection__container "
+            : "selection__container "
         }
         onClick={() => pushTheButton("Staff_control")}
       >

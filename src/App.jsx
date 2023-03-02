@@ -46,6 +46,10 @@ function App() {
               path="/staff_control"
               element={<AlgorithmPage control={"staff_control"} />}
             />
+            <Route
+              path="/staff_control"
+              element={<AlgorithmPage control={"staff_control"} />}
+            />
           </Route>
         ) : (
           <Route path="/*" element={<Authorization />} />

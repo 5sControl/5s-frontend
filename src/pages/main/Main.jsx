@@ -26,6 +26,7 @@ export const Main = () => {
     setCamerasSafety_Control_Reflective_jacket,
   ] = useState([]);
   const [camerasIdle_control, setCamerasIdle_control] = useState([]);
+  const [camerasStaff_control, setCamerasStaff_control] = useState([]);
   const [camerasMachine_Control, setCamerasMachine_Control] = useState([]);
   const [stage, setStage] = useState("begin");
   const [selectType, setSelectType] = useState("");
@@ -37,6 +38,7 @@ export const Main = () => {
   const reducer = () => {
     return (
       camerasIdle_control.filter((el) => el.isSelected).map((e) => e.ip).length +
+      camerasStaff_control.filter((el) => el.isSelected).map((e) => e.ip).length +
       camerasSafety_Control_Ear_protection.filter((el) => el.isSelected).map((e) => e.ip).length +
       camerasMachine_Control.filter((el) => el.isSelected).map((e) => e.ip).length +
       camerasSafety_Control_Reflective_jacket.filter((el) => el.isSelected).map((e) => e.ip).length
@@ -93,6 +95,15 @@ export const Main = () => {
         .map((e) => e.ip);
     }
 
+    if (
+      camerasStaff_control.filter((el) => el.isSelected).map((e) => e.ip)
+        .length > 0
+    ) {
+      response.staff_control = camerasStaff_control
+        .filter((el) => el.isSelected)
+        .map((e) => e.ip);
+    }
+
     postAlgorithnDependences(
       window.location.hostname,
       cookies.token,
@@ -118,6 +129,9 @@ export const Main = () => {
     if (selectType.type === "Idle_Control") {
       setCamerasIdle_control(selectType.obj);
     }
+    if (selectType.type === "Staff_Control") {
+      setCamerasStaff_control(selectType.obj);
+    }
     setSelectType("");
   };
 
@@ -136,7 +150,9 @@ export const Main = () => {
           setCamerasSafety_Control_Ear_protection(buf);
           setCamerasSafety_Control_Reflective_jacket(buf);
           setCamerasIdle_control(buf);
+          setCamerasStaff_control(buf);
           setCamerasMachine_Control(buf);
+          
         }
       );
     }
@@ -195,6 +211,7 @@ export const Main = () => {
             camerasSafety_Control_Reflective_jacket = {camerasSafety_Control_Reflective_jacket}
             camerasMachine_Control={camerasMachine_Control}
             camerasIdle_Control={camerasIdle_control}
+            camerasStaff_control = {camerasStaff_control}
             algorithmPage={"main"}
           />
         )}
