@@ -28,10 +28,10 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
                 const curGroup = acc[key] ?? [];
                 return { ...acc, [key]: [...curGroup, obj.id] };
               }, {})
-        let whatIsDelete = afterSelectedCameras?.false.filter(activeCamera => activeCameras.includes(activeCamera) )
-        whatIsDelete = whatIsDelete.map(IPcamera =>ProccessIDInObject[IPcamera][0])
-        const whatIsAdd = afterSelectedCameras?.true.filter(activeCamera => previousNonActiveCameras.includes(activeCamera) )
-        await whatIsDelete.forEach(processID => deleteProcessFromDB(processID))
+        let whatIsDelete = afterSelectedCameras.false?.filter(activeCamera => activeCameras.includes(activeCamera) )
+        whatIsDelete = whatIsDelete?.map(IPcamera =>ProccessIDInObject[IPcamera][0])
+        const whatIsAdd = afterSelectedCameras.true?.filter(activeCamera => previousNonActiveCameras.includes(activeCamera) )
+        await whatIsDelete?.forEach(processID => deleteProcessFromDB(processID))
         await  postAlgorithnDependences(
             window.location.hostname,
             token,
