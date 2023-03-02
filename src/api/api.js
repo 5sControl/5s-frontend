@@ -14,8 +14,6 @@ export const API_URL = `/api/safety_control/safety/action/`
 export const API_IMAGES = ``
 export const API_CAMERA = `:8008/find_cameras/`
 export const API_USERLIST = `/api/staff-control/employees/admin/`
-export const API_REGISTRATION = `/register/`
-export const API_AUTH = `/auth/jwt/create/`
 
 export const API_ALGORITHM = '/api/algorithms/available-process/'
 
@@ -28,8 +26,6 @@ export const API_GETPROCESS_I = `${url}/api/algorithms/get-process/`
 
 export const API_DELPROCESS_I = `${url}/api/algorithms/stop-process/`
 export const API_DELPROCESS = `api/algorithms/stop-process/`
-export const API_REGISTRATION_I = `${url}/register/`
-export const API_AUTH_I = `${url}/auth/jwt/create/`
 export const API_ALGORITHM_I = `${url}/api/algorithms/available-process/`
 
 export const API_DASHBOARD = `${url}/api/machine_control/machine_actions/2023-02-17/`

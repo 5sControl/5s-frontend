@@ -4,7 +4,7 @@ import "./Authorization.scss";
 import logo from "../../assets/svg/icon.svg";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { authorizationRequest } from "../../api/requests";
+import { authorizationRequest } from "../../api/companyRequest";
 
 export const Authorization = () => {
   const [email, setEmail] = useState("");

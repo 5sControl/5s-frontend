@@ -9,9 +9,9 @@ import {
 } from "../assets/svg/SVGcomponent";
 import logo from "../assets/svg/icon.svg";
 import { useEffect, useState } from "react";
-import { getCompanyInfo } from "../api/requestCompany";
+import { getCompanyInfo } from "../api/companyRequest";
 import { useCookies } from "react-cookie";
-import { isVerifyToken } from "../api/requests";
+import { isVerifyToken } from "../api/companyRequest";
 
 export const LeftMenu = () => {
   const [useless, setUseless] = useState(false);

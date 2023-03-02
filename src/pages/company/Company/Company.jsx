@@ -1,30 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { Fragment, useEffect, useState } from 'react'
-import './Company.scss'
+import { useEffect, useState } from 'react'
 import moment from 'moment'
 import { useCookies } from "react-cookie"
+
+import { getCompanyInfo, getUserList } from '../../../api/companyRequest'
+
 import { AddUser } from './components/addUser'
-import { getUserList } from '../../../api/requests'
-import { getCompanyInfo } from '../../../api/requestCompany'
 import {LicenseKey} from './components/licenseKey'
 import {UserList} from './components/UserList'
 import { AvailableProcess } from './components/availableProcess'
 
+import './Company.scss'
+
 export const CompanyComponent = () =>{
 
-    const [cookies, setCookie, removeCookie] = useCookies(['token'])
+    const [cookies] = useCookies(['token'])
     const [userList, setUserList] = useState([]);
     const [isAddAccount, setIsAddAccount] = useState(false);
     const [companyInfo, setCompanyInfo] = useState({});
+    
     useEffect(() =>{
         getUserList(window.location.hostname, cookies.token)
           .then(res => {
             if (res.data.detail !=='Authentication credentials were not provided.' && res.data.detail!== 'Given token not valid for any token type') {
                 setUserList(res.data.results)
-            }
-            else{
-                removeCookie('token')
             }
         })
         getCompanyInfo(window.location.hostname, cookies.token)

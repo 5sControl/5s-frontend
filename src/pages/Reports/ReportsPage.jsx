@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { getData } from "../../api/requestReport";
+import { getData } from "../../api/reportsRequest";
 import { Reports } from "../../components/reports/Reports";
 import { DataPicker } from "../../components/dataPicker";
 import { SelectTimeDiapason } from "../../components/selectTimeDiapason";

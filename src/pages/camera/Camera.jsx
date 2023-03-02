@@ -1,15 +1,15 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
 import { useEffect, useState } from "react";
 
 import { useCookies } from "react-cookie";
 import { CamerasModal } from "../../pages/camera/modal/camerasModal";
 
 import "./cameras.scss";
-import { getSelectedCameras } from "../../api/cameraRequest";
+import { findCamera, getSelectedCameras } from "../../api/cameraRequest";
+
 export const Camera = () => {
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
   const [camerasList, setCamerasList] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [createdCameras, setCreatedCameras] = useState(false);
@@ -18,30 +18,19 @@ export const Camera = () => {
 
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token)
-    .then((response) => {
-      console.log(response);
-      if (response.data.length > 0) {
-        setCreatedCameras(response.data);
-        console.log(createdCameras);
-      }
-    })
-    .catch((error) => setError(error.message));
-    if (window.location.hostname.includes("localhost")) {
-      axios
-        .get(`http://192.168.1.101:8008/find_cameras/`)
-        .then((response) => {
-          setCamerasList(response.data.results);
-          console.log(response.data.results);
-        })
-        .catch((error) => setError(error.message));
-    } else {
-      axios
-        .get(`http://${window.location.hostname}:8008/find_cameras/`)
-        .then((response) => {
-          setCamerasList(response.data.results);
-        })
-        .catch((error) => setError(error.message));
-    }
+      .then((response) => {
+        console.log(response);
+        if (response.data.length > 0) {
+          setCreatedCameras(response.data);
+        }
+      })
+      .catch((error) => setError(error.message));
+
+    findCamera(window.location.hostname)
+      .then((response) => {
+        setCamerasList(response.data.results);
+      })
+      .catch((error) => setError(error.message));
   }, []);
 
   const showAddCameras = () => {
