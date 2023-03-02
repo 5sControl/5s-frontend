@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import moment from 'moment'
 import { useCookies } from "react-cookie"
 
-import { getCompanyInfo, getUserList } from '../../../api/companyRequest'
+import { getCompanyInfo, getUserList } from '../../api/companyRequest'
 
 import { AddUser } from './components/addUser'
 import {LicenseKey} from './components/licenseKey'
@@ -13,7 +13,7 @@ import { AvailableProcess } from './components/availableProcess'
 
 import './Company.scss'
 
-export const CompanyComponent = () =>{
+export const Company = () =>{
 
     const [cookies] = useCookies(['token'])
     const [userList, setUserList] = useState([]);

@@ -1,6 +1,6 @@
 import { Fragment } from "react";
-import { url, getIsInternet } from "../api/api";
-import close from "../assets/svg/close.svg";
+import { url, getIsInternet } from "../../../api/api";
+import close from "../../../assets/svg/close.svg";
 
 const CameraChoise = ({ selectType, onChangeHandler }) => {
   return (

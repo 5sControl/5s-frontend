@@ -6,7 +6,7 @@ import "./index.scss";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { RoutesOutlet } from "./routes/Routes";
 import {Camera} from "./pages/camera/Camera";
-import { CompanyHub } from "./pages/company/CompanyHub";
+import { Company } from "./pages/company/Company";
 import { Main } from "./pages/main/Main";
 import { Authorization } from "./components/authorization/Authorization";
 import { useCookies } from "react-cookie";
@@ -22,7 +22,7 @@ function App() {
         {cookies.token ? (
           <Route element={<RoutesOutlet />}>
             <Route path="/" element={<Main />} />
-            <Route path="/company" element={<CompanyHub />} />
+            <Route path="/company" element={<Company />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/camera" element={<Camera />} />
             <Route path="/algorithm" element={<Algorithm />} />

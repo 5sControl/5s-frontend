@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useCookies } from "react-cookie";
 import { AlgorithmList } from "../../components/algorithmList";
-import { CameraSelect } from "../../components/cameraChoise";
+import { CameraSelect } from "./components/cameraChoise";
 import { Camera } from "../camera/Camera";
 import { getAveilableAlgorithms, postAlgorithnDependences} from "../../api/algorithmRequest";
 import { getSelectedCameras } from "../../api/cameraRequest";

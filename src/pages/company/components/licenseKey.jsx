@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { sendLicenseKey } from "../../../../api/companyRequest";
+import { sendLicenseKey } from "../../../api/companyRequest";
 
 export const LicenseKey = ({cookies}) => {
     const [licenceKey, setLicenceKey] = useState('');

@@ -1,7 +1,7 @@
 import moment from "moment";
 import { useState } from "react";
 
-import { Slider } from "../swiper.js";
+import { Slider } from "./swiper";
 import {
   ViolintationFalse,
   ViolintationTrue,
