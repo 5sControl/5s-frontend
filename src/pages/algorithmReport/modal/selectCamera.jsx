@@ -43,7 +43,7 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
               },
           ).then((e) => {
             if (e.data.message === "Camera Algorithm records created successfully") {
-               
+               console.log('its ok')
             }
           }); 
         await  setShowModal()
