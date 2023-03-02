@@ -20,7 +20,7 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
    const deleteProcessFromDB = (processID) => {
     deleteProcess(window.location.hostname, token, processID)
 }  
- 
+
     const updateCamerasState = async () => {
         let afterSelectedCameras = 
             allCameras.reduce((acc, obj) => {
@@ -43,9 +43,10 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
               },
           ).then((e) => {
             if (e.data.message === "Camera Algorithm records created successfully") {
-                setShowModal()
+               
             }
           }); 
+        await  setShowModal()
     }
 
     useEffect(() => {

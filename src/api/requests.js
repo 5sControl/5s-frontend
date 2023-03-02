@@ -41,6 +41,7 @@ export const authorizationRequest = (hostname, email, password) => {
 }
 
 export const postAlgorithnDependences = (hostname, cookies, response) => {
+
   if (getIsInternet(hostname)) {
     return axios.post("https://5scontrol.pl/proxy_to_ngrok",{
       url: API_POSTALGORITHM_I,
@@ -53,11 +54,12 @@ export const postAlgorithnDependences = (hostname, cookies, response) => {
   })
   }
   else{
-    return  axios.post(`http://${hostname}${API_POSTALGORITHM}`,response, { 
+    return  axios.post(`http://${hostname}${API_POSTALGORITHM}`,response, {
       headers:{
-      "Content-Type": "application/json",
-      'Authorization': cookies
-    },})
+          "Content-Type": "application/json",
+          'Authorization': cookies
+      }
+  })
   }
 }
 
@@ -125,11 +127,10 @@ export const getProcess = (hostname, cookies ) => {
   else{
    return  axios.get(`http://${hostname}/api/algorithms/get-process/`, {
                 headers: {
-                  Authorization: cookies
+                  "Authorization": cookies
                 },
               })
   }
- 
 }
 
 export const deleteProcess = (hostname, cookies, pid ) => {
@@ -147,12 +148,11 @@ export const deleteProcess = (hostname, cookies, pid ) => {
     })
 }
 else{
-      return  axios.get(`${url}${API_DELPROCESS}`, {
+      return  axios.post(`${url}${API_DELPROCESS}`, {
       "pid":pid
       },{
         headers:{
           'Authorization': cookies,
-          "pid":pid
         }
       })
 }
