@@ -11,7 +11,7 @@ import moment from "moment";
 
 import { Back } from "../../assets/svg/SVGcomponent";
 import { TimelineHub } from "../../components/timeline/timelineHub";
-import { getProcess } from "../../api/requests";
+import { getProcess } from "../../api/algorithmRequest";
 
 import "./reportPage.scss";
 

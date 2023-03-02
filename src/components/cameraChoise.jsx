@@ -1,6 +1,5 @@
 import { Fragment } from "react";
-import { getIsInternet } from "../api/getURL";
-import { API_IMAGES_I } from "../api/api";
+import { url, getIsInternet } from "../api/api";
 import close from "../assets/svg/close.svg";
 
 const CameraChoise = ({ selectType, onChangeHandler }) => {
@@ -13,7 +12,7 @@ const CameraChoise = ({ selectType, onChangeHandler }) => {
             <img
               src={
                 getIsInternet(window.location.hostname)
-                  ? `${API_IMAGES_I}/images/${el.ip}/snapshot.jpg`
+                  ? `${url}/images/${el.ip}/snapshot.jpg`
                   : `http://${window.location.hostname}/images/${el.ip}/snapshot.jpg`
               }
               alt="Camera"

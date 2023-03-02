@@ -10,10 +10,7 @@ import { useCookies } from "react-cookie";
 import { AlgorithmList } from "../../components/algorithmList";
 import { CameraSelect } from "../../components/cameraChoise";
 import { Camera } from "../camera/Camera";
-import {
-  getAveilableAlgorithms,
-  postAlgorithnDependences,
-} from "../../api/requests";
+import { getAveilableAlgorithms, postAlgorithnDependences} from "../../api/algorithmRequest";
 import { getSelectedCameras } from "../../api/cameraRequest";
 
 export const Main = () => {
@@ -27,7 +24,7 @@ export const Main = () => {
   const [camerasMachine_Control, setCamerasMachine_Control] = useState([]);
   const [stage, setStage] = useState("begin");
   const [selectType, setSelectType] = useState("");
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
   const [algorithmList, setAlgorithmList] = useState({});
   const [showAfterRegistration, setShowAfterRegistration] = useState(false);
   const navigate = useNavigate();

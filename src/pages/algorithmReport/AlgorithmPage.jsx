@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useEffect, useState } from "react"
 import { ReportPage } from "../Reports/ReportsPage"
-import {  getProcess } from "../../api/requests"
+import {  getProcess } from "../../api/algorithmRequest"
 import { useCookies } from "react-cookie"
 
 import './algorithmPage.scss'

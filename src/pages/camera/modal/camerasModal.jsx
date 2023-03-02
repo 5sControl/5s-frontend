@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Close } from "../../../assets/svg/SVGcomponent";
 import { AiOutlineRight } from "react-icons/ai";
 import { patchCamera, postCamera } from "../../../api/cameraRequest";
-import { getIsInternet } from "../../../api/getURL";
-import { API_IMAGES_I } from "../../../api/api";
+import { url, getIsInternet } from "../../../api/api";
+
 export const CamerasModal = ({
   setIsShowModal,
   cookies,
@@ -129,7 +129,7 @@ export const CamerasModal = ({
               <img
                 src={
                   getIsInternet(window.location.hostname)
-                    ? `${API_IMAGES_I}/images/${IPCamera}/snapshot.jpg`
+                    ? `${url}/images/${IPCamera}/snapshot.jpg`
                     : `http://${window.location.hostname}/images/${IPCamera}/snapshot.jpg`
                 }
                 alt="Camera"

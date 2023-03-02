@@ -1,7 +1,5 @@
-import { getIsInternet } from "./getURL";
-import { proxy } from "./proxy";
 import axios from "axios";
-import { url } from "./api";
+import { url, proxy, getIsInternet } from "./api";
 
 const API_COMPANYINFO = "api/company/info/";
 const API_CREATELICENSE = "api/company/create_license/";

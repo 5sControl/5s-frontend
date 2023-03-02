@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCookies } from "react-cookie"
-import { getProcess } from "../../../../api/requests"
+import { getProcess } from "../../../../api/algorithmRequest"
 import { useEffect, useState } from "react"
 
 export const AvailableProcess = () => {
