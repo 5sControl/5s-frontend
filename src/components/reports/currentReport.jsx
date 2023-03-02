@@ -9,9 +9,6 @@ import {
 
 import { useSelector } from "react-redux";
 
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import { parsingAlgorithmName } from "../../functions/parsingAlgorithmName.js";
 
 export const CurrentReport = () => {
@@ -30,9 +27,7 @@ export const CurrentReport = () => {
                   setFullImage={(e) => setFullImage(e)}
                 />
               }
-             
             </div>
-
             <div className="dashboard__report_item">
               <span>Date & Time</span>
               <span>

@@ -2,6 +2,10 @@ import { url, getIsInternet } from "../../api/api.js";
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
 export const Slider = ({currentReport, setFullImage} ) => {
     
     return (

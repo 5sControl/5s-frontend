@@ -1,9 +1,8 @@
-import PacmanLoader from "react-spinners/PacmanLoader";
+import ClockLoader from "react-spinners/ClockLoader";
 
-
-  export const Preloader = ({loading, color}) =>
+  export const Preloader = ({loading}) =>
   <div className="preloader-wrapper">
-        <PacmanLoader
+        <ClockLoader
             color="#FE6100"
             size={150}
             loading={loading}
