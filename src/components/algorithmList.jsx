@@ -21,10 +21,10 @@ export const AlgorithmList = ({
           type: "Safety_Control_Ear_protection",
         });
       }
-      if (algorithm === "Safety_Control_Reflective_jacket") {
+      if (algorithm === "Safety_control_reflective_jacket") {
         setSelectType({
           obj: camerasSafety_Control_Reflective_jacket,
-          type: "Safety_Control_Reflective_jacket",
+          type: "Safety_control_reflective_jacket",
         });
       }
       if (algorithm === "Machine_Control") {
@@ -102,7 +102,7 @@ export const AlgorithmList = ({
             ? "selection__container"
             : "selection__container noAccess"
         }
-        onClick={() => pushTheButton("Safety_Control_Reflective_jacket")}
+        onClick={() => pushTheButton("Safety_control_reflective_jacket")}
       >
         <div>
           <h4>Safety Control: Reflective jacket</h4>

@@ -71,7 +71,7 @@ export const Main = () => {
         .filter((el) => el.isSelected)
         .map((e) => e.ip).length > 0
     ) {
-      response.safety_Control_Reflective_jacket =
+      response.safety_control_reflective_jacket =
       camerasSafety_Control_Reflective_jacket
           .filter((el) => el.isSelected)
           .map((e) => e.ip);
@@ -109,7 +109,7 @@ export const Main = () => {
     if (selectType.type === "Safety_Control_Ear_protection") {
       setCamerasSafety_Control_Ear_protection(selectType.obj);
     }
-    if (selectType.type === "Safety_Control_Reflective_jacket") {
+    if (selectType.type === "Safety_control_reflective_jacket") {
       setCamerasSafety_Control_Reflective_jacket(selectType.obj);
     }
     if (selectType.type === "Machine_Control") {
