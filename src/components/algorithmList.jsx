@@ -10,7 +10,8 @@ export const AlgorithmList = ({
   camerasStaff_control,
   algorithmPage,
   camerasSafety_Control_Reflective_jacket,
-  camerasSafety_Control_Head_protection
+  camerasSafety_Control_Head_protection,
+  camerasSafety_Control_Hand_protection
 }) => {
   const navigate = useNavigate();
 
@@ -33,6 +34,12 @@ export const AlgorithmList = ({
         setSelectType({
           obj: camerasSafety_Control_Head_protection,
           type: "Safety_control_head_protection",
+        });
+      }
+      if (algorithm === "Safety_control_hand_protection") {
+        setSelectType({
+          obj: camerasSafety_Control_Hand_protection,
+          type: "Safety_control_hand_protection",
         });
       }
       if (algorithm === "Machine_Control") {
@@ -141,7 +148,7 @@ export const AlgorithmList = ({
             ? "selection__container"
             : "selection__container noAccess"
         }
-        onClick={() => setSelectType("Safety_Control_head_protection")}
+        onClick={() => pushTheButton("Safety_control_head_protection")}
       >
         <div>
           <h4>Safety Control: Head protection</h4>
@@ -155,7 +162,7 @@ export const AlgorithmList = ({
             ? "selection__container"
             : "selection__container noAccess"
         }
-        onClick={() => setSelectType("Safety_Control_Hand_protection")}
+        onClick={() => pushTheButton("Safety_Control_hand_protection")}
       >
         <div>
           <h4>Safety Control: Hand protection</h4>

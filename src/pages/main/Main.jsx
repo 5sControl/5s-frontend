@@ -21,6 +21,7 @@ export const Main = () => {
   camerasSafety_Control_Ear_protection, setCamerasSafety_Control_Ear_protection] = useState([]);
   const [ camerasSafety_Control_Reflective_jacket, setCamerasSafety_Control_Reflective_jacket ] = useState([]);
   const [ camerasSafety_Control_Head_protection , setCamerasSafety_Control_Head_protection ] = useState([]);
+  const [ camerasSafety_Control_Hand_protection , setCamerasSafety_Control_Hand_protection ] = useState([]);
   const [camerasIdle_control, setCamerasIdle_control] = useState([]);
   const [camerasStaff_control, setCamerasStaff_control] = useState([]);
   const [camerasMachine_Control, setCamerasMachine_Control] = useState([]);
@@ -38,7 +39,8 @@ export const Main = () => {
       camerasSafety_Control_Ear_protection.filter((el) => el.isSelected).map((e) => e.ip).length +
       camerasMachine_Control.filter((el) => el.isSelected).map((e) => e.ip).length +
       camerasSafety_Control_Reflective_jacket.filter((el) => el.isSelected).map((e) => e.ip).length +
-      camerasSafety_Control_Head_protection.filter((el) => el.isSelected).map((e) => e.ip).length
+      camerasSafety_Control_Head_protection.filter((el) => el.isSelected).map((e) => e.ip).length +
+      camerasSafety_Control_Hand_protection.filter((el) => el.isSelected).map((e) => e.ip).length 
     );
   };
 
@@ -82,6 +84,16 @@ export const Main = () => {
     ) {
       response.safety_control_head_protection =
       camerasSafety_Control_Head_protection
+          .filter((el) => el.isSelected)
+          .map((e) => e.ip);
+    }
+    if (
+      camerasSafety_Control_Hand_protection
+        .filter((el) => el.isSelected)
+        .map((e) => e.ip).length > 0
+    ) {
+      response.safety_control_hand_protection =
+      camerasSafety_Control_Hand_protection
           .filter((el) => el.isSelected)
           .map((e) => e.ip);
     }
@@ -133,6 +145,9 @@ export const Main = () => {
     if (selectType.type === "Safety_control_head_protection") {
       setCamerasSafety_Control_Head_protection(selectType.obj);
     }
+    if (selectType.type === "Safety_control_hand_protection") {
+      setCamerasSafety_Control_Hand_protection(selectType.obj);
+    }
     if (selectType.type === "Machine_Control") {
       setCamerasMachine_Control(selectType.obj);
     }
@@ -163,6 +178,7 @@ export const Main = () => {
           setCamerasStaff_control(buf);
           setCamerasMachine_Control(buf);
           setCamerasSafety_Control_Head_protection(buf)
+          setCamerasSafety_Control_Hand_protection(buf)
         }
       );
     }
@@ -220,6 +236,7 @@ export const Main = () => {
             camerasSafety_Control_Ear_protection={ camerasSafety_Control_Ear_protection }
             camerasSafety_Control_Reflective_jacket = {camerasSafety_Control_Reflective_jacket}
             camerasSafety_Control_Head_protection = {camerasSafety_Control_Head_protection}
+            camerasSafety_Control_Hand_protection = {camerasSafety_Control_Hand_protection}
             camerasMachine_Control={camerasMachine_Control}
             camerasIdle_Control={camerasIdle_control}
             camerasStaff_control = {camerasStaff_control}
