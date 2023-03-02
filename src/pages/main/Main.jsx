@@ -48,7 +48,7 @@ export const Main = () => {
     setAlgorithmCount(reducer());
   });
 
-  const continueHandler = () => {
+  const saveSettings = () => {
     let response = {
       server_url: window.location.hostname.includes("localhost")
         ? `http://192.168.1.101`
@@ -210,7 +210,7 @@ export const Main = () => {
           </div>
         )}
         {stage === "cameras" && <Camera />}
-        {stage === "algorithm" && (
+        {stage === "algorithm" && 
           <AlgorithmList
             algorithmList={algorithmList}
             algorithmCount={algorithmCount}
@@ -225,7 +225,7 @@ export const Main = () => {
             camerasStaff_control = {camerasStaff_control}
             algorithmPage={"main"}
           />
-        )}
+        }
         <div className={stage !== "begin" ? "visible" : "novisible"}>
           {stage === "cameras" && (
             <button
@@ -238,7 +238,7 @@ export const Main = () => {
           {stage === "algorithm" && (
             <button
               // className={algorithmCount > 5 ? "noclick" : ""}
-              onClick={continueHandler}
+              onClick={saveSettings}
             >
               Continue
             </button>

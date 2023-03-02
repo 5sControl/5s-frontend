@@ -144,15 +144,15 @@ export const deleteProcess = (hostname, cookies, pid ) => {
 }
 else{
       return  axios.post(`${url}${API_DELPROCESS}`, {
-      "pid":pid
-      },
-      {
-        headers:{
-          "Content-Type": "application/json",
-          'Authorization': cookies,
+        "pid":pid
+        },
+        {
+          headers:{
+            "Content-Type": "application/json",
+            'Authorization': cookies,
+          }
         }
-      }
-    )
+      )
 }
 }
 export const postAlgorithnDependences = (hostname, cookies, response) => {

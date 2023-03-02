@@ -6,7 +6,7 @@ import { getSelectedCameras } from "../../../api/requestHomeAndOffice"
 import { useState } from "react"
 import {deleteProcess, postAlgorithnDependences} from "../../../api/requests"
 import close from "../../../assets/svg/close.svg";
-export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess, control}) => {
+export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess, control, setCamera}) => {
 
    const [allCameras, setAllCameras] = useState([])
    const [previousNonActiveCameras, setPreviousMonActiveCameras] = useState([])
@@ -16,10 +16,10 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
         return { ...acc, [key]: [...curGroup, obj.process_id] };
     }, {})
 
-   const deleteProcessFromDB = (processID) => {
-    deleteProcess(window.location.hostname, token, processID).then((e) => {
-        console.log(e)
-      })
+   const deleteProcessFromDB = async (whatIsDelete) => {
+    whatIsDelete?.forEach(processID =>  deleteProcess(window.location.hostname, token, processID).then((e) => {
+        console.log('delete')
+      }))
 }  
 
     const updateCamerasState = async () => {
@@ -32,7 +32,7 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
         let whatIsDelete = afterSelectedCameras.false?.filter(activeCamera => activeCameras.includes(activeCamera) )
         whatIsDelete = whatIsDelete?.map(IPcamera =>ProccessIDInObject[IPcamera][0])
         const whatIsAdd = afterSelectedCameras.true?.filter(activeCamera => previousNonActiveCameras.includes(activeCamera) )
-        await whatIsDelete?.forEach(processID => deleteProcessFromDB(processID))
+        await deleteProcessFromDB(whatIsDelete) 
         await  postAlgorithnDependences(
             window.location.hostname,
             token,
@@ -44,7 +44,7 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
             },
           ).then((e) => {
             if (e.data.message === "Camera Algorithm records created successfully") {
-               console.log('its ok')
+               console.log('its ok add')
             }
           }); 
         await  setShowModal()
