@@ -19,7 +19,8 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
 
    const deleteProcessFromDB = (processID) => {
     deleteProcess(window.location.hostname, token, processID)
-}   
+}  
+ 
     const updateCamerasState = async () => {
         let afterSelectedCameras = 
             allCameras.reduce((acc, obj) => {
@@ -28,7 +29,6 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
                 return { ...acc, [key]: [...curGroup, obj.id] };
               }, {})
         let whatIsDelete = afterSelectedCameras?.false.filter(activeCamera => activeCameras.includes(activeCamera) )
-        // console.log(whatIsDelete.map(IPcamera =>  ))
         whatIsDelete = whatIsDelete.map(IPcamera =>ProccessIDInObject[IPcamera][0])
         const whatIsAdd = afterSelectedCameras?.true.filter(activeCamera => previousNonActiveCameras.includes(activeCamera) )
         await whatIsDelete.forEach(processID => deleteProcessFromDB(processID))

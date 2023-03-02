@@ -53,7 +53,11 @@ export const postAlgorithnDependences = (hostname, cookies, response) => {
   })
   }
   else{
-    return  axios.post(`http://${hostname}${API_POSTALGORITHM}`,response,{headers:cookies})
+    return  axios.post(`http://${hostname}${API_POSTALGORITHM}`,response, { 
+      headers:{
+      "Content-Type": "application/json",
+      'Authorization': cookies
+    },})
   }
 }
 
