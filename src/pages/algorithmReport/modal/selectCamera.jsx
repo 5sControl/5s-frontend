@@ -36,7 +36,7 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
         whatIsDelete = whatIsDelete?.map(IPcamera =>ProccessIDInObject[IPcamera][0])
         const whatIsAdd = afterSelectedCameras.true?.filter(activeCamera => previousNonActiveCameras.includes(activeCamera) )
         await deleteProcessFromDB(whatIsDelete)
-        await  postAlgorithnDependences(
+        await postAlgorithnDependences(
             window.location.hostname,
             token,
             {

@@ -13,10 +13,13 @@ export const AlgorithmPage = ({control}) => {
     const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
-        console.log('requestToDB')
-        getProcess(window.location.hostname, cookies.token).then(e=> {
-            setCamera(e.data.filter(cam => cam.algorithm.name === control))
-        })
+        if (!showModal){
+            getProcess(window.location.hostname, cookies.token).then(e=> {
+                console.log('update data')
+                setCamera(e.data.filter(cam => cam.algorithm.name === control))
+            })
+        }
+      
     },[showModal])
 
     return (
