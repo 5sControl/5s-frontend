@@ -3,8 +3,8 @@ import { url } from "./api";
 
 const API_CAMERASELECT = "api/cameras/";
 const API_CAMERACREATE = "api/cameras/create-camera/";
-const API_CAMERAUPDATE = "api/cameras/update-camera/"
-const API_CAMERAFIND = ":8008/find_cameras/"
+const API_CAMERAUPDATE = "api/cameras/update-camera/";
+const API_CAMERAFIND = ":8008/find_cameras/";
 
 export const getSelectedCameras = (hostname, cookies) => {
   if (hostname.includes("localhost")) {
@@ -61,32 +61,39 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
 };
 
 export const patchCamera = (hostname, IPCamera, cameraName, cookies) => {
-    if (hostname.includes('localhost')) {
-       return axios.patch(url+API_CAMERAUPDATE,{
-            ip:IPCamera,
-            name: cameraName
-        },{
-            headers: {
-                'Authorization': cookies
-              },
-        })
-        }
-        else{
-        return axios.patch(`http://${hostname}/${API_CAMERAUPDATE}`,{
-            ip:IPCamera,
-            name: cameraName
-        },{
-            headers: {
-                'Authorization': cookies
-              },
-        })
-        }
-}
+  if (hostname.includes("localhost")) {
+    return axios.patch(
+      url + API_CAMERAUPDATE,
+      {
+        ip: IPCamera,
+        name: cameraName,
+      },
+      {
+        headers: {
+          Authorization: cookies,
+        },
+      }
+    );
+  } else {
+    return axios.patch(
+      `http://${hostname}/${API_CAMERAUPDATE}`,
+      {
+        ip: IPCamera,
+        name: cameraName,
+      },
+      {
+        headers: {
+          Authorization: cookies,
+        },
+      }
+    );
+  }
+};
 
 export const findCamera = (hostname) => {
-    if (hostname) {
-       return axios.get('http://192.168.1.101'+API_CAMERAFIND)
-      } else {
-        axios.get(`http://${hostname+API_CAMERAFIND}`)
-      }
-}
+  if (hostname) {
+    return axios.get("http://192.168.1.101" + API_CAMERAFIND);
+  } else {
+    axios.get(`http://${hostname + API_CAMERAFIND}`);
+  }
+};

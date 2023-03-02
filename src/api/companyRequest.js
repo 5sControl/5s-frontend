@@ -5,8 +5,8 @@ const API_COMPANYINFO = "api/company/info/";
 const API_CREATELICENSE = "api/company/create_license/";
 const API_REGISTRATION = `register/`;
 const API_AUTH = `auth/jwt/create/`;
-const API_USERLIST = `api/staff-control/employees/admin/`
-const API_VERIFYTOKEN = "auth/jwt/verify/"
+const API_USERLIST = `api/staff-control/employees/admin/`;
+const API_VERIFYTOKEN = "auth/jwt/verify/";
 export const authorizationRequest = (hostname, email, password) => {
   if (getIsInternet(hostname)) {
     return axios.post("https://5scontrol.pl/proxy_to_ngrok", {
@@ -95,32 +95,29 @@ export const registerNewUser = (hostname, email, password) => {
 };
 
 export const getUserList = (hostname, cookies) => {
-  if (getIsInternet(hostname)){
+  if (getIsInternet(hostname)) {
     return proxy(url + API_USERLIST, "GET", {
-        'Authorization': cookies
-      })
-   }
-   else{
-   return axios.get(`http://${hostname}/${API_USERLIST}`,{
-            headers: {
-            'Authorization': cookies
-            },
-        })
-   }
-}
+      Authorization: cookies,
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_USERLIST}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
 
 export const isVerifyToken = (hostname, cookies) => {
-  if (getIsInternet(hostname)){
-  return  proxy(url+API_VERIFYTOKEN, "POST", 
-  {
-    body:JSON.stringify({
-      'token':cookies
-    })
-  })
-   }
-   else{
-   return axios.post(`http://${hostname}/${API_VERIFYTOKEN}`,{
-            'token':cookies
-        })
-   }
-}
+  if (getIsInternet(hostname)) {
+    return proxy(url + API_VERIFYTOKEN, "POST", {
+      body: JSON.stringify({
+        token: cookies,
+      }),
+    });
+  } else {
+    return axios.post(`http://${hostname}/${API_VERIFYTOKEN}`, {
+      token: cookies,
+    });
+  }
+};
