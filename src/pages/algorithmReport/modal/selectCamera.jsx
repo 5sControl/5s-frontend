@@ -16,9 +16,10 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
         return { ...acc, [key]: [...curGroup, obj.process_id] };
     }, {})
 
-
    const deleteProcessFromDB = (processID) => {
-    deleteProcess(window.location.hostname, token, processID)
+    deleteProcess(window.location.hostname, token, processID).then((e) => {
+        console.log(e)
+      })
 }  
 
     const updateCamerasState = async () => {
@@ -40,7 +41,7 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
                   ? `http://192.168.1.101`
                   : `http://${window.location.hostname}`,
                   [control]:whatIsAdd
-              },
+            },
           ).then((e) => {
             if (e.data.message === "Camera Algorithm records created successfully") {
                console.log('its ok')
