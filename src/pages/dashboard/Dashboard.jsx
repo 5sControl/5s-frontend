@@ -7,11 +7,11 @@ import { useCookies } from "react-cookie";
 
 import { Link } from "react-router-dom";
 import { Reports } from "../../components/reports/Reports";
-import { getData } from "../../api/requestReport";
+import { getData } from "../../api/reportsRequest";
 import { TimelineHub } from "../../components/timeline/timelineHub";
 import { SelectTimeDiapason } from "../../components/selectTimeDiapason";
 import { DataPicker } from "../../components/dataPicker";
-import { getProcess } from "../../api/requests";
+import { getProcess } from "../../api/algorithmRequest";
 import { parsingAlgorithmName } from "../../functions/parsingAlgorithmName";
 import {Preloader} from "../../components/preloader";
 

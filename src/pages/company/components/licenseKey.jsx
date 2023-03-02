@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { authorizationRequest } from "../../../../api/requestCompany";
+import { sendLicenseKey } from "../../../api/companyRequest";
 
 export const LicenseKey = ({cookies}) => {
     const [licenceKey, setLicenceKey] = useState('');
     const send = () => {
-        authorizationRequest(window.location.hostname, cookies, licenceKey).then((res) => {
+        sendLicenseKey(window.location.hostname, cookies, licenceKey).then((res) => {
             console.log(res)
         })
     }

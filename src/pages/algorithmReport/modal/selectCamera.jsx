@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useEffect } from "react"
-import { getIsInternet } from "../../../api/getURL"
-import { API_IMAGES_I,  } from "../../../api/api"
-import { getSelectedCameras } from "../../../api/requestHomeAndOffice"
+import { url, getIsInternet} from "../../../api/api"
+import { getSelectedCameras } from "../../../api/cameraRequest"
 import { useState } from "react"
-import {deleteProcess, postAlgorithnDependences} from "../../../api/requests"
+import {deleteProcess, postAlgorithnDependences} from "../../../api/algorithmRequest"
 import close from "../../../assets/svg/close.svg";
 export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess, control, setCamera}) => {
 
@@ -77,7 +76,7 @@ export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess
                                 <img
                                     src={
                                         getIsInternet(window.location.hostname)
-                                        ? `${API_IMAGES_I}/images/${el.id}/snapshot.jpg`
+                                        ? `${url}/images/${el.id}/snapshot.jpg`
                                         : `http://${window.location.hostname}/images/${el.id}/snapshot.jpg`
                                     }
                                     alt="Camera"

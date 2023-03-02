@@ -1,5 +1,4 @@
-import { API_IMAGES_I } from "../api/api.js";
-import { getIsInternet } from "../api/getURL";
+import { url, getIsInternet } from "../../api/api.js";
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -21,7 +20,7 @@ export const Slider = ({currentReport, setFullImage} ) => {
                   key={id}
                   src={
                     getIsInternet(window.location.hostname)
-                      ? `${API_IMAGES_I + photo.image}`
+                      ? `${url + photo.image}`
                       : `http://${window.location.hostname}/${photo.image}`
                   }
                   alt="report img"
@@ -29,7 +28,7 @@ export const Slider = ({currentReport, setFullImage} ) => {
                   onClick={() =>
                     setFullImage(
                       getIsInternet(window.location.hostname)
-                        ? `${API_IMAGES_I + photo.image}`
+                        ? `${url + photo.image}`
                         : `http://${window.location.hostname}/${photo.image}`
                     )
                   }
