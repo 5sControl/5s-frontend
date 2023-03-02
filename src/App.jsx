@@ -39,6 +39,14 @@ function App() {
               element={<AlgorithmPage control={"safety_control_reflective_jacket"} />}
             />
             <Route
+              path="/safety_control_hand_protection"
+              element={<AlgorithmPage control={"safety_control_hand_protection"} />}
+            />
+             <Route
+              path="/safety_control_head_protection"
+              element={<AlgorithmPage control={"safety_control_head_protection"} />}
+            />
+            <Route
               path="/idle_control"
               element={<AlgorithmPage control={"idle_control"} />}
             />

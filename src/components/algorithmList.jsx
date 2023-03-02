@@ -162,7 +162,7 @@ export const AlgorithmList = ({
             ? "selection__container"
             : "selection__container noAccess"
         }
-        onClick={() => pushTheButton("Safety_Control_hand_protection")}
+        onClick={() => pushTheButton("Safety_control_hand_protection")}
       >
         <div>
           <h4>Safety Control: Hand protection</h4>
