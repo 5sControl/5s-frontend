@@ -36,7 +36,7 @@ export const Algorithm = () => {
       <AlgorithmList
         algorithmList={algorithmList}
         algorithmPage={"algorithm"}
-        algorithmCount={Object.keys(algorithmList).length}
+        algorithmCount={4}
       />
     </div>
   );
