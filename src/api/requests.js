@@ -155,7 +155,7 @@ else{
       )
 }
 }
-export const postAlgorithnDependences = (hostname, cookies, response) => {
+export const postAlgorithnDependences = async (hostname, cookies, response) => {
 
   if (getIsInternet(hostname)) {
     return axios.post("https://5scontrol.pl/proxy_to_ngrok",{
