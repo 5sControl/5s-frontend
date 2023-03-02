@@ -118,7 +118,7 @@ export const AlgorithmList = ({
         className={
           algorithmList.staff_control
             ? "selection__container "
-            : "selection__container "
+            : "selection__container noAccess"
         }
         onClick={() => pushTheButton("Staff_control")}
       >
