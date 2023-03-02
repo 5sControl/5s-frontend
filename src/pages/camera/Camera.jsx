@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 import { CamerasModal } from "../../pages/camera/modal/camerasModal";
 
 import "./cameras.scss";
-import { getSelectedCameras } from "../../api/requestHomeAndOffice";
+import { getSelectedCameras } from "../../api/cameraRequest";
 export const Camera = () => {
   const [cookies, setCookie] = useCookies(["token"]);
   const [camerasList, setCamerasList] = useState(false);

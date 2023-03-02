@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Close } from "../../../assets/svg/SVGcomponent";
 import { AiOutlineRight } from "react-icons/ai";
-import { patchCamera, postCamera } from "../../../api/requestHomeAndOffice";
+import { patchCamera, postCamera } from "../../../api/cameraRequest";
 import { getIsInternet } from "../../../api/getURL";
 import { API_IMAGES_I } from "../../../api/api";
 export const CamerasModal = ({

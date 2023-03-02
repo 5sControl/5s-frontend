@@ -2,7 +2,7 @@
 import { Fragment, useEffect } from "react"
 import { getIsInternet } from "../../../api/getURL"
 import { API_IMAGES_I,  } from "../../../api/api"
-import { getSelectedCameras } from "../../../api/requestHomeAndOffice"
+import { getSelectedCameras } from "../../../api/cameraRequest"
 import { useState } from "react"
 import {deleteProcess, postAlgorithnDependences} from "../../../api/requests"
 import close from "../../../assets/svg/close.svg";

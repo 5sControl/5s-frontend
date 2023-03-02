@@ -14,7 +14,7 @@ import {
   getAveilableAlgorithms,
   postAlgorithnDependences,
 } from "../../api/requests";
-import { getSelectedCameras } from "../../api/requestHomeAndOffice";
+import { getSelectedCameras } from "../../api/cameraRequest";
 
 export const Main = () => {
   const [
