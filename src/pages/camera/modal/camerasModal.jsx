@@ -32,7 +32,6 @@ export const CamerasModal = ({
         name : cameraName,
       })
     }
-     
     );
   };
 

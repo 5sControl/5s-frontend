@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useEffect, useState } from "react"
 import { ReportPage } from "../Reports/ReportsPage"
-import { deleteProcess, getProcess } from "../../api/requests"
+import {  getProcess } from "../../api/requests"
 import { useCookies } from "react-cookie"
-
 
 import './algorithmPage.scss'
 import { CameraModal } from "./modal/selectCamera"
@@ -19,14 +18,9 @@ export const AlgorithmPage = ({control}) => {
         })
     },[])
 
-    const deleteProcessFromDB = (processID) => {
-        deleteProcess(window.location.hostname, cookies.token, processID)
-    }
-
     return (
         <>
             <ReportPage control={control} />
-            
             {
              camera && 
              <div className="cameras-list">
@@ -38,7 +32,7 @@ export const AlgorithmPage = ({control}) => {
                     camera.map((item, index) => {
                         return (
                             <Fragment key={index}>
-                                <div className="cameras-list__item" onClick={() => deleteProcessFromDB(item.process_id) }>
+                                <div className="cameras-list__item">
                                     {item.camera.name}
                                 </div>
                             </Fragment>
@@ -46,7 +40,13 @@ export const AlgorithmPage = ({control}) => {
                     }) 
                 }
                 {
-                showModal && <CameraModal token={cookies.token} activeCameras = {camera.map(item => item.camera.id)}/>
+                showModal && <CameraModal 
+                    token={cookies.token} 
+                    activeCameras = {camera.map(item => item.camera.id)}
+                    setShowModal = {() => setShowModal(false)}
+                    fullInfoProcess = {camera}
+                    control = {control}
+                />
                 }
             </div>
             

@@ -49,6 +49,10 @@
         width: 590px;
         background-color: #fff;
         margin-top: 70px;
+    }
+    &__content{
+        width: 100%;
+        height: calc(100% - 70px);
         display: flex;
         flex-wrap: wrap;
         overflow: auto;
