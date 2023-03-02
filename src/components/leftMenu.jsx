@@ -10,10 +10,11 @@ import logo from "../assets/svg/icon.svg";
 import { useEffect, useState } from "react";
 import { getCompanyInfo } from "../api/requestCompany";
 import { useCookies } from "react-cookie";
+import { isVerifyToken } from "../api/requests";
 
 export const LeftMenu = () => {
   const [useless, setUseless] = useState(false);
-  const [cookies] = useCookies(["token"]);
+  const [cookies, setCookies, removeCookie] = useCookies(["token"]);
   const [companyInfo, setCompanyInfo] = useState([]);
   const send = () => {
     setUseless(!useless);
@@ -24,6 +25,13 @@ export const LeftMenu = () => {
   .then((response) => {
       // console.log(response.data)
       setCompanyInfo(response.data)
+  })
+  isVerifyToken(window.location.hostname, cookies.token).then((response) => {
+    if (response.data.token[0] === 'This field is required.') {
+      console.log('token is available')
+    }else{
+      removeCookie('token')
+    }
   })
  },[])
 

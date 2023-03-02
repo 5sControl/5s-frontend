@@ -94,6 +94,22 @@ export const getUserList = (hostname, cookies) => {
    }
 }
 
+export const isVerifyToken = (hostname, cookies) => {
+  if (getIsInternet(hostname)){
+  return  proxy(url+"/auth/jwt/verify/", "POST", 
+  {
+    body:JSON.stringify({
+      'token':cookies
+    })
+  })
+   }
+   else{
+   return axios.post(`http://${hostname}/auth/jwt/verify/`,{
+            'token':cookies
+        })
+   }
+}
+
 export const registerNewUser = (hostname, email, password) => {
   if (getIsInternet(hostname)){
     axios.post("https://5scontrol.pl/proxy_to_ngrok",{
