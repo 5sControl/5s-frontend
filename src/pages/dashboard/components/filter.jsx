@@ -6,20 +6,16 @@ import { DataPicker } from "../../../components/dataPicker";
 import { parsingAlgorithmName } from "../../../functions/parsingAlgorithmName";
 
 import { getProcess } from "../../../api/algorithmRequest";
-export const FilterForm = ({cookies, setCameraToResponse, update, cameraToResponse, endTime, setEndTime, algorithmToResponse, setAlgorithmToResponse, selectDate, setSelectDate, startTime, setStartTime}) => {
+export const FilterForm = ({cookies, setCameraToResponse, update, cameraToResponse, endTime, setEndTime, algorithmToResponse, setAlgorithmToResponse, selectDate, setSelectDate, startTime, setStartTime, selectCameras}) => {
 
     const [visibleModal, setVisibleModal] = useState(false);
     const [visibleModalDate, setVisibleModalDate] = useState(false);
 
     const [selectAlgorithm, setSelectAlgorithm] = useState([]);
-    const [selectCameras, setSelectCameras] = useState([]);
 
     useEffect(() => {
         getProcess(window.location.hostname, cookies.token).then((e) => {
           if (e.data) {
-            let bufCam = e.data;
-            bufCam = bufCam.map((el) => el.camera);
-            setSelectCameras([...new Set(bufCam)]);
             let bufAlg = e.data;
             bufAlg = bufAlg.map((el) => el.algorithm.name);
             setSelectAlgorithm([...new Set(bufAlg)]);

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ReportPage } from "../../Reports/ReportsPage"
 import { useCookies } from "react-cookie"

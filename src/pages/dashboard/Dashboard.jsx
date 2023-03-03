@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import "./Dashboard.scss";
@@ -18,7 +19,7 @@ function Dashboard() {
   const [endTime, setEndTime] = useState("19:00:00");
   const [cookies] = useCookies(["token"]);
   const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"));
-
+  const [selectCameras, setSelectCameras] = useState([]);
   const [cameraToResponse, setCameraToResponse] = useState("camera");
   const [algorithmToResponse, setAlgorithmToResponse] = useState("algorithm");
 
@@ -39,6 +40,17 @@ function Dashboard() {
       cameraToResponse
     )
       .then((el) => {
+       let onlyCamera = el.data.map((el) => el.camera)
+       let res = 
+            [...new Set(
+              onlyCamera.map(item => JSON.stringify(
+                    Object.keys(item)
+                        .sort()
+                        .reduce((obj, value) => (obj[value] = item[value], obj), {})
+                ))
+            )].map(item => JSON.parse(item));
+            setSelectCameras(res);
+
         el.data.detail === "Authentication credentials were not provided." ||
         el.data.detail === "Given token not valid for any token type"
           ? setData(0)
@@ -51,6 +63,7 @@ function Dashboard() {
 
   useEffect(() => {
     update();
+   
   }, [selectDate, cameraToResponse, algorithmToResponse]);
 
   return (
@@ -69,6 +82,7 @@ function Dashboard() {
           setSelectDate={(e) => setSelectDate(e)}
           setStartTime={(e) => setStartTime(e)}
           startTime={startTime}
+          selectCameras = {selectCameras}
         />
 
         {!data ? (
