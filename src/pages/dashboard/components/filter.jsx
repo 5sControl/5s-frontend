@@ -17,7 +17,7 @@ export const FilterForm = ({cookies, setCameraToResponse, update, cameraToRespon
         getProcess(window.location.hostname, cookies.token).then((e) => {
           if (e.data) {
             let bufAlg = e.data;
-            bufAlg = bufAlg.map((el) => el.algorithm.name);
+            bufAlg = bufAlg?.map((el) => el.algorithm.name);
             setSelectAlgorithm([...new Set(bufAlg)]);
           }
         });
