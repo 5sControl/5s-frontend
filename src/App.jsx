@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "./index.scss";
@@ -14,23 +15,30 @@ import { Algorithm } from "./pages/algorithm/Algorithm";
 import { getUserList } from "./api/companyRequest";
 import { AlgorithmPage } from "./pages/algorithm/algorithmReport/AlgorithmPage";
 import { CameraPage } from "./pages/camera/cameraReport/cameraPage";
+import { Preloader } from "./components/preloader";
 function App() {
 
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-
-  getUserList(window.location.hostname, cookies.token).then((response) => {
-    if (response.data.code !== 'token_not_valid') {
-      console.log('token is available')
-    }else{
-      console.log('token is bad')
-      removeCookie('token')
-    }
-  })
+  const [isStart, setIsStart] = useState(null);
+  
+  useEffect(() => {
+    getUserList(window.location.hostname, cookies.token).then((response) => {
+      console.log(response)
+      if (response.data.detail === 'Given token not valid for any token type' || response.data.detail === 'Authentication credentials were not provided.') {
+        console.log('token is bad')
+        removeCookie('token')
+        
+      }else{
+        setIsStart(true)
+        console.log('token is available')
+      }
+    })
+  },[cookies])
 
   return (
     <BrowserRouter>
       <Routes>
-        {cookies.token ? (
+        {cookies.token && isStart? (
           <Route element={<RoutesOutlet />}>
             <Route path="/" element={<Main />} />
             <Route path="/company" element={<Company />} />
@@ -74,9 +82,11 @@ function App() {
               element = {<CameraPage />}
             />
           </Route>
-        ) : (
-          <Route path="/*" element={<Authorization />} />
-        )}
+        ) : 
+          <Route path="/*" element={
+          <Authorization /> 
+        } />
+        }
       </Routes>
     </BrowserRouter>
   );
