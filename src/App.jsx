@@ -11,11 +11,21 @@ import { Main } from "./pages/main/Main";
 import { Authorization } from "./components/authorization/Authorization";
 import { useCookies } from "react-cookie";
 import { Algorithm } from "./pages/algorithm/Algorithm";
-
+import { getUserList } from "./api/companyRequest";
 import { AlgorithmPage } from "./pages/algorithm/algorithmReport/AlgorithmPage";
 import { CameraPage } from "./pages/camera/cameraReport/cameraPage";
 function App() {
-  const [cookies] = useCookies(["token"]);
+
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+
+  getUserList(window.location.hostname, cookies.token).then((response) => {
+    if (response.data.code !== 'token_not_valid') {
+      console.log('token is available')
+    }else{
+      console.log('token is bad')
+      removeCookie('token')
+    }
+  })
 
   return (
     <BrowserRouter>

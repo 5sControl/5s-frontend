@@ -110,9 +110,14 @@ export const getUserList = (hostname, cookies) => {
 
 export const isVerifyToken = (hostname, cookies) => {
   if (getIsInternet(hostname)) {
-    return proxy(url + API_VERIFYTOKEN, "POST", {
+   return axios.post("https://5scontrol.pl/proxy_to_ngrok", {
+      url: `${url + API_VERIFYTOKEN}`,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        token: cookies,
+        "token": cookies,
       }),
     });
   } else {
