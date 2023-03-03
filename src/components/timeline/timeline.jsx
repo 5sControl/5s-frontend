@@ -19,7 +19,6 @@ export const Timeline = ({
   const seconds = calculateTime(startTime, endTime);
   const [timeLine, setTimeLine] = useState([]);
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (data) {
       let buf = [
@@ -73,7 +72,12 @@ export const Timeline = ({
                 <span
                   key={ind}
                   style={el.time > 0 ?{ width: `${(el.time / seconds) * 100}%` } : {}}
-                  className={ind % 2 && el.violation_found? "timeline_red" : " timeline_green"}
+                  className={
+                    algorithm !== 'machine_control' ?
+                    ind % 2 && el.violation_found? "timeline_red" : " timeline_green"
+                    :
+                    ind % 2 ? "timeline_green" : " timeline_red"
+                  }
                   title={`${el.violation_found}`}
                   onClick={() =>
                     el.id !== 0 ? 

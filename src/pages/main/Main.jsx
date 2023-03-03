@@ -14,8 +14,7 @@ import { getAveilableAlgorithms, postAlgorithnDependences} from "../../api/algor
 import { getSelectedCameras } from "../../api/cameraRequest";
 
 export const Main = () => {
-  const [
-  camerasSafety_Control_Ear_protection, setCamerasSafety_Control_Ear_protection] = useState([]);
+  const [ camerasSafety_Control_Ear_protection, setCamerasSafety_Control_Ear_protection] = useState([]);
   const [ camerasSafety_Control_Reflective_jacket, setCamerasSafety_Control_Reflective_jacket ] = useState([]);
   const [ camerasSafety_Control_Head_protection , setCamerasSafety_Control_Head_protection ] = useState([]);
   const [ camerasSafety_Control_Hand_protection , setCamerasSafety_Control_Hand_protection ] = useState([]);
