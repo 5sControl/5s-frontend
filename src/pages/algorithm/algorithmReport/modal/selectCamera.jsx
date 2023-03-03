@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useEffect } from "react"
-import { url, getIsInternet} from "../../../api/api"
-import { getSelectedCameras } from "../../../api/cameraRequest"
+import { url, getIsInternet} from "../../../../api/api"
+import { getSelectedCameras } from "../../../../api/cameraRequest"
 import { useState } from "react"
-import {deleteProcess, postAlgorithnDependences} from "../../../api/algorithmRequest"
-import close from "../../../assets/svg/close.svg";
+import {deleteProcess, postAlgorithnDependences} from "../../../../api/algorithmRequest"
+import close from "../../../../assets/svg/close.svg";
 export const CameraModal = ({token, activeCameras, setShowModal, fullInfoProcess, control, setCamera}) => {
 
    const [allCameras, setAllCameras] = useState([])

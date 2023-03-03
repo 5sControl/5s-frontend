@@ -12,7 +12,7 @@ import { Authorization } from "./components/authorization/Authorization";
 import { useCookies } from "react-cookie";
 import { Algorithm } from "./pages/algorithm/Algorithm";
 
-import { AlgorithmPage } from "./pages/algorithmReport/AlgorithmPage";
+import { AlgorithmPage } from "./pages/algorithm/algorithmReport/AlgorithmPage";
 function App() {
   const [cookies, setCookie] = useCookies(["token"]);
 
