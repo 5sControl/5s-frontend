@@ -27,7 +27,7 @@ function App() {
       if (response.data.detail === 'Given token not valid for any token type' || response.data.detail === 'Authentication credentials were not provided.') {
         console.log('token is bad')
         removeCookie('token')
-        
+        setIsStart(true)
       }else{
         setIsStart(true)
         console.log('token is available')
@@ -38,7 +38,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {cookies.token && isStart? (
+        {cookies.token && isStart ? (
           <Route element={<RoutesOutlet />}>
             <Route path="/" element={<Main />} />
             <Route path="/company" element={<Company />} />
@@ -84,7 +84,9 @@ function App() {
           </Route>
         ) : 
           <Route path="/*" element={
+            isStart ? 
           <Authorization /> 
+          :<Preloader loading={true} />
         } />
         }
       </Routes>
