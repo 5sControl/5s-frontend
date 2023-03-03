@@ -7,6 +7,7 @@ import { CamerasModal } from "../../pages/camera/modal/camerasModal";
 
 import "./cameras.scss";
 import { findCamera, getSelectedCameras } from "../../api/cameraRequest";
+import { Link } from "react-router-dom";
 
 export const Camera = () => {
   const [cookies] = useCookies(["token"]);
@@ -49,10 +50,10 @@ export const Camera = () => {
         <div className="cameras__list">
           {createdCameras.map((el, ind) => {
             return (
-              <div key={ind} className="cameras__list_item">
-                <span>IP: {el.id}</span>
-              </div>
-            );
+              <Link key={ind} to={`/camera/${el.id}`} className="cameras__list_item">
+                < >IP: {el.id}</>
+              </Link>
+            )
           })}
         </div>
       )}

@@ -13,8 +13,9 @@ import { useCookies } from "react-cookie";
 import { Algorithm } from "./pages/algorithm/Algorithm";
 
 import { AlgorithmPage } from "./pages/algorithm/algorithmReport/AlgorithmPage";
+import { CameraPage } from "./pages/camera/cameraReport/cameraPage";
 function App() {
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
 
   return (
     <BrowserRouter>
@@ -57,6 +58,10 @@ function App() {
             <Route
               path="/staff_control"
               element={<AlgorithmPage control={"staff_control"} />}
+            />
+            <Route 
+              path ="/camera/:id" 
+              element = {<CameraPage />}
             />
           </Route>
         ) : (
