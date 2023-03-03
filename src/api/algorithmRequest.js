@@ -76,7 +76,7 @@ export const getProcess = (hostname, cookies) => {
       Authorization: cookies,
     });
   } else {
-    return axios.get(`http://${hostname}/`, {
+    return axios.get(`http://${hostname}/${API_GETPROCESS}`, {
       headers: {
         Authorization: cookies,
       },

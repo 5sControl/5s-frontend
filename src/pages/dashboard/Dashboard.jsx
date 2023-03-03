@@ -49,7 +49,7 @@ function Dashboard() {
                         .reduce((obj, value) => (obj[value] = item[value], obj), {})
                 ))
             )].map(item => JSON.parse(item));
-            setSelectCameras(res);
+        setSelectCameras(res);
 
         el.data.detail === "Authentication credentials were not provided." ||
         el.data.detail === "Given token not valid for any token type"
