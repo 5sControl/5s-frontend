@@ -34,7 +34,7 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
         ip: IPCamera,
         username: username,
         password: password,
-        url: `http://192.168.1.101/`,
+        url: `http://192.168.1.101`,
       },
       {
         headers: {
@@ -49,7 +49,7 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
         ip: IPCamera,
         username: username,
         password: password,
-        url: `http://${hostname}/`,
+        url: `http://${hostname}`,
       },
       {
         headers: {
