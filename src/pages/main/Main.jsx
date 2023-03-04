@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import "./main.scss";
-import logo from "../../assets/svg/icon.svg";
+
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import { CameraSelect } from "./components/cameraChoise";
 import { Camera } from "../camera/Camera";
 import { getAveilableAlgorithms, postAlgorithnDependences} from "../../api/algorithmRequest";
 import { getSelectedCameras } from "../../api/cameraRequest";
+import {Congratulations} from './stage/firstScreen'
 
 export const Main = () => {
   const [ camerasSafety_Control_Ear_protection, setCamerasSafety_Control_Ear_protection] = useState([]);
@@ -199,28 +200,16 @@ export const Main = () => {
 
   return (
     <>
-      {localStorage.getItem('registration') === 'true' &&
+      {/* {localStorage.getItem('registration') === 'true' &&
             <div className='showAfterRegistration'>
                 <div className='showAfterRegistration__container'>
                     <h4>You are already registered</h4>
                     <button className='showAfterRegistration__button' onClick={() => navigate('/dashboard')}>Dashboard</button>
                 </div>
             </div>
-    }
+    } */}
       <>
-        {stage === "begin" && (
-          <div className="main">
-            <img src={logo} alt="logo" className="main__logo" />
-            <span className="main__span">
-              Congratulations! <br />
-              You have successfully installed the 5S Control’s Docker and now
-              ready to use it. Complete the setup to start.
-            </span>
-            <button className="main__start" onClick={() => setStage("cameras")}>
-              Start Setup
-            </button>
-          </div>
-        )}
+        {stage === "begin" && <Congratulations setStage={e=> setStage(e)}/>}
         {stage === "cameras" && <Camera />}
         {stage === "algorithm" && 
           <AlgorithmList
