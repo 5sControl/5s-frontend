@@ -24,8 +24,6 @@ export const AlogorithmStage = ({ token, setShowAfterRegistration }) => {
   const [camerasStaff_control, setCamerasStaff_control] = useState([]);
   const [camerasMachine_Control, setCamerasMachine_Control] = useState([]);
 
- 
-  
   const doneHandler = () => {
     if (selectType.type === "Safety_Control_Ear_protection") {
       setCamerasSafety_Control_Ear_protection(selectType.obj);
@@ -51,14 +49,6 @@ export const AlogorithmStage = ({ token, setShowAfterRegistration }) => {
     setSelectType("");
   };
 
-  const onChangeHandler = (id) => {
-    setSelectType({
-      obj: selectType.obj.map((el) =>
-        el.id === id ? { ...el, isSelected: !el.isSelected } : el
-      ),
-      type: selectType.type,
-    });
-  };
 
   useEffect(() => {
     getSelectedCameras(window.location.hostname, token).then((response) => {
@@ -97,11 +87,7 @@ export const AlogorithmStage = ({ token, setShowAfterRegistration }) => {
         : `http://${window.location.hostname}`,
     };
 
-    if (
-      camerasSafety_Control_Ear_protection
-        .filter((el) => el.isSelected)
-        .map((e) => e.ip).length > 0
-    ) {
+    if (camerasSafety_Control_Ear_protection.filter((el) => el.isSelected).map((e) => e.ip).length > 0) {
       response.safety_control_ear_protection =
         camerasSafety_Control_Ear_protection
           .filter((el) => el.isSelected)
@@ -204,31 +190,22 @@ export const AlogorithmStage = ({ token, setShowAfterRegistration }) => {
         setSelectType={(e) => {
           setSelectType(e);
         }}
-        camerasSafety_Control_Ear_protection={
-          camerasSafety_Control_Ear_protection
-        }
-        camerasSafety_Control_Reflective_jacket={
-          camerasSafety_Control_Reflective_jacket
-        }
-        camerasSafety_Control_Head_protection={
-          camerasSafety_Control_Head_protection
-        }
-        camerasSafety_Control_Hand_protection={
-          camerasSafety_Control_Hand_protection
-        }
+        camerasSafety_Control_Ear_protection={ camerasSafety_Control_Ear_protection}
+        camerasSafety_Control_Reflective_jacket={camerasSafety_Control_Reflective_jacket}
+        camerasSafety_Control_Head_protection={camerasSafety_Control_Head_protection}
+        camerasSafety_Control_Hand_protection={camerasSafety_Control_Hand_protection}
         camerasMachine_Control={camerasMachine_Control}
         camerasIdle_Control={camerasIdle_control}
         camerasStaff_control={camerasStaff_control}
         algorithmPage={"main"}
       />
-      {selectType !== "" && (
+      {selectType !== "" && 
         <CameraSelect
           selectType={selectType}
-          onChangeHandler={(e) => onChangeHandler(e)}
           setSelectType={(e) => setSelectType(e)}
           doneHandler={doneHandler}
         />
-      )}
+      }
       <div className={"visible"}>
         <button
           // className={algorithmCount > 5 ? "noclick" : ""}

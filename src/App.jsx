@@ -38,7 +38,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {cookies.token //&& isStart 
+        {cookies.token && isStart 
         ? (
           <Route element={<RoutesOutlet />}>
             <Route path="/" element={<Main />} />

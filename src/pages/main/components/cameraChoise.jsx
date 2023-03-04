@@ -2,42 +2,20 @@ import { Fragment } from "react";
 import { url, getIsInternet } from "../../../api/api";
 import close from "../../../assets/svg/close.svg";
 
-const CameraChoise = ({ selectType, onChangeHandler }) => {
-  return (
-    <div className="select__cameras">
-      {selectType.obj.map((el) => (
-        <Fragment key={el.id}>
-        
-          <div className={"select__cameras_item"}>
-            <img
-              src={
-                getIsInternet(window.location.hostname)
-                  ? `${url}/images/${el.ip}/snapshot.jpg`
-                  : `http://${window.location.hostname}/images/${el.ip}/snapshot.jpg`
-              }
-              alt="Camera"
-            />
-            <div className="select__cameras_item_footer">
-              <span>{el.ip}</span>
-              <input
-                type="checkbox"
-                checked={el.isSelected}
-                onChange={() => onChangeHandler(el.id)}
-              />
-            </div>
-          </div>
-        </Fragment>
-      ))}
-    </div>
-  );
-};
-
 export const CameraSelect = ({
   selectType,
-  onChangeHandler,
   setSelectType,
   doneHandler,
 }) => {
+  const onChangeHandler = (id) => {
+    setSelectType({
+      obj: selectType.obj.map((el) =>
+        el.id === id ? { ...el, isSelected: !el.isSelected } : el
+      ),
+      type: selectType.type,
+    });
+  };
+
   return (
     <div className="select">
       <div className="select__container">
@@ -64,3 +42,33 @@ export const CameraSelect = ({
     </div>
   );
 };
+
+const CameraChoise = ({ selectType, onChangeHandler }) => {
+  return (
+    <div className="select__cameras">
+      {selectType.obj.map((el) => (
+        <Fragment key={el.id}>
+          <div className={"select__cameras_item"}>
+            <img
+              src={
+                getIsInternet(window.location.hostname)
+                  ? `${url}/images/${el.ip}/snapshot.jpg`
+                  : `http://${window.location.hostname}/images/${el.ip}/snapshot.jpg`
+              }
+              alt="Camera"
+            />
+            <div className="select__cameras_item_footer">
+              <span>{el.ip}</span>
+              <input
+                type="checkbox"
+                checked={el.isSelected}
+                onChange={() => onChangeHandler(el.id)}
+              />
+            </div>
+          </div>
+        </Fragment>
+      ))}
+    </div>
+  );
+};
+

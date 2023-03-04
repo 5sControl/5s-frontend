@@ -35,15 +35,13 @@ export const Main = () => {
           token={cookies.token}
           setShowAfterRegistration={e=> setShowAfterRegistration(e)}
         />}
-        <div className={stage !== "begin" ? "visible" : "novisible"}>
-          {stage === "cameras" && (
+        <div className={stage === "cameras" ? "visible" : "novisible"}>
             <button
               // className={algorithmCount > 5 ? "noclick" : ""}
               onClick={() => setStage("algorithm")}
             >
               Continue
             </button>
-          )}
         </div>
        
         {showAfterRegistration && (
