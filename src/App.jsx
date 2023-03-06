@@ -47,34 +47,6 @@ function App() {
             <Route path="/camera" element={<Camera />} />
             <Route path="/algorithm" element={<Algorithm />} />
             <Route path="/algorithm/:type" element={<AlgorithmPage />} />
-            {/* <Route
-              path="/machine_control"
-              element={<AlgorithmPage control={"machine_control"} />}
-            />
-            <Route
-              path="/safety_control_ear_protection"
-              element={<AlgorithmPage control={"safety_control_ear_protection"} />}
-            />
-              <Route
-              path="/safety_control_reflective_jacket"
-              element={<AlgorithmPage control={"safety_control_reflective_jacket"} />}
-            />
-            <Route
-              path="/safety_control_hand_protection"
-              element={<AlgorithmPage control={"safety_control_hand_protection"} />}
-            />
-             <Route
-              path="/safety_control_head_protection"
-              element={<AlgorithmPage control={"safety_control_head_protection"} />}
-            />
-            <Route
-              path="/idle_control"
-              element={<AlgorithmPage control={"idle_control"} />}
-            />
-            <Route
-              path="/staff_control"
-              element={<AlgorithmPage control={"staff_control"} />}
-            /> */}
             <Route 
               path ="/camera/:id" 
               element = {<CameraPage />}
