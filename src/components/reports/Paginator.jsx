@@ -1,4 +1,4 @@
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
 export const Paginator = ({ data, setCurrentPage, currentPage }) => {
   return (
@@ -11,22 +11,22 @@ export const Paginator = ({ data, setCurrentPage, currentPage }) => {
           <button
             className={
               currentPage === 1
-                ? "dashboard__paginator_button_noactive"
-                : "dashboard__paginator_button"
+                ? 'dashboard__paginator_button_noactive'
+                : 'dashboard__paginator_button'
             }
             onClick={() => setCurrentPage(currentPage - 1)}
           >
             <AiOutlineLeft />
           </button>
           <span className="dashboard__paginator_text">
-            {" "}
+            {' '}
             {`${currentPage} of ${Math.ceil(data.count / 20)}`}
           </span>
           <button
             className={
               currentPage === Math.ceil(data.count / 20)
-                ? "dashboard__paginator_button_noactive"
-                : "dashboard__paginator_button"
+                ? 'dashboard__paginator_button_noactive'
+                : 'dashboard__paginator_button'
             }
             onClick={() => setCurrentPage(currentPage + 1)}
           >

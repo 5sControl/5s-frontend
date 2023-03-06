@@ -1,15 +1,9 @@
-import moment from "moment";
-import { useState } from "react";
-
-import { Slider } from "./swiper";
-import {
-  ViolintationFalse,
-  ViolintationTrue,
-} from "../../assets/svg/SVGcomponent.js";
-
-import { useSelector } from "react-redux";
-
-import { parsingAlgorithmName } from "../../functions/parsingAlgorithmName.js";
+import moment from 'moment';
+import { useState } from 'react';
+import { Slider } from './swiper';
+import { ViolintationFalse, ViolintationTrue } from '../../assets/svg/SVGcomponent.js';
+import { useSelector } from 'react-redux';
+import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName.js';
 
 export const CurrentReport = () => {
   const currentReport = useSelector((state) => state.currentReport.report);
@@ -20,28 +14,16 @@ export const CurrentReport = () => {
         <>
           <div className="dashboard__report">
             <div className="dashboard__report_image">
-              {
-                currentReport && 
-                <Slider
-                  currentReport={currentReport}
-                  setFullImage={(e) => setFullImage(e)}
-                />
-              }
+              {currentReport && (
+                <Slider currentReport={currentReport} setFullImage={(e) => setFullImage(e)} />
+              )}
             </div>
             <div className="dashboard__report_item">
               <span>Date & Time</span>
               <span>
-                {moment(currentReport.start_tracking)
-                  .add(3, "hours")
-                  .format("YYYY-MM-DD ")}
-                |
-                {moment(currentReport.start_tracking)
-                  .add(3, "hours")
-                  .format("HH:mm:ss")}
-                -
-                {moment(currentReport.stop_tracking)
-                  .add(3, "hours")
-                  .format("HH:mm:ss")}
+                {moment(currentReport.start_tracking).add(3, 'hours').format('YYYY-MM-DD ')}|
+                {moment(currentReport.start_tracking).add(3, 'hours').format('HH:mm:ss')}-
+                {moment(currentReport.stop_tracking).add(3, 'hours').format('HH:mm:ss')}
               </span>
             </div>
             <div className="dashboard__report_item">
@@ -56,27 +38,16 @@ export const CurrentReport = () => {
             <div className="dashboard__report_item">
               <span>Status</span>
               <span>
-                {currentReport.violation_found ? (
-                  <ViolintationFalse />
-                ) : (
-                  <ViolintationTrue />
-                )}
+                {currentReport.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
               </span>
             </div>
           </div>
         </>
       )}
-            {fullImage && (
+      {fullImage && (
         <>
-          <div
-            className="dashboard__fullimage"
-            onClick={() => setFullImage(false)}
-          >
-            <img
-              src={fullImage}
-              alt="report img"
-              className="dashboard__fullimage_image"
-            />
+          <div className="dashboard__fullimage" onClick={() => setFullImage(false)}>
+            <img src={fullImage} alt="report img" className="dashboard__fullimage_image" />
           </div>
         </>
       )}
