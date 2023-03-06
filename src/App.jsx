@@ -12,7 +12,7 @@ import { Main } from "./pages/main/Main";
 import { Authorization } from "./components/authorization/Authorization";
 import { useCookies } from "react-cookie";
 import { Algorithm } from "./pages/algorithm/Algorithm";
-import { getUserList } from "./api/companyRequest";
+import { getUserList, isVerifyToken } from "./api/companyRequest";
 import { AlgorithmPage } from "./pages/algorithm/algorithmReport/AlgorithmPage";
 import { CameraPage } from "./pages/camera/cameraReport/cameraPage";
 import { Preloader } from "./components/preloader";
@@ -22,15 +22,16 @@ function App() {
   const [isStart, setIsStart] = useState(null);
   
   useEffect(() => {
-    getUserList(window.location.hostname, cookies.token).then((response) => {
+    
+    isVerifyToken(window.location.hostname, cookies.token).then((response) => {
       console.log(response)
-      if (response.data.detail === 'Given token not valid for any token type' || response.data.detail === 'Authentication credentials were not provided.') {
+      if (Object.keys(response.data).length === 0) {
+        setIsStart(true)
+        console.log('token is available')
+      }else{
         console.log('token is bad')
         removeCookie('token')
         setIsStart(true)
-      }else{
-        setIsStart(true)
-        console.log('token is available')
       }
     })
   },[cookies])

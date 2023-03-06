@@ -51,7 +51,7 @@ export const Camera = () => {
           {createdCameras.map((el, ind) => {
             return (
               <Link key={ind} to={`/camera/${el.id}`} className="cameras__list_item">
-                < >IP: {el.id}</>
+                <>IP: {el.id}</>
               </Link>
             )
           })}
