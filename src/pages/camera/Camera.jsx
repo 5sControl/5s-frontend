@@ -32,7 +32,7 @@ export const Camera = () => {
         setCamerasList(response.data.results);
       })
       .catch((error) => setError(error.message));
-  }, []);
+  }, [isShowModal]);
 
   const showAddCameras = () => {
     setIsShowModal(true);
@@ -63,7 +63,6 @@ export const Camera = () => {
           setIsShowModal={(e) => setIsShowModal(e)}
           cookies={cookies}
           camerasList={camerasList}
-          setCreatedCameras={(e) => setCreatedCameras([...createdCameras, e])}
         />
       )}
     </section>
