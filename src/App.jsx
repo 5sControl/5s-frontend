@@ -24,21 +24,21 @@ function App() {
   useEffect(() => {
     getUserList(window.location.hostname, cookies.token).then((response) => {
       console.log(response)
-      // if (response.data.detail === 'Given token not valid for any token type' || response.data.detail === 'Authentication credentials were not provided.') {
-      //   console.log('token is bad')
-      //   removeCookie('token')
-      //   setIsStart(true)
-      // }else{
-      //   setIsStart(true)
-      //   console.log('token is available')
-      // }
+      if (response.data.detail === 'Given token not valid for any token type' || response.data.detail === 'Authentication credentials were not provided.') {
+        console.log('token is bad')
+        removeCookie('token')
+        setIsStart(true)
+      }else{
+        setIsStart(true)
+        console.log('token is available')
+      }
     })
   },[cookies])
 
   return (
     <BrowserRouter>
       <Routes>
-        {cookies.token //&& isStart
+        {cookies.token && isStart
         ? (
           <Route element={<RoutesOutlet />}>
             <Route path="/" element={<Main />} />
@@ -54,10 +54,9 @@ function App() {
           </Route>
         ) : 
           <Route path="/*" element={
-         //   isStart ?
-
+           isStart ?
           <Authorization /> 
-        //  :<Preloader loading={true} />
+            :<Preloader loading={true} />
         } />
         }
       </Routes>
