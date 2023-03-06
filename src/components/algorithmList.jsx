@@ -55,7 +55,7 @@ export const AlgorithmList = ({
     }
 
     if (algorithmPage === "algorithm") {
-      navigate(`/${algorithm.toLowerCase()}`);
+      navigate(`/algorithm/${algorithm.toLowerCase()}`);
     }
   };
   return (

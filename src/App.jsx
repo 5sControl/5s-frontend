@@ -46,7 +46,8 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/camera" element={<Camera />} />
             <Route path="/algorithm" element={<Algorithm />} />
-            <Route
+            <Route path="/algorithm/:type" element={<AlgorithmPage />} />
+            {/* <Route
               path="/machine_control"
               element={<AlgorithmPage control={"machine_control"} />}
             />
@@ -73,11 +74,7 @@ function App() {
             <Route
               path="/staff_control"
               element={<AlgorithmPage control={"staff_control"} />}
-            />
-            <Route
-              path="/staff_control"
-              element={<AlgorithmPage control={"staff_control"} />}
-            />
+            /> */}
             <Route 
               path ="/camera/:id" 
               element = {<CameraPage />}

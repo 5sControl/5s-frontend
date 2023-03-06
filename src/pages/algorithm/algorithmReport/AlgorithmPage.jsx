@@ -7,7 +7,8 @@ import { useCookies } from "react-cookie"
 import './algorithmPage.scss'
 import { CameraModal } from "./modal/selectCamera"
 
-export const AlgorithmPage = ({control}) => {
+export const AlgorithmPage = () => {
+    const control = window.location.pathname.split("/")[1]
     const [cookies] = useCookies(['token'])
     const [camera, setCamera] = useState(false)
     const [showModal, setShowModal] = useState(false)
