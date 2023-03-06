@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 const cookies = createSlice({
   name: 'cookies',
@@ -7,13 +7,13 @@ const cookies = createSlice({
   },
   reducers: {
     setToken(state, action) {
-      state.report = action.payload
+      state.report = action.payload;
     },
     deleteToken(state, action) {
-      state.report = action.payload
+      state.report = action.payload;
     },
   },
-})
+});
 
-export const { addCurrentReport } = cookies.actions
-export default cookies.reducer
+export const { addCurrentReport } = cookies.actions;
+export default cookies.reducer;

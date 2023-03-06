@@ -1,24 +1,24 @@
-import axios from 'axios'
-import { url, proxy, getIsInternet } from './api'
+import axios from 'axios';
+import { url, proxy, getIsInternet } from './api';
 
-const API_ALGORITHM = `api/algorithms/available-process/`
-const API_POSTALGORITHM = `api/algorithms/create-process/`
-const API_DELPROCESS = `api/algorithms/stop-process/`
-const API_GETPROCESS = `api/algorithms/get-process/`
+const API_ALGORITHM = 'api/algorithms/available-process/';
+const API_POSTALGORITHM = 'api/algorithms/create-process/';
+const API_DELPROCESS = 'api/algorithms/stop-process/';
+const API_GETPROCESS = 'api/algorithms/get-process/';
 
 export const getAveilableAlgorithms = (hostname, cookies) => {
   if (getIsInternet(hostname)) {
     return proxy(url + API_ALGORITHM, 'GET', {
       Authorization: cookies,
-    })
+    });
   } else {
     return axios.get(`http://${hostname}/${API_ALGORITHM}`, {
       headers: {
         Authorization: cookies,
       },
-    })
+    });
   }
-}
+};
 
 export const postAlgorithnDependences = async (hostname, cookies, response) => {
   if (getIsInternet(hostname)) {
@@ -30,16 +30,16 @@ export const postAlgorithnDependences = async (hostname, cookies, response) => {
         Authorization: cookies,
       },
       body: JSON.stringify(response),
-    })
+    });
   } else {
     return axios.post(`http://${hostname}/${API_POSTALGORITHM}`, response, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,
       },
-    })
+    });
   }
-}
+};
 
 export const deleteProcess = (hostname, cookies, pid) => {
   if (getIsInternet(hostname)) {
@@ -53,7 +53,7 @@ export const deleteProcess = (hostname, cookies, pid) => {
       body: JSON.stringify({
         pid: pid,
       }),
-    })
+    });
   } else {
     return axios.post(
       `http://${hostname}/${API_DELPROCESS}`,
@@ -66,20 +66,20 @@ export const deleteProcess = (hostname, cookies, pid) => {
           Authorization: cookies,
         },
       }
-    )
+    );
   }
-}
+};
 
 export const getProcess = (hostname, cookies) => {
   if (getIsInternet(hostname)) {
     return proxy(url + API_GETPROCESS, 'GET', {
       Authorization: cookies,
-    })
+    });
   } else {
     return axios.get(`http://${hostname}/${API_GETPROCESS}`, {
       headers: {
         Authorization: cookies,
       },
-    })
+    });
   }
-}
+};

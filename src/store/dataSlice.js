@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 const currentReport = createSlice({
   name: 'currentReport',
@@ -7,10 +7,10 @@ const currentReport = createSlice({
   },
   reducers: {
     addCurrentReport(state, action) {
-      state.report = action.payload
+      state.report = action.payload;
     },
   },
-})
+});
 
-export const { addCurrentReport } = currentReport.actions
-export default currentReport.reducer
+export const { addCurrentReport } = currentReport.actions;
+export default currentReport.reducer;

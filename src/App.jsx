@@ -1,30 +1,26 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import "./index.scss";
-import Dashboard from "./pages/dashboard/Dashboard";
-import { RoutesOutlet } from "./routes/Routes";
-import {Camera} from "./pages/camera/Camera";
-import { Company } from "./pages/company/Company";
-import { Main } from "./pages/main/Main";
-import { Authorization } from "./components/authorization/Authorization";
-import { useCookies } from "react-cookie";
-import { Algorithm } from "./pages/algorithm/Algorithm";
-import { getUserList } from "./api/companyRequest";
-import { AlgorithmPage } from "./pages/algorithm/algorithmReport/AlgorithmPage";
-import { CameraPage } from "./pages/camera/cameraReport/cameraPage";
-import { Preloader } from "./components/preloader";
-import { PreviewOrders } from "./pages/previewOrders/previewOrders";
+import './index.scss';
+import Dashboard from './pages/dashboard/Dashboard';
+import { RoutesOutlet } from './routes/Routes';
+import { Camera } from './pages/camera/Camera';
+import { Company } from './pages/company/Company';
+import { Main } from './pages/main/Main';
+import { Authorization } from './components/authorization/Authorization';
+import { useCookies } from 'react-cookie';
+import { Algorithm } from './pages/algorithm/Algorithm';
+import { getUserList } from './api/companyRequest';
+import { AlgorithmPage } from './pages/algorithm/algorithmReport/AlgorithmPage';
+import { CameraPage } from './pages/camera/cameraReport/cameraPage';
+import { PreviewOrders } from './pages/previewOrders/previewOrders';
+
 function App() {
+  const [cookies] = useCookies(['token']);
 
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  const [isStart, setIsStart] = useState(null);
-  
   useEffect(() => {
     getUserList(window.location.hostname, cookies.token).then((response) => {
-      console.log(response)
+      console.log(response);
       // if (response.data.detail === 'Given token not valid for any token type' || response.data.detail === 'Authentication credentials were not provided.') {
       //   console.log('token is bad')
       //   removeCookie('token')
@@ -33,14 +29,13 @@ function App() {
       //   setIsStart(true)
       //   console.log('token is available')
       // }
-    })
-  },[cookies])
+    });
+  }, [cookies]);
 
   return (
     <BrowserRouter>
       <Routes>
-        {cookies.token //&& isStart
-        ? (
+        {cookies.token ? ( // && isStart
           <Route element={<RoutesOutlet />}>
             <Route path="/" element={<Main />} />
             <Route path="/company" element={<Company />} />
@@ -77,19 +72,19 @@ function App() {
               path="/staff_control"
               element={<AlgorithmPage control={"staff_control"} />}
             /> */}
-            <Route 
-              path ="/camera/:id" 
-              element = {<CameraPage />}
-            />
+            <Route path="/camera/:id" element={<CameraPage />} />
           </Route>
-        ) : 
-          <Route path="/*" element={
-         //   isStart ?
+        ) : (
+          <Route
+            path="/*"
+            element={
+              //   isStart ?
 
-          <Authorization /> 
-        //  :<Preloader loading={true} />
-        } />
-        }
+              <Authorization />
+              //  :<Preloader loading={true} />
+            }
+          />
+        )}
       </Routes>
     </BrowserRouter>
   );

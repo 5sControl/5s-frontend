@@ -1,31 +1,40 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
-export const SelectTimeDiapason = ({
+type PropsType = {
+  startTime: string;
+  setStartTime: (value: string) => void;
+  setEndTime: (value: string) => void;
+  endTime: string;
+  setVisibleModal: (value: boolean) => void;
+  update: () => void;
+};
+
+export const SelectTimeDiapason: React.FC<PropsType> = ({
   startTime,
   setStartTime,
   setEndTime,
   endTime,
   setVisibleModal,
   update,
-}) => {
+}): JSX.Element => {
   const setDataToResponse = () => {
-    setStartTime(date.startTime)
-    setEndTime(date.endTime)
-    setVisibleModal(false)
-    update()
-  }
+    setStartTime(date.startTime);
+    setEndTime(date.endTime);
+    setVisibleModal(false);
+    update();
+  };
 
   const [date, setDate] = useState({
     startTime: startTime,
     endTime: endTime,
-  })
+  });
   return (
     <div className="dashboard__time">
       <div>
         <p>Starting time</p>
         <select
           value={date.startTime}
-          onChange={e => setDate({ ...date, startTime: e.target.value })}
+          onChange={(e) => setDate({ ...date, startTime: e.target.value })}
           className="dashboard__time_select"
         >
           <option value="3:00:00">3:00</option>
@@ -59,7 +68,7 @@ export const SelectTimeDiapason = ({
         <p>End time</p>
         <select
           value={date.endTime}
-          onChange={e => setDate({ ...date, endTime: e.target.value })}
+          onChange={(e) => setDate({ ...date, endTime: e.target.value })}
           className="dashboard__time_select"
         >
           <option value="3:00:00">3:00</option>
@@ -92,19 +101,13 @@ export const SelectTimeDiapason = ({
         </select>
       </div>
       <div className="dashboard__time_footer">
-        <button
-          className="dashboard__time_footer_cancel"
-          onClick={() => setVisibleModal(false)}
-        >
+        <button className="dashboard__time_footer_cancel" onClick={() => setVisibleModal(false)}>
           Cancel
         </button>
-        <button
-          className="dashboard__time_footer_create"
-          onClick={setDataToResponse}
-        >
+        <button className="dashboard__time_footer_create" onClick={setDataToResponse}>
           Apply
         </button>
       </div>
     </div>
-  )
-}
+  );
+};

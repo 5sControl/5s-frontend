@@ -27,4 +27,4 @@ export const algorithms = {
     title: 'Idle Control',
     description: 'Detects if worker is idle.',
   },
-}
+};

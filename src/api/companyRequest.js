@@ -1,12 +1,12 @@
-import axios from 'axios'
-import { url, proxy, getIsInternet } from './api'
+import axios from 'axios';
+import { url, proxy, getIsInternet } from './api';
 
-const API_COMPANYINFO = 'api/company/info/'
-const API_CREATELICENSE = 'api/company/create_license/'
-const API_REGISTRATION = `register/`
-const API_AUTH = `auth/jwt/create/`
-const API_USERLIST = `api/staff-control/employees/admin/`
-const API_VERIFYTOKEN = 'auth/jwt/verify/'
+const API_COMPANYINFO = 'api/company/info/';
+const API_CREATELICENSE = 'api/company/create_license/';
+const API_REGISTRATION = 'register/';
+const API_AUTH = 'auth/jwt/create/';
+const API_USERLIST = 'api/staff-control/employees/admin/';
+const API_VERIFYTOKEN = 'auth/jwt/verify/';
 export const authorizationRequest = (hostname, email, password) => {
   if (getIsInternet(hostname)) {
     return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
@@ -19,28 +19,28 @@ export const authorizationRequest = (hostname, email, password) => {
         username: email,
         password: password,
       }),
-    })
+    });
   } else {
     return axios.post(`http://${hostname}/${API_AUTH}`, {
       username: email,
       password: password,
-    })
+    });
   }
-}
+};
 
 export const getCompanyInfo = (hostname, cookies) => {
   if (getIsInternet(hostname)) {
     return proxy(url + API_COMPANYINFO, 'GET', {
       Authorization: cookies,
-    })
+    });
   } else {
     return axios.get(`http://${hostname}/${API_COMPANYINFO}`, {
       headers: {
         Authorization: cookies,
       },
-    })
+    });
   }
-}
+};
 
 export const sendLicenseKey = (hostname, cookies, key) => {
   if (getIsInternet(hostname)) {
@@ -54,7 +54,7 @@ export const sendLicenseKey = (hostname, cookies, key) => {
       body: JSON.stringify({
         license_key: key,
       }),
-    })
+    });
   } else {
     return axios.post(
       `http://${hostname}/${API_CREATELICENSE}`,
@@ -67,9 +67,9 @@ export const sendLicenseKey = (hostname, cookies, key) => {
           Authorization: cookies,
         },
       }
-    )
+    );
   }
-}
+};
 
 export const registerNewUser = (hostname, email, password) => {
   if (getIsInternet(hostname)) {
@@ -84,29 +84,29 @@ export const registerNewUser = (hostname, email, password) => {
         password: password,
         repeat_password: password,
       }),
-    })
+    });
   } else {
     axios.post(`http://${hostname}/${API_REGISTRATION}`, {
       username: email,
       password: password,
       repeat_password: password,
-    })
+    });
   }
-}
+};
 
 export const getUserList = (hostname, cookies) => {
   if (getIsInternet(hostname)) {
     return proxy(url + API_USERLIST, 'GET', {
       Authorization: cookies,
-    })
+    });
   } else {
     return axios.get(`http://${hostname}/${API_USERLIST}`, {
       headers: {
         Authorization: cookies,
       },
-    })
+    });
   }
-}
+};
 
 export const isVerifyToken = (hostname, cookies) => {
   if (getIsInternet(hostname)) {
@@ -119,10 +119,10 @@ export const isVerifyToken = (hostname, cookies) => {
       body: JSON.stringify({
         token: cookies,
       }),
-    })
+    });
   } else {
     return axios.post(`http://${hostname}/${API_VERIFYTOKEN}`, {
       token: cookies,
-    })
+    });
   }
-}
+};
