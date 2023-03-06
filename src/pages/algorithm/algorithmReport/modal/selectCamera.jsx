@@ -3,7 +3,6 @@ import { url, getIsInternet } from '../../../../api/api';
 import { getSelectedCameras } from '../../../../api/cameraRequest';
 import { deleteProcess, postAlgorithnDependences } from '../../../../api/algorithmRequest';
 import close from '../../../../assets/svg/close.svg';
-
 export const CameraModal = ({
   token,
   activeCameras,

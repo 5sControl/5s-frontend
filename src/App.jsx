@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
 import './index.scss';
 import Dashboard from './pages/dashboard/Dashboard';
 import { RoutesOutlet } from './routes/Routes';
@@ -10,32 +9,34 @@ import { Main } from './pages/main/Main';
 import { Authorization } from './components/authorization/Authorization';
 import { useCookies } from 'react-cookie';
 import { Algorithm } from './pages/algorithm/Algorithm';
-import { getUserList } from './api/companyRequest';
+import { isVerifyToken } from './api/companyRequest';
 import { AlgorithmPage } from './pages/algorithm/algorithmReport/AlgorithmPage';
 import { CameraPage } from './pages/camera/cameraReport/cameraPage';
+import { Preloader } from './components/preloader';
 import { PreviewOrders } from './pages/previewOrders/previewOrders';
 
 function App() {
-  const [cookies] = useCookies(['token']);
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [isStart, setIsStart] = useState(null);
 
   useEffect(() => {
-    getUserList(window.location.hostname, cookies.token).then((response) => {
+    isVerifyToken(window.location.hostname, cookies.token).then((response) => {
       console.log(response);
-      // if (response.data.detail === 'Given token not valid for any token type' || response.data.detail === 'Authentication credentials were not provided.') {
-      //   console.log('token is bad')
-      //   removeCookie('token')
-      //   setIsStart(true)
-      // }else{
-      //   setIsStart(true)
-      //   console.log('token is available')
-      // }
+      if (Object.keys(response.data).length === 0) {
+        setIsStart(true);
+        console.log('token is available');
+      } else {
+        console.log('token is bad');
+        removeCookie('token');
+        setIsStart(true);
+      }
     });
   }, [cookies]);
 
   return (
     <BrowserRouter>
       <Routes>
-        {cookies.token ? ( // && isStart
+        {cookies.token && isStart ? (
           <Route element={<RoutesOutlet />}>
             <Route path="/" element={<Main />} />
             <Route path="/company" element={<Company />} />
@@ -44,46 +45,10 @@ function App() {
             <Route path="/algorithm" element={<Algorithm />} />
             <Route path="/algorithm/:type" element={<AlgorithmPage />} />
             <Route path="/preview" element={<PreviewOrders />} />
-            {/* <Route
-              path="/machine_control"
-              element={<AlgorithmPage control={"machine_control"} />}
-            />
-            <Route
-              path="/safety_control_ear_protection"
-              element={<AlgorithmPage control={"safety_control_ear_protection"} />}
-            />
-              <Route
-              path="/safety_control_reflective_jacket"
-              element={<AlgorithmPage control={"safety_control_reflective_jacket"} />}
-            />
-            <Route
-              path="/safety_control_hand_protection"
-              element={<AlgorithmPage control={"safety_control_hand_protection"} />}
-            />
-             <Route
-              path="/safety_control_head_protection"
-              element={<AlgorithmPage control={"safety_control_head_protection"} />}
-            />
-            <Route
-              path="/idle_control"
-              element={<AlgorithmPage control={"idle_control"} />}
-            />
-            <Route
-              path="/staff_control"
-              element={<AlgorithmPage control={"staff_control"} />}
-            /> */}
             <Route path="/camera/:id" element={<CameraPage />} />
           </Route>
         ) : (
-          <Route
-            path="/*"
-            element={
-              //   isStart ?
-
-              <Authorization />
-              //  :<Preloader loading={true} />
-            }
-          />
+          <Route path="/*" element={isStart ? <Authorization /> : <Preloader loading={true} />} />
         )}
       </Routes>
     </BrowserRouter>

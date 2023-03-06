@@ -19,16 +19,11 @@ export const CamerasModal = ({
   const [cameraName, setCameraName] = useState('');
 
   const changeCameraName = () => {
-    setIsShowModal(false);
     setStage('selectCamera');
     setCamerasList(IPCamera);
     patchCamera(window.location.hostname, IPCamera, cameraName, cookies.token).then((res) => {
-      setCreatedCameras({
-        description: null,
-        id: IPCamera,
-        is_active: true,
-        name: cameraName,
-      });
+      console.log(res);
+      setIsShowModal(false);
     });
   };
 
