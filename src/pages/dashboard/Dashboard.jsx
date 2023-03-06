@@ -1,8 +1,7 @@
 import './Dashboard.scss';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useCookies } from 'react-cookie';
-import React from 'react';
 
 import { Reports } from '../../components/reports/Reports';
 import { getData } from '../../api/reportsRequest';
