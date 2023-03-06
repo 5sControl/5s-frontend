@@ -1,3 +1,4 @@
+import React from "react";
 import { LeftMenu } from "../components/leftMenu";
 import { Outlet } from "react-router-dom";
 

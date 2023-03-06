@@ -82,6 +82,18 @@ export const LeftMenu = () => {
             <span>Company</span>
           </Link>
         </li>
+        <li
+          className={
+            window.location.pathname.includes("preview")     
+            ? "activeMenu"
+            : "noActiveMenu"
+          }
+        >
+          <Link to="/preview" onClick={send}>
+            <Company />
+            <span>Preview Orders</span>
+          </Link>
+        </li>
       </ul>
       <div className={'leftMenu__company'}>
           <h2>{companyInfo.name_company}</h2>

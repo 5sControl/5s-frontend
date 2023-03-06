@@ -16,6 +16,7 @@ import { getUserList } from "./api/companyRequest";
 import { AlgorithmPage } from "./pages/algorithm/algorithmReport/AlgorithmPage";
 import { CameraPage } from "./pages/camera/cameraReport/cameraPage";
 import { Preloader } from "./components/preloader";
+import { PreviewOrders } from "./pages/previewOrders/previewOrders";
 function App() {
 
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
@@ -47,6 +48,7 @@ function App() {
             <Route path="/camera" element={<Camera />} />
             <Route path="/algorithm" element={<Algorithm />} />
             <Route path="/algorithm/:type" element={<AlgorithmPage />} />
+            <Route path="/preview" element={<PreviewOrders />} />
             {/* <Route
               path="/machine_control"
               element={<AlgorithmPage control={"machine_control"} />}

@@ -1,16 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const currentReport = createSlice({
-    name:"currentReport",
-    initialState:{
-        report:false,
+  name: 'currentReport',
+  initialState: {
+    report: false,
+  },
+  reducers: {
+    addCurrentReport(state, action) {
+      state.report = action.payload
     },
-    reducers:{
-        addCurrentReport(state, action){
-            state.report = action.payload;
-    },
-    }
+  },
 })
 
-export const {addCurrentReport } = currentReport.actions
-export default currentReport.reducer; 
+export const { addCurrentReport } = currentReport.actions
+export default currentReport.reducer

@@ -1,5 +1,6 @@
+import React from "react";
 import logo from "../../../assets/svg/icon.svg";
-export const Congratulations = ({setStage}) => {
+export const Congratulations = ({ setStage }) => {
     return (
         <div className="main">
         <img src={logo} alt="logo" className="main__logo" />
