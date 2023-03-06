@@ -8,7 +8,7 @@ import './algorithmPage.scss'
 import { CameraModal } from "./modal/selectCamera"
 
 export const AlgorithmPage = () => {
-    const control = window.location.pathname.split("/")[1]
+    const control = window.location.pathname.split("/")[2]
     const [cookies] = useCookies(['token'])
     const [camera, setCamera] = useState(false)
     const [showModal, setShowModal] = useState(false)

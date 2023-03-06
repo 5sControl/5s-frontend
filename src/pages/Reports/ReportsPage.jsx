@@ -29,7 +29,7 @@ export const ReportPage = ({control}) => {
   const [selectCameras, setSelectCameras] = useState([]);
   const [cameraToResponse, setCameraToResponse] = useState("camera");
   const [algorithmToResponse, setAlgorithmToResponse] = useState(
-    window.location.pathname.substring(1)
+    window.location.pathname.split("/")[2]
   );
 
   const updateFromDB = () => {

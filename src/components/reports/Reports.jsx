@@ -22,9 +22,7 @@ export const Reports = ({ data, paginator }) => {
               })}
           </div>
         </div>
-          <CurrentReport
-            actionReport={window.location.pathname}
-          />
+          <CurrentReport/>
       </div>
     </>
   );
