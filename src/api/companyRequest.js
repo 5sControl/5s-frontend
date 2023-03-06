@@ -8,7 +8,6 @@ const API_AUTH = 'auth/jwt/create/';
 const API_USERLIST = 'api/staff-control/employees/admin/';
 const API_VERIFYTOKEN = 'auth/jwt/verify/';
 export const authorizationRequest = (hostname, email, password) => {
-
   if (getIsInternet(hostname)) {
     return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
       url: `${url + API_AUTH}`,
@@ -33,7 +32,7 @@ export const getCompanyInfo = (hostname, cookies) => {
   if (getIsInternet(hostname)) {
     return proxy(url + API_COMPANYINFO, 'GET', {
       Authorization: cookies,
-    })
+    });
   } else {
     return axios.get(`http://${hostname}/${API_COMPANYINFO}`, {
       headers: {
@@ -110,7 +109,7 @@ export const getUserList = (hostname, cookies) => {
 };
 
 export const isVerifyToken = (hostname, cookies) => {
-  cookies = cookies?.split(' ')[1]
+  cookies = cookies?.split(' ')[1];
   if (getIsInternet(hostname)) {
     return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
       url: `${url + API_VERIFYTOKEN}`,

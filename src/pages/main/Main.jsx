@@ -15,14 +15,19 @@ export const Main = () => {
 
   return (
     <>
-      {localStorage.getItem('registration') === 'true' &&
-            <div className='showAfterRegistration'>
-                <div className='showAfterRegistration__container'>
-                    <h4>You are already registered</h4>
-                    <button className='showAfterRegistration__button' onClick={() => navigate('/dashboard')}>Dashboard</button>
-                </div>
-            </div>
-    }
+      {localStorage.getItem('registration') === 'true' && (
+        <div className="showAfterRegistration">
+          <div className="showAfterRegistration__container">
+            <h4>You are already registered</h4>
+            <button
+              className="showAfterRegistration__button"
+              onClick={() => navigate('/dashboard')}
+            >
+              Dashboard
+            </button>
+          </div>
+        </div>
+      )}
       <>
         {stage === 'begin' && <Congratulations setStage={(e) => setStage(e)} />}
         {stage === 'cameras' && <Camera />}
@@ -54,7 +59,6 @@ export const Main = () => {
             </div>
           </div>
         )}
-        
       </>
     </>
   );
