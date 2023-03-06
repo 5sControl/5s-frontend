@@ -74,9 +74,9 @@ export const Timeline = ({
                   style={el.time > 0 ?{ width: `${(el.time / seconds) * 100}%` } : {}}
                   className={
                     algorithm !== 'machine_control' ?
-                    ind % 2 && el.violation_found? "timeline_red" : " timeline_green"
+                    ind % 2 && el.violation_found? "timeline_red timeline_pointer" : " timeline_green"
                     :
-                    ind % 2 ? "timeline_green" : " timeline_red"
+                    ind % 2 ? "timeline_green timeline_pointer" : " timeline_red"
                   }
                   title={`${el.violation_found}`}
                   onClick={() =>

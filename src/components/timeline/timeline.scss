@@ -40,6 +40,9 @@
       }
     }
   }
+  &_pointer{
+    cursor: pointer;
+  }
   &_red {
     height: 100%;
     background-color: #ea5545;

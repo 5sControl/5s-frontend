@@ -2,13 +2,12 @@
 /* eslint-disable no-unused-vars */
 import "./main.scss";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
 import { useCookies } from "react-cookie";
 import { Camera } from "../camera/Camera";
-import { getAveilableAlgorithms, postAlgorithnDependences} from "../../api/algorithmRequest";
 import {Congratulations} from './stage/firstScreen'
 import { AlogorithmStage } from "./stage/algorithm";
 
