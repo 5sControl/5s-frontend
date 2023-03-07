@@ -4,9 +4,7 @@
   width: 100%;
 
   .title {
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 150%;
+    @include h6;
     color: var(--HightEmphasis);
     margin-bottom: 10px;
   }
