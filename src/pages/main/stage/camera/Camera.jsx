@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { CamerasModal } from '../../pages/camera/modal/camerasModal';
+import { CamerasModal } from './modal/camerasModal';
 import './cameras.scss';
-import { findCamera, getSelectedCameras } from '../../api/cameraRequest';
+import { findCamera, getSelectedCameras } from '../../../../api/cameraRequest';
 import { Link } from 'react-router-dom';
 
 export const Camera = () => {

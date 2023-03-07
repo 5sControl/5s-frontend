@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Close } from '../../../assets/svg/SVGcomponent';
+import { Close } from '../../../../../assets/svg/SVGcomponent';
 import { AiOutlineRight } from 'react-icons/ai';
-import { patchCamera, postCamera } from '../../../api/cameraRequest';
-import { url, getIsInternet } from '../../../api/api';
+import { patchCamera, postCamera } from '../../../../../api/cameraRequest';
+import { url, getIsInternet } from '../../../../../api/api';
 
 export const CamerasModal = ({
   setIsShowModal,
