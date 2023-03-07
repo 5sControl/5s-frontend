@@ -1,12 +1,13 @@
 import moment from 'moment';
 import { Camera, Algorithm } from '../../assets/svg/SVGcomponent';
-import { useDispatch, useSelector } from 'react-redux';
-import { addCurrentReport } from '../../store/dataSlice';
+import { addCurrentReport, selectCurrentReport } from '../../store/dataSlice';
 import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
 
-export const ReportListItem = ({ item }) => {
-  const dispatch = useDispatch();
-  const currentReport = useSelector((state) => state.currentReport.report);
+export const ReportListItem = ({ item }: any) => {
+  const dispatch = useAppDispatch();
+  const { currentReport } = useAppSelector(selectCurrentReport);
+
   return (
     <>
       <div
