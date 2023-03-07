@@ -2,12 +2,16 @@
 
 .wrapper {
   width: 100%;
-  max-width: 175px;
   height: 58px;
   padding: 5px;
   border: 1px solid var(--Gray88);
   border-radius: 10px;
   background: var(--WhiteSmoke);
+  cursor: pointer;
+
+  &:hover .title {
+    color: var(--Orange);
+  }
 
   .title {
     @include body2;

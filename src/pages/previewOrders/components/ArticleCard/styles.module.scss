@@ -1,0 +1,49 @@
+@import 'src/styles/fonts';
+
+.wrapper {
+  width: 100%;
+
+  .title {
+    @include body2;
+    color: var(--HightEmphasis);
+    margin-bottom: 10px;
+  }
+
+  .date {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 24px;
+    color: var(--MediumEmphasis);
+  }
+
+  .list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    justify-content: space-between;
+    gap: 20px;
+  }
+}
+
+@media (min-width: 640px) {
+  .wrapper .list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .wrapper .list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1440px) {
+  .wrapper .list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1440px) {
+  .wrapper .list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
