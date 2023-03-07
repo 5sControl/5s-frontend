@@ -19,19 +19,15 @@ import { Preloader } from "./components/preloader";
 function App() {
 
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  const [isStart, setIsStart] = useState(null);
   
   useEffect(() => {
     
     isVerifyToken(window.location.hostname, cookies.token).then((response) => {
       console.log(response)
       if (Object.keys(response.data).length === 0) {
-        setIsStart(true)
         console.log('token is available')
       }else{
-        console.log('token is bad')
         removeCookie('token')
-        setIsStart(true)
       }
     })
   },[cookies])
@@ -39,7 +35,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {cookies.token && isStart
+        {cookies.token
         ? (
           <Route element={<RoutesOutlet />}>
             <Route path="/" element={<Main />} />
@@ -55,9 +51,7 @@ function App() {
           </Route>
         ) : 
           <Route path="/*" element={
-           isStart ?
           <Authorization /> 
-            :<Preloader loading={true} />
         } />
         }
       </Routes>
