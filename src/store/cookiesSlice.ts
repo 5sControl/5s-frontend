@@ -15,5 +15,5 @@ const cookies = createSlice({
   },
 });
 
-export const { addCurrentReport } = cookies.actions;
+export const { setToken, deleteToken } = cookies.actions;
 export default cookies.reducer;

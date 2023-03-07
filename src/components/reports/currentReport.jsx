@@ -2,12 +2,14 @@ import moment from 'moment';
 import { useState } from 'react';
 import { Slider } from './swiper';
 import { ViolintationFalse, ViolintationTrue } from '../../assets/svg/SVGcomponent.js';
-import { useSelector } from 'react-redux';
 import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName.js';
+import { selectCurrentReport } from '../../store/dataSlice';
+import { useAppSelector } from '../../store/hooks';
 
 export const CurrentReport = () => {
-  const currentReport = useSelector((state) => state.currentReport.report);
+  const { currentReport } = useAppSelector(selectCurrentReport);
   const [fullImage, setFullImage] = useState(false);
+
   return (
     <>
       {currentReport && (
