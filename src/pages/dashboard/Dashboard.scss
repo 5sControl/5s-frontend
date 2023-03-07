@@ -1,56 +1,55 @@
-.dashboard{
+.dashboard {
   width: 100%;
   padding: 60px 60px 0 60px;
   color: #212121;
-  &__datapicker{
+  &__datapicker {
     position: fixed;
-    top:100px;
+    top: 100px;
     right: 20px;
     z-index: 11;
   }
-  &__title{
+  &__title {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
-    &_h1{
+    &_h1 {
       font-size: 20px;
       font-weight: 700;
     }
-    &__filter{
+    &__filter {
       display: flex;
-      gap:10px;
-    
+      gap: 10px;
     }
-    &_button{
-      background: #E0E0E0;
+    &_button {
+      background: #e0e0e0;
       padding: 4px 12px;
       border-radius: 16px;
       border: none;
       cursor: pointer;
       transition: all 0.5s;
-      &:hover{
+      &:hover {
         background: #f3e0e0;
       }
     }
   }
-  &__time{
+  &__time {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 290px;
     width: 290px;
     position: fixed;
-    top:100px;
+    top: 100px;
     right: 70px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     padding: 20px;
     z-index: 10;
     box-shadow: 0px 4px 8px rgba(73, 72, 55, 0.5);
     border-radius: 4px;
-    &_select{
+    &_select {
       width: 100%;
       margin: 10px 0 50px 0;
-      border: 1px solid #9E9E9E;
+      border: 1px solid #9e9e9e;
       border-radius: 4px;
       padding: 10px 13px;
       color: #212121 !important;
@@ -58,49 +57,49 @@
       font-size: 16px;
       line-height: 24px;
     }
-    &_footer{
+    &_footer {
       display: flex;
       justify-content: flex-end;
-      &_cancel{
+      &_cancel {
         padding: 4px 10px;
-        background: #FFFFFF;
-        color: #FE6100;
+        background: #ffffff;
+        color: #fe6100;
         border: none;
         cursor: pointer;
-    }
-      &_create{
-          padding: 4px 10px;
-          background:  #FE6100;
-          color: #FFFFFF;
-          border: none;
-          cursor: pointer;
-          border-radius: 4px;
+      }
+      &_create {
+        padding: 4px 10px;
+        background: #fe6100;
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
       }
     }
   }
-  &__noauth{
+  &__noauth {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
-    a{
+    a {
       margin-top: 10px;
       padding: 8px 36px;
-      background: #FE6100;
+      background: #fe6100;
       text-decoration: none;
       color: #fff;
       font-size: 14px;
       border-radius: 4px;
       cursor: pointer;
       transition: all 0.5s;
-      &:hover{
+      &:hover {
         background: rgb(206, 51, 51);
       }
     }
   }
-  > h1{
+  > h1 {
     font-weight: 600;
     font-size: 24px;
     line-height: 150%;
@@ -108,76 +107,76 @@
     align-items: center;
     letter-spacing: 0.03em;
   }
-  > h3{
+  > h3 {
     margin-top: 10px;
     font-size: 24px;
     line-height: 150%;
     letter-spacing: 0.03em;
-    span{
+    span {
       font-size: 16px;
       margin-left: 5px;
-      color: #9E9E9E;
+      color: #9e9e9e;
     }
   }
-  &__count{
+  &__count {
     font-weight: 600;
     font-size: 48px;
     line-height: 150%;
     letter-spacing: 0.03em;
   }
-  &__span{
+  &__span {
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
     letter-spacing: 0.15px;
   }
-  &__container{
+  &__container {
     width: 100%;
     padding: 24px 0;
     display: flex;
   }
-  &__choose{
+  &__choose {
     width: 50%;
     padding-right: 10px;
-    border-right:  1px solid #E0E0E0;
+    border-right: 1px solid #e0e0e0;
   }
-  &__tabs{
+  &__tabs {
     display: flex;
-    gap:15px;
-    span{
-      background: #E0E0E0;
+    gap: 15px;
+    span {
+      background: #e0e0e0;
       border-radius: 16px;
       padding: 4px 8px;
     }
   }
-  &__paginator{
+  &__paginator {
     margin: 20px 0 10px 0;
     padding-right: 20px;
     display: flex;
     justify-content: space-between;
-    &_text{
+    &_text {
       margin: 0 10px;
     }
-    &_button{
+    &_button {
       background: none;
       border: none;
       cursor: pointer;
       color: red;
       font-weight: 900;
-      &_noactive{
-      background: none;
-      border: none;
-      pointer-events: none;
-      cursor: default;
-      opacity: 0.5;
+      &_noactive {
+        background: none;
+        border: none;
+        pointer-events: none;
+        cursor: default;
+        opacity: 0.5;
       }
     }
   }
-  &__reports{
+  &__reports {
     width: 100%;
     height: 80vh;
     overflow: auto;
-    &_item{
+    &_item {
       display: flex;
       flex-direction: column;
       justify-content: space-around;
@@ -189,29 +188,28 @@
       transition: all 0.5s;
       cursor: pointer;
       border-radius: 4px;
-      svg{
+      svg {
         height: 16px;
         width: 16px;
         margin-right: 5px;
       }
-      &_container{
+      &_container {
         width: 100%;
         height: 100%;
         display: flex;
-        &_status{
-          
-          &_red{
+        &_status {
+          &_red {
             height: 100%;
             width: 10px;
             background-color: #ea5545;
           }
-          &_green{
+          &_green {
             height: 100%;
             width: 10px;
             background-color: #87bc45;
           }
         }
-        &_content{
+        &_content {
           padding: 13px;
           height: 100%;
           width: 90%;
@@ -220,83 +218,81 @@
           justify-content: space-around;
         }
       }
-     
-     
-      &_title{
-        gap:5px;
+
+      &_title {
+        gap: 5px;
         font-weight: 600;
         font-size: 16px;
         line-height: 24px;
       }
-     
     }
   }
-  &__report{
+  &__report {
     width: 50%;
     padding: 45px 0px 30px 30px;
-    &_image{
+    &_image {
       position: relative;
       width: 100%;
       height: calc(80vh - 290px);
       // object-fit: contain;
       // object-position:center center;
       cursor: pointer;
-      &_src{
+      &_src {
         position: absolute;
-        top:0;
-        left:0;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         object-fit: contain;
-        object-position:center center;
+        object-position: center center;
       }
       // background-color: rgb(45, 45, 45);
     }
-    &_item{
+    &_item {
       display: flex;
       justify-content: space-between;
       padding: 10px 0;
-      border-bottom: 1px solid #E0E0E0;
-      &_red{
+      border-bottom: 1px solid #e0e0e0;
+      &_red {
         width: 50px;
         height: 20px;
         background-color: #ea5545;
       }
-      &_green{
+      &_green {
         width: 50px;
         height: 20px;
         background-color: #87bc45;
       }
     }
   }
-  &__fullimage{
-    width:100vw;
-    height:100vh;
+  &__fullimage {
+    width: 100vw;
+    height: 100vh;
     position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     background-color: #00000070;
     backdrop-filter: blur(5px);
     z-index: 4;
     cursor: pointer;
-    &_image{
+    &_image {
       margin: 0 auto;
-      width:80%;
+      width: 80%;
       height: 80%;
       object-fit: contain;
     }
   }
-  &__error{
-    color: #FF0000;
+  &__error {
+    color: #ff0000;
     font-size: 24px;
   }
-  &__noreports{
+  &__noreports {
     padding: 10px 14px;
     width: 400px;
-    background: #E0E0E0;
+    background: #e0e0e0;
     border-radius: 13px;
     text-align: center;
     color: #666666;
@@ -308,7 +304,7 @@
     margin-top: 20px;
   }
 }
-.active{
-  box-shadow: rgba(254, 97, 0, 0.4) 0px 0px 0px 2px, rgba(254, 97, 0, 0.65) 0px 4px 6px -1px, rgba(254, 97, 0, 0.08) 0px 1px 0px inset;
-  
+.active {
+  box-shadow: rgba(254, 97, 0, 0.4) 0px 0px 0px 2px, rgba(254, 97, 0, 0.65) 0px 4px 6px -1px,
+    rgba(254, 97, 0, 0.08) 0px 1px 0px inset;
 }

@@ -1,32 +1,24 @@
 /* eslint-disable no-unused-vars */
-import axios from "axios";
+import axios from 'axios';
 
-import { proxy, url, getIsInternet } from "./api";
+import { proxy, url, getIsInternet } from './api';
 
-export const getData = (
-  hostname,
-  cookies,
-  date,
-  startTime,
-  endTime,
-  algorithm,
-  camera
-) => {
+export const getData = (hostname, cookies, date, startTime, endTime, algorithm, camera) => {
   let urlString = `api/reports/search_params/?date=${date}&start_time=${startTime}&end_time=${endTime}`;
 
-  if (algorithm && algorithm !== "algorithm") {
+  if (algorithm && algorithm !== 'algorithm') {
     urlString += `&algorithm=${algorithm}`;
   }
-  if (camera && camera !== "camera") {
+  if (camera && camera !== 'camera') {
     urlString += `&camera__id=${camera}`;
   }
 
   if (getIsInternet(hostname)) {
-    return proxy(`${url + urlString}`, "GET", {
+    return proxy(`${url + urlString}`, 'GET', {
       Authorization: cookies,
     });
   } else {
-    return axios.get(`http://${hostname + "/" + urlString}`, {
+    return axios.get(`http://${hostname + '/' + urlString}`, {
       headers: {
         Authorization: cookies,
       },

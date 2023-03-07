@@ -1,11 +1,7 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-
-import { ReportListItem } from "./ReportListItem";
-import { CurrentReport } from "./currentReport";
+import { ReportListItem } from './ReportListItem';
+import { CurrentReport } from './currentReport';
 
 export const Reports = ({ data, paginator }) => {
-
   return (
     <>
       <div className="dashboard__container">
@@ -13,16 +9,11 @@ export const Reports = ({ data, paginator }) => {
           <div className="dashboard__reports">
             {data &&
               data.map((el, ind) => {
-                return (
-                  <ReportListItem
-                    key={ind}
-                    item={el}
-                  />
-                );
+                return <ReportListItem key={ind} item={el} />;
               })}
           </div>
         </div>
-          <CurrentReport/>
+        <CurrentReport />
       </div>
     </>
   );

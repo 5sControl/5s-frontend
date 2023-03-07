@@ -1,27 +1,26 @@
-/* eslint-disable no-sequences */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
-import "./Dashboard.scss";
-import { useEffect, useState } from "react";
-import moment from "moment";
-import { useCookies } from "react-cookie";
+import './Dashboard.scss';
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
+import { useCookies } from 'react-cookie';
 
-import { Reports } from "../../components/reports/Reports";
-import { getData } from "../../api/reportsRequest";
-import { TimelineHub } from "../../components/timeline/timelineHub";
-import { Preloader } from "../../components/preloader";
-import { FilterForm } from "./components/filter";
+import { Reports } from '../../components/reports/Reports';
+import { getData } from '../../api/reportsRequest';
+import { TimelineHub } from '../../components/timeline/timelineHub';
+import { Preloader } from '../../components/preloader';
+import { FilterForm } from './components/filter';
 
 function Dashboard() {
   const [data, setData] = useState(false);
   const [errorCatch, setErrorCatch] = useState(false);
-  const [startTime, setStartTime] = useState("7:00:00");
-  const [endTime, setEndTime] = useState("19:00:00");
-  const [cookies] = useCookies(["token"]);
-  const [selectDate, setSelectDate] = useState(moment().format("YYYY-MM-DD"));
+  const [startTime, setStartTime] = useState('7:00:00');
+  const [endTime, setEndTime] = useState('19:00:00');
+  const [cookies] = useCookies(['token']);
+
+  const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
   const [selectCameras, setSelectCameras] = useState([]);
-  const [cameraToResponse, setCameraToResponse] = useState("camera");
-  const [algorithmToResponse, setAlgorithmToResponse] = useState("algorithm");
+
+  const [cameraToResponse, setCameraToResponse] = useState('camera');
+  const [algorithmToResponse, setAlgorithmToResponse] = useState('algorithm');
 
   const update = () => {
     getData(
@@ -29,30 +28,33 @@ function Dashboard() {
       cookies.token,
       selectDate,
       startTime
-        .split(":")
+        .split(':')
         .map((el, ind) => (ind === 0 ? el - 1 : el))
-        .join(":"),
+        .join(':'),
       endTime
-        .split(":")
+        .split(':')
         .map((el, ind) => (ind === 0 ? el - 1 : el))
-        .join(":"),
+        .join(':'),
       algorithmToResponse,
       cameraToResponse
     )
       .then((el) => {
-       let onlyCamera = el.data.map((el) => el.camera)
-       let res = 
-            [...new Set(
-              onlyCamera.map(item => JSON.stringify(
-                    Object.keys(item)
-                        .sort()
-                        .reduce((obj, value) => (obj[value] = item[value], obj), {})
-                ))
-            )].map(item => JSON.parse(item));
+        let onlyCamera = el.data.map((el) => el.camera);
+        let res = [
+          ...new Set(
+            onlyCamera.map((item) =>
+              JSON.stringify(
+                Object.keys(item)
+                  .sort()
+                  .reduce((obj, value) => ((obj[value] = item[value]), obj), {})
+              )
+            )
+          ),
+        ].map((item) => JSON.parse(item));
         setSelectCameras(res);
 
-        el.data.detail === "Authentication credentials were not provided." ||
-        el.data.detail === "Given token not valid for any token type"
+        el.data.detail === 'Authentication credentials were not provided.' ||
+        el.data.detail === 'Given token not valid for any token type'
           ? setData(0)
           : el.data.length !== data.length
           ? setData(el.data)
@@ -63,7 +65,6 @@ function Dashboard() {
 
   useEffect(() => {
     update();
-   
   }, [selectDate, cameraToResponse, algorithmToResponse]);
 
   return (
@@ -82,7 +83,7 @@ function Dashboard() {
           setSelectDate={(e) => setSelectDate(e)}
           setStartTime={(e) => setStartTime(e)}
           startTime={startTime}
-          selectCameras = {selectCameras}
+          selectCameras={selectCameras}
         />
 
         {!data ? (
@@ -91,10 +92,8 @@ function Dashboard() {
           <>
             <TimelineHub
               data={data}
-              startDate={moment(selectDate).format("YYYY-MM-DD 00:00:00")}
-              endDate={moment(selectDate)
-                .add(+1, "days")
-                .format("YYYY-MM-DD 00:00:00")}
+              startDate={moment(selectDate).format('YYYY-MM-DD 00:00:00')}
+              endDate={moment(selectDate).add(+1, 'days').format('YYYY-MM-DD 00:00:00')}
               startTime={startTime}
               endTime={endTime}
             />

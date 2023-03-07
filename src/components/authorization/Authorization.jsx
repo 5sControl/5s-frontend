@@ -1,19 +1,18 @@
-/* eslint-disable no-unused-vars */
-import "./Authorization.scss";
+import './Authorization.scss';
 
-import logo from "../../assets/svg/icon.svg";
-import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-import { authorizationRequest } from "../../api/companyRequest";
+import logo from '../../assets/svg/icon.svg';
+import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { authorizationRequest } from '../../api/companyRequest';
 
 export const Authorization = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [correctEmail, setCorrectEmail] = useState(false);
   const [correctPassword, setCorrectPassword] = useState(false);
   const [errorResponse, setErrorResponse] = useState(false);
-  const [cookies, setCookie] = useCookies(["token"]);
-  
+  const [cookies, setCookie] = useCookies(['token']);
+
   useEffect(() => {
     if (password.length > 4 && password.length < 20) {
       setCorrectPassword(true);
@@ -34,11 +33,11 @@ export const Authorization = () => {
     authorizationRequest(window.location.hostname, email, password)
       .then((response) => {
         if (response.status === 200 && response.data.access) {
-          setCookie("token", `JWT ${response.data.access}`, { path: "/" });
+          setCookie('token', `JWT ${response.data.access}`, { path: '/' });
         }
         if (!response.data.access) {
           console.log(response);
-          setErrorResponse("Incorrect email or password. Please, try again.");
+          setErrorResponse('Incorrect email or password. Please, try again.');
         }
       })
       .catch((error) => {
@@ -48,10 +47,10 @@ export const Authorization = () => {
   };
 
   const pressEnter = (event) => {
-    if (event.key === "Enter" && correctEmail && correctPassword) {
-      post()
+    if (event.key === 'Enter' && correctEmail && correctPassword) {
+      post();
     }
-  }
+  };
 
   return (
     <div className="authorization">
@@ -77,14 +76,12 @@ export const Authorization = () => {
           onKeyDown={(e) => pressEnter(e)}
         />
         {/* {!correctPassword && <span className='authorization__error'>This field is required</span>} */}
-        {errorResponse && (
-          <span className="authorization__error_response">{errorResponse}</span>
-        )}
+        {errorResponse && <span className="authorization__error_response">{errorResponse}</span>}
         <button
           className={
             correctEmail && correctPassword
-              ? "authorization__button"
-              : "authorization__button disableButton"
+              ? 'authorization__button'
+              : 'authorization__button disableButton'
           }
           onClick={post}
         >

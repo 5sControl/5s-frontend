@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Close } from "../../../assets/svg/SVGcomponent";
-import { AiOutlineRight } from "react-icons/ai";
-import { patchCamera, postCamera } from "../../../api/cameraRequest";
-import { url, getIsInternet } from "../../../api/api";
+import { useState } from 'react';
+import { Close } from '../../../assets/svg/SVGcomponent';
+import { AiOutlineRight } from 'react-icons/ai';
+import { patchCamera, postCamera } from '../../../api/cameraRequest';
+import { url, getIsInternet } from '../../../api/api';
 
 export const CamerasModal = ({
   setIsShowModal,
@@ -11,37 +11,28 @@ export const CamerasModal = ({
   setCamerasList,
   setCreatedCameras,
 }) => {
-  const [stage, setStage] = useState("selectCamera");
-  const [IPCamera, setIPCamera] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [connectMessage, setConnectMessage] = useState("");
-  const [cameraName, setCameraName] = useState("");
+  const [stage, setStage] = useState('selectCamera');
+  const [IPCamera, setIPCamera] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [connectMessage, setConnectMessage] = useState('');
+  const [cameraName, setCameraName] = useState('');
 
   const changeCameraName = () => {
-    
-    setStage("selectCamera");
+    setStage('selectCamera');
     setCamerasList(IPCamera);
-    patchCamera(window.location.hostname, IPCamera, cameraName, cookies.token).then((res) =>
-    {
-      console.log(res)
-      setIsShowModal(false)
-    }
-    );
+    patchCamera(window.location.hostname, IPCamera, cameraName, cookies.token).then((res) => {
+      console.log(res);
+      setIsShowModal(false);
+    });
   };
 
   const connect = () => {
-    postCamera(
-      window.location.hostname,
-      IPCamera,
-      username,
-      password,
-      cookies.token
-    ).then((e) => {
-      if (e.data.message && e.data.message.includes("failed")) {
+    postCamera(window.location.hostname, IPCamera, username, password, cookies.token).then((e) => {
+      if (e.data.message && e.data.message.includes('failed')) {
         setConnectMessage(e.data.message);
       } else {
-        setStage("cameraCreated");
+        setStage('cameraCreated');
       }
     });
   };
@@ -49,7 +40,7 @@ export const CamerasModal = ({
   return (
     <div className="cameras__modal">
       <div className="cameras__modal__container">
-        {stage === "selectCamera" && camerasList.length > 0 && (
+        {stage === 'selectCamera' && camerasList.length > 0 && (
           <>
             <div className="cameras__modal__title">
               <h2>Select a camera from your local network</h2>
@@ -64,7 +55,7 @@ export const CamerasModal = ({
                   key={ind}
                   className="cameras__modal__list_item"
                   onClick={() => {
-                    setStage("logAndPass");
+                    setStage('logAndPass');
                     setIPCamera(el);
                   }}
                 >
@@ -75,7 +66,7 @@ export const CamerasModal = ({
             </div>
           </>
         )}
-        {stage === "logAndPass" && (
+        {stage === 'logAndPass' && (
           <>
             <div className="cameras__modal__title">
               <h2>{IPCamera}</h2>
@@ -91,7 +82,7 @@ export const CamerasModal = ({
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                onFocus={() => setConnectMessage("")}
+                onFocus={() => setConnectMessage('')}
               />
               <label>Password</label>
               <input
@@ -99,27 +90,24 @@ export const CamerasModal = ({
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                onFocus={() => setConnectMessage("")}
+                onFocus={() => setConnectMessage('')}
               />
-              <div style={{ color: "red" }}>{connectMessage}</div>
+              <div style={{ color: 'red' }}>{connectMessage}</div>
               <div className="cameras__modal__login__footer">
                 <button
                   className="cameras__modal__login__cancel"
-                  onClick={() => setStage("selectCamera")}
+                  onClick={() => setStage('selectCamera')}
                 >
                   Cancel
                 </button>
-                <button
-                  className="cameras__modal__login__create"
-                  onClick={connect}
-                >
+                <button className="cameras__modal__login__create" onClick={connect}>
                   Connect
                 </button>
               </div>
             </div>
           </>
         )}
-        {stage === "cameraCreated" && (
+        {stage === 'cameraCreated' && (
           <>
             <div className="cameras__modal__showCamera">
               <img
@@ -136,10 +124,7 @@ export const CamerasModal = ({
                 onChange={(e) => setCameraName(e.target.value)}
               />
               <div className="cameras__modal__login__footer">
-                <button
-                  className="cameras__modal__login__create"
-                  onClick={changeCameraName}
-                >
+                <button className="cameras__modal__login__create" onClick={changeCameraName}>
                   Done
                 </button>
               </div>

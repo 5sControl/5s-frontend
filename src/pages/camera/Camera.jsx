@@ -1,16 +1,12 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
-
-import { useCookies } from "react-cookie";
-import { CamerasModal } from "../../pages/camera/modal/camerasModal";
-
-import "./cameras.scss";
-import { findCamera, getSelectedCameras } from "../../api/cameraRequest";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { CamerasModal } from '../../pages/camera/modal/camerasModal';
+import './cameras.scss';
+import { findCamera, getSelectedCameras } from '../../api/cameraRequest';
+import { Link } from 'react-router-dom';
 
 export const Camera = () => {
-  const [cookies] = useCookies(["token"]);
+  const [cookies] = useCookies(['token']);
   const [camerasList, setCamerasList] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [createdCameras, setCreatedCameras] = useState(false);
@@ -53,11 +49,11 @@ export const Camera = () => {
               <Link key={ind} to={`/camera/${el.id}`} className="cameras__list_item">
                 <>IP: {el.id}</>
               </Link>
-            )
+            );
           })}
         </div>
       )}
-      {error && <div style={{ color: "red", fontSize: "26px" }}>{error}</div>}
+      {error && <div style={{ color: 'red', fontSize: '26px' }}>{error}</div>}
       {isShowModal && (
         <CamerasModal
           setIsShowModal={(e) => setIsShowModal(e)}

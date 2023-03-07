@@ -1,13 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Fragment, useEffect } from "react";
-import { url, getIsInternet } from "../../../../api/api";
-import { getSelectedCameras } from "../../../../api/cameraRequest";
-import { useState } from "react";
-import {
-  deleteProcess,
-  postAlgorithnDependences,
-} from "../../../../api/algorithmRequest";
-import close from "../../../../assets/svg/close.svg";
+import { Fragment, useEffect, useState } from 'react';
+import { url, getIsInternet } from '../../../../api/api';
+import { getSelectedCameras } from '../../../../api/cameraRequest';
+import { deleteProcess, postAlgorithnDependences } from '../../../../api/algorithmRequest';
+import close from '../../../../assets/svg/close.svg';
 export const CameraModal = ({
   token,
   activeCameras,
@@ -26,11 +21,9 @@ export const CameraModal = ({
 
   const deleteProcessFromDB = async (whatIsDelete) => {
     for (const processID of whatIsDelete) {
-      await deleteProcess(window.location.hostname, token, processID).then(
-        (e) => {
-          console.log("delete");
-        }
-      );
+      await deleteProcess(window.location.hostname, token, processID).then((e) => {
+        console.log('delete');
+      });
     }
     return;
   };
@@ -42,25 +35,21 @@ export const CameraModal = ({
       return { ...acc, [key]: [...curGroup, obj.id] };
     }, {});
     let whatIsDelete = afterSelectedCameras.false
-      ? afterSelectedCameras.false.filter((activeCamera) =>
-          activeCameras.includes(activeCamera)
-        )
+      ? afterSelectedCameras.false.filter((activeCamera) => activeCameras.includes(activeCamera))
       : [];
-    whatIsDelete = whatIsDelete?.map(
-      (IPcamera) => ProccessIDInObject[IPcamera][0]
-    );
+    whatIsDelete = whatIsDelete?.map((IPcamera) => ProccessIDInObject[IPcamera][0]);
     const whatIsAdd = afterSelectedCameras.true?.filter((activeCamera) =>
       previousNonActiveCameras.includes(activeCamera)
     );
     await deleteProcessFromDB(whatIsDelete);
     await postAlgorithnDependences(window.location.hostname, token, {
-      server_url: window.location.hostname.includes("localhost")
-        ? `http://192.168.1.101`
+      server_url: window.location.hostname.includes('localhost')
+        ? 'http://192.168.1.101'
         : `http://${window.location.hostname}`,
       [control]: whatIsAdd,
     }).then((e) => {
-      if (e.data.message === "Camera Algorithm records created successfully") {
-        console.log("its ok add");
+      if (e.data.message === 'Camera Algorithm records created successfully') {
+        console.log('its ok add');
       }
     });
     await setShowModal();
@@ -77,9 +66,7 @@ export const CameraModal = ({
         })
       );
       setPreviousMonActiveCameras(
-        response.data
-          .map((item) => item.id)
-          .filter((cameraID) => !activeCameras.includes(cameraID))
+        response.data.map((item) => item.id).filter((cameraID) => !activeCameras.includes(cameraID))
       );
     });
   }, []);
@@ -88,14 +75,13 @@ export const CameraModal = ({
     <section className="camera-modal">
       <div className="camera-modal__container">
         <h1>
-          {" "}
-          Choise the Camera{" "}
-          <img src={close} alt="Close" onClick={setShowModal} />
+          {' '}
+          Choise the Camera <img src={close} alt="Close" onClick={setShowModal} />
         </h1>
         <div className="camera-modal__content">
           {allCameras.map((el, index) => (
             <Fragment key={index}>
-              <div className={"select__cameras_item"}>
+              <div className={'select__cameras_item'}>
                 <img
                   src={
                     getIsInternet(window.location.hostname)
@@ -113,8 +99,7 @@ export const CameraModal = ({
                       setAllCameras(
                         [
                           ...allCameras,
-                          (allCameras[index].isSelected =
-                            !allCameras[index].isSelected),
+                          (allCameras[index].isSelected = !allCameras[index].isSelected),
                         ].slice(0, -1)
                       )
                     }

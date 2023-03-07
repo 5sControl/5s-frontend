@@ -1,0 +1,19 @@
+.content {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #212121;
+    }
+
+    .selectContainer {
+      display: flex;
+      .listOfDate {
+        margin-left: 10px;
+        padding-right: 30px;
+      }
+    }
+  }
+}
