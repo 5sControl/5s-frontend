@@ -94,6 +94,6 @@ export const findCamera = (hostname) => {
   if (hostname.includes("localhost")) {
     return axios.get("http://192.168.1.101" + API_CAMERAFIND);
   } else {
-    axios.get(`http://${hostname + API_CAMERAFIND}`);
+    return axios.get(`http://${hostname + API_CAMERAFIND}`);
   }
 };
