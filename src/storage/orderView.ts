@@ -2,7 +2,7 @@ export interface OrdersView {
   orders: Array<OrderItem>;
 }
 
-interface OrderItem {
+export interface OrderItem {
   orderId: number;
   orderCustomer: string;
   orderDate: number;
@@ -12,13 +12,19 @@ interface OrderItem {
   products: Array<Product>;
 }
 
-interface Product {
+export interface Product {
   productId: number;
   productName: string;
+  articles: Array<ArticleItem>;
+}
+
+export interface ArticleItem {
+  articlesId: number;
+  articlesName: string;
   operations: Array<OperationItem>;
 }
 
-interface OperationItem {
+export interface OperationItem {
   operationId: number;
   operationName: string;
   operationTime: string;
