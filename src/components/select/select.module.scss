@@ -1,0 +1,27 @@
+.container {
+  position: relative;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+
+  .select {
+    background: #e0e0e0;
+    padding: 4px 12px;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.5s;
+    height: fit-content;
+    width: fit-content;
+    -webkit-appearance: none;
+    appearance: none;
+    &:hover {
+      background: #f3e0e0;
+    }
+  }
+
+  svg {
+    position: absolute;
+    right: 7px;
+  }
+}
