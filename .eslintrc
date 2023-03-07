@@ -7,7 +7,6 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:import/recommended",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
@@ -18,9 +17,8 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier", "import"],
+  "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
-    "import/no-unresolved": 2,
     "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
     "spaced-comment": "error",
@@ -29,9 +27,6 @@
     "no-duplicate-imports": "error"
   },
   "settings": {
-    "import/resolver": {
-      "typescript": {}
-    },
     "react": {
       "version": "detect"
     }
