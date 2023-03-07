@@ -1,0 +1,1344 @@
+{
+  "orders": [
+    {
+      "orderId": 1,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Started",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 7,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 8,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 9,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 10,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 2,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Undefined",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 7,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 8,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 9,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 10,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 3,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Completed",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 7,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 8,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 9,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 10,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 4,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Started",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 7,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 8,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 9,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 10,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 5,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Undefined",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 7,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 8,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 9,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 10,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 6,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Completed",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 7,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 8,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 9,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 10,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 7,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Started",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 7,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 8,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 9,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 10,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 8,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Undefined",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 7,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 8,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 9,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 10,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 9,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Completed",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 7,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 8,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 9,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 10,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 10,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Completed",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "operations": [
+            {
+              "operationId": 1,
+              "operationName": "Operation #1",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 2,
+              "operationName": "Operation #2",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 3,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 4,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 5,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 6,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 7,
+              "operationName": "Operation #3",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 8,
+              "operationName": "Operation #4",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 9,
+              "operationName": "Operation #5",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            },
+            {
+              "operationId": 10,
+              "operationName": "Operation #6",
+              "operationTime": "24.02.2023 | 13:00:45",
+              "previewImage": "preview.png",
+              "operationVideo": "string"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
