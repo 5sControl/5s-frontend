@@ -1,6 +1,7 @@
 import React from 'react';
 import { Select } from '../../components/select/select';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
+import { OrderList } from './components/ordersList/ordersList';
 import styles from './previewOrders.module.scss';
 
 export const PreviewOrders: React.FC = () => {
@@ -26,7 +27,9 @@ export const PreviewOrders: React.FC = () => {
           </div>
         </div>
 
-        <div></div>
+        <div>
+          <OrderList />
+        </div>
       </div>
     </WrapperPage>
   );

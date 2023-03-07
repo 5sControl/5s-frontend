@@ -8,6 +8,7 @@ import { ReactComponent as ViolintationTrue } from './violintationTrue.svg';
 import { ReactComponent as ViolintationFalse } from './violintationFalse.svg';
 import { ReactComponent as OrdersView } from './ordersView.svg';
 import { ReactComponent as SelectArrow } from './selectArrow.svg';
+import { ReactComponent as SearchIcon } from './searchIcon.svg';
 export {
   Algorithm,
   Camera,
@@ -19,4 +20,5 @@ export {
   ViolintationFalse,
   OrdersView,
   SelectArrow,
+  SearchIcon,
 };
