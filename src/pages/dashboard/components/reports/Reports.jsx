@@ -1,7 +1,7 @@
 import { ReportListItem } from './ReportListItem';
 import { CurrentReport } from './currentReport';
 
-export const Reports = ({ data, paginator }) => {
+export const Reports = ({ data }) => {
   return (
     <>
       <div className="dashboard__container">
