@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Algorithm, Camera, Company, Dashboard } from '../assets/svg/SVGcomponent';
+import { Algorithm, Camera, Company, Dashboard, OrdersView } from '../assets/svg/SVGcomponent';
 import logo from '../assets/svg/icon.svg';
 import { useEffect, useState } from 'react';
 import { getCompanyInfo } from '../api/companyRequest';
@@ -57,11 +57,13 @@ export const LeftMenu = () => {
           </Link>
         </li>
         <li
-          className={window.location.pathname.includes('preview') ? 'activeMenu' : 'noActiveMenu'}
+          className={
+            window.location.pathname.includes('orders-view') ? 'activeMenu' : 'noActiveMenu'
+          }
         >
-          <Link to="/preview" onClick={send}>
-            <Company />
-            <span>Preview Orders</span>
+          <Link to="/orders-view" onClick={send}>
+            <OrdersView />
+            <span>Orders View</span>
           </Link>
         </li>
       </ul>

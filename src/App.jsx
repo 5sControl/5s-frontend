@@ -44,7 +44,7 @@ function App() {
             <Route path="/camera" element={<Camera />} />
             <Route path="/algorithm" element={<Algorithm />} />
             <Route path="/algorithm/:type" element={<AlgorithmPage />} />
-            <Route path="/preview" element={<PreviewOrders />} />
+            <Route path="/orders-view" element={<PreviewOrders />} />
             <Route path="/camera/:id" element={<CameraPage />} />
           </Route>
         ) : (

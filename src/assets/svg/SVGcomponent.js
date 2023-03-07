@@ -6,4 +6,17 @@ import { ReactComponent as Back } from './back.svg';
 import { ReactComponent as Close } from './close.svg';
 import { ReactComponent as ViolintationTrue } from './violintationTrue.svg';
 import { ReactComponent as ViolintationFalse } from './violintationFalse.svg';
-export { Algorithm, Camera, Dashboard, Company, Back, Close, ViolintationTrue, ViolintationFalse };
+import { ReactComponent as OrdersView } from './ordersView.svg';
+import { ReactComponent as SelectArrow } from './selectArrow.svg';
+export {
+  Algorithm,
+  Camera,
+  Dashboard,
+  Company,
+  Back,
+  Close,
+  ViolintationTrue,
+  ViolintationFalse,
+  OrdersView,
+  SelectArrow,
+};
