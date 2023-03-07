@@ -28,6 +28,4 @@ export interface OperationItem {
   operationId: number;
   operationName: string;
   operationTime: string;
-  previewImage: string;
-  operationVideo?: string;
 }
