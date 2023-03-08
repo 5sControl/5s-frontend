@@ -1,3 +1,4 @@
+import { Cover } from '../../../../components/cover';
 import { OrderItem } from '../../../../storage/orderView';
 import { ProductCatd } from '../ProductCatd';
 import { StatusLable } from '../StatusLable';
@@ -9,7 +10,7 @@ type PropsType = {
 
 export const OrderCard: React.FC<PropsType> = ({ data }) => {
   return (
-    <div>
+    <Cover>
       <div className={styles.header}>
         <div className={styles.titleContent}>
           <h2 className={styles.title}>{`Order №${data.orderId}`}</h2>
@@ -44,6 +45,6 @@ export const OrderCard: React.FC<PropsType> = ({ data }) => {
           <ProductCatd key={productData.productId} index={++index} data={productData} />
         ))}
       </div>
-    </div>
+    </Cover>
   );
 };
