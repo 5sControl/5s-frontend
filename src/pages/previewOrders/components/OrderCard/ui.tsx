@@ -2,7 +2,7 @@ import { Cover } from '../../../../components/cover';
 import { OrderItem } from '../../../../storage/orderView';
 import { ProductCatd } from '../ProductCatd';
 import { StatusLable } from '../StatusLable';
-import styles from './styles.module.scss';
+import styles from './orderCard.module.scss';
 
 type PropsType = {
   data: OrderItem;

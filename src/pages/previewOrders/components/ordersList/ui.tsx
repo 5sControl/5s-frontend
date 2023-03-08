@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Cover } from '../../../../components/cover';
 import { SearchInput } from '../../../../components/searchInput/searchInput';
 
-import styles from './styles.module.scss';
+import styles from './ordersList.module.scss';
 
 export const OrderList: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');

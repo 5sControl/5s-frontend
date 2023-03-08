@@ -1,5 +1,5 @@
 import { OperationItem } from '../../../../storage/orderView';
-import styles from './styles.module.scss';
+import styles from './operationCard.module.scss';
 
 type PropsType = {
   data: OperationItem;

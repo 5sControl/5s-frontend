@@ -1,6 +1,6 @@
 import { Product } from '../../../../storage/orderView';
 import { ArticleCard } from '../ArticleCard';
-import styles from './styles.module.scss';
+import styles from './productCatd.module.scss';
 
 type PropsType = {
   index: number;
