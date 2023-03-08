@@ -1,0 +1,15 @@
+@import 'src/styles/fonts';
+
+.lable {
+  padding: 0 10px;
+  border-radius: 20px;
+}
+
+.type {
+  @include caption;
+  color: var(--White);
+}
+
+.started {
+  background-color: var(--Orange);
+}

@@ -1,0 +1,1 @@
+export { StatusLable } from './ui';
