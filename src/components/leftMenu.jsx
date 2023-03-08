@@ -35,7 +35,9 @@ export const LeftMenu = () => {
           </Link>
         </li>
         <li
-          className={window.location.pathname.includes('company') ? 'activeMenu' : 'noActiveMenu'}
+          className={
+            window.location.pathname.includes('configuration') ? 'activeMenu' : 'noActiveMenu'
+          }
         >
           <Link to="/configuration" onClick={send}>
             <Algorithm />
