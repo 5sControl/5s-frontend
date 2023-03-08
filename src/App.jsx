@@ -9,6 +9,7 @@ import { Authorization } from './components/authorization/Authorization';
 import { useCookies } from 'react-cookie';
 import { isVerifyToken } from './api/companyRequest';
 import { PreviewOrders } from './pages/previewOrders/previewOrders';
+import { Configuration } from './pages/configuration/configuration';
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -32,6 +33,7 @@ function App() {
             <Route path="/" element={<Main />} />
             <Route path="/company" element={<Company />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/configuration" element={<Configuration />} />
             <Route path="/orders-view" element={<PreviewOrders />} />
           </Route>
         ) : (
