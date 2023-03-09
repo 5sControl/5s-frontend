@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { Cover } from '../../../../components/cover';
 import { SearchInput } from '../../../../components/searchInput/searchInput';
 
-import styles from './orderList.module.scss';
+import styles from './ordersList.module.scss';
 
 export const OrderList: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -11,9 +12,9 @@ export const OrderList: React.FC = () => {
   };
 
   return (
-    <div className={styles.list}>
+    <Cover className={styles.list}>
       <h2 className={styles.title}>Orders</h2>
       <SearchInput className={styles.listInput} searchInputFilter={searchInputFilter} />
-    </div>
+    </Cover>
   );
 };

@@ -1,6 +1,6 @@
 import { ArticleItem } from '../../../../storage/orderView';
 import { OperationCard } from '../OperationCard/ui';
-import styles from './styles.module.scss';
+import styles from './articleCard.module.scss';
 
 type PropsType = {
   data: ArticleItem;

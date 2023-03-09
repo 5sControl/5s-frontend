@@ -3,6 +3,9 @@ import { Select } from '../../components/select/select';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import { OrderList } from './components/ordersList';
 import styles from './previewOrders.module.scss';
+import OrdersViewData from '../../storage/ordersView.json';
+import { OrdersView } from '../../storage/orderView';
+import { OrderCard } from './components/OrderCard';
 
 export const PreviewOrders: React.FC = () => {
   const listOfDate = [
@@ -16,19 +19,25 @@ export const PreviewOrders: React.FC = () => {
     { id: 1, text: 'Started' },
     { id: 2, text: 'Completed' },
   ];
+
+  const data: OrdersView = OrdersViewData;
+
   return (
     <WrapperPage>
       <div className={styles.content}>
         <div className={styles.header}>
-          <h1 className={styles.title}>Orders View</h1>
+          <h2 className={styles.title}>Orders View</h2>
+
           <div className={styles.selectContainer}>
             <Select listOfData={listOfstatus} />
             <Select className={styles.listOfDate} listOfData={listOfDate} />
           </div>
         </div>
 
-        <div>
+        <div className={styles.body}>
           <OrderList />
+
+          <OrderCard data={data.orders[1]} />
         </div>
       </div>
     </WrapperPage>
