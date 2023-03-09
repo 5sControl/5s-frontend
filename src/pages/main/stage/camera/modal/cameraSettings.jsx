@@ -25,7 +25,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   };
 
   const addProcessToDB = async (whatIsAdd) => {
-    console.log(whatIsAdd);
+    // console.log(whatIsAdd);
     for (const algorithm of whatIsAdd) {
       let response = {
         server_url: window.location.hostname.includes('localhost')
@@ -34,7 +34,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
         [algorithm]: [IPCamera],
       };
       await postAlgorithnDependences(window.location.hostname, token, response).then((e) => {
-        console.log(e);
+        // console.log(e);
       });
     }
     return;
@@ -132,8 +132,8 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                   />
                 </div>
               </div>
-              <div className="">
-                <button className="" onClick={applySettings}>
+              <div className="cameras__settings_footer">
+                <button className="cameras__button" onClick={applySettings}>
                   Done
                 </button>
               </div>

@@ -18,7 +18,7 @@ export const Camera = () => {
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.data.length > 0) {
           setCreatedCameras(response.data);
         }
