@@ -1,0 +1,48 @@
+@import 'src/styles/fonts';
+
+.listElement {
+  width: 100%;
+  padding: 10px 0px;
+  border-bottom: 1px solid var(--Gray88);
+  cursor: pointer;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .title {
+    @include body2;
+    letter-spacing: 0.15px;
+    color: var(--HightEmphasis);
+    padding-left: 10px;
+  }
+
+  .activeTitle {
+    @include h5;
+    letter-spacing: 0.15px;
+    color: var(--HightEmphasis);
+  }
+
+  .status {
+    position: absolute;
+    width: 4px;
+    height: 40px;
+    border-radius: 0px 4px 4px 0px;
+  }
+
+  .statusCompleted {
+    background: var(--Green);
+  }
+
+  .statusStarted {
+    background: var(--Orange);
+  }
+}
+
+.active {
+  background: rgba(254, 97, 0, 0.1);
+}
+
+.listElement:hover {
+  background: rgba(254, 97, 0, 0.1);
+}

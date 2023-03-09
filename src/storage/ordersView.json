@@ -789,7 +789,7 @@
       "orderDate": 1707810131000,
       "orderValid": 30,
       "orderTime": "03.02.2023 | 13:00:04",
-      "orderStatus": "Started",
+      "orderStatus": "Undefined",
       "products": [
         {
           "productId": 1,

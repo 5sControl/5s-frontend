@@ -1,15 +1,19 @@
+@import 'src/styles/fonts';
+
 .list {
   max-width: 390px;
   height: 590px;
 
   .title {
+    @include h4;
     letter-spacing: 0.03em;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 150%;
   }
 
   .listInput {
     margin-top: 10px;
+  }
+
+  .ordersListElement {
+    margin-top: 20px;
   }
 }
