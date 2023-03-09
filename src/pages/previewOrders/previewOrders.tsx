@@ -1,7 +1,7 @@
 import React from 'react';
 import { Select } from '../../components/select/select';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
-import { OrderList } from './components/ordersList';
+import { OrderList } from './components/OrdersList';
 import styles from './previewOrders.module.scss';
 import OrdersViewData from '../../storage/ordersView.json';
 import { OrdersView } from '../../storage/orderView';
@@ -35,7 +35,7 @@ export const PreviewOrders: React.FC = () => {
         </div>
 
         <div className={styles.body}>
-          <OrderList />
+          <OrderList data={data.orders} />
 
           <OrderCard data={data.orders[1]} />
         </div>
