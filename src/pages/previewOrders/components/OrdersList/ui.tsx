@@ -17,13 +17,17 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
     setInputValue(value);
   };
 
+  const searchFilter = () => {
+    return data.filter((item) => item.orderId.toString().includes(inputValue.toLowerCase()));
+  };
+
   return (
     <Cover className={styles.list}>
       <h2 className={styles.title}>Orders</h2>
       <SearchInput className={styles.listInput} searchInputFilter={searchInputFilter} />
 
       <section className={styles.ordersListElement}>
-        {data.map((item) => {
+        {searchFilter().map((item) => {
           return (
             <OrdersListElement
               key={item.orderId}
@@ -32,6 +36,7 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
             />
           );
         })}
+        {!searchFilter().length && <p className={styles.emptyList}>No matching orders found.</p>}
       </section>
     </Cover>
   );
