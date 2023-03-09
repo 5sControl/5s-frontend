@@ -46,4 +46,18 @@
             }
         }
     }
+    &__database{
+        margin-bottom: 70px;
+        &_container{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        &_desc{
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+    
 }

@@ -1,3 +1,4 @@
+import { Camera } from '../main/stage/camera/Camera';
 import './configuration.scss';
 
 export const Configuration = () => {
@@ -14,6 +15,16 @@ export const Configuration = () => {
         </div>
         <button className="configuration__button">Upgrade Plan</button>
       </div>
+      <div className="configuration__database">
+        <div className="configuration__database_container">
+          <h2>Database</h2>
+          <button className="configuration__button">Connect</button>
+        </div>
+        <span className="configuration__database_desc">
+          Connect to database with your orders to view them in 5S Control.
+        </span>
+      </div>
+      <Camera />
     </section>
   );
 };

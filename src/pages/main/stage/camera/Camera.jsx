@@ -3,8 +3,7 @@ import { useCookies } from 'react-cookie';
 import { CamerasModal } from './modal/camerasModal';
 import './cameras.scss';
 import { findCamera, getSelectedCameras } from '../../../../api/cameraRequest';
-import { Link } from 'react-router-dom';
-
+import { getIsInternet, url } from '../../../../api/api';
 export const Camera = () => {
   const [cookies] = useCookies(['token']);
   const [camerasList, setCamerasList] = useState(false);
@@ -46,9 +45,18 @@ export const Camera = () => {
         <div className="cameras__list">
           {createdCameras.map((el, ind) => {
             return (
-              <Link key={ind} to={`/camera/${el.id}`} className="cameras__list_item">
+              <div key={ind} className="cameras__list_item">
+                <img
+                  className="cameras__list_image"
+                  src={
+                    getIsInternet(window.location.hostname)
+                      ? `${url}/images/${el.id}/snapshot.jpg`
+                      : `http://${window.location.hostname}/images/${el.id}/snapshot.jpg`
+                  }
+                  alt="Camera"
+                />
                 <>IP: {el.id}</>
-              </Link>
+              </div>
             );
           })}
         </div>
