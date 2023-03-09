@@ -10,7 +10,9 @@ export const AlgorithmSelect = ({
   setInformationToSend,
 }) => {
   const [algorithmList, setAlgorithmList] = useState(false);
-  let checkboxAlgo = algorithmsActive ? Object.assign([], algorithmsActive) : [];
+  const [checkboxAlgo, setCheckboxAlgo] = useState(
+    algorithmsActive ? Object.assign([], algorithmsActive) : []
+  );
   useEffect(() => {
     getAveilableAlgorithms(window.location.hostname, token).then((res) => {
       let allAlgorithm = Object.keys(res.data).filter((key) => res.data[key]);
@@ -18,25 +20,27 @@ export const AlgorithmSelect = ({
     });
   }, []);
 
-  const checkboxHandler = (state) => {
-    if (checkboxAlgo.includes(state)) {
-      checkboxAlgo = checkboxAlgo.filter((item) => item !== state);
-    } else {
-      checkboxAlgo.push(state);
-    }
+  useEffect(() => {
     let willDelete = algorithmsActive
       ? algorithmsActive.filter((el) => !checkboxAlgo.includes(el))
       : [];
-
+    let willAdd = checkboxAlgo.filter((el) => !algorithmsActive.includes(el));
     let sendDelete = process.filter((element) => {
       return element.camera.id === IPCamera && willDelete.includes(element.algorithm.name);
     });
-
     const changedAfterSelect = {
       delete: sendDelete.map((el) => el.process_id),
-      add: checkboxAlgo.filter((el) => !algorithmsActive.includes(el)),
+      add: willAdd,
     };
     setInformationToSend(changedAfterSelect);
+  }, [checkboxAlgo]);
+
+  const checkboxHandler = (state) => {
+    if (checkboxAlgo.includes(state)) {
+      setCheckboxAlgo(checkboxAlgo.filter((item) => item !== state));
+    } else {
+      setCheckboxAlgo([...checkboxAlgo, state]);
+    }
   };
 
   return (

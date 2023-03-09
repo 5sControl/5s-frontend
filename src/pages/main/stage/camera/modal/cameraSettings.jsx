@@ -3,19 +3,54 @@ import { url, getIsInternet } from '../../../../../api/api';
 import { patchCamera } from '../../../../../api/cameraRequest';
 import { Close } from '../../../../../assets/svg/SVGcomponent';
 import { AlgorithmSelect } from './components/algorithmSelect';
-import { deleteProcess, getProcess } from '../../../../../api/algorithmRequest';
+import {
+  deleteProcess,
+  getProcess,
+  postAlgorithnDependences,
+} from '../../../../../api/algorithmRequest';
 
 export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamera }) => {
   const [cameraName, setCameraName] = useState(nameCamera);
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
   const [process, setProcess] = useState([]);
-  const [InformationToSend, setInformationToSend] = useState({});
+  const [informationToSend, setInformationToSend] = useState({});
+
+  const deleteProcessFromDB = async (whatIsDelete) => {
+    for (const processID of whatIsDelete) {
+      await deleteProcess(window.location.hostname, token, processID).then((e) => {
+        console.log('delete');
+      });
+    }
+    return;
+  };
+
+  const addProcessToDB = async (whatIsAdd) => {
+    console.log(whatIsAdd);
+    for (const algorithm of whatIsAdd) {
+      let response = {
+        server_url: window.location.hostname.includes('localhost')
+          ? 'http://192.168.1.101'
+          : `http://${window.location.hostname}`,
+        [algorithm]: [IPCamera],
+      };
+      await postAlgorithnDependences(window.location.hostname, token, response).then((e) => {
+        console.log(e);
+      });
+    }
+    return;
+  };
 
   const applySettings = async () => {
     await patchCamera(window.location.hostname, IPCamera, cameraName, token).then((res) => {
-      console.log(res);
+      // console.log(res);
     });
-    // await deleteProcess(window.location.hostname, token, )
+    if (informationToSend.delete && informationToSend.delete.length > 0) {
+      await deleteProcessFromDB(informationToSend.delete);
+    }
+    if (informationToSend.add && informationToSend.add.length > 0) {
+      await addProcessToDB(informationToSend.add);
+    }
+    await setIsCameraSettings(false);
   };
 
   useEffect(() => {
@@ -35,9 +70,10 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
       setAlgorithmsActiveObject(bufObject);
     });
   }, []);
+
   useEffect(() => {
-    console.log(InformationToSend);
-  }, [InformationToSend]);
+    // console.log(informationToSend);
+  }, [informationToSend]);
   return (
     <>
       {algorithmsActiveObject && (
@@ -83,7 +119,6 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                     IPCamera={IPCamera}
                     setInformationToSend={(e) => setInformationToSend(e)}
                   />
-                  {console.log(algorithmsActiveObject[IPCamera])}
                 </div>
                 <div className="cameras__settings_right">
                   <img
