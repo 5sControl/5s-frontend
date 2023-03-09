@@ -201,6 +201,30 @@
       justify-content: flex-start;
       align-items: flex-start;
     }
+    &_algorithms{
+
+      &_title{
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 150%;
+        margin-bottom: 20px;
+        span{
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 24px;
+        }
+      }
+      &_list{
+        height: calc(90vh - 420px);
+        overflow: auto;
+        &_item{
+          display: flex;
+          justify-content: space-between;
+          padding: 20px 20px 20px 0;
+          border-bottom: 1px solid #E0E0E0;
+        }
+      }
+    }
   }
   &__list {
     margin-bottom: 50px;

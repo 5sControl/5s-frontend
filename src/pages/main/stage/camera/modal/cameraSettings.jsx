@@ -47,7 +47,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                   &nbsp; Save recordings from this camera.
                 </label>
               </div>
-              <AlgorithmSelect />
+              <AlgorithmSelect token={token} />
             </div>
             <div className="cameras__settings_right">
               <img
