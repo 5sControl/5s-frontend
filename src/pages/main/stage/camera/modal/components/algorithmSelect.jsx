@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { getAveilableAlgorithms } from '../../../../../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../../../../../functions/parsingAlgorithmName';
 
-export const AlgorithmSelect = ({ token, algorithmsActive }) => {
+export const AlgorithmSelect = ({ token, algorithmsActive, process, IPCamera }) => {
   const [algorithmList, setAlgorithmList] = useState(false);
-  let checkboxAlgo = algorithmsActive ? algorithmsActive : [];
+  let checkboxAlgo = algorithmsActive ? Object.assign([], algorithmsActive) : [];
   useEffect(() => {
     getAveilableAlgorithms(window.location.hostname, token).then((res) => {
       let allAlgorithm = Object.keys(res.data).filter((key) => res.data[key]);
@@ -18,7 +18,19 @@ export const AlgorithmSelect = ({ token, algorithmsActive }) => {
     } else {
       checkboxAlgo.push(state);
     }
-    console.log(checkboxAlgo);
+    let willDelete = algorithmsActive
+      ? algorithmsActive.filter((el) => !checkboxAlgo.includes(el))
+      : [];
+
+    let sendDelete = process.filter((element) => {
+      return element.camera.id === IPCamera && willDelete.includes(element.algorithm.name);
+    });
+
+    const changedAfterSelect = {
+      delete: sendDelete.map((el) => el.process_id),
+      add: checkboxAlgo.filter((el) => !algorithmsActive.includes(el)),
+    };
+    console.log(changedAfterSelect);
   };
 
   return (

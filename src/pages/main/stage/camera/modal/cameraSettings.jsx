@@ -3,16 +3,17 @@ import { url, getIsInternet } from '../../../../../api/api';
 import { patchCamera } from '../../../../../api/cameraRequest';
 import { Close } from '../../../../../assets/svg/SVGcomponent';
 import { AlgorithmSelect } from './components/algorithmSelect';
-import { getProcess } from '../../../../../api/algorithmRequest';
+import { deleteProcess, getProcess } from '../../../../../api/algorithmRequest';
+
 export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamera }) => {
   const [cameraName, setCameraName] = useState(nameCamera);
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
-
-  const applySettings = () => {
-    patchCamera(window.location.hostname, IPCamera, cameraName, token).then((res) => {
+  const [process, setProcess] = useState([]);
+  const applySettings = async () => {
+    await patchCamera(window.location.hostname, IPCamera, cameraName, token).then((res) => {
       console.log(res);
-      setIsCameraSettings(false);
     });
+    // await deleteProcess(window.location.hostname, token, )
   };
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
 
         return { ...acc, [key]: [...curGroup, Object.keys(obj)[0]] };
       }, {});
+      setProcess(response.data);
       setAlgorithmsActiveObject(bufObject);
     });
   }, []);
@@ -70,7 +72,11 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                   </div>
                   <AlgorithmSelect
                     token={token}
-                    algorithmsActive={algorithmsActiveObject[IPCamera]}
+                    algorithmsActive={
+                      algorithmsActiveObject[IPCamera] ? algorithmsActiveObject[IPCamera] : []
+                    }
+                    process={process}
+                    IPCamera={IPCamera}
                   />
                   {console.log(algorithmsActiveObject[IPCamera])}
                 </div>
