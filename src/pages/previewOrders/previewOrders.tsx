@@ -1,11 +1,11 @@
 import React from 'react';
 import { Select } from '../../components/select/select';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
-import { OrderList } from './components/OrdersList';
 import styles from './previewOrders.module.scss';
 import OrdersViewData from '../../storage/ordersView.json';
 import { OrdersView } from '../../storage/orderView';
 import { OrderCard } from './components/OrderCard';
+import { OrderList } from './components/OrdersListcopy';
 
 export const PreviewOrders: React.FC = () => {
   const listOfDate = [
