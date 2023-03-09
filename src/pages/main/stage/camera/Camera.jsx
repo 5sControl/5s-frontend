@@ -62,7 +62,7 @@ export const Camera = () => {
                   }
                   alt="Camera"
                 />
-                <>IP: {el.id}</>
+                <>Name: {el.name}</>
               </div>
             );
           })}

@@ -136,7 +136,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    &_container{
+    &_modal{
       width: calc(100% - 300px);
       height: 90vh;
       background-color: #ffffff;
@@ -146,6 +146,42 @@
       width: 340px;
       height: 192px;
       object-fit: contain;
+    }
+    &_header{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      h1{
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 150%;
+      }
+    }
+    &_desc{
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      margin-bottom: 30px;
+    }
+    &_container{
+      width: 100%;
+      height: calc(90vh - 170px);
+      display: flex;
+      border-bottom: 1px solid #E0E0E0;
+    }
+    &_left{
+      width: calc(100% - 360px);
+    }
+    &_inputs{
+
+    }
+    &_camera{
+      padding: 30px 0;
+      border-bottom: 1px solid #E0E0E0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
     }
   }
   &__list {
