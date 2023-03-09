@@ -1,7 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import currentReportReducer from './dataSlice';
 import cookiesReducer from './cookiesSlice';
-import ordersReducer from './viewOrdersSlice';
+import ordersReducer from '../pages/previewOrders/components/OrdersListElement/viewOrdersSlice';
 
 export const store = configureStore({
   reducer: {

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '.';
+import { RootState } from '../../../../store';
 
 export interface ReportState {
   activeOrder: null | number;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import { addActiveOrder, selectActiveOrder } from '../../../../store/viewOrdersSlice';
+import { addActiveOrder, selectActiveOrder } from './viewOrdersSlice';
 import styles from './ordersListElement.module.scss';
 
 type PropsType = {
