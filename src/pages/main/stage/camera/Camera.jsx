@@ -29,7 +29,7 @@ export const Camera = () => {
         setCamerasList(response.data.results);
       })
       .catch((error) => setError(error.message));
-  }, [isShowModal]);
+  }, [isShowModal, isCameraSettings]);
 
   const showAddCameras = () => {
     setIsShowModal(true);
@@ -81,6 +81,7 @@ export const Camera = () => {
       {isCameraSettings && (
         <CameraSettings
           IPCamera={IPCamera}
+          nameCamera={createdCameras.filter((camera) => camera.id === IPCamera)[0].name}
           token={cookies.token}
           setIsCameraSettings={(e) => setIsCameraSettings(e)}
         />
