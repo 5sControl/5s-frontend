@@ -1,10 +1,10 @@
 import moment from 'moment';
 import { useState } from 'react';
 import { Slider } from './swiper';
-import { ViolintationFalse, ViolintationTrue } from '../../assets/svg/SVGcomponent.js';
-import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName.js';
-import { selectCurrentReport } from '../../store/dataSlice';
-import { useAppSelector } from '../../store/hooks';
+import { ViolintationFalse, ViolintationTrue } from '../../../../assets/svg/SVGcomponent.js';
+import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName.js';
+import { selectCurrentReport } from '../../../../store/dataSlice';
+import { useAppSelector } from '../../../../store/hooks';
 
 export const CurrentReport = () => {
   const { currentReport } = useAppSelector(selectCurrentReport);

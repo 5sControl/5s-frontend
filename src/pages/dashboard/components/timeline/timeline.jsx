@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { calculateTime } from '../../functions/calculateTimeDuration';
+import { calculateTime } from '../../../../functions/calculateTimeDuration';
 import moment from 'moment';
-import { useAppDispatch } from '../../store/hooks';
-import { addCurrentReport } from '../../store/dataSlice';
+import { useAppDispatch } from '../../../../store/hooks';
+import { addCurrentReport } from '../../../../store/dataSlice';
 
 import './timeline.scss';
-import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
+import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 
-export const Timeline = ({ data, startDate, endDate, algorithm, startTime, endTime }) => {
+export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => {
   const seconds = calculateTime(startTime, endTime);
   const [timeLine, setTimeLine] = useState([]);
   const dispatch = useAppDispatch();

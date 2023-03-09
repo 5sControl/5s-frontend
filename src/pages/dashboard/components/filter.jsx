@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { SelectTimeDiapason } from '../../../components/selectTimeDiapason';
-import { DataPicker } from '../../../components/dataPicker';
+import { DataPicker } from './dataPicker';
 import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName';
 
 import { getProcess } from '../../../api/algorithmRequest';

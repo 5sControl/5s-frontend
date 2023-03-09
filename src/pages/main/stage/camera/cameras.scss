@@ -1,7 +1,6 @@
 .cameras {
   width: 100%;
   height: 100%;
-  padding: 60px;
   &__title {
     display: flex;
     justify-content: space-between;
@@ -125,12 +124,119 @@
       }
     }
   }
-  &__list {
-    margin-bottom: 50px;
-    &_item {
+  &__settings{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: #00000070;
+    backdrop-filter: blur(2px);
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &_modal{
+      width: calc(100% - 300px);
+      height: 90vh;
+      background-color: #ffffff;
+      padding: 20px;
+    }
+    &_img{
+      width: 340px;
+      height: 192px;
+      object-fit: contain;
+    }
+    &_header{
       display: flex;
       justify-content: space-between;
+      margin-bottom: 10px;
+      h1{
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 150%;
+      }
+    }
+    &_desc{
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      margin-bottom: 30px;
+    }
+    &_container{
+      width: 100%;
+      height: calc(90vh - 170px);
+      display: flex;
+      border-bottom: 1px solid #E0E0E0;
+    }
+    &_left{
+      width: calc(100% - 360px);
+      padding: 0 12px 0 0;
+      border-right: 1px solid #E0E0E0;
+    }
+    &_inputs{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 30px;
+      > div{
+        width: 48%;
+        display: flex;
+        flex-direction: column;
+        input{
+          border: 1px solid #9E9E9E;
+          border-radius: 4px;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 24px;
+          padding: 13px 16px;
+        }
+      }
+    }
+    &_camera{
+      padding: 30px 0;
+      border-bottom: 1px solid #E0E0E0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+    &_algorithms{
+
+      &_title{
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 150%;
+        margin-bottom: 20px;
+        span{
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 24px;
+        }
+      }
+      &_list{
+        height: calc(90vh - 420px);
+        overflow: auto;
+        &_item{
+          display: flex;
+          justify-content: space-between;
+          padding: 20px 20px 20px 0;
+          border-bottom: 1px solid #E0E0E0;
+        }
+      }
+    }
+  }
+  &__list {
+    margin-bottom: 50px;
+    &_image{
+      height: 70px;
+      max-width: 120px;
+      object-fit: contain;
+    }
+    &_item {
+      display: flex;
       align-items: center;
+      gap:20px;
       padding: 20px 5px;
       font-weight: 500;
       border-bottom: 1px solid #e0e0e0;

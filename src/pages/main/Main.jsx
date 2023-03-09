@@ -3,7 +3,7 @@ import './main.scss';
 import { useState } from 'react';
 import { Congratulations } from './stage/firstScreen';
 import { useNavigate } from 'react-router-dom';
-import { Camera } from '../camera/Camera';
+import { Camera } from './stage/camera/Camera';
 import { useCookies } from 'react-cookie';
 import { AlogorithmStage } from './stage/algorithm';
 

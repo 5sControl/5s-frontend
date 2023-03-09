@@ -1,10 +1,10 @@
 import moment from 'moment';
-import { Camera, Algorithm } from '../../assets/svg/SVGcomponent';
-import { addCurrentReport, selectCurrentReport } from '../../store/dataSlice';
-import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
-import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { Camera, Algorithm } from '../../../../assets/svg/SVGcomponent';
+import { addCurrentReport, selectCurrentReport } from '../../../../store/dataSlice';
+import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
+import { useAppSelector, useAppDispatch } from '../../../../store/hooks';
 
-export const ReportListItem = ({ item }: any) => {
+export const ReportListItem = ({ item }) => {
   const dispatch = useAppDispatch();
   const { currentReport } = useAppSelector(selectCurrentReport);
 

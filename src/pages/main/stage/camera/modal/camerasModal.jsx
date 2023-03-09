@@ -1,38 +1,20 @@
 import { useState } from 'react';
-import { Close } from '../../../assets/svg/SVGcomponent';
+import { Close } from '../../../../../assets/svg/SVGcomponent';
 import { AiOutlineRight } from 'react-icons/ai';
-import { patchCamera, postCamera } from '../../../api/cameraRequest';
-import { url, getIsInternet } from '../../../api/api';
+import { postCamera } from '../../../../../api/cameraRequest';
 
-export const CamerasModal = ({
-  setIsShowModal,
-  cookies,
-  camerasList,
-  setCamerasList,
-  setCreatedCameras,
-}) => {
+export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera, IPCamera }) => {
   const [stage, setStage] = useState('selectCamera');
-  const [IPCamera, setIPCamera] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [connectMessage, setConnectMessage] = useState('');
-  const [cameraName, setCameraName] = useState('');
-
-  const changeCameraName = () => {
-    setStage('selectCamera');
-    setCamerasList(IPCamera);
-    patchCamera(window.location.hostname, IPCamera, cameraName, cookies.token).then((res) => {
-      console.log(res);
-      setIsShowModal(false);
-    });
-  };
 
   const connect = () => {
     postCamera(window.location.hostname, IPCamera, username, password, cookies.token).then((e) => {
       if (e.data.message && e.data.message.includes('failed')) {
         setConnectMessage(e.data.message);
       } else {
-        setStage('cameraCreated');
+        setIsShowModal(false);
       }
     });
   };
@@ -102,30 +84,6 @@ export const CamerasModal = ({
                 </button>
                 <button className="cameras__modal__login__create" onClick={connect}>
                   Connect
-                </button>
-              </div>
-            </div>
-          </>
-        )}
-        {stage === 'cameraCreated' && (
-          <>
-            <div className="cameras__modal__showCamera">
-              <img
-                src={
-                  getIsInternet(window.location.hostname)
-                    ? `${url}/images/${IPCamera}/snapshot.jpg`
-                    : `http://${window.location.hostname}/images/${IPCamera}/snapshot.jpg`
-                }
-                alt="Camera"
-              />
-              <input
-                type="text"
-                value={cameraName}
-                onChange={(e) => setCameraName(e.target.value)}
-              />
-              <div className="cameras__modal__login__footer">
-                <button className="cameras__modal__login__create" onClick={changeCameraName}>
-                  Done
                 </button>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import { Timeline } from './timeline';
-import { calculateTimeCenter } from '../../functions/calculateTimeCenter';
+import { calculateTimeCenter } from '../../../../functions/calculateTimeCenter';
 
 export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) => {
   const algorithm = data.reduce((prev, curr) => {
@@ -12,16 +12,6 @@ export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) =>
 
   return (
     <div className="timeline-hub">
-      {/* <div className="timeline__description">
-        <ul>
-          <li className="green-li">
-            <span>Supervised</span>
-          </li>
-          <li className="red-li">
-            <span>Unsupervised</span>
-          </li>
-        </ul>
-      </div> */}
       {cameras.map((el, id) => {
         return (
           <div key={id} className="timeline-hub__container">
