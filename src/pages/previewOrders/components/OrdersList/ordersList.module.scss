@@ -17,6 +17,12 @@
     margin-top: 20px;
     overflow-y: scroll;
     height: 500px;
+
+    .emptyList {
+      @include body1;
+      color: var(--HightEmphasis);
+      letter-spacing: 0.15px;
+    }
   }
 
   .ordersListElement::-webkit-scrollbar {
