@@ -5,6 +5,8 @@ import './cameras.scss';
 import { findCamera, getSelectedCameras } from '../../../../api/cameraRequest';
 import { getIsInternet, url } from '../../../../api/api';
 import { CameraSettings } from './modal/cameraSettings';
+import { getProcess } from '../../../../api/algorithmRequest';
+
 export const Camera = () => {
   const [cookies] = useCookies(['token']);
   const [camerasList, setCamerasList] = useState(false);
