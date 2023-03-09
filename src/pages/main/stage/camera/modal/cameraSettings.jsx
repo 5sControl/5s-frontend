@@ -70,7 +70,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                   </div>
                   <AlgorithmSelect
                     token={token}
-                    algorithmsActiveObject={algorithmsActiveObject[IPCamera]}
+                    algorithmsActive={algorithmsActiveObject[IPCamera]}
                   />
                   {console.log(algorithmsActiveObject[IPCamera])}
                 </div>

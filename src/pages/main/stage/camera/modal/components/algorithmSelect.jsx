@@ -2,12 +2,9 @@ import { useEffect, useState } from 'react';
 import { getAveilableAlgorithms } from '../../../../../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../../../../../functions/parsingAlgorithmName';
 
-export const AlgorithmSelect = ({ token, algorithmsActiveObject }) => {
+export const AlgorithmSelect = ({ token, algorithmsActive }) => {
   const [algorithmList, setAlgorithmList] = useState(false);
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState(
-    algorithmsActiveObject ? algorithmsActiveObject : []
-  );
-
+  let checkboxAlgo = algorithmsActive ? algorithmsActive : [];
   useEffect(() => {
     getAveilableAlgorithms(window.location.hostname, token).then((res) => {
       let allAlgorithm = Object.keys(res.data).filter((key) => res.data[key]);
@@ -16,11 +13,10 @@ export const AlgorithmSelect = ({ token, algorithmsActiveObject }) => {
   }, []);
 
   const checkboxHandler = (state) => {
-    let checkboxAlgo = [];
-    if (!selectedAlgorithm.includes(state)) {
-      checkboxAlgo.push(state);
-    } else {
+    if (checkboxAlgo.includes(state)) {
       checkboxAlgo = checkboxAlgo.filter((item) => item !== state);
+    } else {
+      checkboxAlgo.push(state);
     }
     console.log(checkboxAlgo);
   };
@@ -28,8 +24,8 @@ export const AlgorithmSelect = ({ token, algorithmsActiveObject }) => {
   return (
     <div className="cameras__settings_algorithms">
       <h1 className="cameras__settings_algorithms_title">
-        {selectedAlgorithm ? selectedAlgorithm.length : 0}/
-        {algorithmList ? algorithmList.length : 0} <span>algorithms used</span>
+        {algorithmsActive ? algorithmsActive.length : 0}/{algorithmList ? algorithmList.length : 0}{' '}
+        <span>algorithms used</span>
       </h1>
       <div className="cameras__settings_algorithms_list">
         {algorithmList &&
@@ -39,9 +35,8 @@ export const AlgorithmSelect = ({ token, algorithmsActiveObject }) => {
               <span>{parsingAlgorithmName(algorithm)}</span>
               <input
                 type="checkbox"
-                defaultChecked={selectedAlgorithm && selectedAlgorithm.includes(algorithm)}
+                defaultChecked={algorithmsActive && algorithmsActive.includes(algorithm)}
                 onChange={() => checkboxHandler(algorithm)}
-                disabled={selectedAlgorithm && selectedAlgorithm.includes(algorithm)}
               />
             </div>
           ))}
