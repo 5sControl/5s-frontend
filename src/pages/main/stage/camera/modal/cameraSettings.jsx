@@ -9,6 +9,8 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   const [cameraName, setCameraName] = useState(nameCamera);
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
   const [process, setProcess] = useState([]);
+  const [InformationToSend, setInformationToSend] = useState({});
+
   const applySettings = async () => {
     await patchCamera(window.location.hostname, IPCamera, cameraName, token).then((res) => {
       console.log(res);
@@ -33,7 +35,9 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
       setAlgorithmsActiveObject(bufObject);
     });
   }, []);
-
+  useEffect(() => {
+    console.log(InformationToSend);
+  }, [InformationToSend]);
   return (
     <>
       {algorithmsActiveObject && (
@@ -77,6 +81,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                     }
                     process={process}
                     IPCamera={IPCamera}
+                    setInformationToSend={(e) => setInformationToSend(e)}
                   />
                   {console.log(algorithmsActiveObject[IPCamera])}
                 </div>

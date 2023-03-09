@@ -2,7 +2,13 @@ import { useEffect, useState } from 'react';
 import { getAveilableAlgorithms } from '../../../../../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../../../../../functions/parsingAlgorithmName';
 
-export const AlgorithmSelect = ({ token, algorithmsActive, process, IPCamera }) => {
+export const AlgorithmSelect = ({
+  token,
+  algorithmsActive,
+  process,
+  IPCamera,
+  setInformationToSend,
+}) => {
   const [algorithmList, setAlgorithmList] = useState(false);
   let checkboxAlgo = algorithmsActive ? Object.assign([], algorithmsActive) : [];
   useEffect(() => {
@@ -30,7 +36,7 @@ export const AlgorithmSelect = ({ token, algorithmsActive, process, IPCamera }) 
       delete: sendDelete.map((el) => el.process_id),
       add: checkboxAlgo.filter((el) => !algorithmsActive.includes(el)),
     };
-    console.log(changedAfterSelect);
+    setInformationToSend(changedAfterSelect);
   };
 
   return (
