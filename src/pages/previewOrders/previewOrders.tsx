@@ -5,7 +5,7 @@ import styles from './previewOrders.module.scss';
 import OrdersViewData from '../../storage/ordersView.json';
 import { OrdersView } from '../../storage/orderView';
 import { OrderCard } from './components/OrderCard';
-import { OrderList } from './components/OrdersListcopy';
+import { OrderList } from './components/OrdersList';
 
 export const PreviewOrders: React.FC = () => {
   const listOfDate = [
