@@ -4,12 +4,14 @@ import { CamerasModal } from './modal/camerasModal';
 import './cameras.scss';
 import { findCamera, getSelectedCameras } from '../../../../api/cameraRequest';
 import { getIsInternet, url } from '../../../../api/api';
+import { CameraSettings } from './modal/cameraSettings';
 export const Camera = () => {
   const [cookies] = useCookies(['token']);
   const [camerasList, setCamerasList] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isCameraSettings, setIsCameraSettings] = useState(false);
   const [createdCameras, setCreatedCameras] = useState(false);
-
+  const [IPCamera, setIPCamera] = useState('');
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -33,6 +35,11 @@ export const Camera = () => {
     setIsShowModal(true);
   };
 
+  const openSettings = (ip) => {
+    setIPCamera(ip);
+    setIsCameraSettings(true);
+  };
+
   return (
     <section className="cameras">
       <div className="cameras__title">
@@ -45,7 +52,7 @@ export const Camera = () => {
         <div className="cameras__list">
           {createdCameras.map((el, ind) => {
             return (
-              <div key={ind} className="cameras__list_item">
+              <div key={ind} className="cameras__list_item" onClick={() => openSettings(el.id)}>
                 <img
                   className="cameras__list_image"
                   src={
@@ -66,7 +73,16 @@ export const Camera = () => {
         <CamerasModal
           setIsShowModal={(e) => setIsShowModal(e)}
           cookies={cookies}
+          setIPCamera={(e) => setIPCamera(e)}
+          IPCamera={IPCamera}
           camerasList={camerasList}
+        />
+      )}
+      {isCameraSettings && (
+        <CameraSettings
+          IPCamera={IPCamera}
+          token={cookies.token}
+          setIsCameraSettings={(e) => setIsCameraSettings(e)}
         />
       )}
     </section>
