@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
 
-export interface ReportState {
+interface ReportState {
   activeOrder: null | number;
 }
 
@@ -9,8 +9,8 @@ const initialState: ReportState = {
   activeOrder: null,
 };
 
-const orders = createSlice({
-  name: 'orders',
+const ordersList = createSlice({
+  name: 'ordersList',
   initialState,
   reducers: {
     addActiveOrder(state, action) {
@@ -19,6 +19,6 @@ const orders = createSlice({
   },
 });
 
-export const { addActiveOrder } = orders.actions;
+export const { addActiveOrder } = ordersList.actions;
 export const selectActiveOrder = (state: RootState) => state.activeOrder;
-export default orders.reducer;
+export default ordersList.reducer;
