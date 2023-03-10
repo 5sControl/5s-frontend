@@ -1,26 +1,26 @@
-export const parseOrdersData = (data: any) => {
-  const previewData = data.map((item: any) => {
-    return {
-      id: item.indeks,
-      orderDate: item.data,
-      orderId: item.zlecenie.replace(/\s/g, ''),
-      orderCustomer: item.klient,
-      orderValid: 30,
-      orderTime: item.datawejscia,
-      orderStatus: getStatus(item.zakonczone, item.datawejscia),
-      product: {
-        productName: item.typ,
-        operationArticle: item.orderName,
-        operations: item.skans.map((element: any) => {
-          return {
-            operationId: element.indeks,
-            operationName: element.raport,
-            operationTime: element.data,
-          };
-        }),
-      },
-    };
-  });
+import { OrderByCustomer, OrderSkan } from '../../storage/orderView';
+
+export const parseOrdersData = (data: OrderByCustomer) => {
+  const previewData = {
+    id: data.indeks,
+    orderDate: data.data,
+    orderId: data.zlecenie,
+    orderCustomer: data.klient,
+    orderValid: 30,
+    orderTime: data.datawejscia,
+    orderStatus: getStatus(data.zakonczone, data.datawejscia),
+    product: {
+      productName: data.typ,
+      operationArticle: data.orderName,
+      operations: data.skans.map((element: OrderSkan) => {
+        return {
+          operationId: element.indeks,
+          operationName: element.raport,
+          operationTime: element.data,
+        };
+      }),
+    },
+  };
 
   return previewData;
 };
