@@ -1,0 +1,33 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.modal {
+  max-width: 880px;
+  max-height: 650px;
+}
+
+.infoBlock {
+  padding: 10px;
+
+  .operation {
+    @include h6;
+    color: var(--HightEmphasis);
+    margin-bottom: 10px;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.subtitle {
+  @include caption;
+  color: var(--MediumEmphasis);
+
+  .value {
+    font-weight: 500;
+    color: var(--HightEmphasis);
+  }
+}

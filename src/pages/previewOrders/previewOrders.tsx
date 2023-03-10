@@ -8,14 +8,19 @@ import { OrderList } from './components/OrdersList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectActiveOrder } from './components/OrdersList/ordersListSlice';
 import { Cover } from '../../components/cover';
-import { defenitionAsync, selectOrders } from './previewOrdersSlice';
+import {
+  defenitionAsync,
+  selectPreviewOrders,
+  setIsOpenOperationModal,
+} from './previewOrdersSlice';
 import { useCookies } from 'react-cookie';
+import { OperationVideoModal } from './components/OperationVideoModal';
 
 export const PreviewOrders: React.FC = () => {
+  const [cookies] = useCookies(['token']);
   const dispatch = useAppDispatch();
   const { activeOrder } = useAppSelector(selectActiveOrder);
-  const [cookies] = useCookies(['token']);
-  const { isLoading, error, orderdData } = useAppSelector(selectOrders);
+  const { isOpenOperationModal, orderdData } = useAppSelector(selectPreviewOrders);
 
   const listOfDate = [
     { id: 1, text: 'Last month, 2023 Jan 16 - Feb 16' },
@@ -33,34 +38,55 @@ export const PreviewOrders: React.FC = () => {
     dispatch(defenitionAsync({ token: cookies.token, hostname: window.location.hostname }));
   }, []);
 
+  const handleCloseModal = () => {
+    dispatch(setIsOpenOperationModal(false));
+  };
+
+  const findActiveOrder = (id: number) => {
+    if (orderdData) {
+      return orderdData.find((item: OrderItem) => item.id === id);
+    }
+
+    return undefined;
+  };
+
   return (
-    <WrapperPage>
-      <div className={styles.content}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>Orders View</h2>
+    <>
+      <OperationVideoModal
+        isOpen={isOpenOperationModal}
+        handleClose={handleCloseModal}
+        orderId={findActiveOrder(activeOrder as number)?.orderId}
+        productData={findActiveOrder(activeOrder as number)?.product}
+        operationData={findActiveOrder(activeOrder as number)?.product.operations[0]}
+      />
 
-          {/* //  */}
-          <div className={styles.selectContainer}>
-            <Select listOfData={listOfstatus} />
-            <Select className={styles.listOfDate} listOfData={listOfDate} />
+      <WrapperPage>
+        <div className={styles.content}>
+          <div className={styles.header}>
+            <h2 className={styles.title}>Orders View</h2>
+
+            <div className={styles.selectContainer}>
+              <Select listOfData={listOfstatus} />
+              <Select className={styles.listOfDate} listOfData={listOfDate} />
+            </div>
           </div>
+
+          {orderdData ? (
+            <div className={styles.body}>
+              <OrderList data={orderdData} />
+
+              {activeOrder ? (
+                <OrderCard data={findActiveOrder(activeOrder)} />
+              ) : (
+                <Cover className={styles.noOrder}>
+                  <h4 className={styles.title}>No order</h4>
+                  <p className={styles.subtitle}>Select an order from the list on the left</p>
+                </Cover>
+              )}
+            </div>
+          ) : null}
         </div>
-
-        {orderdData ? (
-          <div className={styles.body}>
-            <OrderList data={orderdData} />
-
-            {activeOrder ? (
-              <OrderCard data={orderdData.find((item: OrderItem) => item.id === activeOrder)} />
-            ) : (
-              <Cover className={styles.noOrder}>
-                <h4 className={styles.title}>No order</h4>
-                <p className={styles.subtitle}>Select an order from the list on the left</p>
-              </Cover>
-            )}
-          </div>
-        ) : null}
-      </div>
-    </WrapperPage>
+      </WrapperPage>
+    </>
   );
 };
