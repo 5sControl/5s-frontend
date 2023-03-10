@@ -131,11 +131,9 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                   />
                 </div>
               </div>
-              <div className="cameras__settings_footer">
-                <button disabled={!isEnabled} className="cameras__button" onClick={applySettings}>
-                  Done
-                </button>
-              </div>
+              <button disabled={!isEnabled} className="cameras__button" onClick={applySettings}>
+                Done
+              </button>
             </div>
           </section>
         </>
