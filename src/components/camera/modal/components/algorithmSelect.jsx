@@ -54,14 +54,14 @@ export const AlgorithmSelect = ({
         {algorithmList &&
           algorithmList.length > 0 &&
           algorithmList.map((algorithm, index) => (
-            <div key={index} className="cameras__settings_algorithms_list_item">
-              <span>{parsingAlgorithmName(algorithm)}</span>
+            <label key={index} className="cameras__settings_algorithms_list_item">
+              {parsingAlgorithmName(algorithm)}
               <input
                 type="checkbox"
                 defaultChecked={algorithmsActive && algorithmsActive.includes(algorithm)}
                 onChange={() => checkboxHandler(algorithm)}
               />
-            </div>
+            </label>
           ))}
       </div>
     </div>

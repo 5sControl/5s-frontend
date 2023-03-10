@@ -39,7 +39,6 @@ export const Camera = () => {
   };
 
   const openSettings = (ip) => {
-    console.log(ip);
     setIPCamera(ip);
     setIsCameraSettings(true);
   };
@@ -56,8 +55,8 @@ export const Camera = () => {
         <div className="cameras__list">
           {createdCameras.map((el, ind) => {
             return (
-              <div
-                // to={`/configuration/${el.id}`}
+              <Link
+                to={`/configuration/${el.id}`}
                 key={ind}
                 className="cameras__list_item"
                 onClick={() => openSettings(el.id)}
@@ -75,7 +74,7 @@ export const Camera = () => {
                   <>Name: {el.name}</>
                 </div>
                 <AiOutlineArrowRight />
-              </div>
+              </Link>
             );
           })}
         </div>
