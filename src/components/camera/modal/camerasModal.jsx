@@ -28,7 +28,7 @@ export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera
               <h2>Select a camera from your local network</h2>
               <Close
                 onClick={() => setIsShowModal(false)}
-                className="cameras__modal__title_close"
+                className="cameras__modal__title_close pointer"
               />
             </div>
             <div className="cameras__modal__list">

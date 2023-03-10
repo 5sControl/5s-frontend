@@ -42,7 +42,7 @@ export const ConfigurationCamera = () => {
     <>
       {Object.keys(camera).length > 0 ? (
         <section className="camera-config">
-          <Back onClick={() => navigate(-1)} />
+          <Back onClick={() => navigate(-1)} className="pointer" />
           <div className="camera-config__title">
             <h1>{camera.name}</h1>
             <button className="camera-config__button" onClick={() => setIsShowModal(true)}>

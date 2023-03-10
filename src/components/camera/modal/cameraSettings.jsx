@@ -81,7 +81,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
             <div className="cameras__settings_modal">
               <div className="cameras__settings_header">
                 <h1>Camera Settings</h1>
-                <Close onClick={() => setIsCameraSettings(false)} />
+                <Close onClick={() => setIsCameraSettings(false)} className="pointer" />
               </div>
               <p className="cameras__settings_desc">
                 Successfully connected. Give camera a name that will be used in 5S Control system
