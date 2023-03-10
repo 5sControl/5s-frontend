@@ -1,18 +1,19 @@
-import { ArticleItem } from '../../../../storage/orderView';
+import { OperationItem } from '../../../../storage/orderView';
 import { OperationCard } from '../OperationCard/ui';
 import styles from './articleCard.module.scss';
 
 type PropsType = {
-  data: ArticleItem;
+  data: OperationItem[];
+  article: string;
 };
 
-export const ArticleCard: React.FC<PropsType> = ({ data }) => {
+export const ArticleCard: React.FC<PropsType> = ({ data, article }) => {
   return (
     <div className={styles.wrapper}>
-      <p className={styles.title}>{data.articlesName}</p>
+      <p className={styles.title}>{article}</p>
 
       <div className={styles.list}>
-        {data.operations.map((operationData) => (
+        {data.map((operationData) => (
           <OperationCard key={operationData.operationId} data={operationData} />
         ))}
       </div>

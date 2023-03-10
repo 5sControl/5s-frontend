@@ -17,8 +17,8 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
   const { activeOrder } = useAppSelector(selectActiveOrder);
   const dispatch = useAppDispatch();
 
-  const onclickHandler = (orderId: number) => {
-    dispatch(addActiveOrder(orderId));
+  const onclickHandler = (id: number) => {
+    dispatch(addActiveOrder(id));
   };
 
   const searchInputFilter = (value: string) => {
@@ -34,11 +34,12 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
         {data.map((item) => {
           return (
             <OrdersListElement
-              key={item.orderId}
+              key={item.id}
               orderId={item.orderId}
               activeOrderId={activeOrder}
               status={item.orderStatus}
               onClick={onclickHandler}
+              id={item.id}
             />
           );
         })}

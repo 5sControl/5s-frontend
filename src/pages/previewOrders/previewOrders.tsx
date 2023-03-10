@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { Select } from '../../components/select/select';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import styles from './previewOrders.module.scss';
-import OrdersViewData from '../../storage/ordersView.json';
-import { OrdersView } from '../../storage/orderView';
+import { OrderItem } from '../../storage/orderView';
 import { OrderCard } from './components/OrderCard';
 import { OrderList } from './components/OrdersList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -30,11 +29,8 @@ export const PreviewOrders: React.FC = () => {
     { id: 2, text: 'Completed' },
   ];
 
-  const data: OrdersView = OrdersViewData;
-
   useEffect(() => {
     dispatch(defenitionAsync({ token: cookies.token, hostname: window.location.hostname }));
-    console.log('orderdData', orderdData);
   }, []);
 
   return (
@@ -50,18 +46,20 @@ export const PreviewOrders: React.FC = () => {
           </div>
         </div>
 
-        <div className={styles.body}>
-          <OrderList data={data.orders} />
+        {orderdData ? (
+          <div className={styles.body}>
+            <OrderList data={orderdData} />
 
-          {activeOrder ? (
-            <OrderCard data={data.orders[activeOrder]} />
-          ) : (
-            <Cover className={styles.noOrder}>
-              <h4 className={styles.title}>No order</h4>
-              <p className={styles.subtitle}>Select an order from the list on the left</p>
-            </Cover>
-          )}
-        </div>
+            {activeOrder ? (
+              <OrderCard data={orderdData.find((item: OrderItem) => item.id === activeOrder)} />
+            ) : (
+              <Cover className={styles.noOrder}>
+                <h4 className={styles.title}>No order</h4>
+                <p className={styles.subtitle}>Select an order from the list on the left</p>
+              </Cover>
+            )}
+          </div>
+        ) : null}
       </div>
     </WrapperPage>
   );
