@@ -29,7 +29,7 @@ export const Company = () => {
     getCompanyInfo(window.location.hostname, cookies.token).then((response) => {
       setCompanyInfo(response.data);
     });
-  }, []);
+  }, [isAddAccount]);
 
   return (
     <>
