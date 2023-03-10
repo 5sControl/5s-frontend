@@ -26,10 +26,7 @@ export const OperationVideoModal: React.FC<PropsType> = ({
 
   const [playerstate] = useState({
     playing: true,
-    mute: true,
     volume: 0.9,
-    playerbackRate: 1.0,
-    played: 0,
     controls: true,
     width: '100%',
     height: '100%',

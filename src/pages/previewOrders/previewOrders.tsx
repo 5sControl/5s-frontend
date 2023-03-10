@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Select } from '../../components/select/select';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import styles from './previewOrders.module.scss';
 import { OrderItem } from '../../storage/orderView';
@@ -15,24 +14,25 @@ import {
 } from './previewOrdersSlice';
 import { useCookies } from 'react-cookie';
 import { OperationVideoModal } from './components/OperationVideoModal';
+import { Preloader } from '../../components/preloader';
 
 export const PreviewOrders: React.FC = () => {
   const [cookies] = useCookies(['token']);
   const dispatch = useAppDispatch();
   const { activeOrder } = useAppSelector(selectActiveOrder);
-  const { isOpenOperationModal, orderdData } = useAppSelector(selectPreviewOrders);
+  const { isOpenOperationModal, isLoading, orderdData } = useAppSelector(selectPreviewOrders);
 
-  const listOfDate = [
-    { id: 1, text: 'Last month, 2023 Jan 16 - Feb 16' },
-    { id: 2, text: 'Last month, 2023 Feb 17 - Mar 16' },
-    { id: 3, text: 'Last month, 2023 Mar 17 - Apr 16' },
-    { id: 4, text: 'Last month, 2023 Apr 17 - May 16' },
-  ];
+  // const listOfDate = [
+  //   { id: 1, text: 'Last month, 2023 Jan 16 - Feb 16' },
+  //   { id: 2, text: 'Last month, 2023 Feb 17 - Mar 16' },
+  //   { id: 3, text: 'Last month, 2023 Mar 17 - Apr 16' },
+  //   { id: 4, text: 'Last month, 2023 Apr 17 - May 16' },
+  // ];
 
-  const listOfstatus = [
-    { id: 1, text: 'Started' },
-    { id: 2, text: 'Completed' },
-  ];
+  // const listOfstatus = [
+  //   { id: 1, text: 'Started' },
+  //   { id: 2, text: 'Completed' },
+  // ];
 
   useEffect(() => {
     dispatch(defenitionAsync({ token: cookies.token, hostname: window.location.hostname }));
@@ -65,18 +65,18 @@ export const PreviewOrders: React.FC = () => {
           <div className={styles.header}>
             <h2 className={styles.title}>Orders View</h2>
 
-            <div className={styles.selectContainer}>
-              <Select listOfData={listOfstatus} />
-              <Select className={styles.listOfDate} listOfData={listOfDate} />
-            </div>
+            {/* <div className={styles.selectContainer}>
+            <Select listOfData={listOfstatus} />
+            <Select className={styles.listOfDate} listOfData={listOfDate} />
+          </div> */}
           </div>
 
-          {orderdData ? (
+          {!isLoading && orderdData ? (
             <div className={styles.body}>
               <OrderList data={orderdData} />
 
               {activeOrder ? (
-                <OrderCard data={findActiveOrder(activeOrder)} />
+                <OrderCard data={orderdData.find((item: OrderItem) => item.id === activeOrder)} />
               ) : (
                 <Cover className={styles.noOrder}>
                   <h4 className={styles.title}>No order</h4>
@@ -84,7 +84,9 @@ export const PreviewOrders: React.FC = () => {
                 </Cover>
               )}
             </div>
-          ) : null}
+          ) : (
+            <Preloader loading={isLoading} />
+          )}
         </div>
       </WrapperPage>
     </>
