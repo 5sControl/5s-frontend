@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.scss';
 import Dashboard from './pages/dashboard/Dashboard';
 import { RoutesOutlet } from './routes/Routes';
 import { Company } from './pages/company/Company';
-import { Main } from './pages/main/Main';
+// import { Main } from './pages/main/Main';
 import { Authorization } from './components/authorization/Authorization';
 import { useCookies } from 'react-cookie';
 import { isVerifyToken } from './api/companyRequest';
@@ -31,7 +32,7 @@ function App() {
         <Route path="/authorization" element={<Authorization />} />
         {cookies.token ? (
           <Route element={<RoutesOutlet />}>
-            <Route path="/" element={<Main />} />
+            <Route path="/" element={<Configuration />} />
             <Route path="/company" element={<Company />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/configuration" element={<Configuration />} />

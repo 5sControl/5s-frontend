@@ -17,7 +17,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
 
   const deleteProcessFromDB = async (whatIsDelete) => {
     for (const processID of whatIsDelete) {
-      await deleteProcess(window.location.hostname, token, processID).then((e) => {
+      await deleteProcess(window.location.hostname, token, processID).then(() => {
         console.log('delete');
       });
     }
@@ -33,7 +33,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
           : `http://${window.location.hostname}`,
         [algorithm]: [IPCamera],
       };
-      await postAlgorithnDependences(window.location.hostname, token, response).then((e) => {
+      await postAlgorithnDependences(window.location.hostname, token, response).then(() => {
         // console.log(e);
       });
     }
@@ -41,7 +41,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   };
 
   const applySettings = async () => {
-    await patchCamera(window.location.hostname, IPCamera, cameraName, token).then((res) => {
+    await patchCamera(window.location.hostname, IPCamera, cameraName, token).then(() => {
       // console.log(res);
     });
     if (informationToSend.delete && informationToSend.delete.length > 0) {
