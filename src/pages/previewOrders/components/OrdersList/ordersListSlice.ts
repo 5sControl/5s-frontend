@@ -13,7 +13,7 @@ const ordersList = createSlice({
   name: 'ordersList',
   initialState,
   reducers: {
-    addActiveOrder(state, action: PayloadAction<number>) {
+    addActiveOrder(state, action: PayloadAction<string>) {
       state.activeOrder = action.payload;
     },
   },

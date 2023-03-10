@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Cover } from '../../../../components/cover';
 import { OrderItem } from '../../../../storage/orderView';
 import { useAppSelector } from '../../../../store/hooks';
-import { selectOrders } from '../../previewOrdersSlice';
+import { selectPreviewOrders } from '../../previewOrdersSlice';
 import { selectActiveOrder } from '../OrdersList/ordersListSlice';
 import { ProductCatd } from '../ProductCatd';
 import { StatusLable } from '../StatusLable';
@@ -14,7 +14,7 @@ type PropsType = {
 
 export const OrderCard: React.FC<PropsType> = ({ data }) => {
   const { activeOrder } = useAppSelector(selectActiveOrder);
-  const { isLoadingCurrentOrder, errorOfCurrentOrder } = useAppSelector(selectOrders);
+  const { isLoadingCurrentOrder, errorOfCurrentOrder } = useAppSelector(selectPreviewOrders);
 
   return (
     <Cover>

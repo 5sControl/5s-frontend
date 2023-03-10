@@ -7,17 +7,22 @@ import { OrderList } from './components/OrdersList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectActiveOrder } from './components/OrdersList/ordersListSlice';
 import { Cover } from '../../components/cover';
-import { defenitionAsync, selectOrders, getOrdersIdAsync, setIsOpenOperationModal, } from './previewOrdersSlice';
+import {
+  defenitionAsync,
+  selectPreviewOrders,
+  getOrdersIdAsync,
+  setIsOpenOperationModal,
+} from './previewOrdersSlice';
 import { useCookies } from 'react-cookie';
 import { OperationVideoModal } from './components/OperationVideoModal';
 import { Preloader } from '../../components/preloader';
 
 export const PreviewOrders: React.FC = () => {
-  const [cookies] = useCookies(['token']);
   const dispatch = useAppDispatch();
   const { activeOrder } = useAppSelector(selectActiveOrder);
   const [cookies] = useCookies(['token']);
-  const { orderData, previewOrdersList, isLoadingPreviewList, isOpenOperationModal } = useAppSelector(selectOrders);
+  const { orderData, previewOrdersList, isLoadingPreviewList, isOpenOperationModal } =
+    useAppSelector(selectPreviewOrders);
 
   // const listOfDate = [
   //   { id: 1, text: 'Last month, 2023 Jan 16 - Feb 16' },
@@ -36,7 +41,6 @@ export const PreviewOrders: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log(activeOrder);
     activeOrder &&
       dispatch(
         defenitionAsync({
@@ -46,20 +50,22 @@ export const PreviewOrders: React.FC = () => {
         })
       );
   }, [activeOrder]);
-  
+
   const handleCloseModal = () => {
     dispatch(setIsOpenOperationModal(false));
   };
 
   return (
     <>
-      <OperationVideoModal
-        isOpen={isOpenOperationModal}
-        handleClose={handleCloseModal}
-        orderId={orderData.orderId}
-        productData={orderData.product}
-        operationData={orderData.product.operations[0]}
-      />
+      {orderData && activeOrder && (
+        <OperationVideoModal
+          isOpen={isOpenOperationModal}
+          handleClose={handleCloseModal}
+          orderId={activeOrder}
+          productData={orderData.product}
+          operationData={orderData.product.operations[0]}
+        />
+      )}
 
       <WrapperPage>
         <div className={styles.content}>
@@ -72,23 +78,24 @@ export const PreviewOrders: React.FC = () => {
           </div> */}
           </div>
 
-        {!isLoadingPreviewList && previewOrdersList ? (
-          <div className={styles.body}>
-            <OrderList data={previewOrdersList} />
+          {!isLoadingPreviewList && previewOrdersList ? (
+            <div className={styles.body}>
+              <OrderList data={previewOrdersList} />
 
-            {activeOrder && orderData ? (
-              <OrderCard data={orderData} />
-            ) : (
-              <Cover className={styles.noOrder}>
-                <h4 className={styles.title}>No order</h4>
-                <p className={styles.subtitle}>Select an order from the list on the left</p>
-              </Cover>
-            )}
-          </div>
-        ) : (
-          <Preloader loading={isLoadingPreviewList} />
-        )}
-      </div>
-    </WrapperPage>
+              {activeOrder && orderData ? (
+                <OrderCard data={orderData} />
+              ) : (
+                <Cover className={styles.noOrder}>
+                  <h4 className={styles.title}>No order</h4>
+                  <p className={styles.subtitle}>Select an order from the list on the left</p>
+                </Cover>
+              )}
+            </div>
+          ) : (
+            <Preloader loading={isLoadingPreviewList} />
+          )}
+        </div>
+      </WrapperPage>
+    </>
   );
 };

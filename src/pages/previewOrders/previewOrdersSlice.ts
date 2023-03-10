@@ -21,8 +21,7 @@ const initialState: PreviewOrders = {
   errorOfList: false,
   errorOfCurrentOrder: false,
   previewOrdersList: null,
-  isOpenOperationModal: false;
-
+  isOpenOperationModal: false,
 };
 
 export const defenitionAsync = createAsyncThunk(
