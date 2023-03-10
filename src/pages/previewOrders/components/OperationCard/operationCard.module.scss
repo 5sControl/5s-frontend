@@ -1,0 +1,29 @@
+@import 'src/styles/fonts';
+
+.wrapper {
+  width: 100%;
+  min-width: 175px;
+  width: fit-content;
+  height: 58px;
+  padding: 5px;
+  border: 1px solid var(--Gray88);
+  border-radius: 10px;
+  background: var(--WhiteSmoke);
+  cursor: pointer;
+
+  &:hover .title {
+    color: var(--Orange);
+  }
+
+  .title {
+    @include body2;
+    color: var(--HightEmphasis);
+  }
+
+  .date {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 24px;
+    color: var(--MediumEmphasis);
+  }
+}

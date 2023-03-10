@@ -1,0 +1,37 @@
+@import 'src/styles/fonts';
+@import 'src/styles/media';
+
+.wrapper {
+  width: 100%;
+
+  .title {
+    @include h6;
+    color: var(--HightEmphasis);
+    margin-bottom: 10px;
+  }
+
+  .list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    justify-content: space-between;
+    gap: 20px;
+  }
+}
+
+@include md {
+  .wrapper .list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@include lg {
+  .wrapper .list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@include xl {
+  .wrapper .list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

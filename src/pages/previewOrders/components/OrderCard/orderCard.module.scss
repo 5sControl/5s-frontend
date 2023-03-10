@@ -1,0 +1,46 @@
+@import 'src/styles/fonts';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  .titleContent {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    margin-bottom: 20px;
+
+    .title {
+      @include h4;
+      color: var(--HightEmphasis);
+    }
+  }
+
+  .orderTime {
+    @include h5;
+    color: var(--HightEmphasis);
+  }
+}
+
+.subtitle {
+  @include body2;
+  color: var(--HightEmphasis);
+
+  .customer {
+    font-weight: 500;
+  }
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: var(--Gray88);
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
