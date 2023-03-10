@@ -25,8 +25,25 @@
   .body {
     display: flex;
     flex-direction: column;
-
     gap: 10px;
+
+    .noOrder {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      .title {
+        @include h4;
+        color: var(--HightEmphasis);
+      }
+
+      .subtitle {
+        @include body1;
+        color: var(--MediumEmphasis);
+      }
+    }
   }
 }
 
