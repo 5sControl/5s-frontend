@@ -8,7 +8,7 @@ import { OrderList } from './components/OrdersList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectActiveOrder } from './components/OrdersList/ordersListSlice';
 import { Cover } from '../../components/cover';
-import { defenitionAsync, selectOrders } from './previewOrdersSlice';
+import { defenitionAsync, selectOrders, getOrdersIdAsync } from './previewOrdersSlice';
 import { useCookies } from 'react-cookie';
 import { Preloader } from '../../components/preloader';
 
@@ -16,7 +16,7 @@ export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
   const { activeOrder } = useAppSelector(selectActiveOrder);
   const [cookies] = useCookies(['token']);
-  const { isLoading, error, orderdData } = useAppSelector(selectOrders);
+  const { orderData, previewOrdersList, isLoadingPreviewList } = useAppSelector(selectOrders);
 
   const listOfDate = [
     { id: 1, text: 'Last month, 2023 Jan 16 - Feb 16' },
@@ -31,8 +31,20 @@ export const PreviewOrders: React.FC = () => {
   ];
 
   useEffect(() => {
-    dispatch(defenitionAsync({ token: cookies.token, hostname: window.location.hostname }));
+    dispatch(getOrdersIdAsync({ token: cookies.token, hostname: window.location.hostname }));
   }, []);
+
+  useEffect(() => {
+    console.log(activeOrder);
+    activeOrder &&
+      dispatch(
+        defenitionAsync({
+          token: cookies.token,
+          hostname: window.location.hostname,
+          currentOrder: activeOrder,
+        })
+      );
+  }, [activeOrder]);
 
   return (
     <WrapperPage>
@@ -46,12 +58,12 @@ export const PreviewOrders: React.FC = () => {
           </div> */}
         </div>
 
-        {!isLoading && orderdData ? (
+        {!isLoadingPreviewList && previewOrdersList ? (
           <div className={styles.body}>
-            <OrderList data={orderdData} />
+            <OrderList data={previewOrdersList} />
 
-            {activeOrder ? (
-              <OrderCard data={orderdData.find((item: OrderItem) => item.id === activeOrder)} />
+            {activeOrder && orderData ? (
+              <OrderCard data={orderData} />
             ) : (
               <Cover className={styles.noOrder}>
                 <h4 className={styles.title}>No order</h4>
@@ -60,7 +72,7 @@ export const PreviewOrders: React.FC = () => {
             )}
           </div>
         ) : (
-          <Preloader loading={isLoading} />
+          <Preloader loading={isLoadingPreviewList} />
         )}
       </div>
     </WrapperPage>

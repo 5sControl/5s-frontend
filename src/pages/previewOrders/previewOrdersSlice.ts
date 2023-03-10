@@ -1,27 +1,51 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { OrderItem } from '../../storage/orderView';
+import { OrderItem, PreviewOrderItem } from '../../storage/orderView';
 import { RootState } from '../../store';
-import { getOrdersData } from './previewOrdersAPI';
+import { getOrderData, getOrdersId } from './previewOrdersAPI';
 import { parseOrdersData } from './previewOrdersHelper';
 
 interface PreviewOrders {
-  orderdData: Array<OrderItem> | null;
-  isLoading: boolean;
-  error: boolean;
+  orderData: OrderItem | null;
+  previewOrdersList: Array<PreviewOrderItem> | null;
+  isLoadingPreviewList: boolean;
+  isLoadingCurrentOrder: boolean;
+  errorOfList: boolean;
+  errorOfCurrentOrder: boolean;
 }
 
 const initialState: PreviewOrders = {
-  orderdData: null,
-  isLoading: false,
-  error: false,
+  orderData: null,
+  isLoadingPreviewList: false,
+  isLoadingCurrentOrder: false,
+  errorOfList: false,
+  errorOfCurrentOrder: false,
+  previewOrdersList: null,
 };
 
 export const defenitionAsync = createAsyncThunk(
   'getOrdersData',
-  async (data: { token: string; hostname: string }) => {
-    const response = await getOrdersData(data.hostname, data.token);
+  async (data: { token: string; hostname: string; currentOrder: string }) => {
+    const response = await getOrderData(data.hostname, data.token, data.currentOrder);
     if (response.data) {
-      const data = parseOrdersData(response.data);
+      const data = parseOrdersData(response.data[0]);
+
+      return data;
+    }
+    return null;
+  }
+);
+
+export const getOrdersIdAsync = createAsyncThunk(
+  'getOrdersId',
+  async (data: { token: string; hostname: string }) => {
+    const response = await getOrdersId(data.hostname, data.token);
+    if (response.data) {
+      const data = response.data.map((item: { zlecenie: string; status: string }) => {
+        return {
+          orderId: item.zlecenie,
+          orderStatus: item.status,
+        };
+      });
 
       return data;
     }
@@ -34,20 +58,31 @@ const ordersList = createSlice({
   initialState,
   reducers: {
     setIsError: (state, action) => {
-      state.error = action.payload;
+      state.errorOfCurrentOrder = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(defenitionAsync.pending, (state) => {
-      state.isLoading = true;
+      state.isLoadingCurrentOrder = true;
     });
     builder.addCase(defenitionAsync.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.orderdData = action.payload;
+      state.isLoadingCurrentOrder = false;
+      state.orderData = action.payload;
     });
     builder.addCase(defenitionAsync.rejected, (state) => {
-      state.isLoading = false;
-      state.error = true;
+      state.isLoadingCurrentOrder = false;
+      state.errorOfCurrentOrder = true;
+    });
+    builder.addCase(getOrdersIdAsync.pending, (state) => {
+      state.isLoadingPreviewList = true;
+    });
+    builder.addCase(getOrdersIdAsync.fulfilled, (state, action) => {
+      state.isLoadingPreviewList = false;
+      state.previewOrdersList = action.payload;
+    });
+    builder.addCase(getOrdersIdAsync.rejected, (state) => {
+      state.isLoadingPreviewList = false;
+      state.errorOfList = true;
     });
   },
 });

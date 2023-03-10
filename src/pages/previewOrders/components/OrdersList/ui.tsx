@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Cover } from '../../../../components/cover';
 import { SearchInput } from '../../../../components/searchInput/searchInput';
-import { OrderItem } from '../../../../storage/orderView';
+import { PreviewOrderItem } from '../../../../storage/orderView';
 import { useAppSelector, useAppDispatch } from '../../../../store/hooks';
 import { OrdersListElement } from '../OrdersListElement';
 import { selectActiveOrder, addActiveOrder } from './ordersListSlice';
@@ -9,7 +9,7 @@ import { selectActiveOrder, addActiveOrder } from './ordersListSlice';
 import styles from './ordersList.module.scss';
 
 type PropsType = {
-  data: OrderItem[];
+  data: Array<PreviewOrderItem>;
 };
 
 export const OrderList: React.FC<PropsType> = ({ data }) => {
@@ -17,7 +17,7 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
   const { activeOrder } = useAppSelector(selectActiveOrder);
   const dispatch = useAppDispatch();
 
-  const onclickHandler = (id: number) => {
+  const onclickHandler = (id: string) => {
     dispatch(addActiveOrder(id));
   };
 
@@ -26,7 +26,7 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
   };
 
   const searchFilter = () => {
-    return data.filter((item) => item.orderId.toString().includes(inputValue.toLowerCase()));
+    return data.filter((item) => item.toString().includes(inputValue.toLowerCase()));
   };
 
   return (
@@ -35,15 +35,14 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
       <SearchInput className={styles.listInput} searchInputFilter={searchInputFilter} />
 
       <section className={styles.ordersListElement}>
-        {searchFilter().map((item) => {
+        {searchFilter().map((item, index) => {
           return (
             <OrdersListElement
-              key={item.id}
+              key={index}
               orderId={item.orderId}
               activeOrderId={activeOrder}
               status={item.orderStatus}
               onClick={onclickHandler}
-              id={item.id}
             />
           );
         })}

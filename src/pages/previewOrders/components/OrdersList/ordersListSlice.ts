@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
 
 interface ReportState {
-  activeOrder: null | number;
+  activeOrder: null | string;
 }
 
 const initialState: ReportState = {
