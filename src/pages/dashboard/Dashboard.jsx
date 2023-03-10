@@ -1,11 +1,11 @@
 import './Dashboard.scss';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useCookies } from 'react-cookie';
 
-import { Reports } from '../../components/reports/Reports';
+import { Reports } from './components/reports/Reports';
 import { getData } from '../../api/reportsRequest';
-import { TimelineHub } from '../../components/timeline/timelineHub';
+import { TimelineHub } from './components/timeline/timelineHub';
 import { Preloader } from '../../components/preloader';
 import { FilterForm } from './components/filter';
 

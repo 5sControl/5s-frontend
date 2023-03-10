@@ -1,0 +1,47 @@
+.camera-config{
+    width: 100%;
+    height: 100%;
+    padding: 60px;
+    &__button{
+        display: flex;
+        align-items: center;
+        gap:10px;
+        background: #FE6100;
+        border-radius: 4px;
+        padding: 4px 10px;
+        border: none;
+        color: #FFFFFF;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 24px;
+        cursor: pointer;
+        transition: all 0.5s;
+        &:hover{
+            background: #9e430b;
+        }
+    }
+    h2{
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 150%;
+        margin-bottom: 20px;
+    }
+    &__title{
+        font-weight: 600;
+        font-size: 26px;
+        line-height: 150%;
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0 30px 0;
+    }
+    &__algorithms{
+        margin-bottom: 70px;
+        &_item{
+            padding: 20px 0;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            border-bottom: 1px solid #E0E0E0;
+        }
+    }
+}

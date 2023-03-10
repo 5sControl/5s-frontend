@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { OrderItem } from '../../storage/orderView';
 import { RootState } from '../../store';
 import { getOrdersData } from './previewOrdersAPI';
@@ -8,12 +8,14 @@ interface PreviewOrders {
   orderdData: Array<OrderItem> | null;
   isLoading: boolean;
   error: boolean;
+  isOpenOperationModal: boolean;
 }
 
 const initialState: PreviewOrders = {
   orderdData: null,
   isLoading: false,
   error: false,
+  isOpenOperationModal: false,
 };
 
 export const defenitionAsync = createAsyncThunk(
@@ -29,12 +31,15 @@ export const defenitionAsync = createAsyncThunk(
   }
 );
 
-const ordersList = createSlice({
+const previewOrdersPage = createSlice({
   name: 'previewOrders',
   initialState,
   reducers: {
     setIsError: (state, action) => {
       state.error = action.payload;
+    },
+    setIsOpenOperationModal(state, action: PayloadAction<boolean>) {
+      state.isOpenOperationModal = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -52,6 +57,6 @@ const ordersList = createSlice({
   },
 });
 
-export const { setIsError } = ordersList.actions;
-export const selectOrders = (state: RootState) => state.orders;
-export default ordersList.reducer;
+export const { setIsError, setIsOpenOperationModal } = previewOrdersPage.actions;
+export const selectPreviewOrders = (state: RootState) => state.previewOrders;
+export default previewOrdersPage.reducer;
