@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
 
 interface ReportState {
@@ -13,7 +13,7 @@ const ordersList = createSlice({
   name: 'ordersList',
   initialState,
   reducers: {
-    addActiveOrder(state, action) {
+    addActiveOrder(state, action: PayloadAction<number>) {
       state.activeOrder = action.payload;
     },
   },

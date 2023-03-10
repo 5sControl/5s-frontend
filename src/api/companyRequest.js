@@ -73,7 +73,7 @@ export const sendLicenseKey = (hostname, cookies, key) => {
 
 export const registerNewUser = (hostname, email, password) => {
   if (getIsInternet(hostname)) {
-    axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
       url: `${url + API_REGISTRATION}`,
       method: 'POST',
       headers: {
@@ -86,7 +86,7 @@ export const registerNewUser = (hostname, email, password) => {
       }),
     });
   } else {
-    axios.post(`http://${hostname}/${API_REGISTRATION}`, {
+    return axios.post(`http://${hostname}/${API_REGISTRATION}`, {
       username: email,
       password: password,
       repeat_password: password,

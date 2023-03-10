@@ -1,22 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { CamerasModal } from '../../pages/camera/modal/camerasModal';
+import { CamerasModal } from './modal/camerasModal';
 import './cameras.scss';
 import { findCamera, getSelectedCameras } from '../../api/cameraRequest';
+import { getIsInternet, url } from '../../api/api';
+import { CameraSettings } from './modal/cameraSettings';
+import { AiOutlineArrowRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
 export const Camera = () => {
   const [cookies] = useCookies(['token']);
   const [camerasList, setCamerasList] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isCameraSettings, setIsCameraSettings] = useState(false);
   const [createdCameras, setCreatedCameras] = useState(false);
-
+  const [IPCamera, setIPCamera] = useState('');
   const [error, setError] = useState(false);
 
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.data.length > 0) {
           setCreatedCameras(response.data);
         }
@@ -28,10 +32,15 @@ export const Camera = () => {
         setCamerasList(response.data.results);
       })
       .catch((error) => setError(error.message));
-  }, [isShowModal]);
+  }, [isShowModal, isCameraSettings]);
 
   const showAddCameras = () => {
     setIsShowModal(true);
+  };
+
+  const openSettings = (ip) => {
+    setIPCamera(ip);
+    setIsCameraSettings(true);
   };
 
   return (
@@ -46,8 +55,25 @@ export const Camera = () => {
         <div className="cameras__list">
           {createdCameras.map((el, ind) => {
             return (
-              <Link key={ind} to={`/camera/${el.id}`} className="cameras__list_item">
-                <>IP: {el.id}</>
+              <Link
+                to={`/configuration/${el.id}`}
+                key={ind}
+                className="cameras__list_item"
+                onClick={() => openSettings(el.id)}
+              >
+                <div>
+                  <img
+                    className="cameras__list_image"
+                    src={
+                      getIsInternet(window.location.hostname)
+                        ? `${url}/images/${el.id}/snapshot.jpg`
+                        : `http://${window.location.hostname}/images/${el.id}/snapshot.jpg`
+                    }
+                    alt="Camera"
+                  />
+                  <>Name: {el.name}</>
+                </div>
+                <AiOutlineArrowRight />
               </Link>
             );
           })}
@@ -58,7 +84,17 @@ export const Camera = () => {
         <CamerasModal
           setIsShowModal={(e) => setIsShowModal(e)}
           cookies={cookies}
+          setIPCamera={(e) => setIPCamera(e)}
+          IPCamera={IPCamera}
           camerasList={camerasList}
+        />
+      )}
+      {isCameraSettings && (
+        <CameraSettings
+          IPCamera={IPCamera}
+          nameCamera={createdCameras.filter((camera) => camera.id === IPCamera)[0].name}
+          token={cookies.token}
+          setIsCameraSettings={(e) => setIsCameraSettings(e)}
         />
       )}
     </section>

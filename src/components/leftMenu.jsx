@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Algorithm, Camera, Company, Dashboard, OrdersView } from '../assets/svg/SVGcomponent';
+import { Company, Dashboard, OrdersView, Algorithm } from '../assets/svg/SVGcomponent';
 import logo from '../assets/svg/icon.svg';
 import { useEffect, useState } from 'react';
 import { getCompanyInfo } from '../api/companyRequest';
@@ -34,18 +34,14 @@ export const LeftMenu = () => {
             <span>Dashboard</span>
           </Link>
         </li>
-        <li className={window.location.pathname.includes('camera') ? 'activeMenu' : 'noActiveMenu'}>
-          <Link to="camera" onClick={send}>
-            <Camera />
-            <span>Camera</span>
-          </Link>
-        </li>
         <li
-          className={window.location.pathname.includes('algorithm') ? 'activeMenu' : 'noActiveMenu'}
+          className={
+            window.location.pathname.includes('configuration') ? 'activeMenu' : 'noActiveMenu'
+          }
         >
-          <Link to="/algorithm" onClick={send}>
+          <Link to="/configuration" onClick={send}>
             <Algorithm />
-            <span>Algorithm</span>
+            <span>Configuration</span>
           </Link>
         </li>
         <li

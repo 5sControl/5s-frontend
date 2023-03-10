@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Select } from '../../components/select/select';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import styles from './previewOrders.module.scss';
 import { OrderItem } from '../../storage/orderView';
@@ -8,27 +7,29 @@ import { OrderList } from './components/OrdersList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectActiveOrder } from './components/OrdersList/ordersListSlice';
 import { Cover } from '../../components/cover';
-import { defenitionAsync, selectOrders, getOrdersIdAsync } from './previewOrdersSlice';
+import { defenitionAsync, selectOrders, getOrdersIdAsync, setIsOpenOperationModal, } from './previewOrdersSlice';
 import { useCookies } from 'react-cookie';
+import { OperationVideoModal } from './components/OperationVideoModal';
 import { Preloader } from '../../components/preloader';
 
 export const PreviewOrders: React.FC = () => {
+  const [cookies] = useCookies(['token']);
   const dispatch = useAppDispatch();
   const { activeOrder } = useAppSelector(selectActiveOrder);
   const [cookies] = useCookies(['token']);
-  const { orderData, previewOrdersList, isLoadingPreviewList } = useAppSelector(selectOrders);
+  const { orderData, previewOrdersList, isLoadingPreviewList, isOpenOperationModal } = useAppSelector(selectOrders);
 
-  const listOfDate = [
-    { id: 1, text: 'Last month, 2023 Jan 16 - Feb 16' },
-    { id: 2, text: 'Last month, 2023 Feb 17 - Mar 16' },
-    { id: 3, text: 'Last month, 2023 Mar 17 - Apr 16' },
-    { id: 4, text: 'Last month, 2023 Apr 17 - May 16' },
-  ];
+  // const listOfDate = [
+  //   { id: 1, text: 'Last month, 2023 Jan 16 - Feb 16' },
+  //   { id: 2, text: 'Last month, 2023 Feb 17 - Mar 16' },
+  //   { id: 3, text: 'Last month, 2023 Mar 17 - Apr 16' },
+  //   { id: 4, text: 'Last month, 2023 Apr 17 - May 16' },
+  // ];
 
-  const listOfstatus = [
-    { id: 1, text: 'Started' },
-    { id: 2, text: 'Completed' },
-  ];
+  // const listOfstatus = [
+  //   { id: 1, text: 'Started' },
+  //   { id: 2, text: 'Completed' },
+  // ];
 
   useEffect(() => {
     dispatch(getOrdersIdAsync({ token: cookies.token, hostname: window.location.hostname }));
@@ -45,18 +46,31 @@ export const PreviewOrders: React.FC = () => {
         })
       );
   }, [activeOrder]);
+  
+  const handleCloseModal = () => {
+    dispatch(setIsOpenOperationModal(false));
+  };
 
   return (
-    <WrapperPage>
-      <div className={styles.content}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>Orders View</h2>
+    <>
+      <OperationVideoModal
+        isOpen={isOpenOperationModal}
+        handleClose={handleCloseModal}
+        orderId={orderData.orderId}
+        productData={orderData.product}
+        operationData={orderData.product.operations[0]}
+      />
 
-          {/* <div className={styles.selectContainer}>
+      <WrapperPage>
+        <div className={styles.content}>
+          <div className={styles.header}>
+            <h2 className={styles.title}>Orders View</h2>
+
+            {/* <div className={styles.selectContainer}>
             <Select listOfData={listOfstatus} />
             <Select className={styles.listOfDate} listOfData={listOfDate} />
           </div> */}
-        </div>
+          </div>
 
         {!isLoadingPreviewList && previewOrdersList ? (
           <div className={styles.body}>
