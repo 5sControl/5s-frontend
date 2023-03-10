@@ -10,7 +10,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
   const [process, setProcess] = useState([]);
   const [informationToSend, setInformationToSend] = useState({});
-
+  const [isEnabled, setIsEnabled] = useState(true);
   const deleteProcessFromDB = async (whatIsDelete) => {
     for (const processID of whatIsDelete) {
       await deleteProcess(window.location.hostname, token, processID).then(() => {
@@ -37,7 +37,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   };
 
   const applySettings = async () => {
-    console.log(informationToSend);
+    setIsEnabled(false);
     if (cameraName !== nameCamera) {
       await patchCamera(window.location.hostname, IPCamera, cameraName, token).then(() => {
         // console.log(res);
@@ -132,7 +132,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                 </div>
               </div>
               <div className="cameras__settings_footer">
-                <button className="cameras__button" onClick={applySettings}>
+                <button disabled={!isEnabled} className="cameras__button" onClick={applySettings}>
                   Done
                 </button>
               </div>

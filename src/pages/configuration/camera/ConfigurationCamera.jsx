@@ -18,17 +18,17 @@ import './camera-config.scss';
 export const ConfigurationCamera = () => {
   const [camera, setCamera] = useState({});
   const [algorithm, setAlgorithm] = useState({});
-  const [algorithmList, setAlgorithmList] = useState([]);
+  // const [algorithmList, setAlgorithmList] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false);
   const [cookie] = useCookies(['token']);
   const navigate = useNavigate();
   const location = useParams();
 
   useEffect(() => {
-    getAveilableAlgorithms(window.location.hostname, cookie.token).then((res) => {
-      let allAlgorithm = Object.keys(res.data).filter((key) => res.data[key]);
-      setAlgorithmList(allAlgorithm);
-    });
+    // getAveilableAlgorithms(window.location.hostname, cookie.token).then((res) => {
+    //   let allAlgorithm = Object.keys(res.data).filter((key) => res.data[key]);
+    //   setAlgorithmList(allAlgorithm);
+    // });
     getSelectedCameras(window.location.hostname, cookie.token).then((res) => {
       const cameraResponse = res.data.filter((camera) => camera.id === location.camera)[0];
       setCamera(cameraResponse);
