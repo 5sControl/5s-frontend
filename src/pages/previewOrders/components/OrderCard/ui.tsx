@@ -1,22 +1,29 @@
+import { useEffect } from 'react';
 import { Cover } from '../../../../components/cover';
 import { OrderItem } from '../../../../storage/orderView';
+import { useAppSelector } from '../../../../store/hooks';
+import { selectPreviewOrders } from '../../previewOrdersSlice';
+import { selectActiveOrder } from '../OrdersList/ordersListSlice';
 import { ProductCatd } from '../ProductCatd';
 import { StatusLable } from '../StatusLable';
 import styles from './orderCard.module.scss';
 
 type PropsType = {
-  data: OrderItem | undefined;
+  data: OrderItem;
 };
 
 export const OrderCard: React.FC<PropsType> = ({ data }) => {
+  const { activeOrder } = useAppSelector(selectActiveOrder);
+  const { isLoadingCurrentOrder, errorOfCurrentOrder } = useAppSelector(selectPreviewOrders);
+
   return (
-    <>
-      {data ? (
-        <Cover>
+    <Cover>
+      {!isLoadingCurrentOrder ? (
+        <div>
           <div className={styles.header}>
             <div className={styles.titleContent}>
-              <h2 className={styles.title}>{`Order №${data.orderId}`}</h2>
-              <StatusLable type={data.orderStatus} />
+              <h2 className={styles.title}>{`Order №${activeOrder}`}</h2>
+              {data.orderStatus && <StatusLable type={data.orderStatus} />}
             </div>
 
             <p className={styles.orderTime}>{data.orderTime}</p>
@@ -45,8 +52,8 @@ export const OrderCard: React.FC<PropsType> = ({ data }) => {
           <div className={styles.list}>
             <ProductCatd data={data.product} index={1} />
           </div>
-        </Cover>
+        </div>
       ) : null}
-    </>
+    </Cover>
   );
 };

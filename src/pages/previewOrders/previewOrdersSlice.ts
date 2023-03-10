@@ -1,26 +1,53 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { OrderItem } from '../../storage/orderView';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { OrderItem, PreviewOrderItem } from '../../storage/orderView';
 import { RootState } from '../../store';
-import { getOrdersData } from './previewOrdersAPI';
+import { getOrderData, getOrdersId } from './previewOrdersAPI';
+import { parseOrdersData } from './previewOrdersHelper';
 
 interface PreviewOrders {
-  orderdData: Array<OrderItem> | null;
-  isLoading: boolean;
-  error: boolean;
+  orderData: OrderItem | null;
+  previewOrdersList: Array<PreviewOrderItem> | null;
+  isLoadingPreviewList: boolean;
+  isLoadingCurrentOrder: boolean;
+  errorOfList: boolean;
+  errorOfCurrentOrder: boolean;
+  isOpenOperationModal: boolean;
 }
 
 const initialState: PreviewOrders = {
-  orderdData: null,
-  isLoading: false,
-  error: false,
+  orderData: null,
+  isLoadingPreviewList: false,
+  isLoadingCurrentOrder: false,
+  errorOfList: false,
+  errorOfCurrentOrder: false,
+  previewOrdersList: null,
+  isOpenOperationModal: false,
 };
 
 export const defenitionAsync = createAsyncThunk(
   'getOrdersData',
-  async (data: { token: string; hostname: string }) => {
-    const response = await getOrdersData(data.hostname, data.token);
+  async (data: { token: string; hostname: string; currentOrder: string }) => {
+    const response = await getOrderData(data.hostname, data.token, data.currentOrder);
     if (response.data) {
-      const data = parseOrdersData(response.data);
+      const data = parseOrdersData(response.data[0]);
+
+      return data;
+    }
+    return null;
+  }
+);
+
+export const getOrdersIdAsync = createAsyncThunk(
+  'getOrdersId',
+  async (data: { token: string; hostname: string }) => {
+    const response = await getOrdersId(data.hostname, data.token);
+    if (response.data) {
+      const data = response.data.map((item: { zlecenie: string; status: string }) => {
+        return {
+          orderId: item.zlecenie,
+          orderStatus: item.status,
+        };
+      });
 
       return data;
     }
@@ -28,66 +55,43 @@ export const defenitionAsync = createAsyncThunk(
   }
 );
 
-const parseOrdersData = (data: any) => {
-  const previewData = data.map((item: any) => {
-    return {
-      id: item.indeks,
-      orderDate: item.data,
-      orderId: item.zlecenie,
-      orderCustomer: item.klient,
-      orderValid: 30,
-      orderTime: item.datawejscia,
-      orderStatus: getStatus(item.zakonczone, item.datawejscia),
-      product: {
-        productName: item.typ,
-        operationArticle: item.orderName,
-        operations: item.skans.map((element: any) => {
-          return {
-            operationId: element.indeks,
-            operationName: element.raport,
-            operationTime: element.data,
-          };
-        }),
-      },
-    };
-  });
-
-  return previewData;
-};
-
-const getStatus = (zakonczone: number, datawejscia: string) => {
-  if (zakonczone === 1) {
-    return 'Completed';
-  }
-
-  if (zakonczone === 0 && datawejscia) {
-    return 'Started';
-  }
-};
-
-const ordersList = createSlice({
+const previewOrdersPage = createSlice({
   name: 'previewOrders',
   initialState,
   reducers: {
     setIsError: (state, action) => {
-      state.error = action.payload;
+      state.errorOfCurrentOrder = action.payload;
+    },
+    setIsOpenOperationModal(state, action: PayloadAction<boolean>) {
+      state.isOpenOperationModal = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(defenitionAsync.pending, (state) => {
-      state.isLoading = true;
+      state.isLoadingCurrentOrder = true;
     });
     builder.addCase(defenitionAsync.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.orderdData = action.payload;
+      state.isLoadingCurrentOrder = false;
+      state.orderData = action.payload;
     });
     builder.addCase(defenitionAsync.rejected, (state) => {
-      state.isLoading = false;
-      state.error = true;
+      state.isLoadingCurrentOrder = false;
+      state.errorOfCurrentOrder = true;
+    });
+    builder.addCase(getOrdersIdAsync.pending, (state) => {
+      state.isLoadingPreviewList = true;
+    });
+    builder.addCase(getOrdersIdAsync.fulfilled, (state, action) => {
+      state.isLoadingPreviewList = false;
+      state.previewOrdersList = action.payload;
+    });
+    builder.addCase(getOrdersIdAsync.rejected, (state) => {
+      state.isLoadingPreviewList = false;
+      state.errorOfList = true;
     });
   },
 });
 
-export const { setIsError } = ordersList.actions;
-export const selectOrders = (state: RootState) => state.orders;
-export default ordersList.reducer;
+export const { setIsError, setIsOpenOperationModal } = previewOrdersPage.actions;
+export const selectPreviewOrders = (state: RootState) => state.previewOrders;
+export default previewOrdersPage.reducer;
