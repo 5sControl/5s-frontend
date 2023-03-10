@@ -1,0 +1,21 @@
+@import 'src/styles/fonts';
+
+.lable {
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 20px;
+  user-select: none;
+}
+
+.type {
+  @include caption;
+  color: var(--White);
+}
+
+.started {
+  background-color: var(--Orange);
+}
+
+.completed {
+  background-color: var(--Green);
+}

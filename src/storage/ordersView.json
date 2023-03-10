@@ -1,0 +1,1309 @@
+{
+  "orders": [
+    {
+      "orderId": 1,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Started",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 2,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Completed",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 3,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Started",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 4,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Started",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 5,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Started",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 6,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Started",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 7,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Undefined",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 8,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Started",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 9,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Started",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "orderId": 10,
+      "orderCustomer": "Toelevering Online B.V.",
+      "orderDate": 1707810131000,
+      "orderValid": 30,
+      "orderTime": "03.02.2023 | 13:00:04",
+      "orderStatus": "Started",
+      "products": [
+        {
+          "productId": 1,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "productId": 2,
+          "productName": "G_K-VISION 76108/76205/DTS i lauka(vaizdas is lauk Crem-vid/(58) 02.20.61.000001-116700, U==1,24 W/(m2K)",
+          "articles": [
+            {
+              "articlesId": 1,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            },
+            {
+              "articlesId": 2,
+              "articlesName": "KFB AS2750",
+              "operations": [
+                {
+                  "operationId": 1,
+                  "operationName": "Cutting",
+                  "operationTime": "24.02.2023 | 13:00:45"
+                },
+                {
+                  "operationId": 2,
+                  "operationName": "Welding",
+                  "operationTime": "24.02.2023 | 13:05:45"
+                },
+                {
+                  "operationId": 3,
+                  "operationName": "Cleaning",
+                  "operationTime": "24.02.2023 | 13:10:45"
+                },
+                {
+                  "operationId": 4,
+                  "operationName": "Assembly",
+                  "operationTime": "24.02.2023 | 13:15:45"
+                },
+                {
+                  "operationId": 5,
+                  "operationName": "Packing",
+                  "operationTime": "24.02.2023 | 13:20:45"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

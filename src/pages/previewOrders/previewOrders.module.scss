@@ -1,11 +1,16 @@
+@import '../../styles/media.scss';
+@import '../../styles/fonts.scss';
+
 .content {
   .header {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
+    margin-bottom: 40px;
+
     .title {
-      font-size: 20px;
-      font-weight: 700;
-      color: #212121;
+      @include h2;
+      color: var(--HightEmphasis);
     }
 
     .selectContainer {
@@ -14,6 +19,45 @@
         margin-left: 10px;
         padding-right: 30px;
       }
+    }
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .noOrder {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      .title {
+        @include h4;
+        color: var(--HightEmphasis);
+      }
+
+      .subtitle {
+        @include body1;
+        color: var(--MediumEmphasis);
+      }
+    }
+  }
+}
+
+@include md {
+  .content {
+    .header {
+      flex-direction: row;
+    }
+  }
+}
+@include lg {
+  .content {
+    .body {
+      flex-direction: row;
     }
   }
 }

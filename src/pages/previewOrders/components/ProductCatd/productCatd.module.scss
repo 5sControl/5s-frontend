@@ -1,0 +1,22 @@
+@import 'src/styles/fonts';
+
+.info {
+  @include title;
+  color: var(--LowEmphasis);
+  margin-bottom: 8px;
+}
+
+.title {
+  @include h6;
+  color: var(--HightEmphasis);
+  margin-bottom: 10px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid var(--Gray88);
+  padding-left: 15px;
+  padding-bottom: 20px;
+  gap: 40px;
+}
