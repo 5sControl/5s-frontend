@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
-import { url, getIsInternet } from '../../../../../api/api';
-import { patchCamera } from '../../../../../api/cameraRequest';
-import { Close } from '../../../../../assets/svg/SVGcomponent';
+import { url, getIsInternet } from '../../../api/api';
+import { patchCamera } from '../../../api/cameraRequest';
+import { Close } from '../../../assets/svg/SVGcomponent';
 import { AlgorithmSelect } from './components/algorithmSelect';
-import {
-  deleteProcess,
-  getProcess,
-  postAlgorithnDependences,
-} from '../../../../../api/algorithmRequest';
+import { deleteProcess, getProcess, postAlgorithnDependences } from '../../../api/algorithmRequest';
 
 export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamera }) => {
   const [cameraName, setCameraName] = useState(nameCamera);

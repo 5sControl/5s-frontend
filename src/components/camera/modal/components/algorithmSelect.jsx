@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getAveilableAlgorithms } from '../../../../../../api/algorithmRequest';
-import { parsingAlgorithmName } from '../../../../../../functions/parsingAlgorithmName';
+import { getAveilableAlgorithms } from '../../../../api/algorithmRequest';
+import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 
 export const AlgorithmSelect = ({
   token,
@@ -13,6 +13,7 @@ export const AlgorithmSelect = ({
   const [checkboxAlgo, setCheckboxAlgo] = useState(
     algorithmsActive ? Object.assign([], algorithmsActive) : []
   );
+
   useEffect(() => {
     getAveilableAlgorithms(window.location.hostname, token).then((res) => {
       let allAlgorithm = Object.keys(res.data).filter((key) => res.data[key]);
