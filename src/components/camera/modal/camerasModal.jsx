@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Close } from '../../../../../assets/svg/SVGcomponent';
+import { Close } from '../../../assets/svg/SVGcomponent';
 import { AiOutlineRight } from 'react-icons/ai';
-import { postCamera } from '../../../../../api/cameraRequest';
+import { postCamera } from '../../../api/cameraRequest';
 
 export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera, IPCamera }) => {
   const [stage, setStage] = useState('selectCamera');

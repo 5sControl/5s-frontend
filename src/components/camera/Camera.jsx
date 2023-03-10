@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { CamerasModal } from './modal/camerasModal';
 import './cameras.scss';
-import { findCamera, getSelectedCameras } from '../../../../api/cameraRequest';
-import { getIsInternet, url } from '../../../../api/api';
+import { findCamera, getSelectedCameras } from '../../api/cameraRequest';
+import { getIsInternet, url } from '../../api/api';
 import { CameraSettings } from './modal/cameraSettings';
+import { AiOutlineArrowRight } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 export const Camera = () => {
   const [cookies] = useCookies(['token']);
@@ -53,18 +55,26 @@ export const Camera = () => {
         <div className="cameras__list">
           {createdCameras.map((el, ind) => {
             return (
-              <div key={ind} className="cameras__list_item" onClick={() => openSettings(el.id)}>
-                <img
-                  className="cameras__list_image"
-                  src={
-                    getIsInternet(window.location.hostname)
-                      ? `${url}/images/${el.id}/snapshot.jpg`
-                      : `http://${window.location.hostname}/images/${el.id}/snapshot.jpg`
-                  }
-                  alt="Camera"
-                />
-                <>Name: {el.name}</>
-              </div>
+              <Link
+                to={`/configuration/${el.id}`}
+                key={ind}
+                className="cameras__list_item"
+                onClick={() => openSettings(el.id)}
+              >
+                <div>
+                  <img
+                    className="cameras__list_image"
+                    src={
+                      getIsInternet(window.location.hostname)
+                        ? `${url}/images/${el.id}/snapshot.jpg`
+                        : `http://${window.location.hostname}/images/${el.id}/snapshot.jpg`
+                    }
+                    alt="Camera"
+                  />
+                  <>Name: {el.name}</>
+                </div>
+                <AiOutlineArrowRight />
+              </Link>
             );
           })}
         </div>

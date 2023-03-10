@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react';
-import { url, getIsInternet } from '../../../../../api/api';
-import { patchCamera } from '../../../../../api/cameraRequest';
-import { Close } from '../../../../../assets/svg/SVGcomponent';
+import { url, getIsInternet } from '../../../api/api';
+import { patchCamera } from '../../../api/cameraRequest';
+import { Close } from '../../../assets/svg/SVGcomponent';
 import { AlgorithmSelect } from './components/algorithmSelect';
-import {
-  deleteProcess,
-  getProcess,
-  postAlgorithnDependences,
-} from '../../../../../api/algorithmRequest';
+import { deleteProcess, getProcess, postAlgorithnDependences } from '../../../api/algorithmRequest';
 
 export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamera }) => {
   const [cameraName, setCameraName] = useState(nameCamera);
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
   const [process, setProcess] = useState([]);
   const [informationToSend, setInformationToSend] = useState({});
-
+  const [isEnabled, setIsEnabled] = useState(true);
   const deleteProcessFromDB = async (whatIsDelete) => {
     for (const processID of whatIsDelete) {
       await deleteProcess(window.location.hostname, token, processID).then(() => {
@@ -41,9 +37,12 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   };
 
   const applySettings = async () => {
-    await patchCamera(window.location.hostname, IPCamera, cameraName, token).then(() => {
-      // console.log(res);
-    });
+    setIsEnabled(false);
+    if (cameraName !== nameCamera) {
+      await patchCamera(window.location.hostname, IPCamera, cameraName, token).then(() => {
+        // console.log(res);
+      });
+    }
     if (informationToSend.delete && informationToSend.delete.length > 0) {
       await deleteProcessFromDB(informationToSend.delete);
     }
@@ -133,7 +132,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                 </div>
               </div>
               <div className="cameras__settings_footer">
-                <button className="cameras__button" onClick={applySettings}>
+                <button disabled={!isEnabled} className="cameras__button" onClick={applySettings}>
                   Done
                 </button>
               </div>

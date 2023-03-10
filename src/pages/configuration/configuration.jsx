@@ -1,4 +1,4 @@
-import { Camera } from '../main/stage/camera/Camera';
+import { Camera } from '../../components/camera/Camera';
 import './configuration.scss';
 
 export const Configuration = () => {

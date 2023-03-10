@@ -243,6 +243,7 @@
       &_list{
         height: calc(90vh - 420px);
         overflow: auto;
+        
         &_item{
           display: flex;
           justify-content: space-between;
@@ -262,8 +263,8 @@
     }
     &_item {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap:20px;
       padding: 20px 5px;
       font-weight: 500;
       border-bottom: 1px solid #e0e0e0;
@@ -272,6 +273,11 @@
       text-decoration: none;
       transition: all 0.7s;
       border-radius: 6px;
+      > div{
+        display: flex;
+        align-items: center;
+        gap:20px;
+      }
       &:hover {
         box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
       }
