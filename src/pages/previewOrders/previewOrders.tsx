@@ -10,6 +10,7 @@ import { selectActiveOrder } from './components/OrdersList/ordersListSlice';
 import { Cover } from '../../components/cover';
 import { defenitionAsync, selectOrders } from './previewOrdersSlice';
 import { useCookies } from 'react-cookie';
+import { Preloader } from '../../components/preloader';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -39,14 +40,13 @@ export const PreviewOrders: React.FC = () => {
         <div className={styles.header}>
           <h2 className={styles.title}>Orders View</h2>
 
-          {/* //  */}
-          <div className={styles.selectContainer}>
+          {/* <div className={styles.selectContainer}>
             <Select listOfData={listOfstatus} />
             <Select className={styles.listOfDate} listOfData={listOfDate} />
-          </div>
+          </div> */}
         </div>
 
-        {orderdData ? (
+        {!isLoading && orderdData ? (
           <div className={styles.body}>
             <OrderList data={orderdData} />
 
@@ -59,7 +59,9 @@ export const PreviewOrders: React.FC = () => {
               </Cover>
             )}
           </div>
-        ) : null}
+        ) : (
+          <Preloader loading={isLoading} />
+        )}
       </div>
     </WrapperPage>
   );

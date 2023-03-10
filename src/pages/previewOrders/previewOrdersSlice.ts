@@ -33,7 +33,7 @@ const parseOrdersData = (data: any) => {
     return {
       id: item.indeks,
       orderDate: item.data,
-      orderId: item.zlecenie,
+      orderId: item.zlecenie.replace(/\s/g, ''),
       orderCustomer: item.klient,
       orderValid: 30,
       orderTime: item.datawejscia,
