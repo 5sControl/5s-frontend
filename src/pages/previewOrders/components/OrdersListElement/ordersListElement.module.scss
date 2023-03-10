@@ -1,7 +1,7 @@
 @import 'src/styles/fonts';
 
 .listElement {
-  width: 100%;
+  width: calc(100% - 8px);
   padding: 10px 0px;
   border-bottom: 1px solid var(--Gray88);
   cursor: pointer;
