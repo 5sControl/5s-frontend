@@ -37,9 +37,12 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   };
 
   const applySettings = async () => {
-    await patchCamera(window.location.hostname, IPCamera, cameraName, token).then(() => {
-      // console.log(res);
-    });
+    console.log(informationToSend);
+    if (cameraName !== nameCamera) {
+      await patchCamera(window.location.hostname, IPCamera, cameraName, token).then(() => {
+        // console.log(res);
+      });
+    }
     if (informationToSend.delete && informationToSend.delete.length > 0) {
       await deleteProcessFromDB(informationToSend.delete);
     }

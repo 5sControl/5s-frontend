@@ -4,11 +4,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { getSelectedCameras } from '../../../api/cameraRequest';
 import { Back } from '../../../assets/svg/SVGcomponent';
-import './camera-config.scss';
+
 import { Preloader } from '../../../components/preloader';
 import { CameraSettings } from '../../../components/camera/modal/cameraSettings';
+import { getProcess } from '../../../api/algorithmRequest';
+import './camera-config.scss';
+
 export const ConfigurationCamera = () => {
   const [camera, setCamera] = useState({});
+  const [algorithm, setAlgorithm] = useState({});
   const [isShowModal, setIsShowModal] = useState(false);
   const [cookie] = useCookies(['token']);
   const navigate = useNavigate();
@@ -16,7 +20,11 @@ export const ConfigurationCamera = () => {
 
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookie.token).then((res) => {
-      setCamera(res.data.filter((camera) => camera.id === location.camera)[0]);
+      const cameraResponse = res.data.filter((camera) => camera.id === location.camera)[0];
+      setCamera(cameraResponse);
+      getProcess(window.location.hostname, cookie.token).then((res) => {
+        setAlgorithm(res.data.filter((process) => process.camera.id === cameraResponse.id));
+      });
     });
   }, []);
 
@@ -32,7 +40,12 @@ export const ConfigurationCamera = () => {
             </button>
           </div>
           <h2>Algorithms</h2>
-          <div className="camera-config__algorithms"></div>
+          <div className="camera-config__algorithms">
+            {Object.keys(algorithm).length > 0 &&
+              algorithm.map((algorithm) => (
+                <div key={algorithm.process_id}>{algorithm.algorithm.name}</div>
+              ))}
+          </div>
         </section>
       ) : (
         <Preloader loading={true} />
