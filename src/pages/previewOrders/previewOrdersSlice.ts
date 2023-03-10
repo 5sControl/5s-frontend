@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { OrderItem } from '../../storage/orderView';
 import { RootState } from '../../store';
 import { getOrdersData } from './previewOrdersAPI';
+import { parseOrdersData } from './previewOrdersHelper';
 
 interface PreviewOrders {
   orderdData: Array<OrderItem> | null;
@@ -27,43 +28,6 @@ export const defenitionAsync = createAsyncThunk(
     return [];
   }
 );
-
-const parseOrdersData = (data: any) => {
-  const previewData = data.map((item: any) => {
-    return {
-      id: item.indeks,
-      orderDate: item.data,
-      orderId: item.zlecenie,
-      orderCustomer: item.klient,
-      orderValid: 30,
-      orderTime: item.datawejscia,
-      orderStatus: getStatus(item.zakonczone, item.datawejscia),
-      product: {
-        productName: item.typ,
-        operationArticle: item.orderName,
-        operations: item.skans.map((element: any) => {
-          return {
-            operationId: element.indeks,
-            operationName: element.raport,
-            operationTime: element.data,
-          };
-        }),
-      },
-    };
-  });
-
-  return previewData;
-};
-
-const getStatus = (zakonczone: number, datawejscia: string) => {
-  if (zakonczone === 1) {
-    return 'Completed';
-  }
-
-  if (zakonczone === 0 && datawejscia) {
-    return 'Started';
-  }
-};
 
 const ordersList = createSlice({
   name: 'previewOrders',

@@ -11,27 +11,8 @@
   }
 
   .list {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
-  }
-}
-
-@include md {
-  .wrapper .list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@include lg {
-  .wrapper .list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@include xl {
-  .wrapper .list {
-    grid-template-columns: repeat(4, 1fr);
   }
 }
