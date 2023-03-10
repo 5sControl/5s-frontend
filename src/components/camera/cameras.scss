@@ -71,9 +71,11 @@
       }
     }
     &__container {
+      max-height: 90vh;
       width: 50%;
       background-color: #ffffff;
       padding: 20px;
+      overflow: auto;
     }
     &__list {
       margin-bottom: 50px;
