@@ -11,6 +11,8 @@ import { useCookies } from 'react-cookie';
 import { isVerifyToken } from './api/companyRequest';
 import { PreviewOrders } from './pages/previewOrders/previewOrders';
 import { Configuration } from './pages/configuration/configuration';
+import { ConfigurationCamera } from './pages/configuration/camera/ConfigurationCamera';
+import { Main } from './pages/main/Main';
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -32,10 +34,11 @@ function App() {
         <Route path="/authorization" element={<Authorization />} />
         {cookies.token ? (
           <Route element={<RoutesOutlet />}>
-            <Route path="/" element={<Configuration />} />
+            <Route path="/" element={<Main />} />
             <Route path="/company" element={<Company />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/configuration" element={<Configuration />} />
+            <Route path="/configuration/:camera" element={<ConfigurationCamera />} />
             <Route path="/orders-view" element={<PreviewOrders />} />
           </Route>
         ) : (
