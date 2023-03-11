@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.scss';
-import Dashboard from './pages/dashboard/Dashboard';
+// import Dashboard from './pages/dashboard/Dashboard';
 import { RoutesOutlet } from './routes/Routes';
 import { Company } from './pages/company/Company';
 // import { Main } from './pages/main/Main';
@@ -13,7 +13,8 @@ import { PreviewOrders } from './pages/previewOrders/previewOrders';
 import { Configuration } from './pages/configuration/configuration';
 import { ConfigurationCamera } from './pages/configuration/camera/ConfigurationCamera';
 import { Main } from './pages/main/Main';
-
+import { Dashboard } from './pages/newDashboard/Dashboard';
+// import Dashboard from './pages/dashboard/Dashboard';
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
