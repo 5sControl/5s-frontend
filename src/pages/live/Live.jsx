@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import moment from 'moment';
 import { getLogs } from '../../api/algorithmRequest';
 import { getData } from '../../api/reportsRequest';
@@ -17,6 +17,7 @@ export const Live = () => {
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [cameraToResponse, setCameraToResponse] = useState('camera');
   const [reports, setReports] = useState([]);
+  const [inputFilter, setInputFilter] = useState('');
   const update = () => {
     getData(
       location,
@@ -67,21 +68,30 @@ export const Live = () => {
           <div className="live__reports">
             <div className="live__camera">
               <h2>Cameras</h2>
-              <input type="text" placeholder="Search" className="live__camera_filter" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="live__camera_filter"
+                value={inputFilter}
+                onChange={(e) => setInputFilter(e.target.value)}
+              />
               <div className="live__camera_container">
                 {cameras.map((camera, index) => {
                   return (
-                    <span
-                      key={index}
-                      className={
-                        cameraToResponse === camera.id
-                          ? 'live__active live__camera_item '
-                          : 'live__camera_item'
-                      }
-                      onClick={() => setCameraToResponse(camera.id)}
-                    >
-                      {camera.name}
-                    </span>
+                    <Fragment key={index}>
+                      {camera.name.toLowerCase().includes(inputFilter.toLowerCase()) && (
+                        <span
+                          className={
+                            cameraToResponse === camera.id
+                              ? 'live__active live__camera_item '
+                              : 'live__camera_item'
+                          }
+                          onClick={() => setCameraToResponse(camera.id)}
+                        >
+                          {camera.name}
+                        </span>
+                      )}
+                    </Fragment>
                   );
                 })}
               </div>
