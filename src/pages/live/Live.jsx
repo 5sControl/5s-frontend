@@ -6,6 +6,9 @@ import { useCookies } from 'react-cookie';
 import { DataPicker } from '../dashboard/components/dataPicker';
 import './live.scss';
 import { getSelectedCameras } from '../../api/cameraRequest';
+import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
+import { TimelineHub } from '../dashboard/components/timeline/timelineHub';
+import { CurrentReport } from './currentReport/currentReport';
 
 export const Dashboard = () => {
   const location = window.location.hostname;
@@ -14,7 +17,7 @@ export const Dashboard = () => {
   const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [cameraToResponse, setCameraToResponse] = useState('camera');
-
+  const [reports, setReports] = useState([]);
   const update = () => {
     getData(
       location,
@@ -28,7 +31,8 @@ export const Dashboard = () => {
       'algorithm',
       cameraToResponse
     ).then((el) => {
-      console.log(el);
+      console.log(el.data);
+      setReports(el.data);
     });
   };
 
@@ -43,7 +47,9 @@ export const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    update();
+    if (cameraToResponse !== 'camera' && !visibleModalDate) {
+      update();
+    }
   }, [visibleModalDate, cameraToResponse]);
 
   return (
@@ -81,9 +87,31 @@ export const Dashboard = () => {
                 })}
               </div>
             </div>
-            <div className="live__report-info"></div>
+            <div className="live__report-info">
+              <div className="live__report-info_list">
+                {/* {reports.map((report, index) => (
+                  <div
+                    key={index}
+                    className="live__report-info_list_item"
+                    onClick={() => console.log(report)}
+                  >
+                    <p>{report.id}</p>
+                    <p>{parsingAlgorithmName(report.algorithm.name)}</p>
+                  </div>
+                ))} */}
+              </div>
+              <CurrentReport />
+            </div>
           </div>
-          <div className="live__timeline"></div>
+          <div className="live__timeline">
+            <TimelineHub
+              data={reports}
+              startDate={selectDate}
+              endDate={selectDate}
+              startTime={'00:00:00'}
+              endTime={'23:59:59'}
+            />
+          </div>
         </div>
       </section>
       {visibleModalDate && (

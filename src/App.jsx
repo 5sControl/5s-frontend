@@ -13,7 +13,7 @@ import { PreviewOrders } from './pages/previewOrders/previewOrders';
 import { Configuration } from './pages/configuration/configuration';
 import { ConfigurationCamera } from './pages/configuration/camera/ConfigurationCamera';
 import { Main } from './pages/main/Main';
-import { Dashboard } from './pages/newDashboard/Dashboard';
+import { Dashboard } from './pages/live/Live';
 // import Dashboard from './pages/dashboard/Dashboard';
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
