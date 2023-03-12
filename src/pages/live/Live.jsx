@@ -18,15 +18,20 @@ export const Live = () => {
   const [cameraToResponse, setCameraToResponse] = useState('camera');
   const [reports, setReports] = useState([]);
   const [inputFilter, setInputFilter] = useState('');
+  const [startTime, setStartTime] = useState('00:00:00');
+  const [endTime, setEndTime] = useState('24:00:00');
   const update = () => {
     getData(
       location,
       cookies.token,
       selectDate,
-      '00:00:00',
-      '24:00:00'
+      startTime
         .split(':')
-        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
+        .join(':'),
+      endTime
+        .split(':')
+        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
         .join(':'),
       'algorithm',
       cameraToResponse
@@ -50,7 +55,7 @@ export const Live = () => {
     if (cameraToResponse !== 'camera' && !visibleModalDate) {
       update();
     }
-  }, [visibleModalDate, cameraToResponse]);
+  }, [visibleModalDate, cameraToResponse, endTime]);
 
   return (
     <>
@@ -118,8 +123,10 @@ export const Live = () => {
                 data={reports}
                 startDate={selectDate}
                 endDate={selectDate}
-                startTime={'00:00:00'}
-                endTime={'24:00:00'}
+                startTime={startTime}
+                endTime={endTime}
+                setStartTime={(e) => setStartTime(e)}
+                setEndTime={(e) => setEndTime(e)}
               />
             ) : (
               <div>No Data</div>

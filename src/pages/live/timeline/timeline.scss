@@ -39,12 +39,16 @@
   }
   &__line {
     margin: 5px 0;
-    padding: 5px 0;
     margin-left: 120px;
     width: calc(100% - 120px);
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  &__timezone{
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
   }
 }
 .timeline-hub-clickable {
