@@ -18,7 +18,27 @@
         height: calc(100vh - 140px);
         border: 1px solid red;
     }
-    &__cameras{
-        
+    &__reports{
+       height: calc(100% - 100px);
+       width: 100%; 
+       display: flex;
+       gap:14px;
+    }
+    &__camera{
+        display: flex;
+        flex-direction: column;
+        width: 33%;
+        height: 100%;
+        overflow: auto;
+    }
+    &__report-info{
+        width: 67%;
+        height: 100%;
+    }
+    &__timeline{
+        min-height: 100px;
+        max-height: 100px;
+        width: 100%;
+        border: 1px solid green;
     }
 }
