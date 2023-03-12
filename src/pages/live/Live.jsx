@@ -9,7 +9,7 @@ import { getSelectedCameras } from '../../api/cameraRequest';
 import { TimelineHub } from './timeline/timelineHub';
 import { CurrentReport } from './currentReport/currentReport';
 
-export const Dashboard = () => {
+export const Live = () => {
   const location = window.location.hostname;
   const [cookies] = useCookies(['token']);
   const [cameras, setCameras] = useState([]);
@@ -23,7 +23,7 @@ export const Dashboard = () => {
       cookies.token,
       selectDate,
       '00:00:00',
-      '23:59:59'
+      '24:00:00'
         .split(':')
         .map((el, ind) => (ind === 0 ? el - 1 : el))
         .join(':'),
@@ -109,7 +109,7 @@ export const Dashboard = () => {
                 startDate={selectDate}
                 endDate={selectDate}
                 startTime={'00:00:00'}
-                endTime={'23:59:59'}
+                endTime={'24:00:00'}
               />
             ) : (
               <div>No Data</div>
