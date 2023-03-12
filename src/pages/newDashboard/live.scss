@@ -13,23 +13,67 @@
             line-height: 150%;
         }
     }
+    &__data-button{
+        background: #E0E0E0;
+        border-radius: 16px;
+        padding: 5px 20px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        &:hover{
+            background: #b4b4b4;
+        }
+    }
     &__container{
         width: 100%;
         height: calc(100vh - 140px);
-        border: 1px solid red;
     }
     &__reports{
        height: calc(100% - 100px);
        width: 100%; 
        display: flex;
        gap:14px;
+     
     }
     &__camera{
         display: flex;
         flex-direction: column;
         width: 33%;
         height: 100%;
-        overflow: auto;
+        background: #FFFFFF;
+        box-shadow: 0px 0px 8px rgba(42, 98, 149, 0.25);
+        border-radius: 4px;
+        padding: 10px;
+        &_container{
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+        }
+        &_filter{
+            margin: 10px 0;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 24px;
+            border: none;
+            border-bottom: 1px solid #212121;
+            outline:none;
+            &:focus{
+                border-bottom: 1px solid #fe6100;
+            }
+        }
+        &_item{
+            padding: 10px 5px;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            border-bottom: 1px solid #E0E0E0;
+            cursor: pointer;
+            transition: all 0.3s ease-in;
+            border-radius: 5px;
+            &:hover{
+                background-color: #E0E0E0;
+            }
+        }
     }
     &__report-info{
         width: 67%;
@@ -40,5 +84,11 @@
         max-height: 100px;
         width: 100%;
         border: 1px solid green;
+    }
+    &__active{
+        background: #FE6100;
+        &:hover{
+            background: #FE6100;
+        }
     }
 }

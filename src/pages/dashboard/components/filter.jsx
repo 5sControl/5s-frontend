@@ -83,14 +83,12 @@ export const FilterForm = ({
       </div>
 
       {visibleModalDate && (
-        <div className="dashboard__datapicker">
-          <DataPicker
-            setSelectDate={(e) => setSelectDate(e)}
-            update={update}
-            setVisibleModalDate={(e) => setVisibleModalDate(e)}
-            selectDateDash={selectDate}
-          />
-        </div>
+        <DataPicker
+          setSelectDate={(e) => setSelectDate(e)}
+          update={update}
+          setVisibleModalDate={(e) => setVisibleModalDate(e)}
+          selectDateDash={selectDate}
+        />
       )}
 
       {visibleModal && (
