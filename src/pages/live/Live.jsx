@@ -55,8 +55,15 @@ export const Live = () => {
     if (cameraToResponse !== 'camera' && !visibleModalDate) {
       update();
     }
-  }, [visibleModalDate, cameraToResponse, endTime]);
+  }, [endTime]);
 
+  useEffect(() => {
+    setStartTime('00:00:00');
+    setEndTime('24:00:00');
+    if (endTime === '24:00:00') {
+      update();
+    }
+  }, [visibleModalDate, cameraToResponse]);
   return (
     <>
       <section className="live">

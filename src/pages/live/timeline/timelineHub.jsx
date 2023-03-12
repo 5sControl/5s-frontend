@@ -1,7 +1,7 @@
 import { Timeline } from './timeline';
 import { calculateTimeCenter } from '../../../functions/calculateTimeCenter';
 import { Fragment } from 'react';
-
+import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
 export const TimelineHub = ({
   data,
   startDate,
@@ -23,6 +23,12 @@ export const TimelineHub = ({
     <div className="timeline-hub-clickable">
       <div className="timeline-hub-clickable__container">
         <div className="timeline-clickable__line">
+          <span
+            className="timeline-clickable__zoomout"
+            onClick={() => setTimeFunct('00:00:00', '24:00:00')}
+          >
+            <AiOutlineZoomOut />
+          </span>
           {calculateTimeCenter(endTime, startTime).map((el, id, array) => (
             <Fragment key={id}>
               <span>{el.split(':').slice(0, 2).join(':')}</span>
@@ -31,7 +37,7 @@ export const TimelineHub = ({
                   className="timeline-clickable__timezone"
                   onClick={() => setTimeFunct(el, array[id + 1])}
                 >
-                  Click to zoom
+                  <AiOutlineZoomIn />
                 </span>
               )}
             </Fragment>
