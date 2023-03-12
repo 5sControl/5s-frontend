@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import moment from 'moment';
 import { getLogs } from '../../api/algorithmRequest';
 import { getData } from '../../api/reportsRequest';
@@ -17,15 +17,21 @@ export const Live = () => {
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [cameraToResponse, setCameraToResponse] = useState('camera');
   const [reports, setReports] = useState([]);
+  const [inputFilter, setInputFilter] = useState('');
+  const [startTime, setStartTime] = useState('00:00:00');
+  const [endTime, setEndTime] = useState('24:00:00');
   const update = () => {
     getData(
       location,
       cookies.token,
       selectDate,
-      '00:00:00',
-      '24:00:00'
+      startTime
         .split(':')
-        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
+        .join(':'),
+      endTime
+        .split(':')
+        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
         .join(':'),
       'algorithm',
       cameraToResponse
@@ -49,7 +55,7 @@ export const Live = () => {
     if (cameraToResponse !== 'camera' && !visibleModalDate) {
       update();
     }
-  }, [visibleModalDate, cameraToResponse]);
+  }, [visibleModalDate, cameraToResponse, endTime]);
 
   return (
     <>
@@ -67,21 +73,30 @@ export const Live = () => {
           <div className="live__reports">
             <div className="live__camera">
               <h2>Cameras</h2>
-              <input type="text" placeholder="Search" className="live__camera_filter" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="live__camera_filter"
+                value={inputFilter}
+                onChange={(e) => setInputFilter(e.target.value)}
+              />
               <div className="live__camera_container">
                 {cameras.map((camera, index) => {
                   return (
-                    <span
-                      key={index}
-                      className={
-                        cameraToResponse === camera.id
-                          ? 'live__active live__camera_item '
-                          : 'live__camera_item'
-                      }
-                      onClick={() => setCameraToResponse(camera.id)}
-                    >
-                      {camera.name}
-                    </span>
+                    <Fragment key={index}>
+                      {camera.name.toLowerCase().includes(inputFilter.toLowerCase()) && (
+                        <span
+                          className={
+                            cameraToResponse === camera.id
+                              ? 'live__active live__camera_item '
+                              : 'live__camera_item'
+                          }
+                          onClick={() => setCameraToResponse(camera.id)}
+                        >
+                          {camera.name}
+                        </span>
+                      )}
+                    </Fragment>
                   );
                 })}
               </div>
@@ -108,8 +123,10 @@ export const Live = () => {
                 data={reports}
                 startDate={selectDate}
                 endDate={selectDate}
-                startTime={'00:00:00'}
-                endTime={'24:00:00'}
+                startTime={startTime}
+                endTime={endTime}
+                setStartTime={(e) => setStartTime(e)}
+                setEndTime={(e) => setEndTime(e)}
               />
             ) : (
               <div>No Data</div>
