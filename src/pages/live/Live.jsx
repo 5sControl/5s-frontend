@@ -6,8 +6,7 @@ import { useCookies } from 'react-cookie';
 import { DataPicker } from '../dashboard/components/dataPicker';
 import './live.scss';
 import { getSelectedCameras } from '../../api/cameraRequest';
-import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
-import { TimelineHub } from '../dashboard/components/timeline/timelineHub';
+import { TimelineHub } from './timeline/timelineHub';
 import { CurrentReport } from './currentReport/currentReport';
 
 export const Dashboard = () => {
@@ -104,13 +103,17 @@ export const Dashboard = () => {
             </div>
           </div>
           <div className="live__timeline">
-            <TimelineHub
-              data={reports}
-              startDate={selectDate}
-              endDate={selectDate}
-              startTime={'00:00:00'}
-              endTime={'23:59:59'}
-            />
+            {reports.length > 0 ? (
+              <TimelineHub
+                data={reports}
+                startDate={selectDate}
+                endDate={selectDate}
+                startTime={'00:00:00'}
+                endTime={'23:59:59'}
+              />
+            ) : (
+              <div>No Data</div>
+            )}
           </div>
         </div>
       </section>
