@@ -8,6 +8,7 @@ import { getData } from '../../api/reportsRequest';
 import { TimelineHub } from './components/timeline/timelineHub';
 import { Preloader } from '../../components/preloader';
 import { FilterForm } from './components/filter';
+import { getLogs } from '../../api/algorithmRequest';
 
 function Dashboard() {
   const [data, setData] = useState(false);
@@ -65,6 +66,9 @@ function Dashboard() {
 
   useEffect(() => {
     update();
+    getLogs(window.location.hostname, cookies.token).then((res) => {
+      console.log(res);
+    });
   }, [selectDate, cameraToResponse, algorithmToResponse]);
 
   return (

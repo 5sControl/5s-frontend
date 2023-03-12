@@ -34,6 +34,12 @@ export const LeftMenu = () => {
             <span>Dashboard</span>
           </Link>
         </li>
+        <li className={window.location.pathname.includes('live') ? 'activeMenu' : 'noActiveMenu'}>
+          <Link to="live" onClick={send}>
+            <Dashboard />
+            <span>New Dashboard</span>
+          </Link>
+        </li>
         <li
           className={
             window.location.pathname.includes('configuration') ? 'activeMenu' : 'noActiveMenu'
