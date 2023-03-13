@@ -6,6 +6,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    position: relative;
     &_h1 {
       font-size: 20px;
       font-weight: 700;
@@ -32,8 +33,8 @@
     justify-content: space-between;
     height: 290px;
     width: 290px;
-    position: fixed;
-    top: 100px;
+    position: absolute;
+    top: 40px;
     right: 70px;
     background-color: #ffffff;
     padding: 20px;
@@ -42,7 +43,7 @@
     border-radius: 4px;
     &_select {
       width: 100%;
-      margin: 10px 0 50px 0;
+      margin: 10px 0 20px 0;
       border: 1px solid #9e9e9e;
       border-radius: 4px;
       padding: 10px 13px;
