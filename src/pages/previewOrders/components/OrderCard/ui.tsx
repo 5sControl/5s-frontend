@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
 import { Cover } from '../../../../components/cover';
 import { OrderItem } from '../../../../storage/orderView';
 import { useAppSelector } from '../../../../store/hooks';
 import { selectPreviewOrders } from '../../previewOrdersSlice';
-import { selectActiveOrder } from '../OrdersList/ordersListSlice';
 import { ProductCatd } from '../ProductCatd';
 import { StatusLable } from '../StatusLable';
 import styles from './orderCard.module.scss';
@@ -13,8 +11,7 @@ type PropsType = {
 };
 
 export const OrderCard: React.FC<PropsType> = ({ data }) => {
-  const { activeOrder } = useAppSelector(selectActiveOrder);
-  const { isLoadingCurrentOrder, errorOfCurrentOrder } = useAppSelector(selectPreviewOrders);
+  const { isLoadingCurrentOrder } = useAppSelector(selectPreviewOrders);
 
   return (
     <Cover>
@@ -22,7 +19,7 @@ export const OrderCard: React.FC<PropsType> = ({ data }) => {
         <div>
           <div className={styles.header}>
             <div className={styles.titleContent}>
-              <h2 className={styles.title}>{`Order №${activeOrder}`}</h2>
+              <h2 className={styles.title}>{`Order №${data.orderId}`}</h2>
               {data.orderStatus && <StatusLable type={data.orderStatus} />}
             </div>
 

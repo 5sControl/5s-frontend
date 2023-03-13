@@ -23,6 +23,7 @@ export interface OrderSkan {
 
 export interface OrderItem {
   id: number;
+  orderId: string;
   orderCustomer: string;
   orderDate: string;
   orderValid: number;
@@ -40,6 +41,7 @@ export interface Product {
 export interface PreviewOrderItem {
   orderId: string;
   orderStatus: string;
+  id: number;
 }
 
 export interface ArticleItem {
