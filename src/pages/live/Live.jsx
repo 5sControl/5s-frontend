@@ -58,7 +58,7 @@ export const Live = () => {
     if (cameraToResponse !== 'camera' && !visibleModalDate) {
       update();
     }
-  }, [endTime]);
+  }, [endTime, startTime]);
 
   useEffect(() => {
     setStartTime('00:00:00');

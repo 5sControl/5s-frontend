@@ -12,6 +12,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   const [timeLine, setTimeLine] = useState([]);
   const dispatch = useAppDispatch();
 
+  console;
   useEffect(() => {
     if (data) {
       let buf = [
@@ -47,6 +48,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
       );
       buf.pop();
 
+      console.log(buf);
       setTimeLine(buf);
     }
   }, [data]);
