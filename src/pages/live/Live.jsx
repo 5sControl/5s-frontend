@@ -8,6 +8,8 @@ import './live.scss';
 import { getSelectedCameras } from '../../api/cameraRequest';
 import { TimelineHub } from './timeline/timelineHub';
 import { CurrentReport } from './currentReport/currentReport';
+import { useAppDispatch } from '../../store/hooks';
+import { addCurrentReport } from '../../store/dataSlice';
 
 export const Live = () => {
   const location = window.location.hostname;
@@ -20,6 +22,7 @@ export const Live = () => {
   const [inputFilter, setInputFilter] = useState('');
   const [startTime, setStartTime] = useState('00:00:00');
   const [endTime, setEndTime] = useState('24:00:00');
+  const dispatch = useAppDispatch();
   const update = () => {
     getData(
       location,
@@ -60,6 +63,7 @@ export const Live = () => {
   useEffect(() => {
     setStartTime('00:00:00');
     setEndTime('24:00:00');
+    dispatch(addCurrentReport(false));
     if (endTime === '24:00:00') {
       update();
     }
@@ -125,7 +129,7 @@ export const Live = () => {
             </div>
           </div>
           <div className="live__timeline">
-            {reports.length > 0 ? (
+            {reports.length > 0 && cameraToResponse !== 'camera' ? (
               <TimelineHub
                 data={reports}
                 startDate={selectDate}
