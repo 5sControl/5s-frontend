@@ -1,6 +1,12 @@
-import { OrderByCustomer, OrderSkan } from '../../storage/orderView';
+import {
+  OrderByCustomer,
+  OrderItem,
+  OrderListByCustomer,
+  OrderSkan,
+  PreviewOrderItem,
+} from '../../storage/orderView';
 
-export const parseOrdersData = (data: OrderByCustomer) => {
+export const parseOrdersData = (data: OrderByCustomer): OrderItem => {
   const previewData = {
     id: data.indeks,
     orderDate: data.data,
@@ -9,6 +15,7 @@ export const parseOrdersData = (data: OrderByCustomer) => {
     orderValid: 30,
     orderTime: data.datawejscia,
     orderStatus: getStatus(data.zakonczone, data.datawejscia),
+    orderDateRealize: data.terminrealizacji,
     product: {
       productName: data.typ,
       operationArticle: data.orderName,
@@ -25,6 +32,17 @@ export const parseOrdersData = (data: OrderByCustomer) => {
   return previewData;
 };
 
+export const parseOrderData = (data: OrderListByCustomer) => {
+  const previewData: PreviewOrderItem = {
+    id: data.indeks,
+    orderId: data.zlecenie,
+    orderStatus: data.status,
+    orderDateRealize: data.terminrealizacji,
+  };
+
+  return previewData;
+};
+
 export const getStatus = (zakonczone: number, datawejscia: string) => {
   if (zakonczone === 1) {
     return 'Completed';
@@ -33,6 +51,8 @@ export const getStatus = (zakonczone: number, datawejscia: string) => {
   if (zakonczone === 0 && datawejscia) {
     return 'Started';
   }
+
+  return '';
 };
 
 export const getDateDiff = (date: string) => {
@@ -43,4 +63,8 @@ export const getDateDiff = (date: string) => {
   const daysDiff = Math.round(microSecondsDiff / (1000 * 60 * 60 * 24));
 
   return daysDiff;
+};
+
+export const setDateDot = (formatDate: string) => {
+  return formatDate.split('/').join('.');
 };

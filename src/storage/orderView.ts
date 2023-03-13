@@ -11,7 +11,15 @@ export interface OrderByCustomer {
   zakonczone: number;
   typ: string;
   orderName: string;
+  terminrealizacji: string;
   skans: OrderSkan[];
+}
+
+export interface OrderListByCustomer {
+  zlecenie: string;
+  status: string;
+  indeks: number;
+  terminrealizacji: string;
 }
 
 export interface OrderSkan {
@@ -28,7 +36,8 @@ export interface OrderItem {
   orderDate: string;
   orderValid: number;
   orderTime: string;
-  orderStatus?: string;
+  orderDateRealize: string;
+  orderStatus: string;
   product: Product;
 }
 
@@ -39,9 +48,10 @@ export interface Product {
 }
 
 export interface PreviewOrderItem {
+  id: number;
   orderId: string;
   orderStatus: string;
-  id: number;
+  orderDateRealize: string;
 }
 
 export interface ArticleItem {

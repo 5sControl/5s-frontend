@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OrderItem, PreviewOrderItem } from '../../storage/orderView';
+import { OrderItem, OrderListByCustomer, PreviewOrderItem } from '../../storage/orderView';
 import { RootState } from '../../store';
 import { getOrderData, getOrdersId } from './previewOrdersAPI';
-import { parseOrdersData } from './previewOrdersHelper';
+import { parseOrderData, parseOrdersData } from './previewOrdersHelper';
 
 interface PreviewOrders {
   orderData: OrderItem | null;
@@ -24,14 +24,12 @@ const initialState: PreviewOrders = {
   isOpenOperationModal: false,
 };
 
-export const defenitionAsync = createAsyncThunk(
+export const getOrderAsync = createAsyncThunk(
   'getOrdersData',
   async (data: { token: string; hostname: string; currentOrder: number }) => {
     const response = await getOrderData(data.hostname, data.token, data.currentOrder);
     if (response.data) {
-      const data = parseOrdersData(response.data[0]);
-
-      return data;
+      return parseOrdersData(response.data[0]);
     }
     return null;
   }
@@ -42,15 +40,9 @@ export const getOrdersIdAsync = createAsyncThunk(
   async (data: { token: string; hostname: string }) => {
     const response = await getOrdersId(data.hostname, data.token);
     if (response.data) {
-      const data = response.data.map(
-        (item: { zlecenie: string; status: string; indeks: number }) => {
-          return {
-            id: item.indeks,
-            orderId: item.zlecenie,
-            orderStatus: item.status,
-          };
-        }
-      );
+      const data: PreviewOrderItem[] = response.data.map((item: OrderListByCustomer) => {
+        return parseOrderData(item);
+      });
 
       return data;
     }
@@ -70,24 +62,27 @@ const previewOrdersPage = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(defenitionAsync.pending, (state) => {
+    builder.addCase(getOrderAsync.pending, (state) => {
       state.isLoadingCurrentOrder = true;
     });
-    builder.addCase(defenitionAsync.fulfilled, (state, action) => {
+    builder.addCase(getOrderAsync.fulfilled, (state, action) => {
       state.isLoadingCurrentOrder = false;
       state.orderData = action.payload;
     });
-    builder.addCase(defenitionAsync.rejected, (state) => {
+    builder.addCase(getOrderAsync.rejected, (state) => {
       state.isLoadingCurrentOrder = false;
       state.errorOfCurrentOrder = true;
     });
     builder.addCase(getOrdersIdAsync.pending, (state) => {
       state.isLoadingPreviewList = true;
     });
-    builder.addCase(getOrdersIdAsync.fulfilled, (state, action) => {
-      state.isLoadingPreviewList = false;
-      state.previewOrdersList = action.payload;
-    });
+    builder.addCase(
+      getOrdersIdAsync.fulfilled,
+      (state, action: PayloadAction<Array<PreviewOrderItem>>) => {
+        state.isLoadingPreviewList = false;
+        state.previewOrdersList = action.payload;
+      }
+    );
     builder.addCase(getOrdersIdAsync.rejected, (state) => {
       state.isLoadingPreviewList = false;
       state.errorOfList = true;

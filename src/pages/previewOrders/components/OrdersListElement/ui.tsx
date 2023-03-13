@@ -1,5 +1,5 @@
+import moment from 'moment';
 import React from 'react';
-import { getDateDiff } from '../../previewOrdersHelper';
 import styles from './ordersListElement.module.scss';
 
 type PropsType = {
@@ -24,9 +24,7 @@ export const OrdersListElement: React.FC<PropsType> = ({
   if (status.toLowerCase() === 'completed') {
     dateInfo = 'Completed';
   } else {
-    const daysLeft = getDateDiff(orderDate);
-
-    dateInfo = `${daysLeft} days left`;
+    dateInfo = moment(orderDate, 'YYYYMMDD').fromNow();
   }
 
   return (

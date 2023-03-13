@@ -44,6 +44,7 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
               status={item.orderStatus}
               onClick={onclickHandler}
               id={item.id}
+              orderDate={item.orderDateRealize}
             />
           );
         })}
