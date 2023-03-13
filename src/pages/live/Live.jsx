@@ -23,25 +23,28 @@ export const Live = () => {
   const [startTime, setStartTime] = useState('00:00:00');
   const [endTime, setEndTime] = useState('24:00:00');
   const dispatch = useAppDispatch();
+
   const update = () => {
-    getData(
-      location,
-      cookies.token,
-      selectDate,
-      startTime
-        .split(':')
-        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
-        .join(':'),
-      endTime
-        .split(':')
-        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
-        .join(':'),
-      'algorithm',
-      cameraToResponse
-    ).then((el) => {
-      console.log(el.data);
-      setReports(el.data);
-    });
+    if (cameraToResponse !== 'camera') {
+      getData(
+        location,
+        cookies.token,
+        selectDate,
+        startTime
+          .split(':')
+          .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
+          .join(':'),
+        endTime
+          .split(':')
+          .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
+          .join(':'),
+        'algorithm',
+        cameraToResponse
+      ).then((el) => {
+        console.log(el.data);
+        setReports(el.data);
+      });
+    }
   };
 
   useEffect(() => {

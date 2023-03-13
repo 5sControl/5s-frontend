@@ -12,7 +12,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   const [timeLine, setTimeLine] = useState([]);
   const dispatch = useAppDispatch();
 
-  console.log(moment().format(`YYYY-MM-DD ${endTime}`) > moment().format('YYYY-MM-DD HH:mm:ss'));
   const time = () => {
     return moment().format(`YYYY-MM-DD ${endTime}`) > moment().format('YYYY-MM-DD HH:mm:ss')
       ? moment().format('YYYY-MM-DD HH:mm:ss')
@@ -20,7 +19,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   };
   useEffect(() => {
     if (data) {
-      console.log();
       let buf = [{ id: 0, time: time(), violation_found: false }];
       data.forEach((el) => {
         buf.push({
@@ -51,7 +49,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
           : 0
       );
       buf.pop();
-      console.log(buf);
       setTimeLine(buf);
     }
   }, [data]);

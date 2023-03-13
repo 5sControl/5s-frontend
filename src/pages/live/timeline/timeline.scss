@@ -48,12 +48,18 @@
     text-align: center;
     width: 100%;
     cursor: pointer;
+    &:hover{
+      color: #FE6100;
+    }
   }
   &__zoomout{
     min-width: 120px;
     width: 120px;
     text-align: center;
     cursor: pointer;
+    &:hover{
+      color: #FE6100;
+    }
   }
 }
 .timeline-hub-clickable {
