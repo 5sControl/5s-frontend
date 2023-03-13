@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import styles from './previewOrders.module.scss';
-import { OrderItem } from '../../storage/orderView';
 import { OrderCard } from './components/OrderCard';
 import { OrderList } from './components/OrdersList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -61,7 +60,7 @@ export const PreviewOrders: React.FC = () => {
         <OperationVideoModal
           isOpen={isOpenOperationModal}
           handleClose={handleCloseModal}
-          orderId={activeOrder}
+          orderId={orderData.orderId}
           productData={orderData.product}
           operationData={orderData.product.operations[0]}
         />

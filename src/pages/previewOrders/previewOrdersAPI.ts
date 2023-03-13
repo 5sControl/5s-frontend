@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getIsInternet, proxy, url } from '../../api/api';
 
-export const getOrderData = (hostname: string, cookies: string, currentOrder: string) => {
+export const getOrderData = (hostname: string, cookies: string, currentOrder: number) => {
   const urlString = 'api/order/by/';
 
   if (getIsInternet(hostname)) {
