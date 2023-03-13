@@ -26,7 +26,7 @@ const initialState: PreviewOrders = {
 
 export const defenitionAsync = createAsyncThunk(
   'getOrdersData',
-  async (data: { token: string; hostname: string; currentOrder: string }) => {
+  async (data: { token: string; hostname: string; currentOrder: number }) => {
     const response = await getOrderData(data.hostname, data.token, data.currentOrder);
     if (response.data) {
       const data = parseOrdersData(response.data[0]);
@@ -42,12 +42,15 @@ export const getOrdersIdAsync = createAsyncThunk(
   async (data: { token: string; hostname: string }) => {
     const response = await getOrdersId(data.hostname, data.token);
     if (response.data) {
-      const data = response.data.map((item: { zlecenie: string; status: string }) => {
-        return {
-          orderId: item.zlecenie,
-          orderStatus: item.status,
-        };
-      });
+      const data = response.data.map(
+        (item: { zlecenie: string; status: string; indeks: number }) => {
+          return {
+            id: item.indeks,
+            orderId: item.zlecenie,
+            orderStatus: item.status,
+          };
+        }
+      );
 
       return data;
     }
