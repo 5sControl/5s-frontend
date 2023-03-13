@@ -34,3 +34,13 @@ export const getStatus = (zakonczone: number, datawejscia: string) => {
     return 'Started';
   }
 };
+
+export const getDateDiff = (date: string) => {
+  const now = new Date();
+  const datefromAPITimeStamp = new Date(date).getTime();
+  const nowTimeStamp = now.getTime();
+  const microSecondsDiff = Math.abs(datefromAPITimeStamp - nowTimeStamp);
+  const daysDiff = Math.round(microSecondsDiff / (1000 * 60 * 60 * 24));
+
+  return daysDiff;
+};

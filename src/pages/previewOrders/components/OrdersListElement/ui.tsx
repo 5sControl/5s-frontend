@@ -1,4 +1,5 @@
 import React from 'react';
+import { getDateDiff } from '../../previewOrdersHelper';
 import styles from './ordersListElement.module.scss';
 
 type PropsType = {
@@ -7,6 +8,7 @@ type PropsType = {
   activeOrderId: number | null;
   status: string;
   onClick: (orderId: number) => void;
+  orderDate: string;
 };
 
 export const OrdersListElement: React.FC<PropsType> = ({
@@ -15,7 +17,18 @@ export const OrdersListElement: React.FC<PropsType> = ({
   status,
   onClick,
   orderId,
+  orderDate,
 }) => {
+  let dateInfo = '';
+
+  if (status.toLowerCase() === 'completed') {
+    dateInfo = 'Completed';
+  } else {
+    const daysLeft = getDateDiff(orderDate);
+
+    dateInfo = `${daysLeft} days left`;
+  }
+
   return (
     <div
       className={`${styles.listElement} ${activeOrderId === id && styles.active}`}
@@ -27,10 +40,15 @@ export const OrdersListElement: React.FC<PropsType> = ({
             ? styles.statusCompleted
             : status === 'Started' && styles.statusStarted
         }`}
-      ></div>
-      <h5 className={`${styles.title} ${activeOrderId === id && styles.activeTitle}`}>
-        Order № {orderId}
-      </h5>
+      />
+
+      <div className={styles.orderInfo}>
+        <h5 className={`${styles.orderName} ${activeOrderId === id && styles.activeOrder}`}>
+          №{orderId}
+        </h5>
+
+        <h6 className={`${styles.orderDate}`}>{dateInfo}</h6>
+      </div>
     </div>
   );
 };

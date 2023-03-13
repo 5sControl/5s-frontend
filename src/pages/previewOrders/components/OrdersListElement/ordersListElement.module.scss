@@ -3,6 +3,7 @@
 .listElement {
   width: calc(100% - 8px);
   padding: 10px 0px;
+  padding-right: 10px;
   border-bottom: 1px solid var(--Gray88);
   cursor: pointer;
   height: 50px;
@@ -10,17 +11,27 @@
   align-items: center;
   position: relative;
 
-  .title {
-    @include body2;
-    letter-spacing: 0.15px;
-    color: var(--HightEmphasis);
-    padding-left: 10px;
-  }
+  .orderInfo {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .orderName {
+      @include body2;
+      letter-spacing: 0.15px;
+      color: var(--HightEmphasis);
+      padding-left: 10px;
+    }
 
-  .activeTitle {
-    @include h5;
-    letter-spacing: 0.15px;
-    color: var(--HightEmphasis);
+    .activeOrder {
+      @include h5;
+      letter-spacing: 0.15px;
+      color: var(--HightEmphasis);
+    }
+
+    .orderDate {
+      @include caption;
+      color: var(--MediumEmphasis);
+    }
   }
 
   .status {
