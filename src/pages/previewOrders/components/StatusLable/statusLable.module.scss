@@ -1,21 +1,51 @@
 @import 'src/styles/fonts';
 
-.lable {
+@mixin label {
+  display: flex;
+  align-items: center;
+}
+
+@mixin contained {
   height: 24px;
   padding: 0 10px;
   border-radius: 20px;
   user-select: none;
 }
 
-.type {
-  @include caption;
-  color: var(--White);
+.contained {
+  &_started {
+    @include contained;
+    @include label;
+    background-color: var(--Orange);
+    color: var(--White);
+    .type {
+      @include caption;
+    }
+  }
+  &_completed {
+    @include contained;
+    @include label;
+    background-color: var(--Green);
+    color: var(--White);
+    .type {
+      @include caption;
+    }
+  }
 }
 
-.started {
-  background-color: var(--Orange);
-}
-
-.completed {
-  background-color: var(--Green);
+.text {
+  &_started {
+    @include label;
+    color: var(--Orange);
+    .type {
+      @include title;
+    }
+  }
+  &_completed {
+    @include label;
+    color: var(--Green);
+    .type {
+      @include title;
+    }
+  }
 }
