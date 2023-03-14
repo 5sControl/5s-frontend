@@ -19,6 +19,7 @@ export const SearchInput: React.FC<PropsType> = ({ className, searchInputFilter 
     if (selectRef && selectRef.current && selectRef.current.value) {
       selectRef.current.value = '';
       searchInputFilter('');
+      setInputValue('');
     }
   };
 

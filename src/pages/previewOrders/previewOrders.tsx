@@ -15,7 +15,6 @@ import {
 import { useCookies } from 'react-cookie';
 import { OperationVideoModal } from './components/OperationVideoModal';
 import { Preloader } from '../../components/preloader';
-import { OperationItem, ProductItem } from '../../storage/orderView';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
