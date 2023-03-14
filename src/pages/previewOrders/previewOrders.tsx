@@ -7,10 +7,10 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectActiveOrder } from './components/OrdersList/ordersListSlice';
 import { Cover } from '../../components/cover';
 import {
-  defenitionAsync,
   selectPreviewOrders,
   getOrdersIdAsync,
   setIsOpenOperationModal,
+  getOrderAsync,
 } from './previewOrdersSlice';
 import { useCookies } from 'react-cookie';
 import { OperationVideoModal } from './components/OperationVideoModal';
@@ -42,7 +42,7 @@ export const PreviewOrders: React.FC = () => {
   useEffect(() => {
     activeOrder &&
       dispatch(
-        defenitionAsync({
+        getOrderAsync({
           token: cookies.token,
           hostname: window.location.hostname,
           currentOrder: activeOrder,
@@ -56,15 +56,15 @@ export const PreviewOrders: React.FC = () => {
 
   return (
     <>
-      {orderData && activeOrder && (
+      {/* {orderData && activeOrder && (
         <OperationVideoModal
           isOpen={isOpenOperationModal}
           handleClose={handleCloseModal}
           orderId={orderData.orderId}
           productData={orderData.product}
-          operationData={orderData.product.operations[0]}
+          // operationData={orderData.product}
         />
-      )}
+      )} */}
 
       <WrapperPage>
         <div className={styles.content}>

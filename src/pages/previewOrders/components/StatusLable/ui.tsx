@@ -1,13 +1,16 @@
 import styles from './statusLable.module.scss';
 
 type PropsType = {
-  type: string;
+  status: string;
+  type?: 'text' | 'contained';
 };
 
-export const StatusLable: React.FC<PropsType> = ({ type }) => {
+export const StatusLable: React.FC<PropsType> = ({ type = 'contained', status }) => {
+  const className = styles[`${type}_${status.toLocaleLowerCase()}`];
+
   return (
-    <div className={`${styles.lable} ${styles[type.toLocaleLowerCase()]}`}>
-      <span className={styles.type}>{type}</span>
+    <div className={className}>
+      <span className={styles.type}>{status}</span>
     </div>
   );
 };

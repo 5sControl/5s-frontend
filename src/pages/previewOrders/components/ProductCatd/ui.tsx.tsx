@@ -1,20 +1,28 @@
-import { Product } from '../../../../storage/orderView';
+import { ProductItem } from '../../../../storage/orderView';
+import { sortOperations } from '../../previewOrdersHelper';
 import { ArticleCard } from '../ArticleCard';
+import { StatusLable } from '../StatusLable';
 import styles from './productCatd.module.scss';
 
 type PropsType = {
   index: number;
-  data: Product;
+  data: ProductItem;
 };
 
 export const ProductCatd: React.FC<PropsType> = ({ index, data }) => {
   return (
-    <div>
+    <div key={index}>
+      <div className={styles.wrapper}>
+        <span className={styles.productTitle}>Product&nbsp;·&nbsp; </span>
+
+        <StatusLable status={data.status} type="text" />
+      </div>
+
       <h2 className={styles.title}>{`${index}. ${data.productName}`}</h2>
 
       {data.operations.length ? (
         <div className={styles.list}>
-          <ArticleCard data={data.operations} article={data.operationArticle} />
+          <ArticleCard data={sortOperations(data)} article={data.operationArticle} />
         </div>
       ) : null}
     </div>
