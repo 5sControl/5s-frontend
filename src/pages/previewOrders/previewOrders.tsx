@@ -15,13 +15,20 @@ import {
 import { useCookies } from 'react-cookie';
 import { OperationVideoModal } from './components/OperationVideoModal';
 import { Preloader } from '../../components/preloader';
+import { OperationItem, ProductItem } from '../../storage/orderView';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
   const { activeOrder } = useAppSelector(selectActiveOrder);
   const [cookies] = useCookies(['token']);
-  const { orderData, previewOrdersList, isLoadingPreviewList, isOpenOperationModal } =
-    useAppSelector(selectPreviewOrders);
+  const {
+    orderData,
+    selectOperationData,
+    selectProductData,
+    previewOrdersList,
+    isLoadingPreviewList,
+    isOpenOperationModal,
+  } = useAppSelector(selectPreviewOrders);
 
   // const listOfDate = [
   //   { id: 1, text: 'Last month, 2023 Jan 16 - Feb 16' },
@@ -56,15 +63,15 @@ export const PreviewOrders: React.FC = () => {
 
   return (
     <>
-      {/* {orderData && activeOrder && (
+      {orderData && activeOrder && (
         <OperationVideoModal
           isOpen={isOpenOperationModal}
           handleClose={handleCloseModal}
           orderId={orderData.orderId}
-          productData={orderData.product}
-          // operationData={orderData.product}
+          productData={selectProductData}
+          operationData={selectOperationData}
         />
-      )} */}
+      )}
 
       <WrapperPage>
         <div className={styles.content}>

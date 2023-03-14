@@ -3,7 +3,7 @@ import { OrderListByCustomer, OrderRequest, OrderSkan } from '../../storage/orde
 
 export const parseOrdersData = (data: OrderRequest): OrderItem => {
   const previewData = {
-    orderId: data.products[0].zlecenie,
+    orderId: data.zlecenie,
     orderDate: data.data,
     orderCustomer: data.klient,
     orderTime: data.datawejscia,
