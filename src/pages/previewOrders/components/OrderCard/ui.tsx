@@ -54,7 +54,7 @@ export const OrderCard: React.FC<PropsType> = ({ data }) => {
 
           <div className={styles.list}>
             {data.product.map((product, index) => (
-              <ProductCatd key={index} data={product} index={1} />
+              <ProductCatd key={index} data={product} index={++index} />
             ))}
           </div>
         </div>

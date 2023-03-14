@@ -1,19 +1,22 @@
-import { ArticleItem } from '../../../../storage/orderView';
+import { ArticleItem, OperationItem } from '../../../../storage/orderView';
 import { useAppDispatch } from '../../../../store/hooks';
-import { setIsOpenOperationModal } from '../../previewOrdersSlice';
+import { setIsOpenOperationModal, setSelectOperationData } from '../../previewOrdersSlice';
 import { OperationCard } from '../OperationCard/ui';
 import styles from './articleCard.module.scss';
 
 type PropsType = {
   data: ArticleItem;
   article: string;
+  setProductData: () => void;
 };
 
-export const ArticleCard: React.FC<PropsType> = ({ data, article }) => {
+export const ArticleCard: React.FC<PropsType> = ({ data, article, setProductData }) => {
   const dispatch = useAppDispatch();
 
-  const handleClickToOperation = () => {
+  const handleClickToOperation = (operationData: OperationItem) => {
+    dispatch(setSelectOperationData(operationData));
     dispatch(setIsOpenOperationModal(true));
+    setProductData();
   };
 
   return (
@@ -21,18 +24,14 @@ export const ArticleCard: React.FC<PropsType> = ({ data, article }) => {
       <p className={styles.title}>{article}</p>
 
       <div className={styles.block}>
-        {Object.keys(data).map((operationDate) => (
-          <div key={operationDate}>
+        {Object.keys(data).map((operationDate, index) => (
+          <div key={index}>
             <p className={styles.operationDate}>{operationDate}</p>
 
             <div className={styles.list}>
-              {data[operationDate].map((operation) => {
+              {data[operationDate].map((operation, index) => {
                 return (
-                  <OperationCard
-                    key={operation.operationId}
-                    data={operation}
-                    onClick={handleClickToOperation}
-                  />
+                  <OperationCard key={index} data={operation} onClick={handleClickToOperation} />
                 );
               })}
             </div>

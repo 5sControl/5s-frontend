@@ -4,11 +4,12 @@ import ReactPlayer from 'react-player';
 import { getIsInternet, url } from '../../../../api/api';
 import { useState } from 'react';
 import { OperationItem, ProductItem } from '../../../../storage/orderView';
+import { setDateDot } from '../../previewOrdersHelper';
 
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
-  orderId?: string;
+  orderId: string;
   productData?: ProductItem;
   operationData?: OperationItem;
 };
@@ -35,6 +36,12 @@ export const OperationVideoModal: React.FC<PropsType> = ({
       : `http://${window.location.hostname}images/${IPCamera}/${videoDate}/${videoTime}.mp4`,
   });
 
+  const operationStart =
+    operationData &&
+    setDateDot(new Date(operationData.operationTime).toLocaleDateString()) +
+      ' | ' +
+      new Date(operationData.operationTime).toLocaleTimeString();
+
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
       <ReactPlayer {...playerstate} />
@@ -45,7 +52,7 @@ export const OperationVideoModal: React.FC<PropsType> = ({
         <div className={styles.wrapper}>
           <div className={styles.subtitle}>
             <span>{'Operation start: '}</span>
-            <span className={styles.value}>{operationData?.operationTime}</span>
+            <span className={styles.value}>{operationStart}</span>
           </div>
 
           <div className={styles.subtitle}>
