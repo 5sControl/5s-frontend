@@ -3,13 +3,13 @@ import styles from './operationVideoModal.module.scss';
 import ReactPlayer from 'react-player';
 import { getIsInternet, url } from '../../../../api/api';
 import { useState } from 'react';
-import { OperationItem, Product } from '../../../../storage/orderView';
+import { OperationItem, ProductItem } from '../../../../storage/orderView';
 
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
   orderId?: string;
-  productData?: Product;
+  productData?: ProductItem;
   operationData?: OperationItem;
 };
 

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { getIsInternet, proxy, url } from '../../api/api';
 
-export const getOrderData = (hostname: string, cookies: string, currentOrder: number) => {
-  const urlString = 'api/order/by/';
+export const getOrderData = (hostname: string, cookies: string, currentOrder: string) => {
+  const urlString = 'api/order/by-order/';
 
   if (getIsInternet(hostname)) {
     return proxy(`${url + urlString + currentOrder}`, 'GET', {

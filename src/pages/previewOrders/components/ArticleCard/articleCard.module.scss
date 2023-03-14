@@ -3,11 +3,24 @@
 
 .wrapper {
   width: 100%;
-
   .title {
     @include h6;
     color: var(--HightEmphasis);
     margin-bottom: 10px;
+  }
+
+  .block {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-left: 2px solid var(--Gray88);
+    padding-left: 15px;
+    padding-bottom: 20px;
+    .operationDate {
+      @include title;
+      color: var(--LowEmphasis);
+      margin-bottom: 10px;
+    }
   }
 
   .list {

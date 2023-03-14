@@ -1,12 +1,14 @@
+import moment from 'moment';
 import React from 'react';
 import styles from './ordersListElement.module.scss';
 
 type PropsType = {
   id: number;
   orderId: string;
-  activeOrderId: number | null;
+  activeOrderId: string | null;
   status: string;
-  onClick: (orderId: number) => void;
+  onClick: (orderId: string) => void;
+  orderDate: string;
 };
 
 export const OrdersListElement: React.FC<PropsType> = ({
@@ -15,11 +17,20 @@ export const OrdersListElement: React.FC<PropsType> = ({
   status,
   onClick,
   orderId,
+  orderDate,
 }) => {
+  let dateInfo = '';
+
+  if (status.toLowerCase() === 'completed') {
+    dateInfo = 'Completed';
+  } else {
+    dateInfo = moment(orderDate, 'YYYYMMDD').fromNow();
+  }
+
   return (
     <div
-      className={`${styles.listElement} ${activeOrderId === id && styles.active}`}
-      onClick={() => onClick(id)}
+      className={`${styles.listElement} ${activeOrderId === orderId && styles.active}`}
+      onClick={() => onClick(orderId)}
     >
       <div
         className={`${styles.status} ${
@@ -27,10 +38,15 @@ export const OrdersListElement: React.FC<PropsType> = ({
             ? styles.statusCompleted
             : status === 'Started' && styles.statusStarted
         }`}
-      ></div>
-      <h5 className={`${styles.title} ${activeOrderId === id && styles.activeTitle}`}>
-        Order № {orderId}
-      </h5>
+      />
+
+      <div className={styles.orderInfo}>
+        <h5 className={`${styles.orderName} ${activeOrderId === orderId && styles.activeOrder}`}>
+          №{orderId}
+        </h5>
+
+        <h6 className={`${styles.orderDate}`}>{dateInfo}</h6>
+      </div>
     </div>
   );
 };
