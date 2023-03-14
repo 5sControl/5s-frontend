@@ -26,12 +26,17 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
   };
 
   const searchFilter = () => {
-    return data.filter((item) => item.toString().includes(inputValue.toLowerCase()));
+    const sortData = data.filter((item) =>
+      item.orderId.toString().toLowerCase().includes(inputValue.toLowerCase())
+    );
+
+    return sortData;
   };
 
   return (
     <Cover className={styles.list}>
       <h2 className={styles.title}>Orders</h2>
+
       <SearchInput className={styles.listInput} searchInputFilter={searchInputFilter} />
 
       <section className={styles.ordersListElement}>
