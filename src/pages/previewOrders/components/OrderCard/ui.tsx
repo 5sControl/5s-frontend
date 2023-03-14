@@ -14,10 +14,10 @@ type PropsType = {
 export const OrderCard: React.FC<PropsType> = ({ data }) => {
   const { isLoadingCurrentOrder } = useAppSelector(selectPreviewOrders);
 
-  const titleDate =
-    setDateDot(new Date(data.orderDate).toLocaleDateString()) +
-    ' | ' +
-    new Date(data.orderDate).toLocaleTimeString();
+  // const titleDate =
+  //   setDateDot(new Date(data.orderDate).toLocaleDateString()) +
+  //   ' | ' +
+  //   new Date(data.orderDate).toLocaleTimeString();
 
   const dateInterval =
     setDateDot(new Date(data.orderTime).toLocaleDateString()) +
@@ -34,7 +34,8 @@ export const OrderCard: React.FC<PropsType> = ({ data }) => {
               {data.orderStatus && <StatusLable status={data.orderStatus} />}
             </div>
 
-            <p className={styles.orderDate}>{titleDate}</p>
+            {/* Hide date on design */}
+            {/* <p className={styles.orderDate}>{titleDate}</p> */}
           </div>
 
           <div>
