@@ -1,5 +1,7 @@
 import { ProductItem } from '../../../../storage/orderView';
+import { useAppDispatch } from '../../../../store/hooks';
 import { sortOperations } from '../../previewOrdersHelper';
+import { setSelectProductData } from '../../previewOrdersSlice';
 import { ArticleCard } from '../ArticleCard';
 import { StatusLable } from '../StatusLable';
 import styles from './productCatd.module.scss';
@@ -10,6 +12,12 @@ type PropsType = {
 };
 
 export const ProductCatd: React.FC<PropsType> = ({ index, data }) => {
+  const dispatch = useAppDispatch();
+
+  const setProductData = (productData: ProductItem) => {
+    dispatch(setSelectProductData(productData));
+  };
+
   return (
     <div key={index}>
       <div className={styles.wrapper}>
@@ -22,7 +30,11 @@ export const ProductCatd: React.FC<PropsType> = ({ index, data }) => {
 
       {data.operations.length ? (
         <div className={styles.list}>
-          <ArticleCard data={sortOperations(data)} article={data.operationArticle} />
+          <ArticleCard
+            data={sortOperations(data)}
+            article={data.operationArticle}
+            setProductData={() => setProductData(data)}
+          />
         </div>
       ) : null}
     </div>

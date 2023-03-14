@@ -1,5 +1,6 @@
+import { OperationItem, ProductItem } from './../../storage/orderView';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OrderItem, PreviewOrderItem, ProductItem } from '../../storage/orderView';
+import { OrderItem, PreviewOrderItem } from '../../storage/orderView';
 import { OrderListByCustomer } from '../../storage/orderViewCustomer';
 import { RootState } from '../../store';
 import { getOrderData, getOrdersId } from './previewOrdersAPI';
@@ -7,7 +8,8 @@ import { parseOrderData, parseOrdersData } from './previewOrdersHelper';
 
 interface PreviewOrders {
   orderData: OrderItem | null;
-  productsData: Array<ProductItem>;
+  selectProductData: ProductItem | undefined;
+  selectOperationData: OperationItem | undefined;
   previewOrdersList: Array<PreviewOrderItem> | null;
   isLoadingPreviewList: boolean;
   isLoadingCurrentOrder: boolean;
@@ -18,7 +20,8 @@ interface PreviewOrders {
 
 const initialState: PreviewOrders = {
   orderData: null,
-  productsData: [],
+  selectProductData: undefined,
+  selectOperationData: undefined,
   isLoadingPreviewList: false,
   isLoadingCurrentOrder: false,
   errorOfList: false,
@@ -64,6 +67,12 @@ const previewOrdersPage = createSlice({
     setIsOpenOperationModal(state, action: PayloadAction<boolean>) {
       state.isOpenOperationModal = action.payload;
     },
+    setSelectOperationData(state, action: PayloadAction<OperationItem>) {
+      state.selectOperationData = action.payload;
+    },
+    setSelectProductData(state, action: PayloadAction<ProductItem>) {
+      state.selectProductData = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getOrderAsync.pending, (state) => {
@@ -72,7 +81,6 @@ const previewOrdersPage = createSlice({
     builder.addCase(getOrderAsync.fulfilled, (state, action) => {
       state.isLoadingCurrentOrder = false;
       state.orderData = action.payload;
-      // state.productsData = action.payload?.product;
     });
     builder.addCase(getOrderAsync.rejected, (state) => {
       state.isLoadingCurrentOrder = false;
@@ -95,6 +103,7 @@ const previewOrdersPage = createSlice({
   },
 });
 
-export const { setIsError, setIsOpenOperationModal } = previewOrdersPage.actions;
+export const { setIsError, setIsOpenOperationModal, setSelectOperationData, setSelectProductData } =
+  previewOrdersPage.actions;
 export const selectPreviewOrders = (state: RootState) => state.previewOrders;
 export default previewOrdersPage.reducer;
