@@ -10,6 +10,7 @@ import { ReactComponent as OrdersView } from './ordersView.svg';
 import { ReactComponent as SelectArrow } from './selectArrow.svg';
 import { ReactComponent as SearchIcon } from './searchIcon.svg';
 import { ReactComponent as CloseCross } from './closeCross.svg';
+import { ReactComponent as VideoCamera } from './videoCamera.svg';
 export {
   Algorithm,
   Camera,
@@ -23,4 +24,5 @@ export {
   SelectArrow,
   SearchIcon,
   CloseCross,
+  VideoCamera,
 };

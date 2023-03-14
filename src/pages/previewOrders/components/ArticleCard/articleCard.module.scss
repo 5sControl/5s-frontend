@@ -3,7 +3,6 @@
 
 .wrapper {
   width: 100%;
-
   .title {
     @include h6;
     color: var(--HightEmphasis);
@@ -14,5 +13,12 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    border-left: 2px solid var(--Gray88);
+    padding-left: 15px;
+    .operationDate {
+      @include title;
+      color: var(--LowEmphasis);
+      margin-bottom: 10px;
+    }
   }
 }

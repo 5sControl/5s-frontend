@@ -17,7 +17,7 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
   const { activeOrder } = useAppSelector(selectActiveOrder);
   const dispatch = useAppDispatch();
 
-  const onclickHandler = (id: number) => {
+  const onclickHandler = (id: string) => {
     dispatch(addActiveOrder(id));
   };
 

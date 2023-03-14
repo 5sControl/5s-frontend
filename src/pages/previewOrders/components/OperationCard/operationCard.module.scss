@@ -1,10 +1,18 @@
 @import 'src/styles/fonts';
 
+@mixin dots {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  max-width: 200px;
+  white-space: nowrap;
+}
+
 .wrapper {
   width: 100%;
-  min-width: 175px;
+  min-width: 240px;
   width: fit-content;
-  height: 58px;
+  height: 92px;
   padding: 5px;
   border: 1px solid var(--Gray88);
   border-radius: 10px;
@@ -15,15 +23,24 @@
     color: var(--Orange);
   }
 
-  .title {
-    @include body2;
-    color: var(--HightEmphasis);
+  .titleBlock {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 7px;
+    margin-bottom: 10px;
+    .title {
+      @include body2;
+      color: var(--HightEmphasis);
+      @include dots;
+    }
   }
 
-  .date {
+  .subtitle {
     font-weight: 400;
     font-size: 12px;
     line-height: 24px;
     color: var(--MediumEmphasis);
+    @include dots;
   }
 }

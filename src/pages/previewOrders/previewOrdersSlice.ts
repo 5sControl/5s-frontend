@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OrderItem, OrderListByCustomer, PreviewOrderItem } from '../../storage/orderView';
+import { OrderItem, PreviewOrderItem, ProductItem } from '../../storage/orderView';
+import { OrderListByCustomer } from '../../storage/orderViewCustomer';
 import { RootState } from '../../store';
 import { getOrderData, getOrdersId } from './previewOrdersAPI';
 import { parseOrderData, parseOrdersData } from './previewOrdersHelper';
 
 interface PreviewOrders {
   orderData: OrderItem | null;
+  productsData: Array<ProductItem>;
   previewOrdersList: Array<PreviewOrderItem> | null;
   isLoadingPreviewList: boolean;
   isLoadingCurrentOrder: boolean;
@@ -16,6 +18,7 @@ interface PreviewOrders {
 
 const initialState: PreviewOrders = {
   orderData: null,
+  productsData: [],
   isLoadingPreviewList: false,
   isLoadingCurrentOrder: false,
   errorOfList: false,
@@ -26,9 +29,12 @@ const initialState: PreviewOrders = {
 
 export const getOrderAsync = createAsyncThunk(
   'getOrdersData',
-  async (data: { token: string; hostname: string; currentOrder: number }) => {
+  async (data: { token: string; hostname: string; currentOrder: string }) => {
     const response = await getOrderData(data.hostname, data.token, data.currentOrder);
+
     if (response.data) {
+      console.log(response.data[0].products);
+
       return parseOrdersData(response.data[0]);
     }
     return null;
@@ -68,6 +74,7 @@ const previewOrdersPage = createSlice({
     builder.addCase(getOrderAsync.fulfilled, (state, action) => {
       state.isLoadingCurrentOrder = false;
       state.orderData = action.payload;
+      // state.productsData = action.payload?.product;
     });
     builder.addCase(getOrderAsync.rejected, (state) => {
       state.isLoadingCurrentOrder = false;

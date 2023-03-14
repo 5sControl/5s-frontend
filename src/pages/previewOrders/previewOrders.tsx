@@ -56,15 +56,15 @@ export const PreviewOrders: React.FC = () => {
 
   return (
     <>
-      {orderData && activeOrder && (
+      {/* {orderData && activeOrder && (
         <OperationVideoModal
           isOpen={isOpenOperationModal}
           handleClose={handleCloseModal}
           orderId={orderData.orderId}
           productData={orderData.product}
-          operationData={orderData.product.operations[0]}
+          // operationData={orderData.product}
         />
-      )}
+      )} */}
 
       <WrapperPage>
         <div className={styles.content}>

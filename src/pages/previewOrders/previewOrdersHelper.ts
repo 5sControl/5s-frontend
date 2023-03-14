@@ -1,32 +1,39 @@
-import {
-  OrderByCustomer,
-  OrderItem,
-  OrderListByCustomer,
-  OrderSkan,
-  PreviewOrderItem,
-} from '../../storage/orderView';
+import { OrderItem, PreviewOrderItem } from '../../storage/orderView';
+import { OrderListByCustomer, OrderRequest, OrderSkan } from '../../storage/orderViewCustomer';
 
-export const parseOrdersData = (data: OrderByCustomer): OrderItem => {
+export const parseOrdersData = (data: OrderRequest): OrderItem => {
   const previewData = {
-    id: data.indeks,
+    orderId: data.products[0].zlecenie,
     orderDate: data.data,
-    orderId: data.zlecenie,
     orderCustomer: data.klient,
-    orderValid: 30,
     orderTime: data.datawejscia,
-    orderStatus: getStatus(data.zakonczone, data.datawejscia),
+    orderStatus: data.status,
     orderDateRealize: data.terminrealizacji,
-    product: {
-      productName: data.typ,
-      operationArticle: data.orderName,
-      operations: data.skans.map((element: OrderSkan) => {
-        return {
-          operationId: element.indeks,
-          operationName: element.raport,
-          operationTime: element.data,
-        };
-      }),
-    },
+    product: data.products
+      ? data.products.map((product) => {
+          return {
+            id: product.indeks,
+            productDate: product.data,
+            productDateRealize: product.terminrealizacji,
+            productTime: product.datawejscia,
+            productName: product.typ,
+            operationArticle: product.orderName,
+            status: product.status,
+            operations: product.skans
+              ? product.skans.map((element: OrderSkan) => {
+                  return {
+                    operationTime: element.data,
+                    operationId: element.indeks,
+                    operationName: element.raport,
+                    operationPosition: element.stanowisko,
+                    operationUse: element.uzytkownik,
+                    operationWorker: element.worker,
+                  };
+                })
+              : [],
+          };
+        })
+      : [],
   };
 
   return previewData;

@@ -16,17 +16,21 @@ export const ArticleCard: React.FC<PropsType> = ({ data, article }) => {
     dispatch(setIsOpenOperationModal(true));
   };
 
+  // const sortOperations = data.reduce((prev, current) => {
+  //   return [...prev, { date: current.operationTime }];
+  // }, []);
+
   return (
     <div className={styles.wrapper}>
       <p className={styles.title}>{article}</p>
 
       <div className={styles.list}>
         {data.map((operationData) => (
-          <OperationCard
-            key={operationData.operationId}
-            data={operationData}
-            onClick={handleClickToOperation}
-          />
+          <div key={operationData.operationId}>
+            <p className={styles.operationDate}>{operationData.operationTime}</p>
+
+            <OperationCard data={operationData} onClick={handleClickToOperation} />
+          </div>
         ))}
       </div>
     </div>

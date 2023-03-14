@@ -5,9 +5,9 @@ import styles from './ordersListElement.module.scss';
 type PropsType = {
   id: number;
   orderId: string;
-  activeOrderId: number | null;
+  activeOrderId: string | null;
   status: string;
-  onClick: (orderId: number) => void;
+  onClick: (orderId: string) => void;
   orderDate: string;
 };
 
@@ -29,8 +29,8 @@ export const OrdersListElement: React.FC<PropsType> = ({
 
   return (
     <div
-      className={`${styles.listElement} ${activeOrderId === id && styles.active}`}
-      onClick={() => onClick(id)}
+      className={`${styles.listElement} ${activeOrderId === orderId && styles.active}`}
+      onClick={() => onClick(orderId)}
     >
       <div
         className={`${styles.status} ${
@@ -41,7 +41,7 @@ export const OrdersListElement: React.FC<PropsType> = ({
       />
 
       <div className={styles.orderInfo}>
-        <h5 className={`${styles.orderName} ${activeOrderId === id && styles.activeOrder}`}>
+        <h5 className={`${styles.orderName} ${activeOrderId === orderId && styles.activeOrder}`}>
           №{orderId}
         </h5>
 
