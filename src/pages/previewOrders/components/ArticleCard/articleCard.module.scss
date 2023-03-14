@@ -9,16 +9,23 @@
     margin-bottom: 10px;
   }
 
-  .list {
+  .block {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 20px;
     border-left: 2px solid var(--Gray88);
     padding-left: 15px;
+    padding-bottom: 20px;
     .operationDate {
       @include title;
       color: var(--LowEmphasis);
       margin-bottom: 10px;
     }
+  }
+
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
   }
 }

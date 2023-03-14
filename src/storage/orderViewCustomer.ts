@@ -30,6 +30,7 @@ export interface OrderSkan {
 }
 
 export interface OrderRequest {
+  indeks: number;
   data: string;
   datawejscia: string;
   klient: string;

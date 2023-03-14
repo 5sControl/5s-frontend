@@ -9,6 +9,19 @@ type PropsType = {
 };
 
 export const ProductCatd: React.FC<PropsType> = ({ index, data }) => {
+  const sortOperations = data.operations.reduce((prev, curr, index, arr) => {
+    const dateToString = (date: string) => new Date(date).toLocaleDateString();
+
+    const filter = arr.filter(
+      (el) => dateToString(el.operationTime) === dateToString(curr.operationTime)
+    );
+
+    return {
+      ...prev,
+      [dateToString(curr.operationTime)]: filter,
+    };
+  }, {});
+
   return (
     <div key={index}>
       <div className={styles.wrapper}>
@@ -21,7 +34,7 @@ export const ProductCatd: React.FC<PropsType> = ({ index, data }) => {
 
       {data.operations.length ? (
         <div className={styles.list}>
-          <ArticleCard data={data.operations} article={data.operationArticle} />
+          <ArticleCard data={sortOperations} article={data.operationArticle} />
         </div>
       ) : null}
     </div>

@@ -19,6 +19,10 @@ export interface ProductItem {
   operations: Array<OperationItem>;
 }
 
+export interface ArticleItem {
+  [key: string]: OperationItem[];
+}
+
 export interface PreviewOrderItem {
   id: number;
   orderId: string;
