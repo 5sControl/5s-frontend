@@ -28,13 +28,11 @@ const initialState: PreviewOrders = {
 };
 
 export const getOrderAsync = createAsyncThunk(
-  'getOrdersData',
+  'getOrderData',
   async (data: { token: string; hostname: string; currentOrder: string }) => {
     const response = await getOrderData(data.hostname, data.token, data.currentOrder);
 
     if (response.data) {
-      console.log(response.data[0].products);
-
       return parseOrdersData(response.data[0]);
     }
     return null;
