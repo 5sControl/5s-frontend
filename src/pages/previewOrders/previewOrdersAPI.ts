@@ -2,10 +2,10 @@ import axios from 'axios';
 import { getIsInternet, proxy, url } from '../../api/api';
 
 export const getOrderData = (hostname: string, cookies: string, orderId: string) => {
-  const API_BY_ORDER = 'api/order/by-order/';
+  const API_BY_ORDER = 'api/order/by-order';
 
   if (getIsInternet(hostname)) {
-    return proxy(url + API_BY_ORDER + orderId, 'GET', {
+    return proxy(`${url}${API_BY_ORDER}/${orderId}`, 'GET', {
       Authorization: cookies,
     });
   } else {
@@ -18,10 +18,10 @@ export const getOrderData = (hostname: string, cookies: string, orderId: string)
 };
 
 export const getOrdersId = (hostname: string, cookies: string) => {
-  const API_ALL_ORDERS = 'api/order/all-orders/';
+  const API_ALL_ORDERS = 'api/order/all-orders';
 
   if (getIsInternet(hostname)) {
-    return proxy(url + API_ALL_ORDERS, 'GET', {
+    return proxy(`${url}${API_ALL_ORDERS}`, 'GET', {
       Authorization: cookies,
     });
   } else {
