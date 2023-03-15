@@ -1,15 +1,15 @@
 import axios from 'axios';
 import { getIsInternet, proxy, url } from '../../api/api';
 
-export const getOrderData = (hostname: string, cookies: string, currentOrder: string) => {
-  const urlString = 'api/order/by-order/';
+export const getOrderData = (hostname: string, cookies: string, orderId: string) => {
+  const API_BY_ORDER = 'api/order/by-order/';
 
   if (getIsInternet(hostname)) {
-    return proxy(`${url + urlString + currentOrder}`, 'GET', {
+    return proxy(url + API_BY_ORDER + orderId, 'GET', {
       Authorization: cookies,
     });
   } else {
-    return axios.get(`http://${hostname + '/' + urlString}`, {
+    return axios.get(`http://${hostname}/${API_BY_ORDER}/${orderId}`, {
       headers: {
         Authorization: cookies,
       },
@@ -18,14 +18,14 @@ export const getOrderData = (hostname: string, cookies: string, currentOrder: st
 };
 
 export const getOrdersId = (hostname: string, cookies: string) => {
-  const urlStringAll = 'api/order/all-orders';
+  const API_ALL_ORDERS = 'api/order/all-orders/';
 
   if (getIsInternet(hostname)) {
-    return proxy(`${url + urlStringAll}`, 'GET', {
+    return proxy(url + API_ALL_ORDERS, 'GET', {
       Authorization: cookies,
     });
   } else {
-    return axios.get(`http://${hostname + '/' + urlStringAll}`, {
+    return axios.get(`http://${hostname}/${API_ALL_ORDERS}`, {
       headers: {
         Authorization: cookies,
       },
