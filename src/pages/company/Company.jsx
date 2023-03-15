@@ -36,14 +36,17 @@ export const Company = () => {
       {userList.length > 0 && (
         <div className="company">
           <h2>Company</h2>
-          <div className="company__name">
-            <h3>{companyInfo.name_company}</h3>
-            <br></br>
-            <h4>Date joined: {moment(companyInfo.date_joined).format('DD-MM-YYYY')}</h4>
-            <h4>Days left: {companyInfo.days_left}</h4>
-            <h4>Cameras count: {companyInfo.count_cameras}</h4>
-            <h4>Active neurons: {companyInfo.neurons_active}</h4>
-          </div>
+          {Object.keys(companyInfo).length > 0 && (
+            <div className="company__name">
+              <h3>{companyInfo.name_company}</h3>
+              <br></br>
+              <h4>Date joined: {moment(companyInfo.date_joined).format('DD-MM-YYYY')}</h4>
+              <h4>Days left: {companyInfo.days_left}</h4>
+              <h4>Cameras count: {companyInfo.count_cameras}</h4>
+              <h4>Active neurons: {companyInfo.neurons_active}</h4>
+            </div>
+          )}
+
           <LicenseKey cookies={cookies.token} />
           <AvailableProcess />
           <div className="company__accounts_tab">

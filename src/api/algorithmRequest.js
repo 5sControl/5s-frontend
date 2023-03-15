@@ -5,6 +5,7 @@ const API_ALGORITHM = 'api/algorithms/available-process/';
 const API_POSTALGORITHM = 'api/algorithms/create-process/';
 const API_DELPROCESS = 'api/algorithms/stop-process/';
 const API_GETPROCESS = 'api/algorithms/get-process/';
+const API_GETLOGS = 'api/algorithms/logs/';
 
 export const getAveilableAlgorithms = (hostname, cookies) => {
   if (getIsInternet(hostname)) {
@@ -77,6 +78,20 @@ export const getProcess = (hostname, cookies) => {
     });
   } else {
     return axios.get(`http://${hostname}/${API_GETPROCESS}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const getLogs = (hostname, cookies) => {
+  if (getIsInternet(hostname)) {
+    return proxy(url + API_GETLOGS, 'GET', {
+      Authorization: cookies,
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_GETLOGS}`, {
       headers: {
         Authorization: cookies,
       },
