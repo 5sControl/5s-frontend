@@ -42,7 +42,7 @@ export const Company = () => {
             <h4>Date joined: {moment(companyInfo.date_joined).format('DD-MM-YYYY')}</h4>
             <h4>Days left: {companyInfo.days_left}</h4>
             <h4>Cameras count: {companyInfo.count_cameras}</h4>
-            <h4>Active neurons: {companyInfo.neurons_active.join(' ')}</h4>
+            <h4>Active neurons: {companyInfo.neurons_active}</h4>
           </div>
           <LicenseKey cookies={cookies.token} />
           <AvailableProcess />
