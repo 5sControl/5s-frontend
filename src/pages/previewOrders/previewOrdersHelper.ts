@@ -8,7 +8,7 @@ export const parseOrdersData = (data: OrderRequest): OrderItem => {
     orderCustomer: data.klient,
     orderTime: data.datawejscia,
     orderStatus: data.status,
-    orderDateRealize: data.terminrealizacji,
+    orderDateRealize: data.datazakonczenia,
     product: data.products
       ? data.products.map((product) => {
           return {

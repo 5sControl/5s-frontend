@@ -37,5 +37,6 @@ export interface OrderRequest {
   status: string;
   terminrealizacji: string;
   zlecenie: string;
+  datazakonczenia: string;
   products: OrderByCustomer[];
 }
