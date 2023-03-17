@@ -15,7 +15,6 @@ interface PreviewOrders {
   isLoadingCurrentOrder: boolean;
   errorOfList: boolean;
   errorOfCurrentOrder: boolean;
-  isOpenOperationModal: boolean;
 }
 
 const initialState: PreviewOrders = {
@@ -27,7 +26,6 @@ const initialState: PreviewOrders = {
   errorOfList: false,
   errorOfCurrentOrder: false,
   previewOrdersList: null,
-  isOpenOperationModal: false,
 };
 
 export const getOrderAsync = createAsyncThunk(
@@ -66,9 +64,6 @@ const previewOrdersPage = createSlice({
     setIsError: (state, action) => {
       state.errorOfCurrentOrder = action.payload;
     },
-    setIsOpenOperationModal(state, action: PayloadAction<boolean>) {
-      state.isOpenOperationModal = action.payload;
-    },
     setSelectOperationData(state, action: PayloadAction<OperationItem>) {
       state.selectOperationData = action.payload;
     },
@@ -105,7 +100,7 @@ const previewOrdersPage = createSlice({
   },
 });
 
-export const { setIsError, setIsOpenOperationModal, setSelectOperationData, setSelectProductData } =
+export const { setIsError, setSelectOperationData, setSelectProductData } =
   previewOrdersPage.actions;
 export const selectPreviewOrders = (state: RootState) => state.previewOrders;
 export default previewOrdersPage.reducer;

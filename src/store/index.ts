@@ -3,6 +3,7 @@ import currentReportReducer from './dataSlice';
 import cookiesReducer from './cookiesSlice';
 import activeOrderReducer from '../pages/previewOrders/components/OrdersList/ordersListSlice';
 import previewOrdersReducer from '../pages/previewOrders/previewOrdersSlice';
+import operationVideoModalSlice from '../pages/previewOrders/components/OperationVideoModal/operationVideoModalSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     token: cookiesReducer,
     activeOrder: activeOrderReducer,
     previewOrders: previewOrdersReducer,
+    operationVideoModal: operationVideoModalSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([]),
 });

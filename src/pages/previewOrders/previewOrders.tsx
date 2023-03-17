@@ -6,15 +6,14 @@ import { OrderList } from './components/OrdersList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectActiveOrder } from './components/OrdersList/ordersListSlice';
 import { Cover } from '../../components/cover';
-import {
-  selectPreviewOrders,
-  getOrdersIdAsync,
-  setIsOpenOperationModal,
-  getOrderAsync,
-} from './previewOrdersSlice';
+import { selectPreviewOrders, getOrdersIdAsync, getOrderAsync } from './previewOrdersSlice';
 import { useCookies } from 'react-cookie';
 import { OperationVideoModal } from './components/OperationVideoModal';
 import { Preloader } from '../../components/preloader';
+import {
+  selectOperationVideoModal,
+  setIsOpenOperationVideoModal,
+} from './components/OperationVideoModal/operationVideoModalSlice';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -26,8 +25,8 @@ export const PreviewOrders: React.FC = () => {
     selectProductData,
     previewOrdersList,
     isLoadingPreviewList,
-    isOpenOperationModal,
   } = useAppSelector(selectPreviewOrders);
+  const { isOpenOperationVideoModal, videoState } = useAppSelector(selectOperationVideoModal);
 
   // const listOfDate = [
   //   { id: 1, text: 'Last month, 2023 Jan 16 - Feb 16' },
@@ -57,18 +56,19 @@ export const PreviewOrders: React.FC = () => {
   }, [activeOrder]);
 
   const handleCloseModal = () => {
-    dispatch(setIsOpenOperationModal(false));
+    dispatch(setIsOpenOperationVideoModal(false));
   };
 
   return (
     <>
       {orderData && activeOrder && (
         <OperationVideoModal
-          isOpen={isOpenOperationModal}
+          isOpen={isOpenOperationVideoModal}
           handleClose={handleCloseModal}
           orderId={orderData.orderId}
           productData={selectProductData}
           operationData={selectOperationData}
+          videoState={videoState}
         />
       )}
 
