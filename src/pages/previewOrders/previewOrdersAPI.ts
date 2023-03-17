@@ -5,7 +5,7 @@ export const getOrderData = (hostname: string, cookies: string, orderId: string)
   const API_BY_ORDER = 'api/order/by-order';
 
   if (getIsInternet(hostname)) {
-    return proxy(`${url}${API_BY_ORDER}/${orderId}`, 'GET', {
+    return proxy(`${url}${API_BY_ORDER}/${orderId}/`, 'GET', {
       Authorization: cookies,
     });
   } else {
@@ -21,7 +21,7 @@ export const getOrdersId = (hostname: string, cookies: string) => {
   const API_ALL_ORDERS = 'api/order/all-orders';
 
   if (getIsInternet(hostname)) {
-    return proxy(`${url}${API_ALL_ORDERS}`, 'GET', {
+    return proxy(`${url}${API_ALL_ORDERS}/`, 'GET', {
       Authorization: cookies,
     });
   } else {
