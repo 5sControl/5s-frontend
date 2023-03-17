@@ -1,10 +1,9 @@
 import { Modal } from '../../../../components/modal';
 import styles from './operationVideoModal.module.scss';
 import ReactPlayer from 'react-player';
-import { getIsInternet, url } from '../../../../api/api';
-import { useState } from 'react';
 import { OperationItem, ProductItem } from '../../../../storage/orderView';
 import { setDateDot } from '../../previewOrdersHelper';
+import { VideoStateOperationModal } from './operationVideoModalSlice';
 
 type PropsType = {
   isOpen: boolean;
@@ -12,6 +11,7 @@ type PropsType = {
   orderId: string;
   productData?: ProductItem;
   operationData?: OperationItem;
+  videoState: VideoStateOperationModal;
 };
 
 export const OperationVideoModal: React.FC<PropsType> = ({
@@ -20,22 +20,8 @@ export const OperationVideoModal: React.FC<PropsType> = ({
   orderId,
   productData,
   operationData,
+  videoState,
 }) => {
-  const IPCamera = '192.168.1.160';
-  const videoDate = '2023-03-10';
-  const videoTime = '14-20';
-
-  const [playerstate] = useState({
-    playing: true,
-    volume: 0.9,
-    controls: true,
-    width: '100%',
-    height: '100%',
-    url: getIsInternet(window.location.hostname)
-      ? `${url}/images/${IPCamera}/${videoDate}/${videoTime}.mp4`
-      : `http://${window.location.hostname}images/${IPCamera}/${videoDate}/${videoTime}.mp4`,
-  });
-
   const operationStart =
     operationData &&
     setDateDot(new Date(operationData.operationTime).toLocaleDateString()) +
@@ -44,7 +30,7 @@ export const OperationVideoModal: React.FC<PropsType> = ({
 
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
-      <ReactPlayer {...playerstate} />
+      <ReactPlayer {...videoState} width="100%" height="100%" />
 
       <div className={styles.infoBlock}>
         <p className={styles.operation}>{operationData?.operationName}</p>

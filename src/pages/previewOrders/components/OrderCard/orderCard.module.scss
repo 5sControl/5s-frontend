@@ -1,24 +1,34 @@
 @import 'src/styles/fonts';
 
+.cover {
+  padding: 0;
+}
+
 .header {
-  display: flex;
-  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid var(--Gray88);
+  background-color: var(--White);
 
-  .titleContent {
+  .titleWrapper {
     display: flex;
-    flex-direction: row;
-    gap: 5px;
-    margin-bottom: 20px;
+    justify-content: space-between;
 
-    .title {
-      @include h4;
+    .titleContent {
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+      margin-bottom: 20px;
+
+      .title {
+        @include h4;
+        color: var(--HightEmphasis);
+      }
+    }
+
+    .orderDate {
+      @include h5;
       color: var(--HightEmphasis);
     }
-  }
-
-  .orderDate {
-    @include h5;
-    color: var(--HightEmphasis);
   }
 }
 
@@ -31,16 +41,28 @@
   }
 }
 
-.line {
-  width: 100%;
-  height: 1px;
-  background-color: var(--Gray88);
-  margin-top: 14px;
-  margin-bottom: 20px;
-}
-
 .list {
+  height: calc(100vh - 321px);
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  margin-right: 7px;
+  overflow-y: scroll;
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;
+  background-color: inherit;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: var(--Gray88);
+  border-radius: 20px;
+}
+
+.list::-webkit-scrollbar-track {
+  background-color: inherit;
 }

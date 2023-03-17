@@ -1,7 +1,11 @@
 import { ArticleItem, OperationItem } from '../../../../storage/orderView';
 import { useAppDispatch } from '../../../../store/hooks';
-import { setIsOpenOperationModal, setSelectOperationData } from '../../previewOrdersSlice';
+import { setSelectOperationData } from '../../previewOrdersSlice';
 import { OperationCard } from '../OperationCard/ui';
+import {
+  setIsOpenOperationVideoModal,
+  setTimeOperationVideoModal,
+} from '../OperationVideoModal/operationVideoModalSlice';
 import styles from './articleCard.module.scss';
 
 type PropsType = {
@@ -15,7 +19,8 @@ export const ArticleCard: React.FC<PropsType> = ({ data, article, setProductData
 
   const handleClickToOperation = (operationData: OperationItem) => {
     dispatch(setSelectOperationData(operationData));
-    dispatch(setIsOpenOperationModal(true));
+    dispatch(setIsOpenOperationVideoModal(true));
+    dispatch(setTimeOperationVideoModal(operationData.operationTime));
     setProductData();
   };
 

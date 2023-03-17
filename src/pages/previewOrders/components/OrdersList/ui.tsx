@@ -34,12 +34,14 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
   };
 
   return (
-    <Cover className={styles.list}>
-      <h2 className={styles.title}>Orders</h2>
+    <Cover className={styles.wrapper}>
+      <div className={styles.header}>
+        <h2 className={styles.title}>Orders</h2>
 
-      <SearchInput className={styles.listInput} searchInputFilter={searchInputFilter} />
+        <SearchInput className={styles.listInput} searchInputFilter={searchInputFilter} />
+      </div>
 
-      <section className={styles.ordersListElement}>
+      <div className={styles.list}>
         {searchFilter().map((item, index) => {
           return (
             <OrdersListElement
@@ -54,7 +56,7 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
           );
         })}
         {!searchFilter().length && <p className={styles.emptyList}>No matching orders found.</p>}
-      </section>
+      </div>
     </Cover>
   );
 };
