@@ -9,7 +9,7 @@ export const getOrderData = (hostname: string, cookies: string, orderId: string)
       Authorization: cookies,
     });
   } else {
-    return axios.get(`http://${hostname}/${API_BY_ORDER}/${orderId}`, {
+    return axios.get(`http://${hostname}/${API_BY_ORDER}/${orderId}/`, {
       headers: {
         Authorization: cookies,
       },
@@ -25,7 +25,7 @@ export const getOrdersId = (hostname: string, cookies: string) => {
       Authorization: cookies,
     });
   } else {
-    return axios.get(`http://${hostname}/${API_ALL_ORDERS}`, {
+    return axios.get(`http://${hostname}/${API_ALL_ORDERS}/`, {
       headers: {
         Authorization: cookies,
       },
