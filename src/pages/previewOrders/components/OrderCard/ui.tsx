@@ -25,39 +25,39 @@ export const OrderCard: React.FC<PropsType> = ({ data }) => {
     setDateDot(new Date(data.orderDateRealize).toLocaleDateString());
 
   return (
-    <Cover>
+    <Cover className={styles.cover}>
       {!isLoadingCurrentOrder ? (
-        <div>
+        <>
           <div className={styles.header}>
-            <div className={styles.titleContent}>
-              <h2 className={styles.title}>{`Order №${data.orderId}`}</h2>
-              {data.orderStatus && <StatusLable status={data.orderStatus} />}
+            <div className={styles.titleWrapper}>
+              <div className={styles.titleContent}>
+                <h2 className={styles.title}>{`Order №${data.orderId}`}</h2>
+                {data.orderStatus && <StatusLable status={data.orderStatus} />}
+              </div>
+
+              {/* Hide date on design */}
+              {/* <p className={styles.orderDate}>{titleDate}</p> */}
             </div>
 
-            {/* Hide date on design */}
-            {/* <p className={styles.orderDate}>{titleDate}</p> */}
+            <div>
+              <div className={styles.subtitle}>
+                <span>{'Customer: '}</span>
+                <span className={styles.customer}>{data.orderCustomer}</span>
+              </div>
+
+              <div className={styles.subtitle}>
+                <span>{'Date: '}</span>
+                <span>{dateInterval}</span>
+              </div>
+            </div>
           </div>
-
-          <div>
-            <div className={styles.subtitle}>
-              <span>{'Customer: '}</span>
-              <span className={styles.customer}>{data.orderCustomer}</span>
-            </div>
-
-            <div className={styles.subtitle}>
-              <span>{'Date: '}</span>
-              <span>{dateInterval}</span>
-            </div>
-          </div>
-
-          <div className={styles.line} />
 
           <div className={styles.list}>
             {data.product.map((product, index) => (
               <ProductCatd key={index} data={product} index={++index} />
             ))}
           </div>
-        </div>
+        </>
       ) : null}
     </Cover>
   );
