@@ -1,9 +1,8 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import React from 'react';
 import styles from './ordersListElement.module.scss';
 
 type PropsType = {
-  id: number;
   orderId: string;
   activeOrderId: string | null;
   status: string;
@@ -12,7 +11,6 @@ type PropsType = {
 };
 
 export const OrdersListElement: React.FC<PropsType> = ({
-  id,
   activeOrderId,
   status,
   onClick,
