@@ -42,8 +42,10 @@ export const Company = () => {
               <br></br>
               <h4>Date joined: {moment(companyInfo.date_joined).format('DD-MM-YYYY')}</h4>
               <h4>Days left: {companyInfo.days_left}</h4>
-              <h4>Cameras count: {companyInfo.count_cameras}</h4>
-              <h4>Active neurons: {companyInfo.neurons_active}</h4>
+              <h4>Cameras count: {companyInfo.licence_count_cameras}</h4>
+              <h4>Active neurons: {companyInfo.licence_neurons_active}</h4>
+              <h4>Active count cameras: {companyInfo.company_active_count_cameras}</h4>
+              <h4>Active count neurons: {companyInfo.company_active_count_neurons}</h4>
             </div>
           )}
 
