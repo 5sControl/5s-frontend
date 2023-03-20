@@ -4,6 +4,7 @@ import ReactPlayer from 'react-player';
 import { OperationItem, ProductItem } from '../../../../storage/orderView';
 import { setDateDot } from '../../previewOrdersHelper';
 import { VideoStateOperationModal } from './operationVideoModalSlice';
+import moment from 'moment-timezone';
 
 type PropsType = {
   isOpen: boolean;
@@ -24,9 +25,9 @@ export const OperationVideoModal: React.FC<PropsType> = ({
 }) => {
   const operationStart =
     operationData &&
-    setDateDot(new Date(operationData.operationTime).toLocaleDateString()) +
+    setDateDot(moment(operationData.operationTime).subtract(10, 'days').calendar()) +
       ' | ' +
-      new Date(operationData.operationTime).toLocaleTimeString();
+      moment(operationData.operationTime).tz('Etc/GMT').format('LT');
 
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>

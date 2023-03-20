@@ -50,7 +50,6 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
               activeOrderId={activeOrder}
               status={item.orderStatus}
               onClick={onclickHandler}
-              id={item.id}
               orderDate={item.orderDateRealize}
             />
           );

@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { VideoCamera } from '../../../../assets/svg/SVGcomponent';
 import { OperationItem } from '../../../../storage/orderView';
 import styles from './operationCard.module.scss';
@@ -9,7 +9,7 @@ type PropsType = {
 };
 
 export const OperationCard: React.FC<PropsType> = ({ data, onClick }) => {
-  const operationTime = moment(data.operationTime).format('LT');
+  const operationTime = moment(data.operationTime).tz('Etc/GMT').format('LT');
 
   const handleClickToOperationCard = () => {
     onClick(data);
