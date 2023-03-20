@@ -23,7 +23,9 @@ export const OrderCard: React.FC<PropsType> = ({ data }) => {
   const dateInterval =
     setDateDot(moment(data.orderTime).subtract(10, 'days').calendar()) +
     ' - ' +
-    setDateDot(moment(data.orderDateRealize).subtract(10, 'days').calendar());
+    (data.orderDateRealize
+      ? setDateDot(moment(data.orderDateRealize).subtract(10, 'days').calendar())
+      : 'processed');
 
   return (
     <Cover className={styles.cover}>
