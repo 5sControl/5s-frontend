@@ -1,0 +1,23 @@
+@import '../../styles/media.scss';
+@import '../../styles/fonts.scss';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  label {
+    @include body1;
+    color: var(--HightEmphasis);
+    margin-bottom: 6px;
+  }
+
+  input {
+    max-height: 50px;
+    border: 1px solid var(--LowEmphasis);
+    border-radius: 4px;
+    @include body1;
+    color: var(--HightEmphasis);
+    padding: 13px 16px;
+  }
+}

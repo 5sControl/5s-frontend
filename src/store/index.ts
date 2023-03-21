@@ -4,6 +4,7 @@ import cookiesReducer from './cookiesSlice';
 import activeOrderReducer from '../pages/previewOrders/components/OrdersList/ordersListSlice';
 import previewOrdersReducer from '../pages/previewOrders/previewOrdersSlice';
 import operationVideoModalSlice from '../pages/previewOrders/components/OperationVideoModal/operationVideoModalSlice';
+import connectToDbModalSlice from '../pages/configuration/components/ConnectToDbModal/connectToDbModalSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     activeOrder: activeOrderReducer,
     previewOrders: previewOrdersReducer,
     operationVideoModal: operationVideoModalSlice,
+    connectToDbModal: connectToDbModalSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([]),
 });
