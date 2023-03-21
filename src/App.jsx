@@ -15,6 +15,7 @@ import { ConfigurationCamera } from './pages/configuration/camera/ConfigurationC
 import { Main } from './pages/main/Main';
 import { Live } from './pages/live/Live';
 import Dashboard from './pages/dashboard/Dashboard';
+import { Inventory } from './pages/inventory/inventory';
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
@@ -42,6 +43,7 @@ function App() {
             <Route path="/configuration" element={<Configuration />} />
             <Route path="/configuration/:camera" element={<ConfigurationCamera />} />
             <Route path="/orders-view" element={<PreviewOrders />} />
+            <Route path="/inventory" element={<Inventory />} />
           </Route>
         ) : (
           <Route path="/*" element={<Authorization />} />

@@ -1,0 +1,16 @@
+@import '../../styles/media.scss';
+@import '../../styles/fonts.scss';
+
+.content {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+
+    .title {
+      @include h2;
+      color: var(--HightEmphasis);
+    }
+  }
+}
