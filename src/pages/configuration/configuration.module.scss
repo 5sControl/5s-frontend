@@ -6,23 +6,3 @@
   color: var(--HightEmphasis);
   margin-bottom: 40px;
 }
-
-.license {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 50px;
-  padding: 15px 10px;
-  &_title {
-    @include caption;
-    font-weight: 500;
-    color: var(--LowEmphasis);
-    margin-bottom: 10px;
-  }
-  &_count {
-    @include h3;
-    span {
-      @include body1;
-    }
-  }
-}

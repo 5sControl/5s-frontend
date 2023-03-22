@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { Button } from '../../components/button/button';
 import { Camera } from '../../components/camera/Camera';
-import { Cover } from '../../components/cover';
 import { Tabs, Tab } from '../../components/tabs';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import { useAppDispatch } from '../../store/hooks';
 import { DatabaseTab } from './components/DatabaseTab';
+import { LicenseTab } from './components/LicenseTab';
 import styles from './configuration.module.scss';
 import { getConnectionsToDB } from './connectionSlice';
 
@@ -29,18 +28,7 @@ export const Configuration: React.FC = () => {
 
       <Tabs>
         <Tab label="License">
-          <Cover className={styles.license}>
-            <div>
-              <p className={styles.license_title}>License</p>
-
-              <h3 className={styles.license_count}>
-                {'0/5'}&nbsp;
-                <span className={styles.license_span}>algorithms used</span>
-              </h3>
-            </div>
-
-            <Button text="Upgrade Plan" />
-          </Cover>
+          <LicenseTab />
         </Tab>
 
         <Tab label="Databases">

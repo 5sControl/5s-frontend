@@ -1,4 +1,4 @@
-import { Button } from '../../../../components/button/button';
+import { Button } from '../../../../components/button';
 import { Modal } from '../../../../components/modal';
 import styles from './disconnectDbModal.module.scss';
 

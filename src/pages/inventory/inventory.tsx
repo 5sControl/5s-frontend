@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from '../../components/button/button';
+import { Button } from '../../components/button';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import { AddInventoryModal } from './components/AddInventoryModal';
 import styles from './inventory.module.scss';

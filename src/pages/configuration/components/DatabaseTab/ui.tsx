@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { Button } from '../../../../components/button/button';
+import { Button } from '../../../../components/button';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { clearDatabasesOrdersView, selectConnectionPage } from '../../connectionSlice';
 import { ConnectToDbModal } from '../ConnectToDbModal';
