@@ -1,0 +1,32 @@
+@import '../../styles/media.scss';
+@import '../../styles/fonts.scss';
+
+.container {
+  display: flex;
+  margin-bottom: 50px;
+  border-bottom: 1px solid var(--Gray85);
+}
+
+.tab {
+  min-width: 122px;
+  position: relative;
+  padding: 10px 20px;
+  list-style-type: none;
+  cursor: pointer;
+  text-align: center;
+  user-select: none;
+  &_active {
+    &::after {
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 4px 4px 0px 0px;
+      border-top: 1px solid var(--LowEmphasis);
+      border-left: 1px solid var(--LowEmphasis);
+      border-right: 1px solid var(--LowEmphasis);
+    }
+  }
+}

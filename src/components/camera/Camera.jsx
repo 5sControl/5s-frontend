@@ -46,7 +46,7 @@ export const Camera = () => {
   return (
     <section className="cameras">
       <div className="cameras__title">
-        <h1>Cameras</h1>
+        <h2>Cameras</h2>
         <button className="cameras__button" onClick={showAddCameras}>
           + Add Camera
         </button>
