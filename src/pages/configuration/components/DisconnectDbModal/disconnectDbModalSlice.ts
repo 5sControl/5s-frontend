@@ -2,14 +2,20 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
 import { disconnectDbAPI } from './disconnectDbModalAPI';
 
+interface DisconnectResponse {
+  success: boolean;
+  message: string;
+}
 interface ConnectToDbModalState {
   isOpenDisconnectModal: boolean;
   isLoadingDisconnectDb: boolean;
   errorLoadingDisconnectDb: boolean;
+  disconnectDbResponse: DisconnectResponse | null;
 }
 
 const initialState: ConnectToDbModalState = {
   isOpenDisconnectModal: false,
+  disconnectDbResponse: null,
   isLoadingDisconnectDb: false,
   errorLoadingDisconnectDb: false,
 };
@@ -37,8 +43,9 @@ const connectToDbModalSlice = createSlice({
     builder.addCase(disconnectDb.pending, (state) => {
       state.isLoadingDisconnectDb = true;
     });
-    builder.addCase(disconnectDb.fulfilled, (state) => {
+    builder.addCase(disconnectDb.fulfilled, (state, action: PayloadAction<DisconnectResponse>) => {
       state.isLoadingDisconnectDb = false;
+      state.disconnectDbResponse = action.payload;
     });
     builder.addCase(disconnectDb.rejected, (state) => {
       state.isLoadingDisconnectDb = false;

@@ -17,13 +17,17 @@ import {
   setIsOpenDisconnectModal,
 } from './components/DisconnectDbModal/disconnectDbModalSlice';
 import styles from './configuration.module.scss';
-import { getConnectionsToDB, selectConnectionPage } from './connectionSlice';
+import {
+  clearDatabasesOrdersView,
+  getConnectionsToDB,
+  selectConnectionPage,
+} from './connectionSlice';
 
 export const Configuration: React.FC = () => {
   const [cookies] = useCookies(['token']);
   const { isOpenConnectToDbModal } = useAppSelector(selectConnectToDbModal);
   const { databases, isLoadingGetConnectionsToDB } = useAppSelector(selectConnectionPage);
-  const { isOpenDisconnectModal } = useAppSelector(selectDisconnectDBModal);
+  const { isOpenDisconnectModal, disconnectDbResponse } = useAppSelector(selectDisconnectDBModal);
   const dispatch = useAppDispatch();
 
   const handleCloseConnectModal = () => {
@@ -56,6 +60,8 @@ export const Configuration: React.FC = () => {
       })
     );
 
+    dispatch(clearDatabasesOrdersView());
+
     console.log('You are disconnecting from the database');
   };
 
@@ -67,6 +73,12 @@ export const Configuration: React.FC = () => {
       })
     );
   }, []);
+
+  useEffect(() => {
+    if (disconnectDbResponse?.success) {
+      handleCloseDisconnectModal();
+    }
+  }, [disconnectDbResponse]);
 
   return (
     <>

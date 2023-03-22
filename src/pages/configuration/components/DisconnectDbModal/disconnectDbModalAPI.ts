@@ -2,11 +2,11 @@ import axios from 'axios';
 import { getIsInternet, url } from '../../../../api/api';
 
 export const disconnectDbAPI = (hostname: string, cookies: string, id: number) => {
-  const DISCONNECT_CONNECTION = '/api/order/delete-connection/';
+  const DISCONNECT_CONNECTION = 'api/order/delete-connection/';
 
   if (getIsInternet(hostname)) {
-    return axios.delete('https://5scontrol.pl/proxy_to_ngrok', {
-      url: `${url}${DISCONNECT_CONNECTION}${id}`,
+    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+      url: `${url}${DISCONNECT_CONNECTION}${id}/`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -14,7 +14,7 @@ export const disconnectDbAPI = (hostname: string, cookies: string, id: number) =
       },
     });
   } else {
-    return axios.post(`http://${hostname}/${DISCONNECT_CONNECTION}${id}`, {
+    return axios.post(`http://${hostname}${DISCONNECT_CONNECTION}${id}/`, {
       headers: {
         Authorization: cookies,
       },

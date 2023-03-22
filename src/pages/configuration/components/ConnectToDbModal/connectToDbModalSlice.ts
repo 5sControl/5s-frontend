@@ -1,25 +1,27 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
+import { DatabaseInfo } from '../../connectionSlice';
 import { postConnectionWithDbAPI } from './connectToDbModalAPI';
 import { ConnectionToDatabaseForm } from './types';
 
 interface ConnectToDbModalState {
   isOpenConnectToDbModal: boolean;
   isLoadingPostConnectionToDb: boolean;
-  errorLoadingPostConnectionToDb: boolean;
+  isErrorLoadingPostConnectionToDb: boolean;
   connectResponse: {
-    message: {
-      detail: string;
-    };
+    message: string;
     success: boolean;
+    connection: DatabaseInfo;
   } | null;
+  errorConnectToDbResponse: SerializedError | null;
 }
 
 const initialState: ConnectToDbModalState = {
   isOpenConnectToDbModal: false,
   isLoadingPostConnectionToDb: false,
-  errorLoadingPostConnectionToDb: false,
+  isErrorLoadingPostConnectionToDb: false,
   connectResponse: null,
+  errorConnectToDbResponse: null,
 };
 
 export const createConnectionWithDB = createAsyncThunk(
@@ -50,9 +52,10 @@ const connectToDbModalSlice = createSlice({
       state.isLoadingPostConnectionToDb = false;
       state.connectResponse = action.payload;
     });
-    builder.addCase(createConnectionWithDB.rejected, (state) => {
+    builder.addCase(createConnectionWithDB.rejected, (state, action) => {
       state.isLoadingPostConnectionToDb = false;
-      state.errorLoadingPostConnectionToDb = true;
+      state.isErrorLoadingPostConnectionToDb = true;
+      state.errorConnectToDbResponse = action.error;
     });
   },
 });
