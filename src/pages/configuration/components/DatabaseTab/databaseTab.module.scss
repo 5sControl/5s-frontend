@@ -1,0 +1,30 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.wrapper {
+  margin-bottom: 70px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  color: var(--HightEmphasis);
+  margin-bottom: 10px;
+  &_title {
+    @include h3;
+  }
+}
+
+.desc {
+  @include body1;
+  &_title {
+    @include body1;
+    color: var(--MediumEmphasis);
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
