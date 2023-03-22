@@ -4,7 +4,7 @@ import { url } from './api';
 const API_CAMERASELECT = 'api/cameras/';
 const API_CAMERACREATE = 'api/cameras/create-camera/';
 const API_CAMERAUPDATE = 'api/cameras/update-camera/';
-const API_CAMERAFIND = ':8008/find_cameras/';
+const API_CAMERAFIND = 'find_cameras/';
 
 export const getSelectedCameras = (hostname, cookies) => {
   if (hostname.includes('localhost')) {
@@ -92,8 +92,8 @@ export const patchCamera = (hostname, IPCamera, cameraName, cookies) => {
 
 export const findCamera = (hostname) => {
   if (hostname.includes('localhost')) {
-    return axios.get('http://192.168.1.101' + API_CAMERAFIND);
+    return axios.get('http://192.168.1.101/' + API_CAMERAFIND);
   } else {
-    return axios.get(`http://${hostname + API_CAMERAFIND}`);
+    return axios.get(`http://${hostname}/${API_CAMERAFIND}`);
   }
 };
