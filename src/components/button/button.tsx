@@ -4,6 +4,7 @@ import { Plus } from '../../assets/svg/SVGcomponent';
 
 type PropsType = {
   text: string;
+  variant?: 'contained' | 'outlined';
   type?: 'button' | 'submit' | 'reset';
   className?: string;
   isIcon?: boolean;
@@ -12,6 +13,7 @@ type PropsType = {
 };
 
 export const Button: React.FC<PropsType> = ({
+  variant = 'contained',
   className,
   type = 'button',
   text,
@@ -22,11 +24,11 @@ export const Button: React.FC<PropsType> = ({
   return (
     <button
       type={type}
-      className={`${styles.button} ${className}`}
+      className={`${styles[variant]} ${className}`}
       disabled={disabled}
       onClick={onClick}
     >
-      {isIcon && <Plus className={styles.icon} />}
+      {isIcon && <Plus className={styles[`${variant}_icon`]} />}
       <span>{text}</span>
     </button>
   );

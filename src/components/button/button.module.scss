@@ -1,24 +1,32 @@
 @import '../../styles/media.scss';
 @import '../../styles/fonts.scss';
 
-.button {
+@mixin buttonBase {
+  width: fit-content;
+  height: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4px 10px 4px 10px;
-
   border-radius: 4px;
-  background: var(--Orange);
-  color: var(--White);
-  @include button;
-
-  border: none;
-  width: fit-content;
-  height: fit-content;
-
+  user-select: none;
   cursor: pointer;
-
-  .icon {
+  &_icon {
     margin-right: 4px;
   }
+}
+
+.contained {
+  @include buttonBase;
+  @include button;
+  background: var(--Orange);
+  color: var(--White);
+  border: none;
+}
+
+.outlined {
+  @include buttonBase;
+  @include button;
+  color: var(--Orange);
+  border: 2px solid #e0e0e0;
 }

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
+import { Button } from '../../components/button/button';
 import { Camera } from '../../components/camera/Camera';
 import { Cover } from '../../components/cover';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
@@ -83,7 +84,7 @@ export const Configuration: React.FC = () => {
             </h3>
           </div>
 
-          <button className={styles.button}>Upgrade Plan</button>
+          <Button text="Upgrade Plan" />
         </Cover>
 
         <div className={styles.database}>
@@ -91,21 +92,18 @@ export const Configuration: React.FC = () => {
             <h3 className={styles.database_header_title}>Orders View database</h3>
 
             {databases && databases?.count > 0 ? (
-              <button
+              <Button
                 onClick={handleOpenModalDisconnect}
                 disabled={isLoadingGetConnectionsToDB}
-                className={styles.button_contained}
-              >
-                Disconnect
-              </button>
+                text="Disconnect"
+                variant="outlined"
+              />
             ) : (
-              <button
+              <Button
                 onClick={handleOpenModalConnect}
                 disabled={isLoadingGetConnectionsToDB}
-                className={styles.button}
-              >
-                Connect to Database
-              </button>
+                text="Connect to Database"
+              ></Button>
             )}
           </div>
 
