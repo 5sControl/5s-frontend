@@ -2,7 +2,7 @@
 @import 'src/styles/fonts.scss';
 
 .modal {
-  max-width: 880px;
+  max-width: 560px;
   height: fit-content;
   padding: 20px;
 }
@@ -21,21 +21,16 @@
   }
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 68px;
+.content {
+  @include body1;
+  color: var(--HightEmphasis);
+  margin-bottom: 100px;
+}
 
-  &_wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-  &_error {
-    color: var(--Red);
-  }
-  &_submit {
-    display: flex;
-    align-self: flex-end;
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  &_gap {
+    margin-left: 30px;
   }
 }

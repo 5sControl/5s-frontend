@@ -13,6 +13,7 @@ import { ReactComponent as CloseCross } from './closeCross.svg';
 import { ReactComponent as VideoCamera } from './videoCamera.svg';
 import { ReactComponent as Inventory } from './inventory.svg';
 import { ReactComponent as Plus } from './plus.svg';
+import { ReactComponent as Eye } from './eye.svg';
 export {
   Algorithm,
   Camera,
@@ -29,4 +30,5 @@ export {
   VideoCamera,
   Inventory,
   Plus,
+  Eye,
 };

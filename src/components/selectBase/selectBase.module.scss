@@ -1,10 +1,11 @@
-@import '../../styles/media.scss';
-@import '../../styles/fonts.scss';
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
 
 .container {
+  width: 100%;
+  position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
 }
 
 .label {
@@ -15,23 +16,26 @@
 
 .block {
   position: relative;
-  &__input {
+  &__select {
     width: 100%;
     max-height: 50px;
+    background: var(--White);
     border: 1px solid var(--LowEmphasis);
     border-radius: 4px;
     @include body1;
     color: var(--HightEmphasis);
     padding: 13px 16px;
-  }
-  &__eye {
     cursor: pointer;
+    transition: all 0.5s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  &__option {
+    background-color: var(--Orange);
+  }
+  &__arrow {
     position: absolute;
-    top: 36%;
-    right: 12px;
-    color: var(--MediumEmphasis);
-    &:hover {
-      color: var(--HightEmphasis);
-    }
+    top: 40%;
+    right: 20px;
   }
 }

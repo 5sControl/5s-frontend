@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import { Button } from '../../components/button/button';
 import { Camera } from '../../components/camera/Camera';
 import { Cover } from '../../components/cover';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
@@ -7,23 +10,81 @@ import {
   selectConnectToDbModal,
   setIsOpenConnectToDbModal,
 } from './components/ConnectToDbModal/connectToDbModalSlice';
+import { DisconnectDbModal } from './components/DisconnectDbModal';
+import {
+  disconnectDb,
+  selectDisconnectDBModal,
+  setIsOpenDisconnectModal,
+} from './components/DisconnectDbModal/disconnectDbModalSlice';
 import styles from './configuration.module.scss';
+import { getConnectionsToDB, selectConnectionPage } from './connectionSlice';
 
 export const Configuration: React.FC = () => {
+  const [cookies] = useCookies(['token']);
   const { isOpenConnectToDbModal } = useAppSelector(selectConnectToDbModal);
+  const { databases, isLoadingGetConnectionsToDB } = useAppSelector(selectConnectionPage);
+  const { isOpenDisconnectModal } = useAppSelector(selectDisconnectDBModal);
   const dispatch = useAppDispatch();
 
-  const handleCloseModal = () => {
+  const handleCloseConnectModal = () => {
     dispatch(setIsOpenConnectToDbModal(false));
   };
 
-  const handleOpenModal = () => {
+  const handleCloseDisconnectModal = () => {
+    dispatch(setIsOpenDisconnectModal(false));
+  };
+
+  const handleOpenModalConnect = () => {
     dispatch(setIsOpenConnectToDbModal(true));
   };
 
+  const handleOpenModalDisconnect = () => {
+    dispatch(setIsOpenDisconnectModal(true));
+  };
+
+  const handleConfirmDisconnectModal = () => {
+    if (!databases) {
+      console.error('You doesnt have any databases');
+      return;
+    }
+
+    dispatch(
+      disconnectDb({
+        token: cookies.token,
+        hostname: window.location.hostname,
+        id: databases.results[0].id,
+      })
+    );
+
+    console.log('You are disconnecting from the database');
+  };
+
+  useEffect(() => {
+    dispatch(
+      getConnectionsToDB({
+        token: cookies.token,
+        hostname: window.location.hostname,
+      })
+    );
+  }, []);
+
   return (
     <>
-      <ConnectToDbModal isOpen={isOpenConnectToDbModal} handleClose={handleCloseModal} />
+      <ConnectToDbModal isOpen={isOpenConnectToDbModal} handleClose={handleCloseConnectModal} />
+
+      <DisconnectDbModal
+        isOpen={isOpenDisconnectModal}
+        dbName={
+          isLoadingGetConnectionsToDB
+            ? 'null'
+            : databases && databases?.count > 0
+            ? databases?.results[0]?.database
+            : 'null'
+        }
+        handleClose={handleCloseDisconnectModal}
+        handleConfirm={handleConfirmDisconnectModal}
+      />
+
       <WrapperPage>
         <h2 className={styles.title}>Configuration</h2>
 
@@ -37,21 +98,56 @@ export const Configuration: React.FC = () => {
             </h3>
           </div>
 
-          <button className={styles.button}>Upgrade Plan</button>
+          <Button text="Upgrade Plan" />
         </Cover>
 
         <div className={styles.database}>
-          <div className={styles.database_container}>
-            <h3 className={styles.database_title}>Database</h3>
+          <div className={styles.database_header}>
+            <h3 className={styles.database_header_title}>Orders View database</h3>
 
-            <button onClick={handleOpenModal} className={styles.button}>
-              Connect
-            </button>
+            {databases && databases?.count > 0 ? (
+              <Button
+                onClick={handleOpenModalDisconnect}
+                disabled={isLoadingGetConnectionsToDB}
+                text="Disconnect"
+                variant="outlined"
+              />
+            ) : (
+              <Button
+                onClick={handleOpenModalConnect}
+                disabled={isLoadingGetConnectionsToDB}
+                text="Connect to Database"
+              ></Button>
+            )}
           </div>
 
-          <span className={styles.database_desc}>
-            Connect to database with your orders to view them in 5S Control.
-          </span>
+          <div className={styles.database_container}>
+            <p className={styles.database_desc}>
+              Connect to database with your orders to view them in Orders View tab.
+            </p>
+            <div className={styles.database_desc}>
+              <span className={styles.database_desc_title}> Status: </span>
+              <span>
+                {isLoadingGetConnectionsToDB
+                  ? '...Loading'
+                  : databases && databases?.count > 0
+                  ? 'Connected'
+                  : 'Not connected'}
+              </span>
+            </div>
+            {databases && databases?.count > 0 && (
+              <>
+                <div>
+                  <span className={styles.database_desc_title}>Database type: </span>
+                  <span className={styles.database_desc}>{databases.results[0].database_type}</span>
+                </div>
+                <div>
+                  <span className={styles.database_desc_title}>Database name: </span>
+                  <span className={styles.database_desc}>{databases.results[0].database}</span>
+                </div>
+              </>
+            )}
+          </div>
         </div>
         <Camera />
       </WrapperPage>
