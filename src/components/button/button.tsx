@@ -11,7 +11,7 @@ type PropsType = {
 
 export const Button: React.FC<PropsType> = ({ className, text, isIcon, onClick }) => {
   return (
-    <button className={styles.button} onClick={onClick}>
+    <button className={`${styles.button} ${className}`} onClick={onClick}>
       {isIcon && <Plus className={styles.icon} />}
       <span>{text}</span>
     </button>

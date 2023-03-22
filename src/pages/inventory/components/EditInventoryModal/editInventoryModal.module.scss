@@ -5,6 +5,7 @@
   max-width: 560px;
   max-height: 492px;
   padding: 20px;
+  justify-content: start;
 
   .header {
     display: flex;
@@ -14,6 +15,20 @@
     .title {
       @include h3;
       color: var(--HightEmphasis);
+    }
+  }
+
+  .content {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    .input:not(:first-child) {
+      margin-top: 40px;
+    }
+
+    .button {
+      margin-top: 30px;
+      align-self: flex-end;
     }
   }
 }

@@ -5,6 +5,7 @@ import activeOrderReducer from '../pages/previewOrders/components/OrdersList/ord
 import previewOrdersReducer from '../pages/previewOrders/previewOrdersSlice';
 import inventoryReducer from '../pages/inventory/inventorySlice';
 import operationVideoModalSlice from '../pages/previewOrders/components/OperationVideoModal/operationVideoModalSlice';
+import connectToDbModalSlice from '../pages/configuration/components/ConnectToDbModal/connectToDbModalSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     previewOrders: previewOrdersReducer,
     operationVideoModal: operationVideoModalSlice,
     inventory: inventoryReducer,
+    connectToDbModal: connectToDbModalSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([]),
 });
