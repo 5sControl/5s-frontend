@@ -31,6 +31,9 @@
     flex-direction: column;
     gap: 30px;
   }
+  &_error {
+    color: var(--Red);
+  }
   &_submit {
     display: flex;
     align-self: flex-end;

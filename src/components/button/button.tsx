@@ -7,12 +7,25 @@ type PropsType = {
   type?: 'button' | 'submit' | 'reset';
   className?: string;
   isIcon?: boolean;
+  disabled?: boolean;
   onClick?: () => void;
 };
 
-export const Button: React.FC<PropsType> = ({ className, type, text, isIcon, onClick }) => {
+export const Button: React.FC<PropsType> = ({
+  className,
+  type = 'button',
+  text,
+  isIcon,
+  disabled = false,
+  onClick,
+}) => {
   return (
-    <button type={type} className={`${styles.button} ${className}`} onClick={onClick}>
+    <button
+      type={type}
+      className={`${styles.button} ${className}`}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {isIcon && <Plus className={styles.icon} />}
       <span>{text}</span>
     </button>

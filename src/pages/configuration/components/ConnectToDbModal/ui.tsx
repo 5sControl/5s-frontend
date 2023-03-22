@@ -1,11 +1,14 @@
+import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { CloseCross } from '../../../../assets/svg/SVGcomponent';
 import { Button } from '../../../../components/button/button';
 import { Input } from '../../../../components/input';
 import { Modal } from '../../../../components/modal';
 import { SelectBase } from '../../../../components/selectBase';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { inputProps, listOfDataForSelect } from './config';
 import styles from './connectToDbModal.module.scss';
-import { createConnection } from './connectToDbModalAPI';
+import { createConnectionWithDB, selectConnectToDbModal } from './connectToDbModalSlice';
 import { ConnectionToDatabaseForm } from './types';
 
 type PropsType = {
@@ -15,7 +18,9 @@ type PropsType = {
 
 export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
   const [cookies] = useCookies(['token']);
-  const listOfDataForSelect = [{ id: 0, text: 'WBNet' }];
+  const { isLoadingPostConnectionToDb, connectResponse } = useAppSelector(selectConnectToDbModal);
+
+  const dispatch = useAppDispatch();
 
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -45,9 +50,20 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, handleClose }) =
       password,
     };
 
-    createConnection(window.location.hostname, cookies.token, dataForm);
-    console.log(dataForm);
+    dispatch(
+      createConnectionWithDB({
+        token: cookies.token,
+        hostname: window.location.hostname,
+        body: dataForm,
+      })
+    );
   };
+
+  useEffect(() => {
+    if (connectResponse?.success) {
+      handleClose();
+    }
+  }, [connectResponse]);
 
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
@@ -66,47 +82,18 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, handleClose }) =
             listOfData={listOfDataForSelect}
           />
 
-          <Input
-            id="server"
-            name="server"
-            label="Host"
-            type="text"
-            required
-            placeholder="Enter host"
-          />
-
-          <Input id="port" name="port" label="Port" type="text" placeholder="Enter port" />
-
-          <Input
-            id="database"
-            name="database"
-            label="Database name"
-            type="text"
-            placeholder="Enter database name"
-            required
-          />
-
-          <Input
-            id="username"
-            name="username"
-            label="User"
-            type="text"
-            placeholder="Enter user"
-            required
-          />
-
-          <Input
-            id="password"
-            name="password"
-            label="Password"
-            type="password"
-            placeholder="Enter password"
-            showEye
-            required
-          />
+          {inputProps.map((props, index) => (
+            <Input key={index} {...props} />
+          ))}
+          <div className={styles.form_error}>{connectResponse?.message?.detail}</div>
         </div>
 
-        <Button type="submit" text="Connect" className={styles.form_submit} />
+        <Button
+          disabled={isLoadingPostConnectionToDb}
+          type="submit"
+          text="Connect"
+          className={styles.form_submit}
+        />
       </form>
     </Modal>
   );

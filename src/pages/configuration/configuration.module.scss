@@ -29,17 +29,26 @@
 
 .database {
   margin-bottom: 70px;
-  &_container {
+  &_header {
     display: flex;
     justify-content: space-between;
     color: var(--HightEmphasis);
     margin-bottom: 10px;
-  }
-  &_title {
-    @include h3;
+    &_title {
+      @include h3;
+    }
   }
   &_desc {
     @include body1;
+    &_title {
+      @include body1;
+      color: var(--MediumEmphasis);
+    }
+  }
+  &_container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 }
 
@@ -52,6 +61,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
+  cursor: pointer;
 }
 
 .button_contained {
@@ -63,4 +73,5 @@
   font-size: 14px;
   line-height: 24px;
   color: var(--Orange);
+  cursor: pointer;
 }
