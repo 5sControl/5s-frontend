@@ -11,6 +11,9 @@ import { ReactComponent as SelectArrow } from './selectArrow.svg';
 import { ReactComponent as SearchIcon } from './searchIcon.svg';
 import { ReactComponent as CloseCross } from './closeCross.svg';
 import { ReactComponent as VideoCamera } from './videoCamera.svg';
+import { ReactComponent as Inventory } from './inventory.svg';
+import { ReactComponent as Plus } from './plus.svg';
+import { ReactComponent as Eye } from './eye.svg';
 export {
   Algorithm,
   Camera,
@@ -25,4 +28,7 @@ export {
   SearchIcon,
   CloseCross,
   VideoCamera,
+  Inventory,
+  Plus,
+  Eye,
 };

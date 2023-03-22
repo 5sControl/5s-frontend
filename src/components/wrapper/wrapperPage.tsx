@@ -6,5 +6,5 @@ type PropsType = {
 };
 
 export const WrapperPage: React.FC<PropsType> = ({ children }) => {
-  return <section className={styles.wrapper}>{children}</section>;
+  return <div className={styles.wrapper}>{children}</div>;
 };

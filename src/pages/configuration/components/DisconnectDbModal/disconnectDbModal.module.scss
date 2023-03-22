@@ -1,0 +1,36 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.modal {
+  max-width: 560px;
+  height: fit-content;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  &_title {
+    @include h3;
+    color: var(--HightEmphasis);
+  }
+  &_cross {
+    cursor: pointer;
+  }
+}
+
+.content {
+  @include body1;
+  color: var(--HightEmphasis);
+  margin-bottom: 100px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  &_gap {
+    margin-left: 30px;
+  }
+}

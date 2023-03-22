@@ -1,0 +1,37 @@
+@import '../../styles/media.scss';
+@import '../../styles/fonts.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.label {
+  @include body1;
+  color: var(--HightEmphasis);
+  margin-bottom: 6px;
+}
+
+.block {
+  position: relative;
+  &__input {
+    width: 100%;
+    max-height: 50px;
+    border: 1px solid var(--LowEmphasis);
+    border-radius: 4px;
+    @include body1;
+    color: var(--HightEmphasis);
+    padding: 13px 16px;
+  }
+  &__eye {
+    cursor: pointer;
+    position: absolute;
+    top: 36%;
+    right: 12px;
+    color: var(--MediumEmphasis);
+    &:hover {
+      color: var(--HightEmphasis);
+    }
+  }
+}

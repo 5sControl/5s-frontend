@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Company, Dashboard, OrdersView, Algorithm } from '../assets/svg/SVGcomponent';
+import { Company, Dashboard, OrdersView, Algorithm, Inventory } from '../assets/svg/SVGcomponent';
 import logo from '../assets/svg/icon.svg';
 import { useEffect, useState } from 'react';
 import { getCompanyInfo } from '../api/companyRequest';
@@ -42,6 +42,24 @@ export const LeftMenu = () => {
         </li>
         <li
           className={
+            window.location.pathname.includes('orders-view') ? 'activeMenu' : 'noActiveMenu'
+          }
+        >
+          <Link to="/orders-view" onClick={send}>
+            <OrdersView />
+            <span>Orders View</span>
+          </Link>
+        </li>
+        <li
+          className={window.location.pathname.includes('inventory') ? 'activeMenu' : 'noActiveMenu'}
+        >
+          <Link to="/inventory" onClick={send}>
+            <Inventory />
+            <span>Inventory</span>
+          </Link>
+        </li>
+        <li
+          className={
             window.location.pathname.includes('configuration') ? 'activeMenu' : 'noActiveMenu'
           }
         >
@@ -56,16 +74,6 @@ export const LeftMenu = () => {
           <Link to="/company" onClick={send}>
             <Company />
             <span>Company</span>
-          </Link>
-        </li>
-        <li
-          className={
-            window.location.pathname.includes('orders-view') ? 'activeMenu' : 'noActiveMenu'
-          }
-        >
-          <Link to="/orders-view" onClick={send}>
-            <OrdersView />
-            <span>Orders View</span>
           </Link>
         </li>
       </ul>
