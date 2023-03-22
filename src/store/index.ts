@@ -9,6 +9,7 @@ import connectToDbModalSlice from '../pages/configuration/components/ConnectToDb
 import connectionPageSlice from '../pages/configuration/connectionSlice';
 import disconnectDBModalSlice from '../pages/configuration/components/DisconnectDbModal/disconnectDbModalSlice';
 import editInventoryModalSlice from '../pages/inventory/components/EditInventoryModal/editInventoryModalSlice';
+import InventoryItemsListSlice from '../pages/inventory/components/InventoryItemsList/InventoryItemsListSlice';
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     disconnectDBModal: disconnectDBModalSlice,
     connectionPage: connectionPageSlice,
     editInventoryModal: editInventoryModalSlice,
+    activeInventoryItem: InventoryItemsListSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([]),
 });

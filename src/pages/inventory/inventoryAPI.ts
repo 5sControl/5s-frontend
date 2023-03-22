@@ -83,3 +83,23 @@ export const editInventoryItemAxios = (
     });
   }
 };
+
+export const getInventoryItemHistory = (
+  hostname: string,
+  cookies: string,
+  data: { camera: string; date: string }
+) => {
+  const API_BY_ORDER = 'api/inventory/history/';
+
+  if (getIsInternet(hostname)) {
+    return proxy(`${url}${API_BY_ORDER}${data.camera}/${data.date}/00:00:00/23:59:00/`, 'GET', {
+      Authorization: cookies,
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_BY_ORDER}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};

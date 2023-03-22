@@ -1,0 +1,42 @@
+@import '../../../../styles/media.scss';
+@import '../../../../styles/fonts.scss';
+
+.wrapper {
+  max-width: 310px;
+  padding: 10px 4px 10px 10px;
+  .header {
+    .title {
+      @include h4;
+      letter-spacing: 0.03em;
+    }
+    .listInput {
+      margin-top: 10px;
+    }
+  }
+
+  .list {
+    height: calc(100vh - 300px);
+    margin-top: 20px;
+    overflow-y: scroll;
+
+    .emptyList {
+      @include body1;
+      color: var(--HightEmphasis);
+      letter-spacing: 0.15px;
+    }
+  }
+
+  .list::-webkit-scrollbar {
+    width: 8px;
+    background-color: inherit;
+  }
+
+  .list::-webkit-scrollbar-thumb {
+    background: var(--Gray88);
+    border-radius: 20px;
+  }
+
+  .list::-webkit-scrollbar-track {
+    background-color: inherit;
+  }
+}

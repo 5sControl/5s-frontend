@@ -12,7 +12,7 @@
     cursor: pointer;
     transition: all 0.5s;
     height: fit-content;
-    width: fit-content;
+    width: calc(100% + 10px);
     -webkit-appearance: none;
     appearance: none;
     &:hover {

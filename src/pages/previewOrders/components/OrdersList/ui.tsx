@@ -38,7 +38,11 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
       <div className={styles.header}>
         <h2 className={styles.title}>Orders</h2>
 
-        <SearchInput className={styles.listInput} searchInputFilter={searchInputFilter} />
+        <SearchInput
+          className={styles.listInput}
+          searchInputFilter={searchInputFilter}
+          placeholder={'Search order number'}
+        />
       </div>
 
       <div className={styles.list}>
