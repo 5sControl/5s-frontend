@@ -2,19 +2,33 @@ import React, { useState } from 'react';
 import { Cover } from '../../../../components/cover';
 import { Settings } from '../../../../assets/svg/SVGcomponent';
 import styles from './inventoryReport.module.scss';
-import { useAppSelector } from '../../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { selectInventory } from '../../inventorySlice';
 import { EditInventoryModal } from '../EditInventoryModal';
+import {
+  selectEditInventoryModal,
+  setIsOpenEditModal,
+  setCurrentEditItem,
+} from '../EditInventoryModal/editInventoryModalSlice';
+import { InventoryItem } from '../../../../storage/inventory';
 
 export const InventoryReport: React.FC = () => {
   const { inventoryItems } = useAppSelector(selectInventory);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const openEditModal = () => {
-    setIsOpen(true);
+  const { isOpenEditModal, currentEditItem } = useAppSelector(selectEditInventoryModal);
+  const dispatch = useAppDispatch();
+  const openEditModal = (currentItem: InventoryItem) => {
+    dispatch(setCurrentEditItem(currentItem));
+    dispatch(setIsOpenEditModal(true));
+  };
+
+  const handleCloseModal = () => {
+    dispatch(setIsOpenEditModal(false));
   };
   return (
     <>
-      <EditInventoryModal isOpen={isOpen} handleClose={() => setIsOpen(false)} />
+      {currentEditItem && (
+        <EditInventoryModal isOpen={isOpenEditModal} handleClose={handleCloseModal} />
+      )}
       <Cover className={styles.wrapper}>
         <div className={styles.header}>
           <h4 className={styles.title}>Inventory Report</h4>
@@ -54,7 +68,7 @@ export const InventoryReport: React.FC = () => {
                     <td>{item.low_stock_level}</td>
                     <td>{item.camera}</td>
                     <td>
-                      <Settings className={styles.editIcon} onClick={openEditModal} />
+                      <Settings className={styles.editIcon} onClick={() => openEditModal(item)} />
                     </td>
                   </tr>
                 );

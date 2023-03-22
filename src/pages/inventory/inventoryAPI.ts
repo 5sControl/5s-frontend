@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getIsInternet, proxy, url } from '../../api/api';
+import { EditInventoryData } from './components/EditInventoryModal/types';
 
 export const getInventoryItems = (hostname: string, cookies: string) => {
   const API_BY_ORDER = 'api/inventory/items/';
@@ -54,5 +55,31 @@ export const setInventoryItem = (hostname: string, cookies: string) => {
         },
       }
     );
+  }
+};
+
+export const editInventoryItemAxios = (
+  hostname: string,
+  cookies: string,
+  body: EditInventoryData
+) => {
+  const API_INVENTORY_SET = 'api/inventory/items/';
+
+  if (getIsInternet(hostname)) {
+    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+      url: url + API_INVENTORY_SET + body.id + '/',
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+      body: JSON.stringify(body),
+    });
+  } else {
+    return axios.post(`http://${hostname}/${API_INVENTORY_SET}`, body, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
   }
 };

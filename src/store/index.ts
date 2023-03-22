@@ -6,6 +6,9 @@ import previewOrdersReducer from '../pages/previewOrders/previewOrdersSlice';
 import inventoryReducer from '../pages/inventory/inventorySlice';
 import operationVideoModalSlice from '../pages/previewOrders/components/OperationVideoModal/operationVideoModalSlice';
 import connectToDbModalSlice from '../pages/configuration/components/ConnectToDbModal/connectToDbModalSlice';
+import connectionPageSlice from '../pages/configuration/connectionSlice';
+import disconnectDBModalSlice from '../pages/configuration/components/DisconnectDbModal/disconnectDbModalSlice';
+import editInventoryModalSlice from '../pages/inventory/components/EditInventoryModal/editInventoryModalSlice';
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +19,9 @@ export const store = configureStore({
     operationVideoModal: operationVideoModalSlice,
     inventory: inventoryReducer,
     connectToDbModal: connectToDbModalSlice,
+    disconnectDBModal: disconnectDBModalSlice,
+    connectionPage: connectionPageSlice,
+    editInventoryModal: editInventoryModalSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([]),
 });
