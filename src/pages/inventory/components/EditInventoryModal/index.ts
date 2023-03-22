@@ -1,0 +1,1 @@
+export { EditInventoryModal } from './ui';
