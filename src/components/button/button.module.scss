@@ -11,6 +11,7 @@
   border-radius: 4px;
   user-select: none;
   cursor: pointer;
+  transition: all 0.5s;
   &_icon {
     margin-right: 4px;
   }
@@ -22,11 +23,17 @@
   background: var(--Orange);
   color: var(--White);
   border: none;
+  &:hover {
+    background: var(--SaddleBrown);
+  }
 }
 
 .outlined {
   @include buttonBase;
   @include button;
   color: var(--Orange);
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--Gray88);
+  &:hover {
+    background: var(--Gray88);
+  }
 }
