@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 import { Button } from '../../components/button/button';
 import { Camera } from '../../components/camera/Camera';
 import { Cover } from '../../components/cover';
+import { Tabs, Tab } from '../../components/tabs';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { ConnectToDbModal } from './components/ConnectToDbModal';
@@ -100,68 +101,79 @@ export const Configuration: React.FC = () => {
       <WrapperPage>
         <h2 className={styles.title}>Configuration</h2>
 
-        <Cover className={styles.license}>
-          <div>
-            <p className={styles.license_title}>License</p>
+        <Tabs>
+          <Tab label="License">
+            <Cover className={styles.license}>
+              <div>
+                <p className={styles.license_title}>License</p>
 
-            <h3 className={styles.license_count}>
-              {'0/5'}&nbsp;
-              <span className={styles.license_span}>algorithms used</span>
-            </h3>
-          </div>
+                <h3 className={styles.license_count}>
+                  {'0/5'}&nbsp;
+                  <span className={styles.license_span}>algorithms used</span>
+                </h3>
+              </div>
 
-          <Button text="Upgrade Plan" />
-        </Cover>
+              <Button text="Upgrade Plan" />
+            </Cover>
+          </Tab>
 
-        <div className={styles.database}>
-          <div className={styles.database_header}>
-            <h3 className={styles.database_header_title}>Orders View database</h3>
+          <Tab label="Databases">
+            <div className={styles.database}>
+              <div className={styles.database_header}>
+                <h3 className={styles.database_header_title}>Orders View database</h3>
 
-            {databases && databases?.count > 0 ? (
-              <Button
-                onClick={handleOpenModalDisconnect}
-                disabled={isLoadingGetConnectionsToDB}
-                text="Disconnect"
-                variant="outlined"
-              />
-            ) : (
-              <Button
-                onClick={handleOpenModalConnect}
-                disabled={isLoadingGetConnectionsToDB}
-                text="Connect to Database"
-              ></Button>
-            )}
-          </div>
+                {databases && databases?.count > 0 ? (
+                  <Button
+                    onClick={handleOpenModalDisconnect}
+                    disabled={isLoadingGetConnectionsToDB}
+                    text="Disconnect"
+                    variant="outlined"
+                  />
+                ) : (
+                  <Button
+                    onClick={handleOpenModalConnect}
+                    disabled={isLoadingGetConnectionsToDB}
+                    text="Connect to Database"
+                  ></Button>
+                )}
+              </div>
 
-          <div className={styles.database_container}>
-            <p className={styles.database_desc}>
-              Connect to database with your orders to view them in Orders View tab.
-            </p>
-            <div className={styles.database_desc}>
-              <span className={styles.database_desc_title}> Status: </span>
-              <span>
-                {isLoadingGetConnectionsToDB
-                  ? '...Loading'
-                  : databases && databases?.count > 0
-                  ? 'Connected'
-                  : 'Not connected'}
-              </span>
+              <div className={styles.database_container}>
+                <p className={styles.database_desc}>
+                  Connect to database with your orders to view them in Orders View tab.
+                </p>
+                <div className={styles.database_desc}>
+                  <span className={styles.database_desc_title}> Status: </span>
+                  <span>
+                    {isLoadingGetConnectionsToDB
+                      ? '...Loading'
+                      : databases && databases?.count > 0
+                      ? 'Connected'
+                      : 'Not connected'}
+                  </span>
+                </div>
+                {databases && databases?.count > 0 && (
+                  <>
+                    <div>
+                      <span className={styles.database_desc_title}>Database type: </span>
+                      <span className={styles.database_desc}>
+                        {databases.results[0].database_type}
+                      </span>
+                    </div>
+                    <div>
+                      <span className={styles.database_desc_title}>Database name: </span>
+                      <span className={styles.database_desc}>{databases.results[0].database}</span>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
-            {databases && databases?.count > 0 && (
-              <>
-                <div>
-                  <span className={styles.database_desc_title}>Database type: </span>
-                  <span className={styles.database_desc}>{databases.results[0].database_type}</span>
-                </div>
-                <div>
-                  <span className={styles.database_desc_title}>Database name: </span>
-                  <span className={styles.database_desc}>{databases.results[0].database}</span>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-        <Camera />
+          </Tab>
+
+          <Tab label="Cameras">
+            <Camera />
+          </Tab>
+        </Tabs>
       </WrapperPage>
     </>
   );
