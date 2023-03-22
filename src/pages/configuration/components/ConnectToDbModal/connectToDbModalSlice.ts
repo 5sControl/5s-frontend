@@ -23,7 +23,7 @@ const initialState: ConnectToDbModalState = {
 };
 
 export const createConnectionWithDB = createAsyncThunk(
-  'getConnectionsToDB',
+  'createConnectionWithDB',
   async (data: { token: string; hostname: string; body: ConnectionToDatabaseForm }) => {
     const response = await postConnectionWithDbAPI(data.hostname, data.token, data.body);
 

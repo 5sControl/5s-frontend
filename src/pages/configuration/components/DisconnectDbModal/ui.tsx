@@ -27,7 +27,7 @@ export const DisconnectDbModal: React.FC<PropsType> = ({
       </p>
 
       <div className={styles.buttons}>
-        <Button text={'Cancel'} onClick={handleClose} />
+        <Button text={'Cancel'} variant="outlined" onClick={handleClose} />
         <Button text={'Disconnect'} className={styles.buttons_gap} onClick={handleConfirm} />
       </div>
     </Modal>

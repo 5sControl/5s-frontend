@@ -12,6 +12,7 @@ import {
 } from './components/ConnectToDbModal/connectToDbModalSlice';
 import { DisconnectDbModal } from './components/DisconnectDbModal';
 import {
+  disconnectDb,
   selectDisconnectDBModal,
   setIsOpenDisconnectModal,
 } from './components/DisconnectDbModal/disconnectDbModalSlice';
@@ -42,7 +43,20 @@ export const Configuration: React.FC = () => {
   };
 
   const handleConfirmDisconnectModal = () => {
-    console.log('You are decconect!');
+    if (!databases) {
+      console.error('You doesnt have any databases');
+      return;
+    }
+
+    dispatch(
+      disconnectDb({
+        token: cookies.token,
+        hostname: window.location.hostname,
+        id: databases.results[0].id,
+      })
+    );
+
+    console.log('You are disconnecting from the database');
   };
 
   useEffect(() => {
