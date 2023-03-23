@@ -1,0 +1,1 @@
+export { PaginationContainer } from './ui';

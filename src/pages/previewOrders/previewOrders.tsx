@@ -85,7 +85,7 @@ export const PreviewOrders: React.FC = () => {
 
           {!isLoadingPreviewList && previewOrdersList ? (
             <div className={styles.body}>
-              <OrderList data={previewOrdersList} />
+              <OrderList data={previewOrdersList.results} />
 
               {activeOrder && orderData ? (
                 <OrderCard data={orderData} />

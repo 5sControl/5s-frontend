@@ -7,6 +7,8 @@ import { OrdersListElement } from '../OrdersListElement';
 import { selectActiveOrder, addActiveOrder } from './ordersListSlice';
 
 import styles from './ordersList.module.scss';
+import { PaginationContainer } from '../../../../components/pagination';
+import { selectPreviewOrders } from '../../previewOrdersSlice';
 
 type PropsType = {
   data: Array<PreviewOrderItem>;
@@ -15,6 +17,7 @@ type PropsType = {
 export const OrderList: React.FC<PropsType> = ({ data }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const { activeOrder } = useAppSelector(selectActiveOrder);
+  const { previewOrdersList } = useAppSelector(selectPreviewOrders);
   const dispatch = useAppDispatch();
 
   const onclickHandler = (id: string) => {
@@ -36,9 +39,9 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
   return (
     <Cover className={styles.wrapper}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Orders</h2>
+        <h2 className={styles.header_title}>Orders</h2>
 
-        <SearchInput className={styles.listInput} searchInputFilter={searchInputFilter} />
+        <SearchInput className={styles.header_listInput} searchInputFilter={searchInputFilter} />
       </div>
 
       <div className={styles.list}>
@@ -54,8 +57,13 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
             />
           );
         })}
-        {!searchFilter().length && <p className={styles.emptyList}>No matching orders found.</p>}
+        {!searchFilter().length && <p className={styles.list_empty}>No matching orders found.</p>}
       </div>
+
+      <PaginationContainer
+        page={previewOrdersList?.current_page as number}
+        totalPages={previewOrdersList?.all_page_count as number}
+      />
     </Cover>
   );
 };
