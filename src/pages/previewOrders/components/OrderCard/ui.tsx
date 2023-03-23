@@ -1,4 +1,3 @@
-import moment from 'moment-timezone';
 import { Cover } from '../../../../components/cover';
 import { OrderItem } from '../../../../storage/orderView';
 import { useAppSelector } from '../../../../store/hooks';
@@ -21,11 +20,13 @@ export const OrderCard: React.FC<PropsType> = ({ data }) => {
   //   new Date(data.orderDate).toLocaleTimeString();
 
   const dateInterval =
-    setDateDot(moment(data.orderTime).subtract(10, 'days').calendar()) +
+    setDateDot(new Date(data.orderTime).toLocaleDateString()) +
     ' - ' +
     (data.orderDateRealize
-      ? setDateDot(moment(data.orderDateRealize).subtract(10, 'days').calendar())
+      ? setDateDot(new Date(data.orderDateRealize).toLocaleDateString())
       : 'processed');
+
+  console.log(data.orderTime);
 
   return (
     <Cover className={styles.cover}>
