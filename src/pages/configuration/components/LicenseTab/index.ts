@@ -1,0 +1,1 @@
+export { LicenseTab } from './ui';

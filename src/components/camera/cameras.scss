@@ -13,21 +13,6 @@
       @include h3;
       color: var(--HightEmphasis);
     }
-    button {
-      padding: 8px 44px;
-      text-align: center;
-      background: #fe6100;
-      border-radius: 4px;
-      color: #ffffff;
-      border: none;
-      font-size: 14px;
-      line-height: 24px;
-      cursor: pointer;
-      transition: all 0.5s;
-      &:hover {
-        background: #833505;
-      }
-    }
   }
   &__modal {
     position: absolute;
