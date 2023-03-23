@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import { SelectArrow } from '../../assets/svg/SVGcomponent';
+import { ArrowBottom } from '../../assets/svg/SVGcomponent';
 import styles from './selectBase.module.scss';
 
 type PropsType = {
@@ -40,7 +40,7 @@ export const SelectBase: React.FC<PropsType> = ({ listOfData, id, label, name, c
           ))}
         </select>
 
-        <SelectArrow className={styles.block__arrow} />
+        <ArrowBottom className={styles.block__arrow} />
       </div>
     </div>
   );

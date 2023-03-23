@@ -1,23 +1,30 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
 .paginationWrapper {
-  padding: 2rem 0;
   display: flex;
   justify-content: center;
+  user-select: none;
 }
 
-.separator {
-  width: 1rem;
-  margin: 0 0.25rem;
+.info {
+  display: flex;
+  align-items: center;
+  @include body2;
+  color: var(--HightEmphasis);
+  padding: 0 10px;
 }
 
 .pageItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: none;
-  height: 2rem;
-  width: 2rem;
-  margin: 0 0.25rem;
-  border-radius: 50%;
-  font-weight: 600;
-  color: var(--Orange);
+  height: 24px;
+  width: 24px;
+  color: var(--HightEmphasis);
+  cursor: pointer;
 
   &:hover {
     text-decoration: underline;
@@ -28,18 +35,6 @@
   }
 }
 
-.active {
-  background-color: var(--Orange);
-  color: var(--White);
-}
-
-.sides {
-  box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px,
-    rgba(0, 0, 0, 0.18) 0px 2px 4px;
-
-  &:hover {
-    text-decoration: none;
-    box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px,
-      rgba(0, 0, 0, 0.12) 0px 6px 16px;
-  }
+.disabled {
+  color: var(--LowEmphasis);
 }

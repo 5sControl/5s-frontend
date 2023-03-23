@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SelectArrow } from '../../assets/svg/SVGcomponent';
+import { ArrowBottom } from '../../assets/svg/SVGcomponent';
 import styles from './select.module.scss';
 
 type PropsType = {
@@ -24,7 +24,7 @@ export const Select: React.FC<PropsType> = ({ listOfData, className }) => {
           );
         })}
       </select>
-      <SelectArrow />
+      <ArrowBottom />
     </div>
   );
 };
