@@ -20,11 +20,11 @@ export const postConnectionWithDbAPI = (
       body: JSON.stringify(body),
     });
   } else {
-    return axios.post(`http://${hostname}/${CREATE_CONNECTION}`, {
+    return axios.post(`http://${hostname}/${CREATE_CONNECTION}`, body, {
       headers: {
+        'Content-Type': 'application/json',
         Authorization: token,
       },
-      body,
     });
   }
 };
