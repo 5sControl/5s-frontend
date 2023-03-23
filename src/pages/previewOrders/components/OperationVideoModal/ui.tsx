@@ -25,7 +25,7 @@ export const OperationVideoModal: React.FC<PropsType> = ({
 }) => {
   const operationStart =
     operationData &&
-    setDateDot(moment(operationData.operationTime).subtract(10, 'days').calendar()) +
+    setDateDot(new Date(operationData.operationTime).toLocaleDateString()) +
       ' | ' +
       moment(operationData.operationTime).tz('Etc/GMT').format('LT');
 
