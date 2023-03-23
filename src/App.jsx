@@ -41,6 +41,9 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/live" element={<Live />} />
             <Route path="/configuration" element={<Configuration />} />
+            <Route path="/configuration/license" element={<Configuration activeTab={0} />} />
+            <Route path="/configuration/database" element={<Configuration activeTab={1} />} />
+            <Route path="/configuration/camera" element={<Configuration activeTab={2} />} />
             <Route path="/configuration/:camera" element={<ConfigurationCamera />} />
             <Route path="/orders-view" element={<PreviewOrders />} />
             <Route path="/inventory" element={<Inventory />} />

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { CloseCross } from '../../../../assets/svg/SVGcomponent';
-import { Button } from '../../../../components/button/button';
+import { Button } from '../../../../components/button';
 import { Input } from '../../../../components/input';
 import { Modal } from '../../../../components/modal';
 import { SelectBase } from '../../../../components/selectBase';

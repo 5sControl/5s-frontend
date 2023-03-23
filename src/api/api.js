@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const url = 'https://85c1-134-17-26-206.eu.ngrok.io/';
+export const url = 'https://a992-134-17-26-206.eu.ngrok.io/';
 
 export const proxy = (URL, method, headers, body) => {
   return axios.post('https://5scontrol.pl/proxy_to_ngrok', {

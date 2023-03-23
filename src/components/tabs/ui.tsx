@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './tabs.module.scss';
+import { TabListProps } from './types';
 
 interface TabProps {
   label: string;
   children: React.ReactNode;
 }
-export const Tabs: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [activeTab, setActiveTab] = useState(0);
+
+type PropsType = {
+  children: React.ReactNode;
+  tabList: Array<TabListProps>;
+  activeTabDefault?: number;
+};
+
+export const Tabs: React.FC<PropsType> = ({ children, activeTabDefault = 0, tabList }) => {
+  const [activeTab, setActiveTab] = useState(activeTabDefault);
+  const navigate = useNavigate();
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
+    navigate(tabList[index].path);
   };
 
   return (
