@@ -14,7 +14,7 @@ export const disconnectDbAPI = (hostname: string, cookies: string, id: number) =
       },
     });
   } else {
-    return axios.post(`http://${hostname}${DISCONNECT_CONNECTION}${id}/`, {
+    return axios.post(`http://${hostname}${DISCONNECT_CONNECTION}${id}/`, '', {
       headers: {
         Authorization: cookies,
       },
