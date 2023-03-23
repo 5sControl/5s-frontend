@@ -7,6 +7,7 @@ import { OrdersListElement } from '../OrdersListElement';
 import { selectActiveOrder, addActiveOrder } from './ordersListSlice';
 
 import styles from './ordersList.module.scss';
+import { PaginationContainer } from '../../../../components/pagination';
 
 type PropsType = {
   data: Array<PreviewOrderItem>;
@@ -56,6 +57,7 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
         })}
         {!searchFilter().length && <p className={styles.emptyList}>No matching orders found.</p>}
       </div>
+      <PaginationContainer />
     </Cover>
   );
 };

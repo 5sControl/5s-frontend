@@ -1,4 +1,4 @@
-import { url, getIsInternet } from '../../../api/api.js';
+import { url, getIsInternet } from '../../../api/api';
 import { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 

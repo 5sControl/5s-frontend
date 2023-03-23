@@ -1,6 +1,6 @@
-import { OperationItem, ProductItem } from './../../storage/orderView';
+import { OperationItem, OrdersWithPagination, ProductItem } from './../../storage/orderView';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OrderItem, PreviewOrderItem } from '../../storage/orderView';
+import { OrderItem } from '../../storage/orderView';
 import { OrderListByCustomer } from '../../storage/orderViewCustomer';
 import { RootState } from '../../store';
 import { getOrderData, getOrdersId } from './previewOrdersAPI';
@@ -10,11 +10,11 @@ interface PreviewOrders {
   orderData: OrderItem | null;
   selectProductData: ProductItem | undefined;
   selectOperationData: OperationItem | undefined;
-  previewOrdersList: Array<PreviewOrderItem> | null;
   isLoadingPreviewList: boolean;
   isLoadingCurrentOrder: boolean;
   errorOfList: boolean;
   errorOfCurrentOrder: boolean;
+  previewOrdersList: OrdersWithPagination | null;
 }
 
 const initialState: PreviewOrders = {
@@ -45,11 +45,12 @@ export const getOrdersIdAsync = createAsyncThunk(
   async (data: { token: string; hostname: string }) => {
     const response = await getOrdersId(data.hostname, data.token);
     if (response.data) {
-      const data: PreviewOrderItem[] = response.data.map((item: OrderListByCustomer) => {
+      const orderData = response.data.results.map((item: OrderListByCustomer) => {
         return parseOrderData(item);
       });
+      console.log('', { ...response.data, results: orderData });
 
-      return data;
+      return { ...response.data, results: orderData };
     }
     return [];
   }
@@ -86,7 +87,7 @@ const previewOrdersPage = createSlice({
     });
     builder.addCase(
       getOrdersIdAsync.fulfilled,
-      (state, action: PayloadAction<Array<PreviewOrderItem>>) => {
+      (state, action: PayloadAction<OrdersWithPagination>) => {
         state.isLoadingPreviewList = false;
         state.previewOrdersList = action.payload;
       }

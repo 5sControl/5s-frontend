@@ -40,3 +40,12 @@ export interface OrderRequest {
   datazakonczenia: string;
   products: OrderByCustomer[];
 }
+
+export interface OrderWithPaginationCustomer {
+  all_page_count: number;
+  count: number;
+  next: string | null;
+  previous: string | null;
+  records_on_page: string;
+  results: OrderRequest[];
+}

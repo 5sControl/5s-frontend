@@ -38,3 +38,12 @@ export interface OperationItem {
   operationUse: number;
   operationWorker: string;
 }
+
+export interface OrdersWithPagination {
+  all_page_count: number;
+  count: number;
+  next: string | null;
+  previous: string | null;
+  records_on_page: string;
+  results: PreviewOrderItem[];
+}
