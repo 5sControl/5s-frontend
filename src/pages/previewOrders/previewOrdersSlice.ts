@@ -42,13 +42,12 @@ export const getOrderAsync = createAsyncThunk(
 
 export const getOrdersIdAsync = createAsyncThunk(
   'getOrdersId',
-  async (data: { token: string; hostname: string }) => {
-    const response = await getOrdersId(data.hostname, data.token);
+  async (data: { token: string; hostname: string; page?: number }) => {
+    const response = await getOrdersId(data.hostname, data.token, data.page);
     if (response.data) {
       const orderData = response.data.results.map((item: OrderListByCustomer) => {
         return parseOrderData(item);
       });
-      console.log('', { ...response.data, results: orderData });
 
       return { ...response.data, results: orderData };
     }
@@ -85,13 +84,10 @@ const previewOrdersPage = createSlice({
     builder.addCase(getOrdersIdAsync.pending, (state) => {
       state.isLoadingPreviewList = true;
     });
-    builder.addCase(
-      getOrdersIdAsync.fulfilled,
-      (state, action: PayloadAction<OrdersWithPagination>) => {
-        state.isLoadingPreviewList = false;
-        state.previewOrdersList = action.payload;
-      }
-    );
+    builder.addCase(getOrdersIdAsync.fulfilled, (state, action) => {
+      state.isLoadingPreviewList = false;
+      state.previewOrdersList = action.payload as OrdersWithPagination;
+    });
     builder.addCase(getOrdersIdAsync.rejected, (state) => {
       state.isLoadingPreviewList = false;
       state.errorOfList = true;

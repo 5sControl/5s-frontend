@@ -3,39 +3,39 @@
 .wrapper {
   max-width: 350px;
   padding: 10px 4px 10px 10px;
-  .header {
-    .title {
-      @include h4;
-      letter-spacing: 0.03em;
-    }
-    .listInput {
-      margin-top: 10px;
-    }
+}
+.header {
+  &_title {
+    @include h4;
+    letter-spacing: 0.03em;
   }
-
-  .list {
-    height: calc(100vh - 300px);
-    margin-top: 20px;
-    overflow-y: scroll;
-
-    .emptyList {
-      @include body1;
-      color: var(--HightEmphasis);
-      letter-spacing: 0.15px;
-    }
+  &_listInput {
+    margin-top: 10px;
   }
+}
 
-  .list::-webkit-scrollbar {
-    width: 8px;
-    background-color: inherit;
-  }
+.list {
+  height: calc(100vh - 380px);
+  margin-top: 20px;
+  overflow-y: scroll;
 
-  .list::-webkit-scrollbar-thumb {
-    background: var(--Gray88);
-    border-radius: 20px;
+  &_empty {
+    @include body1;
+    color: var(--HightEmphasis);
+    letter-spacing: 0.15px;
   }
+}
 
-  .list::-webkit-scrollbar-track {
-    background-color: inherit;
-  }
+.list::-webkit-scrollbar {
+  width: 8px;
+  background-color: inherit;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: var(--Gray88);
+  border-radius: 20px;
+}
+
+.list::-webkit-scrollbar-track {
+  background-color: inherit;
 }

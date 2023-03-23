@@ -40,6 +40,7 @@ export interface OperationItem {
 }
 
 export interface OrdersWithPagination {
+  current_page: number;
   all_page_count: number;
   count: number;
   next: string | null;

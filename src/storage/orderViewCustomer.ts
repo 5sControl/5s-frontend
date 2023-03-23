@@ -42,6 +42,7 @@ export interface OrderRequest {
 }
 
 export interface OrderWithPaginationCustomer {
+  current_page: number;
   all_page_count: number;
   count: number;
   next: string | null;
