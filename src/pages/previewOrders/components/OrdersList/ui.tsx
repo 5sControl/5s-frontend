@@ -7,17 +7,16 @@ import { OrdersListElement } from '../OrdersListElement';
 import { selectActiveOrder, addActiveOrder } from './ordersListSlice';
 
 import styles from './ordersList.module.scss';
-import { PaginationContainer } from '../../../../components/pagination';
-import { selectPreviewOrders } from '../../previewOrdersSlice';
+import { PaginationBlock } from '../PaginationBlock';
 
 type PropsType = {
   data: Array<PreviewOrderItem>;
+  showPaginations?: boolean;
 };
 
-export const OrderList: React.FC<PropsType> = ({ data }) => {
+export const OrderList: React.FC<PropsType> = ({ data, showPaginations = false }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const { activeOrder } = useAppSelector(selectActiveOrder);
-  const { previewOrdersList } = useAppSelector(selectPreviewOrders);
   const dispatch = useAppDispatch();
 
   const onclickHandler = (id: string) => {
@@ -48,7 +47,7 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
         />
       </div>
 
-      <div className={styles.list}>
+      <div className={`${styles.list} ${showPaginations ? styles.list_paginations : ''}`}>
         {searchFilter().map((item, index) => {
           return (
             <OrdersListElement
@@ -64,10 +63,7 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
         {!searchFilter().length && <p className={styles.list_empty}>No matching orders found.</p>}
       </div>
 
-      <PaginationContainer
-        page={previewOrdersList?.current_page as number}
-        totalPages={previewOrdersList?.all_page_count as number}
-      />
+      {showPaginations && <PaginationBlock />}
     </Cover>
   );
 };

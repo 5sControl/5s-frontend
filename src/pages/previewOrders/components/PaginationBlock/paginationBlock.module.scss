@@ -1,0 +1,31 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 22px 10px;
+  box-shadow: 0px 0px 8px rgba(68, 87, 104, 0.25);
+  border-radius: 4px;
+}
+
+.orders {
+  display: flex;
+  align-items: center;
+  &_desc {
+    @include body2;
+    color: var(--HightEmphasis);
+    margin-right: 4px;
+  }
+  &_select {
+    height: fit-content;
+    width: fit-content;
+    border: none;
+    border-bottom: 1px solid var(--HightEmphasis);
+    padding: 0 4px;
+    transition: all 0.5s;
+    cursor: pointer;
+    @include body2;
+    color: var(--HightEmphasis);
+  }
+}

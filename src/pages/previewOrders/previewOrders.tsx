@@ -6,7 +6,7 @@ import { OrderList } from './components/OrdersList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectActiveOrder } from './components/OrdersList/ordersListSlice';
 import { Cover } from '../../components/cover';
-import { selectPreviewOrders, getOrdersIdAsync, getOrderAsync } from './previewOrdersSlice';
+import { selectPreviewOrders, getOrdersAsync, getOrderAsync } from './previewOrdersSlice';
 import { useCookies } from 'react-cookie';
 import { OperationVideoModal } from './components/OperationVideoModal';
 import { Preloader } from '../../components/preloader';
@@ -41,7 +41,14 @@ export const PreviewOrders: React.FC = () => {
   // ];
 
   useEffect(() => {
-    dispatch(getOrdersIdAsync({ token: cookies.token, hostname: window.location.hostname }));
+    dispatch(
+      getOrdersAsync({
+        token: cookies.token,
+        hostname: window.location.hostname,
+        page: 1,
+        limit: 50,
+      })
+    );
   }, []);
 
   useEffect(() => {
@@ -85,7 +92,7 @@ export const PreviewOrders: React.FC = () => {
 
           {!isLoadingPreviewList && previewOrdersList ? (
             <div className={styles.body}>
-              <OrderList data={previewOrdersList.results} />
+              <OrderList data={previewOrdersList.results} showPaginations />
 
               {activeOrder && orderData ? (
                 <OrderCard data={orderData} />

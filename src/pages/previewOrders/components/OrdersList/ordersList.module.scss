@@ -2,9 +2,11 @@
 
 .wrapper {
   max-width: 350px;
-  padding: 10px 4px 10px 10px;
+  padding: 0;
 }
+
 .header {
+  margin: 10px 10px 0 10px;
   &_title {
     @include h4;
     letter-spacing: 0.03em;
@@ -15,14 +17,18 @@
 }
 
 .list {
-  height: calc(100vh - 380px);
+  height: calc(100vh - 300px);
   margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 4px;
   overflow-y: scroll;
-
   &_empty {
     @include body1;
     color: var(--HightEmphasis);
     letter-spacing: 0.15px;
+  }
+  &_paginations {
+    height: calc(100vh - 365px);
   }
 }
 
