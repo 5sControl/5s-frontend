@@ -45,17 +45,16 @@ export const InventoryItemsList: React.FC<PropsType> = ({ data }) => {
       </div>
 
       <div className={styles.list}>
-        {activeInventoryItem &&
-          searchFilter().map((item, index) => {
-            return (
-              <InventoryListItem
-                key={index}
-                itemDate={item}
-                activeInvontoryItemId={activeInventoryItem}
-                onClick={onclickHandler}
-              />
-            );
-          })}
+        {searchFilter().map((item, index) => {
+          return (
+            <InventoryListItem
+              key={index}
+              itemDate={item}
+              activeInvontoryItemId={activeInventoryItem}
+              onClick={onclickHandler}
+            />
+          );
+        })}
         {!searchFilter().length && <p className={styles.emptyList}>No matching orders found.</p>}
       </div>
     </Cover>

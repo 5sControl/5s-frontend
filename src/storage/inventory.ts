@@ -5,4 +5,5 @@ export interface InventoryItem {
   current_stock_level: number;
   low_stock_level: number;
   camera: string;
+  date_created: string;
 }

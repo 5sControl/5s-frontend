@@ -24,6 +24,7 @@ export const InventoryReport: React.FC = () => {
   const handleCloseModal = () => {
     dispatch(setIsOpenEditModal(false));
   };
+
   return (
     <>
       {currentEditItem && (
@@ -33,7 +34,7 @@ export const InventoryReport: React.FC = () => {
         <div className={styles.header}>
           <h4 className={styles.title}>Inventory Report</h4>
 
-          <p className={styles.date}>03.02.2023 | 13:00:04</p>
+          {inventoryItems && <p className={styles.date}>{inventoryItems[0].date_created}</p>}
         </div>
 
         <div className={styles.content}>

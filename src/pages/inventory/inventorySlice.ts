@@ -26,6 +26,8 @@ export const getInventoryItemsAsync = createAsyncThunk(
   async (data: { token: string; hostname: string }) => {
     const response = await getInventoryItems(data.hostname, data.token);
     if (response.data) {
+      console.log(response.data);
+
       return response.data.results;
     }
     return null;
@@ -36,8 +38,8 @@ export const getInventoryItemHistoryAsync = createAsyncThunk(
   'getInventoryHistory',
   async (data: { token: string; hostname: string; params: { camera: string; date: string } }) => {
     const response = await getInventoryItemHistory(data.hostname, data.token, data.params);
-    console.log('responce', response);
     if (response.data) {
+      console.log(response.data);
       return response.data;
     }
     return null;

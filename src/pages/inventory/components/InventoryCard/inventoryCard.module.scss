@@ -34,17 +34,4 @@
       color: var(--StockRed);
     }
   }
-
-  .history {
-    margin-top: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    &_title {
-      @include h6;
-      color: var(--HightEmphasis);
-      letter-spacing: 0.1px;
-    }
-  }
 }

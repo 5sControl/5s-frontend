@@ -19,6 +19,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
     { id: 0, text: '192.168.1.167' },
     { id: 1, text: '192.168.1.168' },
     { id: 2, text: '192.168.1.110' },
+    { id: 3, text: '192.168.1.163' },
   ];
   const dispatch = useAppDispatch();
   const { currentEditItem, connectResponse } = useAppSelector(selectEditInventoryModal);

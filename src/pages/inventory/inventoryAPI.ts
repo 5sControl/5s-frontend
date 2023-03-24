@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getIsInternet, proxy, url } from '../../api/api';
+import { AddInventoryData } from './components/AddInventoryModal/types';
 import { EditInventoryData } from './components/EditInventoryModal/types';
 
 export const getInventoryItems = (hostname: string, cookies: string) => {
@@ -18,7 +19,7 @@ export const getInventoryItems = (hostname: string, cookies: string) => {
   }
 };
 
-export const setInventoryItem = (hostname: string, cookies: string) => {
+export const setInventoryItem = (hostname: string, cookies: string, body: AddInventoryData) => {
   const API_INVENTORY_SET = 'api/inventory/items/';
 
   if (getIsInternet(hostname)) {
@@ -29,32 +30,16 @@ export const setInventoryItem = (hostname: string, cookies: string) => {
         'Content-Type': 'application/json',
         Authorization: cookies,
       },
-      body: JSON.stringify({
-        name: 'Item 1',
-        status: 'In stock',
-        camera: '192.168.1.168',
-        low_stock_level: 5,
-        current_stock_level: 0,
-        email: null,
-      }),
+      body: JSON.stringify(body),
     });
   } else {
-    return axios.post(
-      `http://${hostname}/${API_INVENTORY_SET}`,
-      {
-        name: 'Item 1',
-        status: 'In stock',
-        camera: '192.168.1.168',
-        low_stock_level: 5,
-        current_stock_level: 0,
-        email: null,
-      },
-      {
+    {
+      return axios.post(`http://${hostname}/${API_INVENTORY_SET}`, body, {
         headers: {
           Authorization: cookies,
         },
-      }
-    );
+      });
+    }
   }
 };
 
@@ -66,7 +51,7 @@ export const editInventoryItemAxios = (
   const API_INVENTORY_SET = 'api/inventory/items/';
 
   if (getIsInternet(hostname)) {
-    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+    return axios.put('https://5scontrol.pl/proxy_to_ngrok', {
       url: url + API_INVENTORY_SET + body.id + '/',
       method: 'PUT',
       headers: {
@@ -76,7 +61,23 @@ export const editInventoryItemAxios = (
       body: JSON.stringify(body),
     });
   } else {
-    return axios.post(`http://${hostname}/${API_INVENTORY_SET}`, body, {
+    return axios.put(`http://${hostname}/${API_INVENTORY_SET}`, body, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const deleteInventoryItemAxios = (hostname: string, cookies: string, id: number) => {
+  const API_INVENTORY_DELETE = 'api/inventory/items/';
+
+  if (getIsInternet(hostname)) {
+    return proxy(`${url}${API_INVENTORY_DELETE}${id}/`, 'DELETE', {
+      Authorization: cookies,
+    });
+  } else {
+    return axios.delete(`http://${hostname}/${API_INVENTORY_DELETE}`, {
       headers: {
         Authorization: cookies,
       },
@@ -89,17 +90,20 @@ export const getInventoryItemHistory = (
   cookies: string,
   data: { camera: string; date: string }
 ) => {
-  const API_BY_ORDER = 'api/inventory/history/';
+  const API_HISTORY = 'api/inventory/history/';
 
   if (getIsInternet(hostname)) {
-    return proxy(`${url}${API_BY_ORDER}${data.camera}/${data.date}/00:00:00/23:59:00/`, 'GET', {
+    return proxy(`${url}${API_HISTORY}${data.camera}/${data.date}/00:00:00/23:59:00/`, 'GET', {
       Authorization: cookies,
     });
   } else {
-    return axios.get(`http://${hostname}/${API_BY_ORDER}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
+    return axios.get(
+      `http://${hostname}/${API_HISTORY}${data.camera}/${data.date}/00:00:00/23:59:00/`,
+      {
+        headers: {
+          Authorization: cookies,
+        },
+      }
+    );
   }
 };

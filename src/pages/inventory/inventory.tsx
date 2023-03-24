@@ -17,10 +17,13 @@ import { Cover } from '../../components/cover';
 import { Preloader } from '../../components/preloader';
 import { InventoryCard } from './components/InventoryCard';
 import { selectActiveInventoryItem } from './components/InventoryItemsList/InventoryItemsListSlice';
+import moment from 'moment-timezone';
+import { selectAddInventoryModal } from './components/AddInventoryModal/addInventoryModalSlice';
 
 export const Inventory: React.FC = () => {
   const dispatch = useAppDispatch();
   const { connectResponse } = useAppSelector(selectEditInventoryModal);
+  const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
   const { inventoryItems, isLoading } = useAppSelector(selectInventory);
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -28,7 +31,7 @@ export const Inventory: React.FC = () => {
 
   useEffect(() => {
     dispatch(getInventoryItemsAsync({ token: cookies.token, hostname: window.location.hostname }));
-  }, [connectResponse]);
+  }, [connectResponse, connectResponseDataAdd]);
 
   useEffect(() => {
     if (activeInventoryItem) {
@@ -36,7 +39,7 @@ export const Inventory: React.FC = () => {
         getInventoryItemHistoryAsync({
           token: cookies.token,
           hostname: window.location.hostname,
-          params: { camera: activeInventoryItem.camera, date: '2023-03-21' },
+          params: { camera: activeInventoryItem.camera, date: moment().format('YYYY-MM-DD') },
         })
       );
     }
@@ -53,7 +56,7 @@ export const Inventory: React.FC = () => {
           <div className={styles.header}>
             <h2 className={styles.title}>Inventory</h2>
 
-            {/* <Button text="Add item" isIcon onClick={addInventoryButton} /> */}
+            <Button text="Add item" isIcon onClick={addInventoryButton} />
           </div>
 
           {!isLoading && inventoryItems ? (
