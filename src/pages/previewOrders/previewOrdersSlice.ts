@@ -1,5 +1,5 @@
 import { OperationItem, OrdersWithPagination, ProductItem } from './../../storage/orderView';
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
 import { OrderItem } from '../../storage/orderView';
 import { OrderListByCustomer } from '../../storage/orderViewCustomer';
 import { RootState } from '../../store';
@@ -12,7 +12,8 @@ interface PreviewOrders {
   selectOperationData: OperationItem | undefined;
   isLoadingPreviewList: boolean;
   isLoadingCurrentOrder: boolean;
-  errorOfList: boolean;
+  isErrorOfOrders: boolean;
+  errorOfOrdersData: SerializedError;
   errorOfCurrentOrder: boolean;
   previewOrdersList: OrdersWithPagination | null;
 }
@@ -23,7 +24,8 @@ const initialState: PreviewOrders = {
   selectOperationData: undefined,
   isLoadingPreviewList: false,
   isLoadingCurrentOrder: false,
-  errorOfList: false,
+  isErrorOfOrders: false,
+  errorOfOrdersData: {},
   errorOfCurrentOrder: false,
   previewOrdersList: null,
 };
@@ -57,7 +59,7 @@ export const getOrdersAsync = createAsyncThunk(
 );
 
 const previewOrdersPage = createSlice({
-  name: 'previewOrders',
+  name: 'previewOrdersPage',
   initialState,
   reducers: {
     setIsError: (state, action) => {
@@ -68,6 +70,9 @@ const previewOrdersPage = createSlice({
     },
     setSelectProductData(state, action: PayloadAction<ProductItem>) {
       state.selectProductData = action.payload;
+    },
+    clearPreviewOrdersList(state) {
+      state.previewOrdersList = null;
     },
   },
   extraReducers: (builder) => {
@@ -87,16 +92,18 @@ const previewOrdersPage = createSlice({
     });
     builder.addCase(getOrdersAsync.fulfilled, (state, action) => {
       state.isLoadingPreviewList = false;
+      state.isErrorOfOrders = false;
       state.previewOrdersList = action.payload as OrdersWithPagination;
     });
-    builder.addCase(getOrdersAsync.rejected, (state) => {
+    builder.addCase(getOrdersAsync.rejected, (state, action) => {
       state.isLoadingPreviewList = false;
-      state.errorOfList = true;
+      state.isErrorOfOrders = true;
+      state.errorOfOrdersData = action.error;
     });
   },
 });
 
-export const { setIsError, setSelectOperationData, setSelectProductData } =
+export const { setIsError, setSelectOperationData, setSelectProductData, clearPreviewOrdersList } =
   previewOrdersPage.actions;
 export const selectPreviewOrders = (state: RootState) => state.previewOrders;
 export default previewOrdersPage.reducer;

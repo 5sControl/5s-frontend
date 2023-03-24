@@ -11,10 +11,17 @@ import { PaginationBlock } from '../PaginationBlock';
 
 type PropsType = {
   data: Array<PreviewOrderItem>;
+  isLoading: boolean;
   showPaginations?: boolean;
+  disabled?: boolean;
 };
 
-export const OrderList: React.FC<PropsType> = ({ data, showPaginations = false }) => {
+export const OrderList: React.FC<PropsType> = ({
+  data,
+  showPaginations = false,
+  isLoading,
+  disabled,
+}) => {
   const [inputValue, setInputValue] = useState<string>('');
   const { activeOrder } = useAppSelector(selectActiveOrder);
   const dispatch = useAppDispatch();
@@ -44,26 +51,30 @@ export const OrderList: React.FC<PropsType> = ({ data, showPaginations = false }
           className={styles.listInput}
           searchInputFilter={searchInputFilter}
           placeholder={'Search order number'}
+          disabled={disabled}
         />
       </div>
 
       <div className={`${styles.list} ${showPaginations ? styles.list_paginations : ''}`}>
-        {searchFilter().map((item, index) => {
-          return (
-            <OrdersListElement
-              key={index}
-              orderId={item.orderId}
-              activeOrderId={activeOrder}
-              status={item.orderStatus}
-              onClick={onclickHandler}
-              orderDate={item.orderDateRealize}
-            />
-          );
-        })}
+        {isLoading
+          ? 'Loading...'
+          : searchFilter().map((item, index) => {
+              return (
+                <OrdersListElement
+                  key={index}
+                  orderId={item.orderId}
+                  activeOrderId={activeOrder}
+                  status={item.orderStatus}
+                  onClick={onclickHandler}
+                  orderDate={item.orderDateRealize}
+                />
+              );
+            })}
+
         {!searchFilter().length && <p className={styles.list_empty}>No matching orders found.</p>}
       </div>
 
-      {showPaginations && <PaginationBlock />}
+      {showPaginations && <PaginationBlock disabled={disabled} />}
     </Cover>
   );
 };

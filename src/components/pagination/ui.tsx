@@ -1,16 +1,45 @@
 import React from 'react';
-import { PaginationBase } from './components/PaginationBase';
+import styles from './pagination.module.scss';
+import { ArrowRight, ArrowLeft } from '../../assets/svg/SVGcomponent';
 
-export interface PropsType {
+export interface Props {
   page: number;
   totalPages: number;
-  handleSetPages: (updatePage: number) => void;
+  handlePagination: (page: number) => void;
+  disabled?: boolean;
 }
 
-export const PaginationContainer: React.FC<PropsType> = ({ page, totalPages, handleSetPages }) => {
-  const handlePages = (updatePage: number) => {
-    handleSetPages(updatePage);
-  };
+export const Pagination: React.FC<Props> = ({
+  page,
+  totalPages,
+  handlePagination,
+  disabled = false,
+}) => {
+  return (
+    <div className={styles.paginationWrapper}>
+      <button
+        onClick={() => handlePagination(page - 1)}
+        type="button"
+        disabled={page === 1 || disabled}
+        className={[styles.pageItem, page === 1 || disabled ? styles.disabled : ''].join(' ')}
+      >
+        <ArrowLeft />
+      </button>
 
-  return <PaginationBase page={page} totalPages={totalPages} handlePagination={handlePages} />;
+      <p className={styles.info}>
+        {page} of {totalPages}
+      </p>
+
+      <button
+        onClick={() => handlePagination(page + 1)}
+        type="button"
+        disabled={page === totalPages || disabled}
+        className={[styles.pageItem, page === totalPages || disabled ? styles.disabled : ''].join(
+          ' '
+        )}
+      >
+        <ArrowRight />
+      </button>
+    </div>
+  );
 };

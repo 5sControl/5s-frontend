@@ -9,11 +9,12 @@ import { Cover } from '../../components/cover';
 import { selectPreviewOrders, getOrdersAsync, getOrderAsync } from './previewOrdersSlice';
 import { useCookies } from 'react-cookie';
 import { OperationVideoModal } from './components/OperationVideoModal';
-import { Preloader } from '../../components/preloader';
 import {
   selectOperationVideoModal,
   setIsOpenOperationVideoModal,
 } from './components/OperationVideoModal/operationVideoModalSlice';
+import { Disconnect } from '../../assets/svg/SVGcomponent';
+import { Link } from 'react-router-dom';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +26,8 @@ export const PreviewOrders: React.FC = () => {
     selectProductData,
     previewOrdersList,
     isLoadingPreviewList,
+    isErrorOfOrders,
+    errorOfOrdersData,
   } = useAppSelector(selectPreviewOrders);
   const { isOpenOperationVideoModal, videoState } = useAppSelector(selectOperationVideoModal);
 
@@ -90,22 +93,41 @@ export const PreviewOrders: React.FC = () => {
           </div> */}
           </div>
 
-          {!isLoadingPreviewList && previewOrdersList ? (
-            <div className={styles.body}>
-              <OrderList data={previewOrdersList.results} showPaginations />
+          <div className={styles.body}>
+            <OrderList
+              data={previewOrdersList ? previewOrdersList.results : []}
+              isLoading={isLoadingPreviewList}
+              showPaginations
+              disabled={isErrorOfOrders}
+            />
 
-              {activeOrder && orderData ? (
-                <OrderCard data={orderData} />
-              ) : (
-                <Cover className={styles.noOrder}>
-                  <h4 className={styles.title}>No order</h4>
-                  <p className={styles.subtitle}>Select an order from the list on the left</p>
-                </Cover>
-              )}
-            </div>
-          ) : (
-            <Preloader loading={isLoadingPreviewList} />
-          )}
+            {activeOrder && orderData ? (
+              <OrderCard data={orderData} />
+            ) : (
+              <Cover className={styles.noOrder}>
+                {isErrorOfOrders ? (
+                  <div className={styles.errorConnection}>
+                    <Disconnect className={styles.errorConnection_icon} />
+                    <p className={styles.errorConnection_desc}>
+                      To view your orders{' '}
+                      <Link
+                        to={'/configuration/database'}
+                        className={styles.errorConnection_desc_link}
+                      >
+                        connect
+                      </Link>{' '}
+                      to the database with them in Configuration tab.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <h4 className={styles.title}>No order</h4>
+                    <p className={styles.subtitle}>Select an order from the list on the left</p>
+                  </>
+                )}
+              </Cover>
+            )}
+          </div>
         </div>
       </WrapperPage>
     </>

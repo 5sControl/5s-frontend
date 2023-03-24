@@ -5,6 +5,12 @@ import { OrderRequest, OrderWithPaginationCustomer } from '../../storage/orderVi
 export const getOrderData = (hostname: string, cookies: string, orderId: string) => {
   const API_BY_ORDER = 'api/order/by-order';
 
+  return axios.get(`http://192.168.1.110/${API_BY_ORDER}/${orderId}/`, {
+    headers: {
+      Authorization: cookies,
+    },
+  });
+
   if (getIsInternet(hostname)) {
     return proxy<OrderRequest>(`${url}${API_BY_ORDER}/${orderId}/`, 'GET', {
       Authorization: cookies,
@@ -20,7 +26,16 @@ export const getOrderData = (hostname: string, cookies: string, orderId: string)
 
 export const getOrdersId = (hostname: string, cookies: string, page: number, limit: number) => {
   const API_ALL_ORDERS = 'api/order/all-orders';
-  console.log(page, limit);
+
+  return axios.get<OrderWithPaginationCustomer>(`http://192.168.1.110/${API_ALL_ORDERS}/`, {
+    headers: {
+      Authorization: cookies,
+    },
+    params: {
+      page,
+      page_size: limit,
+    },
+  });
 
   if (getIsInternet(hostname)) {
     return proxy<OrderWithPaginationCustomer>(

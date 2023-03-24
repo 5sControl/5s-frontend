@@ -17,6 +17,7 @@ import { ReactComponent as Inventory } from './inventory.svg';
 import { ReactComponent as Plus } from './plus.svg';
 import { ReactComponent as Settings } from './settings.svg';
 import { ReactComponent as Eye } from './eye.svg';
+import { ReactComponent as Disconnect } from './disconnect.svg';
 export {
   Algorithm,
   Camera,
@@ -37,4 +38,5 @@ export {
   Plus,
   Settings,
   Eye,
+  Disconnect,
 };

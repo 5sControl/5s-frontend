@@ -1,1 +1,0 @@
-export { PaginationBase } from './ui';
