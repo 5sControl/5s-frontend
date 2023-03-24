@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { setOrdersViewPage } from '../../pages/previewOrders/previewOrdersSlice';
+import { useAppDispatch } from '../../store/hooks';
 import { PaginationBase } from './components/PaginationBase';
 
 export interface PropsType {
@@ -8,14 +10,13 @@ export interface PropsType {
 }
 
 export const PaginationContainer: React.FC<PropsType> = ({ page, totalPages, handleSetPages }) => {
-  const [currentPage, setCurrentPage] = useState(page);
+  // const [currentPage, setCurrentPage] = useState(page);
+  const dispatch = useAppDispatch();
 
   const handlePages = (updatePage: number) => {
-    setCurrentPage(updatePage);
+    dispatch(setOrdersViewPage(updatePage));
     handleSetPages(updatePage);
   };
 
-  return (
-    <PaginationBase page={currentPage} totalPages={totalPages} handlePagination={handlePages} />
-  );
+  return <PaginationBase page={page} totalPages={totalPages} handlePagination={handlePages} />;
 };

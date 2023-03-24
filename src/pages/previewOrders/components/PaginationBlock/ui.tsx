@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { ChangeEvent } from 'react';
 import { useCookies } from 'react-cookie';
 import { PaginationContainer } from '../../../../components/pagination';
 import { useAppSelector, useAppDispatch } from '../../../../store/hooks';
-import { getOrdersIdAsync, selectPreviewOrders } from '../../previewOrdersSlice';
+import { getOrdersAsync, selectPreviewOrders } from '../../previewOrdersSlice';
 import styles from './paginationBlock.module.scss';
 
 const listOfData = [
@@ -12,17 +12,29 @@ const listOfData = [
 ];
 
 export const PaginationBlock: React.FC = () => {
-  const [dataSelect, setDataSelect] = useState<string>(listOfData[1].text);
   const { previewOrdersList } = useAppSelector(selectPreviewOrders);
   const dispatch = useAppDispatch();
   const [cookies] = useCookies(['token']);
 
   const handlePages = (updatePage: number) => {
     dispatch(
-      getOrdersIdAsync({
+      getOrdersAsync({
         token: cookies.token,
         hostname: window.location.hostname,
         page: updatePage,
+        limit: previewOrdersList?.records_on_page as number,
+      })
+    );
+  };
+
+  const handleChangeSelection = (event: ChangeEvent<HTMLSelectElement>) => {
+    const target = event.target;
+    dispatch(
+      getOrdersAsync({
+        token: cookies.token,
+        hostname: window.location.hostname,
+        page: previewOrdersList?.current_page as number,
+        limit: +target.value,
       })
     );
   };
@@ -33,12 +45,12 @@ export const PaginationBlock: React.FC = () => {
         <span className={styles.orders_desc}>Orders per page:</span>
 
         <select
-          value={dataSelect}
-          onChange={(e) => setDataSelect(e.target.value)}
+          value={previewOrdersList?.records_on_page}
+          onChange={handleChangeSelection}
           className={styles.orders_select}
         >
-          {listOfData.map((item) => (
-            <option value={item.text} key={item.id}>
+          {listOfData.map((item, index) => (
+            <option value={item.text} key={index}>
               {item.text}
             </option>
           ))}

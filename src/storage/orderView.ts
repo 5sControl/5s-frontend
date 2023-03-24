@@ -45,6 +45,6 @@ export interface OrdersWithPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  records_on_page: string;
+  records_on_page: number;
   results: PreviewOrderItem[];
 }

@@ -18,25 +18,27 @@ export const getOrderData = (hostname: string, cookies: string, orderId: string)
   }
 };
 
-export const getOrdersId = (hostname: string, cookies: string, page?: number) => {
+export const getOrdersId = (hostname: string, cookies: string, page: number, limit: number) => {
   const API_ALL_ORDERS = 'api/order/all-orders';
+  console.log(page, limit);
 
   if (getIsInternet(hostname)) {
     return proxy<OrderWithPaginationCustomer>(
-      `${url}${API_ALL_ORDERS}/${page ? `?page=${page}` : ''}`,
+      `${url}${API_ALL_ORDERS}/${page ? `?page=${page}` : ''}${page ? `&page_size=${limit}` : ''}`,
       'GET',
       {
         Authorization: cookies,
       }
     );
   } else {
-    return axios.get<OrderWithPaginationCustomer>(
-      `http://${hostname}/${API_ALL_ORDERS}/${page ? `?page=${page}` : ''}`,
-      {
-        headers: {
-          Authorization: cookies,
-        },
-      }
-    );
+    return axios.get<OrderWithPaginationCustomer>(`http://${hostname}/${API_ALL_ORDERS}/`, {
+      headers: {
+        Authorization: cookies,
+      },
+      params: {
+        page,
+        page_size: limit,
+      },
+    });
   }
 };

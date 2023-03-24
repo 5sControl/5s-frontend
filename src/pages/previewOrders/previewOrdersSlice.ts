@@ -41,10 +41,10 @@ export const getOrderAsync = createAsyncThunk(
   }
 );
 
-export const getOrdersIdAsync = createAsyncThunk(
-  'getOrdersId',
-  async (data: { token: string; hostname: string; page?: number }) => {
-    const response = await getOrdersId(data.hostname, data.token, data.page);
+export const getOrdersAsync = createAsyncThunk(
+  'getOrders',
+  async (data: { token: string; hostname: string; page: number; limit: number }) => {
+    const response = await getOrdersId(data.hostname, data.token, data.page, data.limit);
     if (response.data) {
       const orderData = response.data.results.map((item: OrderListByCustomer) => {
         return parseOrderData(item);
@@ -69,6 +69,16 @@ const previewOrdersPage = createSlice({
     setSelectProductData(state, action: PayloadAction<ProductItem>) {
       state.selectProductData = action.payload;
     },
+    setLimitOrdersPerPage(state, action: PayloadAction<number>) {
+      state.previewOrdersList &&
+        state.previewOrdersList.records_on_page &&
+        (state.previewOrdersList.records_on_page = action.payload);
+    },
+    setOrdersViewPage(state, action: PayloadAction<number>) {
+      state.previewOrdersList &&
+        state.previewOrdersList.current_page &&
+        (state.previewOrdersList.current_page = action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getOrderAsync.pending, (state) => {
@@ -82,21 +92,26 @@ const previewOrdersPage = createSlice({
       state.isLoadingCurrentOrder = false;
       state.errorOfCurrentOrder = true;
     });
-    builder.addCase(getOrdersIdAsync.pending, (state) => {
+    builder.addCase(getOrdersAsync.pending, (state) => {
       state.isLoadingPreviewList = true;
     });
-    builder.addCase(getOrdersIdAsync.fulfilled, (state, action) => {
+    builder.addCase(getOrdersAsync.fulfilled, (state, action) => {
       state.isLoadingPreviewList = false;
       state.previewOrdersList = action.payload as OrdersWithPagination;
     });
-    builder.addCase(getOrdersIdAsync.rejected, (state) => {
+    builder.addCase(getOrdersAsync.rejected, (state) => {
       state.isLoadingPreviewList = false;
       state.errorOfList = true;
     });
   },
 });
 
-export const { setIsError, setSelectOperationData, setSelectProductData } =
-  previewOrdersPage.actions;
+export const {
+  setIsError,
+  setSelectOperationData,
+  setSelectProductData,
+  setLimitOrdersPerPage,
+  setOrdersViewPage,
+} = previewOrdersPage.actions;
 export const selectPreviewOrders = (state: RootState) => state.previewOrders;
 export default previewOrdersPage.reducer;

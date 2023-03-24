@@ -11,9 +11,10 @@ import { PaginationBlock } from '../PaginationBlock';
 
 type PropsType = {
   data: Array<PreviewOrderItem>;
+  showPaginations?: boolean;
 };
 
-export const OrderList: React.FC<PropsType> = ({ data }) => {
+export const OrderList: React.FC<PropsType> = ({ data, showPaginations = false }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const { activeOrder } = useAppSelector(selectActiveOrder);
   const dispatch = useAppDispatch();
@@ -42,7 +43,7 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
         <SearchInput className={styles.header_listInput} searchInputFilter={searchInputFilter} />
       </div>
 
-      <div className={styles.list}>
+      <div className={`${styles.list} ${showPaginations ? styles.list_paginations : ''}`}>
         {searchFilter().map((item, index) => {
           return (
             <OrdersListElement
@@ -58,7 +59,7 @@ export const OrderList: React.FC<PropsType> = ({ data }) => {
         {!searchFilter().length && <p className={styles.list_empty}>No matching orders found.</p>}
       </div>
 
-      <PaginationBlock />
+      {showPaginations && <PaginationBlock />}
     </Cover>
   );
 };
