@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { CloseCross } from '../../../../assets/svg/SVGcomponent';
-import { Button } from '../../../../components/button/button';
+import { Button } from '../../../../components/button';
 import { Input } from '../../../../components/input';
 import { Modal } from '../../../../components/modal';
 import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { setDatabasesOrdersView } from '../../connectionSlice';
 import { inputProps, listOfDataForSelect } from './config';
 import styles from './connectToDbModal.module.scss';
 import { createConnectionWithDB, selectConnectToDbModal } from './connectToDbModalSlice';
@@ -18,7 +19,12 @@ type PropsType = {
 
 export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
   const [cookies] = useCookies(['token']);
-  const { isLoadingPostConnectionToDb, connectResponse } = useAppSelector(selectConnectToDbModal);
+  const {
+    isLoadingPostConnectionToDb,
+    isErrorLoadingPostConnectionToDb,
+    connectResponse,
+    errorConnectToDbResponse,
+  } = useAppSelector(selectConnectToDbModal);
 
   const dispatch = useAppDispatch();
 
@@ -37,7 +43,6 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, handleClose }) =
     const database_type = target.database_type.value; // typechecks!
     const database = target.database.value; // typechecks!
     const server = target.server.value; // typechecks!
-    const port = target.port.value; // typechecks!
     const username = target.username.value; // typechecks!
     const password = target.password.value; // typechecks!
 
@@ -45,7 +50,6 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, handleClose }) =
       database_type,
       database,
       server,
-      port,
       username,
       password,
     };
@@ -61,6 +65,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, handleClose }) =
 
   useEffect(() => {
     if (connectResponse?.success) {
+      dispatch(setDatabasesOrdersView(connectResponse?.connection));
       handleClose();
     }
   }, [connectResponse]);
@@ -85,7 +90,10 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, handleClose }) =
           {inputProps.map((props, index) => (
             <Input key={index} {...props} />
           ))}
-          <div className={styles.form_error}>{connectResponse?.message?.detail}</div>
+
+          {isErrorLoadingPostConnectionToDb && (
+            <div className={styles.form_error}>{errorConnectToDbResponse?.message}</div>
+          )}
         </div>
 
         <Button

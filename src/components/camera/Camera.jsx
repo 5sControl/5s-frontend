@@ -7,6 +7,7 @@ import { getIsInternet, url } from '../../api/api';
 import { CameraSettings } from './modal/cameraSettings';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { Button } from '../button';
 
 export const Camera = () => {
   const [cookies] = useCookies(['token']);
@@ -46,10 +47,8 @@ export const Camera = () => {
   return (
     <section className="cameras">
       <div className="cameras__title">
-        <h1>Cameras</h1>
-        <button className="cameras__button" onClick={showAddCameras}>
-          + Add Camera
-        </button>
+        <h2>Cameras</h2>
+        <Button text="+ Add Camera" onClick={showAddCameras} />
       </div>
       {createdCameras && (
         <div className="cameras__list">

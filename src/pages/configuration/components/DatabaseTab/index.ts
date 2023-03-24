@@ -1,0 +1,1 @@
+export { DatabaseTab } from './ui';

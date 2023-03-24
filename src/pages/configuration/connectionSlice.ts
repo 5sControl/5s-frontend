@@ -1,5 +1,5 @@
 import { getConnectionsToDatabases } from './configurationAPI';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
 export type DatabaseInfo = {
@@ -12,21 +12,23 @@ export type DatabaseInfo = {
 
 type DataBaseResponse = {
   count: number;
-  next: number;
-  previous: number;
+  next: number | null;
+  previous: number | null;
   results: Array<DatabaseInfo>;
 };
 
 interface ConnectionState {
   databases: DataBaseResponse | null;
   isLoadingGetConnectionsToDB: boolean;
-  errorOfGetConnections: boolean;
+  isErrorOfGetConnections: boolean;
+  errorMessageFromDb: SerializedError | null;
 }
 
 const initialState: ConnectionState = {
   databases: null,
   isLoadingGetConnectionsToDB: false,
-  errorOfGetConnections: false,
+  isErrorOfGetConnections: false,
+  errorMessageFromDb: null,
 };
 
 export const getConnectionsToDB = createAsyncThunk(
@@ -43,7 +45,14 @@ export const getConnectionsToDB = createAsyncThunk(
 const connectionSlice = createSlice({
   name: 'connectionPage',
   initialState,
-  reducers: {},
+  reducers: {
+    setDatabasesOrdersView(state, action: PayloadAction<DatabaseInfo>) {
+      state.databases = { count: 1, next: null, previous: null, results: [action.payload] };
+    },
+    clearDatabasesOrdersView(state) {
+      state.databases = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getConnectionsToDB.pending, (state) => {
       state.isLoadingGetConnectionsToDB = true;
@@ -52,12 +61,14 @@ const connectionSlice = createSlice({
       state.isLoadingGetConnectionsToDB = false;
       state.databases = action.payload;
     });
-    builder.addCase(getConnectionsToDB.rejected, (state) => {
+    builder.addCase(getConnectionsToDB.rejected, (state, action) => {
       state.isLoadingGetConnectionsToDB = false;
-      state.errorOfGetConnections = true;
+      state.isErrorOfGetConnections = true;
+      state.errorMessageFromDb = action.error;
     });
   },
 });
 
+export const { setDatabasesOrdersView, clearDatabasesOrdersView } = connectionSlice.actions;
 export const selectConnectionPage = (state: RootState) => state.connectionPage;
 export default connectionSlice.reducer;

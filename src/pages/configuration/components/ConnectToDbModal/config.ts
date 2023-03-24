@@ -7,14 +7,14 @@ export const inputProps = [
     placeholder: 'Enter host',
     required: true,
   },
-  {
-    id: 'port',
-    name: 'port',
-    label: 'Port',
-    type: 'text',
-    placeholder: 'Enter port',
-    required: true,
-  },
+  // {
+  //   id: 'port',
+  //   name: 'port',
+  //   label: 'Port',
+  //   type: 'text',
+  //   placeholder: 'Enter port',
+  //   required: true,
+  // },
   {
     id: 'database',
     name: 'database',
