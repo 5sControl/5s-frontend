@@ -1,6 +1,6 @@
-import { OperationItem, ProductItem } from './../../storage/orderView';
+import { OperationItem, OrdersWithPagination, ProductItem } from './../../storage/orderView';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OrderItem, PreviewOrderItem } from '../../storage/orderView';
+import { OrderItem } from '../../storage/orderView';
 import { OrderListByCustomer } from '../../storage/orderViewCustomer';
 import { RootState } from '../../store';
 import { getOrderData, getOrdersId } from './previewOrdersAPI';
@@ -10,11 +10,11 @@ interface PreviewOrders {
   orderData: OrderItem | null;
   selectProductData: ProductItem | undefined;
   selectOperationData: OperationItem | undefined;
-  previewOrdersList: Array<PreviewOrderItem> | null;
   isLoadingPreviewList: boolean;
   isLoadingCurrentOrder: boolean;
   errorOfList: boolean;
   errorOfCurrentOrder: boolean;
+  previewOrdersList: OrdersWithPagination | null;
 }
 
 const initialState: PreviewOrders = {
@@ -42,14 +42,14 @@ export const getOrderAsync = createAsyncThunk(
 
 export const getOrdersIdAsync = createAsyncThunk(
   'getOrdersId',
-  async (data: { token: string; hostname: string }) => {
-    const response = await getOrdersId(data.hostname, data.token);
+  async (data: { token: string; hostname: string; page?: number }) => {
+    const response = await getOrdersId(data.hostname, data.token, data.page);
     if (response.data) {
-      const data: PreviewOrderItem[] = response.data.map((item: OrderListByCustomer) => {
+      const orderData = response.data.results.map((item: OrderListByCustomer) => {
         return parseOrderData(item);
       });
 
-      return data;
+      return { ...response.data, results: orderData };
     }
     return [];
   }
@@ -84,13 +84,10 @@ const previewOrdersPage = createSlice({
     builder.addCase(getOrdersIdAsync.pending, (state) => {
       state.isLoadingPreviewList = true;
     });
-    builder.addCase(
-      getOrdersIdAsync.fulfilled,
-      (state, action: PayloadAction<Array<PreviewOrderItem>>) => {
-        state.isLoadingPreviewList = false;
-        state.previewOrdersList = action.payload;
-      }
-    );
+    builder.addCase(getOrdersIdAsync.fulfilled, (state, action) => {
+      state.isLoadingPreviewList = false;
+      state.previewOrdersList = action.payload as OrdersWithPagination;
+    });
     builder.addCase(getOrdersIdAsync.rejected, (state) => {
       state.isLoadingPreviewList = false;
       state.errorOfList = true;
