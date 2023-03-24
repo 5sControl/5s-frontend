@@ -1,0 +1,65 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.modal {
+  max-width: 880px;
+  max-height: 615px;
+
+  .image {
+    object-fit: cover;
+    width: 100%;
+    height: calc(100% - 110px);
+  }
+}
+
+.infoBlock {
+  padding: 10px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+
+    .status {
+      letter-spacing: 0.1px;
+      color: var(--White);
+      border-radius: 20px;
+      padding: 4px 10px;
+
+      @include caption;
+    }
+
+    .statusStock {
+      background: var(--Green);
+    }
+
+    .statusLowStock {
+      background: var(--StockOrange);
+    }
+
+    .statusOutStock {
+      background: var(--StockRed);
+    }
+  }
+
+  .operation {
+    @include h6;
+    color: var(--HightEmphasis);
+    margin-bottom: 10px;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.subtitle {
+  @include caption;
+  color: var(--MediumEmphasis);
+
+  .value {
+    font-weight: 500;
+    color: var(--HightEmphasis);
+  }
+}

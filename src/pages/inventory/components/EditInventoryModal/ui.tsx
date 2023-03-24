@@ -2,19 +2,19 @@ import React, { useEffect } from 'react';
 import { Button } from '../../../../components/button/button';
 import { Modal } from '../../../../components/modal';
 import { Close } from '../../../../assets/svg/SVGcomponent';
-import styles from './addInventoryModal.module.scss';
+import styles from './editInventoryModal.module.scss';
 import { Input } from '../../../../components/input';
 import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { editItem, selectEditInventoryModal } from './editInventoryModalSlice';
 import { useCookies } from 'react-cookie';
-import { addItem, selectAddInventoryModal } from './addInventoryModalSlice';
 
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
 };
 
-export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
+export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
   const listOfDataForSelect = [
     { id: 0, text: '192.168.1.167' },
     { id: 1, text: '192.168.1.168' },
@@ -22,48 +22,49 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
     { id: 3, text: '192.168.1.163' },
   ];
   const dispatch = useAppDispatch();
-  const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
+  const { currentEditItem, connectResponse } = useAppSelector(selectEditInventoryModal);
   const [cookies] = useCookies(['token']);
 
   useEffect(() => {
-    if (connectResponseDataAdd) {
+    if (connectResponse) {
       handleClose();
     }
-  }, [connectResponseDataAdd]);
+  }, [connectResponse]);
+
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     const target = e.target as typeof e.target & {
       name: { value: string };
       low_stock_level: { value: number };
-      current_stock_level: { value: number };
       camera_type: { value: string };
     };
     const name = target.name.value;
     const low_stock_level = target.low_stock_level.value;
-    const current_stock_level = target.current_stock_level.value;
     const camera = target.camera_type.value;
 
-    const dataForm = {
-      name,
-      low_stock_level,
-      camera,
-      current_stock_level,
-    };
+    if (currentEditItem && currentEditItem.id) {
+      const dataForm = {
+        name,
+        low_stock_level,
+        camera,
+        id: currentEditItem.id,
+      };
 
-    dispatch(
-      addItem({
-        token: cookies.token,
-        hostname: window.location.hostname,
-        body: dataForm,
-      })
-    );
+      dispatch(
+        editItem({
+          token: cookies.token,
+          hostname: window.location.hostname,
+          body: dataForm,
+        })
+      );
+    }
   };
 
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
       <div className={styles.header}>
-        <h3 className={styles.title}>Add item</h3>
+        <h3 className={styles.title}>Edit item</h3>
         <Close onClick={handleClose} />
       </div>
 
@@ -75,28 +76,17 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
               name="name"
               type="text"
               label="Item name"
-              placeholder={'Enter item name'}
+              placeholder={currentEditItem?.name}
             />
           </div>
-          <div className={styles.levels}>
-            <div>
-              <Input
-                id="current_stock_level"
-                name="current_stock_level"
-                type="text"
-                label="Current stock level"
-                placeholder={'Enter number'}
-              />
-            </div>
-            <div>
-              <Input
-                id="low_stock_level"
-                name="low_stock_level"
-                type="text"
-                label="Low stock level"
-                placeholder={'Enter number'}
-              />
-            </div>
+          <div className={styles.input}>
+            <Input
+              id="low_stock_level"
+              name="low_stock_level"
+              type="text"
+              label="Low stock level"
+              placeholder={currentEditItem?.low_stock_level.toString()}
+            />
           </div>
           <div className={styles.input}>
             <SelectBase

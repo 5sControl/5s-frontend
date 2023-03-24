@@ -5,9 +5,10 @@ import styles from './searchInput.module.scss';
 type PropsType = {
   searchInputFilter: (value: string) => void;
   className?: string;
+  placeholder?: string;
 };
 
-export const SearchInput: React.FC<PropsType> = ({ className, searchInputFilter }) => {
+export const SearchInput: React.FC<PropsType> = ({ className, searchInputFilter, placeholder }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const selectRef = useRef<HTMLInputElement>(null);
   const filterList = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +31,7 @@ export const SearchInput: React.FC<PropsType> = ({ className, searchInputFilter 
         ref={selectRef}
         type="text "
         className={styles.input}
-        placeholder="Search order number "
+        placeholder={placeholder}
         onChange={filterList}
       />
       {!inputValue ? <SearchIcon /> : <CloseCross onClick={clearInput} className={styles.cross} />}

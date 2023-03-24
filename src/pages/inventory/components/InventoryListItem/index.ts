@@ -1,0 +1,1 @@
+export { InventoryListItem } from './ui';
