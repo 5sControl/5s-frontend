@@ -1,1 +1,1 @@
-export { PaginationContainer } from './ui';
+export { Pagination } from './ui';

@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 import { useCookies } from 'react-cookie';
-import { PaginationContainer } from '../../../../components/pagination';
+import { Pagination } from '../../../../components/pagination';
 import { useAppSelector, useAppDispatch } from '../../../../store/hooks';
 import { getOrdersAsync, selectPreviewOrders } from '../../previewOrdersSlice';
 import styles from './paginationBlock.module.scss';
@@ -11,7 +11,11 @@ const listOfData = [
   { id: 1, text: '100' },
 ];
 
-export const PaginationBlock: React.FC = () => {
+type PropsType = {
+  disabled?: boolean;
+};
+
+export const PaginationBlock: React.FC<PropsType> = ({ disabled }) => {
   const { previewOrdersList } = useAppSelector(selectPreviewOrders);
   const dispatch = useAppDispatch();
   const [cookies] = useCookies(['token']);
@@ -33,7 +37,7 @@ export const PaginationBlock: React.FC = () => {
       getOrdersAsync({
         token: cookies.token,
         hostname: window.location.hostname,
-        page: previewOrdersList?.current_page as number,
+        page: 1,
         limit: +target.value,
       })
     );
@@ -48,6 +52,7 @@ export const PaginationBlock: React.FC = () => {
           value={previewOrdersList?.records_on_page}
           onChange={handleChangeSelection}
           className={styles.orders_select}
+          disabled={disabled}
         >
           {listOfData.map((item, index) => (
             <option value={item.text} key={index}>
@@ -57,10 +62,11 @@ export const PaginationBlock: React.FC = () => {
         </select>
       </div>
 
-      <PaginationContainer
+      <Pagination
         page={previewOrdersList?.current_page as number}
         totalPages={previewOrdersList?.all_page_count as number}
-        handleSetPages={handlePages}
+        handlePagination={handlePages}
+        disabled={disabled}
       />
     </div>
   );

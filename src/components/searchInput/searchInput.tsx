@@ -6,9 +6,15 @@ type PropsType = {
   searchInputFilter: (value: string) => void;
   className?: string;
   placeholder?: string;
+  disabled?: boolean;
 };
 
-export const SearchInput: React.FC<PropsType> = ({ className, searchInputFilter, placeholder }) => {
+export const SearchInput: React.FC<PropsType> = ({
+  className,
+  searchInputFilter,
+  placeholder,
+  disabled = false,
+}) => {
   const [inputValue, setInputValue] = useState<string>('');
   const selectRef = useRef<HTMLInputElement>(null);
   const filterList = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +39,7 @@ export const SearchInput: React.FC<PropsType> = ({ className, searchInputFilter,
         className={styles.input}
         placeholder={placeholder}
         onChange={filterList}
+        disabled={disabled}
       />
       {!inputValue ? <SearchIcon /> : <CloseCross onClick={clearInput} className={styles.cross} />}
     </div>

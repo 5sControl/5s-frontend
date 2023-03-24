@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
-import { DatabaseInfo } from '../../connectionSlice';
+import { DatabaseInfo } from '../../types';
 import { postConnectionWithDbAPI } from './connectToDbModalAPI';
 import { ConnectionToDatabaseForm } from './types';
 
