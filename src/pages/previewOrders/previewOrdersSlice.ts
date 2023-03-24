@@ -69,16 +69,6 @@ const previewOrdersPage = createSlice({
     setSelectProductData(state, action: PayloadAction<ProductItem>) {
       state.selectProductData = action.payload;
     },
-    setLimitOrdersPerPage(state, action: PayloadAction<number>) {
-      state.previewOrdersList &&
-        state.previewOrdersList.records_on_page &&
-        (state.previewOrdersList.records_on_page = action.payload);
-    },
-    setOrdersViewPage(state, action: PayloadAction<number>) {
-      state.previewOrdersList &&
-        state.previewOrdersList.current_page &&
-        (state.previewOrdersList.current_page = action.payload);
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(getOrderAsync.pending, (state) => {
@@ -106,12 +96,7 @@ const previewOrdersPage = createSlice({
   },
 });
 
-export const {
-  setIsError,
-  setSelectOperationData,
-  setSelectProductData,
-  setLimitOrdersPerPage,
-  setOrdersViewPage,
-} = previewOrdersPage.actions;
+export const { setIsError, setSelectOperationData, setSelectProductData } =
+  previewOrdersPage.actions;
 export const selectPreviewOrders = (state: RootState) => state.previewOrders;
 export default previewOrdersPage.reducer;
