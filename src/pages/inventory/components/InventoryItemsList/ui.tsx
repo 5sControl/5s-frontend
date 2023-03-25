@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Cover } from '../../../../components/cover';
 import { SearchInput } from '../../../../components/searchInput/searchInput';
 import { InventoryItem } from '../../../../storage/inventory';
@@ -12,7 +12,6 @@ type PropsType = {
 };
 
 export const InventoryItemsList: React.FC<PropsType> = ({ data }) => {
-  const [inputValue, setInputValue] = useState<string>('');
   const dispatch = useAppDispatch();
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
 
@@ -20,13 +19,9 @@ export const InventoryItemsList: React.FC<PropsType> = ({ data }) => {
     dispatch(addActiveInventoryItem(activeItem));
   };
 
-  const searchInputFilter = (value: string) => {
-    setInputValue(value);
-  };
-
-  const searchFilter = () => {
+  const searchFilter = (value: string) => {
     const sortData = data.filter((item) =>
-      item.name.toString().toLowerCase().includes(inputValue.toLowerCase())
+      item.name.toString().toLowerCase().includes(value.toLowerCase())
     );
 
     return sortData;
@@ -39,13 +34,13 @@ export const InventoryItemsList: React.FC<PropsType> = ({ data }) => {
 
         <SearchInput
           className={styles.listInput}
-          searchInputFilter={searchInputFilter}
+          // handleSearch={searchFilter}
           placeholder="Search item"
         />
       </div>
 
       <div className={styles.list}>
-        {searchFilter().map((item, index) => {
+        {data.map((item, index) => {
           return (
             <InventoryListItem
               key={index}
@@ -55,7 +50,7 @@ export const InventoryItemsList: React.FC<PropsType> = ({ data }) => {
             />
           );
         })}
-        {!searchFilter().length && <p className={styles.emptyList}>No matching orders found.</p>}
+        {!data.length && <p className={styles.emptyList}>No matching orders found.</p>}
       </div>
     </Cover>
   );

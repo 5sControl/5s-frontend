@@ -4,9 +4,13 @@ import styles from './previewOrders.module.scss';
 import { OrderCard } from './components/OrderCard';
 import { OrderList } from './components/OrdersList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectActiveOrder } from './components/OrdersList/ordersListSlice';
+import {
+  getOrdersAsync,
+  selectOrdersList,
+  setSearchValue,
+} from './components/OrdersList/ordersListSlice';
 import { Cover } from '../../components/cover';
-import { selectPreviewOrders, getOrdersAsync, getOrderAsync } from './previewOrdersSlice';
+import { selectPreviewOrders, getOrderAsync } from './previewOrdersSlice';
 import { useCookies } from 'react-cookie';
 import { OperationVideoModal } from './components/OperationVideoModal';
 import {
@@ -18,17 +22,10 @@ import { Link } from 'react-router-dom';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { activeOrder } = useAppSelector(selectActiveOrder);
   const [cookies] = useCookies(['token']);
-  const {
-    orderData,
-    selectOperationData,
-    selectProductData,
-    previewOrdersList,
-    isLoadingPreviewList,
-    isErrorOfOrders,
-    errorOfOrdersData,
-  } = useAppSelector(selectPreviewOrders);
+  const { orderData, selectOperationData, selectProductData } = useAppSelector(selectPreviewOrders);
+  const { isErrorOfOrdersList, isLoadingOrdersList, activeOrder, ordersList } =
+    useAppSelector(selectOrdersList);
   const { isOpenOperationVideoModal, videoState } = useAppSelector(selectOperationVideoModal);
 
   // const listOfDate = [
@@ -43,13 +40,32 @@ export const PreviewOrders: React.FC = () => {
   //   { id: 2, text: 'Completed' },
   // ];
 
+  const handleCloseModal = () => {
+    dispatch(setIsOpenOperationVideoModal(false));
+  };
+
+  const handleSubmitSearch = (value: string) => {
+    dispatch(setSearchValue(value));
+    dispatch(
+      getOrdersAsync({
+        token: cookies.token,
+        hostname: window.location.hostname,
+        search: value,
+        page: ordersList?.current_page as number,
+        page_size: ordersList?.all_page_count as number,
+      })
+    );
+    console.log(value);
+  };
+
   useEffect(() => {
     dispatch(
       getOrdersAsync({
         token: cookies.token,
         hostname: window.location.hostname,
         page: 1,
-        limit: 50,
+        page_size: 50,
+        search: null,
       })
     );
   }, []);
@@ -64,10 +80,6 @@ export const PreviewOrders: React.FC = () => {
         })
       );
   }, [activeOrder]);
-
-  const handleCloseModal = () => {
-    dispatch(setIsOpenOperationVideoModal(false));
-  };
 
   return (
     <>
@@ -95,17 +107,18 @@ export const PreviewOrders: React.FC = () => {
 
           <div className={styles.body}>
             <OrderList
-              data={previewOrdersList ? previewOrdersList.results : []}
-              isLoading={isLoadingPreviewList}
+              data={ordersList ? ordersList.results : []}
+              isLoading={isLoadingOrdersList}
               showPaginations
-              disabled={isErrorOfOrders}
+              disabled={isErrorOfOrdersList}
+              handleSubmitSearch={handleSubmitSearch}
             />
 
             {activeOrder && orderData ? (
               <OrderCard data={orderData} />
             ) : (
               <Cover className={styles.noOrder}>
-                {isErrorOfOrders ? (
+                {isErrorOfOrdersList ? (
                   <div className={styles.errorConnection}>
                     <Disconnect className={styles.errorConnection_icon} />
                     <p className={styles.errorConnection_desc}>
