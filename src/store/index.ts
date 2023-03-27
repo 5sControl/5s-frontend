@@ -1,7 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import currentReportReducer from './dataSlice';
 import cookiesReducer from './cookiesSlice';
-import activeOrderReducer from '../pages/previewOrders/components/OrdersList/ordersListSlice';
+import orderListReducer from '../pages/previewOrders/components/OrdersList/ordersListSlice';
 import previewOrdersReducer from '../pages/previewOrders/previewOrdersSlice';
 import inventoryReducer from '../pages/inventory/inventorySlice';
 import operationVideoModalSlice from '../pages/previewOrders/components/OperationVideoModal/operationVideoModalSlice';
@@ -17,7 +17,7 @@ export const store = configureStore({
   reducer: {
     currentReport: currentReportReducer,
     token: cookiesReducer,
-    activeOrder: activeOrderReducer,
+    orderList: orderListReducer,
     previewOrders: previewOrdersReducer,
     operationVideoModal: operationVideoModalSlice,
     inventory: inventoryReducer,

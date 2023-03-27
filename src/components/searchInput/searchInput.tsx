@@ -1,9 +1,10 @@
-import React, { useRef, useState } from 'react';
-import { SearchIcon, CloseCross } from '../../assets/svg/SVGcomponent';
+import React, { useState } from 'react';
+import { CloseCross, SearchIcon } from '../../assets/svg/SVGcomponent';
 import styles from './searchInput.module.scss';
 
 type PropsType = {
-  searchInputFilter: (value: string) => void;
+  handleClearList?: () => void;
+  handleSubmit?: (event: React.ChangeEvent<HTMLFormElement>) => void;
   className?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -11,37 +12,39 @@ type PropsType = {
 
 export const SearchInput: React.FC<PropsType> = ({
   className,
-  searchInputFilter,
+  handleSubmit,
+  handleClearList,
   placeholder,
   disabled = false,
 }) => {
-  const [inputValue, setInputValue] = useState<string>('');
-  const selectRef = useRef<HTMLInputElement>(null);
-  const filterList = (e: React.ChangeEvent<HTMLInputElement>) => {
-    searchInputFilter(e.target.value);
-    setInputValue(e.target.value);
+  const [value, setValue] = useState('');
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
   };
 
-  const clearInput = () => {
-    if (selectRef && selectRef.current && selectRef.current.value) {
-      selectRef.current.value = '';
-      searchInputFilter('');
-      setInputValue('');
-    }
+  const handleClear = () => {
+    setValue('');
+    handleClearList && handleClearList();
   };
 
   return (
     <div className={`${styles.inputContainer} ${className}`}>
-      <input
-        id="search-input"
-        ref={selectRef}
-        type="text "
-        className={styles.input}
-        placeholder={placeholder}
-        onChange={filterList}
-        disabled={disabled}
-      />
-      {!inputValue ? <SearchIcon /> : <CloseCross onClick={clearInput} className={styles.cross} />}
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <input
+          id="search"
+          type="text"
+          name="search"
+          value={value}
+          className={styles.form_input}
+          placeholder={placeholder}
+          disabled={disabled}
+          onChange={handleChange}
+        />
+        <button type="button" className={styles.form_submit}>
+          {!value ? <SearchIcon /> : <CloseCross onClick={handleClear} className={styles.cross} />}
+        </button>
+      </form>
     </div>
   );
 };

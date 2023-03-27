@@ -10,6 +10,7 @@
   &_title {
     @include h4;
     letter-spacing: 0.03em;
+    margin-bottom: 20px;
   }
   &_listInput {
     margin-top: 10px;
@@ -17,7 +18,7 @@
 }
 
 .list {
-  height: calc(100vh - 300px);
+  height: calc(100vh - 310px);
   margin-top: 20px;
   margin-left: 10px;
   margin-right: 4px;
@@ -28,7 +29,7 @@
     letter-spacing: 0.15px;
   }
   &_paginations {
-    height: calc(100vh - 355px);
+    height: calc(100vh - 375px);
   }
 }
 

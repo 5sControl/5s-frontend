@@ -49,11 +49,7 @@ export const getInventoryItemHistoryAsync = createAsyncThunk(
 const inventoryPage = createSlice({
   name: 'inventory',
   initialState,
-  reducers: {
-    setIsError: (state, action) => {
-      state.errorOfInventoryItems = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getInventoryItemsAsync.pending, (state) => {
       state.isLoading = true;
@@ -80,6 +76,5 @@ const inventoryPage = createSlice({
   },
 });
 
-export const { setIsError } = inventoryPage.actions;
 export const selectInventory = (state: RootState) => state.inventory;
 export default inventoryPage.reducer;
