@@ -1,8 +1,9 @@
-import React from 'react';
-import { SearchIcon } from '../../assets/svg/SVGcomponent';
+import React, { useState } from 'react';
+import { CloseCross, SearchIcon } from '../../assets/svg/SVGcomponent';
 import styles from './searchInput.module.scss';
 
 type PropsType = {
+  handleClearList?: () => void;
   handleSubmit?: (event: React.ChangeEvent<HTMLFormElement>) => void;
   className?: string;
   placeholder?: string;
@@ -12,9 +13,21 @@ type PropsType = {
 export const SearchInput: React.FC<PropsType> = ({
   className,
   handleSubmit,
+  handleClearList,
   placeholder,
   disabled = false,
 }) => {
+  const [value, setValue] = useState('');
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+  };
+
+  const handleClear = () => {
+    setValue('');
+    handleClearList && handleClearList();
+  };
+
   return (
     <div className={`${styles.inputContainer} ${className}`}>
       <form onSubmit={handleSubmit} className={styles.form}>
@@ -22,12 +35,14 @@ export const SearchInput: React.FC<PropsType> = ({
           id="search"
           type="text"
           name="search"
+          value={value}
           className={styles.form_input}
           placeholder={placeholder}
           disabled={disabled}
+          onChange={handleChange}
         />
-        <button type="submit" className={styles.form_submit}>
-          <SearchIcon />
+        <button type="button" className={styles.form_submit}>
+          {!value ? <SearchIcon /> : <CloseCross onClick={handleClear} className={styles.cross} />}
         </button>
       </form>
     </div>

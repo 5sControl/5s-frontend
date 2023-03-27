@@ -46,28 +46,29 @@ export const PreviewOrders: React.FC = () => {
 
   const handleSubmitSearch = (value: string) => {
     dispatch(setSearchValue(value));
+    getOrdersList(ordersList?.current_page as number, ordersList?.all_page_count as number, value);
+    console.log('handleSubmitSearch', value);
+  };
+
+  const handleSubmitClear = () => {
+    dispatch(setSearchValue(null));
+    getOrdersList(1, 50, null);
+  };
+
+  const getOrdersList = (page: number, page_size: number, search: string | null) => {
     dispatch(
       getOrdersAsync({
         token: cookies.token,
         hostname: window.location.hostname,
-        search: value,
-        page: ordersList?.current_page as number,
-        page_size: ordersList?.all_page_count as number,
+        page,
+        page_size,
+        search,
       })
     );
-    console.log(value);
   };
 
   useEffect(() => {
-    dispatch(
-      getOrdersAsync({
-        token: cookies.token,
-        hostname: window.location.hostname,
-        page: 1,
-        page_size: 50,
-        search: null,
-      })
-    );
+    getOrdersList(1, 50, null);
   }, []);
 
   useEffect(() => {
@@ -112,6 +113,7 @@ export const PreviewOrders: React.FC = () => {
               showPaginations
               disabled={isErrorOfOrdersList}
               handleSubmitSearch={handleSubmitSearch}
+              handleClearList={handleSubmitClear}
             />
 
             {activeOrder && orderData ? (

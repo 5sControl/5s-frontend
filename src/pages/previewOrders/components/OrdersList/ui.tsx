@@ -13,6 +13,7 @@ type PropsType = {
   data: Array<PreviewOrderItem>;
   isLoading: boolean;
   handleSubmitSearch: (value: string) => void;
+  handleClearList: () => void;
   showPaginations?: boolean;
   disabled?: boolean;
 };
@@ -21,6 +22,7 @@ export const OrderList: React.FC<PropsType> = ({
   data,
   isLoading,
   handleSubmitSearch,
+  handleClearList,
   showPaginations = false,
   disabled,
 }) => {
@@ -46,6 +48,7 @@ export const OrderList: React.FC<PropsType> = ({
           placeholder={'Search order number'}
           disabled={disabled}
           handleSubmit={handleClickSearchSubmit}
+          handleClearList={handleClearList}
         />
       </div>
 
