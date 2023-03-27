@@ -70,7 +70,7 @@ export const OrderList: React.FC<PropsType> = ({
         {!data.length && <p className={styles.list_empty}>No matching orders found.</p>}
       </div>
 
-      {showPaginations && <PaginationBlock disabled={disabled} />}
+      {showPaginations && <PaginationBlock disabled={disabled || isLoading} />}
     </Cover>
   );
 };
