@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
 
-import { proxy, url, getIsInternet } from './api';
+import { proxy } from './api';
 
 export const getData = (hostname, cookies, date, startTime, endTime, algorithm, camera) => {
   let urlString = `api/reports/search_params/?date=${date}&start_time=${startTime}&end_time=${endTime}`;
@@ -13,9 +13,15 @@ export const getData = (hostname, cookies, date, startTime, endTime, algorithm, 
     urlString += `&camera__id=${camera}`;
   }
 
-  if (getIsInternet(hostname)) {
-    return proxy(`${url + urlString}`, 'GET', {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(`${process.env.REACT_APP_NGROK + urlString}`, 'GET', {
       Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(process.env.REACT_APP_IP_SERVER + urlString, {
+      headers: {
+        Authorization: cookies,
+      },
     });
   } else {
     return axios.get(`http://${hostname + '/' + urlString}`, {
