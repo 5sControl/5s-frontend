@@ -18,7 +18,7 @@ type DataBaseResponse = {
 };
 
 interface ConnectionState {
-  databases: DataBaseResponse | null;
+  databases: DataBaseResponse | null | any;
   isLoadingGetConnectionsToDB: boolean;
   isErrorOfGetConnections: boolean;
   errorMessageFromDb: SerializedError | null;
