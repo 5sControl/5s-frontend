@@ -28,9 +28,14 @@ export const SearchInput: React.FC<PropsType> = ({
     handleClearList && handleClearList();
   };
 
+  const onSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    value.length > 0 && handleSubmit && handleSubmit(event);
+  };
+
   return (
     <div className={`${styles.inputContainer} ${className}`}>
-      <form onSubmit={handleSubmit} className={styles.form}>
+      <form onSubmit={onSubmit} className={styles.form}>
         <input
           id="search"
           type="text"

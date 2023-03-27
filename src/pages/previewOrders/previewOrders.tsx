@@ -46,8 +46,7 @@ export const PreviewOrders: React.FC = () => {
 
   const handleSubmitSearch = (value: string) => {
     dispatch(setSearchValue(value));
-    getOrdersList(ordersList?.current_page as number, ordersList?.all_page_count as number, value);
-    console.log('handleSubmitSearch', value);
+    getOrdersList(ordersList?.current_page as number, ordersList?.records_on_page as number, value);
   };
 
   const handleSubmitClear = () => {
