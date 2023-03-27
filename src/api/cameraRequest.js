@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { proxy } from './api';
 
 const API_CAMERASELECT = 'api/cameras/';
 const API_CAMERACREATE = 'api/cameras/create-camera/';
@@ -7,13 +8,9 @@ const API_CAMERAFIND = 'find_cameras/';
 
 export const getSelectedCameras = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post(process.env.REACT_APP_PROXY, {
-      url: process.env.REACT_APP_NGROK + API_CAMERASELECT,
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookies,
-      },
+    return proxy(process.env.REACT_APP_NGROK + API_CAMERASELECT, 'GET', {
+      'Content-Type': 'application/json',
+      Authorization: cookies,
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_CAMERASELECT}`, {
@@ -34,20 +31,9 @@ export const getSelectedCameras = (hostname, cookies) => {
 
 export const postCamera = (hostname, IPCamera, username, password, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post(
-      process.env.REACT_APP_NGROK + API_CAMERACREATE,
-      {
-        ip: IPCamera,
-        username: username,
-        password: password,
-        url: process.env.REACT_APP_IP_SERVER,
-      },
-      {
-        headers: {
-          Authorization: cookies,
-        },
-      }
-    );
+    return proxy(process.env.REACT_APP_NGROK + API_CAMERACREATE, 'POST', {
+      Authorization: cookies,
+    });
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.post(
       `${process.env.REACT_APP_IP_SERVER}${API_CAMERACREATE}`,
@@ -83,17 +69,16 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
 
 export const patchCamera = (hostname, IPCamera, cameraName, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.patch(
+    return proxy(
       process.env.REACT_APP_NGROK + API_CAMERAUPDATE,
+      'PATCH',
       {
+        Authorization: cookies,
+      },
+      JSON.stringify({
         ip: IPCamera,
         name: cameraName,
-      },
-      {
-        headers: {
-          Authorization: cookies,
-        },
-      }
+      })
     );
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.patch(

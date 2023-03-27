@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { ConnectionToDatabaseForm } from './types';
+import { proxy } from '../../../../api/api';
+import { ConnectionToDatabaseForm, ConnectResponse } from './types';
 
 export const postConnectionWithDbAPI = (
   hostname: string,
@@ -9,15 +10,15 @@ export const postConnectionWithDbAPI = (
   const CREATE_CONNECTION = 'api/order/create-connection/';
 
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post(process.env.REACT_APP_PROXY, {
-      url: `${process.env.REACT_APP_NGROK}${CREATE_CONNECTION}`,
-      method: 'POST',
-      headers: {
+    return proxy<ConnectResponse>(
+      process.env.REACT_APP_NGROK + CREATE_CONNECTION,
+      'POST',
+      {
         'Content-Type': 'application/json',
         Authorization: token,
       },
-      body: JSON.stringify(body),
-    });
+      JSON.stringify(body)
+    );
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.post(`${process.env.REACT_APP_IP_SERVER}${CREATE_CONNECTION}`, body, {
       headers: {

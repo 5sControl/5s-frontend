@@ -7,7 +7,7 @@ import { deleteProcess, getProcess, postAlgorithnDependences } from '../../../ap
 export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamera }) => {
   const [cameraName, setCameraName] = useState(nameCamera);
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
-  const [process, setProcess] = useState([]);
+  const [processLocal, setProcess] = useState([]);
   const [informationToSend, setInformationToSend] = useState({});
   const [isEnabled, setIsEnabled] = useState(true);
   const deleteProcessFromDB = async (whatIsDelete) => {
@@ -72,6 +72,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   useEffect(() => {
     // console.log(informationToSend);
   }, [informationToSend]);
+
   return (
     <>
       {algorithmsActiveObject && (
@@ -113,7 +114,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                     algorithmsActive={
                       algorithmsActiveObject[IPCamera] ? algorithmsActiveObject[IPCamera] : []
                     }
-                    process={process}
+                    process={processLocal}
                     IPCamera={IPCamera}
                     setInformationToSend={(e) => setInformationToSend(e)}
                   />
