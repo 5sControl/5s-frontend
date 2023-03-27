@@ -6,7 +6,6 @@ import { getIsInternet, url } from '../../../../api/api';
 import { useAppSelector } from '../../../../store/hooks';
 import { selectActiveInventoryItem } from '../InventoryItemsList/InventoryItemsListSlice';
 import { setDateDot } from '../../../previewOrders/previewOrdersHelper';
-import { parseExtraFuild } from '../../inventoryHelper';
 
 type PropsType = {
   isOpen: boolean;
@@ -39,31 +38,24 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
           <p className={styles.operation}>{activeInventoryItem?.name}</p>
           <p
             className={`${styles.status} ${
-              parseExtraFuild(currentReport.extra).status === 'In stock' && styles.statusStock
-            } ${
-              parseExtraFuild(currentReport.extra).status === 'Low stock level' &&
-              styles.statusLowStock
-            } ${
-              parseExtraFuild(currentReport.extra).status === 'Out of stock' &&
-              styles.statusOutStock
+              currentReport.extra[0].status === 'In stock' && styles.statusStock
+            } ${currentReport.extra[0].status === 'Low stock level' && styles.statusLowStock} ${
+              currentReport.extra[0].status === 'Out of stock' && styles.statusOutStock
             }`}
           >
-            {parseExtraFuild(currentReport.extra).status}
+            {currentReport.extra[0].status}
           </p>
         </div>
 
         <div className={styles.wrapper}>
           <div className={styles.subtitle}>
             <span>{'Stock level at the time : '}</span>
-            <span className={styles.value}>{parseExtraFuild(currentReport.extra).count}</span>
+            <span className={styles.value}>{currentReport.extra[0].count}</span>
           </div>
 
           <div className={styles.subtitle}>
             <span>{'Low stock level: '}</span>
-            <span className={styles.value}>
-              {' '}
-              {parseExtraFuild(currentReport.extra).low_stock_level}
-            </span>
+            <span className={styles.value}> {currentReport.extra[0].low_stock_level}</span>
           </div>
 
           <div className={styles.subtitle}>

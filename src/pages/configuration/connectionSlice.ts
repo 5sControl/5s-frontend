@@ -4,7 +4,7 @@ import { RootState } from '../../store';
 import { DatabaseInfo, DataBaseResponse } from './types';
 
 interface ConnectionState {
-  databases: DataBaseResponse | null;
+  databases: DataBaseResponse | null | any;
   isLoadingGetConnectionsToDB: boolean;
   isErrorOfGetConnections: boolean;
   errorMessageFromDb: SerializedError | null;

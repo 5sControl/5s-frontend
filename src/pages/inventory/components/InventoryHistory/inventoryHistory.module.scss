@@ -2,8 +2,6 @@
 @import '../../../../styles/fonts.scss';
 
 .container {
-  overflow-y: scroll;
-  height: calc(100% - 100px);
   .history {
     margin-top: 16px;
     display: flex;

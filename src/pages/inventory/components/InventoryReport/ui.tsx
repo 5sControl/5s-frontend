@@ -34,7 +34,9 @@ export const InventoryReport: React.FC = () => {
         <div className={styles.header}>
           <h4 className={styles.title}>Inventory Report</h4>
 
-          {inventoryItems && <p className={styles.date}>{inventoryItems[0].date_created}</p>}
+          {inventoryItems && inventoryItems[0] && (
+            <p className={styles.date}>{inventoryItems[0].date_created}</p>
+          )}
         </div>
 
         <div className={styles.content}>

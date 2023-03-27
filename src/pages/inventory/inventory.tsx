@@ -19,7 +19,7 @@ import { InventoryCard } from './components/InventoryCard';
 import { selectActiveInventoryItem } from './components/InventoryItemsList/InventoryItemsListSlice';
 import moment from 'moment-timezone';
 import { selectAddInventoryModal } from './components/AddInventoryModal/addInventoryModalSlice';
-
+import FeaturesBarChart from './components/Chart/chart';
 export const Inventory: React.FC = () => {
   const dispatch = useAppDispatch();
   const { connectResponse } = useAppSelector(selectEditInventoryModal);
@@ -48,6 +48,7 @@ export const Inventory: React.FC = () => {
   const addInventoryButton = () => {
     setIsOpen(!isOpen);
   };
+
   return (
     <>
       <AddInventoryModal isOpen={isOpen} handleClose={() => addInventoryButton()} />
@@ -58,6 +59,8 @@ export const Inventory: React.FC = () => {
 
             <Button text="Add item" isIcon onClick={addInventoryButton} />
           </div>
+
+          <div id="d3-container"></div>
 
           {!isLoading && inventoryItems ? (
             <>
