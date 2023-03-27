@@ -1,9 +1,6 @@
 import axios from 'axios';
 import { proxy } from '../../../../api/api';
-import {
-  OrderListByCustomer,
-  OrderWithPaginationCustomer,
-} from '../../../../storage/orderViewCustomer';
+import { OrderWithPaginationCustomer } from '../../../../storage/orderViewCustomer';
 
 export const getOrdersAPI = (
   hostname: string,

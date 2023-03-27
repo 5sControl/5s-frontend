@@ -1,0 +1,33 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.links {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 20px;
+  & a {
+    color: var(--Orange);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.title {
+  @include title;
+  color: var(--LowEmphasis);
+  margin-bottom: 10px;
+}
+.algorithms {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  &_row {
+    @include body1;
+    color: var(--HightEmphasis);
+    &_title {
+      color: var(--MediumEmphasis);
+    }
+  }
+}
