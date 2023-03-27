@@ -10,7 +10,7 @@ const API_VERIFYTOKEN = 'auth/jwt/verify/';
 
 export const authorizationRequest = (hostname, email, password) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+    return axios.post(process.env.REACT_APP_PROXY, {
       url: `${process.env.REACT_APP_NGROK + API_AUTH}`,
       method: 'POST',
       headers: {
@@ -20,6 +20,11 @@ export const authorizationRequest = (hostname, email, password) => {
         username: email,
         password: password,
       }),
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_AUTH}`, {
+      username: email,
+      password: password,
     });
   } else {
     return axios.post(`http://${hostname}/${API_AUTH}`, {
@@ -34,6 +39,12 @@ export const getCompanyInfo = (hostname, cookies) => {
     return proxy(process.env.REACT_APP_NGROK + API_COMPANYINFO, 'GET', {
       Authorization: cookies,
     });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_COMPANYINFO}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
   } else {
     return axios.get(`http://${hostname}/${API_COMPANYINFO}`, {
       headers: {
@@ -45,7 +56,7 @@ export const getCompanyInfo = (hostname, cookies) => {
 
 export const sendLicenseKey = (hostname, cookies, key) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+    return axios.post(process.env.REACT_APP_PROXY, {
       url: `${process.env.REACT_APP_NGROK + API_CREATELICENSE}`,
       method: 'POST',
       headers: {
@@ -56,6 +67,19 @@ export const sendLicenseKey = (hostname, cookies, key) => {
         license_key: key,
       }),
     });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(
+      `${process.env.REACT_APP_IP_SERVER}${API_CREATELICENSE}`,
+      {
+        license_key: key,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookies,
+        },
+      }
+    );
   } else {
     return axios.post(
       `http://${hostname}/${API_CREATELICENSE}`,
@@ -74,7 +98,7 @@ export const sendLicenseKey = (hostname, cookies, key) => {
 
 export const registerNewUser = (hostname, email, password) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+    return axios.post(process.env.REACT_APP_PROXY, {
       url: `${process.env.REACT_APP_NGROK + API_REGISTRATION}`,
       method: 'POST',
       headers: {
@@ -85,6 +109,12 @@ export const registerNewUser = (hostname, email, password) => {
         password: password,
         repeat_password: password,
       }),
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_REGISTRATION}`, {
+      username: email,
+      password: password,
+      repeat_password: password,
     });
   } else {
     return axios.post(`http://${hostname}/${API_REGISTRATION}`, {
@@ -100,6 +130,12 @@ export const getUserList = (hostname, cookies) => {
     return proxy(process.env.REACT_APP_NGROK + API_USERLIST, 'GET', {
       Authorization: cookies,
     });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_USERLIST}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
   } else {
     return axios.get(`http://${hostname}/${API_USERLIST}`, {
       headers: {
@@ -112,7 +148,7 @@ export const getUserList = (hostname, cookies) => {
 export const isVerifyToken = (hostname, cookies) => {
   cookies = cookies?.split(' ')[1];
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+    return axios.post(process.env.REACT_APP_PROXY, {
       url: `${process.env.REACT_APP_NGROK + API_VERIFYTOKEN}`,
       method: 'POST',
       headers: {
@@ -121,6 +157,10 @@ export const isVerifyToken = (hostname, cookies) => {
       body: JSON.stringify({
         token: cookies,
       }),
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_VERIFYTOKEN}`, {
+      token: cookies,
     });
   } else {
     return axios.post(`http://${hostname}/${API_VERIFYTOKEN}`, {

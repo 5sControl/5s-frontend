@@ -24,10 +24,10 @@ export const getOrdersAPI = (
         Authorization: cookies,
       }
     );
-  } else {
+  } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.get<OrderWithPaginationCustomer>(
-      `http://${hostname}/${API_ALL_ORDERS}?page=${page}&page_size=${page_size}${
-        search ? `&${search}` : ''
+      `${process.env.REACT_APP_IP_SERVER}${API_ALL_ORDERS}?page=${page}&page_size=${page_size}${
+        search ? `&search=${search}` : ''
       }`,
       {
         headers: {
@@ -35,28 +35,16 @@ export const getOrdersAPI = (
         },
       }
     );
-  }
-};
-
-export const getOrdersByQueryAPI = (hostname: string, cookies: string, query: string) => {
-  const API_SEARCH_ORDERS = 'api/order/all-orders/search/';
-
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy<OrderListByCustomer[]>(
-      `${process.env.REACT_APP_NGROK}${API_SEARCH_ORDERS}?q=${query}`,
-      'GET',
+  } else {
+    return axios.get<OrderWithPaginationCustomer>(
+      `http://${hostname}/${API_ALL_ORDERS}?page=${page}&page_size=${page_size}${
+        search ? `&search=${search}` : ''
+      }`,
       {
-        Authorization: cookies,
+        headers: {
+          Authorization: cookies,
+        },
       }
     );
-  } else {
-    return axios.get<OrderListByCustomer[]>(`http://${hostname}/${API_SEARCH_ORDERS}`, {
-      headers: {
-        Authorization: cookies,
-      },
-      params: {
-        q: query,
-      },
-    });
   }
 };

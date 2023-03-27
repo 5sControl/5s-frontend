@@ -23,6 +23,8 @@ export const Slider = ({ currentReport, setFullImage }) => {
               src={
                 process.env.REACT_APP_ENV === 'proxy'
                   ? `${process.env.REACT_APP_NGROK + photo.image}`
+                  : process.env.REACT_APP_ENV === 'wify'
+                  ? `${process.env.REACT_APP_IP_SERVER}${photo.image}`
                   : `http://${window.location.hostname}/${photo.image}`
               }
               alt="report img"
@@ -31,6 +33,8 @@ export const Slider = ({ currentReport, setFullImage }) => {
                 setFullImage(
                   process.env.REACT_APP_ENV === 'proxy'
                     ? `${process.env.REACT_APP_NGROK + photo.image}`
+                    : process.env.REACT_APP_ENV === 'wify'
+                    ? `${process.env.REACT_APP_IP_SERVER}${photo.image}`
                     : `http://${window.location.hostname}/${photo.image}`
                 )
               }

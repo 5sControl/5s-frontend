@@ -40,6 +40,8 @@ const CameraChoise = ({ selectType, onChangeHandler }) => {
               src={
                 process.env.REACT_APP_ENV === 'proxy'
                   ? `${process.env.REACT_APP_NGROK}/images/${el.ip}/snapshot.jpg`
+                  : process.env.REACT_APP_ENV === 'wify'
+                  ? `${process.env.REACT_APP_IP_SERVER}images/${el.ip}/snapshot.jpg`
                   : `http://${window.location.hostname}/images/${el.ip}/snapshot.jpg`
               }
               alt="Camera"

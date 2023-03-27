@@ -17,6 +17,12 @@ export const getData = (hostname, cookies, date, startTime, endTime, algorithm, 
     return proxy(`${process.env.REACT_APP_NGROK + urlString}`, 'GET', {
       Authorization: cookies,
     });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(process.env.REACT_APP_IP_SERVER + urlString, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
   } else {
     return axios.get(`http://${hostname + '/' + urlString}`, {
       headers: {

@@ -9,7 +9,7 @@ export const postConnectionWithDbAPI = (
   const CREATE_CONNECTION = 'api/order/create-connection/';
 
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+    return axios.post(process.env.REACT_APP_PROXY, {
       url: `${process.env.REACT_APP_NGROK}${CREATE_CONNECTION}`,
       method: 'POST',
       headers: {
@@ -18,8 +18,15 @@ export const postConnectionWithDbAPI = (
       },
       body: JSON.stringify(body),
     });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(`${process.env.REACT_APP_IP_SERVER}${CREATE_CONNECTION}`, body, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    });
   } else {
-    return axios.post(`http://${hostname}/${CREATE_CONNECTION}`, body, {
+    return axios.post(`${hostname}${CREATE_CONNECTION}`, body, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,

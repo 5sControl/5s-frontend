@@ -7,9 +7,16 @@ const API_CAMERAFIND = 'find_cameras/';
 
 export const getSelectedCameras = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+    return axios.post(process.env.REACT_APP_PROXY, {
       url: process.env.REACT_APP_NGROK + API_CAMERASELECT,
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_CAMERASELECT}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,
@@ -33,7 +40,22 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
         ip: IPCamera,
         username: username,
         password: password,
-        url: 'http://192.168.1.101',
+        url: process.env.REACT_APP_IP_SERVER,
+      },
+      {
+        headers: {
+          Authorization: cookies,
+        },
+      }
+    );
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(
+      `${process.env.REACT_APP_IP_SERVER}${API_CAMERACREATE}`,
+      {
+        ip: IPCamera,
+        username: username,
+        password: password,
+        url: process.env.REACT_APP_IP_SERVER,
       },
       {
         headers: {
@@ -73,6 +95,19 @@ export const patchCamera = (hostname, IPCamera, cameraName, cookies) => {
         },
       }
     );
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.patch(
+      `${process.env.REACT_APP_IP_SERVER}${API_CAMERAUPDATE}`,
+      {
+        ip: IPCamera,
+        name: cameraName,
+      },
+      {
+        headers: {
+          Authorization: cookies,
+        },
+      }
+    );
   } else {
     return axios.patch(
       `http://${hostname}/${API_CAMERAUPDATE}`,
@@ -91,7 +126,9 @@ export const patchCamera = (hostname, IPCamera, cameraName, cookies) => {
 
 export const findCamera = (hostname) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.get('http://192.168.1.110/' + API_CAMERAFIND);
+    return axios.get(process.env.REACT_APP_IP_SERVER + API_CAMERAFIND);
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(process.env.REACT_APP_IP_SERVER + API_CAMERAFIND);
   } else {
     return axios.get(`http://${hostname}/${API_CAMERAFIND}`);
   }

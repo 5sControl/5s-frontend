@@ -10,6 +10,12 @@ export const getInventoryItems = (hostname: string, cookies: string) => {
     return proxy(process.env.REACT_APP_NGROK + API_BY_ORDER, 'GET', {
       Authorization: cookies,
     });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_BY_ORDER}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
   } else {
     return axios.get(`http://${hostname}/${API_BY_ORDER}`, {
       headers: {
@@ -23,7 +29,7 @@ export const setInventoryItem = (hostname: string, cookies: string, body: AddInv
   const API_INVENTORY_SET = 'api/inventory/items/';
 
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+    return axios.post(process.env.REACT_APP_PROXY, {
       url: process.env.REACT_APP_NGROK + API_INVENTORY_SET,
       method: 'POST',
       headers: {
@@ -32,14 +38,18 @@ export const setInventoryItem = (hostname: string, cookies: string, body: AddInv
       },
       body: JSON.stringify(body),
     });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(process.env.REACT_APP_IP_SERVER + API_INVENTORY_SET, body, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
   } else {
-    {
-      return axios.post(`http://${hostname}/${API_INVENTORY_SET}`, body, {
-        headers: {
-          Authorization: cookies,
-        },
-      });
-    }
+    return axios.post(`http://${hostname}/${API_INVENTORY_SET}`, body, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
   }
 };
 
@@ -51,7 +61,7 @@ export const editInventoryItemAxios = (
   const API_INVENTORY_SET = 'api/inventory/items/';
 
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.put('https://5scontrol.pl/proxy_to_ngrok', {
+    return axios.put(process.env.REACT_APP_PROXY, {
       url: process.env.REACT_APP_NGROK + API_INVENTORY_SET + body.id + '/',
       method: 'PUT',
       headers: {
@@ -60,8 +70,14 @@ export const editInventoryItemAxios = (
       },
       body: JSON.stringify(body),
     });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.put(process.env.REACT_APP_IP_SERVER + API_INVENTORY_SET + body.id + '/', body, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
   } else {
-    return axios.put(`http://${hostname}/${API_INVENTORY_SET}`, body, {
+    return axios.put(`http://${hostname}/${API_INVENTORY_SET}/${body.id}/`, body, {
       headers: {
         Authorization: cookies,
       },
@@ -76,8 +92,14 @@ export const deleteInventoryItemAxios = (hostname: string, cookies: string, id: 
     return proxy(process.env.REACT_APP_NGROK + API_INVENTORY_DELETE + id + '/', 'DELETE', {
       Authorization: cookies,
     });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.delete(`${process.env.REACT_APP_IP_SERVER}${API_INVENTORY_DELETE}${id}/`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
   } else {
-    return axios.delete(`http://${hostname}/${API_INVENTORY_DELETE}`, {
+    return axios.delete(`http://${hostname}/${API_INVENTORY_DELETE}${id}/`, {
       headers: {
         Authorization: cookies,
       },
@@ -98,6 +120,15 @@ export const getInventoryItemHistory = (
       'GET',
       {
         Authorization: cookies,
+      }
+    );
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(
+      `${process.env.REACT_APP_IP_SERVER}${API_HISTORY}${data.camera}/${data.date}/00:00:00/23:59:00/`,
+      {
+        headers: {
+          Authorization: cookies,
+        },
       }
     );
   } else {

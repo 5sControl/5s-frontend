@@ -65,6 +65,8 @@ export const Camera = () => {
                     src={
                       process.env.REACT_APP_ENV === 'proxy'
                         ? `${process.env.REACT_APP_NGROK}/images/${el.id}/snapshot.jpg`
+                        : process.env.REACT_APP_ENV === 'wify'
+                        ? `${process.env.REACT_APP_IP_SERVER}images/${el.id}/snapshot.jpg`
                         : `http://${window.location.hostname}/images/${el.id}/snapshot.jpg`
                     }
                     alt="Camera"

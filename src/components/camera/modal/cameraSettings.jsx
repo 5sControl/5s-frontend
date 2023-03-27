@@ -123,6 +123,8 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                     src={
                       process.env.REACT_APP_ENV === 'proxy'
                         ? `${process.env.REACT_APP_NGROK}/images/${IPCamera}/snapshot.jpg`
+                        : process.env.REACT_APP_ENV === 'wify'
+                        ? `${process.env.REACT_APP_IP_SERVER}images/${IPCamera}/snapshot.jpg`
                         : `http://${window.location.hostname}/images/${IPCamera}/snapshot.jpg`
                     }
                     alt="Camera"
