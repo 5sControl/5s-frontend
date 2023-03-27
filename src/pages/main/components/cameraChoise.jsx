@@ -1,5 +1,4 @@
 import { Fragment } from 'react';
-import { url, getIsInternet } from '../../../api/api';
 import close from '../../../assets/svg/close.svg';
 
 export const CameraSelect = ({ selectType, setSelectType, doneHandler }) => {
@@ -39,8 +38,8 @@ const CameraChoise = ({ selectType, onChangeHandler }) => {
           <div className={'select__cameras_item'}>
             <img
               src={
-                getIsInternet(window.location.hostname)
-                  ? `${url}/images/${el.ip}/snapshot.jpg`
+                process.env.REACT_APP_ENV === 'proxy'
+                  ? `${process.env.REACT_APP_NGROK}/images/${el.ip}/snapshot.jpg`
                   : `http://${window.location.hostname}/images/${el.ip}/snapshot.jpg`
               }
               alt="Camera"

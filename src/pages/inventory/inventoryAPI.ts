@@ -1,13 +1,13 @@
 import axios from 'axios';
-import { getIsInternet, proxy, url } from '../../api/api';
+import { proxy } from '../../api/api';
 import { AddInventoryData } from './components/AddInventoryModal/types';
 import { EditInventoryData } from './components/EditInventoryModal/types';
 
 export const getInventoryItems = (hostname: string, cookies: string) => {
   const API_BY_ORDER = 'api/inventory/items/';
 
-  if (getIsInternet(hostname)) {
-    return proxy(`${url}${API_BY_ORDER}`, 'GET', {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(process.env.REACT_APP_NGROK + API_BY_ORDER, 'GET', {
       Authorization: cookies,
     });
   } else {
@@ -22,9 +22,9 @@ export const getInventoryItems = (hostname: string, cookies: string) => {
 export const setInventoryItem = (hostname: string, cookies: string, body: AddInventoryData) => {
   const API_INVENTORY_SET = 'api/inventory/items/';
 
-  if (getIsInternet(hostname)) {
+  if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
-      url: url + API_INVENTORY_SET,
+      url: process.env.REACT_APP_NGROK + API_INVENTORY_SET,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -50,9 +50,9 @@ export const editInventoryItemAxios = (
 ) => {
   const API_INVENTORY_SET = 'api/inventory/items/';
 
-  if (getIsInternet(hostname)) {
+  if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.put('https://5scontrol.pl/proxy_to_ngrok', {
-      url: url + API_INVENTORY_SET + body.id + '/',
+      url: process.env.REACT_APP_NGROK + API_INVENTORY_SET + body.id + '/',
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -72,8 +72,8 @@ export const editInventoryItemAxios = (
 export const deleteInventoryItemAxios = (hostname: string, cookies: string, id: number) => {
   const API_INVENTORY_DELETE = 'api/inventory/items/';
 
-  if (getIsInternet(hostname)) {
-    return proxy(`${url}${API_INVENTORY_DELETE}${id}/`, 'DELETE', {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(process.env.REACT_APP_NGROK + API_INVENTORY_DELETE + id + '/', 'DELETE', {
       Authorization: cookies,
     });
   } else {
@@ -92,10 +92,14 @@ export const getInventoryItemHistory = (
 ) => {
   const API_HISTORY = 'api/inventory/history/';
 
-  if (getIsInternet(hostname)) {
-    return proxy(`${url}${API_HISTORY}${data.camera}/${data.date}/00:00:00/23:59:00/`, 'GET', {
-      Authorization: cookies,
-    });
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(
+      `${process.env.REACT_APP_NGROK}${API_HISTORY}${data.camera}/${data.date}/00:00:00/23:59:00/`,
+      'GET',
+      {
+        Authorization: cookies,
+      }
+    );
   } else {
     return axios.get(
       `http://${hostname}/${API_HISTORY}${data.camera}/${data.date}/00:00:00/23:59:00/`,

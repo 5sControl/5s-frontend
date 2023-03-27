@@ -3,7 +3,6 @@ import { useCookies } from 'react-cookie';
 import { CamerasModal } from './modal/camerasModal';
 import './cameras.scss';
 import { findCamera, getSelectedCameras } from '../../api/cameraRequest';
-import { getIsInternet, url } from '../../api/api';
 import { CameraSettings } from './modal/cameraSettings';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
@@ -64,8 +63,8 @@ export const Camera = () => {
                   <img
                     className="cameras__list_image"
                     src={
-                      getIsInternet(window.location.hostname)
-                        ? `${url}/images/${el.id}/snapshot.jpg`
+                      process.env.REACT_APP_ENV === 'proxy'
+                        ? `${process.env.REACT_APP_NGROK}/images/${el.id}/snapshot.jpg`
                         : `http://${window.location.hostname}/images/${el.id}/snapshot.jpg`
                     }
                     alt="Camera"

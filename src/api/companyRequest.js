@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { url, proxy, getIsInternet } from './api';
+import { proxy } from './api';
 
 const API_COMPANYINFO = 'api/company/info/';
 const API_CREATELICENSE = 'api/company/create_license/';
@@ -7,10 +7,11 @@ const API_REGISTRATION = 'register/';
 const API_AUTH = 'auth/jwt/create/';
 const API_USERLIST = 'api/staff-control/employees/admin/';
 const API_VERIFYTOKEN = 'auth/jwt/verify/';
+
 export const authorizationRequest = (hostname, email, password) => {
-  if (getIsInternet(hostname)) {
+  if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
-      url: `${url + API_AUTH}`,
+      url: `${process.env.REACT_APP_NGROK + API_AUTH}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,8 +30,8 @@ export const authorizationRequest = (hostname, email, password) => {
 };
 
 export const getCompanyInfo = (hostname, cookies) => {
-  if (getIsInternet(hostname)) {
-    return proxy(url + API_COMPANYINFO, 'GET', {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(process.env.REACT_APP_NGROK + API_COMPANYINFO, 'GET', {
       Authorization: cookies,
     });
   } else {
@@ -43,9 +44,9 @@ export const getCompanyInfo = (hostname, cookies) => {
 };
 
 export const sendLicenseKey = (hostname, cookies, key) => {
-  if (getIsInternet(hostname)) {
+  if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
-      url: `${url + API_CREATELICENSE}`,
+      url: `${process.env.REACT_APP_NGROK + API_CREATELICENSE}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -72,9 +73,9 @@ export const sendLicenseKey = (hostname, cookies, key) => {
 };
 
 export const registerNewUser = (hostname, email, password) => {
-  if (getIsInternet(hostname)) {
+  if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
-      url: `${url + API_REGISTRATION}`,
+      url: `${process.env.REACT_APP_NGROK + API_REGISTRATION}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -95,8 +96,8 @@ export const registerNewUser = (hostname, email, password) => {
 };
 
 export const getUserList = (hostname, cookies) => {
-  if (getIsInternet(hostname)) {
-    return proxy(url + API_USERLIST, 'GET', {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(process.env.REACT_APP_NGROK + API_USERLIST, 'GET', {
       Authorization: cookies,
     });
   } else {
@@ -110,9 +111,9 @@ export const getUserList = (hostname, cookies) => {
 
 export const isVerifyToken = (hostname, cookies) => {
   cookies = cookies?.split(' ')[1];
-  if (getIsInternet(hostname)) {
+  if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
-      url: `${url + API_VERIFYTOKEN}`,
+      url: `${process.env.REACT_APP_NGROK + API_VERIFYTOKEN}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

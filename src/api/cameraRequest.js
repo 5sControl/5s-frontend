@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { url } from './api';
 
 const API_CAMERASELECT = 'api/cameras/';
 const API_CAMERACREATE = 'api/cameras/create-camera/';
@@ -7,9 +6,9 @@ const API_CAMERAUPDATE = 'api/cameras/update-camera/';
 const API_CAMERAFIND = 'find_cameras/';
 
 export const getSelectedCameras = (hostname, cookies) => {
-  if (hostname.includes('localhost')) {
+  if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
-      url: url + API_CAMERASELECT,
+      url: process.env.REACT_APP_NGROK + API_CAMERASELECT,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -27,9 +26,9 @@ export const getSelectedCameras = (hostname, cookies) => {
 };
 
 export const postCamera = (hostname, IPCamera, username, password, cookies) => {
-  if (hostname.includes('localhost')) {
+  if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post(
-      url + API_CAMERACREATE,
+      process.env.REACT_APP_NGROK + API_CAMERACREATE,
       {
         ip: IPCamera,
         username: username,
@@ -61,9 +60,9 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
 };
 
 export const patchCamera = (hostname, IPCamera, cameraName, cookies) => {
-  if (hostname.includes('localhost')) {
+  if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.patch(
-      url + API_CAMERAUPDATE,
+      process.env.REACT_APP_NGROK + API_CAMERAUPDATE,
       {
         ip: IPCamera,
         name: cameraName,
@@ -91,8 +90,8 @@ export const patchCamera = (hostname, IPCamera, cameraName, cookies) => {
 };
 
 export const findCamera = (hostname) => {
-  if (hostname.includes('localhost')) {
-    return axios.get('http://192.168.1.101/' + API_CAMERAFIND);
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.get('http://192.168.1.110/' + API_CAMERAFIND);
   } else {
     return axios.get(`http://${hostname}/${API_CAMERAFIND}`);
   }

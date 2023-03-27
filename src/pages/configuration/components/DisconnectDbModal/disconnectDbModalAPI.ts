@@ -1,12 +1,11 @@
 import axios from 'axios';
-import { getIsInternet, url } from '../../../../api/api';
 
 export const disconnectDbAPI = (hostname: string, cookies: string, id: number) => {
   const DISCONNECT_CONNECTION = 'api/order/delete-connection/';
 
-  if (getIsInternet(hostname)) {
+  if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
-      url: `${url}${DISCONNECT_CONNECTION}${id}/`,
+      url: `${process.env.REACT_APP_NGROK}${DISCONNECT_CONNECTION}${id}/`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

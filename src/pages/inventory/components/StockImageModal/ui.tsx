@@ -2,7 +2,6 @@
 import { Modal } from '../../../../components/modal';
 import styles from './stockImageModal.module.scss';
 import moment from 'moment-timezone';
-import { getIsInternet, url } from '../../../../api/api';
 import { useAppSelector } from '../../../../store/hooks';
 import { selectActiveInventoryItem } from '../InventoryItemsList/InventoryItemsListSlice';
 import { setDateDot } from '../../../previewOrders/previewOrdersHelper';
@@ -26,8 +25,8 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
       <img
         className={styles.image}
         src={
-          getIsInternet(window.location.hostname)
-            ? `${url}${currentReport.photos[0].image}`
+          process.env.REACT_APP_ENV === 'proxy'
+            ? `${process.env.REACT_APP_NGROK}${currentReport.photos[0].image}`
             : `http://${window.location.hostname}/${currentReport.photos[0].image}`
         }
         alt="image"

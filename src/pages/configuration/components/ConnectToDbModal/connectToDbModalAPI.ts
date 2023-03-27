@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getIsInternet, url } from '../../../../api/api';
 import { ConnectionToDatabaseForm } from './types';
 
 export const postConnectionWithDbAPI = (
@@ -9,9 +8,9 @@ export const postConnectionWithDbAPI = (
 ) => {
   const CREATE_CONNECTION = 'api/order/create-connection/';
 
-  if (getIsInternet(hostname)) {
+  if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
-      url: `${url}${CREATE_CONNECTION}`,
+      url: `${process.env.REACT_APP_NGROK}${CREATE_CONNECTION}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

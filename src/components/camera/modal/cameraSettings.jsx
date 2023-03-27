@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { url, getIsInternet } from '../../../api/api';
 import { patchCamera } from '../../../api/cameraRequest';
 import { Close } from '../../../assets/svg/SVGcomponent';
 import { AlgorithmSelect } from './components/algorithmSelect';
@@ -25,7 +24,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
     for (const algorithm of whatIsAdd) {
       let response = {
         server_url: window.location.hostname.includes('localhost')
-          ? 'http://192.168.1.101'
+          ? 'http://192.168.1.110'
           : `http://${window.location.hostname}`,
         [algorithm]: [IPCamera],
       };
@@ -122,8 +121,8 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                 <div className="cameras__settings_right">
                   <img
                     src={
-                      getIsInternet(window.location.hostname)
-                        ? `${url}/images/${IPCamera}/snapshot.jpg`
+                      process.env.REACT_APP_ENV === 'proxy'
+                        ? `${process.env.REACT_APP_NGROK}/images/${IPCamera}/snapshot.jpg`
                         : `http://${window.location.hostname}/images/${IPCamera}/snapshot.jpg`
                     }
                     alt="Camera"
