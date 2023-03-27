@@ -34,7 +34,6 @@ export const OrderList: React.FC<PropsType> = ({
   };
 
   const handleClickSearchSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
     handleSubmitSearch(event.target.search.value);
   };
 
