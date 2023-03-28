@@ -14,12 +14,13 @@
   }
 }
 
-.title {
+.algorithms_title {
   @include title;
   color: var(--LowEmphasis);
   margin-bottom: 10px;
 }
-.algorithms {
+
+.version {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -29,5 +30,10 @@
     &_title {
       color: var(--MediumEmphasis);
     }
+  }
+  &_app {
+    @include body1;
+    color: var(--HightEmphasis);
+    margin-bottom: 10px;
   }
 }

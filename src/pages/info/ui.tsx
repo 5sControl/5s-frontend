@@ -3,7 +3,6 @@ import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectPreviewOrders } from '../previewOrders/previewOrdersSlice';
 import styles from './info.module.scss';
 import { getCompanyVersionAsync, selectInfoPage } from './infoSlice';
 
@@ -12,25 +11,6 @@ export const Info: React.FC = () => {
   const [cookies] = useCookies(['token']);
   const { version, isErrorCompanyVersions, isLoadingCompanyVersions } =
     useAppSelector(selectInfoPage);
-
-  const data = [
-    {
-      name: '5S Control version',
-      version: '0.0.7',
-    },
-    {
-      name: '5S Control version',
-      version: '0.0.7',
-    },
-    {
-      name: '5S Control version',
-      version: '0.0.7',
-    },
-    {
-      name: '5S Control version',
-      version: '0.0.7',
-    },
-  ];
 
   useEffect(() => {
     dispatch(
@@ -53,16 +33,37 @@ export const Info: React.FC = () => {
         <Link to="/">Terms of use</Link>
       </div>
 
-      <p className={styles.title}>Algorithms versions</p>
+      <p className={styles.version_app}>
+        {isLoadingCompanyVersions ? (
+          <span className={styles.version_row_title}>5S Control version: Loading...</span>
+        ) : (
+          <>
+            <span className={styles.version_row_title}>{version[0]?.name}: </span>
+            {version[0]?.version}
+          </>
+        )}
+      </p>
 
-      <div className={styles.algorithms}>
-        {version.map((elem, index) => (
-          <p key={index} className={styles.algorithms_row}>
-            {/* <span className={styles.algorithms_row_title}>{name}: </span> */}
-            {elem}
-          </p>
-        ))}
-      </div>
+      <p className={styles.algorithms_title}>Algorithms versions</p>
+
+      {isLoadingCompanyVersions ? (
+        <span className={styles.version_row_title}>Loading...</span>
+      ) : (
+        <div className={styles.version}>
+          {version.map(({ name, version }, index) => {
+            if (index === 0) {
+              return;
+            }
+
+            return (
+              <p key={index} className={styles.version_row}>
+                <span className={styles.version_row_title}>{name}: </span>
+                {version}
+              </p>
+            );
+          })}
+        </div>
+      )}
     </WrapperPage>
   );
 };
