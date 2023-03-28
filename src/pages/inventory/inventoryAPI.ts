@@ -51,7 +51,7 @@ export const editInventoryItemAxios = (
   const API_INVENTORY_SET = 'api/inventory/items/';
 
   if (getIsInternet(hostname)) {
-    return axios.put('https://5scontrol.pl/proxy_to_ngrok', {
+    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
       url: url + API_INVENTORY_SET + body.id + '/',
       method: 'PUT',
       headers: {
@@ -61,7 +61,7 @@ export const editInventoryItemAxios = (
       body: JSON.stringify(body),
     });
   } else {
-    return axios.put(`http://${hostname}/${API_INVENTORY_SET}`, body, {
+    return axios.post(`http://${hostname}/${API_INVENTORY_SET}`, body, {
       headers: {
         Authorization: cookies,
       },

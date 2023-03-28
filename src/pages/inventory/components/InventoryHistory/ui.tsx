@@ -57,7 +57,9 @@ export const InventoryHistory: React.FC = () => {
             onClick={() => setVisibleModalDate(!visibleModalDate)}
             className="dashboard__title_button"
           >
-            {`${selectDate}`}
+            {new Date(selectDate).toDateString() === new Date().toDateString()
+              ? 'Today, ' + selectDate
+              : selectDate}
           </button>
           {visibleModalDate && (
             <DataPicker

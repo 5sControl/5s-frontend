@@ -4,11 +4,42 @@
 .modal {
   max-width: 880px;
   max-height: 615px;
+  justify-content: start;
 
   .image {
     object-fit: cover;
-    width: 100%;
-    height: calc(100% - 110px);
+    aspect-ratio: 11 /6;
+  }
+
+  .imageContainer {
+    width: inherit;
+    height: inherit;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #e0e0e0;
+    background-size: contain;
+    position: relative;
+
+    .camera {
+      position: absolute;
+      bottom: 15px;
+      transform: translate(-50%, 0);
+      left: 50%;
+      width: 250px;
+
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 31px;
+
+      .text {
+        text-align: center;
+        letter-spacing: 0.1px;
+
+        color: var(--White);
+
+        padding: 4px 15px;
+        @include body2;
+      }
+    }
   }
 }
 

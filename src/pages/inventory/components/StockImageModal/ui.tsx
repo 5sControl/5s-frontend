@@ -18,20 +18,25 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
     currentReport.photos[0].date &&
     setDateDot(moment(currentReport.photos[0].date).subtract(10, 'days').calendar()) +
       ' | ' +
-      moment(currentReport.photos[0].date).tz('Etc/GMT').format('LT');
+      moment(currentReport.photos[0].date).format('LT');
 
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
-      <img
-        className={styles.image}
-        src={
-          getIsInternet(window.location.hostname)
-            ? `${url}${currentReport.photos[0].image}`
-            : `http://${window.location.hostname}/${currentReport.photos[0].image}`
-        }
-        alt="image"
-      />
+      <div
+        className={styles.imageContainer}
+        style={{
+          backgroundImage: `url(${
+            getIsInternet(window.location.hostname)
+              ? `${url}${currentReport.photos[0].image}`
+              : `http://${window.location.hostname}/${currentReport.photos[0].image}`
+          })`,
+        }}
+      >
+        <div className={styles.camera}>
+          <p className={styles.text}>{activeInventoryItem?.camera}</p>
+        </div>
+      </div>
 
       <div className={styles.infoBlock}>
         <div className={styles.header}>

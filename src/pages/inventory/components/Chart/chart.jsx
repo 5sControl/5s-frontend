@@ -8,6 +8,7 @@ import {
 } from '../StockImageModal/stockImageModalSlice';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { selectInventory } from '../../inventorySlice';
+import { selectActiveInventoryItem } from '../InventoryItemsList/InventoryItemsListSlice';
 
 const dimensions = {
   top: 80,
@@ -26,7 +27,7 @@ type PropsType = {
 const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
   const ref = useRef(null);
   const dispatch = useAppDispatch();
-  // const { inventoryHistoryData } = useAppSelector(selectInventory);
+  const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
 
   function getMaxOfArray(numArray) {
     return Math.max.apply(null, numArray);
@@ -37,14 +38,22 @@ const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
     dispatch(setCurrentReportData(item));
   };
 
+  const timeDifference = (start, end) => {
+    return (
+      moment(end).diff(moment(start), 'hours') +
+      'h' +
+      ' ' +
+      (moment(end).diff(moment(start), 'minutes') % 60) +
+      'min'
+    );
+  };
+
   useEffect(() => {
     if (data) {
       const svg = d3.select('#chart');
       const update = data.map((item) => {
         return { ...item, start_tracking: new Date(Date.parse(item.start_tracking)) };
       });
-
-      console.log('update', update);
 
       const selection = svg.selectAll('rect').data(update);
       const enter = selection.enter();
@@ -63,23 +72,6 @@ const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
         .scaleLinear()
         .domain([getMaxOfArray(update.map((item) => item.extra[0].count)) + 10, 0])
         .range([0, height - dimensions.top - dimensions.bottom]);
-
-      // const bar = enter
-      // .append('rect')
-      // .attr('transform', (d: any, i: any) => {
-      //   if (d) {
-      //     console.log('d', d);
-      //     return `translate(${xScale(d.time) + dimensions.left}, ${
-      //       yScale(d.count) + dimensions.top
-      //     } )`;
-      //   }
-      //   return '';
-      // })
-      // .attr('width', 10)
-      // .attr('height', (d: any) => height - yScale(d.count) - dimensions.bottom - dimensions.top)
-      // .attr('fill', (d: any) =>
-      //   d.count === 44 ? '#87BC45' : d.count === 7 ? '#FF7B29' : '#E00606'
-      // );
 
       svg
         .append('g')
@@ -107,33 +99,51 @@ const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
 
       svg
         .append('g')
+        .call(d3.axisRight(yScale))
+        .call((g) => g.select('.domain').remove())
+        .attr('transform', `translate(${width - dimensions.right}, ${dimensions.top} )`)
+        .call((g) =>
+          g.selectAll('.tick > line')._groups[0].forEach((item) => {
+            if (!item.classList.length) {
+              item.remove();
+            }
+          })
+        )
+        .call((g) =>
+          g.selectAll('.tick text').attr('font-size', 12).attr('fill', '#9E9E9E').attr('dy', '0em')
+        );
+
+      svg
+        .append('g')
         .call(d3.axisBottom(xScale).tickFormat((date) => moment(date).format('HH:mm')))
         .attr('transform', `translate(${dimensions.left}, ${height - dimensions.bottom} )`)
         .call((g) => g.select('.domain').remove())
         .call((g) => g.selectAll('.tick > line')._groups[0].forEach((item) => item.remove()))
         .call((g) => g.selectAll('.tick text').attr('font-size', 12).attr('fill', '#9E9E9E'));
 
-      const tooltip1 = d3
-        .select('#test')
+      const tooltip = d3
+        .select('#chartBar')
         .append('div')
         .attr('class', 'tooltip')
         .style('opacity', 0)
         .style('position', 'absolute');
 
-      const showTooltip = function (d) {
-        tooltip1
-          .style('opacity', 1)
-          .style('left', d.x - 120 + 'px')
-          .style('top', d.y - 25 - 160 + 'px');
-      };
-      const moveTooltip = function (d, d1) {
-        console.log('d1', d1);
-        tooltip1.html(
+      // const middleLine = svg
+      //   .append('line')
+      //   .attr('class', 'middleLine')
+      //   .attr('stroke', 'red')
+      //   .attr('opacity', 0);
+
+      const showTooltip = function (d, d1) {
+        tooltip.html(
           `<div class="container"><h2 class="header">${moment(d1.start_tracking).format(
             'HH:mm'
           )} - ${moment(d1.stop_tracking).format(
             'HH:mm'
-          )}${' |'} <span class="time">00:00</span></h2><div class="stock"><span class="stockNumber ${
+          )}&nbsp;<span class="time">${'| '}${timeDifference(
+            d1.start_tracking,
+            d1.stop_tracking
+          )}</span></h2><div class="stock"><span class="stockNumber ${
             d1.extra[0].status === 'In stock' && 'stockIn'
           } ${d1.extra[0].status === 'Low stock level' && 'low'} ${
             d1.extra[0].status === 'Out of stock' && 'out'
@@ -143,10 +153,37 @@ const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
             d1.extra[0].status === 'Out of stock' && 'statusOutStock'
           }">${d1.extra[0].status}</div><p class="click">Click to see details</p></div>`
         );
-        tooltip1.style('left', d.x - 120 + 'px').style('top', d.y - 25 - 160 + 'px');
+        tooltip
+          .style('opacity', 1)
+          .style('left', d.x - 120 + 'px')
+          .style('top', d.y - 25 - 160 + 'px');
+      };
+      const moveTooltip = function (d, d1) {
+        tooltip.html(
+          `<div class="container"><h2 class="header">${moment(d1.start_tracking).format(
+            'HH:mm'
+          )} - ${moment(d1.stop_tracking).format(
+            'HH:mm'
+          )}&nbsp;<span class="time">${'| '}${timeDifference(
+            d1.start_tracking,
+            d1.stop_tracking
+          )}</span></h2><div class="stock"><span class="stockNumber ${
+            d1.extra[0].status === 'In stock' && 'stockIn'
+          } ${d1.extra[0].status === 'Low stock level' && 'low'} ${
+            d1.extra[0].status === 'Out of stock' && 'out'
+          }">${d1.extra[0].count}</span> in stock</div><div class="status ${
+            d1.extra[0].status === 'In stock' && 'statusStock'
+          } ${d1.extra[0].status === 'Low stock level' && 'statusLowStock'} ${
+            d1.extra[0].status === 'Out of stock' && 'statusOutStock'
+          }">${d1.extra[0].status}</div><p class="click">Click to see details</p></div>`
+        );
+        tooltip
+          .style('opacity', 1)
+          .style('left', d.x - 120 + 'px')
+          .style('top', d.y - 25 - 160 + 'px');
       };
       const hideTooltip = function (d) {
-        tooltip1.style('opacity', 0);
+        tooltip.style('opacity', 0);
       };
 
       const bar = enter.append('g').attr('transform', (d: any, i: any) => {
@@ -180,6 +217,16 @@ const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
         .on('click', (d: any, i: any) => {
           handleOpenModel(data.find((item: any) => item.id === +d.target.id));
         });
+
+      svg
+        .append('line')
+        .attr('class', 'middleLine')
+        .attr('stroke-dasharray', '20 20')
+        .attr('stroke', '#666666')
+        .attr('x1', dimensions.left)
+        .attr('y1', yScale(activeInventoryItem.low_stock_level) + dimensions.top)
+        .attr('x2', width - dimensions.right)
+        .attr('y2', yScale(activeInventoryItem.low_stock_level) + dimensions.top);
     }
   }, []);
 
@@ -199,21 +246,21 @@ export function FeaturesBarChart() {
   }, [inventoryHistoryData]);
 
   return (
-    <div id="test" style={{ height: 500 }} ref={ref}>
-      {size && <BarChart data={inventoryHistoryData} width={size.width} height={500} />}
+    <div id="chartBar" ref={ref}>
+      {size && <BarChart data={inventoryHistoryData} width={size.width} height={350} />}
 
       <div className="labels">
         <div className="label">
           <div className="label-inStock"></div>
-          <div className="">In stock</div>
+          <p>In stock</p>
         </div>
         <div className="label">
           <div className="label-low-stock"></div>
-          <div className="">Low stock level</div>
+          <p>Low stock level</p>
         </div>
         <div className="label">
           <div className="label-out-stock"></div>
-          <div className="">Out of stock</div>
+          <p>Out of stock</p>
         </div>
       </div>
     </div>

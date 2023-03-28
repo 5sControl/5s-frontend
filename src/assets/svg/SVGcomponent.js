@@ -18,6 +18,8 @@ import { ReactComponent as Plus } from './plus.svg';
 import { ReactComponent as Settings } from './settings.svg';
 import { ReactComponent as Eye } from './eye.svg';
 import { ReactComponent as Disconnect } from './disconnect.svg';
+import { ReactComponent as Edit } from './editIcon.svg';
+import { ReactComponent as Delete } from './deleteIcon.svg';
 export {
   Algorithm,
   Camera,
@@ -39,4 +41,6 @@ export {
   Settings,
   Eye,
   Disconnect,
+  Edit,
+  Delete,
 };
