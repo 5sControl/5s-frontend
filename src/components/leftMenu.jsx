@@ -22,7 +22,7 @@ export const LeftMenu = () => {
 
   return (
     <aside className="leftMenu">
-      <Link to="/" onClick={send}>
+      <Link to="/info" onClick={send}>
         <img src={logo} alt="logo" />
       </Link>
       <ul>
