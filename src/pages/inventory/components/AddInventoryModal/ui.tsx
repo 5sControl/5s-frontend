@@ -8,6 +8,7 @@ import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { useCookies } from 'react-cookie';
 import { addItem, selectAddInventoryModal } from './addInventoryModalSlice';
+import { selectInventory } from '../../inventorySlice';
 
 type PropsType = {
   isOpen: boolean;
@@ -15,14 +16,9 @@ type PropsType = {
 };
 
 export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
-  const listOfDataForSelect = [
-    { id: 0, text: '192.168.1.167' },
-    { id: 1, text: '192.168.1.168' },
-    { id: 2, text: '192.168.1.110' },
-    { id: 3, text: '192.168.1.163' },
-  ];
   const dispatch = useAppDispatch();
   const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
+  const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
 
   useEffect(() => {
@@ -103,7 +99,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
               id="camera_type"
               name="camera_type"
               label="Select a camera"
-              listOfData={listOfDataForSelect}
+              listOfData={camerasData}
             />
           </div>
           <Button text="Save" className={styles.button} type="submit" />
