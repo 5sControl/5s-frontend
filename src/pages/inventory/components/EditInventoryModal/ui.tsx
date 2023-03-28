@@ -16,12 +16,6 @@ type PropsType = {
 };
 
 export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
-  const listOfDataForSelect = [
-    { id: 0, text: '192.168.1.167' },
-    { id: 1, text: '192.168.1.168' },
-    { id: 2, text: '192.168.1.110' },
-    { id: 3, text: '192.168.1.163' },
-  ];
   const dispatch = useAppDispatch();
   const { currentEditItem, connectResponse } = useAppSelector(selectEditInventoryModal);
   const { camerasData } = useAppSelector(selectInventory);
@@ -96,7 +90,9 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
               name="camera_type"
               label="Select a camera"
               listOfData={camerasData}
-              activeSelect={currentEditItem?.camera}
+              activeSelect={camerasData.findIndex(
+                (item: any) => item.text === currentEditItem?.camera
+              )}
             />
           </div>
           <Button text="Save" className={styles.button} type="submit" />
