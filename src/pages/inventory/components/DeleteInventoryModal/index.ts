@@ -1,0 +1,1 @@
+export { DeleteInventoryModal } from './ui';

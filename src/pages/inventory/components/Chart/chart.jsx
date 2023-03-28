@@ -17,7 +17,6 @@ const dimensions = {
   right: 60,
 };
 
-// const colors = d3.scaleOrdinal(d3.schemeCategory10);
 type PropsType = {
   data: any,
   width: any,
@@ -128,12 +127,6 @@ const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
         .style('opacity', 0)
         .style('position', 'absolute');
 
-      // const middleLine = svg
-      //   .append('line')
-      //   .attr('class', 'middleLine')
-      //   .attr('stroke', 'red')
-      //   .attr('opacity', 0);
-
       const showTooltip = function (d, d1) {
         tooltip.html(
           `<div class="container"><h2 class="header">${moment(d1.start_tracking).format(
@@ -155,34 +148,11 @@ const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
         );
         tooltip
           .style('opacity', 1)
-          .style('left', d.x - 120 + 'px')
-          .style('top', d.y - 25 - 160 + 'px');
+          .style('left', d.layerX - 120 + 'px')
+          .style('top', d.layerY - 25 - 160 + 'px');
       };
-      const moveTooltip = function (d, d1) {
-        tooltip.html(
-          `<div class="container"><h2 class="header">${moment(d1.start_tracking).format(
-            'HH:mm'
-          )} - ${moment(d1.stop_tracking).format(
-            'HH:mm'
-          )}&nbsp;<span class="time">${'| '}${timeDifference(
-            d1.start_tracking,
-            d1.stop_tracking
-          )}</span></h2><div class="stock"><span class="stockNumber ${
-            d1.extra[0].status === 'In stock' && 'stockIn'
-          } ${d1.extra[0].status === 'Low stock level' && 'low'} ${
-            d1.extra[0].status === 'Out of stock' && 'out'
-          }">${d1.extra[0].count}</span> in stock</div><div class="status ${
-            d1.extra[0].status === 'In stock' && 'statusStock'
-          } ${d1.extra[0].status === 'Low stock level' && 'statusLowStock'} ${
-            d1.extra[0].status === 'Out of stock' && 'statusOutStock'
-          }">${d1.extra[0].status}</div><p class="click">Click to see details</p></div>`
-        );
-        tooltip
-          .style('opacity', 1)
-          .style('left', d.x - 120 + 'px')
-          .style('top', d.y - 25 - 160 + 'px');
-      };
-      const hideTooltip = function (d) {
+
+      const hideTooltip = () => {
         tooltip.style('opacity', 0);
       };
 
@@ -212,7 +182,7 @@ const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
         .attr('id', (d) => d.id)
         .style('cursor', 'pointer')
         .on('mouseover', showTooltip)
-        .on('mousemove', moveTooltip)
+        .on('mousemove', showTooltip)
         .on('mouseleave', hideTooltip)
         .on('click', (d: any, i: any) => {
           handleOpenModel(data.find((item: any) => item.id === +d.target.id));

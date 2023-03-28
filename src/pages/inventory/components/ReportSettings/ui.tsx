@@ -7,6 +7,10 @@ import {
 } from '../EditInventoryModal/editInventoryModalSlice';
 import { InventoryItem } from '../../../../storage/inventory';
 import { useEffect, useRef } from 'react';
+import {
+  setCurrentDeleteItemId,
+  setIsOpenDeleteModal,
+} from '../DeleteInventoryModal/deleteInventoryModalSlice';
 
 type PropsType = {
   currentReport: InventoryItem;
@@ -34,6 +38,12 @@ export const ReportSettings: React.FC<PropsType> = ({
     }
   };
 
+  const openDeleteModal = () => {
+    dispatch(setCurrentDeleteItemId(currentReport.id));
+    dispatch(setIsOpenDeleteModal(true));
+    outsideClick(false);
+  };
+
   useEffect(() => {
     document.addEventListener('click', clickHandler, true);
 
@@ -51,7 +61,7 @@ export const ReportSettings: React.FC<PropsType> = ({
           <Edit />
           <p className={styles.settingsText}>Edit</p>
         </div>
-        <div className={styles.settingsMenu_item}>
+        <div className={styles.settingsMenu_item} onClick={openDeleteModal}>
           <Delete />
           <p className={styles.settingsText}>Delete</p>
         </div>
