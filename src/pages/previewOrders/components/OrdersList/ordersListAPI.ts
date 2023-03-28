@@ -1,9 +1,6 @@
 import axios from 'axios';
-import { getIsInternet, proxy, url } from '../../../../api/api';
-import {
-  OrderListByCustomer,
-  OrderWithPaginationCustomer,
-} from '../../../../storage/orderViewCustomer';
+import { proxy } from '../../../../api/api';
+import { OrderWithPaginationCustomer } from '../../../../storage/orderViewCustomer';
 
 export const getOrdersAPI = (
   hostname: string,
@@ -12,11 +9,11 @@ export const getOrdersAPI = (
   page_size: number,
   search: string | null
 ) => {
-  const API_ALL_ORDERS = 'api/order/all-orders';
+  const API_ALL_ORDERS = 'api/order/all-orders/';
 
-  if (getIsInternet(hostname)) {
+  if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy<OrderWithPaginationCustomer>(
-      `${url}${API_ALL_ORDERS}/?page=${page}&page_size=${page_size}${
+      `${process.env.REACT_APP_NGROK}${API_ALL_ORDERS}?page=${page}&page_size=${page_size}${
         search ? `&search=${search}` : ''
       }`,
       'GET',
@@ -24,10 +21,10 @@ export const getOrdersAPI = (
         Authorization: cookies,
       }
     );
-  } else {
+  } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.get<OrderWithPaginationCustomer>(
-      `http://${hostname}/${API_ALL_ORDERS}/?page=${page}&page_size=${page_size}${
-        search ? `&${search}` : ''
+      `${process.env.REACT_APP_IP_SERVER}${API_ALL_ORDERS}?page=${page}&page_size=${page_size}${
+        search ? `&search=${search}` : ''
       }`,
       {
         headers: {
@@ -35,24 +32,16 @@ export const getOrdersAPI = (
         },
       }
     );
-  }
-};
-
-export const getOrdersByQueryAPI = (hostname: string, cookies: string, query: string) => {
-  const API_SEARCH_ORDERS = '/api/order/all-orders/search';
-
-  if (getIsInternet(hostname)) {
-    return proxy<OrderListByCustomer[]>(`${url}${API_SEARCH_ORDERS}/?q=${query}`, 'GET', {
-      Authorization: cookies,
-    });
   } else {
-    return axios.get<OrderListByCustomer[]>(`http://${hostname}/${API_SEARCH_ORDERS}/`, {
-      headers: {
-        Authorization: cookies,
-      },
-      params: {
-        q: query,
-      },
-    });
+    return axios.get<OrderWithPaginationCustomer>(
+      `http://${hostname}/${API_ALL_ORDERS}?page=${page}&page_size=${page_size}${
+        search ? `&search=${search}` : ''
+      }`,
+      {
+        headers: {
+          Authorization: cookies,
+        },
+      }
+    );
   }
 };

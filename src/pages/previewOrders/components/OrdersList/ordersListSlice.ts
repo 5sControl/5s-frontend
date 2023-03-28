@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
-import { OrdersWithPagination, PreviewOrderItem } from '../../../../storage/orderView';
+import { OrdersWithPagination } from '../../../../storage/orderView';
 import { OrderListByCustomer } from '../../../../storage/orderViewCustomer';
 import { RootState } from '../../../../store';
 import { parseOrderData } from './orderListHelper';
-import { getOrdersAPI, getOrdersByQueryAPI } from './ordersListAPI';
+import { getOrdersAPI } from './ordersListAPI';
 
 interface ReportState {
   activeOrder: null | string;
@@ -52,21 +52,6 @@ export const getOrdersAsync = createAsyncThunk(
   }
 );
 
-export const getSearchOrdersAsync = createAsyncThunk(
-  'getOrdersByQuery',
-  async (data: { token: string; hostname: string; query: string }) => {
-    const response = await getOrdersByQueryAPI(data.hostname, data.token, data.query);
-    if (response.data) {
-      console.log('getOrdersAsync', response.data);
-      const orderData = response.data.map((item: OrderListByCustomer) => {
-        return parseOrderData(item);
-      });
-      return orderData;
-    }
-    return '';
-  }
-);
-
 const ordersList = createSlice({
   name: 'ordersList',
   initialState,
@@ -91,19 +76,6 @@ const ordersList = createSlice({
       state.ordersList = action.payload as OrdersWithPagination;
     });
     builder.addCase(getOrdersAsync.rejected, (state, action) => {
-      state.isLoadingOrdersList = false;
-      state.isErrorOfOrdersList = true;
-      state.errorOfOrdersData = action.error;
-    });
-    builder.addCase(getSearchOrdersAsync.pending, (state) => {
-      state.isLoadingOrdersList = true;
-    });
-    builder.addCase(getSearchOrdersAsync.fulfilled, (state, action) => {
-      state.isLoadingOrdersList = false;
-      state.isErrorOfOrdersList = false;
-      state.ordersList && (state.ordersList.results = action.payload as PreviewOrderItem[]);
-    });
-    builder.addCase(getSearchOrdersAsync.rejected, (state, action) => {
       state.isLoadingOrdersList = false;
       state.isErrorOfOrdersList = true;
       state.errorOfOrdersData = action.error;
