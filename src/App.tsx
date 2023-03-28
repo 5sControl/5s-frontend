@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.scss';
-// import Dashboard from './pages/dashboard/Dashboard';
 import { RoutesOutlet } from './routes/Routes';
 import { Company } from './pages/company/Company';
-// import { Main } from './pages/main/Main';
 import { Authorization } from './components/authorization/Authorization';
 import { useCookies } from 'react-cookie';
 import { isVerifyToken } from './api/companyRequest';
@@ -16,6 +13,8 @@ import { Main } from './pages/main/Main';
 import { Live } from './pages/live/Live';
 import Dashboard from './pages/dashboard/Dashboard';
 import { Inventory } from './pages/inventory/inventory';
+import { Info } from './pages/info';
+
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
@@ -37,10 +36,11 @@ function App() {
         {cookies.token ? (
           <Route element={<RoutesOutlet />}>
             <Route path="/" element={<Main />} />
+            <Route path="/info" element={<Info />} />
             <Route path="/company" element={<Company />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/live" element={<Live />} />
-            <Route path="/configuration" element={<Configuration />} />
+            <Route path="/configuration" element={<Configuration activeTab={0} />} />
             <Route path="/configuration/license" element={<Configuration activeTab={0} />} />
             <Route path="/configuration/database" element={<Configuration activeTab={1} />} />
             <Route path="/configuration/camera" element={<Configuration activeTab={2} />} />

@@ -1,4 +1,3 @@
-import { url, getIsInternet } from '../../../../api/api.js';
 import { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -22,16 +21,20 @@ export const Slider = ({ currentReport, setFullImage }) => {
             <img
               key={id}
               src={
-                getIsInternet(window.location.hostname)
-                  ? `${url + photo.image}`
+                process.env.REACT_APP_ENV === 'proxy'
+                  ? `${process.env.REACT_APP_NGROK + photo.image}`
+                  : process.env.REACT_APP_ENV === 'wify'
+                  ? `${process.env.REACT_APP_IP_SERVER}${photo.image}`
                   : `http://${window.location.hostname}/${photo.image}`
               }
               alt="report img"
               className="dashboard__report_image_src"
               onClick={() =>
                 setFullImage(
-                  getIsInternet(window.location.hostname)
-                    ? `${url + photo.image}`
+                  process.env.REACT_APP_ENV === 'proxy'
+                    ? `${process.env.REACT_APP_NGROK + photo.image}`
+                    : process.env.REACT_APP_ENV === 'wify'
+                    ? `${process.env.REACT_APP_IP_SERVER}${photo.image}`
                     : `http://${window.location.hostname}/${photo.image}`
                 )
               }

@@ -2,6 +2,7 @@
 @import '../../styles/fonts.scss';
 
 .content {
+  position: relative;
   .header {
     display: flex;
     justify-content: space-between;
@@ -11,6 +12,31 @@
     .title {
       @include h2;
       color: var(--HightEmphasis);
+    }
+  }
+  .body {
+    height: calc(100vh - 208px);
+    display: flex;
+    gap: 10px;
+
+    margin-top: 20px;
+
+    .noInventoryItem {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      .title {
+        @include h4;
+        color: var(--HightEmphasis);
+      }
+
+      .subtitle {
+        @include body1;
+        color: var(--MediumEmphasis);
+      }
     }
   }
 }

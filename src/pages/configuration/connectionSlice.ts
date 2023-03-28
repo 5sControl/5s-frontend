@@ -1,24 +1,10 @@
 import { getConnectionsToDatabases } from './configurationAPI';
 import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-
-export type DatabaseInfo = {
-  id: number;
-  database_type: string;
-  database: string;
-  server: string;
-  username: string;
-};
-
-type DataBaseResponse = {
-  count: number;
-  next: number | null;
-  previous: number | null;
-  results: Array<DatabaseInfo>;
-};
+import { DatabaseInfo, DataBaseResponse } from './types';
 
 interface ConnectionState {
-  databases: DataBaseResponse | null;
+  databases: DataBaseResponse | null | any;
   isLoadingGetConnectionsToDB: boolean;
   isErrorOfGetConnections: boolean;
   errorMessageFromDb: SerializedError | null;
@@ -59,7 +45,7 @@ const connectionSlice = createSlice({
     });
     builder.addCase(getConnectionsToDB.fulfilled, (state, action) => {
       state.isLoadingGetConnectionsToDB = false;
-      state.databases = action.payload;
+      state.databases = action.payload as DataBaseResponse;
     });
     builder.addCase(getConnectionsToDB.rejected, (state, action) => {
       state.isLoadingGetConnectionsToDB = false;

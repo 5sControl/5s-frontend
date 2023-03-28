@@ -1,0 +1,40 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.paginationWrapper {
+  display: flex;
+  justify-content: center;
+  user-select: none;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  @include body2;
+  color: var(--HightEmphasis);
+  padding: 0 10px;
+}
+
+.pageItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  height: 24px;
+  width: 24px;
+  color: var(--HightEmphasis);
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.disabled {
+  color: var(--LowEmphasis);
+}

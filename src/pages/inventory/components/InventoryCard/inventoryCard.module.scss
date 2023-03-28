@@ -1,0 +1,37 @@
+@import '../../../../styles/media.scss';
+@import '../../../../styles/fonts.scss';
+
+.cover {
+  padding: 10px;
+
+  .header {
+    @include h4;
+    color: var(--TotalBlack);
+  }
+
+  .stockData {
+    display: flex;
+    align-items: baseline;
+    margin-top: 15px;
+    &_value {
+      @include h2;
+      color: var(--Green);
+    }
+
+    &_description {
+      margin-left: 12px;
+    }
+
+    .statusStock {
+      color: var(--Green);
+    }
+
+    .statusLowStock {
+      color: var(--StockOrange);
+    }
+
+    .statusOutStock {
+      color: var(--StockRed);
+    }
+  }
+}

@@ -27,13 +27,15 @@ const operationVideoModalSlice = createSlice({
       state.isOpenOperationVideoModal = action.payload;
     },
     setTimeOperationVideoModal(state, action: PayloadAction<string>) {
-      const localeTime = new Date(action.payload).toLocaleTimeString();
+      const dateObj = new Date(action.payload);
+      const localeTime = dateObj.toLocaleTimeString();
       const minets = +localeTime.split(':')[1][1] * 60;
       const seconds = +localeTime.split(':')[2];
       const timeBySeconds = minets + seconds;
+      const outputStr = dateObj.toISOString().replace('T', ' ').slice(0, -1);
 
       state.videoState.time = timeBySeconds;
-      state.videoState.url = `http://192.168.1.110:3456/video?time=test&camera_ip=192.168.1.169#t=${timeBySeconds}`;
+      state.videoState.url = `http://192.168.1.110:3456/video?time=${outputStr}&camera_ip=192.168.1.169#t=${timeBySeconds}`;
     },
     setUrlOperationVideoModal(state, action: PayloadAction<string>) {
       state.videoState.url = action.payload;

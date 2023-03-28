@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import { SelectArrow } from '../../assets/svg/SVGcomponent';
+import { ArrowBottom } from '../../assets/svg/SVGcomponent';
 import styles from './selectBase.module.scss';
 
 type PropsType = {
@@ -8,14 +8,23 @@ type PropsType = {
   name: string;
   label?: string;
   className?: string;
+  activeSelect?: string;
 };
 
-export const SelectBase: React.FC<PropsType> = ({ listOfData, id, label, name, className }) => {
+export const SelectBase: React.FC<PropsType> = ({
+  listOfData,
+  id,
+  label,
+  name,
+  className,
+  activeSelect,
+}) => {
   const [dataSelect, setDataSelect] = useState<string>(listOfData[0].text);
 
   const handleOnChangeSelection = (e: ChangeEvent<HTMLSelectElement>) => {
     setDataSelect(e.target.value);
   };
+  console.log(activeSelect);
 
   return (
     <div className={styles.container}>
@@ -29,7 +38,7 @@ export const SelectBase: React.FC<PropsType> = ({ listOfData, id, label, name, c
         <select
           name={name}
           id={id}
-          value={dataSelect}
+          value={activeSelect ? activeSelect : dataSelect}
           onChange={handleOnChangeSelection}
           className={`${styles.block__select} ${className}`}
         >
@@ -40,7 +49,7 @@ export const SelectBase: React.FC<PropsType> = ({ listOfData, id, label, name, c
           ))}
         </select>
 
-        <SelectArrow className={styles.block__arrow} />
+        <ArrowBottom className={styles.block__arrow} />
       </div>
     </div>
   );

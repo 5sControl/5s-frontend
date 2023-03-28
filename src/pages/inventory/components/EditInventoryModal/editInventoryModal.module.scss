@@ -1,0 +1,39 @@
+@import '../../../../styles/media.scss';
+@import '../../../../styles/fonts.scss';
+
+.modal {
+  max-width: 560px;
+  max-height: 492px;
+  padding: 20px;
+  justify-content: start;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .title {
+      @include h3;
+      color: var(--HightEmphasis);
+    }
+    svg {
+      cursor: pointer;
+    }
+  }
+
+  .content {
+    margin-top: 30px;
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    .input:not(:first-child) {
+      margin-top: 40px;
+    }
+
+    .button {
+      margin-top: 30px;
+      align-self: flex-end;
+    }
+  }
+}

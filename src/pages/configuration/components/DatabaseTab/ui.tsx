@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { Button } from '../../../../components/button';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { clearOrdersList } from '../../../previewOrders/components/OrdersList/ordersListSlice';
 import { clearDatabasesOrdersView, selectConnectionPage } from '../../connectionSlice';
 import { ConnectToDbModal } from '../ConnectToDbModal';
 import {
@@ -52,9 +53,10 @@ export const DatabaseTab: React.FC = () => {
         hostname: window.location.hostname,
         id: databases.results[0].id,
       })
-    );
-
-    dispatch(clearDatabasesOrdersView());
+    ).then(() => {
+      dispatch(clearDatabasesOrdersView());
+      dispatch(clearOrdersList());
+    });
 
     console.log('You are disconnecting from the database');
   };

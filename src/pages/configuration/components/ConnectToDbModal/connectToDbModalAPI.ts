@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { getIsInternet, url } from '../../../../api/api';
-import { ConnectionToDatabaseForm } from './types';
+import { proxy } from '../../../../api/api';
+import { ConnectionToDatabaseForm, ConnectResponse } from './types';
 
 export const postConnectionWithDbAPI = (
   hostname: string,
@@ -9,18 +9,25 @@ export const postConnectionWithDbAPI = (
 ) => {
   const CREATE_CONNECTION = 'api/order/create-connection/';
 
-  if (getIsInternet(hostname)) {
-    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
-      url: `${url}${CREATE_CONNECTION}`,
-      method: 'POST',
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy<ConnectResponse>(
+      process.env.REACT_APP_NGROK + CREATE_CONNECTION,
+      'POST',
+      {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      JSON.stringify(body)
+    );
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(`${process.env.REACT_APP_IP_SERVER}${CREATE_CONNECTION}`, body, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
       },
-      body: JSON.stringify(body),
     });
   } else {
-    return axios.post(`http://${hostname}/${CREATE_CONNECTION}`, body, {
+    return axios.post(`${hostname}${CREATE_CONNECTION}`, body, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,

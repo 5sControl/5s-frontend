@@ -2,40 +2,47 @@
 
 .wrapper {
   max-width: 350px;
-  padding: 10px 4px 10px 10px;
-  .header {
-    .title {
-      @include h4;
-      letter-spacing: 0.03em;
-    }
-    .listInput {
-      margin-top: 10px;
-    }
-  }
+  padding: 0;
+}
 
-  .list {
-    height: calc(100vh - 300px);
-    margin-top: 20px;
-    overflow-y: scroll;
-
-    .emptyList {
-      @include body1;
-      color: var(--HightEmphasis);
-      letter-spacing: 0.15px;
-    }
+.header {
+  margin: 10px 10px 0 10px;
+  &_title {
+    @include h4;
+    letter-spacing: 0.03em;
+    margin-bottom: 20px;
   }
-
-  .list::-webkit-scrollbar {
-    width: 8px;
-    background-color: inherit;
+  &_listInput {
+    margin-top: 10px;
   }
+}
 
-  .list::-webkit-scrollbar-thumb {
-    background: var(--Gray88);
-    border-radius: 20px;
+.list {
+  height: calc(100vh - 310px);
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 4px;
+  overflow-y: scroll;
+  &_empty {
+    @include body1;
+    color: var(--HightEmphasis);
+    letter-spacing: 0.15px;
   }
+  &_paginations {
+    height: calc(100vh - 375px);
+  }
+}
 
-  .list::-webkit-scrollbar-track {
-    background-color: inherit;
-  }
+.list::-webkit-scrollbar {
+  width: 8px;
+  background-color: inherit;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: var(--Gray88);
+  border-radius: 20px;
+}
+
+.list::-webkit-scrollbar-track {
+  background-color: inherit;
 }

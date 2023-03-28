@@ -1,18 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
-import { DatabaseInfo } from '../../connectionSlice';
 import { postConnectionWithDbAPI } from './connectToDbModalAPI';
-import { ConnectionToDatabaseForm } from './types';
+import { ConnectionToDatabaseForm, ConnectResponse } from './types';
 
 interface ConnectToDbModalState {
   isOpenConnectToDbModal: boolean;
   isLoadingPostConnectionToDb: boolean;
   isErrorLoadingPostConnectionToDb: boolean;
-  connectResponse: {
-    message: string;
-    success: boolean;
-    connection: DatabaseInfo;
-  } | null;
+  connectResponse: ConnectResponse | null;
   errorConnectToDbResponse: SerializedError | null;
 }
 

@@ -1,0 +1,82 @@
+@import '../../../../styles/media.scss';
+@import '../../../../styles/fonts.scss';
+
+.wrapper {
+  width: 100%;
+  padding: 10px 10px 27px 10px;
+  .header {
+    color: var(--HightEmphasis);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .title {
+      @include h4;
+      letter-spacing: 0.03em;
+    }
+
+    .date {
+      @include h5;
+    }
+  }
+
+  .content {
+    margin-top: 20px;
+    table {
+      display: grid;
+      border-collapse: collapse;
+      min-width: 100%;
+      padding-right: 65px;
+      grid-template-columns:
+        minmax(160px, 2fr)
+        minmax(160px, 1.1875fr)
+        minmax(160px, 1fr)
+        minmax(160px, 1fr)
+        minmax(160px, 1.5fr)
+        minmax(48px, 0.26fr);
+    }
+    tbody td {
+      margin-top: 20px;
+      @include body2;
+      letter-spacing: 0.1px;
+      color: var(--HightEmphasis);
+    }
+
+    thead,
+    tbody,
+    tr {
+      display: contents;
+    }
+
+    th {
+      text-align: left;
+      @include body2;
+      letter-spacing: 0.1px;
+      color: var(--LowEmphasis);
+    }
+
+    .editIcon {
+      cursor: pointer;
+    }
+
+    .status {
+      letter-spacing: 0.1px;
+      color: var(--White);
+      border-radius: 20px;
+      padding: 4px 10px;
+
+      @include caption;
+    }
+
+    .statusStock {
+      background: var(--Green);
+    }
+
+    .statusLowStock {
+      background: var(--StockOrange);
+    }
+
+    .statusOutStock {
+      background: var(--StockRed);
+    }
+  }
+}

@@ -1,0 +1,96 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.modal {
+  max-width: 880px;
+  max-height: 615px;
+  justify-content: start;
+
+  .image {
+    object-fit: cover;
+    aspect-ratio: 11 /6;
+  }
+
+  .imageContainer {
+    width: inherit;
+    height: inherit;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #e0e0e0;
+    background-size: contain;
+    position: relative;
+
+    .camera {
+      position: absolute;
+      bottom: 15px;
+      transform: translate(-50%, 0);
+      left: 50%;
+      width: 250px;
+
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 31px;
+
+      .text {
+        text-align: center;
+        letter-spacing: 0.1px;
+
+        color: var(--White);
+
+        padding: 4px 15px;
+        @include body2;
+      }
+    }
+  }
+}
+
+.infoBlock {
+  padding: 10px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+
+    .status {
+      letter-spacing: 0.1px;
+      color: var(--White);
+      border-radius: 20px;
+      padding: 4px 10px;
+
+      @include caption;
+    }
+
+    .statusStock {
+      background: var(--Green);
+    }
+
+    .statusLowStock {
+      background: var(--StockOrange);
+    }
+
+    .statusOutStock {
+      background: var(--StockRed);
+    }
+  }
+
+  .operation {
+    @include h6;
+    color: var(--HightEmphasis);
+    margin-bottom: 10px;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.subtitle {
+  @include caption;
+  color: var(--MediumEmphasis);
+
+  .value {
+    font-weight: 500;
+    color: var(--HightEmphasis);
+  }
+}
