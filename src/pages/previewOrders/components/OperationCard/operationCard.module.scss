@@ -14,29 +14,33 @@
   width: fit-content;
   height: 92px;
   padding: 5px;
+  padding-right: 10px;
   border: 1px solid var(--Gray88);
   border-radius: 10px;
   background: var(--WhiteSmoke);
   cursor: pointer;
-
   &:hover .titleBlock .title {
     color: var(--Orange);
   }
+}
 
-  .titleBlock {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-right: 7px;
-    margin-bottom: 10px;
-    .title {
-      @include body2;
-      color: var(--HightEmphasis);
-      @include dots;
-    }
+.block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  &_title {
+    @include body2;
+    color: var(--HightEmphasis);
+    @include dots;
   }
+}
 
-  .subtitle {
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &_time {
     font-weight: 400;
     font-size: 12px;
     line-height: 24px;

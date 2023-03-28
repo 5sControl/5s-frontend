@@ -26,8 +26,6 @@ export const OrderCard: React.FC<PropsType> = ({ data }) => {
       ? setDateDot(new Date(data.orderDateRealize).toLocaleDateString())
       : 'processed');
 
-  console.log(data.orderTime);
-
   return (
     <Cover className={styles.cover}>
       {!isLoadingCurrentOrder ? (
@@ -36,7 +34,18 @@ export const OrderCard: React.FC<PropsType> = ({ data }) => {
             <div className={styles.titleWrapper}>
               <div className={styles.titleContent}>
                 <h2 className={styles.title}>{`Order №${data.orderId}`}</h2>
-                {data.orderStatus && <StatusLable status={data.orderStatus} />}
+                {data.orderStatus && (
+                  <StatusLable
+                    title={data.orderStatus}
+                    status={
+                      data.orderStatus === 'Completed'
+                        ? 'completed'
+                        : data.orderStatus === 'Started'
+                        ? 'error'
+                        : 'undefined'
+                    }
+                  />
+                )}
               </div>
 
               {/* Hide date on design */}
