@@ -95,7 +95,9 @@ export const InventoryReport: React.FC = () => {
                     <td>
                       <Settings
                         className={styles.editIcon}
-                        onClick={(e: MouseEvent) => openSettings(e, item)}
+                        onClick={(e: React.MouseEvent<Element, MouseEvent>) =>
+                          openSettings(e, item)
+                        }
                       />
                     </td>
                   </tr>

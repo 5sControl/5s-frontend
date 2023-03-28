@@ -13,7 +13,7 @@
 }
 
 .contained {
-  &_started {
+  &_error {
     @include contained;
     @include label;
     background-color: var(--Orange);
@@ -31,10 +31,19 @@
       @include caption;
     }
   }
+  &_undefined {
+    @include contained;
+    @include label;
+    background-color: var(--LowEmphasis);
+    color: var(--White);
+    .type {
+      @include caption;
+    }
+  }
 }
 
 .text {
-  &_started {
+  &_error {
     @include label;
     color: var(--Orange);
     .type {
@@ -48,4 +57,15 @@
       @include title;
     }
   }
+  &_undefined {
+    @include label;
+    color: var(--LowEmphasis);
+    .type {
+      @include title;
+    }
+  }
+}
+
+.icon {
+  margin-right: 6px;
 }

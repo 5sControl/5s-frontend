@@ -5,6 +5,12 @@ import { OperationItem, ProductItem } from '../../../../storage/orderView';
 import { setDateDot } from '../../previewOrdersHelper';
 import { VideoStateOperationModal } from './operationVideoModalSlice';
 import moment from 'moment-timezone';
+import { StatusLable } from '../StatusLable';
+import {
+  CheckCircleOutline,
+  ExclamationPointCircle,
+  QuestionCircle,
+} from '../../../../assets/svg/SVGcomponent';
 
 type PropsType = {
   isOpen: boolean;
@@ -29,32 +35,53 @@ export const OperationVideoModal: React.FC<PropsType> = ({
       ' | ' +
       moment(operationData.operationTime).tz('Etc/GMT').format('LT');
 
+  const selectIcon = (): {
+    status: 'error' | 'undefined' | 'completed';
+    icon: React.FC<React.SVGProps<SVGSVGElement>>;
+    title: string;
+  } => {
+    if (operationData?.report.violation_found === undefined) {
+      return { status: 'undefined', icon: QuestionCircle, title: 'No data' };
+    } else if (operationData?.report.violation_found) {
+      return { status: 'error', icon: ExclamationPointCircle, title: 'Violation' };
+    } else {
+      return { status: 'completed', icon: CheckCircleOutline, title: 'Compliance' };
+    }
+  };
+
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
       <ReactPlayer {...videoState} width="100%" height="100%" />
 
       <div className={styles.infoBlock}>
-        <p className={styles.operation}>{operationData?.operationName}</p>
+        <div className={styles.header}>
+          <p className={styles.header_title}>{operationData?.operationName}</p>
+          <StatusLable
+            title={selectIcon().title}
+            status={selectIcon().status}
+            IconLeft={selectIcon().icon}
+          />
+        </div>
 
         <div className={styles.wrapper}>
           <div className={styles.subtitle}>
             <span>{'Operation start: '}</span>
-            <span className={styles.value}>{operationStart}</span>
+            <span className={styles.subtitle_value}>{operationStart}</span>
           </div>
 
           <div className={styles.subtitle}>
             <span>{'Order: '}</span>
-            <span className={styles.value}>{orderId}</span>
+            <span className={styles.subtitle_value}>{orderId}</span>
           </div>
 
           <div className={styles.subtitle}>
             <span>{'Product: '}</span>
-            <span className={styles.value}>{productData?.productName}</span>
+            <span className={styles.subtitle_value}>{productData?.productName}</span>
           </div>
 
           <div className={styles.subtitle}>
             <span>{'Frame: '}</span>
-            <span className={styles.value}>{'Frame name'}</span>
+            <span className={styles.subtitle_value}>{'Frame name'}</span>
           </div>
         </div>
       </div>

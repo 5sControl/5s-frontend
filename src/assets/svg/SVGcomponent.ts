@@ -20,6 +20,13 @@ import { ReactComponent as Eye } from './eye.svg';
 import { ReactComponent as Disconnect } from './disconnect.svg';
 import { ReactComponent as Edit } from './editIcon.svg';
 import { ReactComponent as Delete } from './deleteIcon.svg';
+import { ReactComponent as Error } from './error.svg';
+import { ReactComponent as QuestionSquere } from './questionSquere.svg';
+import { ReactComponent as CheckCircle } from './checkCircle.svg';
+import { ReactComponent as ExclamationPointCircle } from './exclamationPointCircle.svg';
+import { ReactComponent as QuestionCircle } from './questionCircle.svg';
+import { ReactComponent as CheckCircleOutline } from './checkCircleOutline.svg';
+
 export {
   Algorithm,
   Camera,
@@ -43,4 +50,10 @@ export {
   Disconnect,
   Edit,
   Delete,
+  Error,
+  QuestionSquere,
+  CheckCircle,
+  ExclamationPointCircle,
+  QuestionCircle,
+  CheckCircleOutline,
 };
