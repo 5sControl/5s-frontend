@@ -17,22 +17,27 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
     currentReport.photos[0].date &&
     setDateDot(moment(currentReport.photos[0].date).subtract(10, 'days').calendar()) +
       ' | ' +
-      moment(currentReport.photos[0].date).tz('Etc/GMT').format('LT');
+      moment(currentReport.photos[0].date).format('LT');
 
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
-      <img
-        className={styles.image}
-        src={
-          process.env.REACT_APP_ENV === 'proxy'
+      <div
+        className={styles.imageContainer}
+        style={{
+          backgroundImage: `url(${
+            process.env.REACT_APP_ENV === 'proxy'
             ? `${process.env.REACT_APP_NGROK}${currentReport.photos[0].image}`
             : process.env.REACT_APP_ENV === 'wify'
             ? `${process.env.REACT_APP_IP_SERVER}${currentReport.photos[0].image}`
             : `http://${window.location.hostname}/${currentReport.photos[0].image}`
-        }
-        alt="image"
-      />
+          })`,
+        }}
+      >
+        <div className={styles.camera}>
+          <p className={styles.text}>{activeInventoryItem?.camera}</p>
+        </div>
+      </div>
 
       <div className={styles.infoBlock}>
         <div className={styles.header}>

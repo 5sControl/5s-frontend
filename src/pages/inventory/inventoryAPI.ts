@@ -61,7 +61,7 @@ export const editInventoryItemAxios = (
   const API_INVENTORY_SET = 'api/inventory/items/';
 
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.put(process.env.REACT_APP_PROXY, {
+    return axios.post(process.env.REACT_APP_PROXY, {
       url: process.env.REACT_APP_NGROK + API_INVENTORY_SET + body.id + '/',
       method: 'PUT',
       headers: {
@@ -77,7 +77,7 @@ export const editInventoryItemAxios = (
       },
     });
   } else {
-    return axios.put(`http://${hostname}/${API_INVENTORY_SET}/${body.id}/`, body, {
+    return axios.post(`http://${hostname}/${API_INVENTORY_SET}/${body.id}/`, body, {
       headers: {
         Authorization: cookies,
       },

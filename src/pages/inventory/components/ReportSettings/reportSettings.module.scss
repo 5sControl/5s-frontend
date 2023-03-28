@@ -1,0 +1,28 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.settingsContainer {
+  position: absolute;
+  svg {
+    cursor: pointer;
+  }
+  .settingsMenu {
+    position: absolute;
+    background: #ffffff;
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.14);
+    border-radius: 4px;
+    z-index: 1;
+    &_item {
+      display: flex;
+      align-items: center;
+      width: 118px;
+      padding: 6px 10px;
+      cursor: pointer;
+      .settingsText {
+        color: var(--LightBlack);
+        @include body2;
+        margin-left: 10px;
+      }
+    }
+  }
+}

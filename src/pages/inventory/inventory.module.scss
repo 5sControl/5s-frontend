@@ -2,6 +2,7 @@
 @import '../../styles/fonts.scss';
 
 .content {
+  position: relative;
   .header {
     display: flex;
     justify-content: space-between;

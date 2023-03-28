@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { AddInventoryModal } from './components/AddInventoryModal';
 import { InventoryReport } from './components/InventoryReport';
 import {
+  getCamerasAsync,
   getInventoryItemHistoryAsync,
   getInventoryItemsAsync,
   selectInventory,
@@ -19,7 +20,7 @@ import { InventoryCard } from './components/InventoryCard';
 import { selectActiveInventoryItem } from './components/InventoryItemsList/InventoryItemsListSlice';
 import moment from 'moment-timezone';
 import { selectAddInventoryModal } from './components/AddInventoryModal/addInventoryModalSlice';
-import FeaturesBarChart from './components/Chart/chart';
+
 export const Inventory: React.FC = () => {
   const dispatch = useAppDispatch();
   const { connectResponse } = useAppSelector(selectEditInventoryModal);
@@ -34,6 +35,10 @@ export const Inventory: React.FC = () => {
   }, [connectResponse, connectResponseDataAdd]);
 
   useEffect(() => {
+    dispatch(getCamerasAsync({ token: cookies.token, hostname: window.location.hostname }));
+  }, []);
+
+  useEffect(() => {
     if (activeInventoryItem) {
       dispatch(
         getInventoryItemHistoryAsync({
@@ -46,12 +51,16 @@ export const Inventory: React.FC = () => {
   }, [activeInventoryItem]);
 
   const addInventoryButton = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(true);
+  };
+
+  const closeInventoryButton = () => {
+    setIsOpen(false);
   };
 
   return (
     <>
-      <AddInventoryModal isOpen={isOpen} handleClose={() => addInventoryButton()} />
+      <AddInventoryModal isOpen={isOpen} handleClose={closeInventoryButton} />
       <WrapperPage>
         <div className={styles.content}>
           <div className={styles.header}>
@@ -59,8 +68,6 @@ export const Inventory: React.FC = () => {
 
             <Button text="Add item" isIcon onClick={addInventoryButton} />
           </div>
-
-          <div id="d3-container"></div>
 
           {!isLoading && inventoryItems ? (
             <>

@@ -8,6 +8,7 @@ import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { editItem, selectEditInventoryModal } from './editInventoryModalSlice';
 import { useCookies } from 'react-cookie';
+import { selectInventory } from '../../inventorySlice';
 
 type PropsType = {
   isOpen: boolean;
@@ -23,6 +24,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
   ];
   const dispatch = useAppDispatch();
   const { currentEditItem, connectResponse } = useAppSelector(selectEditInventoryModal);
+  const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
 
   useEffect(() => {
@@ -93,7 +95,8 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
               id="camera_type"
               name="camera_type"
               label="Select a camera"
-              listOfData={listOfDataForSelect}
+              listOfData={camerasData}
+              activeSelect={currentEditItem?.camera}
             />
           </div>
           <Button text="Save" className={styles.button} type="submit" />
