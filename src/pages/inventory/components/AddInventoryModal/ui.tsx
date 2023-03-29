@@ -25,6 +25,27 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const [isShowCoord, setIsShowCoord] = useState(false);
   const image = useRef<any>();
   const coord = useRef<any>();
+
+  const onChangeSize = (width: string, height: string, transform: string) => {
+    const proportionWidth = image.current.naturalWidth / image.current.width;
+    const proportionHeight = image.current.naturalHeight / image.current.height;
+    const bufWidth = Number(width.replace(/px/gi, ''));
+    const bufHeight = Number(height.replace(/px/gi, ''));
+    const bufTrans = transform.replace(/[^\d,-]/g, '').split(',');
+    const bufTransWidth = Number(bufTrans[0]);
+    const bufTransHeight = Number(bufTrans[1]);
+    // console.log(image.current.width, 'image width');
+    // console.log(image.current.height, 'image height');
+    // console.log(bufWidth, bufHeight);
+    // console.log('x1, x2', bufTrans);
+    console.log('x1, y1', bufTransWidth * proportionHeight, bufTransHeight * proportionHeight);
+    console.log(
+      'x2, y2',
+      bufWidth * proportionHeight + bufTransWidth * proportionHeight,
+      bufHeight * proportionHeight + bufTransHeight * proportionHeight
+    );
+  };
+
   useEffect(() => {
     if (connectResponseDataAdd) {
       handleClose();
@@ -138,9 +159,14 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
               keepRatio={false}
               origin={false}
               edge={true}
+              onDragEnd={({ target }) => {
+                onChangeSize(target.style.width, target.style.height, target.style.transform);
+              }}
+              onResizeEnd={({ target }) => {
+                onChangeSize(target.style.width, target.style.height, target.style.transform);
+              }}
               onDrag={(e) => {
                 e.target.style.transform = e.transform;
-                console.log(e.target.style.transform, e.target.style.width, e.target.style.height);
               }}
               onResize={(e) => {
                 const beforeTranslate = e.drag.beforeTranslate;
