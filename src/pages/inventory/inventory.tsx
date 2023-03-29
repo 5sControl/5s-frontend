@@ -20,10 +20,12 @@ import { InventoryCard } from './components/InventoryCard';
 import { selectActiveInventoryItem } from './components/InventoryItemsList/InventoryItemsListSlice';
 import moment from 'moment-timezone';
 import { selectAddInventoryModal } from './components/AddInventoryModal/addInventoryModalSlice';
+import { selectDeleteInventoryModal } from './components/DeleteInventoryModal/deleteInventoryModalSlice';
 
 export const Inventory: React.FC = () => {
   const dispatch = useAppDispatch();
   const { connectResponse } = useAppSelector(selectEditInventoryModal);
+  const { connectDeleteResponse } = useAppSelector(selectDeleteInventoryModal);
   const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
   const { inventoryItems, isLoading } = useAppSelector(selectInventory);
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
@@ -32,7 +34,7 @@ export const Inventory: React.FC = () => {
 
   useEffect(() => {
     dispatch(getInventoryItemsAsync({ token: cookies.token, hostname: window.location.hostname }));
-  }, [connectResponse, connectResponseDataAdd]);
+  }, [connectResponse, connectResponseDataAdd, connectDeleteResponse]);
 
   useEffect(() => {
     dispatch(getCamerasAsync({ token: cookies.token, hostname: window.location.hostname }));
