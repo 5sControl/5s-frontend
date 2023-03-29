@@ -4,6 +4,7 @@
 .modal {
   max-width: 880px;
   max-height: 650px;
+  position: relative;
 }
 
 .header {
@@ -31,5 +32,17 @@
   &_value {
     font-weight: 500;
     color: var(--HightEmphasis);
+  }
+}
+
+.cross {
+  position: absolute;
+  top: 26px;
+  right: 26px;
+  color: var(--HightEmphasis);
+  cursor: pointer;
+  z-index: 1;
+  &:hover {
+    color: var(--MediumEmphasis);
   }
 }

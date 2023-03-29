@@ -8,6 +8,7 @@ import moment from 'moment-timezone';
 import { StatusLable } from '../StatusLable';
 import {
   CheckCircleOutline,
+  Cross,
   ExclamationPointCircle,
   QuestionCircle,
 } from '../../../../assets/svg/SVGcomponent';
@@ -51,6 +52,8 @@ export const OperationVideoModal: React.FC<PropsType> = ({
 
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
+      <Cross className={styles.cross} onClick={handleClose} />
+
       <ReactPlayer {...videoState} width="100%" height="100%" />
 
       <div className={styles.infoBlock}>
