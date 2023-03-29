@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from 'react';
 import { Button } from '../../../../components/button/button';
 import { Modal } from '../../../../components/modal';
 import { Close } from '../../../../assets/svg/SVGcomponent';
@@ -8,6 +9,7 @@ import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { useCookies } from 'react-cookie';
 import { addItem, selectAddInventoryModal } from './addInventoryModalSlice';
+import { getSelectedCameras } from '../../../../api/cameraRequest';
 
 type PropsType = {
   isOpen: boolean;
@@ -15,20 +17,24 @@ type PropsType = {
 };
 
 export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
-  const listOfDataForSelect = [
-    { id: 0, text: '192.168.1.167' },
-    { id: 1, text: '192.168.1.168' },
-    { id: 2, text: '192.168.1.110' },
-    { id: 3, text: '192.168.1.163' },
-  ];
   const dispatch = useAppDispatch();
   const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
   const [cookies] = useCookies(['token']);
-
+  const [listOfDataForSelect, setListOfDataForSelect] = useState([]);
   useEffect(() => {
     if (connectResponseDataAdd) {
       handleClose();
     }
+    getSelectedCameras(window.location.hostname, cookies.token).then((res: any) => {
+      const response = res.data.map((item: any, index: number) => {
+        return {
+          id: index,
+          text: item.name,
+        };
+      });
+      console.log(response);
+      setListOfDataForSelect(response);
+    });
   }, [connectResponseDataAdd]);
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
