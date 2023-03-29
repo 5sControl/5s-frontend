@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
+import { InventoryHistory } from '../../types';
 
 interface StockImageModalState {
   isOpenStockImageModal: boolean;
-  currentReportData: any;
+  currentReportData: InventoryHistory | null;
 }
 
 const initialState: StockImageModalState = {
@@ -18,7 +19,7 @@ const stockImageModalSlice = createSlice({
     setIsOpenStockImageModal(state, action: PayloadAction<boolean>) {
       state.isOpenStockImageModal = action.payload;
     },
-    setCurrentReportData(state, action: PayloadAction<any>) {
+    setCurrentReportData(state, action: PayloadAction<InventoryHistory>) {
       state.currentReportData = action.payload;
     },
   },

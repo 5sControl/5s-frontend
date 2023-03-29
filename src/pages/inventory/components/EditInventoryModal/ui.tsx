@@ -85,15 +85,17 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
             />
           </div>
           <div className={styles.input}>
-            <SelectBase
-              id="camera_type"
-              name="camera_type"
-              label="Select a camera"
-              listOfData={camerasData}
-              activeSelect={camerasData.findIndex(
-                (item: any) => item.text === currentEditItem?.camera
-              )}
-            />
+            {camerasData && (
+              <SelectBase
+                id="camera_type"
+                name="camera_type"
+                label="Select a camera"
+                listOfData={camerasData}
+                activeSelect={camerasData.findIndex(
+                  (item: { text: string; id: string }) => item.text === currentEditItem?.camera
+                )}
+              />
+            )}
           </div>
           <Button text="Save" className={styles.button} type="submit" />
         </form>

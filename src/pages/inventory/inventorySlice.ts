@@ -1,18 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import { getInventoryItemHistory, getInventoryItems } from './inventoryAPI';
-import { InventoryItem } from '../../storage/inventory';
 import { getSelectedCameras } from '../../api/cameraRequest';
+import { Camera, InventoryHistory, InventoryItem } from './types';
 
 interface Inventory {
   isLoading: boolean;
   errorOfInventoryItems: boolean;
   inventoryItems: null | Array<InventoryItem>;
   isLoadingHistory: boolean;
-  inventoryHistoryData: any;
+  inventoryHistoryData: Array<InventoryHistory> | null;
   errorOfInventoryHistory: boolean;
   isLoadingCameras: boolean;
-  camerasData: any;
+  camerasData: Array<{ id: string; text: string }> | null;
   errorOfgetCameras: boolean;
 }
 
@@ -33,8 +33,6 @@ export const getInventoryItemsAsync = createAsyncThunk(
   async (data: { token: string; hostname: string }) => {
     const response: any = await getInventoryItems(data.hostname, data.token);
     if (response.data) {
-      console.log(response.data);
-
       return response.data.results;
     }
     return null;
@@ -44,7 +42,7 @@ export const getInventoryItemsAsync = createAsyncThunk(
 export const getInventoryItemHistoryAsync = createAsyncThunk(
   'getInventoryHistory',
   async (data: { token: string; hostname: string; params: { camera: string; date: string } }) => {
-    const response = await getInventoryItemHistory(data.hostname, data.token, data.params);
+    const response: any = await getInventoryItemHistory(data.hostname, data.token, data.params);
     if (response.data) {
       return response.data;
     }
@@ -57,7 +55,9 @@ export const getCamerasAsync = createAsyncThunk(
   async (data: { token: string; hostname: string }) => {
     const response = await getSelectedCameras(data.hostname, data.token);
     if (response.data) {
-      const cameras = response.data.map((item: any) => {
+      console.log(response.data);
+
+      const cameras = response.data.map((item: Camera) => {
         return { text: item.name, id: item.id };
       });
       return cameras;

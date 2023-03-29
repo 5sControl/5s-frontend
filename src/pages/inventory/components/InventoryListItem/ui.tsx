@@ -1,5 +1,5 @@
 import React from 'react';
-import { InventoryItem } from '../../../../storage/inventory';
+import { InventoryItem } from '../../types';
 import styles from './inventoryListItem.module.scss';
 
 type PropsType = {

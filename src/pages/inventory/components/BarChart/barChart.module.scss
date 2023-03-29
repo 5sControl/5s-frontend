@@ -1,0 +1,84 @@
+@import '../../../../styles/media.scss';
+@import '../../../../styles/fonts.scss';
+
+.container {
+  padding: 10px;
+}
+
+.tooltip {
+  background: var(--White);
+  box-shadow: 0px 0px 8px rgba(42, 98, 149, 0.25);
+  border-radius: 4px;
+  width: 240px;
+  height: 159px;
+}
+
+.header {
+  @include body1;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.15px;
+
+  color: var(--HightEmphasis);
+}
+
+.time {
+  color: var(--LowEmphasis);
+  margin-left: 5px;
+}
+
+.stockNumber {
+  @include h2;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.03em;
+
+  margin-right: 5px;
+}
+
+.stockIn {
+  color: var(--Green);
+}
+
+.low {
+  color: var(--StockOrange);
+}
+
+.out {
+  color: var(--StockRed);
+}
+
+.stock {
+  display: flex;
+  align-items: baseline;
+}
+
+.status {
+  margin-top: 10px;
+  letter-spacing: 0.1px;
+  color: var(--White);
+  border-radius: 20px;
+  padding: 0px 10px;
+  @include body2;
+  width: fit-content;
+}
+
+.statusStock {
+  background-color: var(--Green);
+}
+
+.statusLowStock {
+  background-color: var(--StockOrange);
+}
+
+.statusOutStock {
+  background-color: var(--StockRed);
+}
+.click {
+  @include body2;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.1px;
+  color: var(--LowEmphasis);
+  margin-top: 20px;
+}

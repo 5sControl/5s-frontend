@@ -12,8 +12,8 @@ import {
   setIsOpenStockImageModal,
 } from '../StockImageModal/stockImageModalSlice';
 import styles from './inventoryHistory.module.scss';
-import FeaturesBarChart from '../Chart/chart';
 import { Preloader } from '../../../../components/preloader';
+import { Chart } from '../Chart';
 
 export const InventoryHistory: React.FC = () => {
   const { inventoryHistoryData, isLoadingHistory } = useAppSelector(selectInventory);
@@ -63,8 +63,8 @@ export const InventoryHistory: React.FC = () => {
           </button>
           {visibleModalDate && (
             <DataPicker
-              setSelectDate={(e: any) => setSelectDate(e)}
-              setVisibleModalDate={(e: any) => setVisibleModalDate(e)}
+              setSelectDate={(e: string) => setSelectDate(e)}
+              setVisibleModalDate={(e: boolean) => setVisibleModalDate(e)}
               selectDateDash={selectDate}
             />
           )}
@@ -74,7 +74,7 @@ export const InventoryHistory: React.FC = () => {
         inventoryHistoryData &&
         inventoryHistoryData[0] &&
         inventoryHistoryData[0].id ? (
-          <FeaturesBarChart />
+          <Chart />
         ) : (
           <Preloader loading={isLoadingHistory} />
         )}

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Cover } from '../../../../components/cover';
 import { SearchInput } from '../../../../components/searchInput/searchInput';
-import { InventoryItem } from '../../../../storage/inventory';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { InventoryItem } from '../../types';
 import { InventoryListItem } from '../InventoryListItem';
 import styles from './inventoryItemsList.module.scss';
 import { addActiveInventoryItem, selectActiveInventoryItem } from './InventoryItemsListSlice';

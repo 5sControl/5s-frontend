@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Cover } from '../../../../components/cover';
-import { Settings, Edit, Delete } from '../../../../assets/svg/SVGcomponent';
+import { Settings } from '../../../../assets/svg/SVGcomponent';
 import styles from './inventoryReport.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { selectInventory } from '../../inventorySlice';
@@ -10,13 +10,13 @@ import {
   setIsOpenEditModal,
   setCurrentEditItem,
 } from '../EditInventoryModal/editInventoryModalSlice';
-import { InventoryItem } from '../../../../storage/inventory';
 import { ReportSettings } from '../ReportSettings';
 import { DeleteInventoryModal } from '../DeleteInventoryModal';
 import {
   selectDeleteInventoryModal,
   setIsOpenDeleteModal,
 } from '../DeleteInventoryModal/deleteInventoryModalSlice';
+import { InventoryItem } from '../../types';
 
 export const InventoryReport: React.FC = () => {
   const { inventoryItems } = useAppSelector(selectInventory);
@@ -26,6 +26,7 @@ export const InventoryReport: React.FC = () => {
   const [isOpenSettings, setIsOpenSettings] = useState<boolean>(false);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openSettings = (event: any, currentItem: InventoryItem) => {
     dispatch(setCurrentEditItem(currentItem));
     setCoordinates({ x: event.nativeEvent.layerX, y: event.nativeEvent.layerY });
@@ -112,8 +113,8 @@ export const InventoryReport: React.FC = () => {
                     <td>
                       <Settings
                         className={styles.editIcon}
-                        onClick={(e: React.MouseEvent<Element, MouseEvent>) =>
-                          openSettings(e, item)
+                        onClick={(event: React.MouseEvent<Element, MouseEvent>) =>
+                          openSettings(event, item)
                         }
                       />
                     </td>

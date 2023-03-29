@@ -1,12 +1,13 @@
 import React from 'react';
 import { Cover } from '../../../../components/cover';
-import { InventoryItem } from '../../../../storage/inventory';
+import { InventoryItem } from '../../types';
 import { InventoryHistory } from '../InventoryHistory';
 import styles from './inventoryCard.module.scss';
 
 type PropsType = {
   data: InventoryItem;
 };
+
 export const InventoryCard: React.FC<PropsType> = ({ data }) => {
   return (
     <Cover className={styles.cover}>
