@@ -24,7 +24,7 @@ export const OperationCard: React.FC<PropsType> = ({ data, onClick }) => {
     <div className={styles.wrapper} onClick={handleClickToOperationCard}>
       <div className={styles.block}>
         <p className={styles.block_title}>{data.operationName}</p>
-        <VideoCamera />
+        <VideoCamera width="16px" />
       </div>
 
       <p className={styles.subtitle}>{'Worker Wazowski'}</p>
@@ -32,11 +32,9 @@ export const OperationCard: React.FC<PropsType> = ({ data, onClick }) => {
       <div className={styles.footer}>
         <p className={styles.footer_time}>{operationTime}</p>
 
-        {data.report.violation_found === undefined && (
-          <QuestionSquere color={'var(--LowEmphasis)'} />
-        )}
-        {data.report.violation_found && <Error color={'var(--Red)'} />}
-        {data.report.violation_found === false && <CheckCircle color={'var(--Green)'} />}
+        {data.status === null && <QuestionSquere color={'var(--LowEmphasis)'} />}
+        {data.status && <Error color={'var(--Red)'} />}
+        {data.status === false && <CheckCircle color={'var(--Green)'} />}
       </div>
     </div>
   );
