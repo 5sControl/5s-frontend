@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { Button } from '../../../../components/button';
 import { Modal } from '../../../../components/modal';
@@ -14,7 +15,15 @@ type PropsType = {
 export const DeleteInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose, id }) => {
   const dispatch = useAppDispatch();
   const [cookies] = useCookies(['token']);
-  const { isLoadingDeleteRequest } = useAppSelector(selectDeleteInventoryModal);
+  const { isLoadingDeleteRequest, connectDeleteResponse } = useAppSelector(
+    selectDeleteInventoryModal
+  );
+
+  useEffect(() => {
+    if (connectDeleteResponse) {
+      handleClose();
+    }
+  }, [connectDeleteResponse]);
 
   const deleteAction = () => {
     dispatch(

@@ -6,12 +6,7 @@ interface deleteInventoryModalState {
   isOpenDeleteModal: boolean;
   isLoadingDeleteRequest: boolean;
   errorLoadingDeleteRequest: boolean;
-  connectDeleteResponse: {
-    message: {
-      detail: string;
-    };
-    success: boolean;
-  } | null;
+  connectDeleteResponse: any;
   currentDeleteItemId: number | null;
 }
 
@@ -48,7 +43,7 @@ const deleteInventoryModalSlice = createSlice({
     builder.addCase(deleteItem.pending, (state) => {
       state.isLoadingDeleteRequest = true;
     });
-    builder.addCase(deleteItem.fulfilled, (state, action: any) => {
+    builder.addCase(deleteItem.fulfilled, (state, action) => {
       state.isLoadingDeleteRequest = false;
       state.connectDeleteResponse = action.payload;
     });
