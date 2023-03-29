@@ -12,10 +12,16 @@ import {
 } from '../EditInventoryModal/editInventoryModalSlice';
 import { InventoryItem } from '../../../../storage/inventory';
 import { ReportSettings } from '../ReportSettings';
+import { DeleteInventoryModal } from '../DeleteInventoryModal';
+import {
+  selectDeleteInventoryModal,
+  setIsOpenDeleteModal,
+} from '../DeleteInventoryModal/deleteInventoryModalSlice';
 
 export const InventoryReport: React.FC = () => {
   const { inventoryItems } = useAppSelector(selectInventory);
   const { isOpenEditModal, currentEditItem } = useAppSelector(selectEditInventoryModal);
+  const { isOpenDeleteModal, currentDeleteItemId } = useAppSelector(selectDeleteInventoryModal);
   const dispatch = useAppDispatch();
   const [isOpenSettings, setIsOpenSettings] = useState<boolean>(false);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
@@ -30,8 +36,12 @@ export const InventoryReport: React.FC = () => {
     setIsOpenSettings(value);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseEditModal = () => {
     dispatch(setIsOpenEditModal(false));
+  };
+
+  const handleCloseDeleteModal = () => {
+    dispatch(setIsOpenDeleteModal(false));
   };
 
   const formatDate = (date: string) => {
@@ -43,7 +53,14 @@ export const InventoryReport: React.FC = () => {
   return (
     <>
       {currentEditItem && (
-        <EditInventoryModal isOpen={isOpenEditModal} handleClose={handleCloseModal} />
+        <EditInventoryModal isOpen={isOpenEditModal} handleClose={handleCloseEditModal} />
+      )}
+      {currentDeleteItemId && (
+        <DeleteInventoryModal
+          isOpen={isOpenDeleteModal}
+          handleClose={handleCloseDeleteModal}
+          id={currentDeleteItemId}
+        />
       )}
       {currentEditItem && isOpenSettings && (
         <ReportSettings
@@ -95,7 +112,9 @@ export const InventoryReport: React.FC = () => {
                     <td>
                       <Settings
                         className={styles.editIcon}
-                        onClick={(e: MouseEvent) => openSettings(e, item)}
+                        onClick={(e: React.MouseEvent<Element, MouseEvent>) =>
+                          openSettings(e, item)
+                        }
                       />
                     </td>
                   </tr>

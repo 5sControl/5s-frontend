@@ -11,17 +11,15 @@ import styles from './articleCard.module.scss';
 type PropsType = {
   data: ArticleItem;
   article: string;
-  setProductData: () => void;
 };
 
-export const ArticleCard: React.FC<PropsType> = ({ data, article, setProductData }) => {
+export const ArticleCard: React.FC<PropsType> = ({ data, article }) => {
   const dispatch = useAppDispatch();
 
   const handleClickToOperation = (operationData: OperationItem) => {
     dispatch(setSelectOperationData(operationData));
     dispatch(setIsOpenOperationVideoModal(true));
     dispatch(setTimeOperationVideoModal(operationData.operationTime));
-    setProductData();
   };
 
   return (

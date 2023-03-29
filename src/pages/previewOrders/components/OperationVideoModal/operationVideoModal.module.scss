@@ -6,27 +6,29 @@
   max-height: 650px;
 }
 
-.infoBlock {
-  padding: 10px;
-
-  .operation {
+.header {
+  display: flex;
+  justify-content: space-between;
+  &_title {
     @include h6;
     color: var(--HightEmphasis);
     margin-bottom: 10px;
   }
+}
 
-  .wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
+.infoBlock {
+  padding: 10px;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .subtitle {
   @include caption;
   color: var(--MediumEmphasis);
-
-  .value {
+  &_value {
     font-weight: 500;
     color: var(--HightEmphasis);
   }

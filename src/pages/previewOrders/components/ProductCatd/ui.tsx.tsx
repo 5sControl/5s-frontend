@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { ProductItem } from '../../../../storage/orderView';
 import { useAppDispatch } from '../../../../store/hooks';
 import { sortOperations } from '../../previewOrdersHelper';
@@ -14,16 +15,26 @@ type PropsType = {
 export const ProductCatd: React.FC<PropsType> = ({ index, data }) => {
   const dispatch = useAppDispatch();
 
-  const setProductData = (productData: ProductItem) => {
-    dispatch(setSelectProductData(productData));
-  };
+  useEffect(() => {
+    dispatch(setSelectProductData(data));
+  }, []);
 
   return (
     <div key={index}>
       <div className={styles.wrapper}>
         <span className={styles.productTitle}>Product&nbsp;·&nbsp; </span>
 
-        <StatusLable status={data.status} type="text" />
+        <StatusLable
+          title={data.status}
+          status={
+            data.status === 'Completed'
+              ? 'completed'
+              : data.status === 'Started'
+              ? 'error'
+              : 'undefined'
+          }
+          type="text"
+        />
       </div>
 
       <h2 className={styles.title}>{`${index}. ${data.productName}`}</h2>
@@ -33,7 +44,7 @@ export const ProductCatd: React.FC<PropsType> = ({ index, data }) => {
           <ArticleCard
             data={sortOperations(data)}
             article={data.operationArticle}
-            setProductData={() => setProductData(data)}
+            // setProductData={() => setProductData(data)}
           />
         </div>
       ) : null}

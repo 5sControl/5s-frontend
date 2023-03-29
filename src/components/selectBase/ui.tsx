@@ -8,7 +8,7 @@ type PropsType = {
   name: string;
   label?: string;
   className?: string;
-  activeSelect?: string;
+  activeSelect?: number;
 };
 
 export const SelectBase: React.FC<PropsType> = ({
@@ -19,12 +19,13 @@ export const SelectBase: React.FC<PropsType> = ({
   className,
   activeSelect,
 }) => {
-  const [dataSelect, setDataSelect] = useState<string>(listOfData[0].text);
+  const [dataSelect, setDataSelect] = useState<string>(
+    activeSelect ? listOfData[activeSelect].text : listOfData[0].text
+  );
 
   const handleOnChangeSelection = (e: ChangeEvent<HTMLSelectElement>) => {
     setDataSelect(e.target.value);
   };
-  console.log(activeSelect);
 
   return (
     <div className={styles.container}>
@@ -38,7 +39,7 @@ export const SelectBase: React.FC<PropsType> = ({
         <select
           name={name}
           id={id}
-          value={activeSelect ? activeSelect : dataSelect}
+          value={dataSelect}
           onChange={handleOnChangeSelection}
           className={`${styles.block__select} ${className}`}
         >
