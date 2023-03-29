@@ -1,5 +1,10 @@
 import moment from 'moment-timezone';
-import { VideoCamera } from '../../../../assets/svg/SVGcomponent';
+import {
+  CheckCircle,
+  Error,
+  QuestionSquere,
+  VideoCamera,
+} from '../../../../assets/svg/SVGcomponent';
 import { OperationItem } from '../../../../storage/orderView';
 import styles from './operationCard.module.scss';
 
@@ -17,13 +22,20 @@ export const OperationCard: React.FC<PropsType> = ({ data, onClick }) => {
 
   return (
     <div className={styles.wrapper} onClick={handleClickToOperationCard}>
-      <div className={styles.titleBlock}>
-        <p className={styles.title}>{data.operationName}</p>
-        <VideoCamera />
+      <div className={styles.block}>
+        <p className={styles.block_title}>{data.operationName}</p>
+        <VideoCamera width="16px" />
       </div>
 
       <p className={styles.subtitle}>{'Worker Wazowski'}</p>
-      <p className={styles.subtitle}>{operationTime}</p>
+
+      <div className={styles.footer}>
+        <p className={styles.footer_time}>{operationTime}</p>
+
+        {data.status === null && <QuestionSquere color={'var(--LowEmphasis)'} />}
+        {data.status && <Error color={'var(--Red)'} />}
+        {data.status === false && <CheckCircle color={'var(--Green)'} />}
+      </div>
     </div>
   );
 };

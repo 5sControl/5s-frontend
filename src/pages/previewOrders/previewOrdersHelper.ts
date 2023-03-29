@@ -28,6 +28,7 @@ export const parseOrdersData = (data: OrderRequest): OrderItem => {
                     operationPosition: element.stanowisko,
                     operationUse: element.uzytkownik,
                     operationWorker: element.worker,
+                    status: element.status,
                   };
                 })
               : [],

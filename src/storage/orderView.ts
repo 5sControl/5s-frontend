@@ -37,6 +37,7 @@ export interface OperationItem {
   operationPosition: number;
   operationUse: number;
   operationWorker: string;
+  status: boolean | null;
 }
 
 export interface OrdersWithPagination {

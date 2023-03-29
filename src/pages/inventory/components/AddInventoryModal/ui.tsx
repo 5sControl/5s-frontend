@@ -11,6 +11,7 @@ import { useCookies } from 'react-cookie';
 import { addItem, selectAddInventoryModal } from './addInventoryModalSlice';
 import { getSelectedCameras } from '../../../../api/cameraRequest';
 import Moveable from 'react-moveable';
+import { selectInventory } from '../../inventorySlice';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
@@ -19,6 +20,7 @@ type PropsType = {
 export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
   const dispatch = useAppDispatch();
   const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
+  const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
   const [listOfDataForSelect, setListOfDataForSelect] = useState([]);
   const [formData, setFormData] = useState<any>({});

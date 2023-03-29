@@ -13,6 +13,7 @@ import InventoryItemsListSlice from '../pages/inventory/components/InventoryItem
 import addInventoryModalSlice from '../pages/inventory/components/AddInventoryModal/addInventoryModalSlice';
 import stockImageModalSlice from '../pages/inventory/components/StockImageModal/stockImageModalSlice';
 import infoPageSlice from '../pages/info/infoSlice';
+import deleteInventoryModalSlice from '../pages/inventory/components/DeleteInventoryModal/deleteInventoryModalSlice';
 
 export const store = configureStore({
   reducer: {
@@ -30,6 +31,7 @@ export const store = configureStore({
     activeInventoryItem: InventoryItemsListSlice,
     stockImageModal: stockImageModalSlice,
     infoPage: infoPageSlice,
+    deleteInventoryModal: deleteInventoryModalSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([]),
 });
