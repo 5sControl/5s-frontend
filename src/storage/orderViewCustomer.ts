@@ -27,6 +27,7 @@ export interface OrderSkan {
   stanowisko: number;
   uzytkownik: number;
   worker: string;
+  status: boolean | null;
 }
 
 export interface OrderRequest {

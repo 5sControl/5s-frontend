@@ -14,9 +14,6 @@ interface PreviewOrders {
   isErrorOfOrders: boolean;
   errorOfOrdersData: SerializedError;
   errorOfCurrentOrder: boolean;
-  // todo
-  // remove 'violationFound' when we will get 'violationFound' from query
-  violationFound?: boolean;
 }
 
 const initialState: PreviewOrders = {
@@ -28,7 +25,6 @@ const initialState: PreviewOrders = {
   isErrorOfOrders: false,
   errorOfOrdersData: {},
   errorOfCurrentOrder: false,
-  violationFound: undefined,
 };
 
 export const getOrderAsync = createAsyncThunk(
@@ -54,9 +50,6 @@ const previewOrdersPage = createSlice({
     setSelectProductData(state, action: PayloadAction<ProductItem>) {
       state.selectProductData = action.payload;
     },
-    setViolationFound(state, action: PayloadAction<boolean | undefined>) {
-      state.violationFound = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(getOrderAsync.pending, (state) => {
@@ -73,7 +66,6 @@ const previewOrdersPage = createSlice({
   },
 });
 
-export const { setSelectOperationData, setSelectProductData, setViolationFound } =
-  previewOrdersPage.actions;
+export const { setSelectOperationData, setSelectProductData } = previewOrdersPage.actions;
 export const selectPreviewOrders = (state: RootState) => state.previewOrders;
 export default previewOrdersPage.reducer;

@@ -2,12 +2,6 @@ import { OrderItem, ProductItem } from '../../storage/orderView';
 import { OrderRequest, OrderSkan } from '../../storage/orderViewCustomer';
 
 export const parseOrdersData = (data: OrderRequest): OrderItem => {
-  const states = [undefined, true, false];
-
-  const getRandomNumber = () => {
-    return Math.floor(Math.random() * 3);
-  };
-
   const previewData = {
     orderId: data.zlecenie,
     orderDate: data.data,
@@ -34,7 +28,7 @@ export const parseOrdersData = (data: OrderRequest): OrderItem => {
                     operationPosition: element.stanowisko,
                     operationUse: element.uzytkownik,
                     operationWorker: element.worker,
-                    report: { violation_found: states[getRandomNumber()] },
+                    status: element.status,
                   };
                 })
               : [],

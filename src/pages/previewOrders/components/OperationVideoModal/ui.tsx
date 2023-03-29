@@ -40,9 +40,9 @@ export const OperationVideoModal: React.FC<PropsType> = ({
     icon: React.FC<React.SVGProps<SVGSVGElement>>;
     title: string;
   } => {
-    if (operationData?.report.violation_found === undefined) {
+    if (operationData?.status === null) {
       return { status: 'undefined', icon: QuestionCircle, title: 'No data' };
-    } else if (operationData?.report.violation_found) {
+    } else if (operationData?.status) {
       return { status: 'error', icon: ExclamationPointCircle, title: 'Violation' };
     } else {
       return { status: 'completed', icon: CheckCircleOutline, title: 'Compliance' };
