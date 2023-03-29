@@ -19,13 +19,12 @@ export const SelectBase: React.FC<PropsType> = ({
   className,
   activeSelect,
 }) => {
-  const [dataSelect, setDataSelect] = useState<string>(listOfData[0]?.text);
+  const [dataSelect, setDataSelect] = useState<string>(listOfData[0].text);
 
   const handleOnChangeSelection = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log(activeSelect);
+    console.log(e.target.value);
     setDataSelect(e.target.value);
   };
-  console.log(activeSelect);
 
   return (
     <div className={styles.container}>

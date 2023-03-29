@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '../../../../components/button/button';
 import { Modal } from '../../../../components/modal';
 import { Close } from '../../../../assets/svg/SVGcomponent';
@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { useCookies } from 'react-cookie';
 import { addItem, selectAddInventoryModal } from './addInventoryModalSlice';
 import { getSelectedCameras } from '../../../../api/cameraRequest';
-
+import Moveable from 'react-moveable';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
@@ -21,6 +21,10 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
   const [cookies] = useCookies(['token']);
   const [listOfDataForSelect, setListOfDataForSelect] = useState([]);
+  const [formData, setFormData] = useState<any>({});
+  const [isShowCoord, setIsShowCoord] = useState(false);
+  const image = useRef<any>();
+  const coord = useRef<any>();
   useEffect(() => {
     if (connectResponseDataAdd) {
       handleClose();
@@ -32,7 +36,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           text: item.name,
         };
       });
-      console.log(response);
       setListOfDataForSelect(response);
     });
   }, [connectResponseDataAdd]);
@@ -42,79 +45,114 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
     const target = e.target as typeof e.target & {
       name: { value: string };
       low_stock_level: { value: number };
-      current_stock_level: { value: number };
       camera_type: { value: string };
     };
     const name = target.name.value;
     const low_stock_level = target.low_stock_level.value;
-    const current_stock_level = target.current_stock_level.value;
     const camera = target.camera_type.value;
 
     const dataForm = {
       name,
       low_stock_level,
       camera,
-      current_stock_level,
     };
-
-    dispatch(
-      addItem({
-        token: cookies.token,
-        hostname: window.location.hostname,
-        body: dataForm,
-      })
-    );
+    setFormData(dataForm);
+    setIsShowCoord(true);
+    console.log(isShowCoord);
+    // dispatch(
+    //   addItem({
+    //     token: cookies.token,
+    //     hostname: window.location.hostname,
+    //     body: dataForm,
+    //   })
+    // );
   };
-
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
-      <div className={styles.header}>
-        <h3 className={styles.title}>Add item</h3>
-        <Close onClick={handleClose} />
-      </div>
+    <Modal
+      isOpen={isOpen}
+      handleClose={handleClose}
+      className={isShowCoord ? styles.modalCoord : styles.modal}
+    >
+      {!isShowCoord && (
+        <div>
+          <div className={styles.header}>
+            <h3 className={styles.title}>Add item</h3>
+            <Close onClick={handleClose} />
+          </div>
 
-      <div className={styles.content}>
-        <form onSubmit={onSubmit}>
-          <div className={styles.input}>
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              label="Item name"
-              placeholder={'Enter item name'}
+          <div className={styles.content}>
+            <form onSubmit={onSubmit}>
+              <div className={styles.input}>
+                <Input
+                  id="name"
+                  name="name"
+                  type="text"
+                  label="Item name"
+                  placeholder={'Enter item name'}
+                />
+              </div>
+              <div className={styles.input}>
+                <Input
+                  id="low_stock_level"
+                  name="low_stock_level"
+                  type="text"
+                  label="Low stock level"
+                  placeholder={'Enter number'}
+                />
+              </div>
+              <div className={styles.input}>
+                <SelectBase
+                  id="camera_type"
+                  name="camera_type"
+                  label="Select a camera"
+                  listOfData={listOfDataForSelect}
+                />
+              </div>
+              <Button text="Continue" className={styles.button} type="submit" />
+            </form>
+          </div>
+        </div>
+      )}
+      {isShowCoord && (
+        <div className={styles.modalCoordContainer}>
+          <div className={styles.area}>
+            <img
+              ref={image}
+              src={
+                process.env.REACT_APP_ENV === 'proxy'
+                  ? `${process.env.REACT_APP_NGROK}images/${formData.camera}/snapshot.jpg`
+                  : process.env.REACT_APP_ENV === 'wify'
+                  ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera}/snapshot.jpg`
+                  : `http://${window.location.hostname}/images/${formData.camera}/snapshot.jpg`
+              }
+            />
+            <div ref={coord} className={styles.coord}></div>
+            <Moveable
+              target={coord}
+              container={image?.current}
+              draggable={true}
+              resizable={true}
+              throttleDrag={0}
+              throttleResize={0}
+              throttleRotate={0}
+              keepRatio={false}
+              origin={false}
+              edge={true}
+              onDrag={(e) => {
+                e.target.style.transform = e.transform;
+                console.log(e.target.style.transform, e.target.style.width, e.target.style.height);
+              }}
+              onResize={(e) => {
+                const beforeTranslate = e.drag.beforeTranslate;
+                e.target.style.width = `${e.width}px`;
+                e.target.style.height = `${e.height}px`;
+                e.target.style.transform = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`;
+              }}
             />
           </div>
-          <div className={styles.levels}>
-            <div>
-              <Input
-                id="current_stock_level"
-                name="current_stock_level"
-                type="text"
-                label="Current stock level"
-                placeholder={'Enter number'}
-              />
-            </div>
-            <div>
-              <Input
-                id="low_stock_level"
-                name="low_stock_level"
-                type="text"
-                label="Low stock level"
-                placeholder={'Enter number'}
-              />
-            </div>
-          </div>
-          <div className={styles.input}>
-            <SelectBase
-              id="camera_type"
-              name="camera_type"
-              label="Select a camera"
-              listOfData={listOfDataForSelect}
-            />
-          </div>
-          <Button text="Save" className={styles.button} type="submit" />
-        </form>
-      </div>
+          <div className={styles.footer}>button</div>
+        </div>
+      )}
     </Modal>
   );
 };
