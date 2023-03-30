@@ -6,7 +6,7 @@ interface deleteInventoryModalState {
   isOpenDeleteModal: boolean;
   isLoadingDeleteRequest: boolean;
   errorLoadingDeleteRequest: boolean;
-  connectDeleteResponse: any;
+  connectDeleteResponse: { message: string } | null;
   currentDeleteItemId: number | null;
 }
 
@@ -21,10 +21,11 @@ const initialState: deleteInventoryModalState = {
 export const deleteItem = createAsyncThunk(
   'deleteItem',
   async (data: { token: string; hostname: string; id: number }) => {
-    const response = await deleteInventoryItemAxios(data.hostname, data.token, data.id);
-    console.log('response', response);
-
-    return response.data;
+    const response: any = await deleteInventoryItemAxios(data.hostname, data.token, data.id);
+    if (response.status === 204) {
+      return { mesasge: 'Item deleted success' };
+    }
+    return null;
   }
 );
 
@@ -45,7 +46,7 @@ const deleteInventoryModalSlice = createSlice({
     });
     builder.addCase(deleteItem.fulfilled, (state, action) => {
       state.isLoadingDeleteRequest = false;
-      state.connectDeleteResponse = action.payload;
+      state.connectDeleteResponse = action.payload as any;
     });
     builder.addCase(deleteItem.rejected, (state) => {
       state.isLoadingDeleteRequest = false;

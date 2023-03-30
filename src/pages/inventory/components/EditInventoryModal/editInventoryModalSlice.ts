@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { InventoryItem } from '../../../../storage/inventory';
 import { RootState } from '../../../../store';
 import { editInventoryItemAxios } from '../../inventoryAPI';
+import { InventoryItem } from '../../types';
 import { EditInventoryData } from './types';
 
 interface editInventoryModalState {

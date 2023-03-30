@@ -3,7 +3,7 @@ import { ArrowBottom } from '../../assets/svg/SVGcomponent';
 import styles from './selectBase.module.scss';
 
 type PropsType = {
-  listOfData: Array<{ id: number; text: string }>;
+  listOfData: Array<{ id: number | string; text: string }>;
   id: string;
   name: string;
   label?: string;
