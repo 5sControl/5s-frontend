@@ -33,41 +33,39 @@ export const Company = () => {
 
   return (
     <>
-      {userList.length > 0 && (
-        <div className="company">
-          <h2>Company</h2>
-          {Object.keys(companyInfo).length > 0 && (
-            <div className="company__name">
-              <h3>{companyInfo.name_company}</h3>
-              <br></br>
-              <h4>Date joined: {moment(companyInfo.date_joined).format('DD-MM-YYYY')}</h4>
-              <h4>Days left: {companyInfo.days_left}</h4>
-              <h4>Cameras count: {companyInfo.licence_count_cameras}</h4>
-              <h4>Active neurons: {companyInfo.licence_neurons_active}</h4>
-              <h4>Active count cameras: {companyInfo.company_active_count_cameras}</h4>
-              <h4>Active count neurons: {companyInfo.company_active_count_neurons}</h4>
-            </div>
-          )}
-
-          <LicenseKey cookies={cookies.token} />
-          <AvailableProcess />
-          <div className="company__accounts_tab">
-            <h2>Accounts</h2>
-            <button className="company__add" onClick={() => setIsAddAccount(true)}>
-              + Add Account
-            </button>
+      <div className="company">
+        <h2>Company</h2>
+        {Object.keys(companyInfo).length > 0 && (
+          <div className="company__name">
+            <h3>{companyInfo.name_company}</h3>
+            <br></br>
+            <h4>Date joined: {moment(companyInfo.date_joined).format('DD-MM-YYYY')}</h4>
+            <h4>Days left: {companyInfo.days_left}</h4>
+            <h4>Cameras count: {companyInfo.licence_count_cameras}</h4>
+            <h4>Active neurons: {companyInfo.licence_neurons_active}</h4>
+            <h4>Active count cameras: {companyInfo.company_active_count_cameras}</h4>
+            <h4>Active count neurons: {companyInfo.company_active_count_neurons}</h4>
           </div>
-          <UserList userList={userList} />
+        )}
 
-          {isAddAccount && (
-            <AddUser
-              close={() => {
-                setIsAddAccount(false);
-              }}
-            />
-          )}
+        <LicenseKey cookies={cookies.token} />
+        <AvailableProcess />
+        <div className="company__accounts_tab">
+          <h2>Accounts</h2>
+          <button className="company__add" onClick={() => setIsAddAccount(true)}>
+            + Add Account
+          </button>
         </div>
-      )}
+        <UserList userList={userList} />
+
+        {isAddAccount && (
+          <AddUser
+            close={() => {
+              setIsAddAccount(false);
+            }}
+          />
+        )}
+      </div>
     </>
   );
 };
