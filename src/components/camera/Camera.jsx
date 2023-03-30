@@ -18,6 +18,19 @@ export const Camera = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    if (isShowModal) {
+      findCamera(window.location.hostname)
+        .then((response) => {
+          console.log(response);
+          setCamerasList(response.data.results);
+        })
+        .catch((error) => setError(error.message));
+    } else {
+      setCamerasList([]);
+    }
+  }, [isShowModal]);
+
+  useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token)
       .then((response) => {
         // console.log(response);
@@ -26,13 +39,7 @@ export const Camera = () => {
         }
       })
       .catch((error) => setError(error.message));
-
-    findCamera(window.location.hostname)
-      .then((response) => {
-        setCamerasList(response.data.results);
-      })
-      .catch((error) => setError(error.message));
-  }, [isShowModal, isCameraSettings]);
+  }, [isCameraSettings]);
 
   const showAddCameras = () => {
     setIsShowModal(true);
