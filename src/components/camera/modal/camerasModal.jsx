@@ -32,19 +32,23 @@ export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera
               />
             </div>
             <div className="cameras__modal__list">
-              {camerasList.map((el, ind) => (
-                <div
-                  key={ind}
-                  className="cameras__modal__list_item"
-                  onClick={() => {
-                    setStage('logAndPass');
-                    setIPCamera(el);
-                  }}
-                >
-                  <span>{el}</span>
-                  <AiOutlineRight />
-                </div>
-              ))}
+              {camerasList.map((el, ind) => {
+                return (
+                  el.length > 0 && (
+                    <div
+                      key={ind}
+                      className="cameras__modal__list_item"
+                      onClick={() => {
+                        setStage('logAndPass');
+                        setIPCamera(el);
+                      }}
+                    >
+                      <span>{el}</span>
+                      <AiOutlineRight />
+                    </div>
+                  )
+                );
+              })}
             </div>
           </>
         )}
