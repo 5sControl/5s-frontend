@@ -5,12 +5,12 @@ import {
   setIsOpenEditModal,
   setCurrentEditItem,
 } from '../EditInventoryModal/editInventoryModalSlice';
-import { InventoryItem } from '../../../../storage/inventory';
 import { useEffect, useRef } from 'react';
 import {
   setCurrentDeleteItemId,
   setIsOpenDeleteModal,
 } from '../DeleteInventoryModal/deleteInventoryModalSlice';
+import { InventoryItem } from '../../types';
 
 type PropsType = {
   currentReport: InventoryItem;

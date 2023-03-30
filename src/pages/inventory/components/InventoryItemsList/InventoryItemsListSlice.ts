@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { InventoryItem } from '../../../../storage/inventory';
 import { RootState } from '../../../../store';
+import { InventoryItem } from '../../types';
 
 interface ReportState {
   activeInventoryItem: null | InventoryItem;

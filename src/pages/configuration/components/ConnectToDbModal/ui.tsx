@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { CloseCross } from '../../../../assets/svg/SVGcomponent';
+import { Cross } from '../../../../assets/svg/SVGcomponent';
 import { Button } from '../../../../components/button';
 import { Input } from '../../../../components/input';
 import { Modal } from '../../../../components/modal';
@@ -75,7 +75,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, handleClose }) =
       <div className={styles.header}>
         <h2 className={styles.header_title}>Connecting to database</h2>
 
-        <CloseCross className={styles.header_cross} onClick={handleClose} />
+        <Cross className={styles.header_cross} onClick={handleClose} />
       </div>
 
       <form onSubmit={onSubmit} className={styles.form}>

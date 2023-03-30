@@ -1,15 +1,15 @@
-/* eslint-disable quotes */
 import { Modal } from '../../../../components/modal';
 import styles from './stockImageModal.module.scss';
 import moment from 'moment-timezone';
 import { useAppSelector } from '../../../../store/hooks';
 import { selectActiveInventoryItem } from '../InventoryItemsList/InventoryItemsListSlice';
 import { setDateDot } from '../../../previewOrders/previewOrdersHelper';
+import { InventoryHistory } from '../../types';
 
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
-  currentReport: any;
+  currentReport: InventoryHistory;
 };
 
 export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, currentReport }) => {

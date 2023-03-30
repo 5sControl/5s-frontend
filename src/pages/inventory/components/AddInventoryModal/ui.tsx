@@ -94,14 +94,16 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
               />
             </div>
           </div>
-          <div className={styles.input}>
-            <SelectBase
-              id="camera_type"
-              name="camera_type"
-              label="Select a camera"
-              listOfData={camerasData}
-            />
-          </div>
+          {camerasData && (
+            <div className={styles.input}>
+              <SelectBase
+                id="camera_type"
+                name="camera_type"
+                label="Select a camera"
+                listOfData={camerasData}
+              />
+            </div>
+          )}
           <Button text="Save" className={styles.button} type="submit" />
         </form>
       </div>

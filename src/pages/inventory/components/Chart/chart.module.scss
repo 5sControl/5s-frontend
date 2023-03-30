@@ -1,0 +1,41 @@
+@import '../../../../styles/media.scss';
+@import '../../../../styles/fonts.scss';
+
+.labels {
+  display: flex;
+  margin-left: 44px;
+}
+
+.label {
+  display: flex;
+  @include caption;
+
+  display: flex;
+  align-items: center;
+  text-align: right;
+  letter-spacing: 0.1px;
+
+  color: var(--LowEmphasis);
+}
+
+.label:not(:first-child) {
+  margin-left: 30px;
+}
+
+.labelStock {
+  margin-right: 10px;
+  width: 10px;
+  height: 10px;
+}
+
+.labelInStock {
+  background: var(--Green);
+}
+
+.labelLowStock {
+  background: var(--StockOrange);
+}
+
+.labelOutStock {
+  background: var(--StockRed);
+}
