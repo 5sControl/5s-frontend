@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from 'react';
 import { Button } from '../../../../components/button/button';
 import { Modal } from '../../../../components/modal';
 import { Close } from '../../../../assets/svg/SVGcomponent';
@@ -9,6 +10,9 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { editItem, selectEditInventoryModal } from './editInventoryModalSlice';
 import { useCookies } from 'react-cookie';
 import { selectInventory } from '../../inventorySlice';
+import { AddInventoryData } from '../AddInventoryModal/types';
+import { EditInventoryData } from './types';
+import { Coordinates } from './Coordiantes';
 
 type PropsType = {
   isOpen: boolean;
@@ -20,7 +24,22 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
   const { currentEditItem, connectResponse } = useAppSelector(selectEditInventoryModal);
   const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
-
+  const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
+  const [formData, setFormData] = useState<EditInventoryData>({});
+  const [coords, setCoords] = useState<any>({});
+  const submitHandler = () => {
+    const dataForm = formData;
+    dataForm.coords = [coords];
+    console.log(dataForm);
+    dispatch(
+      editItem({
+        token: cookies.token,
+        hostname: window.location.hostname,
+        body: dataForm,
+      })
+    );
+  };
+  console.log(currentEditItem);
   useEffect(() => {
     if (connectResponse) {
       handleClose();
@@ -46,60 +65,68 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
         camera,
         id: currentEditItem.id,
       };
-
-      dispatch(
-        editItem({
-          token: cookies.token,
-          hostname: window.location.hostname,
-          body: dataForm,
-        })
-      );
+      setFormData(dataForm);
+      setIsShowCoord(true);
     }
   };
 
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
-      <div className={styles.header}>
-        <h3 className={styles.title}>Edit item</h3>
-        <Close onClick={handleClose} />
-      </div>
-
-      <div className={styles.content}>
-        <form onSubmit={onSubmit}>
-          <div className={styles.input}>
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              label="Item name"
-              placeholder={currentEditItem?.name}
-            />
+    <Modal
+      isOpen={isOpen}
+      handleClose={handleClose}
+      className={isShowCoord ? styles.modalCoord : styles.modal}
+    >
+      {!isShowCoord && (
+        <div>
+          <div className={styles.header}>
+            <h3 className={styles.title}>Edit item</h3>
+            <Close onClick={handleClose} />
           </div>
-          <div className={styles.input}>
-            <Input
-              id="low_stock_level"
-              name="low_stock_level"
-              type="text"
-              label="Low stock level"
-              placeholder={currentEditItem?.low_stock_level.toString()}
-            />
+          <div className={styles.content}>
+            <form onSubmit={onSubmit}>
+              <div className={styles.input}>
+                <Input
+                  id="name"
+                  name="name"
+                  type="text"
+                  label="Item name"
+                  defaultValue={currentEditItem?.name}
+                />
+              </div>
+              <div className={styles.input}>
+                <Input
+                  id="low_stock_level"
+                  name="low_stock_level"
+                  type="text"
+                  label="Low stock level"
+                  defaultValue={currentEditItem?.low_stock_level.toString()}
+                />
+              </div>
+              {camerasData && (
+                <div className={styles.input}>
+                  <SelectBase
+                    id="camera_type"
+                    name="camera_type"
+                    label="Select a camera"
+                    listOfData={camerasData}
+                    activeSelect={camerasData.findIndex(
+                      (item: { text: string; id: string }) => item.text === currentEditItem?.camera
+                    )}
+                  />
+                </div>
+              )}
+              <Button text="Continue" className={styles.button} type="submit" />
+            </form>
           </div>
-          <div className={styles.input}>
-            {camerasData && (
-              <SelectBase
-                id="camera_type"
-                name="camera_type"
-                label="Select a camera"
-                listOfData={camerasData}
-                activeSelect={camerasData.findIndex(
-                  (item: { text: string; id: string }) => item.text === currentEditItem?.camera
-                )}
-              />
-            )}
-          </div>
-          <Button text="Save" className={styles.button} type="submit" />
-        </form>
-      </div>
+        </div>
+      )}
+      {isShowCoord && (
+        <Coordinates
+          submitHandler={submitHandler}
+          formData={formData}
+          setCoords={(coords: any) => setCoords(coords)}
+        />
+      )}
     </Modal>
   );
 };

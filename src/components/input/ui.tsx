@@ -13,6 +13,7 @@ type PropsType = {
   label?: string;
   disabled?: boolean;
   required?: boolean;
+  defaultValue?: string;
 };
 
 export const Input: React.FC<PropsType> = ({
@@ -22,6 +23,7 @@ export const Input: React.FC<PropsType> = ({
   onChange,
   placeholder,
   value,
+  defaultValue,
   label,
   disabled,
   showEye,
@@ -47,6 +49,7 @@ export const Input: React.FC<PropsType> = ({
           name={name}
           type={inputType}
           value={value}
+          defaultValue={defaultValue}
           disabled={disabled}
           placeholder={placeholder}
           required={required}
