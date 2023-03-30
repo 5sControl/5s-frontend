@@ -4,16 +4,15 @@ import { Button } from '../../../../components/button/button';
 import { Modal } from '../../../../components/modal';
 import { Close } from '../../../../assets/svg/SVGcomponent';
 import styles from './addInventoryModal.module.scss';
-import './moveable.scss';
 import { Input } from '../../../../components/input';
 import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { useCookies } from 'react-cookie';
 import { addItem, selectAddInventoryModal } from './addInventoryModalSlice';
 import { getSelectedCameras } from '../../../../api/cameraRequest';
-import Moveable from 'react-moveable';
 import { selectInventory } from '../../inventorySlice';
 import { AddInventoryData } from './types';
+import { Coordinates } from './coordinates';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
@@ -27,37 +26,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const [listOfDataForSelect, setListOfDataForSelect] = useState([]);
   const [formData, setFormData] = useState<AddInventoryData>({});
   const [isShowCoord, setIsShowCoord] = useState(false);
-  const [target, setTarget] = useState<any>('');
   const [coords, setCoords] = useState<any>({});
-  const image = useRef<any>();
-  const coord = useRef<any>();
-
-  const onChangeSize = (width: string, height: string, transform: string) => {
-    const proportionWidth = image.current.naturalWidth / image.current.width;
-    const proportionHeight = image.current.naturalHeight / image.current.height;
-    const bufWidth = Number(width.replace(/px/gi, ''));
-    const bufHeight = Number(height.replace(/px/gi, ''));
-    const bufTrans = transform.replace(/[^\d,-]/g, '').split(',');
-    const bufTransWidth = Number(bufTrans[0]);
-    const bufTransHeight = Number(bufTrans[1]);
-    // console.log(image.current.width, 'image width');
-    // console.log(image.current.height, 'image height');
-    // console.log(bufWidth, bufHeight);
-    // console.log('x1, x2', bufTrans);
-    // console.log('x1, y1', bufTransWidth * proportionWidth, bufTransHeight * proportionHeight);
-    // console.log(
-    //   'x2, y2',
-    //   bufWidth * proportionWidth + bufTransWidth * proportionWidth,
-    //   bufHeight * proportionHeight + bufTransHeight * proportionHeight
-    // );
-
-    setCoords({
-      x1: bufTransWidth * proportionWidth,
-      y1: bufTransHeight * proportionHeight,
-      x2: bufWidth * proportionWidth + bufTransWidth * proportionWidth,
-      y2: bufHeight * proportionHeight + bufTransHeight * proportionHeight,
-    });
-  };
 
   useEffect(() => {
     if (connectResponseDataAdd) {
@@ -73,16 +42,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       setListOfDataForSelect(response);
     });
   }, [connectResponseDataAdd]);
-
-  const changeTarget = (currentTarget: any, where: string) => {
-    if (where === 'image' && target !== '') {
-      console.log(where, target);
-      setTarget('');
-    } else {
-      console.log(where, currentTarget);
-      setTarget(currentTarget);
-    }
-  };
 
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -118,6 +77,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       })
     );
   };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -165,60 +125,11 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
         </div>
       )}
       {isShowCoord && (
-        <div className={styles.modalCoordContainer}>
-          <div className={styles.area}>
-            <img
-              ref={image}
-              src={
-                process.env.REACT_APP_ENV === 'proxy'
-                  ? `${process.env.REACT_APP_NGROK}images/${formData.camera}/snapshot.jpg`
-                  : process.env.REACT_APP_ENV === 'wify'
-                  ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera}/snapshot.jpg`
-                  : `http://${window.location.hostname}/images/${formData.camera}/snapshot.jpg`
-              }
-              onClick={() => changeTarget(coord, 'image')}
-            />
-            <div
-              ref={coord}
-              className={styles.coord}
-              onClick={() => changeTarget(coord, 'coord')}
-            ></div>
-            <Moveable
-              target={target}
-              container={image?.current}
-              draggable={true}
-              resizable={true}
-              throttleDrag={0}
-              throttleResize={0}
-              throttleRotate={0}
-              keepRatio={false}
-              origin={false}
-              edge={true}
-              onDragEnd={({ target }) => {
-                onChangeSize(target.style.width, target.style.height, target.style.transform);
-              }}
-              onResizeEnd={({ target }) => {
-                onChangeSize(target.style.width, target.style.height, target.style.transform);
-              }}
-              onDrag={(e) => {
-                e.target.style.transform = e.transform;
-              }}
-              onResize={(e) => {
-                const beforeTranslate = e.drag.beforeTranslate;
-                e.target.style.width = `${e.width}px`;
-                e.target.style.height = `${e.height}px`;
-                e.target.style.transform = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`;
-              }}
-            />
-          </div>
-          <div className={styles.footer} onClick={() => changeTarget('', 'button')}>
-            {formData.name}
-          </div>
-          <div className={styles.footer} onClick={() => changeTarget('', 'button')}>
-            Camera: {formData.camera}
-          </div>
-          <Button text="Save" className={styles.button} type="button" onClick={submitHandler} />
-        </div>
+        <Coordinates
+          submitHandler={submitHandler}
+          formData={formData}
+          setCoords={(coords: any) => setCoords(coords)}
+        />
       )}
     </Modal>
   );
