@@ -77,7 +77,7 @@ export const editInventoryItemAxios = (
       },
     });
   } else {
-    return axios.put(`http://${hostname}/${API_INVENTORY_SET}/${body.id}/`, body, {
+    return axios.put(`http://${hostname}/${API_INVENTORY_SET}${body.id}/`, body, {
       headers: {
         Authorization: cookies,
       },

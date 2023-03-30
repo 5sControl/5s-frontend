@@ -23,8 +23,14 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
   const [formData, setFormData] = useState<AddInventoryData>({});
-  const [isShowCoord, setIsShowCoord] = useState(false);
+  const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
   const [coords, setCoords] = useState<any>({});
+
+  useEffect(() => {
+    if (!isOpen) {
+      setIsShowCoord(false);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (connectResponseDataAdd) {

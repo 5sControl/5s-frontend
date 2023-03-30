@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Moveable from 'react-moveable';
 import './moveable.scss';
 import styles from './addInventoryModal.module.scss';
