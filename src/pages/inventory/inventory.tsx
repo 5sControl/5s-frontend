@@ -27,7 +27,7 @@ export const Inventory: React.FC = () => {
   const { connectResponse } = useAppSelector(selectEditInventoryModal);
   const { connectDeleteResponse } = useAppSelector(selectDeleteInventoryModal);
   const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
-  const { inventoryItems, isLoading } = useAppSelector(selectInventory);
+  const { inventoryItems, isLoading, camerasData } = useAppSelector(selectInventory);
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
@@ -68,7 +68,7 @@ export const Inventory: React.FC = () => {
           <div className={styles.header}>
             <h2 className={styles.title}>Inventory</h2>
 
-            <Button text="Add item" isIcon onClick={addInventoryButton} />
+            {camerasData && <Button text="Add item" isIcon onClick={addInventoryButton} />}
           </div>
 
           {!isLoading && inventoryItems ? (
