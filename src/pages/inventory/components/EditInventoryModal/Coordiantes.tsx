@@ -24,24 +24,23 @@ export const Coordinates: React.FC<PropsType> = ({
   const [proportionHeight, setProportionHeight] = useState(1);
   const changeTarget = (currentTarget: any, where: string) => {
     if (where === 'image' && target !== '') {
-      console.log(where, target);
       setTarget('');
     } else {
-      console.log(where, currentTarget);
       setTarget(currentTarget);
     }
   };
   const timer = setInterval(() => {
     if (image.current && image.current.naturalWidth) {
-      const proportionWidth = image.current.naturalWidth / image.current.width;
-      const proportionHeight = image.current.naturalHeight / image.current.height;
-      console.log(image.current.naturalWidth, image.current.width);
-      console.log(proportionWidth, proportionHeight);
       setProportionWidth(image.current.naturalWidth / image.current.width);
       setProportionHeight(image.current.naturalHeight / image.current.height);
       clearInterval(timer);
     }
-  }, 1);
+  }, 100);
+
+  useEffect(() => {
+    console.log(coordinates);
+    setCoords(coordinates[0]);
+  }, []);
 
   const onChangeSize = (width: string, height: string, transform: string) => {
     const proportionWidth = image.current.naturalWidth / image.current.width;
@@ -51,7 +50,8 @@ export const Coordinates: React.FC<PropsType> = ({
     const bufTrans = transform.replace(/[^\d,-]/g, '').split(',');
     const bufTransWidth = Number(bufTrans[0]);
     const bufTransHeight = Number(bufTrans[1]);
-    // console.log(image.current.width, 'image width');
+    console.log(bufWidth, 'image width');
+    console.log(bufHeight, 'image width');
     // console.log(image.current.height, 'image height');
     // console.log(bufWidth, bufHeight);
     // console.log('x1, x2', bufTrans);
@@ -62,8 +62,8 @@ export const Coordinates: React.FC<PropsType> = ({
     //   bufHeight * proportionHeight + bufTransHeight * proportionHeight
     // );
     setCoords({
-      x1: bufTransWidth * proportionWidth,
-      y1: bufTransHeight * proportionHeight,
+      x1: bufTransWidth * proportionWidth + coordinates[0].x1,
+      y1: bufTransHeight * proportionHeight + coordinates[0].y1,
       x2: bufWidth * proportionWidth + bufTransWidth * proportionWidth,
       y2: bufHeight * proportionHeight + bufTransHeight * proportionHeight,
     });

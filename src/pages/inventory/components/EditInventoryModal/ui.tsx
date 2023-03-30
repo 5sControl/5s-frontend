@@ -38,7 +38,6 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       })
     );
   };
-  console.log(currentEditItem);
   useEffect(() => {
     if (connectResponse) {
       handleClose();
