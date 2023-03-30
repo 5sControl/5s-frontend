@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '../../../../components/button/button';
 import { Modal } from '../../../../components/modal';
 import { Close } from '../../../../assets/svg/SVGcomponent';
@@ -9,7 +9,6 @@ import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { useCookies } from 'react-cookie';
 import { addItem, selectAddInventoryModal } from './addInventoryModalSlice';
-import { getSelectedCameras } from '../../../../api/cameraRequest';
 import { selectInventory } from '../../inventorySlice';
 import { AddInventoryData } from './types';
 import { Coordinates } from './coordinates';
@@ -23,7 +22,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
   const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
-  const [listOfDataForSelect, setListOfDataForSelect] = useState([]);
   const [formData, setFormData] = useState<AddInventoryData>({});
   const [isShowCoord, setIsShowCoord] = useState(false);
   const [coords, setCoords] = useState<any>({});
@@ -32,15 +30,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
     if (connectResponseDataAdd) {
       handleClose();
     }
-    getSelectedCameras(window.location.hostname, cookies.token).then((res: any) => {
-      const response = res.data.map((item: any, index: number) => {
-        return {
-          id: index,
-          text: item.name,
-        };
-      });
-      setListOfDataForSelect(response);
-    });
   }, [connectResponseDataAdd]);
 
   const onSubmit = (e: React.SyntheticEvent) => {
@@ -111,14 +100,16 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
                   placeholder={'Enter number'}
                 />
               </div>
-              <div className={styles.input}>
-                <SelectBase
-                  id="camera_type"
-                  name="camera_type"
-                  label="Select a camera"
-                  listOfData={listOfDataForSelect}
-                />
-              </div>
+              {camerasData && (
+                <div className={styles.input}>
+                  <SelectBase
+                    id="camera_type"
+                    name="camera_type"
+                    label="Select a camera"
+                    listOfData={camerasData}
+                  />
+                </div>
+              )}
               <Button text="Continue" className={styles.button} type="submit" />
             </form>
           </div>
