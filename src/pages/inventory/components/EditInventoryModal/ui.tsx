@@ -10,7 +10,6 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { editItem, selectEditInventoryModal } from './editInventoryModalSlice';
 import { useCookies } from 'react-cookie';
 import { selectInventory } from '../../inventorySlice';
-import { AddInventoryData } from '../AddInventoryModal/types';
 import { EditInventoryData } from './types';
 import { Coordinates } from './Coordiantes';
 
@@ -125,6 +124,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
           submitHandler={submitHandler}
           formData={formData}
           setCoords={(coords: any) => setCoords(coords)}
+          coordinates={currentEditItem?.coords}
         />
       )}
     </Modal>

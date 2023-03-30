@@ -1,20 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Moveable from 'react-moveable';
 import styles from './editInventoryModal.module.scss';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '../../../../components/button';
 
 type PropsType = {
   submitHandler: () => void;
   formData: any;
   setCoords: (coords: any) => void;
+  coordinates: any;
 };
 
-export const Coordinates: React.FC<PropsType> = ({ submitHandler, formData, setCoords }) => {
+export const Coordinates: React.FC<PropsType> = ({
+  submitHandler,
+  formData,
+  setCoords,
+  coordinates,
+}) => {
   const image = useRef<any>();
   const coord = useRef<any>();
   const [target, setTarget] = useState<any>('');
-
+  const [proportionWidth, setProportionWidth] = useState(1);
+  const [proportionHeight, setProportionHeight] = useState(1);
   const changeTarget = (currentTarget: any, where: string) => {
     if (where === 'image' && target !== '') {
       console.log(where, target);
@@ -24,6 +31,17 @@ export const Coordinates: React.FC<PropsType> = ({ submitHandler, formData, setC
       setTarget(currentTarget);
     }
   };
+  const timer = setInterval(() => {
+    if (image.current && image.current.naturalWidth) {
+      const proportionWidth = image.current.naturalWidth / image.current.width;
+      const proportionHeight = image.current.naturalHeight / image.current.height;
+      console.log(image.current.naturalWidth, image.current.width);
+      console.log(proportionWidth, proportionHeight);
+      setProportionWidth(image.current.naturalWidth / image.current.width);
+      setProportionHeight(image.current.naturalHeight / image.current.height);
+      clearInterval(timer);
+    }
+  }, 1);
 
   const onChangeSize = (width: string, height: string, transform: string) => {
     const proportionWidth = image.current.naturalWidth / image.current.width;
@@ -67,6 +85,12 @@ export const Coordinates: React.FC<PropsType> = ({ submitHandler, formData, setC
         <div
           ref={coord}
           className={styles.coord}
+          style={{
+            top: `${coordinates[0]?.y1 / proportionHeight}px`,
+            left: `${coordinates[0]?.x1 / proportionWidth}px`,
+            width: `${(coordinates[0]?.x2 - coordinates[0]?.x1) / proportionHeight}px`,
+            height: `${(coordinates[0]?.y2 - coordinates[0]?.y1) / proportionWidth}px`,
+          }}
           onClick={() => changeTarget(coord, 'coord')}
         ></div>
         <Moveable
