@@ -23,7 +23,8 @@ const initialState: addInventoryModalState = {
 
 export const addItem = createAsyncThunk(
   'addItem',
-  async (data: { token: string; hostname: string; body: AddInventoryData }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async (data: { token: string; hostname: string; body: any }) => {
     const response = await setInventoryItem(data.hostname, data.token, data.body);
     return response.data;
   }

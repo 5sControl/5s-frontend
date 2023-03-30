@@ -61,17 +61,16 @@
     width: 100%;
     img{
 
-      height: 100%;
+      max-height: 100%;
       opacity: 0.4;
     }
-    
   }
   .coord{
     position: absolute;
     top:0px;
     left: 0px;
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     background-color: #FFFFFF;
     opacity: 0.35;
   }

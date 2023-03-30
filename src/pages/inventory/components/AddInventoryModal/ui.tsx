@@ -4,6 +4,7 @@ import { Button } from '../../../../components/button/button';
 import { Modal } from '../../../../components/modal';
 import { Close } from '../../../../assets/svg/SVGcomponent';
 import styles from './addInventoryModal.module.scss';
+import './moveable.scss';
 import { Input } from '../../../../components/input';
 import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
@@ -12,6 +13,7 @@ import { addItem, selectAddInventoryModal } from './addInventoryModalSlice';
 import { getSelectedCameras } from '../../../../api/cameraRequest';
 import Moveable from 'react-moveable';
 import { selectInventory } from '../../inventorySlice';
+import { AddInventoryData } from './types';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
@@ -23,8 +25,10 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
   const [listOfDataForSelect, setListOfDataForSelect] = useState([]);
-  const [formData, setFormData] = useState<any>({});
+  const [formData, setFormData] = useState<AddInventoryData>({});
   const [isShowCoord, setIsShowCoord] = useState(false);
+  const [target, setTarget] = useState<any>('');
+  const [coords, setCoords] = useState<any>({});
   const image = useRef<any>();
   const coord = useRef<any>();
 
@@ -40,12 +44,19 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
     // console.log(image.current.height, 'image height');
     // console.log(bufWidth, bufHeight);
     // console.log('x1, x2', bufTrans);
-    console.log('x1, y1', bufTransWidth * proportionHeight, bufTransHeight * proportionHeight);
-    console.log(
-      'x2, y2',
-      bufWidth * proportionHeight + bufTransWidth * proportionHeight,
-      bufHeight * proportionHeight + bufTransHeight * proportionHeight
-    );
+    // console.log('x1, y1', bufTransWidth * proportionWidth, bufTransHeight * proportionHeight);
+    // console.log(
+    //   'x2, y2',
+    //   bufWidth * proportionWidth + bufTransWidth * proportionWidth,
+    //   bufHeight * proportionHeight + bufTransHeight * proportionHeight
+    // );
+
+    setCoords({
+      x1: bufTransWidth * proportionWidth,
+      y1: bufTransHeight * proportionHeight,
+      x2: bufWidth * proportionWidth + bufTransWidth * proportionWidth,
+      y2: bufHeight * proportionHeight + bufTransHeight * proportionHeight,
+    });
   };
 
   useEffect(() => {
@@ -62,6 +73,17 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       setListOfDataForSelect(response);
     });
   }, [connectResponseDataAdd]);
+
+  const changeTarget = (currentTarget: any, where: string) => {
+    if (where === 'image' && target !== '') {
+      console.log(where, target);
+      setTarget('');
+    } else {
+      console.log(where, currentTarget);
+      setTarget(currentTarget);
+    }
+  };
+
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
@@ -82,13 +104,19 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
     setFormData(dataForm);
     setIsShowCoord(true);
     console.log(isShowCoord);
-    // dispatch(
-    //   addItem({
-    //     token: cookies.token,
-    //     hostname: window.location.hostname,
-    //     body: dataForm,
-    //   })
-    // );
+  };
+
+  const submitHandler = () => {
+    const dataForm = formData;
+    dataForm.coords = [coords];
+    console.log(dataForm);
+    dispatch(
+      addItem({
+        token: cookies.token,
+        hostname: window.location.hostname,
+        body: dataForm,
+      })
+    );
   };
   return (
     <Modal
@@ -148,10 +176,15 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
                   ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera}/snapshot.jpg`
                   : `http://${window.location.hostname}/images/${formData.camera}/snapshot.jpg`
               }
+              onClick={() => changeTarget(coord, 'image')}
             />
-            <div ref={coord} className={styles.coord}></div>
+            <div
+              ref={coord}
+              className={styles.coord}
+              onClick={() => changeTarget(coord, 'coord')}
+            ></div>
             <Moveable
-              target={coord}
+              target={target}
               container={image?.current}
               draggable={true}
               resizable={true}
@@ -178,7 +211,13 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
               }}
             />
           </div>
-          <div className={styles.footer}>button</div>
+          <div className={styles.footer} onClick={() => changeTarget('', 'button')}>
+            {formData.name}
+          </div>
+          <div className={styles.footer} onClick={() => changeTarget('', 'button')}>
+            Camera: {formData.camera}
+          </div>
+          <Button text="Save" className={styles.button} type="button" onClick={submitHandler} />
         </div>
       )}
     </Modal>
