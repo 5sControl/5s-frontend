@@ -77,7 +77,7 @@ export const editInventoryItemAxios = (
       },
     });
   } else {
-    return axios.post(`http://${hostname}/${API_INVENTORY_SET}/${body.id}/`, body, {
+    return axios.put(`http://${hostname}/${API_INVENTORY_SET}/${body.id}/`, body, {
       headers: {
         Authorization: cookies,
       },
@@ -93,13 +93,13 @@ export const deleteInventoryItemAxios = (hostname: string, cookies: string, id: 
       Authorization: cookies,
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_INVENTORY_DELETE}${id}/`, {
+    return axios.delete(`${process.env.REACT_APP_IP_SERVER}${API_INVENTORY_DELETE}${id}/`, {
       headers: {
         Authorization: cookies,
       },
     });
   } else {
-    return axios.post(`http://${hostname}/${API_INVENTORY_DELETE}${id}/`, {
+    return axios.delete(`http://${hostname}/${API_INVENTORY_DELETE}${id}/`, {
       headers: {
         Authorization: cookies,
       },
