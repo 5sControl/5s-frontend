@@ -4,14 +4,21 @@ import './moveable.scss';
 import styles from './addInventoryModal.module.scss';
 import { useRef, useState } from 'react';
 import { Button } from '../../../../components/button';
+import { AiOutlineLeft } from 'react-icons/ai';
 
 type PropsType = {
   submitHandler: () => void;
   formData: any;
   setCoords: (coords: any) => void;
+  setIsShowCoord: (type: boolean) => void;
 };
 
-export const Coordinates: React.FC<PropsType> = ({ submitHandler, formData, setCoords }) => {
+export const Coordinates: React.FC<PropsType> = ({
+  submitHandler,
+  formData,
+  setCoords,
+  setIsShowCoord,
+}) => {
   const image = useRef<any>();
   const coord = useRef<any>();
   const [target, setTarget] = useState<any>('');
@@ -55,25 +62,29 @@ export const Coordinates: React.FC<PropsType> = ({ submitHandler, formData, setC
   return (
     <div className={styles.modalCoordContainer}>
       <div className={styles.area}>
-        <img
-          ref={image}
-          src={
-            process.env.REACT_APP_ENV === 'proxy'
-              ? `${process.env.REACT_APP_NGROK}images/${formData.camera}/snapshot.jpg`
-              : process.env.REACT_APP_ENV === 'wify'
-              ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera}/snapshot.jpg`
-              : `http://${window.location.hostname}/images/${formData.camera}/snapshot.jpg`
-          }
-          onClick={() => changeTarget(coord, 'image')}
-        />
-        <div
-          ref={coord}
-          className={styles.coord}
-          onClick={() => changeTarget(coord, 'coord')}
-        ></div>
+        <div className={styles.back} onClick={() => setIsShowCoord(false)}>
+          <AiOutlineLeft /> Back
+        </div>
+        <div className={styles.image_container}>
+          <img
+            ref={image}
+            src={
+              process.env.REACT_APP_ENV === 'proxy'
+                ? `${process.env.REACT_APP_NGROK}images/${formData.camera}/snapshot.jpg`
+                : process.env.REACT_APP_ENV === 'wify'
+                ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera}/snapshot.jpg`
+                : `http://${window.location.hostname}/images/${formData.camera}/snapshot.jpg`
+            }
+            onClick={() => changeTarget(coord, 'image')}
+          />
+          <div
+            ref={coord}
+            className={styles.coord}
+            onClick={() => changeTarget(coord, 'coord')}
+          ></div>
+        </div>
         <Moveable
           target={target}
-          container={image?.current}
           draggable={true}
           resizable={true}
           throttleDrag={0}

@@ -55,14 +55,35 @@
     height: 100%;
   }
   .area{
-    background-color: #000000;
+    display: flex;
+    justify-content: center;
     position: relative;
     height: 80%;
     width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    .image_container{
+      position: relative;
+      width: max-content;
+    }
     img{
-
       max-height: 100%;
-      opacity: 0.4;
+      filter: brightness(40%)
+    }
+    .back{
+      display: flex;
+      align-items: center;
+      gap:10px;
+      position: absolute;
+      top:20px;
+      left:40px;
+      color: #FFFFFF;
+      z-index: 100;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 24px;
+      cursor: pointer;
     }
   }
   .coord{
