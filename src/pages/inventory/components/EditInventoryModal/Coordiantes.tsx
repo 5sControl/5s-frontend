@@ -64,8 +64,8 @@ export const Coordinates: React.FC<PropsType> = ({
     setCoords({
       x1: bufTransWidth * proportionWidth + coordinates[0].x1,
       y1: bufTransHeight * proportionHeight + coordinates[0].y1,
-      x2: bufWidth * proportionWidth + bufTransWidth * proportionWidth,
-      y2: bufHeight * proportionHeight + bufTransHeight * proportionHeight,
+      x2: bufWidth * proportionWidth + bufTransWidth * proportionWidth + coordinates[0].x1,
+      y2: bufHeight * proportionHeight + bufTransHeight * proportionHeight + coordinates[0].y1,
     });
   };
   return (
