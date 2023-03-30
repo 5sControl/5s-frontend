@@ -81,16 +81,16 @@ export const Coordinates: React.FC<PropsType> = ({ submitHandler, formData, setC
           keepRatio={false}
           origin={false}
           edge={true}
-          onDragEnd={({ target }) => {
+          onDragEnd={({ target }: any) => {
             onChangeSize(target.style.width, target.style.height, target.style.transform);
           }}
-          onResizeEnd={({ target }) => {
+          onResizeEnd={({ target }: any) => {
             onChangeSize(target.style.width, target.style.height, target.style.transform);
           }}
-          onDrag={(e) => {
+          onDrag={(e: any) => {
             e.target.style.transform = e.transform;
           }}
-          onResize={(e) => {
+          onResize={(e: any) => {
             const beforeTranslate = e.drag.beforeTranslate;
             e.target.style.width = `${e.width}px`;
             e.target.style.height = `${e.height}px`;
