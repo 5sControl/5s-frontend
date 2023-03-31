@@ -85,7 +85,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
             <h3 className={styles.title}>Add item</h3>
             <Close onClick={handleClose} />
           </div>
-
           <div className={styles.content}>
             <form onSubmit={onSubmit}>
               <div className={styles.input}>
@@ -126,6 +125,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           submitHandler={submitHandler}
           formData={formData}
           setCoords={(coords: any) => setCoords(coords)}
+          setIsShowCoord={(type: boolean) => setIsShowCoord(type)}
         />
       )}
     </Modal>

@@ -1,37 +1,48 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Moveable from 'react-moveable';
-import './moveable.scss';
-import styles from './addInventoryModal.module.scss';
-import { useRef, useState } from 'react';
+import styles from './editInventoryModal.module.scss';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '../../../../components/button';
 import { AiOutlineLeft } from 'react-icons/ai';
-
 type PropsType = {
   submitHandler: () => void;
   formData: any;
   setCoords: (coords: any) => void;
   setIsShowCoord: (type: boolean) => void;
+  coordinates: any;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
   submitHandler,
   formData,
   setCoords,
+  coordinates,
   setIsShowCoord,
 }) => {
   const image = useRef<any>();
   const coord = useRef<any>();
   const [target, setTarget] = useState<any>('');
-
+  const [proportionWidth, setProportionWidth] = useState(1);
+  const [proportionHeight, setProportionHeight] = useState(1);
   const changeTarget = (currentTarget: any, where: string) => {
     if (where === 'image' && target !== '') {
-      console.log(where, target);
       setTarget('');
     } else {
-      console.log(where, currentTarget);
       setTarget(currentTarget);
     }
   };
+  const timer = setInterval(() => {
+    if (image.current && image.current.naturalWidth) {
+      setProportionWidth(image.current.naturalWidth / image.current.width);
+      setProportionHeight(image.current.naturalHeight / image.current.height);
+      clearInterval(timer);
+    }
+  }, 200);
+
+  useEffect(() => {
+    console.log(coordinates);
+    setCoords(coordinates[0]);
+  }, []);
 
   const onChangeSize = (width: string, height: string, transform: string) => {
     const proportionWidth = image.current.naturalWidth / image.current.width;
@@ -41,7 +52,8 @@ export const Coordinates: React.FC<PropsType> = ({
     const bufTrans = transform.replace(/[^\d,-]/g, '').split(',');
     const bufTransWidth = Number(bufTrans[0]);
     const bufTransHeight = Number(bufTrans[1]);
-    // console.log(image.current.width, 'image width');
+    console.log(bufWidth, 'image width');
+    console.log(bufHeight, 'image width');
     // console.log(image.current.height, 'image height');
     // console.log(bufWidth, bufHeight);
     // console.log('x1, x2', bufTrans);
@@ -51,12 +63,11 @@ export const Coordinates: React.FC<PropsType> = ({
     //   bufWidth * proportionWidth + bufTransWidth * proportionWidth,
     //   bufHeight * proportionHeight + bufTransHeight * proportionHeight
     // );
-
     setCoords({
-      x1: bufTransWidth * proportionWidth,
-      y1: bufTransHeight * proportionHeight,
-      x2: bufWidth * proportionWidth + bufTransWidth * proportionWidth,
-      y2: bufHeight * proportionHeight + bufTransHeight * proportionHeight,
+      x1: bufTransWidth * proportionWidth + coordinates[0].x1,
+      y1: bufTransHeight * proportionHeight + coordinates[0].y1,
+      x2: bufWidth * proportionWidth + bufTransWidth * proportionWidth + coordinates[0].x1,
+      y2: bufHeight * proportionHeight + bufTransHeight * proportionHeight + coordinates[0].y1,
     });
   };
   return (
@@ -80,6 +91,12 @@ export const Coordinates: React.FC<PropsType> = ({
           <div
             ref={coord}
             className={styles.coord}
+            style={{
+              top: `${coordinates[0]?.y1 / proportionHeight}px`,
+              left: `${coordinates[0]?.x1 / proportionWidth}px`,
+              width: `${(coordinates[0]?.x2 - coordinates[0]?.x1) / proportionHeight}px`,
+              height: `${(coordinates[0]?.y2 - coordinates[0]?.y1) / proportionWidth}px`,
+            }}
             onClick={() => changeTarget(coord, 'coord')}
           ></div>
         </div>
