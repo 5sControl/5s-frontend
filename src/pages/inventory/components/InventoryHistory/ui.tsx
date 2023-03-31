@@ -1,11 +1,9 @@
 /* eslint-disable quotes */
 import moment from 'moment-timezone';
-import React, { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
+import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { DataPicker } from '../../../dashboard/components/dataPicker';
-import { getInventoryItemHistoryAsync, selectInventory } from '../../inventorySlice';
-import { selectActiveInventoryItem } from '../InventoryItemsList/InventoryItemsListSlice';
+import { selectInventory } from '../../inventorySlice';
 import { StockImageModal } from '../StockImageModal';
 import {
   selectStockImageModal,
@@ -14,32 +12,20 @@ import {
 import styles from './inventoryHistory.module.scss';
 import { Preloader } from '../../../../components/preloader';
 import { Chart } from '../Chart';
+import { selectInventoryHistory, setInventoryHistoryDate } from './inventoryHistorySlice';
 
 export const InventoryHistory: React.FC = () => {
   const { inventoryHistoryData, isLoadingHistory } = useAppSelector(selectInventory);
   const { isOpenStockImageModal, currentReportData } = useAppSelector(selectStockImageModal);
-  const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
+  const { selectDate } = useAppSelector(selectInventoryHistory);
   const dispatch = useAppDispatch();
-  const [cookies] = useCookies(['token']);
 
   const [visibleModalDate, setVisibleModalDate] = useState(false);
-  const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
+  const [currentDate] = useState(moment().format('YYYY-MM-DD'));
 
   const hangleCloseModel = () => {
     dispatch(setIsOpenStockImageModal(false));
   };
-
-  useEffect(() => {
-    if (activeInventoryItem) {
-      dispatch(
-        getInventoryItemHistoryAsync({
-          token: cookies.token,
-          hostname: window.location.hostname,
-          params: { camera: activeInventoryItem.camera, date: selectDate },
-        })
-      );
-    }
-  }, [selectDate]);
 
   return (
     <>
@@ -57,15 +43,18 @@ export const InventoryHistory: React.FC = () => {
             onClick={() => setVisibleModalDate(!visibleModalDate)}
             className="dashboard__title_button"
           >
-            {new Date(selectDate).toDateString() === new Date().toDateString()
-              ? 'Today, ' + selectDate
-              : selectDate}
+            {new Date(selectDate ? selectDate : currentDate).toDateString() ===
+            new Date().toDateString()
+              ? 'Today, ' + (selectDate ? selectDate : currentDate)
+              : selectDate
+              ? selectDate
+              : currentDate}
           </button>
           {visibleModalDate && (
             <DataPicker
-              setSelectDate={(e: string) => setSelectDate(e)}
+              setSelectDate={(e: string) => dispatch(setInventoryHistoryDate(e))}
               setVisibleModalDate={(e: boolean) => setVisibleModalDate(e)}
-              selectDateDash={selectDate}
+              selectDateDash={selectDate ? selectDate : currentDate}
             />
           )}
         </div>

@@ -110,13 +110,13 @@ export const deleteInventoryItemAxios = (hostname: string, cookies: string, id: 
 export const getInventoryItemHistory = (
   hostname: string,
   cookies: string,
-  data: { camera: string; date: string }
+  data: { itemId: number; date: string }
 ) => {
   const API_HISTORY = 'api/inventory/history/';
 
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy(
-      `${process.env.REACT_APP_NGROK}${API_HISTORY}${data.camera}/${data.date}/00:00:00/23:59:00/`,
+      `${process.env.REACT_APP_NGROK}${API_HISTORY}${data.date}/00:00:00/23:59:00/${data.itemId}/`,
       'GET',
       {
         Authorization: cookies,
@@ -124,7 +124,7 @@ export const getInventoryItemHistory = (
     );
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.get(
-      `${process.env.REACT_APP_IP_SERVER}${API_HISTORY}${data.camera}/${data.date}/00:00:00/23:59:00/`,
+      `${process.env.REACT_APP_IP_SERVER}${API_HISTORY}${data.date}/00:00:00/23:59:00/${data.itemId}/`,
       {
         headers: {
           Authorization: cookies,
@@ -133,7 +133,7 @@ export const getInventoryItemHistory = (
     );
   } else {
     return axios.get(
-      `http://${hostname}/${API_HISTORY}${data.camera}/${data.date}/00:00:00/23:59:00/`,
+      `http://${hostname}/${API_HISTORY}${data.date}/00:00:00/23:59:00/${data.itemId}/`,
       {
         headers: {
           Authorization: cookies,

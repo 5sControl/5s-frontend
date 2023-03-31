@@ -21,6 +21,8 @@ import { selectActiveInventoryItem } from './components/InventoryItemsList/Inven
 import moment from 'moment-timezone';
 import { selectAddInventoryModal } from './components/AddInventoryModal/addInventoryModalSlice';
 import { selectDeleteInventoryModal } from './components/DeleteInventoryModal/deleteInventoryModalSlice';
+import { selectInventoryHistory } from './components/InventoryHistory/inventoryHistorySlice';
+import { Plus } from '../../assets/svg/SVGcomponent';
 
 export const Inventory: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -29,6 +31,7 @@ export const Inventory: React.FC = () => {
   const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
   const { inventoryItems, isLoading, camerasData } = useAppSelector(selectInventory);
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
+  const { selectDate } = useAppSelector(selectInventoryHistory);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
 
@@ -46,11 +49,14 @@ export const Inventory: React.FC = () => {
         getInventoryItemHistoryAsync({
           token: cookies.token,
           hostname: window.location.hostname,
-          params: { camera: activeInventoryItem.camera, date: moment().format('YYYY-MM-DD') },
+          params: {
+            itemId: activeInventoryItem.id,
+            date: selectDate ? selectDate : moment().format('YYYY-MM-DD'),
+          },
         })
       );
     }
-  }, [activeInventoryItem]);
+  }, [activeInventoryItem, selectDate]);
 
   const addInventoryButton = () => {
     setIsOpen(true);
@@ -68,7 +74,7 @@ export const Inventory: React.FC = () => {
           <div className={styles.header}>
             <h2 className={styles.title}>Inventory</h2>
 
-            {camerasData && <Button text="Add item" isIcon onClick={addInventoryButton} />}
+            {camerasData && <Button text="Add item" IconLeft={Plus} onClick={addInventoryButton} />}
           </div>
 
           {!isLoading && inventoryItems ? (

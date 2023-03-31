@@ -15,7 +15,18 @@
     margin-top: 15px;
     &_value {
       @include h2;
+    }
+
+    .stockIn {
       color: var(--Green);
+    }
+
+    .low {
+      color: var(--StockOrange);
+    }
+
+    .out {
+      color: var(--StockRed);
     }
 
     &_description {
