@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Cross } from '../../assets/svg/SVGcomponent';
 import { ReactPortal } from '../reactPortal';
 import './modal.scss';
 
@@ -7,9 +8,18 @@ type PropsType = {
   children: React.ReactNode;
   handleClose: () => void;
   className?: string;
+  showCross?: boolean;
+  showSubstrateCross?: boolean;
 };
 
-export const Modal: React.FC<PropsType> = ({ children, handleClose, isOpen, className }) => {
+export const Modal: React.FC<PropsType> = ({
+  children,
+  handleClose,
+  isOpen,
+  className,
+  showCross = false,
+  showSubstrateCross = false,
+}) => {
   useEffect(() => {
     const closeOnEscapeKey = (e: KeyboardEvent) => (e.key === 'Escape' ? handleClose() : null);
     document.body.addEventListener('keydown', closeOnEscapeKey);
@@ -31,7 +41,15 @@ export const Modal: React.FC<PropsType> = ({ children, handleClose, isOpen, clas
   return (
     <ReactPortal wrapperId="modal-container">
       <div id="modal-bg" className="modal" onClick={handleClickToBg}>
-        <div className={`modal-content ${className}`}>{children}</div>
+        <div className={`modal-content ${className}`}>
+          {showCross && (
+            <Cross
+              className={`modal-cross ${showSubstrateCross ? 'modal-cross_substrate' : ''}`}
+              onClick={handleClose}
+            />
+          )}
+          {children}
+        </div>
       </div>
     </ReactPortal>
   );
