@@ -103,11 +103,6 @@ export const DatabaseTab: React.FC = () => {
             ></Button>
           )}
         </div>
-        <Button
-          onClick={handleOpenModalConnect}
-          disabled={isLoadingGetConnectionsToDB}
-          text="Connect to Database"
-        ></Button>
 
         <div className={styles.container}>
           <p className={styles.desc}>
