@@ -12,9 +12,6 @@
   user-select: none;
   cursor: pointer;
   transition: all 0.5s;
-  &_icon {
-    margin-right: 4px;
-  }
 }
 
 .contained {
@@ -36,4 +33,19 @@
   &:hover {
     background: var(--Gray88);
   }
+}
+
+.text {
+  @include buttonBase;
+  @include button;
+  color: var(--Orange);
+  border: none;
+  background: initial;
+  &:hover {
+    background: var(--Gray88);
+  }
+}
+
+.gap {
+  gap: 4px;
 }

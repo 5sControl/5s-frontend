@@ -32,6 +32,11 @@
   &_value {
     font-weight: 500;
     color: var(--HightEmphasis);
+    &_clipboard {
+      font-weight: 500;
+      color: var(--Orange);
+      cursor: pointer;
+    }
   }
 }
 
@@ -44,5 +49,19 @@
   z-index: 1;
   &:hover {
     color: var(--MediumEmphasis);
+  }
+}
+
+.download {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  bottom: 14px;
+  right: 14px;
+  color: var(--MediumEmphasis);
+  cursor: pointer;
+  &:hover {
+    color: var(--HightEmphasis);
   }
 }

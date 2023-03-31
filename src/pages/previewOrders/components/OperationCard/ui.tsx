@@ -27,10 +27,10 @@ export const OperationCard: React.FC<PropsType> = ({ data, onClick }) => {
         <VideoCamera width="16px" />
       </div>
 
-      <p className={styles.subtitle}>{'Worker Wazowski'}</p>
+      <p className={styles.footer_text}>{'Worker Wazowski'}</p>
 
       <div className={styles.footer}>
-        <p className={styles.footer_time}>{operationTime}</p>
+        <p className={styles.footer_text}>{operationTime}</p>
 
         {data.status === null && <QuestionSquere color={'var(--LowEmphasis)'} />}
         {data.status && <Error color={'var(--Red)'} />}

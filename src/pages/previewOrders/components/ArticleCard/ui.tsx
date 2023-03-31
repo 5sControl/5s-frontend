@@ -1,4 +1,6 @@
-import { ArticleItem, OperationItem } from '../../../../storage/orderView';
+import { useSearchParams } from 'react-router-dom';
+import { useNavigateSearch } from '../../../../functions/useNavigateSearch';
+import { ArticleItem, OperationItem, ProductItem } from '../../../../storage/orderView';
 import { useAppDispatch } from '../../../../store/hooks';
 import { setSelectOperationData } from '../../previewOrdersSlice';
 import { OperationCard } from '../OperationCard/ui';
@@ -9,17 +11,31 @@ import {
 import styles from './articleCard.module.scss';
 
 type PropsType = {
-  data: ArticleItem;
+  dataByDays: ArticleItem;
+  data: ProductItem;
   article: string;
+  setProductData: (data: ProductItem) => void;
 };
 
-export const ArticleCard: React.FC<PropsType> = ({ data, article }) => {
+export const ArticleCard: React.FC<PropsType> = ({ dataByDays, article, setProductData, data }) => {
+  const [searchParams] = useSearchParams();
+  const navigateSearch = useNavigateSearch();
   const dispatch = useAppDispatch();
 
   const handleClickToOperation = (operationData: OperationItem) => {
     dispatch(setSelectOperationData(operationData));
     dispatch(setIsOpenOperationVideoModal(true));
     dispatch(setTimeOperationVideoModal(operationData.operationTime));
+    setProductData(data);
+
+    const queryParams = Object.fromEntries([...searchParams]);
+    const newQueryParams = {
+      ...queryParams,
+      product_id: data.id.toString(),
+      operation_id: operationData.operationId.toString(),
+    };
+
+    navigateSearch('/orders-view', newQueryParams);
   };
 
   return (
@@ -27,12 +43,12 @@ export const ArticleCard: React.FC<PropsType> = ({ data, article }) => {
       <p className={styles.title}>{article}</p>
 
       <div className={styles.block}>
-        {Object.keys(data).map((operationDate, index) => (
+        {Object.keys(dataByDays).map((operationDate, index) => (
           <div key={index}>
             <p className={styles.operationDate}>{operationDate}</p>
 
             <div className={styles.list}>
-              {data[operationDate].map((operation, index) => {
+              {dataByDays[operationDate].map((operation, index) => {
                 return (
                   <OperationCard key={index} data={operation} onClick={handleClickToOperation} />
                 );
