@@ -1,0 +1,1 @@
+export { LocalSearchInput } from './ui';
