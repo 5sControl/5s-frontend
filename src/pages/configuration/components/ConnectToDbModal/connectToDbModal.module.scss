@@ -16,10 +16,6 @@
     @include h3;
     color: var(--HightEmphasis);
   }
-  &_cross {
-    cursor: pointer;
-    color: var(--HightEmphasis);
-  }
 }
 
 .form {
