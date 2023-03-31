@@ -8,6 +8,7 @@ import { addActiveOrder, selectOrdersList } from './ordersListSlice';
 
 import styles from './ordersList.module.scss';
 import { PaginationBlock } from '../PaginationBlock';
+import { useNavigateSearch } from '../../../../functions/useNavigateSearch';
 
 type PropsType = {
   data: Array<PreviewOrderItem>;
@@ -28,9 +29,11 @@ export const OrderList: React.FC<PropsType> = ({
 }) => {
   const { activeOrder } = useAppSelector(selectOrdersList);
   const dispatch = useAppDispatch();
+  const navigateSearch = useNavigateSearch();
 
-  const onclickHandler = (id: string) => {
+  const handleClickToElement = (id: string) => {
     dispatch(addActiveOrder(id));
+    navigateSearch('/orders-view', { order_id: id });
   };
 
   const handleClickSearchSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -61,13 +64,15 @@ export const OrderList: React.FC<PropsType> = ({
                   orderId={item.orderId}
                   activeOrderId={activeOrder}
                   status={item.orderStatus}
-                  onClick={onclickHandler}
+                  onClick={handleClickToElement}
                   orderDate={item.orderDateRealize}
                 />
               );
             })}
 
-        {!data.length && <p className={styles.list_empty}>No matching orders found.</p>}
+        {!data.length && !isLoading && (
+          <p className={styles.list_empty}>No matching orders found.</p>
+        )}
       </div>
 
       {showPaginations && <PaginationBlock disabled={disabled || isLoading} />}

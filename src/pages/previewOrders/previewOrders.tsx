@@ -5,23 +5,34 @@ import { OrderCard } from './components/OrderCard';
 import { OrderList } from './components/OrdersList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
+  addActiveOrder,
   getOrdersAsync,
   selectOrdersList,
   setSearchValue,
 } from './components/OrdersList/ordersListSlice';
 import { Cover } from '../../components/cover';
-import { selectPreviewOrders, getOrderAsync } from './previewOrdersSlice';
+import {
+  selectPreviewOrders,
+  getOrderAsync,
+  setSelectOperationData,
+  setSelectProductData,
+} from './previewOrdersSlice';
 import { useCookies } from 'react-cookie';
 import { OperationVideoModal } from './components/OperationVideoModal';
 import {
   selectOperationVideoModal,
   setIsOpenOperationVideoModal,
+  setTimeOperationVideoModal,
 } from './components/OperationVideoModal/operationVideoModalSlice';
 import { Disconnect } from '../../assets/svg/SVGcomponent';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useNavigateSearch } from '../../functions/useNavigateSearch';
+import { OrderItem } from '../../storage/orderView';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
+  const navigateSearch = useNavigateSearch();
   const [cookies] = useCookies(['token']);
   const { orderData, selectOperationData, selectProductData } = useAppSelector(selectPreviewOrders);
   const { isErrorOfOrdersList, isLoadingOrdersList, activeOrder, ordersList } =
@@ -42,6 +53,11 @@ export const PreviewOrders: React.FC = () => {
 
   const handleCloseModal = () => {
     dispatch(setIsOpenOperationVideoModal(false));
+
+    const queryParams = Object.fromEntries([...searchParams]);
+    delete queryParams.operation_id;
+    delete queryParams.product_id;
+    navigateSearch('/orders-view', queryParams);
   };
 
   const handleSubmitSearch = (value: string) => {
@@ -71,6 +87,14 @@ export const PreviewOrders: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const queryOrderIdParam = searchParams.get('order_id');
+    const queryProductIdParam = searchParams.get('product_id');
+    const queryOperationIdParam = searchParams.get('operation_id');
+
+    if (!activeOrder && queryOrderIdParam !== null) {
+      dispatch(addActiveOrder(queryOrderIdParam));
+    }
+
     activeOrder &&
       dispatch(
         getOrderAsync({
@@ -78,7 +102,27 @@ export const PreviewOrders: React.FC = () => {
           hostname: window.location.hostname,
           currentOrder: activeOrder,
         })
-      );
+      ).then((res) => {
+        if (queryProductIdParam !== null && queryOperationIdParam !== null) {
+          const productData = (res.payload as OrderItem).product.find((el) => {
+            return el.id === +queryProductIdParam;
+          });
+
+          if (productData) {
+            dispatch(setSelectProductData(productData));
+
+            const operationData = productData.operations.find(
+              (el) => el.operationId === +queryOperationIdParam
+            );
+
+            if (operationData) {
+              dispatch(setSelectOperationData(operationData));
+              dispatch(setTimeOperationVideoModal(operationData.operationTime));
+              dispatch(setIsOpenOperationVideoModal(true));
+            }
+          }
+        }
+      });
   }, [activeOrder]);
 
   return (

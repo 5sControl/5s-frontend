@@ -32,6 +32,11 @@
   &_value {
     font-weight: 500;
     color: var(--HightEmphasis);
+    &_clipboard {
+      font-weight: 500;
+      color: var(--Orange);
+      cursor: pointer;
+    }
   }
 }
 
