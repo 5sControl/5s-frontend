@@ -111,7 +111,9 @@ export const patchCamera = (hostname, IPCamera, cameraName, cookies) => {
 
 export const findCamera = (hostname) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.get(process.env.REACT_APP_IP_SERVER + API_CAMERAFIND);
+    return proxy(process.env.REACT_APP_NGROK + API_CAMERAFIND, 'GET', {
+      'Content-Type': 'application/json',
+    });
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.get(process.env.REACT_APP_IP_SERVER + API_CAMERAFIND);
   } else {

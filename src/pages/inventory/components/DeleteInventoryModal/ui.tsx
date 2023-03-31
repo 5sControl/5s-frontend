@@ -33,6 +33,7 @@ export const DeleteInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose,
         id,
       })
     );
+    handleClose();
   };
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>

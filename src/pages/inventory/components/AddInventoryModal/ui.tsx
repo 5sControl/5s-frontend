@@ -23,8 +23,14 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
   const [formData, setFormData] = useState<AddInventoryData>({});
-  const [isShowCoord, setIsShowCoord] = useState(false);
+  const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
   const [coords, setCoords] = useState<any>({});
+
+  useEffect(() => {
+    if (!isOpen) {
+      setIsShowCoord(false);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (connectResponseDataAdd) {
@@ -79,7 +85,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
             <h3 className={styles.title}>Add item</h3>
             <Close onClick={handleClose} />
           </div>
-
           <div className={styles.content}>
             <form onSubmit={onSubmit}>
               <div className={styles.input}>
@@ -120,6 +125,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           submitHandler={submitHandler}
           formData={formData}
           setCoords={(coords: any) => setCoords(coords)}
+          setIsShowCoord={(type: boolean) => setIsShowCoord(type)}
         />
       )}
     </Modal>
