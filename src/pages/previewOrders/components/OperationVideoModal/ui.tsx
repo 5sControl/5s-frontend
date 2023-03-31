@@ -8,9 +8,11 @@ import moment from 'moment-timezone';
 import { StatusLable } from '../StatusLable';
 import {
   CheckCircleOutline,
+  Download,
   ExclamationPointCircle,
   QuestionCircle,
 } from '../../../../assets/svg/SVGcomponent';
+import { Button } from '../../../../components/button';
 
 type PropsType = {
   isOpen: boolean;
@@ -95,6 +97,13 @@ export const OperationVideoModal: React.FC<PropsType> = ({
           </div>
         </div>
       </div>
+
+      <Button
+        IconLeft={Download}
+        className={styles.download}
+        variant="text"
+        iconColor="var(--MediumEmphasis)"
+      />
     </Modal>
   );
 };
