@@ -84,6 +84,9 @@ export const PreviewOrders: React.FC = () => {
 
   useEffect(() => {
     getOrdersList(1, 50, null);
+    return () => {
+      dispatch(addActiveOrder(null));
+    };
   }, []);
 
   useEffect(() => {
