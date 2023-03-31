@@ -56,7 +56,7 @@ const ordersList = createSlice({
   name: 'ordersList',
   initialState,
   reducers: {
-    addActiveOrder(state, action: PayloadAction<string>) {
+    addActiveOrder(state, action: PayloadAction<string | null>) {
       state.activeOrder = action.payload;
     },
     setSearchValue(state, action: PayloadAction<string | null>) {
