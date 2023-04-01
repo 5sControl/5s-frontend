@@ -38,6 +38,13 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       })
     );
   };
+
+  useEffect(() => {
+    if (!isOpen) {
+      setIsShowCoord(false);
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     if (connectResponse) {
       handleClose();
