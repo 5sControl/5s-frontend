@@ -23,7 +23,10 @@ export const Coordinates: React.FC<PropsType> = ({
   const coord = useRef<any>();
   const [target, setTarget] = useState<any>('');
 
-  const changeTarget = (currentTarget: any, where: string) => {
+  const changeTarget = (currentTarget: any, where: string, e: any) => {
+    if (e) {
+      console.log(e.clientX, e.clientY);
+    }
     if (where === 'image' && target !== '') {
       console.log(where, target);
       setTarget('');
@@ -75,12 +78,12 @@ export const Coordinates: React.FC<PropsType> = ({
                 ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera}/snapshot.jpg`
                 : `http://${window.location.hostname}/images/${formData.camera}/snapshot.jpg`
             }
-            onClick={() => changeTarget(coord, 'image')}
+            onClick={(e) => changeTarget(coord, 'image', e)}
           />
           <div
             ref={coord}
             className={styles.coord}
-            onClick={() => changeTarget(coord, 'coord')}
+            onClick={() => changeTarget(coord, 'coord', null)}
           ></div>
         </div>
         <Moveable
@@ -110,10 +113,10 @@ export const Coordinates: React.FC<PropsType> = ({
           }}
         />
       </div>
-      <div className={styles.footer} onClick={() => changeTarget('', 'button')}>
+      <div className={styles.footer} onClick={() => changeTarget('', 'button', null)}>
         {formData.name}
       </div>
-      <div className={styles.footer} onClick={() => changeTarget('', 'button')}>
+      <div className={styles.footer} onClick={() => changeTarget('', 'button', null)}>
         Camera: {formData.camera}
       </div>
       <Button text="Save" className={styles.button} type="button" onClick={submitHandler} />
