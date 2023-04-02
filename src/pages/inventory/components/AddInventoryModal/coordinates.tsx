@@ -6,6 +6,7 @@ import styles from './addInventoryModal.module.scss';
 import { useRef, useState, useEffect } from 'react';
 import { Button } from '../../../../components/button';
 import { AiOutlineLeft } from 'react-icons/ai';
+import { IoIosCloseCircle } from 'react-icons/io';
 import { generateString } from '../../../../functions/randomizer';
 type PropsType = {
   submitHandler: () => void;
@@ -21,18 +22,17 @@ export const Coordinates: React.FC<PropsType> = ({
   setIsShowCoord,
 }) => {
   const image = useRef<any>();
-  const [target, setTarget] = useState<any>('');
+  const [target, setTarget] = useState<any>(null);
   const [allBox, setAllBox] = useState<any>([]);
 
   const createCoord = (e: any) => {
-    if (e && target === '') {
+    if (e && !target) {
       const target = e.target.getBoundingClientRect();
       const id = generateString();
       setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
     } else {
-      setTarget('');
+      setTarget(null);
     }
-
     console.log(allBox);
   };
 
@@ -42,9 +42,18 @@ export const Coordinates: React.FC<PropsType> = ({
     }
   }, [allBox]);
 
+  useEffect(() => {
+    console.log(target);
+  }, [target]);
+
+  const removeCoord = () => {
+    setAllBox(allBox.filter((el: any) => el.id !== target.id));
+    setTarget('');
+  };
+
   const changeTarget = (currentTarget: any) => {
-    if (target !== '') {
-      setTarget('');
+    if (target) {
+      setTarget(null);
     } else {
       console.log(currentTarget);
       setTarget(currentTarget);
@@ -128,6 +137,16 @@ export const Coordinates: React.FC<PropsType> = ({
             e.target.style.transform = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`;
           }}
         />
+        {target && (
+          <IoIosCloseCircle
+            className={styles.remove}
+            style={{
+              left: target.style.left,
+              top: target.style.top,
+            }}
+            onClick={removeCoord}
+          />
+        )}
       </div>
       <div className={styles.footer}>{formData.name}</div>
       <div className={styles.footer}>Camera: {formData.camera}</div>
