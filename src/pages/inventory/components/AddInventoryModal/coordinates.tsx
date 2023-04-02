@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import Moveable from 'react-moveable';
 import './moveable.scss';
 import styles from './addInventoryModal.module.scss';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Button } from '../../../../components/button';
 import { AiOutlineLeft } from 'react-icons/ai';
-
+import { generateString } from '../../../../functions/randomizer';
 type PropsType = {
   submitHandler: () => void;
   formData: any;
@@ -20,44 +21,62 @@ export const Coordinates: React.FC<PropsType> = ({
   setIsShowCoord,
 }) => {
   const image = useRef<any>();
-  const coord = useRef<any>();
   const [target, setTarget] = useState<any>('');
+  const [allBox, setAllBox] = useState<any>([]);
 
-  const changeTarget = (currentTarget: any, where: string) => {
-    if (where === 'image' && target !== '') {
-      console.log(where, target);
+  const createCoord = (e: any) => {
+    if (e && target === '') {
+      const target = e.target.getBoundingClientRect();
+      const id = generateString();
+      setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
+    } else {
+      setTarget('');
+    }
+
+    console.log(allBox);
+  };
+
+  useEffect(() => {
+    if (allBox.length > 0) {
+      setTarget(document.getElementById(allBox[allBox.length - 1].id));
+    }
+  }, [allBox]);
+
+  const changeTarget = (currentTarget: any) => {
+    if (target !== '') {
       setTarget('');
     } else {
-      console.log(where, currentTarget);
+      console.log(currentTarget);
       setTarget(currentTarget);
     }
   };
 
-  const onChangeSize = (width: string, height: string, transform: string) => {
+  const onChangeSize = () => {
+    const coordinatesLayout: any = document.querySelectorAll('.coordinates');
+
     const proportionWidth = image.current.naturalWidth / image.current.width;
     const proportionHeight = image.current.naturalHeight / image.current.height;
-    const bufWidth = Number(width.replace(/px/gi, ''));
-    const bufHeight = Number(height.replace(/px/gi, ''));
-    const bufTrans = transform.replace(/[^\d,-]/g, '').split(',');
-    const bufTransWidth = Number(bufTrans[0]);
-    const bufTransHeight = Number(bufTrans[1]);
-    // console.log(image.current.width, 'image width');
-    // console.log(image.current.height, 'image height');
-    // console.log(bufWidth, bufHeight);
-    // console.log('x1, x2', bufTrans);
-    // console.log('x1, y1', bufTransWidth * proportionWidth, bufTransHeight * proportionHeight);
-    // console.log(
-    //   'x2, y2',
-    //   bufWidth * proportionWidth + bufTransWidth * proportionWidth,
-    //   bufHeight * proportionHeight + bufTransHeight * proportionHeight
-    // );
 
-    setCoords({
-      x1: bufTransWidth * proportionWidth,
-      y1: bufTransHeight * proportionHeight,
-      x2: bufWidth * proportionWidth + bufTransWidth * proportionWidth,
-      y2: bufHeight * proportionHeight + bufTransHeight * proportionHeight,
+    const sendCoord: any[] = [];
+    coordinatesLayout.forEach((element: any) => {
+      const bufLeft = Number(element.style.left.replace(/px/gi, ''));
+      const bufTop = Number(element.style.top.replace(/px/gi, ''));
+      const bufWidth = Number(element.style.width.replace(/px/gi, ''));
+      const bufHeight = Number(element.style.height.replace(/px/gi, ''));
+      const bufTrans = element.style.transform.replace(/[^\d,-]/g, '').split(',');
+      const bufTransWidth = Number(bufTrans[0]);
+      const bufTransHeight = Number(bufTrans[1]);
+      const totalX = bufTransWidth + bufLeft;
+      const totalY = bufTransHeight + bufTop;
+      sendCoord.push({
+        x1: totalX * proportionWidth,
+        y1: totalY * proportionHeight,
+        x2: bufWidth * proportionWidth + totalX * proportionWidth,
+        y2: bufHeight * proportionHeight + totalY * proportionHeight,
+      });
     });
+    console.log(sendCoord);
+    setCoords(sendCoord);
   };
   return (
     <div className={styles.modalCoordContainer}>
@@ -75,13 +94,17 @@ export const Coordinates: React.FC<PropsType> = ({
                 ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera}/snapshot.jpg`
                 : `http://${window.location.hostname}/images/${formData.camera}/snapshot.jpg`
             }
-            onClick={() => changeTarget(coord, 'image')}
+            onClick={(e) => createCoord(e)}
           />
-          <div
-            ref={coord}
-            className={styles.coord}
-            onClick={() => changeTarget(coord, 'coord')}
-          ></div>
+          {allBox.map((el: any) => (
+            <div
+              id={el.id}
+              className={'coordinates'}
+              style={{ left: el.x, top: el.y }}
+              onClick={(e) => changeTarget(e.target)}
+              key={el.id}
+            ></div>
+          ))}
         </div>
         <Moveable
           target={target}
@@ -93,12 +116,8 @@ export const Coordinates: React.FC<PropsType> = ({
           keepRatio={false}
           origin={false}
           edge={true}
-          onDragEnd={({ target }: any) => {
-            onChangeSize(target.style.width, target.style.height, target.style.transform);
-          }}
-          onResizeEnd={({ target }: any) => {
-            onChangeSize(target.style.width, target.style.height, target.style.transform);
-          }}
+          onDragEnd={onChangeSize}
+          onResizeEnd={onChangeSize}
           onDrag={(e: any) => {
             e.target.style.transform = e.transform;
           }}
@@ -110,12 +129,8 @@ export const Coordinates: React.FC<PropsType> = ({
           }}
         />
       </div>
-      <div className={styles.footer} onClick={() => changeTarget('', 'button')}>
-        {formData.name}
-      </div>
-      <div className={styles.footer} onClick={() => changeTarget('', 'button')}>
-        Camera: {formData.camera}
-      </div>
+      <div className={styles.footer}>{formData.name}</div>
+      <div className={styles.footer}>Camera: {formData.camera}</div>
       <Button text="Save" className={styles.button} type="button" onClick={submitHandler} />
     </div>
   );

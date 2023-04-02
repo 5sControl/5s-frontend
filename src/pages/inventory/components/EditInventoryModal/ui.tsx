@@ -26,9 +26,10 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
   const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
   const [formData, setFormData] = useState<EditInventoryData>({});
   const [coords, setCoords] = useState<any>({});
+
   const submitHandler = () => {
     const dataForm = formData;
-    dataForm.coords = [coords];
+    dataForm.coords = coords;
     console.log(dataForm);
     dispatch(
       editItem({
@@ -38,6 +39,13 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       })
     );
   };
+
+  useEffect(() => {
+    if (!isOpen) {
+      setIsShowCoord(false);
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     if (connectResponse) {
       handleClose();
@@ -63,6 +71,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
         camera,
         id: currentEditItem.id,
       };
+      console.log(currentEditItem);
       setFormData(dataForm);
       setIsShowCoord(true);
     }
