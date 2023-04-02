@@ -26,6 +26,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
   const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
   const [formData, setFormData] = useState<EditInventoryData>({});
   const [coords, setCoords] = useState<any>({});
+
   const submitHandler = () => {
     const dataForm = formData;
     dataForm.coords = [coords];

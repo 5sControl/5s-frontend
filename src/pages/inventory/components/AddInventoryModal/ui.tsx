@@ -24,7 +24,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const [cookies] = useCookies(['token']);
   const [formData, setFormData] = useState<AddInventoryData>({});
   const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
-  const [coords, setCoords] = useState<any>({});
+  const [coords, setCoords] = useState<any>([]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -126,6 +126,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           formData={formData}
           setCoords={(coords: any) => setCoords(coords)}
           setIsShowCoord={(type: boolean) => setIsShowCoord(type)}
+          coords={coords}
         />
       )}
     </Modal>

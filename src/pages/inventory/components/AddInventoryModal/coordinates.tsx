@@ -12,11 +12,13 @@ type PropsType = {
   formData: any;
   setCoords: (coords: any) => void;
   setIsShowCoord: (type: boolean) => void;
+  coords: any;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
   submitHandler,
   formData,
+  coords,
   setCoords,
   setIsShowCoord,
 }) => {
@@ -41,8 +43,6 @@ export const Coordinates: React.FC<PropsType> = ({
   }, [allBox]);
 
   const changeTarget = (currentTarget: any) => {
-    const buf: any = document.querySelectorAll('.coordinates')[0];
-    console.log(buf.style);
     if (target !== '') {
       setTarget('');
     } else {
@@ -51,20 +51,32 @@ export const Coordinates: React.FC<PropsType> = ({
     }
   };
 
-  const onChangeSize = (width: string, height: string, transform: string) => {
+  const onChangeSize = () => {
+    const coordinatesLayout: any = document.querySelectorAll('.coordinates');
+
     const proportionWidth = image.current.naturalWidth / image.current.width;
     const proportionHeight = image.current.naturalHeight / image.current.height;
-    const bufWidth = Number(width.replace(/px/gi, ''));
-    const bufHeight = Number(height.replace(/px/gi, ''));
-    const bufTrans = transform.replace(/[^\d,-]/g, '').split(',');
-    const bufTransWidth = Number(bufTrans[0]);
-    const bufTransHeight = Number(bufTrans[1]);
-    setCoords({
-      x1: bufTransWidth * proportionWidth,
-      y1: bufTransHeight * proportionHeight,
-      x2: bufWidth * proportionWidth + bufTransWidth * proportionWidth,
-      y2: bufHeight * proportionHeight + bufTransHeight * proportionHeight,
+
+    const sendCoord: any[] = [];
+    coordinatesLayout.forEach((element: any) => {
+      const bufLeft = Number(element.style.left.replace(/px/gi, ''));
+      const bufTop = Number(element.style.top.replace(/px/gi, ''));
+      const bufWidth = Number(element.style.width.replace(/px/gi, ''));
+      const bufHeight = Number(element.style.height.replace(/px/gi, ''));
+      const bufTrans = element.style.transform.replace(/[^\d,-]/g, '').split(',');
+      const bufTransWidth = Number(bufTrans[0]);
+      const bufTransHeight = Number(bufTrans[1]);
+      const totalX = bufTransWidth + bufLeft;
+      const totalY = bufTransHeight + bufTop;
+      sendCoord.push({
+        x1: totalX * proportionWidth,
+        y1: totalY * proportionHeight,
+        x2: bufWidth * proportionWidth + totalX * proportionWidth,
+        y2: bufHeight * proportionHeight + totalY * proportionHeight,
+      });
     });
+    console.log(sendCoord);
+    setCoords(sendCoord);
   };
   return (
     <div className={styles.modalCoordContainer}>
@@ -104,12 +116,8 @@ export const Coordinates: React.FC<PropsType> = ({
           keepRatio={false}
           origin={false}
           edge={true}
-          onDragEnd={({ target }: any) => {
-            onChangeSize(target.style.width, target.style.height, target.style.transform);
-          }}
-          onResizeEnd={({ target }: any) => {
-            onChangeSize(target.style.width, target.style.height, target.style.transform);
-          }}
+          onDragEnd={onChangeSize}
+          onResizeEnd={onChangeSize}
           onDrag={(e: any) => {
             e.target.style.transform = e.transform;
           }}
