@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { ProductItem } from '../../../../storage/orderView';
 import { useAppDispatch } from '../../../../store/hooks';
 import { sortOperations } from '../../previewOrdersHelper';
@@ -15,9 +14,9 @@ type PropsType = {
 export const ProductCatd: React.FC<PropsType> = ({ index, data }) => {
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  const setProductData = (data: ProductItem) => {
     dispatch(setSelectProductData(data));
-  }, []);
+  };
 
   return (
     <div key={index}>
@@ -42,9 +41,10 @@ export const ProductCatd: React.FC<PropsType> = ({ index, data }) => {
       {data.operations.length ? (
         <div className={styles.list}>
           <ArticleCard
-            data={sortOperations(data)}
+            dataByDays={sortOperations(data)}
+            data={data}
             article={data.operationArticle}
-            // setProductData={() => setProductData(data)}
+            setProductData={setProductData}
           />
         </div>
       ) : null}

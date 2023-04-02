@@ -41,7 +41,7 @@ export const getInventoryItemsAsync = createAsyncThunk(
 
 export const getInventoryItemHistoryAsync = createAsyncThunk(
   'getInventoryHistory',
-  async (data: { token: string; hostname: string; params: { camera: string; date: string } }) => {
+  async (data: { token: string; hostname: string; params: { itemId: number; date: string } }) => {
     const response: any = await getInventoryItemHistory(data.hostname, data.token, data.params);
     if (response.data) {
       return response.data;

@@ -27,6 +27,7 @@ import { ReactComponent as ExclamationPointCircle } from './exclamationPointCirc
 import { ReactComponent as QuestionCircle } from './questionCircle.svg';
 import { ReactComponent as CheckCircleOutline } from './checkCircleOutline.svg';
 import { ReactComponent as Cross } from './cross.svg';
+import { ReactComponent as Download } from './download.svg';
 
 export {
   Algorithm,
@@ -58,4 +59,5 @@ export {
   QuestionCircle,
   CheckCircleOutline,
   Cross,
+  Download,
 };

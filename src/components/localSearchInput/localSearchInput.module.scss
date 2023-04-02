@@ -1,0 +1,35 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.inputContainer {
+  display: flex;
+  position: relative;
+  .input {
+    border: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 4px 0px;
+    // padding-right: 24px;
+    width: 100%;
+    font-size: 14px;
+    outline: none;
+
+    border-radius: 0;
+    background: linear-gradient(90deg, #222, #222) left bottom/0 2px no-repeat,
+      linear-gradient(90deg, #212121, #212121) left bottom/100% 1px no-repeat,
+      linear-gradient(90deg, #fafafa, #fafafa) left bottom/100% 2px no-repeat;
+  }
+
+  .input:focus::placeholder {
+    transition: color 0.3s ease;
+  }
+  svg {
+    position: absolute;
+    right: 0;
+  }
+  .cross {
+    cursor: pointer;
+  }
+}

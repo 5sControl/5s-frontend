@@ -8,10 +8,11 @@ import moment from 'moment-timezone';
 import { StatusLable } from '../StatusLable';
 import {
   CheckCircleOutline,
-  Cross,
+  Download,
   ExclamationPointCircle,
   QuestionCircle,
 } from '../../../../assets/svg/SVGcomponent';
+import { Button } from '../../../../components/button';
 
 type PropsType = {
   isOpen: boolean;
@@ -30,12 +31,6 @@ export const OperationVideoModal: React.FC<PropsType> = ({
   operationData,
   videoState,
 }) => {
-  const operationStart =
-    operationData &&
-    setDateDot(new Date(operationData.operationTime).toLocaleDateString()) +
-      ' | ' +
-      moment(operationData.operationTime).tz('Etc/GMT').format('LT');
-
   const selectIcon = (): {
     status: 'error' | 'undefined' | 'completed';
     icon: React.FC<React.SVGProps<SVGSVGElement>>;
@@ -51,9 +46,13 @@ export const OperationVideoModal: React.FC<PropsType> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
-      <Cross className={styles.cross} onClick={handleClose} />
-
+    <Modal
+      isOpen={isOpen}
+      handleClose={handleClose}
+      className={styles.modal}
+      showCross
+      showSubstrateCross
+    >
       <ReactPlayer {...videoState} width="100%" height="100%" />
 
       <div className={styles.infoBlock}>
@@ -69,7 +68,17 @@ export const OperationVideoModal: React.FC<PropsType> = ({
         <div className={styles.wrapper}>
           <div className={styles.subtitle}>
             <span>{'Operation start: '}</span>
-            <span className={styles.subtitle_value}>{operationStart}</span>
+            <span className={styles.subtitle_value}>
+              {operationData &&
+                setDateDot(new Date(operationData.operationTime).toLocaleDateString())}
+            </span>
+            <span className={styles.subtitle_value}>{' | '}</span>
+            <span
+              className={styles.subtitle_value_clipboard}
+              onClick={() => navigator.clipboard.writeText(window.location.href)}
+            >
+              {operationData && moment(operationData.operationTime).tz('Etc/GMT').format('LT')}
+            </span>
           </div>
 
           <div className={styles.subtitle}>
@@ -88,6 +97,13 @@ export const OperationVideoModal: React.FC<PropsType> = ({
           </div>
         </div>
       </div>
+
+      <Button
+        IconLeft={Download}
+        className={styles.download}
+        variant="text"
+        iconColor="var(--MediumEmphasis)"
+      />
     </Modal>
   );
 };
