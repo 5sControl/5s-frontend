@@ -3,10 +3,10 @@
 import Moveable from 'react-moveable';
 import './moveable.scss';
 import styles from './addInventoryModal.module.scss';
-import { useRef, useState, createElement } from 'react';
+import { useRef, useState, createElement, useEffect } from 'react';
 import { Button } from '../../../../components/button';
 import { AiFillBoxPlot, AiOutlineLeft } from 'react-icons/ai';
-
+import { generateString } from '../../../../functions/randomizer';
 type PropsType = {
   submitHandler: () => void;
   formData: any;
@@ -22,19 +22,28 @@ export const Coordinates: React.FC<PropsType> = ({
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>('');
-  const [allBox, setAllBox] = useState<any>(['sdf']);
+  const [allBox, setAllBox] = useState<any>([]);
   const createCoord = (e: any) => {
-    if (e) {
+    if (e && target === '') {
       const target = e.target.getBoundingClientRect();
-      console.log();
-      setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y }]);
+      const id = generateString();
+      setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
+    } else {
+      setTarget('');
     }
 
     console.log(allBox);
   };
+  useEffect(() => {
+    if (allBox.length > 0) {
+      setTarget(document.getElementById(allBox[allBox.length - 1].id));
+    }
+  }, [allBox]);
+
   const changeTarget = (currentTarget: any) => {
+    const buf: any = document.querySelectorAll('.coordinates')[0];
+    console.log(buf.style);
     if (target !== '') {
-      console.log(target);
       setTarget('');
     } else {
       console.log(currentTarget);
@@ -50,17 +59,6 @@ export const Coordinates: React.FC<PropsType> = ({
     const bufTrans = transform.replace(/[^\d,-]/g, '').split(',');
     const bufTransWidth = Number(bufTrans[0]);
     const bufTransHeight = Number(bufTrans[1]);
-    // console.log(image.current.width, 'image width');
-    // console.log(image.current.height, 'image height');
-    // console.log(bufWidth, bufHeight);
-    // console.log('x1, x2', bufTrans);
-    // console.log('x1, y1', bufTransWidth * proportionWidth, bufTransHeight * proportionHeight);
-    // console.log(
-    //   'x2, y2',
-    //   bufWidth * proportionWidth + bufTransWidth * proportionWidth,
-    //   bufHeight * proportionHeight + bufTransHeight * proportionHeight
-    // );
-
     setCoords({
       x1: bufTransWidth * proportionWidth,
       y1: bufTransHeight * proportionHeight,
@@ -86,12 +84,13 @@ export const Coordinates: React.FC<PropsType> = ({
             }
             onClick={(e) => createCoord(e)}
           />
-          {allBox.map((el: any, index: number) => (
+          {allBox.map((el: any) => (
             <div
-              className={styles.coord}
+              id={el.id}
+              className={'coordinates'}
               style={{ left: el.x, top: el.y }}
               onClick={(e) => changeTarget(e.target)}
-              key={index}
+              key={el.id}
             ></div>
           ))}
         </div>
