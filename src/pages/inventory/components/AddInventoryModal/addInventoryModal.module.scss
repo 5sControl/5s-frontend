@@ -91,14 +91,14 @@
       height: 50px;
       width: 20px;
       height: 20px;
-      opacity: 0.7;
       cursor: pointer;
       transition: all 0.4s;
       z-index: 101;
       color:red;
-      transform: translate(20px, -20px);
+      transform: translate(-20px, -40px);
+      opacity: 10 !important;
       &:hover{
-        opacity: 1;
+        color:rgb(167, 62, 62);
       }
     }
   }

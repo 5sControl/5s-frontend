@@ -12,6 +12,7 @@ import { addItem, selectAddInventoryModal } from './addInventoryModalSlice';
 import { selectInventory } from '../../inventorySlice';
 import { AddInventoryData } from './types';
 import { Coordinates } from './coordinates';
+import './moveable.scss';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;

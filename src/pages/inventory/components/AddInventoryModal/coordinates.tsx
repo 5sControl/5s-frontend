@@ -112,18 +112,12 @@ export const Coordinates: React.FC<PropsType> = ({
               style={{ left: el.x, top: el.y }}
               onClick={(e) => changeTarget(e.target)}
               key={el.id}
-            ></div>
+            >
+              {target && target.id === el.id && (
+                <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
+              )}
+            </div>
           ))}
-          {target && (
-            <IoIosCloseCircle
-              className={styles.remove}
-              style={{
-                left: target.style.left,
-                top: target.style.top,
-              }}
-              onClick={removeCoord}
-            />
-          )}
         </div>
         <Moveable
           target={target}
