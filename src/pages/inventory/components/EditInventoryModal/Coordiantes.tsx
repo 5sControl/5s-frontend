@@ -107,12 +107,12 @@ export const Coordinates: React.FC<PropsType> = ({
             }
             onClick={(e) => createCoord(e)}
           />
-          {console.log(coordinates)}
           {coordinates &&
             coordinates.map((element: any, index: number) => (
               <div
                 key={index}
                 className={'coordinates'}
+                id={generateString(11)}
                 style={{
                   top: `${element?.y1 / proportionHeight}px`,
                   left: `${element?.x1 / proportionWidth}px`,
