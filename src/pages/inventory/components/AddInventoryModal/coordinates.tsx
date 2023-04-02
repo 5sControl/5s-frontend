@@ -114,6 +114,16 @@ export const Coordinates: React.FC<PropsType> = ({
               key={el.id}
             ></div>
           ))}
+          {target && (
+            <IoIosCloseCircle
+              className={styles.remove}
+              style={{
+                left: target.style.left,
+                top: target.style.top,
+              }}
+              onClick={removeCoord}
+            />
+          )}
         </div>
         <Moveable
           target={target}
@@ -137,16 +147,6 @@ export const Coordinates: React.FC<PropsType> = ({
             e.target.style.transform = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`;
           }}
         />
-        {target && (
-          <IoIosCloseCircle
-            className={styles.remove}
-            style={{
-              left: target.style.left,
-              top: target.style.top,
-            }}
-            onClick={removeCoord}
-          />
-        )}
       </div>
       <div className={styles.footer}>{formData.name}</div>
       <div className={styles.footer}>Camera: {formData.camera}</div>
