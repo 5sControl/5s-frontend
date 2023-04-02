@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import Moveable from 'react-moveable';
 import './moveable.scss';
 import styles from './addInventoryModal.module.scss';
-import { useRef, useState } from 'react';
+import { useRef, useState, createElement } from 'react';
 import { Button } from '../../../../components/button';
-import { AiOutlineLeft } from 'react-icons/ai';
+import { AiFillBoxPlot, AiOutlineLeft } from 'react-icons/ai';
 
 type PropsType = {
   submitHandler: () => void;
@@ -20,18 +21,23 @@ export const Coordinates: React.FC<PropsType> = ({
   setIsShowCoord,
 }) => {
   const image = useRef<any>();
-  const coord = useRef<any>();
   const [target, setTarget] = useState<any>('');
-
-  const changeTarget = (currentTarget: any, where: string, e: any) => {
+  const [allBox, setAllBox] = useState<any>(['sdf']);
+  const createCoord = (e: any) => {
     if (e) {
-      console.log(e.clientX, e.clientY);
+      const target = e.target.getBoundingClientRect();
+      console.log();
+      setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y }]);
     }
-    if (where === 'image' && target !== '') {
-      console.log(where, target);
+
+    console.log(allBox);
+  };
+  const changeTarget = (currentTarget: any) => {
+    if (target !== '') {
+      console.log(target);
       setTarget('');
     } else {
-      console.log(where, currentTarget);
+      console.log(currentTarget);
       setTarget(currentTarget);
     }
   };
@@ -78,13 +84,16 @@ export const Coordinates: React.FC<PropsType> = ({
                 ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera}/snapshot.jpg`
                 : `http://${window.location.hostname}/images/${formData.camera}/snapshot.jpg`
             }
-            onClick={(e) => changeTarget(coord, 'image', e)}
+            onClick={(e) => createCoord(e)}
           />
-          <div
-            ref={coord}
-            className={styles.coord}
-            onClick={() => changeTarget(coord, 'coord', null)}
-          ></div>
+          {allBox.map((el: any, index: number) => (
+            <div
+              className={styles.coord}
+              style={{ left: el.x, top: el.y }}
+              onClick={(e) => changeTarget(e.target)}
+              key={index}
+            ></div>
+          ))}
         </div>
         <Moveable
           target={target}
@@ -113,12 +122,8 @@ export const Coordinates: React.FC<PropsType> = ({
           }}
         />
       </div>
-      <div className={styles.footer} onClick={() => changeTarget('', 'button', null)}>
-        {formData.name}
-      </div>
-      <div className={styles.footer} onClick={() => changeTarget('', 'button', null)}>
-        Camera: {formData.camera}
-      </div>
+      <div className={styles.footer}>{formData.name}</div>
+      <div className={styles.footer}>Camera: {formData.camera}</div>
       <Button text="Save" className={styles.button} type="button" onClick={submitHandler} />
     </div>
   );

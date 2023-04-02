@@ -4,6 +4,7 @@ import styles from './editInventoryModal.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '../../../../components/button';
 import { AiOutlineLeft } from 'react-icons/ai';
+import './moveable.scss';
 type PropsType = {
   submitHandler: () => void;
   formData: any;
