@@ -71,6 +71,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
         camera,
         id: currentEditItem.id,
       };
+      console.log(currentEditItem);
       setFormData(dataForm);
       setIsShowCoord(true);
     }

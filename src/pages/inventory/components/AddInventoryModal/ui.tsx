@@ -62,7 +62,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
 
   const submitHandler = () => {
     const dataForm = formData;
-    dataForm.coords = [coords];
+    dataForm.coords = coords;
     console.log(dataForm);
     dispatch(
       addItem({

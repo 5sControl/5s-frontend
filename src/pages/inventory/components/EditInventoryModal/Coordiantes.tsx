@@ -41,7 +41,7 @@ export const Coordinates: React.FC<PropsType> = ({
   }, 200);
 
   useEffect(() => {
-    console.log(coordinates);
+    console.log(coordinates[0][0]);
     setCoords(coordinates[0]);
   }, []);
 
