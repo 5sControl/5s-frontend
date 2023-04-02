@@ -21,7 +21,6 @@ export const Coordinates: React.FC<PropsType> = ({
   setIsShowCoord,
 }) => {
   const image = useRef<any>();
-  const coord = useRef<any>();
   const [target, setTarget] = useState<any>('');
   const [proportionWidth, setProportionWidth] = useState(1);
   const [proportionHeight, setProportionHeight] = useState(1);
@@ -87,19 +86,21 @@ export const Coordinates: React.FC<PropsType> = ({
                 ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera}/snapshot.jpg`
                 : `http://${window.location.hostname}/images/${formData.camera}/snapshot.jpg`
             }
-            onClick={() => changeTarget(coord, 'image')}
+            onClick={() => changeTarget('', 'image')}
           />
-          <div
-            ref={coord}
-            className={styles.coord}
-            style={{
-              top: `${coordinates[0]?.y1 / proportionHeight}px`,
-              left: `${coordinates[0]?.x1 / proportionWidth}px`,
-              width: `${(coordinates[0]?.x2 - coordinates[0]?.x1) / proportionHeight}px`,
-              height: `${(coordinates[0]?.y2 - coordinates[0]?.y1) / proportionWidth}px`,
-            }}
-            onClick={() => changeTarget(coord, 'coord')}
-          ></div>
+          {coordinates.map((element: any, index: number) => (
+            <div
+              key={index}
+              className={styles.coord}
+              style={{
+                top: `${element?.y1 / proportionHeight}px`,
+                left: `${element?.x1 / proportionWidth}px`,
+                width: `${(element?.x2 - element?.x1) / proportionHeight}px`,
+                height: `${(element?.y2 - element?.y1) / proportionWidth}px`,
+              }}
+              onClick={(e) => changeTarget(e.target, 'coord')}
+            ></div>
+          ))}
         </div>
         <Moveable
           target={target}
