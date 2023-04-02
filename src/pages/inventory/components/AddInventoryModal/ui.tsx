@@ -126,7 +126,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           formData={formData}
           setCoords={(coords: any) => setCoords(coords)}
           setIsShowCoord={(type: boolean) => setIsShowCoord(type)}
-          coords={coords}
         />
       )}
     </Modal>

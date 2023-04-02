@@ -3,28 +3,27 @@
 import Moveable from 'react-moveable';
 import './moveable.scss';
 import styles from './addInventoryModal.module.scss';
-import { useRef, useState, createElement, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Button } from '../../../../components/button';
-import { AiFillBoxPlot, AiOutlineLeft } from 'react-icons/ai';
+import { AiOutlineLeft } from 'react-icons/ai';
 import { generateString } from '../../../../functions/randomizer';
 type PropsType = {
   submitHandler: () => void;
   formData: any;
   setCoords: (coords: any) => void;
   setIsShowCoord: (type: boolean) => void;
-  coords: any;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
   submitHandler,
   formData,
-  coords,
   setCoords,
   setIsShowCoord,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>('');
   const [allBox, setAllBox] = useState<any>([]);
+
   const createCoord = (e: any) => {
     if (e && target === '') {
       const target = e.target.getBoundingClientRect();
@@ -36,6 +35,7 @@ export const Coordinates: React.FC<PropsType> = ({
 
     console.log(allBox);
   };
+
   useEffect(() => {
     if (allBox.length > 0) {
       setTarget(document.getElementById(allBox[allBox.length - 1].id));
