@@ -8,12 +8,12 @@ import { Input } from '../../../../components/input';
 import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { useCookies } from 'react-cookie';
-import { addItem, selectAddInventoryModal } from './addInventoryModalSlice';
+import { addItem } from './addInventoryModalSlice';
 import { selectInventory } from '../../inventorySlice';
 import { AddInventoryData } from './types';
 import { Coordinates } from './coordinates';
+import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
 import './moveable.scss';
-import { IoIosCheckmarkCircle } from 'react-icons/io';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
@@ -21,24 +21,25 @@ type PropsType = {
 
 export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
   const dispatch = useAppDispatch();
-  const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
   const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
   const [formData, setFormData] = useState<AddInventoryData>({});
   const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
   const [coords, setCoords] = useState<any>([]);
-  const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [isClose, setIsClose] = useState<any>(false);
+
   useEffect(() => {
     if (!isOpen) {
       setIsShowCoord(false);
+      setIsClose(false);
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    if (connectResponseDataAdd) {
-      handleClose();
-    }
-  }, [connectResponseDataAdd]);
+  // useEffect(() => {
+  //   if (connectResponseDataAdd) {
+  //     handleClose();
+  //   }
+  // }, [connectResponseDataAdd]);
 
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -65,15 +66,18 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const submitHandler = () => {
     const dataForm = formData;
     dataForm.coords = coords;
-    console.log(dataForm);
     dispatch(
       addItem({
         token: cookies.token,
         hostname: window.location.hostname,
         body: dataForm,
       })
-    );
-    setIsSaved(true);
+    ).then((response: any) => {
+      setIsClose({ status: response.type.includes('fulfilled') });
+      setTimeout(() => {
+        handleClose();
+      }, 2000);
+    });
   };
 
   return (
@@ -82,7 +86,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       handleClose={handleClose}
       className={isShowCoord ? styles.modalCoord : styles.modal}
     >
-      {!isShowCoord && !isSaved && (
+      {!isShowCoord && (
         <div>
           <div className={styles.header}>
             <h3 className={styles.title}>Add item</h3>
@@ -123,7 +127,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           </div>
         </div>
       )}
-      {isShowCoord && !isSaved && (
+      {isShowCoord && (
         <Coordinates
           submitHandler={submitHandler}
           formData={formData}
@@ -131,10 +135,16 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           setIsShowCoord={(type: boolean) => setIsShowCoord(type)}
         />
       )}
-      {isSaved && (
-        <div className={styles.acceptModal}>
-          <IoIosCheckmarkCircle style={{ color: 'green' }} />
-          <p>The item is saved</p>
+      {isClose && (
+        <div className={styles.response}>
+          <div>
+            {isClose.status ? (
+              <IoIosCheckmarkCircle className={styles.icons} style={{ color: 'green' }} />
+            ) : (
+              <IoIosCloseCircle className={styles.icons} style={{ color: 'red' }} />
+            )}
+            <p>{isClose.status ? 'The item is saved' : 'The item is not saved'}</p>
+          </div>
         </div>
       )}
     </Modal>
