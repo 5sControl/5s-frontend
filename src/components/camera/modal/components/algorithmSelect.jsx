@@ -60,6 +60,7 @@ export const AlgorithmSelect = ({
                 type="checkbox"
                 defaultChecked={algorithmsActive && algorithmsActive.includes(algorithm)}
                 onChange={() => checkboxHandler(algorithm)}
+                className={'checkbox'}
               />
             </label>
           ))}
