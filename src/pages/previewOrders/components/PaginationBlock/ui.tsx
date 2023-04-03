@@ -56,7 +56,10 @@ export const PaginationBlock: React.FC<PropsType> = ({ disabled }) => {
           value={ordersList?.records_on_page}
           onChange={handleChangeSelection}
           className={styles.orders_select}
-          disabled={disabled}
+          disabled={
+            disabled ||
+            (ordersList?.all_page_count as number) < (ordersList?.current_page as number)
+          }
         >
           {listOfData.map((item, index) => (
             <option value={item.text} key={index}>

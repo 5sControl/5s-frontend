@@ -119,11 +119,23 @@ export const PreviewOrders: React.FC = () => {
   const handleResetFilters = () => {
     dispatch(resetFilterData());
     getOrdersList(1, ordersList?.records_on_page as number, search, { 'order-status': 'all' });
+    const queryParams = Object.fromEntries([...searchParams]);
+    delete queryParams['order-status'];
+    navigateSearch('/orders-view', queryParams);
+
     handleClickFilter(false);
   };
 
   useEffect(() => {
-    getOrdersList(1, 50, null, filterData);
+    const queryOrderStatusParam = searchParams.get('order-status');
+
+    if (queryOrderStatusParam) {
+      dispatch(setFilterData({ 'order-status': queryOrderStatusParam }));
+      getOrdersList(1, 50, null, { 'order-status': queryOrderStatusParam });
+    } else {
+      getOrdersList(1, 50, null, filterData);
+    }
+
     return () => {
       dispatch(addActiveOrder(null));
     };
@@ -201,6 +213,9 @@ export const PreviewOrders: React.FC = () => {
                 IconLeft={Filter}
                 type="button"
                 variant="oval"
+                iconColor={
+                  searchParams.get('order-status') ? 'var(--Orange)' : 'var(--HightEmphasis)'
+                }
                 onClick={() => handleClickFilter(true)}
               />
             </div>

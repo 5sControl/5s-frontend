@@ -5,6 +5,8 @@ import { Radio } from '../../../../components/radio';
 import { ReactPortal } from '../../../../components/reactPortal';
 import styles from './filter.module.scss';
 import { FilterDataType, selectOrdersList, setFilterData } from '../OrdersList/ordersListSlice';
+import { useNavigateSearch } from '../../../../functions/useNavigateSearch';
+import { useSearchParams } from 'react-router-dom';
 
 type PropsType = {
   isOpen: boolean;
@@ -23,6 +25,8 @@ export const FilterBar: React.FC<PropsType> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { filterData } = useAppSelector(selectOrdersList);
+  const [searchParams] = useSearchParams();
+  const navigateSearch = useNavigateSearch();
 
   useEffect(() => {
     const closeOnEscapeKey = (e: KeyboardEvent) => (e.key === 'Escape' ? handleClose() : null);
@@ -57,8 +61,14 @@ export const FilterBar: React.FC<PropsType> = ({
     event.preventDefault();
     const target = event.target;
     const orderStatus = target['order-status'].value;
-    console.log('value: ' + orderStatus);
     const data = { 'order-status': orderStatus };
+
+    const queryParams = Object.fromEntries([...searchParams]);
+    const newQueryParams = {
+      ...queryParams,
+      'order-status': orderStatus,
+    };
+    navigateSearch('/orders-view', newQueryParams);
 
     handleSubmit(data);
   };

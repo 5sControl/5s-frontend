@@ -33,10 +33,11 @@ export const Pagination: React.FC<Props> = ({
       <button
         onClick={() => handlePagination(page + 1)}
         type="button"
-        disabled={page === totalPages || disabled}
-        className={[styles.pageItem, page === totalPages || disabled ? styles.disabled : ''].join(
-          ' '
-        )}
+        disabled={page === totalPages || disabled || totalPages < page}
+        className={[
+          styles.pageItem,
+          page === totalPages || disabled || totalPages < page ? styles.disabled : '',
+        ].join(' ')}
       >
         <ArrowRight />
       </button>
