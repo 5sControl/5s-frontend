@@ -13,6 +13,7 @@ import { selectInventory } from '../../inventorySlice';
 import { AddInventoryData } from './types';
 import { Coordinates } from './coordinates';
 import './moveable.scss';
+import { IoIosCheckmarkCircle } from 'react-icons/io';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
@@ -26,7 +27,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const [formData, setFormData] = useState<AddInventoryData>({});
   const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
   const [coords, setCoords] = useState<any>([]);
-
+  const [isSaved, setIsSaved] = useState<boolean>(false);
   useEffect(() => {
     if (!isOpen) {
       setIsShowCoord(false);
@@ -72,6 +73,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
         body: dataForm,
       })
     );
+    setIsSaved(true);
   };
 
   return (
@@ -80,7 +82,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       handleClose={handleClose}
       className={isShowCoord ? styles.modalCoord : styles.modal}
     >
-      {!isShowCoord && (
+      {!isShowCoord && !isSaved && (
         <div>
           <div className={styles.header}>
             <h3 className={styles.title}>Add item</h3>
@@ -121,13 +123,19 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           </div>
         </div>
       )}
-      {isShowCoord && (
+      {isShowCoord && !isSaved && (
         <Coordinates
           submitHandler={submitHandler}
           formData={formData}
           setCoords={(coords: any) => setCoords(coords)}
           setIsShowCoord={(type: boolean) => setIsShowCoord(type)}
         />
+      )}
+      {isSaved && (
+        <div className={styles.acceptModal}>
+          <IoIosCheckmarkCircle style={{ color: 'green' }} />
+          <p>The item is saved</p>
+        </div>
       )}
     </Modal>
   );

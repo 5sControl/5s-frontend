@@ -67,7 +67,8 @@
     }
     img{
       max-height: 100%;
-      filter: brightness(40%)
+      filter: brightness(40%);
+      cursor:crosshair;
     }
     .back{
       display: flex;
@@ -95,11 +96,14 @@
       cursor: pointer;
       transition: all 0.4s;
       z-index: 101;
-      color:red;
+      color:white;
       transform: translate(43px, -43px);
       opacity: 10 !important;
       &:hover{
-        color:rgb(167, 62, 62);
+        color:rgb(218, 215, 47);
+      }
+      .acceptModal{
+        
       }
     }
   }

@@ -73,7 +73,6 @@ export const Inventory: React.FC = () => {
         <div className={styles.content}>
           <div className={styles.header}>
             <h2 className={styles.title}>Inventory</h2>
-
             {camerasData && <Button text="Add item" IconLeft={Plus} onClick={addInventoryButton} />}
           </div>
 
