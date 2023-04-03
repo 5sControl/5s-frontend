@@ -13,7 +13,6 @@ import { selectInventory } from '../../inventorySlice';
 import { EditInventoryData } from './types';
 import { Coordinates } from './Coordiantes';
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
-import { AiOutlineConsoleSql } from 'react-icons/ai';
 
 type PropsType = {
   isOpen: boolean;
@@ -40,18 +39,21 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
         body: dataForm,
       })
     ).then((response: any) => {
-      handleClose();
+      setIsClose({ status: response.type.includes('fulfilled') });
+      setTimeout(() => {
+        handleClose();
+      }, 2000);
     });
   };
 
   useEffect(() => {
-    console.log(isClose);
-  }, [isClose]);
+    console.log(currentEditItem);
+  }, [currentEditItem]);
 
   useEffect(() => {
     if (!isOpen) {
-      console.log('sdfsdf');
       setIsShowCoord(false);
+      setIsClose(false);
     }
   }, [isOpen]);
 
@@ -73,7 +75,6 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
         camera,
         id: currentEditItem.id,
       };
-      console.log(currentEditItem);
       setFormData(dataForm);
       setIsShowCoord(true);
     }

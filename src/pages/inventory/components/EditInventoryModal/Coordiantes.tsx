@@ -34,7 +34,6 @@ export const Coordinates: React.FC<PropsType> = ({
     if (target !== '') {
       setTarget('');
     } else {
-      console.log(currentTarget);
       setTarget(currentTarget);
     }
   };
@@ -47,11 +46,9 @@ export const Coordinates: React.FC<PropsType> = ({
     } else {
       setTarget('');
     }
-    console.log(allBox);
   };
 
   const removeCoord = () => {
-    console.log(target);
     if (target.id.length > 10) {
       setOldBox(oldBox.filter((el: any) => el.id !== target.id));
     } else {
@@ -91,7 +88,6 @@ export const Coordinates: React.FC<PropsType> = ({
 
   const onChangeSize = () => {
     const coordinatesLayout: any = document.querySelectorAll('.coordinates');
-    console.log(coordinatesLayout);
     const proportionWidth = image.current.naturalWidth / image.current.width;
     const proportionHeight = image.current.naturalHeight / image.current.height;
 
@@ -106,7 +102,6 @@ export const Coordinates: React.FC<PropsType> = ({
       const bufTransHeight = Number(bufTrans[1]) || 0;
       const totalX = bufTransWidth + bufLeft;
       const totalY = bufTransHeight + bufTop;
-      console.log(bufTransHeight);
       sendCoord.push({
         x1: totalX * proportionWidth,
         y1: totalY * proportionHeight,
@@ -114,7 +109,6 @@ export const Coordinates: React.FC<PropsType> = ({
         y2: bufHeight * proportionHeight + totalY * proportionHeight,
       });
     });
-    console.log(sendCoord);
     setCoords(sendCoord);
   };
   return (
