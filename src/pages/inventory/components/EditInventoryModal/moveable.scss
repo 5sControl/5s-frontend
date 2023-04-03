@@ -21,4 +21,8 @@
     width: 20px;
     height: 20px;
     background-color: #ffffff40;
+    cursor: pointer;
+    &:hover{
+        border: 1px solid #FE6100;
+    }
   }

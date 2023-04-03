@@ -6,6 +6,7 @@ import { Button } from '../../../../components/button';
 import { AiOutlineLeft } from 'react-icons/ai';
 import './moveable.scss';
 import { generateString } from '../../../../functions/randomizer';
+import { IoIosCloseCircle } from 'react-icons/io';
 
 type PropsType = {
   submitHandler: () => void;
@@ -27,6 +28,7 @@ export const Coordinates: React.FC<PropsType> = ({
   const [proportionWidth, setProportionWidth] = useState(1);
   const [proportionHeight, setProportionHeight] = useState(1);
   const [allBox, setAllBox] = useState<any>([]);
+  const [oldBox, setOldBox] = useState<any>([]);
 
   const changeTarget = (currentTarget: any) => {
     if (target !== '') {
@@ -45,8 +47,17 @@ export const Coordinates: React.FC<PropsType> = ({
     } else {
       setTarget('');
     }
-
     console.log(allBox);
+  };
+
+  const removeCoord = () => {
+    console.log(target);
+    if (target.id.length > 10) {
+      setOldBox(oldBox.filter((el: any) => el.id !== target.id));
+    } else {
+      setAllBox(allBox.filter((el: any) => el.id !== target.id));
+    }
+    setTarget('');
   };
 
   const timer = setInterval(() => {
@@ -58,12 +69,29 @@ export const Coordinates: React.FC<PropsType> = ({
   }, 200);
 
   useEffect(() => {
-    setCoords(coordinates);
+    setOldBox(
+      coordinates.map((el: any) => {
+        return {
+          ...el,
+          id: generateString(11),
+        };
+      })
+    );
   }, []);
+
+  useEffect(() => {
+    if (allBox.length > 0) {
+      setTarget(document.getElementById(allBox[allBox.length - 1].id));
+    }
+  }, [allBox]);
+
+  useEffect(() => {
+    onChangeSize();
+  }, [allBox, oldBox]);
 
   const onChangeSize = () => {
     const coordinatesLayout: any = document.querySelectorAll('.coordinates');
-
+    console.log(coordinatesLayout);
     const proportionWidth = image.current.naturalWidth / image.current.width;
     const proportionHeight = image.current.naturalHeight / image.current.height;
 
@@ -107,12 +135,12 @@ export const Coordinates: React.FC<PropsType> = ({
             }
             onClick={(e) => createCoord(e)}
           />
-          {coordinates &&
-            coordinates.map((element: any, index: number) => (
+          {oldBox.length > 0 &&
+            oldBox.map((element: any, index: number) => (
               <div
                 key={index}
                 className={'coordinates'}
-                id={generateString(11)}
+                id={element.id}
                 style={{
                   top: `${element?.y1 / proportionHeight}px`,
                   left: `${element?.x1 / proportionWidth}px`,
@@ -120,7 +148,11 @@ export const Coordinates: React.FC<PropsType> = ({
                   height: `${(element?.y2 - element?.y1) / proportionWidth}px`,
                 }}
                 onClick={(e) => changeTarget(e.target)}
-              ></div>
+              >
+                {target && target.id === element.id && (
+                  <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
+                )}
+              </div>
             ))}
           {allBox.map((el: any) => (
             <div
@@ -129,7 +161,11 @@ export const Coordinates: React.FC<PropsType> = ({
               style={{ left: el.x, top: el.y }}
               onClick={(e) => changeTarget(e.target)}
               key={el.id}
-            ></div>
+            >
+              {target && target.id === el.id && (
+                <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
+              )}
+            </div>
           ))}
         </div>
         <Moveable
