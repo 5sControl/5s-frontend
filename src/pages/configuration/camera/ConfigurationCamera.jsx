@@ -25,10 +25,6 @@ export const ConfigurationCamera = () => {
   const location = useParams();
 
   useEffect(() => {
-    // getAveilableAlgorithms(window.location.hostname, cookie.token).then((res) => {
-    //   let allAlgorithm = Object.keys(res.data).filter((key) => res.data[key]);
-    //   setAlgorithmList(allAlgorithm);
-    // });
     getSelectedCameras(window.location.hostname, cookie.token).then((res) => {
       const cameraResponse = res.data.filter((camera) => camera.id === location.camera)[0];
       setCamera(cameraResponse);
