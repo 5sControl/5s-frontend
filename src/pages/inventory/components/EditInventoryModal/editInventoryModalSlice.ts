@@ -44,19 +44,19 @@ const editInventoryModalSlice = createSlice({
       state.currentEditItem = action.payload;
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(editItem.pending, (state) => {
-      state.isLoadingEditData = true;
-    });
-    builder.addCase(editItem.fulfilled, (state, action) => {
-      state.isLoadingEditData = false;
-      state.connectResponse = action.payload;
-    });
-    builder.addCase(editItem.rejected, (state) => {
-      state.isLoadingEditData = false;
-      state.errorLoadingEditData = true;
-    });
-  },
+  // extraReducers: (builder) => {
+  //   builder.addCase(editItem.pending, (state) => {
+  //     state.isLoadingEditData = true;
+  //   });
+  //   builder.addCase(editItem.fulfilled, (state, action) => {
+  //     state.isLoadingEditData = false;
+  //     state.connectResponse = action.payload;
+  //   });
+  //   builder.addCase(editItem.rejected, (state) => {
+  //     state.isLoadingEditData = false;
+  //     state.errorLoadingEditData = true;
+  //   });
+  // },
 });
 
 export const { setIsOpenEditModal, setCurrentEditItem } = editInventoryModalSlice.actions;
