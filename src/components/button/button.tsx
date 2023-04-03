@@ -3,7 +3,7 @@ import styles from './button.module.scss';
 
 type PropsType = {
   text?: string;
-  variant?: 'contained' | 'outlined' | 'text';
+  variant?: 'contained' | 'outlined' | 'text' | 'oval';
   type?: 'button' | 'submit' | 'reset';
   className?: string;
   disabled?: boolean;

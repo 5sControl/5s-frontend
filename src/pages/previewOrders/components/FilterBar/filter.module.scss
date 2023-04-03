@@ -1,0 +1,65 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.wrapper {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: flex-end;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 450px;
+  background-color: var(--White);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px 10px 0 10px;
+}
+
+.title {
+  @include h3;
+  color: var(--HightEmphasis);
+}
+
+.block {
+  color: var(--HightEmphasis);
+
+  &_title {
+    @include h4;
+    margin-bottom: 10px;
+  }
+  &_text {
+    @include body2;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-top: 1px solid var(--Gray88);
+  &_text {
+    @include button;
+    color: var(--HightEmphasis);
+    display: flex;
+    align-items: center;
+  }
+  &_buttons {
+    display: flex;
+    gap: 20px;
+  }
+}
