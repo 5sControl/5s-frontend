@@ -16,7 +16,7 @@ type PropsType = {
 };
 
 export const PaginationBlock: React.FC<PropsType> = ({ disabled }) => {
-  const { ordersList, search } = useAppSelector(selectOrdersList);
+  const { ordersList, search, filterData } = useAppSelector(selectOrdersList);
   const dispatch = useAppDispatch();
   const [cookies] = useCookies(['token']);
 
@@ -28,6 +28,7 @@ export const PaginationBlock: React.FC<PropsType> = ({ disabled }) => {
         page: updatePage,
         page_size: ordersList?.records_on_page as number,
         search,
+        params: filterData,
       })
     );
   };
@@ -41,6 +42,7 @@ export const PaginationBlock: React.FC<PropsType> = ({ disabled }) => {
         page: 1,
         page_size: +target.value,
         search,
+        params: filterData,
       })
     );
   };

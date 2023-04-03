@@ -5,6 +5,8 @@ import { RootState } from '../../../../store';
 import { parseOrderData } from './orderListHelper';
 import { getOrdersAPI } from './ordersListAPI';
 
+export type FilterDataType = { 'order-status': string };
+
 interface ReportState {
   activeOrder: null | string;
   search: string | null;
@@ -12,6 +14,9 @@ interface ReportState {
   isErrorOfOrdersList: boolean;
   ordersList: OrdersWithPagination | null;
   errorOfOrdersData: SerializedError;
+
+  isShowOrdersViewFilter: boolean;
+  filterData: FilterDataType;
 }
 
 const initialState: ReportState = {
@@ -21,6 +26,9 @@ const initialState: ReportState = {
   isErrorOfOrdersList: false,
   ordersList: null,
   errorOfOrdersData: {},
+
+  isShowOrdersViewFilter: false,
+  filterData: { 'order-status': 'all' },
 };
 
 export const getOrdersAsync = createAsyncThunk(
@@ -31,13 +39,15 @@ export const getOrdersAsync = createAsyncThunk(
     page: number;
     page_size: number;
     search: string | null;
+    params: FilterDataType;
   }) => {
     const response = await getOrdersAPI(
       data.hostname,
       data.token,
       data.page,
       data.page_size,
-      data.search
+      data.search,
+      data.params
     );
     if (response.data) {
       console.log('getOrdersAsync', response.data);
@@ -65,6 +75,15 @@ const ordersList = createSlice({
     clearOrdersList(state) {
       state.ordersList = null;
     },
+    setIsShowOrdersViewFilter(state, action: PayloadAction<boolean>) {
+      state.isShowOrdersViewFilter = action.payload;
+    },
+    setFilterData(state, action: PayloadAction<FilterDataType>) {
+      state.filterData = action.payload;
+    },
+    resetFilterData(state) {
+      state.filterData = { 'order-status': 'all' };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getOrdersAsync.pending, (state) => {
@@ -83,6 +102,13 @@ const ordersList = createSlice({
   },
 });
 
-export const { addActiveOrder, setSearchValue, clearOrdersList } = ordersList.actions;
+export const {
+  addActiveOrder,
+  setSearchValue,
+  clearOrdersList,
+  setIsShowOrdersViewFilter,
+  setFilterData,
+  resetFilterData,
+} = ordersList.actions;
 export const selectOrdersList = (state: RootState) => state.orderList;
 export default ordersList.reducer;
