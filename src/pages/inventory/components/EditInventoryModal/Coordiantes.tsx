@@ -139,7 +139,9 @@ export const Coordinates: React.FC<PropsType> = ({
             oldBox.map((element: any, index: number) => (
               <div
                 key={index}
-                className={'coordinates'}
+                className={
+                  target && target.id === element.id ? 'coordinates coordSelected' : 'coordinates '
+                }
                 id={element.id}
                 style={{
                   top: `${element?.y1 / proportionHeight}px`,
@@ -157,7 +159,9 @@ export const Coordinates: React.FC<PropsType> = ({
           {allBox.map((el: any) => (
             <div
               id={el.id}
-              className={'coordinates'}
+              className={
+                target && target.id === el.id ? 'coordinates coordSelected' : 'coordinates'
+              }
               style={{ left: el.x, top: el.y }}
               onClick={(e) => changeTarget(e.target)}
               key={el.id}

@@ -108,7 +108,9 @@ export const Coordinates: React.FC<PropsType> = ({
           {allBox.map((el: any) => (
             <div
               id={el.id}
-              className={'coordinates'}
+              className={
+                target && target.id === el.id ? 'coordinates coordSelected' : 'coordinates'
+              }
               style={{ left: el.x, top: el.y }}
               onClick={(e) => changeTarget(e.target)}
               key={el.id}
