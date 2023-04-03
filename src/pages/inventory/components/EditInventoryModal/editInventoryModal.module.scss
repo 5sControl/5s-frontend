@@ -78,5 +78,22 @@
       max-height: 100%;
       filter: brightness(50%)
     }
+    .remove{
+      position: absolute;
+      top:20px;
+      right: 20px;
+      height: 50px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      transition: all 0.4s;
+      z-index: 101;
+      color:red;
+      transform: translate(43px, -43px);
+      opacity: 10 !important;
+      &:hover{
+        color:rgb(167, 62, 62);
+      }
+    }
   }
 }

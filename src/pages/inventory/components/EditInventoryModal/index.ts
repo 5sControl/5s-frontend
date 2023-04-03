@@ -1,1 +1,1 @@
-export { EditInventoryModal } from './ui';
+export { EditInventoryModal } from './EditInventoryModal';

@@ -3,42 +3,29 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '../../../../components/button/button';
 import { Modal } from '../../../../components/modal';
 import { Close } from '../../../../assets/svg/SVGcomponent';
-import styles from './editInventoryModal.module.scss';
+import styles from './addInventoryModal.module.scss';
 import { Input } from '../../../../components/input';
 import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import { editItem, selectEditInventoryModal } from './editInventoryModalSlice';
 import { useCookies } from 'react-cookie';
+import { addItem, selectAddInventoryModal } from './addInventoryModalSlice';
 import { selectInventory } from '../../inventorySlice';
-import { EditInventoryData } from './types';
-import { Coordinates } from './Coordiantes';
-
+import { AddInventoryData } from './types';
+import { Coordinates } from './coordinates';
+import './moveable.scss';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
 };
 
-export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
+export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
   const dispatch = useAppDispatch();
-  const { currentEditItem, connectResponse } = useAppSelector(selectEditInventoryModal);
+  const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
   const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
+  const [formData, setFormData] = useState<AddInventoryData>({});
   const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
-  const [formData, setFormData] = useState<EditInventoryData>({});
-  const [coords, setCoords] = useState<any>({});
-
-  const submitHandler = () => {
-    const dataForm = formData;
-    dataForm.coords = coords;
-    console.log(dataForm);
-    dispatch(
-      editItem({
-        token: cookies.token,
-        hostname: window.location.hostname,
-        body: dataForm,
-      })
-    );
-  };
+  const [coords, setCoords] = useState<any>([]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -47,10 +34,10 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
   }, [isOpen]);
 
   useEffect(() => {
-    if (connectResponse) {
+    if (connectResponseDataAdd) {
       handleClose();
     }
-  }, [connectResponse]);
+  }, [connectResponseDataAdd]);
 
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -64,17 +51,27 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
     const low_stock_level = target.low_stock_level.value;
     const camera = target.camera_type.value;
 
-    if (currentEditItem && currentEditItem.id) {
-      const dataForm = {
-        name,
-        low_stock_level,
-        camera,
-        id: currentEditItem.id,
-      };
-      console.log(currentEditItem);
-      setFormData(dataForm);
-      setIsShowCoord(true);
-    }
+    const dataForm = {
+      name,
+      low_stock_level,
+      camera,
+    };
+    setFormData(dataForm);
+    setIsShowCoord(true);
+    console.log(isShowCoord);
+  };
+
+  const submitHandler = () => {
+    const dataForm = formData;
+    dataForm.coords = coords;
+    console.log(dataForm);
+    dispatch(
+      addItem({
+        token: cookies.token,
+        hostname: window.location.hostname,
+        body: dataForm,
+      })
+    );
   };
 
   return (
@@ -86,7 +83,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       {!isShowCoord && (
         <div>
           <div className={styles.header}>
-            <h3 className={styles.title}>Edit item</h3>
+            <h3 className={styles.title}>Add item</h3>
             <Close onClick={handleClose} />
           </div>
           <div className={styles.content}>
@@ -97,7 +94,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
                   name="name"
                   type="text"
                   label="Item name"
-                  defaultValue={currentEditItem?.name}
+                  placeholder={'Enter item name'}
                 />
               </div>
               <div className={styles.input}>
@@ -106,7 +103,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
                   name="low_stock_level"
                   type="text"
                   label="Low stock level"
-                  defaultValue={currentEditItem?.low_stock_level.toString()}
+                  placeholder={'Enter number'}
                 />
               </div>
               {camerasData && (
@@ -116,9 +113,6 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
                     name="camera_type"
                     label="Select a camera"
                     listOfData={camerasData}
-                    activeSelect={camerasData.findIndex(
-                      (item: { text: string; id: string }) => item.text === currentEditItem?.camera
-                    )}
                   />
                 </div>
               )}
@@ -132,8 +126,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
           submitHandler={submitHandler}
           formData={formData}
           setCoords={(coords: any) => setCoords(coords)}
-          coordinates={currentEditItem?.coords}
-          setIsShowCoord={(type) => setIsShowCoord(type)}
+          setIsShowCoord={(type: boolean) => setIsShowCoord(type)}
         />
       )}
     </Modal>
