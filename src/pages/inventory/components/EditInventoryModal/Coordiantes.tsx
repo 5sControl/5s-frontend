@@ -140,7 +140,7 @@ export const Coordinates: React.FC<PropsType> = ({
               <div
                 key={index}
                 className={
-                  target && target.id !== element.id ? 'coordinates coordSelected' : 'coordinates'
+                  target && target.id === element.id ? 'coordinates coordSelected' : 'coordinates '
                 }
                 id={element.id}
                 style={{

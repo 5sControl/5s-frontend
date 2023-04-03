@@ -35,12 +35,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
     }
   }, [isOpen]);
 
-  // useEffect(() => {
-  //   if (connectResponseDataAdd) {
-  //     handleClose();
-  //   }
-  // }, [connectResponseDataAdd]);
-
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
