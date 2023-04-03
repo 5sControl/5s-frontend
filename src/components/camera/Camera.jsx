@@ -39,7 +39,7 @@ export const Camera = () => {
         }
       })
       .catch((error) => setError(error.message));
-  }, [isCameraSettings]);
+  }, [isCameraSettings, isShowModal]);
 
   const showAddCameras = () => {
     setIsShowModal(true);

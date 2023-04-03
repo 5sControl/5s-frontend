@@ -41,7 +41,7 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
         ip: IPCamera,
         username: username,
         password: password,
-        url: process.env.REACT_APP_IP_SERVER,
+        url: 'http://192.168.1.110',
       },
       {
         headers: {
