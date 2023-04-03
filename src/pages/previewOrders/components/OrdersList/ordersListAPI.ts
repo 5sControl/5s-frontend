@@ -15,7 +15,9 @@ export const getOrdersAPI = (
 
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy<OrderWithPaginationCustomer>(
-      `${process.env.REACT_APP_NGROK}${API_ALL_ORDERS}`,
+      `${process.env.REACT_APP_NGROK}${API_ALL_ORDERS}?page=${page}&page_size=${page_size}${
+        search ? `&search=${search}` : ''
+      }&order-status=${params['order-status']}`,
       'GET',
       {
         Authorization: cookies,
