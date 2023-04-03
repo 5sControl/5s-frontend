@@ -266,6 +266,41 @@
           border-bottom: 1px solid #e0e0e0;
           cursor: pointer;
         }
+        .checkbox {
+          display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 16px 0 16px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            min-width: 20px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 1.5px solid #FE6100;
+            filter: drop-shadow(1px 2px 5px rgba(134, 117, 255, 0.25));
+            border-radius: 3px;
+            box-shadow: 1px 2px 2px rgba(134, 117, 255, 0.25);
+            padding: 0;
+            cursor: pointer;
+    
+          &:before {
+            content: "";
+              color: white;
+              font-weight: bold;
+              display: flex;
+              width: 13px;
+              height: 6px;
+              margin-bottom: 5px;
+              border-right: 1.5px solid rgb(255, 255, 255);
+              border-top: 1.5px solid rgb(255, 255, 255);
+              transform: rotate(135deg);
+          }
+          &:checked {
+            background: #FE6100;
+          }
+        }
       }
     }
   }
