@@ -3,16 +3,16 @@
 
 .wrapper {
   width: 100%;
-  padding: 60px;
+  padding: 40px 60px;
 }
 
 .header {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
   &_title {
-    @include h2;
+    @include h1;
     color: var(--HightEmphasis);
   }
 }

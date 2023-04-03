@@ -6,8 +6,12 @@ import { OrderList } from './components/OrdersList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   addActiveOrder,
+  FilterDataType,
   getOrdersAsync,
+  resetFilterData,
   selectOrdersList,
+  setFilterData,
+  setIsShowOrdersViewFilter,
   setSearchValue,
 } from './components/OrdersList/ordersListSlice';
 import { Cover } from '../../components/cover';
@@ -24,10 +28,12 @@ import {
   setIsOpenOperationVideoModal,
   setTimeOperationVideoModal,
 } from './components/OperationVideoModal/operationVideoModalSlice';
-import { Disconnect } from '../../assets/svg/SVGcomponent';
+import { Disconnect, Filter } from '../../assets/svg/SVGcomponent';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useNavigateSearch } from '../../functions/useNavigateSearch';
 import { OrderItem } from '../../storage/orderView';
+import { Button } from '../../components/button';
+import { FilterBar } from './components/FilterBar';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -35,8 +41,15 @@ export const PreviewOrders: React.FC = () => {
   const navigateSearch = useNavigateSearch();
   const [cookies] = useCookies(['token']);
   const { orderData, selectOperationData, selectProductData } = useAppSelector(selectPreviewOrders);
-  const { isErrorOfOrdersList, isLoadingOrdersList, activeOrder, ordersList } =
-    useAppSelector(selectOrdersList);
+  const {
+    isShowOrdersViewFilter,
+    filterData,
+    isErrorOfOrdersList,
+    isLoadingOrdersList,
+    activeOrder,
+    ordersList,
+    search,
+  } = useAppSelector(selectOrdersList);
   const { isOpenOperationVideoModal, videoState } = useAppSelector(selectOperationVideoModal);
 
   // const listOfDate = [
@@ -62,15 +75,25 @@ export const PreviewOrders: React.FC = () => {
 
   const handleSubmitSearch = (value: string) => {
     dispatch(setSearchValue(value));
-    getOrdersList(ordersList?.current_page as number, ordersList?.records_on_page as number, value);
+    getOrdersList(
+      ordersList?.current_page as number,
+      ordersList?.records_on_page as number,
+      value,
+      filterData
+    );
   };
 
   const handleSubmitClear = () => {
     dispatch(setSearchValue(null));
-    getOrdersList(1, 50, null);
+    getOrdersList(1, 50, null, filterData);
   };
 
-  const getOrdersList = (page: number, page_size: number, search: string | null) => {
+  const getOrdersList = (
+    page: number,
+    page_size: number,
+    search: string | null,
+    params: FilterDataType
+  ) => {
     dispatch(
       getOrdersAsync({
         token: cookies.token,
@@ -78,12 +101,41 @@ export const PreviewOrders: React.FC = () => {
         page,
         page_size,
         search,
+        params,
       })
     );
   };
 
+  const handleClickFilter = (value: boolean) => {
+    dispatch(setIsShowOrdersViewFilter(value));
+  };
+
+  const handleSubmitFilters = (value: FilterDataType) => {
+    dispatch(setFilterData(value));
+    getOrdersList(1, ordersList?.records_on_page as number, search, filterData);
+    handleClickFilter(false);
+  };
+
+  const handleResetFilters = () => {
+    dispatch(resetFilterData());
+    getOrdersList(1, ordersList?.records_on_page as number, search, { 'order-status': 'all' });
+    const queryParams = Object.fromEntries([...searchParams]);
+    delete queryParams['order-status'];
+    navigateSearch('/orders-view', queryParams);
+
+    handleClickFilter(false);
+  };
+
   useEffect(() => {
-    getOrdersList(1, 50, null);
+    const queryOrderStatusParam = searchParams.get('order-status');
+
+    if (queryOrderStatusParam) {
+      dispatch(setFilterData({ 'order-status': queryOrderStatusParam }));
+      getOrdersList(1, 50, null, { 'order-status': queryOrderStatusParam });
+    } else {
+      getOrdersList(1, 50, null, filterData);
+    }
+
     return () => {
       dispatch(addActiveOrder(null));
     };
@@ -140,16 +192,33 @@ export const PreviewOrders: React.FC = () => {
           videoState={videoState}
         />
       )}
+      <FilterBar
+        isOpen={isShowOrdersViewFilter}
+        handleClose={() => handleClickFilter(false)}
+        handleSubmit={handleSubmitFilters}
+        handleResetFilters={handleResetFilters}
+      />
 
       <WrapperPage>
         <div className={styles.content}>
           <div className={styles.header}>
             <h2 className={styles.title}>Orders View</h2>
 
-            {/* <div className={styles.selectContainer}>
-            <Select listOfData={listOfstatus} />
-            <Select className={styles.listOfDate} listOfData={listOfDate} />
-          </div> */}
+            <div className={styles.selectContainer}>
+              {/* <Select listOfData={listOfstatus} />
+              <Select className={styles.listOfDate} listOfData={listOfDate} /> */}
+
+              <Button
+                text="Filter"
+                IconLeft={Filter}
+                type="button"
+                variant="oval"
+                iconColor={
+                  searchParams.get('order-status') ? 'var(--Orange)' : 'var(--HightEmphasis)'
+                }
+                onClick={() => handleClickFilter(true)}
+              />
+            </div>
           </div>
 
           <div className={styles.body}>
