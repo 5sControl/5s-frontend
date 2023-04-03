@@ -30,6 +30,13 @@ export interface PreviewOrderItem {
   orderDateRealize: string;
 }
 
+export type VideoDataStatus = {
+  status: boolean;
+  date_start: number;
+  date_end: number;
+  file_name: string;
+};
+
 export interface OperationItem {
   operationId: number;
   operationName: string;
@@ -38,6 +45,7 @@ export interface OperationItem {
   operationUse: number;
   operationWorker: string;
   status: boolean | null;
+  video_data: VideoDataStatus;
 }
 
 export interface OrdersWithPagination {
