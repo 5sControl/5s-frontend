@@ -27,11 +27,15 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
   const [coords, setCoords] = useState<any>([]);
   const [isClose, setIsClose] = useState<any>(false);
+  const [itemName, setItemName] = useState<string>('');
+  const [itemCount, setItemCount] = useState<string>('0');
 
   useEffect(() => {
     if (!isOpen) {
       setIsShowCoord(false);
       setIsClose(false);
+      setItemName('');
+      setItemCount('0');
     }
   }, [isOpen]);
 
@@ -95,6 +99,8 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
                   type="text"
                   label="Item name"
                   placeholder={'Enter item name'}
+                  value={itemName}
+                  onChange={(e: any) => setItemName(e.target.value)}
                 />
               </div>
               <div className={styles.input}>
@@ -104,6 +110,8 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
                   type="text"
                   label="Low stock level"
                   placeholder={'Enter number'}
+                  value={itemCount}
+                  onChange={(e: any) => setItemCount(e.target.value)}
                 />
               </div>
               {camerasData && (

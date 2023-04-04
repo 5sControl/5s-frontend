@@ -74,17 +74,19 @@ export const Coordinates: React.FC<PropsType> = ({
         };
       })
     );
+    console.log(coordinates);
   }, []);
 
   useEffect(() => {
+    console.log(allBox.length);
     if (allBox.length > 0) {
       setTarget(document.getElementById(allBox[allBox.length - 1].id));
     }
   }, [allBox]);
 
   useEffect(() => {
-    onChangeSize();
-  }, [allBox, oldBox]);
+    setCoords(coordinates);
+  }, [oldBox]);
 
   const onChangeSize = () => {
     const coordinatesLayout: any = document.querySelectorAll('.coordinates');
@@ -132,7 +134,7 @@ export const Coordinates: React.FC<PropsType> = ({
           {oldBox.length > 0 &&
             oldBox.map((element: any, index: number) => (
               <div
-                key={index}
+                key={element.id}
                 className={
                   target && target.id === element.id ? 'coordinates coordSelected' : 'coordinates '
                 }
@@ -152,13 +154,13 @@ export const Coordinates: React.FC<PropsType> = ({
             ))}
           {allBox.map((el: any) => (
             <div
+              key={el.id}
               id={el.id}
               className={
                 target && target.id === el.id ? 'coordinates coordSelected' : 'coordinates'
               }
               style={{ left: el.x, top: el.y, width: 10, height: 10 }}
               onClick={(e) => changeTarget(e.target)}
-              key={el.id}
             >
               {target && target.id === el.id && (
                 <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
