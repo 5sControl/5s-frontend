@@ -134,7 +134,7 @@ export const Coordinates: React.FC<PropsType> = ({
           {oldBox.length > 0 &&
             oldBox.map((element: any, index: number) => (
               <div
-                key={index}
+                key={element.id}
                 className={
                   target && target.id === element.id ? 'coordinates coordSelected' : 'coordinates '
                 }

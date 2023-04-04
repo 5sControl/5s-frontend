@@ -105,7 +105,7 @@ export const Coordinates: React.FC<PropsType> = ({
             }
             onClick={(e) => createCoord(e)}
           />
-          {allBox.map((el: any) => (
+          {allBox.map((el: any, index: string) => (
             <div
               id={el.id}
               className={
