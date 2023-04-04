@@ -7,6 +7,7 @@ import styles from './filter.module.scss';
 import { FilterDataType, selectOrdersList, setFilterData } from '../OrdersList/ordersListSlice';
 import { useNavigateSearch } from '../../../../functions/useNavigateSearch';
 import { useSearchParams } from 'react-router-dom';
+import { Cross } from '../../../../assets/svg/SVGcomponent';
 
 type PropsType = {
   isOpen: boolean;
@@ -78,7 +79,11 @@ export const FilterBar: React.FC<PropsType> = ({
       <div id="filter" className={styles.wrapper} onClick={handleClickToBg}>
         <form className={`${styles.content} ${className}`} onSubmit={onSubmit}>
           <div className={styles.settings}>
-            <h3 className={styles.title}>Filters</h3>
+            <div className={styles.header}>
+              <h3 className={styles.header_title}>Filters</h3>
+              <Cross className={styles.header_cross} onClick={handleClose} />
+            </div>
+
             <div className={styles.block}>
               <legend className={styles.block_title}>Order status</legend>
               {orderStatusData.map(({ id, value, label }) => (

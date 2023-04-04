@@ -30,9 +30,23 @@
   padding: 20px 10px 0 10px;
 }
 
-.title {
-  @include h3;
-  color: var(--HightEmphasis);
+.header {
+  display: flex;
+  justify-content: space-between;
+  &_title {
+    @include h3;
+    color: var(--HightEmphasis);
+  }
+  &_cross {
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+    @include h3;
+    color: var(--HightEmphasis);
+    position: relative;
+    right: 40px;
+    cursor: pointer;
+  }
 }
 
 .block {
