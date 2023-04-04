@@ -1,9 +1,9 @@
 import { OperationItem } from './../../../../storage/orderView';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
+import type ReactPlayer from 'react-player';
 
 export type VideoStateOperationModal = {
-  time: number;
   playing: boolean;
   volume: number;
   controls: boolean;
@@ -11,12 +11,14 @@ export type VideoStateOperationModal = {
 };
 
 interface OperationVideoModalState {
+  playerRef: ReactPlayer | null;
   videoState: VideoStateOperationModal;
   isOpenOperationVideoModal: boolean;
 }
 
 const initialState: OperationVideoModalState = {
-  videoState: { time: 0, playing: true, volume: 0.9, controls: true, url: '' },
+  playerRef: null,
+  videoState: { playing: true, volume: 0.9, controls: true, url: '' },
   isOpenOperationVideoModal: false,
 };
 
@@ -32,12 +34,19 @@ const operationVideoModalSlice = createSlice({
       const outputStr = dateObj.toISOString().replace('T', ' ').slice(0, -1);
       const reportTime =
         Date.parse(action.payload.operationTime) - action.payload.video_data.date_start;
+      const reportTimeDate = new Date(reportTime);
+      const minutes = reportTimeDate.getMinutes();
+      const sec = reportTimeDate.getSeconds();
+      const timeAction = minutes * 60 + sec;
 
-      state.videoState.time = reportTime;
-      state.videoState.url = `http://192.168.1.110:3456/video?time=${outputStr}&camera_ip=192.168.1.169#t=${reportTime}`;
+      state.playerRef?.seekTo(timeAction);
+      state.videoState.url = `http://192.168.1.110:3456/video?time=${outputStr}&camera_ip=192.168.1.169#t=${timeAction}`;
     },
     setUrlOperationVideoModal(state, action: PayloadAction<string>) {
       state.videoState.url = action.payload;
+    },
+    setRefVideoModal(state, action) {
+      state.playerRef = action.payload;
     },
   },
 });
@@ -46,6 +55,7 @@ export const {
   setIsOpenOperationVideoModal,
   setTimeOperationVideoModal,
   setUrlOperationVideoModal,
+  setRefVideoModal,
 } = operationVideoModalSlice.actions;
 export const selectOperationVideoModal = (state: RootState) => state.operationVideoModal;
 export default operationVideoModalSlice.reducer;
