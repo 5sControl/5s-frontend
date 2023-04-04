@@ -37,7 +37,7 @@ export const OperationCard: React.FC<PropsType> = ({ data, onClick }) => {
         )}
       </div>
 
-      <p className={styles.footer_text}>{'Worker Wazowski'}</p>
+      <p className={styles.footer_text}>{data.operationWorker}</p>
 
       <div className={styles.footer}>
         <p className={styles.footer_text}>{operationTime}</p>
