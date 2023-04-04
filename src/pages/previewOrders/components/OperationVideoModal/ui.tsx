@@ -101,7 +101,9 @@ export const OperationVideoModal: React.FC<PropsType> = ({
       </div>
 
       <Button
-        href={operationData?.video_data.file_name}
+        download={operationData?.video_data.file_name}
+        target="_blank"
+        href={`${window.location.origin}/${operationData?.video_data.file_name}`}
         IconLeft={Download}
         className={styles.download}
         variant="text"

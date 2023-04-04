@@ -13,6 +13,8 @@ type PropsType = {
   IconRight?: React.FC<React.SVGProps<SVGSVGElement>>;
   iconColor?: string;
   className?: string;
+  target?: string;
+  download?: string;
 };
 
 export const Button: React.FC<PropsType> = ({
@@ -26,6 +28,8 @@ export const Button: React.FC<PropsType> = ({
   IconRight,
   iconColor,
   href,
+  target,
+  download,
 }) => {
   return React.createElement(
     href ? 'a' : 'button',
@@ -35,6 +39,8 @@ export const Button: React.FC<PropsType> = ({
       disabled: disabled,
       onClick: onClick,
       href,
+      target,
+      download,
     },
     [
       IconLeft &&
