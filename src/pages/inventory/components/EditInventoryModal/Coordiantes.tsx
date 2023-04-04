@@ -7,13 +7,14 @@ import { AiOutlineLeft } from 'react-icons/ai';
 import './moveable.scss';
 import { generateString } from '../../../../functions/randomizer';
 import { IoIosCloseCircle } from 'react-icons/io';
-
+import { EditInventoryData } from './types';
+import { Coordinat, NewCoordinates } from '../../types';
 type PropsType = {
   submitHandler: () => void;
-  formData: any;
+  formData: EditInventoryData;
   setCoords: (coords: any) => void;
   setIsShowCoord: (type: boolean) => void;
-  coordinates: any;
+  coordinates: Coordinat[] | undefined;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -27,8 +28,8 @@ export const Coordinates: React.FC<PropsType> = ({
   const [target, setTarget] = useState<any>('');
   const [proportionWidth, setProportionWidth] = useState(1);
   const [proportionHeight, setProportionHeight] = useState(1);
-  const [allBox, setAllBox] = useState<any>([]);
-  const [oldBox, setOldBox] = useState<any>([]);
+  const [allBox, setAllBox] = useState<NewCoordinates[]>([]);
+  const [oldBox, setOldBox] = useState<Coordinat[]>([]);
 
   const changeTarget = (currentTarget: any) => {
     if (target !== '') {
@@ -47,7 +48,7 @@ export const Coordinates: React.FC<PropsType> = ({
       setTarget('');
     }
   };
-
+  console.log(target);
   const removeCoord = () => {
     if (target.id.length > 10) {
       setOldBox(oldBox.filter((el: any) => el.id !== target.id));
@@ -66,14 +67,17 @@ export const Coordinates: React.FC<PropsType> = ({
   }, 200);
 
   useEffect(() => {
-    setOldBox(
-      coordinates.map((el: any) => {
-        return {
-          ...el,
-          id: generateString(11),
-        };
-      })
-    );
+    if (coordinates) {
+      setOldBox(
+        coordinates.map((el: any) => {
+          return {
+            ...el,
+            id: generateString(11),
+          };
+        })
+      );
+    }
+
     console.log(coordinates);
   }, []);
 
