@@ -74,17 +74,19 @@ export const Coordinates: React.FC<PropsType> = ({
         };
       })
     );
+    console.log(coordinates);
   }, []);
 
   useEffect(() => {
+    console.log(allBox.length);
     if (allBox.length > 0) {
       setTarget(document.getElementById(allBox[allBox.length - 1].id));
     }
   }, [allBox]);
 
   useEffect(() => {
-    onChangeSize();
-  }, [allBox, oldBox]);
+    setCoords(coordinates);
+  }, [oldBox]);
 
   const onChangeSize = () => {
     const coordinatesLayout: any = document.querySelectorAll('.coordinates');

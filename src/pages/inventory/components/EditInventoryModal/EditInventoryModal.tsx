@@ -29,6 +29,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
   const [coords, setCoords] = useState<any>({});
   const [isClose, setIsClose] = useState<any>(false);
 
+  console.log(coords);
   const submitHandler = () => {
     const dataForm = formData;
     dataForm.coords = coords;
