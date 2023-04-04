@@ -154,13 +154,13 @@ export const Coordinates: React.FC<PropsType> = ({
             ))}
           {allBox.map((el: any) => (
             <div
+              key={el.id}
               id={el.id}
               className={
                 target && target.id === el.id ? 'coordinates coordSelected' : 'coordinates'
               }
               style={{ left: el.x, top: el.y, width: 10, height: 10 }}
               onClick={(e) => changeTarget(e.target)}
-              key={el.id}
             >
               {target && target.id === el.id && (
                 <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
