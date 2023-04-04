@@ -5,7 +5,6 @@ import ReactPlayer from 'react-player';
 import { OperationItem, ProductItem } from '../../../../storage/orderView';
 import { setDateDot } from '../../previewOrdersHelper';
 import { setRefVideoModal, VideoStateOperationModal } from './operationVideoModalSlice';
-import moment from 'moment-timezone';
 import { StatusLable } from '../StatusLable';
 import {
   CheckCircleOutline,
@@ -87,7 +86,7 @@ export const OperationVideoModal: React.FC<PropsType> = ({
               className={styles.subtitle_value_clipboard}
               onClick={() => operationData && handleHyperLink(operationData)}
             >
-              {operationData && moment(operationData.operationTime).tz('Etc/GMT').format('LT')}
+              {operationData && new Date(operationData.operationTime).toLocaleTimeString()}
             </span>
           </div>
 
