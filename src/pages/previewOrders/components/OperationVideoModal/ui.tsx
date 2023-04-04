@@ -1,9 +1,10 @@
+import React, { useCallback } from 'react';
 import { Modal } from '../../../../components/modal';
 import styles from './operationVideoModal.module.scss';
 import ReactPlayer from 'react-player';
 import { OperationItem, ProductItem } from '../../../../storage/orderView';
 import { setDateDot } from '../../previewOrdersHelper';
-import { VideoStateOperationModal } from './operationVideoModalSlice';
+import { setRefVideoModal, VideoStateOperationModal } from './operationVideoModalSlice';
 import moment from 'moment-timezone';
 import { StatusLable } from '../StatusLable';
 import {
@@ -13,6 +14,7 @@ import {
   QuestionCircle,
 } from '../../../../assets/svg/SVGcomponent';
 import { Button } from '../../../../components/button';
+import { useAppDispatch } from '../../../../store/hooks';
 
 type PropsType = {
   isOpen: boolean;
@@ -33,6 +35,8 @@ export const OperationVideoModal: React.FC<PropsType> = ({
   operationData,
   videoState,
 }) => {
+  const dispatch = useAppDispatch();
+
   const selectIcon = (): {
     status: 'error' | 'undefined' | 'completed';
     icon: React.FC<React.SVGProps<SVGSVGElement>>;
@@ -47,6 +51,10 @@ export const OperationVideoModal: React.FC<PropsType> = ({
     }
   };
 
+  const playerCallback = useCallback((node: ReactPlayer) => {
+    dispatch(setRefVideoModal(node));
+  }, []);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -55,7 +63,7 @@ export const OperationVideoModal: React.FC<PropsType> = ({
       showCross
       showSubstrateCross
     >
-      <ReactPlayer {...videoState} width="100%" height="100%" />
+      <ReactPlayer ref={playerCallback} {...videoState} width="100%" height="100%" />
 
       <div className={styles.infoBlock}>
         <div className={styles.header}>
