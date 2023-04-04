@@ -132,7 +132,7 @@ export const Coordinates: React.FC<PropsType> = ({
             onClick={(e) => createCoord(e)}
           />
           {oldBox.length > 0 &&
-            oldBox.map((element: any, index: number) => (
+            oldBox.map((element: any) => (
               <div
                 key={element.id}
                 className={
