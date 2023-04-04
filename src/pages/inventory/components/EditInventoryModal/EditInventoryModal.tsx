@@ -9,7 +9,7 @@ import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { editItem, selectEditInventoryModal } from './editInventoryModalSlice';
 import { useCookies } from 'react-cookie';
-import { selectInventory } from '../../inventorySlice';
+import { getInventoryItemsAsync, selectInventory } from '../../inventorySlice';
 import { EditInventoryData } from './types';
 import { Coordinates } from './Coordiantes';
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
@@ -44,6 +44,9 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       setIsClose({ status: response.type.includes('fulfilled') });
       setTimeout(() => {
         handleClose();
+        dispatch(
+          getInventoryItemsAsync({ token: cookies.token, hostname: window.location.hostname })
+        );
       }, 2000);
     });
   };
