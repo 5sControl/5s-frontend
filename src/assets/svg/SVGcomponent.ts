@@ -29,6 +29,7 @@ import { ReactComponent as CheckCircleOutline } from './checkCircleOutline.svg';
 import { ReactComponent as Cross } from './cross.svg';
 import { ReactComponent as Download } from './download.svg';
 import { ReactComponent as Filter } from './filter.svg';
+import { ReactComponent as VideoCameraCrossed } from './videoCameraCrossed.svg';
 
 export {
   Algorithm,
@@ -62,4 +63,5 @@ export {
   Cross,
   Download,
   Filter,
+  VideoCameraCrossed,
 };

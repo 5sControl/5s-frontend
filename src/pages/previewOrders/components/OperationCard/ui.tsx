@@ -4,6 +4,7 @@ import {
   Error,
   QuestionSquere,
   VideoCamera,
+  VideoCameraCrossed,
 } from '../../../../assets/svg/SVGcomponent';
 import { OperationItem } from '../../../../storage/orderView';
 import styles from './operationCard.module.scss';
@@ -17,14 +18,23 @@ export const OperationCard: React.FC<PropsType> = ({ data, onClick }) => {
   const operationTime = moment(data.operationTime).tz('Etc/GMT').format('LT');
 
   const handleClickToOperationCard = () => {
-    onClick(data);
+    if (data.video_data.status) {
+      onClick(data);
+    }
   };
 
   return (
-    <div className={styles.wrapper} onClick={handleClickToOperationCard}>
+    <div
+      className={`${styles.wrapper} ${data.video_data.status ? '' : styles.wrapper_opasity}`}
+      onClick={handleClickToOperationCard}
+    >
       <div className={styles.block}>
         <p className={styles.block_title}>{data.operationName}</p>
-        <VideoCamera width="16px" />
+        {data.video_data.status ? (
+          <VideoCamera width="16px" color="var(--MediumEmphasis)" />
+        ) : (
+          <VideoCameraCrossed width="16px" color="var(--MediumEmphasis)" />
+        )}
       </div>
 
       <p className={styles.footer_text}>{'Worker Wazowski'}</p>

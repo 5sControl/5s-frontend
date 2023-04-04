@@ -31,7 +31,7 @@ import {
 import { Disconnect, Filter } from '../../assets/svg/SVGcomponent';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useNavigateSearch } from '../../functions/useNavigateSearch';
-import { OrderItem } from '../../storage/orderView';
+import { OperationItem, OrderItem } from '../../storage/orderView';
 import { Button } from '../../components/button';
 import { FilterBar } from './components/FilterBar';
 
@@ -126,6 +126,10 @@ export const PreviewOrders: React.FC = () => {
     handleClickFilter(false);
   };
 
+  const handleHyperLink = (operationData: OperationItem) => {
+    dispatch(setTimeOperationVideoModal(operationData));
+  };
+
   useEffect(() => {
     const queryOrderStatusParam = searchParams.get('order-status');
 
@@ -172,7 +176,7 @@ export const PreviewOrders: React.FC = () => {
 
             if (operationData) {
               dispatch(setSelectOperationData(operationData));
-              dispatch(setTimeOperationVideoModal(operationData.operationTime));
+              dispatch(setTimeOperationVideoModal(operationData));
               dispatch(setIsOpenOperationVideoModal(true));
             }
           }
@@ -186,6 +190,7 @@ export const PreviewOrders: React.FC = () => {
         <OperationVideoModal
           isOpen={isOpenOperationVideoModal}
           handleClose={handleCloseModal}
+          handleHyperLink={handleHyperLink}
           orderId={orderData.orderId}
           productData={selectProductData}
           operationData={selectOperationData}

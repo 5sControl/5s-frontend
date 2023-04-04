@@ -17,6 +17,7 @@ import { Button } from '../../../../components/button';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
+  handleHyperLink: (data: OperationItem) => void;
   orderId: string;
   productData?: ProductItem;
   operationData?: OperationItem;
@@ -26,6 +27,7 @@ type PropsType = {
 export const OperationVideoModal: React.FC<PropsType> = ({
   isOpen,
   handleClose,
+  handleHyperLink,
   orderId,
   productData,
   operationData,
@@ -75,7 +77,7 @@ export const OperationVideoModal: React.FC<PropsType> = ({
             <span className={styles.subtitle_value}>{' | '}</span>
             <span
               className={styles.subtitle_value_clipboard}
-              onClick={() => navigator.clipboard.writeText(window.location.href)}
+              onClick={() => operationData && handleHyperLink(operationData)}
             >
               {operationData && moment(operationData.operationTime).tz('Etc/GMT').format('LT')}
             </span>
@@ -99,6 +101,9 @@ export const OperationVideoModal: React.FC<PropsType> = ({
       </div>
 
       <Button
+        download={operationData?.video_data.file_name}
+        target="_blank"
+        href={`${window.location.origin}/${operationData?.video_data.file_name}`}
         IconLeft={Download}
         className={styles.download}
         variant="text"

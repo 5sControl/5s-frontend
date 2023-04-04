@@ -20,14 +20,22 @@ export interface OrderListByCustomer {
   terminrealizacji: string;
 }
 
+type VideoDataStatus = {
+  status: boolean;
+  date_start: number;
+  date_end: number;
+  file_name: string;
+};
+
 export interface OrderSkan {
-  data: string;
+  date: string;
   indeks: number;
   raport: string;
   stanowisko: number;
   uzytkownik: number;
   worker: string;
   status: boolean | null;
+  video_data: VideoDataStatus;
 }
 
 export interface OrderRequest {

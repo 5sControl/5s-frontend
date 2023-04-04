@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import React from 'react';
 import styles from './button.module.scss';
 
@@ -5,12 +6,15 @@ type PropsType = {
   text?: string;
   variant?: 'contained' | 'outlined' | 'text' | 'oval';
   type?: 'button' | 'submit' | 'reset';
-  className?: string;
+  href?: string;
   disabled?: boolean;
   onClick?: () => void;
   IconLeft?: React.FC<React.SVGProps<SVGSVGElement>>;
   IconRight?: React.FC<React.SVGProps<SVGSVGElement>>;
   iconColor?: string;
+  className?: string;
+  target?: string;
+  download?: string;
 };
 
 export const Button: React.FC<PropsType> = ({
@@ -23,17 +27,35 @@ export const Button: React.FC<PropsType> = ({
   IconLeft,
   IconRight,
   iconColor,
+  href,
+  target,
+  download,
 }) => {
-  return (
-    <button
-      type={type}
-      className={`${styles[variant]} ${text ? styles.gap : ''} ${className}`}
-      disabled={disabled}
-      onClick={onClick}
-    >
-      {IconLeft && <IconLeft className={styles[`${variant}_icon`]} color={iconColor} />}
-      <span>{text}</span>
-      {IconRight && <IconRight className={styles[`${variant}_icon`]} color={iconColor} />}
-    </button>
+  return React.createElement(
+    href ? 'a' : 'button',
+    {
+      type,
+      className: `${styles[variant]} ${text ? styles.gap : ''} ${className}`,
+      disabled: disabled,
+      onClick: onClick,
+      href,
+      target,
+      download,
+    },
+    [
+      IconLeft &&
+        React.createElement(IconLeft, {
+          className: styles[`${variant}_icon`],
+          color: iconColor,
+        }),
+      React.createElement('span', {
+        children: text,
+      }),
+      IconRight &&
+        React.createElement(IconRight, {
+          className: styles[`${variant}_icon`],
+          color: iconColor,
+        }),
+    ]
   );
 };

@@ -22,13 +22,14 @@ export const parseOrdersData = (data: OrderRequest): OrderItem => {
             operations: product.skans
               ? product.skans.map((element: OrderSkan) => {
                   return {
-                    operationTime: element.data,
+                    operationTime: element.date,
                     operationId: element.indeks,
                     operationName: element.raport,
                     operationPosition: element.stanowisko,
                     operationUse: element.uzytkownik,
                     operationWorker: element.worker,
                     status: element.status,
+                    video_data: element.video_data,
                   };
                 })
               : [],

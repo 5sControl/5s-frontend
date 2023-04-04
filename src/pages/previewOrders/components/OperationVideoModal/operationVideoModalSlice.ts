@@ -1,3 +1,4 @@
+import { OperationItem } from './../../../../storage/orderView';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
 
@@ -26,16 +27,14 @@ const operationVideoModalSlice = createSlice({
     setIsOpenOperationVideoModal(state, action: PayloadAction<boolean>) {
       state.isOpenOperationVideoModal = action.payload;
     },
-    setTimeOperationVideoModal(state, action: PayloadAction<string>) {
-      const dateObj = new Date(action.payload);
-      const localeTime = dateObj.toLocaleTimeString();
-      const minets = +localeTime.split(':')[1][1] * 60;
-      const seconds = +localeTime.split(':')[2];
-      const timeBySeconds = minets + seconds;
+    setTimeOperationVideoModal(state, action: PayloadAction<OperationItem>) {
+      const dateObj = new Date(action.payload.operationTime);
       const outputStr = dateObj.toISOString().replace('T', ' ').slice(0, -1);
+      const reportTime =
+        Date.parse(action.payload.operationTime) - action.payload.video_data.date_start;
 
-      state.videoState.time = timeBySeconds;
-      state.videoState.url = `http://192.168.1.110:3456/video?time=${outputStr}&camera_ip=192.168.1.169#t=${timeBySeconds}`;
+      state.videoState.time = reportTime;
+      state.videoState.url = `http://192.168.1.110:3456/video?time=${outputStr}&camera_ip=192.168.1.169#t=${reportTime}`;
     },
     setUrlOperationVideoModal(state, action: PayloadAction<string>) {
       state.videoState.url = action.payload;

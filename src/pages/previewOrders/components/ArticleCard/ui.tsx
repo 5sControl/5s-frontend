@@ -25,7 +25,7 @@ export const ArticleCard: React.FC<PropsType> = ({ dataByDays, article, setProdu
   const handleClickToOperation = (operationData: OperationItem) => {
     dispatch(setSelectOperationData(operationData));
     dispatch(setIsOpenOperationVideoModal(true));
-    dispatch(setTimeOperationVideoModal(operationData.operationTime));
+    dispatch(setTimeOperationVideoModal(operationData));
     setProductData(data);
 
     const queryParams = Object.fromEntries([...searchParams]);
