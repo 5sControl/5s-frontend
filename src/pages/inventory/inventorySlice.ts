@@ -30,8 +30,8 @@ const initialState: Inventory = {
 
 export const getInventoryItemsAsync = createAsyncThunk(
   'getInventoryItems',
-  async (data: { token: string; hostname: string }) => {
-    const response: any = await getInventoryItems(data.hostname, data.token);
+  async (data: { token: string; hostname: string; isSort: boolean }) => {
+    const response: any = await getInventoryItems(data.hostname, data.token, data.isSort);
     if (response.data) {
       return response.data.results;
     }

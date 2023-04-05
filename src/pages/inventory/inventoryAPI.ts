@@ -3,8 +3,8 @@ import { proxy } from '../../api/api';
 import { AddInventoryData } from './components/AddInventoryModal/types';
 import { EditInventoryData } from './components/EditInventoryModal/types';
 
-export const getInventoryItems = (hostname: string, cookies: string) => {
-  const API_BY_ORDER = 'api/inventory/items/';
+export const getInventoryItems = (hostname: string, cookies: string, isSort: boolean) => {
+  const API_BY_ORDER = `api/inventory/items/${isSort ? '?order=desc' : ''}`;
 
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy(process.env.REACT_APP_NGROK + API_BY_ORDER, 'GET', {

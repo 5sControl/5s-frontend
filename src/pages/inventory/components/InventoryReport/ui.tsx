@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Cover } from '../../../../components/cover';
 import { Settings } from '../../../../assets/svg/SVGcomponent';
 import styles from './inventoryReport.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import { selectInventory } from '../../inventorySlice';
+import { getInventoryItemsAsync, selectInventory } from '../../inventorySlice';
 import { EditInventoryModal } from '../EditInventoryModal';
 import {
   selectEditInventoryModal,
@@ -17,14 +17,22 @@ import {
   setIsOpenDeleteModal,
 } from '../DeleteInventoryModal/deleteInventoryModalSlice';
 import { InventoryItem } from '../../types';
+import { selectStatusSort, setStatusSort } from './InventoryReportSlice';
+import { selectAddInventoryModal } from '../AddInventoryModal/addInventoryModalSlice';
+import { useCookies } from 'react-cookie';
 
 export const InventoryReport: React.FC = () => {
-  const { inventoryItems } = useAppSelector(selectInventory);
+  const { inventoryItems, isLoading } = useAppSelector(selectInventory);
   const { isOpenEditModal, currentEditItem } = useAppSelector(selectEditInventoryModal);
   const { isOpenDeleteModal, currentDeleteItemId } = useAppSelector(selectDeleteInventoryModal);
+  const { connectResponse } = useAppSelector(selectEditInventoryModal);
+  const { connectDeleteResponse } = useAppSelector(selectDeleteInventoryModal);
+  const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
+  const { statusSort } = useAppSelector(selectStatusSort);
   const dispatch = useAppDispatch();
   const [isOpenSettings, setIsOpenSettings] = useState<boolean>(false);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
+  const [cookies] = useCookies(['token']);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openSettings = (event: any, currentItem: InventoryItem) => {
@@ -50,6 +58,20 @@ export const InventoryReport: React.FC = () => {
     const operationStart = split[0] + ' | ' + split[1];
     return operationStart;
   };
+
+  const handleStatusSort = () => {
+    dispatch(setStatusSort(!statusSort));
+  };
+
+  useEffect(() => {
+    dispatch(
+      getInventoryItemsAsync({
+        token: cookies.token,
+        hostname: window.location.hostname,
+        isSort: statusSort,
+      })
+    );
+  }, [connectResponse, connectResponseDataAdd, connectDeleteResponse, statusSort]);
 
   return (
     <>
@@ -84,7 +106,15 @@ export const InventoryReport: React.FC = () => {
             <thead>
               <tr>
                 <th>Item</th>
-                <th>Status</th>
+                <th
+                  className={`${styles.statusTh} ${isLoading && styles.disableSort}`}
+                  onClick={handleStatusSort}
+                >
+                  <span>Status</span>
+                  <span
+                    className={`${styles.arrowUp} ${statusSort ? styles.sortOn : styles.sortOff}`}
+                  ></span>
+                </th>
                 <th>Current Stock</th>
                 <th>Low Stock Level</th>
                 <th>Camera</th>
@@ -92,35 +122,47 @@ export const InventoryReport: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {inventoryItems?.map((item) => {
-                return (
-                  <tr key={item.id}>
-                    <td>{item.name}</td>
-                    <td>
-                      <span
-                        className={`${styles.status} ${
-                          item.status === 'In stock' && styles.statusStock
-                        } ${item.status === 'Low stock level' && styles.statusLowStock} ${
-                          item.status === 'Out of stock' && styles.statusOutStock
-                        }`}
-                      >
-                        {item.status}
-                      </span>
-                    </td>
-                    <td>{item.current_stock_level}</td>
-                    <td>{item.low_stock_level}</td>
-                    <td>{item.camera}</td>
-                    <td>
-                      <Settings
-                        className={styles.editIcon}
-                        onClick={(event: React.MouseEvent<Element, MouseEvent>) =>
-                          openSettings(event, item)
-                        }
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
+              {inventoryItems ? (
+                <>
+                  {inventoryItems?.map((item) => {
+                    return (
+                      <tr key={item.id}>
+                        <td>{item.name}</td>
+                        <td>
+                          <span
+                            className={`${styles.status} ${
+                              item.status === 'In stock' && styles.statusStock
+                            } ${item.status === 'Low stock level' && styles.statusLowStock} ${
+                              item.status === 'Out of stock' && styles.statusOutStock
+                            }`}
+                          >
+                            {item.status}
+                          </span>
+                        </td>
+                        <td>{item.current_stock_level}</td>
+                        <td>{item.low_stock_level}</td>
+                        <td>{item.camera}</td>
+                        <td>
+                          <Settings
+                            className={styles.editIcon}
+                            onClick={(event: React.MouseEvent<Element, MouseEvent>) =>
+                              openSettings(event, item)
+                            }
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </>
+              ) : isLoading ? (
+                <tr>
+                  <th className={styles.emptyList}>Loading...</th>
+                </tr>
+              ) : !isLoading && !inventoryItems ? (
+                <tr>
+                  <th className={styles.emptyList}>No items found</th>
+                </tr>
+              ) : null}
             </tbody>
           </table>
         </div>
