@@ -12,32 +12,22 @@ import {
   selectInventory,
 } from './inventorySlice';
 import styles from './inventory.module.scss';
-import { selectEditInventoryModal } from './components/EditInventoryModal/editInventoryModalSlice';
 import { InventoryItemsList } from './components/InventoryItemsList';
 import { Cover } from '../../components/cover';
 import { Preloader } from '../../components/preloader';
 import { InventoryCard } from './components/InventoryCard';
 import { selectActiveInventoryItem } from './components/InventoryItemsList/InventoryItemsListSlice';
 import moment from 'moment-timezone';
-import { selectAddInventoryModal } from './components/AddInventoryModal/addInventoryModalSlice';
-import { selectDeleteInventoryModal } from './components/DeleteInventoryModal/deleteInventoryModalSlice';
 import { selectInventoryHistory } from './components/InventoryHistory/inventoryHistorySlice';
 import { Plus } from '../../assets/svg/SVGcomponent';
 
 export const Inventory: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { connectResponse } = useAppSelector(selectEditInventoryModal);
-  const { connectDeleteResponse } = useAppSelector(selectDeleteInventoryModal);
-  const { connectResponseDataAdd } = useAppSelector(selectAddInventoryModal);
-  const { inventoryItems, isLoading, camerasData } = useAppSelector(selectInventory);
+  const { inventoryItems, camerasData } = useAppSelector(selectInventory);
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
   const { selectDate } = useAppSelector(selectInventoryHistory);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
-
-  useEffect(() => {
-    dispatch(getInventoryItemsAsync({ token: cookies.token, hostname: window.location.hostname }));
-  }, [connectResponse, connectResponseDataAdd, connectDeleteResponse]);
 
   useEffect(() => {
     dispatch(getCamerasAsync({ token: cookies.token, hostname: window.location.hostname }));
@@ -75,26 +65,21 @@ export const Inventory: React.FC = () => {
             <h2 className={styles.title}>Inventory</h2>
             {camerasData && <Button text="Add item" IconLeft={Plus} onClick={addInventoryButton} />}
           </div>
+          <>
+            <InventoryReport />
+            <div className={styles.body}>
+              <InventoryItemsList data={inventoryItems} />
 
-          {!isLoading && inventoryItems ? (
-            <>
-              <InventoryReport />
-              <div className={styles.body}>
-                <InventoryItemsList data={inventoryItems} />
-
-                {activeInventoryItem ? (
-                  <InventoryCard data={activeInventoryItem} />
-                ) : (
-                  <Cover className={styles.noInventoryItem}>
-                    <h4 className={styles.title}>No order</h4>
-                    <p className={styles.subtitle}>Select an order from the list on the left</p>
-                  </Cover>
-                )}
-              </div>
-            </>
-          ) : (
-            <Preloader loading={isLoading} />
-          )}
+              {activeInventoryItem ? (
+                <InventoryCard data={activeInventoryItem} />
+              ) : (
+                <Cover className={styles.noInventoryItem}>
+                  <h4 className={styles.title}>No order</h4>
+                  <p className={styles.subtitle}>Select an order from the list on the left</p>
+                </Cover>
+              )}
+            </div>
+          </>
         </div>
       </WrapperPage>
     </>

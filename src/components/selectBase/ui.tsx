@@ -24,7 +24,6 @@ export const SelectBase: React.FC<PropsType> = ({
   );
 
   const handleOnChangeSelection = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
     setDataSelect(e.target.value);
   };
 
