@@ -56,7 +56,11 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
     if (data) {
       const svg = d3.select('#chart');
       const update = data.map((item) => {
-        return { ...item, start_tracking: new Date(Date.parse(item.start_tracking)) };
+        return {
+          ...item,
+          start_tracking: moment(new Date(Date.parse(item.start_tracking))).add(3, 'hours'),
+          stop_tracking: moment(item.stop_tracking).add(3, 'hours'),
+        };
       });
 
       const selection = svg.selectAll('rect').data(update);
@@ -178,7 +182,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
 
       bar
         .append('rect')
-        .attr('width', width / data.length)
+        .attr('width', 2)
         .attr(
           'height',
           (d) =>

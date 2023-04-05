@@ -18,7 +18,7 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
     currentReport.photos[0].date &&
     setDateDot(moment(currentReport.photos[0].date).subtract(10, 'days').calendar()) +
       ' | ' +
-      moment(currentReport.photos[0].date).format('LT');
+      moment(currentReport.photos[0].date).add(3, 'hours').format('LT');
 
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
 

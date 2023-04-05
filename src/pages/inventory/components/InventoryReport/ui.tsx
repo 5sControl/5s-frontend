@@ -20,6 +20,7 @@ import { InventoryItem } from '../../types';
 import { selectStatusSort, setStatusSort } from './InventoryReportSlice';
 import { selectAddInventoryModal } from '../AddInventoryModal/addInventoryModalSlice';
 import { useCookies } from 'react-cookie';
+import moment from 'moment-timezone';
 
 export const InventoryReport: React.FC = () => {
   const { inventoryItems, isLoading } = useAppSelector(selectInventory);
@@ -33,6 +34,7 @@ export const InventoryReport: React.FC = () => {
   const [isOpenSettings, setIsOpenSettings] = useState<boolean>(false);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
   const [cookies] = useCookies(['token']);
+  const [currentUpdateDate, setCurrentUpdateDate] = useState<string | null>(null);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openSettings = (event: any, currentItem: InventoryItem) => {
@@ -53,10 +55,9 @@ export const InventoryReport: React.FC = () => {
     dispatch(setIsOpenDeleteModal(false));
   };
 
-  const formatDate = (date: string) => {
-    const split = date.split(' ');
-    const operationStart = split[0] + ' | ' + split[1];
-    return operationStart;
+  const formatDate = () => {
+    const date = new Date();
+    return `${moment(date).format('YYYY-MM-DD ')}| ${moment(date).format('HH:mm:ss')}`;
   };
 
   const handleStatusSort = () => {
@@ -64,6 +65,7 @@ export const InventoryReport: React.FC = () => {
   };
 
   useEffect(() => {
+    setCurrentUpdateDate(formatDate());
     dispatch(
       getInventoryItemsAsync({
         token: cookies.token,
@@ -96,9 +98,7 @@ export const InventoryReport: React.FC = () => {
         <div className={styles.header}>
           <h4 className={styles.title}>Inventory Report</h4>
 
-          {inventoryItems && inventoryItems[0] && (
-            <p className={styles.date}>{formatDate(inventoryItems[0].date_created)}</p>
-          )}
+          <p className={styles.date}>{currentUpdateDate}</p>
         </div>
 
         <div className={styles.content}>
