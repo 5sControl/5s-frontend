@@ -11,8 +11,8 @@ import {
   getOrdersAsync,
   resetFilterData,
   selectOrdersList,
+  setFilterData,
   setIsShowOrdersViewFilter,
-  setOrderStatusFilterData,
   setSearchValue,
 } from './components/OrdersList/ordersListSlice';
 import { Cover } from '../../components/cover';
@@ -124,11 +124,15 @@ export const PreviewOrders: React.FC = () => {
   const handleResetFilters = () => {
     dispatch(resetFilterData());
     getOrdersList(1, ordersList?.records_on_page as number, search, {
-      ...filterData,
       'order-status': 'all',
+      'operation-name': [],
+      'operation-status': [],
     });
+
     const queryParams = Object.fromEntries([...searchParams]);
     delete queryParams['order-status'];
+    delete queryParams['operation-status'];
+    delete queryParams['operation-name'];
     navigateSearch('/orders-view', queryParams);
 
     handleClickFilter(false);
@@ -140,10 +144,17 @@ export const PreviewOrders: React.FC = () => {
 
   useEffect(() => {
     const queryOrderStatusParam = searchParams.get('order-status');
+    const queryOperationStatusParam = searchParams.getAll('operation-status');
+    const queryOrderNameParam = searchParams.getAll('operation-name');
 
+    const queryData: FilterDataType = {
+      'order-status': queryOrderStatusParam as string,
+      'operation-status': queryOperationStatusParam,
+      'operation-name': queryOrderNameParam,
+    };
     if (queryOrderStatusParam) {
-      dispatch(setOrderStatusFilterData(queryOrderStatusParam));
-      getOrdersList(1, 50, null, { ...filterData, 'order-status': queryOrderStatusParam });
+      dispatch(setFilterData(queryData));
+      getOrdersList(1, 50, null, queryData);
     } else {
       getOrdersList(1, 50, null, filterData);
     }

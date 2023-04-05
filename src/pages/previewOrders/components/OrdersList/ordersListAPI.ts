@@ -25,8 +25,8 @@ export const getOrdersAPI = (
     for (const p of params['operation-status']) {
       searchParams.append('operation-status', p);
     }
-    for (const p of params['operation']) {
-      searchParams.append('operation', p);
+    for (const p of params['operation-name']) {
+      searchParams.append('operation-name', p.toLocaleLowerCase());
     }
 
     return proxy<OrderWithPaginationCustomer>(url.toString(), 'GET', {
@@ -44,8 +44,8 @@ export const getOrdersAPI = (
     for (const p of params['operation-status']) {
       searchParams.append('operation-status', p);
     }
-    for (const p of params['operation']) {
-      searchParams.append('operation', p);
+    for (const p of params['operation-name']) {
+      searchParams.append('operation-name', p.toLocaleLowerCase());
     }
 
     return axios.get<OrderWithPaginationCustomer>(url.toString(), {
@@ -65,8 +65,8 @@ export const getOrdersAPI = (
     for (const p of params['operation-status']) {
       searchParams.append('operation-status', p);
     }
-    for (const p of params['operation']) {
-      searchParams.append('operation', p);
+    for (const p of params['operation-name']) {
+      searchParams.append('operation-name', p.toLocaleLowerCase());
     }
 
     return axios.get<OrderWithPaginationCustomer>(url.toString(), {

@@ -8,7 +8,7 @@ import { getOrdersAPI } from './ordersListAPI';
 
 export type FilterDataType = {
   'order-status': string;
-  operation: string[];
+  'operation-name': string[];
   'operation-status': string[];
 };
 
@@ -39,7 +39,7 @@ const initialState: ReportState = {
   isShowOrdersViewFilter: false,
   filterData: {
     'order-status': 'all',
-    operation: [],
+    'operation-name': [],
     'operation-status': [],
   },
   isLoadingFilterOperations: false,
@@ -110,8 +110,8 @@ const ordersList = createSlice({
     setOrderStatusFilterData(state, action: PayloadAction<string>) {
       state.filterData['order-status'] = action.payload;
     },
-    setOperationStatusFilterData(state, action: PayloadAction<{ [key: string]: string }>) {
-      const key = Object.keys(action.payload)[0] as 'operation' | 'operation-status';
+    setOperationsFilterData(state, action: PayloadAction<{ [key: string]: string }>) {
+      const key = Object.keys(action.payload)[0] as 'operation-name' | 'operation-status';
       const value = Object.values(action.payload)[0];
 
       if (state.filterData[key].includes(value)) {
@@ -121,11 +121,14 @@ const ordersList = createSlice({
         state.filterData[key] = [...state.filterData[key], value];
       }
     },
+    setFilterData(state, action) {
+      state.filterData = action.payload;
+    },
     resetFilterData(state) {
       state.filterData = {
         ...state.filterData,
         'order-status': 'all',
-        operation: [],
+        'operation-name': [],
         'operation-status': [],
       };
     },
@@ -167,8 +170,9 @@ export const {
   clearOrdersList,
   setIsShowOrdersViewFilter,
   setOrderStatusFilterData,
-  setOperationStatusFilterData,
+  setOperationsFilterData,
   resetFilterData,
+  setFilterData,
 } = ordersList.actions;
 export const selectOrdersList = (state: RootState) => state.orderList;
 export default ordersList.reducer;

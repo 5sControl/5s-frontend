@@ -7,7 +7,7 @@ import styles from './filter.module.scss';
 import {
   FilterDataType,
   selectOrdersList,
-  setOperationStatusFilterData,
+  setOperationsFilterData,
   setOrderStatusFilterData,
 } from '../OrdersList/ordersListSlice';
 import { useNavigateSearch } from '../../../../functions/useNavigateSearch';
@@ -61,11 +61,8 @@ export const FilterBar: React.FC<PropsType> = ({
     if (name === 'order-status') {
       dispatch(setOrderStatusFilterData(value));
     }
-    if (name === 'operation-status') {
-      dispatch(setOperationStatusFilterData({ [name]: value }));
-    }
-    if (name === 'operation') {
-      dispatch(setOperationStatusFilterData({ [name]: value }));
+    if (name === 'operation-status' || name === 'operation-name') {
+      dispatch(setOperationsFilterData({ [name]: value }));
     }
   };
 
@@ -115,10 +112,10 @@ export const FilterBar: React.FC<PropsType> = ({
                       <Checkbox
                         key={index}
                         id={index.toString()}
-                        name="operation"
+                        name="operation-name"
                         value={element}
                         label={element}
-                        isChecked={filterData['operation'].includes(element)}
+                        isChecked={filterData['operation-name'].includes(element)}
                         onChange={onChange}
                         className={styles.checkbox}
                       />
