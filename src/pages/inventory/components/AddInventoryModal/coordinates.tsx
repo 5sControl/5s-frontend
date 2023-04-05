@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import Moveable from 'react-moveable';
 import './moveable.scss';
 import styles from './addInventoryModal.module.scss';
@@ -8,9 +7,11 @@ import { Button } from '../../../../components/button';
 import { AiOutlineLeft } from 'react-icons/ai';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { generateString } from '../../../../functions/randomizer';
+import { NewCoordinates } from '../../types';
+import { AddInventoryData } from './types';
 type PropsType = {
   submitHandler: () => void;
-  formData: any;
+  formData: AddInventoryData;
   setCoords: (coords: any) => void;
   setIsShowCoord: (type: boolean) => void;
 };
@@ -23,7 +24,7 @@ export const Coordinates: React.FC<PropsType> = ({
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
-  const [allBox, setAllBox] = useState<any>([]);
+  const [allBox, setAllBox] = useState<NewCoordinates[]>([]);
 
   const createCoord = (e: any) => {
     if (e && !target) {
@@ -105,7 +106,7 @@ export const Coordinates: React.FC<PropsType> = ({
             }
             onClick={(e) => createCoord(e)}
           />
-          {allBox.map((el: any, index: string) => (
+          {allBox.map((el: any) => (
             <div
               id={el.id}
               className={

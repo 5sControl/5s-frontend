@@ -9,8 +9,9 @@ import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { editItem, selectEditInventoryModal } from './editInventoryModalSlice';
 import { useCookies } from 'react-cookie';
-import { selectInventory } from '../../inventorySlice';
+import { getInventoryItemsAsync, selectInventory } from '../../inventorySlice';
 import { EditInventoryData } from './types';
+import { Coordinat } from '../../types';
 import { Coordinates } from './Coordiantes';
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
 
@@ -26,14 +27,12 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
   const [cookies] = useCookies(['token']);
   const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
   const [formData, setFormData] = useState<EditInventoryData>({});
-  const [coords, setCoords] = useState<any>({});
+  const [coords, setCoords] = useState<Coordinat[]>([]);
   const [isClose, setIsClose] = useState<any>(false);
 
-  console.log(coords);
   const submitHandler = () => {
     const dataForm = formData;
     dataForm.coords = coords;
-    console.log(dataForm);
     dispatch(
       editItem({
         token: cookies.token,
@@ -44,13 +43,12 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       setIsClose({ status: response.type.includes('fulfilled') });
       setTimeout(() => {
         handleClose();
+        dispatch(
+          getInventoryItemsAsync({ token: cookies.token, hostname: window.location.hostname })
+        );
       }, 2000);
     });
   };
-
-  useEffect(() => {
-    console.log(currentEditItem);
-  }, [currentEditItem]);
 
   useEffect(() => {
     if (!isOpen) {

@@ -14,6 +14,7 @@ import { AddInventoryData } from './types';
 import { Coordinates } from './coordinates';
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
 import './moveable.scss';
+import { Coordinat } from '../../types';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
@@ -25,7 +26,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const [cookies] = useCookies(['token']);
   const [formData, setFormData] = useState<AddInventoryData>({});
   const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
-  const [coords, setCoords] = useState<any>([]);
+  const [coords, setCoords] = useState<Coordinat[]>([]);
   const [isClose, setIsClose] = useState<any>(false);
   const [itemName, setItemName] = useState<string>('');
   const [itemCount, setItemCount] = useState<string>('0');
