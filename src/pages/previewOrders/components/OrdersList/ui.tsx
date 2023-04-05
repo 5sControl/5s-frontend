@@ -13,7 +13,7 @@ import { useNavigateSearch } from '../../../../functions/useNavigateSearch';
 type PropsType = {
   data: Array<PreviewOrderItem>;
   isLoading: boolean;
-  handleSubmitSearch: (value: string) => void;
+  handleChangeSearch: (value: string) => void;
   handleClearList: () => void;
   showPaginations?: boolean;
   disabled?: boolean;
@@ -22,7 +22,7 @@ type PropsType = {
 export const OrderList: React.FC<PropsType> = ({
   data,
   isLoading,
-  handleSubmitSearch,
+  handleChangeSearch,
   handleClearList,
   showPaginations = false,
   disabled,
@@ -36,10 +36,6 @@ export const OrderList: React.FC<PropsType> = ({
     navigateSearch('/orders-view', { order_id: id });
   };
 
-  const handleClickSearchSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
-    handleSubmitSearch(event.target.search.value);
-  };
-
   return (
     <Cover className={styles.wrapper}>
       <div className={styles.header}>
@@ -49,8 +45,8 @@ export const OrderList: React.FC<PropsType> = ({
           className={styles.listInput}
           placeholder={'Search order number'}
           disabled={disabled}
-          handleSubmit={handleClickSearchSubmit}
           handleClearList={handleClearList}
+          handleChange={handleChangeSearch}
         />
       </div>
 

@@ -32,7 +32,7 @@ export const FilterBar: React.FC<PropsType> = ({
   className,
 }) => {
   const dispatch = useAppDispatch();
-  const { filterData, isLoadingFilterOperations, filterOperationsData } =
+  const { filterData, isLoadingFilterOperations, filterOperationsData, isErrorFilterOperations } =
     useAppSelector(selectOrdersList);
   const [searchParams] = useSearchParams();
   const navigateSearch = useNavigateSearch();
@@ -120,6 +120,7 @@ export const FilterBar: React.FC<PropsType> = ({
                         className={styles.checkbox}
                       />
                     ))}
+                {isErrorFilterOperations ? 'Error' : 'Loading...'}
               </div>
             </div>
 

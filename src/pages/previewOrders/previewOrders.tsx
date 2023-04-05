@@ -74,16 +74,6 @@ export const PreviewOrders: React.FC = () => {
     navigateSearch('/orders-view', queryParams);
   };
 
-  const handleSubmitSearch = (value: string) => {
-    dispatch(setSearchValue(value));
-    getOrdersList(
-      ordersList?.current_page as number,
-      ordersList?.records_on_page as number,
-      value,
-      filterData
-    );
-  };
-
   const handleSubmitClear = () => {
     dispatch(setSearchValue(null));
     getOrdersList(1, 50, null, filterData);
@@ -140,6 +130,16 @@ export const PreviewOrders: React.FC = () => {
 
   const handleHyperLink = (operationData: OperationItem) => {
     dispatch(setTimeOperationVideoModal(operationData));
+  };
+  const handleChangeSearch = (value: string) => {
+    dispatch(setSearchValue(value));
+
+    getOrdersList(
+      ordersList?.current_page as number,
+      ordersList?.records_on_page as number,
+      value,
+      filterData
+    );
   };
 
   useEffect(() => {
@@ -251,8 +251,8 @@ export const PreviewOrders: React.FC = () => {
               isLoading={isLoadingOrdersList}
               showPaginations
               disabled={isErrorOfOrdersList}
-              handleSubmitSearch={handleSubmitSearch}
               handleClearList={handleSubmitClear}
+              handleChangeSearch={handleChangeSearch}
             />
 
             {activeOrder && orderData ? (
