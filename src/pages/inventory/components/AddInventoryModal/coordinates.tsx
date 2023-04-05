@@ -43,7 +43,6 @@ export const Coordinates: React.FC<PropsType> = ({
       const target = e.target.getBoundingClientRect();
       setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
       setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
-      console.log({ x: e.clientX - target.x, y: e.clientY - target.y });
       // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
     } else {
       // setTarget(null);
@@ -58,7 +57,6 @@ export const Coordinates: React.FC<PropsType> = ({
         setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
       }
       setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
-      console.log(e.clientX - target.x - isStartDraw.x);
     }
   };
 
@@ -81,8 +79,6 @@ export const Coordinates: React.FC<PropsType> = ({
       setAllBox([...allBox, response]);
       setIsStartDraw(false);
       setMoveDraw({ x: 0, y: 0 });
-      // const target = e.target.getBoundingClientRect();
-      // console.log({ x: e.clientX - target.x, y: e.clientY - target.y });
     } else {
       // setTarget(null);
     }
@@ -91,7 +87,6 @@ export const Coordinates: React.FC<PropsType> = ({
     if (allBox.length > 0) {
       setTarget(document.getElementById(allBox[allBox.length - 1].id));
     }
-    console.log(allBox);
     onChangeSize();
   }, [allBox]);
 
@@ -123,7 +118,6 @@ export const Coordinates: React.FC<PropsType> = ({
       const bufTrans = element.style.transform.replace(/[^\d,-]/g, '').split(',');
       const bufTransWidth = Number(bufTrans[0]) || 0;
       const bufTransHeight = Number(bufTrans[1]) || 0;
-      console.log(bufTransHeight);
       const totalX = bufTransWidth + bufLeft;
       const totalY = bufTransHeight + bufTop;
       sendCoord.push({
