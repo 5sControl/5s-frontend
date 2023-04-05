@@ -14,46 +14,52 @@ export const getOrdersAPI = (
   const API_ALL_ORDERS = 'api/order/all-orders/';
 
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy<OrderWithPaginationCustomer>(
-      `${process.env.REACT_APP_NGROK}${API_ALL_ORDERS}?page=${page}&page_size=${page_size}${
-        search ? `&search=${search}` : ''
-      }&order-status=${params['order-status']}`,
-      'GET',
-      {
-        Authorization: cookies,
-        params: {
-          page,
-          page_size,
-          search,
-          'order-status': params['order-status'],
-        },
-      }
-    );
+    const stringUrl = `${process.env.REACT_APP_NGROK}${API_ALL_ORDERS}`;
+    const url = new URL(stringUrl);
+    const searchParams = url.searchParams;
+
+    searchParams.append('page', `${page}`);
+    searchParams.append('page_size', `${page_size}`);
+    search && searchParams.append('search', search);
+    searchParams.append('order-status', params['order-status']);
+    for (const p of params['operation-status']) {
+      searchParams.append('operation-status', p);
+    }
+    return proxy<OrderWithPaginationCustomer>(url.toString(), 'GET', {
+      Authorization: cookies,
+    });
   } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.get<OrderWithPaginationCustomer>(
-      `${process.env.REACT_APP_IP_SERVER}${API_ALL_ORDERS}`,
-      {
-        headers: {
-          Authorization: cookies,
-        },
-        params: {
-          page,
-          page_size,
-          search,
-          'order-status': params['order-status'],
-        },
-      }
-    );
-  } else {
-    return axios.get<OrderWithPaginationCustomer>(`http://${hostname}/${API_ALL_ORDERS}`, {
+    const stringUrl = `${process.env.REACT_APP_IP_SERVER}${API_ALL_ORDERS}`;
+    const url = new URL(stringUrl);
+    const searchParams = url.searchParams;
+
+    searchParams.append('page', `${page}`);
+    searchParams.append('page_size', `${page_size}`);
+    search && searchParams.append('search', search);
+    searchParams.append('order-status', params['order-status']);
+    for (const p of params['operation-status']) {
+      searchParams.append('operation-status', p);
+    }
+    return axios.get<OrderWithPaginationCustomer>(url.toString(), {
       headers: {
         Authorization: cookies,
       },
-      params: {
-        page,
-        page_size,
-        search,
-        'order-status': params['order-status'],
+    });
+  } else {
+    const stringUrl = `http://${hostname}/${API_ALL_ORDERS}`;
+    const url = new URL(stringUrl);
+    const searchParams = url.searchParams;
+
+    searchParams.append('page', `${page}`);
+    searchParams.append('page_size', `${page_size}`);
+    search && searchParams.append('search', search);
+    searchParams.append('order-status', params['order-status']);
+    for (const p of params['operation-status']) {
+      searchParams.append('operation-status', p);
+    }
+    return axios.get<OrderWithPaginationCustomer>(url.toString(), {
+      headers: {
+        Authorization: cookies,
       },
     });
   }

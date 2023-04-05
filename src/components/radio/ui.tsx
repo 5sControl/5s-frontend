@@ -6,7 +6,7 @@ type PropsType = {
   value: string;
   label: string;
   checked?: boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const Radio: React.FC<PropsType> = ({ id, name, value, label, checked, onChange }) => {

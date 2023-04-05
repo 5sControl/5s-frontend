@@ -5,7 +5,10 @@ import { RootState } from '../../../../store';
 import { parseOrderData } from './orderListHelper';
 import { getOrdersAPI } from './ordersListAPI';
 
-export type FilterDataType = { 'order-status': string };
+export type FilterDataType = {
+  'order-status': string;
+  'operation-status': string[];
+};
 
 interface ReportState {
   activeOrder: null | string;
@@ -28,7 +31,10 @@ const initialState: ReportState = {
   errorOfOrdersData: {},
 
   isShowOrdersViewFilter: false,
-  filterData: { 'order-status': 'all' },
+  filterData: {
+    'order-status': 'all',
+    'operation-status': [],
+  },
 };
 
 export const getOrdersAsync = createAsyncThunk(
@@ -78,11 +84,26 @@ const ordersList = createSlice({
     setIsShowOrdersViewFilter(state, action: PayloadAction<boolean>) {
       state.isShowOrdersViewFilter = action.payload;
     },
-    setFilterData(state, action: PayloadAction<FilterDataType>) {
-      state.filterData = action.payload;
+    setOrderStatusFilterData(state, action: PayloadAction<string>) {
+      state.filterData['order-status'] = action.payload;
+    },
+    setOperationStatusFilterData(state, action: PayloadAction<string>) {
+      if (state.filterData['operation-status'].includes(action.payload)) {
+        const index = state.filterData['operation-status'].indexOf(action.payload);
+        state.filterData['operation-status'].splice(index, 1);
+      } else {
+        state.filterData['operation-status'] = [
+          ...state.filterData['operation-status'],
+          action.payload,
+        ];
+      }
     },
     resetFilterData(state) {
-      state.filterData = { 'order-status': 'all' };
+      state.filterData = {
+        ...state.filterData,
+        'order-status': 'all',
+        'operation-status': [],
+      };
     },
   },
   extraReducers: (builder) => {
@@ -107,7 +128,8 @@ export const {
   setSearchValue,
   clearOrdersList,
   setIsShowOrdersViewFilter,
-  setFilterData,
+  setOrderStatusFilterData,
+  setOperationStatusFilterData,
   resetFilterData,
 } = ordersList.actions;
 export const selectOrdersList = (state: RootState) => state.orderList;

@@ -10,8 +10,8 @@ import {
   getOrdersAsync,
   resetFilterData,
   selectOrdersList,
-  setFilterData,
   setIsShowOrdersViewFilter,
+  setOrderStatusFilterData,
   setSearchValue,
 } from './components/OrdersList/ordersListSlice';
 import { Cover } from '../../components/cover';
@@ -34,6 +34,7 @@ import { useNavigateSearch } from '../../functions/useNavigateSearch';
 import { OperationItem, OrderItem } from '../../storage/orderView';
 import { Button } from '../../components/button';
 import { FilterBar } from './components/FilterBar';
+import { FilterDataQuery } from './components/FilterBar/types';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -110,15 +111,17 @@ export const PreviewOrders: React.FC = () => {
     dispatch(setIsShowOrdersViewFilter(value));
   };
 
-  const handleSubmitFilters = (value: FilterDataType) => {
-    dispatch(setFilterData(value));
-    getOrdersList(1, ordersList?.records_on_page as number, search, filterData);
+  const handleSubmitFilters = (data: FilterDataQuery) => {
+    getOrdersList(1, ordersList?.records_on_page as number, search, data);
     handleClickFilter(false);
   };
 
   const handleResetFilters = () => {
     dispatch(resetFilterData());
-    getOrdersList(1, ordersList?.records_on_page as number, search, { 'order-status': 'all' });
+    getOrdersList(1, ordersList?.records_on_page as number, search, {
+      ...filterData,
+      'order-status': 'all',
+    });
     const queryParams = Object.fromEntries([...searchParams]);
     delete queryParams['order-status'];
     navigateSearch('/orders-view', queryParams);
@@ -134,8 +137,8 @@ export const PreviewOrders: React.FC = () => {
     const queryOrderStatusParam = searchParams.get('order-status');
 
     if (queryOrderStatusParam) {
-      dispatch(setFilterData({ 'order-status': queryOrderStatusParam }));
-      getOrdersList(1, 50, null, { 'order-status': queryOrderStatusParam });
+      dispatch(setOrderStatusFilterData(queryOrderStatusParam));
+      getOrdersList(1, 50, null, { ...filterData, 'order-status': queryOrderStatusParam });
     } else {
       getOrdersList(1, 50, null, filterData);
     }
