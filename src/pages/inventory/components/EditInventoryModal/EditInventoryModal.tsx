@@ -29,6 +29,8 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
   const [formData, setFormData] = useState<EditInventoryData>({});
   const [coords, setCoords] = useState<Coordinat[]>([]);
   const [isClose, setIsClose] = useState<any>(false);
+  const [itemName, setItemName] = useState<string | undefined>('');
+  const [itemCount, setItemCount] = useState<number | undefined>(0);
 
   const submitHandler = () => {
     const dataForm = formData;
@@ -54,6 +56,9 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
     if (!isOpen) {
       setIsShowCoord(false);
       setIsClose(false);
+    } else {
+      setItemName(currentEditItem?.name);
+      setItemCount(currentEditItem?.low_stock_level);
     }
   }, [isOpen]);
 
@@ -100,7 +105,8 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
                   name="name"
                   type="text"
                   label="Item name"
-                  defaultValue={currentEditItem?.name}
+                  value={itemName}
+                  onChange={(e: any) => setItemName(e.target.value)}
                 />
               </div>
               <div className={styles.input}>
@@ -109,7 +115,8 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
                   name="low_stock_level"
                   type="text"
                   label="Low stock level"
-                  defaultValue={currentEditItem?.low_stock_level.toString()}
+                  value={String(itemCount)}
+                  onChange={(e: any) => setItemCount(e.target.value.replace(/[^\d.]/g, ''))}
                 />
               </div>
               {camerasData && (
@@ -125,7 +132,12 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
                   />
                 </div>
               )}
-              <Button text="Continue" className={styles.button} type="submit" />
+              <Button
+                text="Continue"
+                className={styles.button}
+                type="submit"
+                disabled={itemName === '' || String(itemCount).length === 0}
+              />
             </form>
           </div>
         </div>
