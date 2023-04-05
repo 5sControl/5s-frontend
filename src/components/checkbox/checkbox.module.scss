@@ -1,0 +1,41 @@
+@import 'src/styles/colors.scss';
+
+.content {
+  margin-bottom: 10px;
+  & input[type='checkbox'] {
+    display: none;
+  }
+  & label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 0;
+    line-height: 18px;
+    user-select: none;
+  }
+  & label:before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    left: 0;
+    background: url('./checkbox-2.svg') 0 0 no-repeat;
+  }
+
+  /* Checked */
+  & input[type='checkbox']:checked + label:before {
+    background: url('./checkbox-1.svg') 0 0 no-repeat;
+  }
+
+  /* Hover */
+  & label:hover:before {
+    filter: brightness(120%);
+  }
+
+  /* Disabled */
+  & input[type='checkbox']:disabled + label:before {
+    filter: grayscale(100%);
+  }
+}

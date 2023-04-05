@@ -30,20 +30,49 @@
   padding: 20px 10px 0 10px;
 }
 
-.title {
-  @include h3;
-  color: var(--HightEmphasis);
+.header {
+  display: flex;
+  justify-content: space-between;
+  &_title {
+    @include h3;
+    color: var(--HightEmphasis);
+  }
+  &_cross {
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+    @include h3;
+    color: var(--HightEmphasis);
+    position: relative;
+    right: 40px;
+    cursor: pointer;
+  }
 }
 
 .block {
   color: var(--HightEmphasis);
-
   &_title {
     @include h4;
     margin-bottom: 10px;
   }
   &_text {
     @include body2;
+  }
+  &_content {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.checkbox {
+  width: 100%;
+  max-width: 170px;
+
+  & label {
+    max-width: 170px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }
 

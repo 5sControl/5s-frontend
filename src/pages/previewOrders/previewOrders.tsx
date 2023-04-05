@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   addActiveOrder,
   FilterDataType,
+  getFilterOperationsAsync,
   getOrdersAsync,
   resetFilterData,
   selectOrdersList,
@@ -107,20 +108,31 @@ export const PreviewOrders: React.FC = () => {
   };
 
   const handleClickFilter = (value: boolean) => {
+    if (value) {
+      dispatch(
+        getFilterOperationsAsync({ token: cookies.token, hostname: window.location.hostname })
+      );
+    }
     dispatch(setIsShowOrdersViewFilter(value));
   };
 
-  const handleSubmitFilters = (value: FilterDataType) => {
-    dispatch(setFilterData(value));
-    getOrdersList(1, ordersList?.records_on_page as number, search, filterData);
+  const handleSubmitFilters = (data: FilterDataType) => {
+    getOrdersList(1, ordersList?.records_on_page as number, search, data);
     handleClickFilter(false);
   };
 
   const handleResetFilters = () => {
     dispatch(resetFilterData());
-    getOrdersList(1, ordersList?.records_on_page as number, search, { 'order-status': 'all' });
+    getOrdersList(1, ordersList?.records_on_page as number, search, {
+      'order-status': 'all',
+      'operation-name': [],
+      'operation-status': [],
+    });
+
     const queryParams = Object.fromEntries([...searchParams]);
     delete queryParams['order-status'];
+    delete queryParams['operation-status'];
+    delete queryParams['operation-name'];
     navigateSearch('/orders-view', queryParams);
 
     handleClickFilter(false);
@@ -132,10 +144,17 @@ export const PreviewOrders: React.FC = () => {
 
   useEffect(() => {
     const queryOrderStatusParam = searchParams.get('order-status');
+    const queryOperationStatusParam = searchParams.getAll('operation-status');
+    const queryOrderNameParam = searchParams.getAll('operation-name');
 
+    const queryData: FilterDataType = {
+      'order-status': queryOrderStatusParam as string,
+      'operation-status': queryOperationStatusParam,
+      'operation-name': queryOrderNameParam,
+    };
     if (queryOrderStatusParam) {
-      dispatch(setFilterData({ 'order-status': queryOrderStatusParam }));
-      getOrdersList(1, 50, null, { 'order-status': queryOrderStatusParam });
+      dispatch(setFilterData(queryData));
+      getOrdersList(1, 50, null, queryData);
     } else {
       getOrdersList(1, 50, null, filterData);
     }
