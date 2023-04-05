@@ -64,11 +64,23 @@
     .image_container{
       position: relative;
       width: max-content;
+      .newCoordinates{
+        position: absolute;
+        z-index: 5;
+        background-color: #ffffff40;
+      }
+      .draw{
+        position: absolute;
+        top:0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
     }
     img{
       max-height: 100%;
       filter: brightness(40%);
-      cursor:crosshair;
     }
     .back{
       display: flex;
@@ -103,7 +115,7 @@
         color:rgb(218, 215, 47);
       }
     }
-    
+  
   }
   .response{
     position: fixed;
@@ -133,4 +145,13 @@
       color:green;
     }
 } 
+.footer{
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+  padding: 30px;
+  .button{
+    align-self: flex-end;
+  }
+}
 }

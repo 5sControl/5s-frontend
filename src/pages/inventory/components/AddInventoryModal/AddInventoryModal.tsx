@@ -14,6 +14,7 @@ import { AddInventoryData } from './types';
 import { Coordinates } from './coordinates';
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
 import './moveable.scss';
+import { Coordinat } from '../../types';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
@@ -25,13 +26,17 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const [cookies] = useCookies(['token']);
   const [formData, setFormData] = useState<AddInventoryData>({});
   const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
-  const [coords, setCoords] = useState<any>([]);
+  const [coords, setCoords] = useState<Coordinat[]>([]);
   const [isClose, setIsClose] = useState<any>(false);
+  const [itemName, setItemName] = useState<string>('');
+  const [itemCount, setItemCount] = useState<number>(0);
 
   useEffect(() => {
     if (!isOpen) {
       setIsShowCoord(false);
       setIsClose(false);
+      setItemName('');
+      setItemCount(0);
     }
   }, [isOpen]);
 
@@ -95,6 +100,8 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
                   type="text"
                   label="Item name"
                   placeholder={'Enter item name'}
+                  value={itemName}
+                  onChange={(e: any) => setItemName(e.target.value)}
                 />
               </div>
               <div className={styles.input}>
@@ -104,6 +111,8 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
                   type="text"
                   label="Low stock level"
                   placeholder={'Enter number'}
+                  value={String(itemCount)}
+                  onChange={(e: any) => setItemCount(e.target.value.replace(/[^\d.]/g, ''))}
                 />
               </div>
               {camerasData && (
@@ -116,7 +125,12 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
                   />
                 </div>
               )}
-              <Button text="Continue" className={styles.button} type="submit" />
+              <Button
+                text="Continue"
+                className={styles.button}
+                type="submit"
+                disabled={itemName === '' || String(itemCount).length === 0}
+              />
             </form>
           </div>
         </div>

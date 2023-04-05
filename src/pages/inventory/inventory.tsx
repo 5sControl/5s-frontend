@@ -5,16 +5,10 @@ import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { AddInventoryModal } from './components/AddInventoryModal';
 import { InventoryReport } from './components/InventoryReport';
-import {
-  getCamerasAsync,
-  getInventoryItemHistoryAsync,
-  getInventoryItemsAsync,
-  selectInventory,
-} from './inventorySlice';
+import { getCamerasAsync, getInventoryItemHistoryAsync, selectInventory } from './inventorySlice';
 import styles from './inventory.module.scss';
 import { InventoryItemsList } from './components/InventoryItemsList';
 import { Cover } from '../../components/cover';
-import { Preloader } from '../../components/preloader';
 import { InventoryCard } from './components/InventoryCard';
 import { selectActiveInventoryItem } from './components/InventoryItemsList/InventoryItemsListSlice';
 import moment from 'moment-timezone';

@@ -7,13 +7,14 @@ import { AiOutlineLeft } from 'react-icons/ai';
 import './moveable.scss';
 import { generateString } from '../../../../functions/randomizer';
 import { IoIosCloseCircle } from 'react-icons/io';
-
+import { EditInventoryData } from './types';
+import { Coordinat, NewCoordinates } from '../../types';
 type PropsType = {
   submitHandler: () => void;
-  formData: any;
+  formData: EditInventoryData;
   setCoords: (coords: any) => void;
   setIsShowCoord: (type: boolean) => void;
-  coordinates: any;
+  coordinates: Coordinat[] | undefined;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -27,8 +28,11 @@ export const Coordinates: React.FC<PropsType> = ({
   const [target, setTarget] = useState<any>('');
   const [proportionWidth, setProportionWidth] = useState(1);
   const [proportionHeight, setProportionHeight] = useState(1);
-  const [allBox, setAllBox] = useState<any>([]);
-  const [oldBox, setOldBox] = useState<any>([]);
+  const [allBox, setAllBox] = useState<NewCoordinates[]>([]);
+  const [oldBox, setOldBox] = useState<Coordinat[]>([]);
+
+  const [isStartDraw, setIsStartDraw] = useState<any>(false);
+  const [moveDraw, setMoveDraw] = useState<any>({ x: 0, y: 0 });
 
   const changeTarget = (currentTarget: any) => {
     if (target !== '') {
@@ -39,14 +43,67 @@ export const Coordinates: React.FC<PropsType> = ({
   };
 
   const createCoord = (e: any) => {
-    if (e && target === '') {
-      const target = e.target.getBoundingClientRect();
-      const id = generateString();
-      setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
+    if (e && !target) {
+      // const target = e.target.getBoundingClientRect();
+      // const id = generateString();
+      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
     } else {
-      setTarget('');
+      setTarget(null);
     }
   };
+
+  const startPosition = (e: any) => {
+    if (e && !target) {
+      const target = e.target.getBoundingClientRect();
+      setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+      setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
+    } else {
+      // setTarget(null);
+    }
+  };
+
+  const movePosition = (e: any) => {
+    if (e && !target && isStartDraw) {
+      const target = e.target.getBoundingClientRect();
+      if (e.clientX - target.x < 0) {
+        setMoveDraw(isStartDraw);
+        setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+      }
+      setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+    }
+  };
+
+  const endPosition = (e: any) => {
+    if (e && !target) {
+      const response = {
+        x:
+          moveDraw.x - isStartDraw.x > 0
+            ? isStartDraw.x
+            : isStartDraw.x - Math.abs(moveDraw.x - isStartDraw.x),
+        y:
+          moveDraw.y - isStartDraw.y > 0
+            ? isStartDraw.y
+            : isStartDraw.y - Math.abs(moveDraw.y - isStartDraw.y),
+        width: Math.abs(moveDraw.x - isStartDraw.x),
+        height: Math.abs(moveDraw.y - isStartDraw.y),
+        id: generateString(),
+      };
+
+      setAllBox([...allBox, response]);
+      setIsStartDraw(false);
+      setMoveDraw({ x: 0, y: 0 });
+    } else {
+      // setTarget(null);
+    }
+  };
+
+  useEffect(() => {
+    if (allBox.length > 0) {
+      setTarget(document.getElementById(allBox[allBox.length - 1].id));
+    }
+    onChangeSize();
+  }, [allBox]);
 
   const removeCoord = () => {
     if (target.id.length > 10) {
@@ -66,25 +123,28 @@ export const Coordinates: React.FC<PropsType> = ({
   }, 200);
 
   useEffect(() => {
-    setOldBox(
-      coordinates.map((el: any) => {
-        return {
-          ...el,
-          id: generateString(11),
-        };
-      })
-    );
+    if (coordinates) {
+      setOldBox(
+        coordinates.map((el: any) => {
+          return {
+            ...el,
+            id: generateString(11),
+          };
+        })
+      );
+    }
   }, []);
 
   useEffect(() => {
+    console.log(allBox.length);
     if (allBox.length > 0) {
       setTarget(document.getElementById(allBox[allBox.length - 1].id));
     }
   }, [allBox]);
 
   useEffect(() => {
-    onChangeSize();
-  }, [allBox, oldBox]);
+    setCoords(oldBox);
+  }, [oldBox]);
 
   const onChangeSize = () => {
     const coordinatesLayout: any = document.querySelectorAll('.coordinates');
@@ -102,6 +162,7 @@ export const Coordinates: React.FC<PropsType> = ({
       const bufTransHeight = Number(bufTrans[1]) || 0;
       const totalX = bufTransWidth + bufLeft;
       const totalY = bufTransHeight + bufTop;
+
       sendCoord.push({
         x1: totalX * proportionWidth,
         y1: totalY * proportionHeight,
@@ -111,6 +172,7 @@ export const Coordinates: React.FC<PropsType> = ({
     });
     setCoords(sendCoord);
   };
+
   return (
     <div className={styles.modalCoordContainer}>
       <div className={styles.area}>
@@ -130,9 +192,9 @@ export const Coordinates: React.FC<PropsType> = ({
             onClick={(e) => createCoord(e)}
           />
           {oldBox.length > 0 &&
-            oldBox.map((element: any, index: number) => (
+            oldBox.map((element: any) => (
               <div
-                key={index}
+                key={element.id}
                 className={
                   target && target.id === element.id ? 'coordinates coordSelected' : 'coordinates '
                 }
@@ -142,6 +204,7 @@ export const Coordinates: React.FC<PropsType> = ({
                   left: `${element?.x1 / proportionWidth}px`,
                   width: `${(element?.x2 - element?.x1) / proportionHeight}px`,
                   height: `${(element?.y2 - element?.y1) / proportionWidth}px`,
+                  zIndex: isStartDraw ? 1 : 1001,
                 }}
                 onClick={(e) => changeTarget(e.target)}
               >
@@ -156,7 +219,13 @@ export const Coordinates: React.FC<PropsType> = ({
               className={
                 target && target.id === el.id ? 'coordinates coordSelected' : 'coordinates'
               }
-              style={{ left: el.x, top: el.y, width: 10, height: 10 }}
+              style={{
+                left: el.x,
+                top: el.y,
+                width: el.width,
+                height: el.height,
+                zIndex: isStartDraw ? 1 : 1001,
+              }}
               onClick={(e) => changeTarget(e.target)}
               key={el.id}
             >
@@ -165,6 +234,34 @@ export const Coordinates: React.FC<PropsType> = ({
               )}
             </div>
           ))}
+          <div
+            className={styles.draw}
+            onClick={(e) => createCoord(e)}
+            onMouseDown={(e) => startPosition(e)}
+            onMouseMove={(e) => movePosition(e)}
+            onMouseUp={(e) => endPosition(e)}
+            style={
+              target ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
+            }
+          ></div>
+          {isStartDraw && (
+            <div
+              className={styles.newCoordinates}
+              style={{
+                left:
+                  moveDraw.x - isStartDraw.x > 0
+                    ? isStartDraw.x
+                    : isStartDraw.x - Math.abs(moveDraw.x - isStartDraw.x),
+                top:
+                  moveDraw.y - isStartDraw.y > 0
+                    ? isStartDraw.y
+                    : isStartDraw.y - Math.abs(moveDraw.y - isStartDraw.y),
+                width: Math.abs(moveDraw.x - isStartDraw.x),
+                height: Math.abs(moveDraw.y - isStartDraw.y),
+                zIndex: 1,
+              }}
+            ></div>
+          )}
         </div>
         <Moveable
           target={target}
@@ -189,9 +286,17 @@ export const Coordinates: React.FC<PropsType> = ({
           }}
         />
       </div>
-      <div className={styles.footer}>{formData.name}</div>
-      <div className={styles.footer}>Camera: {formData.camera}</div>
-      <Button text="Save" className={styles.button} type="button" onClick={submitHandler} />
+      <div className={styles.footer}>
+        <p>Item name: {formData.name}</p>
+        <p>Camera: {formData.camera}</p>
+        <Button
+          text="Save"
+          className={styles.button}
+          type="button"
+          onClick={submitHandler}
+          disabled={allBox.length + oldBox.length === 0}
+        />
+      </div>
     </div>
   );
 };

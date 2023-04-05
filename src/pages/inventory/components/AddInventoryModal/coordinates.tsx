@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import Moveable from 'react-moveable';
 import './moveable.scss';
 import styles from './addInventoryModal.module.scss';
@@ -8,9 +7,11 @@ import { Button } from '../../../../components/button';
 import { AiOutlineLeft } from 'react-icons/ai';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { generateString } from '../../../../functions/randomizer';
+import { NewCoordinates } from '../../types';
+import { AddInventoryData } from './types';
 type PropsType = {
   submitHandler: () => void;
-  formData: any;
+  formData: AddInventoryData;
   setCoords: (coords: any) => void;
   setIsShowCoord: (type: boolean) => void;
 };
@@ -23,28 +24,72 @@ export const Coordinates: React.FC<PropsType> = ({
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
-  const [allBox, setAllBox] = useState<any>([]);
+  const [allBox, setAllBox] = useState<any[]>([]);
+  const [isStartDraw, setIsStartDraw] = useState<any>(false);
+  const [moveDraw, setMoveDraw] = useState<any>({ x: 0, y: 0 });
 
   const createCoord = (e: any) => {
     if (e && !target) {
-      const target = e.target.getBoundingClientRect();
-      const id = generateString();
-      setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
+      // const target = e.target.getBoundingClientRect();
+      // const id = generateString();
+      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
     } else {
       setTarget(null);
     }
-    console.log(allBox);
+  };
+
+  const startPosition = (e: any) => {
+    if (e && !target) {
+      const target = e.target.getBoundingClientRect();
+      setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+      setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
+    } else {
+      // setTarget(null);
+    }
+  };
+
+  const movePosition = (e: any) => {
+    if (e && !target && isStartDraw) {
+      const target = e.target.getBoundingClientRect();
+      if (e.clientX - target.x < 0) {
+        setMoveDraw(isStartDraw);
+        setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+      }
+      setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+    }
+  };
+
+  const endPosition = (e: any) => {
+    if (e && !target) {
+      const response = {
+        x:
+          moveDraw.x - isStartDraw.x > 0
+            ? isStartDraw.x
+            : isStartDraw.x - Math.abs(moveDraw.x - isStartDraw.x),
+        y:
+          moveDraw.y - isStartDraw.y > 0
+            ? isStartDraw.y
+            : isStartDraw.y - Math.abs(moveDraw.y - isStartDraw.y),
+        width: Math.abs(moveDraw.x - isStartDraw.x),
+        height: Math.abs(moveDraw.y - isStartDraw.y),
+        id: generateString(),
+      };
+
+      setAllBox([...allBox, response]);
+      setIsStartDraw(false);
+      setMoveDraw({ x: 0, y: 0 });
+    } else {
+      // setTarget(null);
+    }
   };
 
   useEffect(() => {
     if (allBox.length > 0) {
       setTarget(document.getElementById(allBox[allBox.length - 1].id));
     }
+    onChangeSize();
   }, [allBox]);
-
-  useEffect(() => {
-    console.log(target);
-  }, [target]);
 
   const removeCoord = () => {
     setAllBox(allBox.filter((el: any) => el.id !== target.id));
@@ -55,7 +100,6 @@ export const Coordinates: React.FC<PropsType> = ({
     if (target) {
       setTarget(null);
     } else {
-      console.log(currentTarget);
       setTarget(currentTarget);
     }
   };
@@ -73,8 +117,8 @@ export const Coordinates: React.FC<PropsType> = ({
       const bufWidth = Number(element.style.width.replace(/px/gi, ''));
       const bufHeight = Number(element.style.height.replace(/px/gi, ''));
       const bufTrans = element.style.transform.replace(/[^\d,-]/g, '').split(',');
-      const bufTransWidth = Number(bufTrans[0]);
-      const bufTransHeight = Number(bufTrans[1]);
+      const bufTransWidth = Number(bufTrans[0]) || 0;
+      const bufTransHeight = Number(bufTrans[1]) || 0;
       const totalX = bufTransWidth + bufLeft;
       const totalY = bufTransHeight + bufTop;
       sendCoord.push({
@@ -103,7 +147,7 @@ export const Coordinates: React.FC<PropsType> = ({
                 ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera}/snapshot.jpg`
                 : `http://${window.location.hostname}/images/${formData.camera}/snapshot.jpg`
             }
-            onClick={(e) => createCoord(e)}
+            // onClick={(e) => createCoord(e)}
           />
           {allBox.map((el: any) => (
             <div
@@ -111,7 +155,13 @@ export const Coordinates: React.FC<PropsType> = ({
               className={
                 target && target.id === el.id ? 'coordinates coordSelected' : 'coordinates'
               }
-              style={{ left: el.x, top: el.y, width: 10, height: 10 }}
+              style={{
+                left: el.x,
+                top: el.y,
+                width: el.width,
+                height: el.height,
+                zIndex: isStartDraw ? 1 : 1001,
+              }}
               onClick={(e) => changeTarget(e.target)}
               key={el.id}
             >
@@ -120,6 +170,34 @@ export const Coordinates: React.FC<PropsType> = ({
               )}
             </div>
           ))}
+          <div
+            className={styles.draw}
+            onClick={(e) => createCoord(e)}
+            onMouseDown={(e) => startPosition(e)}
+            onMouseMove={(e) => movePosition(e)}
+            onMouseUp={(e) => endPosition(e)}
+            style={
+              target ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
+            }
+          ></div>
+          {isStartDraw && (
+            <div
+              className={styles.newCoordinates}
+              style={{
+                left:
+                  moveDraw.x - isStartDraw.x > 0
+                    ? isStartDraw.x
+                    : isStartDraw.x - Math.abs(moveDraw.x - isStartDraw.x),
+                top:
+                  moveDraw.y - isStartDraw.y > 0
+                    ? isStartDraw.y
+                    : isStartDraw.y - Math.abs(moveDraw.y - isStartDraw.y),
+                width: Math.abs(moveDraw.x - isStartDraw.x),
+                height: Math.abs(moveDraw.y - isStartDraw.y),
+                zIndex: 1,
+              }}
+            ></div>
+          )}
         </div>
         <Moveable
           target={target}
@@ -144,9 +222,17 @@ export const Coordinates: React.FC<PropsType> = ({
           }}
         />
       </div>
-      <div className={styles.footer}>{formData.name}</div>
-      <div className={styles.footer}>Camera: {formData.camera}</div>
-      <Button text="Save" className={styles.button} type="button" onClick={submitHandler} />
+      <div className={styles.footer}>
+        <p>Item name: {formData.name}</p>
+        <p>Camera: {formData.camera}</p>
+        <Button
+          text="Save"
+          className={styles.button}
+          type="button"
+          onClick={submitHandler}
+          disabled={allBox.length === 0}
+        />
+      </div>
     </div>
   );
 };

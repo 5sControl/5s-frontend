@@ -7,7 +7,8 @@ type PropsType = {
   name: string;
   type: string;
   showEye?: boolean;
-  onChange?: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange?: (e: any) => void;
   placeholder?: string;
   value?: string;
   label?: string;

@@ -1,5 +1,12 @@
 import { Link } from 'react-router-dom';
-import { Company, Dashboard, OrdersView, Algorithm, Inventory } from '../assets/svg/SVGcomponent';
+import {
+  Company,
+  Dashboard,
+  OrdersView,
+  Algorithm,
+  Inventory,
+  Live,
+} from '../assets/svg/SVGcomponent';
 import logo from '../assets/svg/icon.svg';
 import { useEffect, useState } from 'react';
 import { getCompanyInfo } from '../api/companyRequest';
@@ -36,8 +43,8 @@ export const LeftMenu = () => {
         </li>
         <li className={window.location.pathname.includes('live') ? 'activeMenu' : 'noActiveMenu'}>
           <Link to="live" onClick={send}>
-            <Dashboard />
-            <span>New Dashboard</span>
+            <Live />
+            <span>Live</span>
           </Link>
         </li>
         <li
