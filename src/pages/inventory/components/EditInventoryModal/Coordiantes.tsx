@@ -77,8 +77,6 @@ export const Coordinates: React.FC<PropsType> = ({
         })
       );
     }
-
-    console.log(coordinates);
   }, []);
 
   useEffect(() => {
