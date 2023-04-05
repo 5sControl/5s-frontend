@@ -8,11 +8,11 @@ import './moveable.scss';
 import { generateString } from '../../../../functions/randomizer';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { EditInventoryData } from './types';
-import { Coordinat, NewCoordinates } from '../../types';
+import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 type PropsType = {
   submitHandler: () => void;
   formData: EditInventoryData;
-  setCoords: (coords: any) => void;
+  setCoords: (coords: Coordinat[]) => void;
   setIsShowCoord: (type: boolean) => void;
   coordinates: Coordinat[] | undefined;
 };
@@ -32,7 +32,7 @@ export const Coordinates: React.FC<PropsType> = ({
   const [oldBox, setOldBox] = useState<Coordinat[]>([]);
 
   const [isStartDraw, setIsStartDraw] = useState<any>(false);
-  const [moveDraw, setMoveDraw] = useState<any>({ x: 0, y: 0 });
+  const [moveDraw, setMoveDraw] = useState<DrawingCoordinates>({ x: 0, y: 0 });
 
   const changeTarget = (currentTarget: any) => {
     if (target !== '') {
@@ -107,9 +107,9 @@ export const Coordinates: React.FC<PropsType> = ({
 
   const removeCoord = () => {
     if (target.id.length > 10) {
-      setOldBox(oldBox.filter((el: any) => el.id !== target.id));
+      setOldBox(oldBox.filter((el: Coordinat) => el.id !== target.id));
     } else {
-      setAllBox(allBox.filter((el: any) => el.id !== target.id));
+      setAllBox(allBox.filter((el: NewCoordinates) => el.id !== target.id));
     }
     setTarget('');
   };
@@ -125,7 +125,7 @@ export const Coordinates: React.FC<PropsType> = ({
   useEffect(() => {
     if (coordinates) {
       setOldBox(
-        coordinates.map((el: any) => {
+        coordinates.map((el: Coordinat) => {
           return {
             ...el,
             id: generateString(11),
@@ -151,7 +151,7 @@ export const Coordinates: React.FC<PropsType> = ({
     const proportionWidth = image.current.naturalWidth / image.current.width;
     const proportionHeight = image.current.naturalHeight / image.current.height;
 
-    const sendCoord: any[] = [];
+    const sendCoord: Coordinat[] = [];
     coordinatesLayout.forEach((element: any) => {
       const bufLeft = Number(element.style.left.replace(/px/gi, ''));
       const bufTop = Number(element.style.top.replace(/px/gi, ''));
@@ -176,7 +176,11 @@ export const Coordinates: React.FC<PropsType> = ({
   return (
     <div className={styles.modalCoordContainer}>
       <div className={styles.area}>
-        <div className={styles.back} onClick={() => setIsShowCoord(false)}>
+        <div
+          className={styles.back}
+          onClick={() => setIsShowCoord(false)}
+          style={{ zIndex: isStartDraw ? 1 : 2001 }}
+        >
           <AiOutlineLeft /> Back
         </div>
         <div className={styles.image_container}>
@@ -192,7 +196,7 @@ export const Coordinates: React.FC<PropsType> = ({
             onClick={(e) => createCoord(e)}
           />
           {oldBox.length > 0 &&
-            oldBox.map((element: any) => (
+            oldBox.map((element: Coordinat) => (
               <div
                 key={element.id}
                 className={
@@ -213,7 +217,7 @@ export const Coordinates: React.FC<PropsType> = ({
                 )}
               </div>
             ))}
-          {allBox.map((el: any) => (
+          {allBox.map((el: NewCoordinates) => (
             <div
               id={el.id}
               className={

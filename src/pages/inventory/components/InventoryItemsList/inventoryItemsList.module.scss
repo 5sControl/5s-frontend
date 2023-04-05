@@ -18,12 +18,13 @@
     height: calc(100vh - 300px);
     margin-top: 20px;
     overflow-y: scroll;
+  }
 
-    .emptyList {
-      @include body1;
-      color: var(--HightEmphasis);
-      letter-spacing: 0.15px;
-    }
+  .emptyList {
+    @include body1;
+    color: var(--HightEmphasis);
+    letter-spacing: 0.15px;
+    margin-top: 20px;
   }
 
   .list::-webkit-scrollbar {

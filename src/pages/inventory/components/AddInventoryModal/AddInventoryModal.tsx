@@ -15,6 +15,7 @@ import { Coordinates } from './coordinates';
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
 import './moveable.scss';
 import { Coordinat } from '../../types';
+
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;

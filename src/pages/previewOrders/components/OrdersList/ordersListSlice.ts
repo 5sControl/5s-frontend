@@ -2,10 +2,15 @@ import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@
 import { OrdersWithPagination } from '../../../../storage/orderView';
 import { OrderListByCustomer } from '../../../../storage/orderViewCustomer';
 import { RootState } from '../../../../store';
+import { getFilterOperationsAPI } from '../FilterBar/filterBarAPI';
 import { parseOrderData } from './orderListHelper';
 import { getOrdersAPI } from './ordersListAPI';
 
-export type FilterDataType = { 'order-status': string };
+export type FilterDataType = {
+  'order-status': string;
+  'operation-name': string[];
+  'operation-status': string[];
+};
 
 interface ReportState {
   activeOrder: null | string;
@@ -17,6 +22,10 @@ interface ReportState {
 
   isShowOrdersViewFilter: boolean;
   filterData: FilterDataType;
+  isLoadingFilterOperations: boolean;
+  isErrorFilterOperations: boolean;
+  filterOperationsData: Array<string>;
+  errorFilterOperations: SerializedError;
 }
 
 const initialState: ReportState = {
@@ -28,7 +37,15 @@ const initialState: ReportState = {
   errorOfOrdersData: {},
 
   isShowOrdersViewFilter: false,
-  filterData: { 'order-status': 'all' },
+  filterData: {
+    'order-status': 'all',
+    'operation-name': [],
+    'operation-status': [],
+  },
+  isLoadingFilterOperations: false,
+  isErrorFilterOperations: false,
+  filterOperationsData: [],
+  errorFilterOperations: {},
 };
 
 export const getOrdersAsync = createAsyncThunk(
@@ -62,6 +79,18 @@ export const getOrdersAsync = createAsyncThunk(
   }
 );
 
+export const getFilterOperationsAsync = createAsyncThunk(
+  'getFilterOperations',
+  async (data: { token: string; hostname: string }) => {
+    const response = await getFilterOperationsAPI(data.hostname, data.token);
+    if (response.data) {
+      console.log('getFilterOperations', response.data);
+      return response.data;
+    }
+    return [];
+  }
+);
+
 const ordersList = createSlice({
   name: 'ordersList',
   initialState,
@@ -78,11 +107,30 @@ const ordersList = createSlice({
     setIsShowOrdersViewFilter(state, action: PayloadAction<boolean>) {
       state.isShowOrdersViewFilter = action.payload;
     },
-    setFilterData(state, action: PayloadAction<FilterDataType>) {
+    setOrderStatusFilterData(state, action: PayloadAction<string>) {
+      state.filterData['order-status'] = action.payload;
+    },
+    setOperationsFilterData(state, action: PayloadAction<{ [key: string]: string }>) {
+      const key = Object.keys(action.payload)[0] as 'operation-name' | 'operation-status';
+      const value = Object.values(action.payload)[0];
+
+      if (state.filterData[key].includes(value)) {
+        const index = state.filterData[key].indexOf(value);
+        state.filterData[key].splice(index, 1);
+      } else {
+        state.filterData[key] = [...state.filterData[key], value];
+      }
+    },
+    setFilterData(state, action) {
       state.filterData = action.payload;
     },
     resetFilterData(state) {
-      state.filterData = { 'order-status': 'all' };
+      state.filterData = {
+        ...state.filterData,
+        'order-status': 'all',
+        'operation-name': [],
+        'operation-status': [],
+      };
     },
   },
   extraReducers: (builder) => {
@@ -99,6 +147,20 @@ const ordersList = createSlice({
       state.isErrorOfOrdersList = true;
       state.errorOfOrdersData = action.error;
     });
+
+    builder.addCase(getFilterOperationsAsync.pending, (state) => {
+      state.isLoadingFilterOperations = true;
+    });
+    builder.addCase(getFilterOperationsAsync.fulfilled, (state, action) => {
+      state.isLoadingFilterOperations = false;
+      state.isErrorFilterOperations = false;
+      state.filterOperationsData = action.payload as string[];
+    });
+    builder.addCase(getFilterOperationsAsync.rejected, (state, action) => {
+      state.isLoadingFilterOperations = false;
+      state.isErrorFilterOperations = true;
+      state.errorFilterOperations = action.error;
+    });
   },
 });
 
@@ -107,8 +169,10 @@ export const {
   setSearchValue,
   clearOrdersList,
   setIsShowOrdersViewFilter,
-  setFilterData,
+  setOrderStatusFilterData,
+  setOperationsFilterData,
   resetFilterData,
+  setFilterData,
 } = ordersList.actions;
 export const selectOrdersList = (state: RootState) => state.orderList;
 export default ordersList.reducer;

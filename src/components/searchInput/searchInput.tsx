@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CloseCross, SearchIcon } from '../../assets/svg/SVGcomponent';
 import styles from './searchInput.module.scss';
 
 type PropsType = {
   handleClearList?: () => void;
-  handleSubmit?: (event: React.ChangeEvent<HTMLFormElement>) => void;
+  handleChange?: (value: string) => void;
   className?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -12,44 +12,52 @@ type PropsType = {
 
 export const SearchInput: React.FC<PropsType> = ({
   className,
-  handleSubmit,
+  handleChange,
   handleClearList,
   placeholder,
   disabled = false,
 }) => {
-  const [value, setValue] = useState('');
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-  };
+  const [term, setTerm] = useState('');
+  const [debouncedTerm, setDebouncedTerm] = useState(term);
 
   const handleClear = () => {
-    setValue('');
+    setTerm('');
+    setDebouncedTerm('');
     handleClearList && handleClearList();
   };
 
-  const onSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    value.length > 0 && handleSubmit && handleSubmit(event);
-  };
+  // update 'term' value after 1 second from the last update of 'debouncedTerm'
+  useEffect(() => {
+    const timer = setTimeout(() => setTerm(debouncedTerm), 1000);
+    return () => clearTimeout(timer);
+  }, [debouncedTerm]);
+
+  // submit a new search
+  useEffect(() => {
+    if (term !== '') {
+      handleChange && handleChange(term);
+    } else {
+      handleClearList && handleClearList();
+    }
+  }, [term]);
 
   return (
     <div className={`${styles.inputContainer} ${className}`}>
-      <form onSubmit={onSubmit} className={styles.form}>
+      <div className={styles.form}>
         <input
           id="search"
           type="text"
           name="search"
-          value={value}
+          value={debouncedTerm}
           className={styles.form_input}
           placeholder={placeholder}
           disabled={disabled}
-          onChange={handleChange}
+          onChange={(e) => setDebouncedTerm(e.target.value)}
         />
         <button type="button" className={styles.form_submit}>
-          {!value ? <SearchIcon /> : <CloseCross onClick={handleClear} className={styles.cross} />}
+          {!term ? <SearchIcon /> : <CloseCross onClick={handleClear} className={styles.cross} />}
         </button>
-      </form>
+      </div>
     </div>
   );
 };
