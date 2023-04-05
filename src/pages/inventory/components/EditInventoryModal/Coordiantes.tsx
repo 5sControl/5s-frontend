@@ -89,7 +89,7 @@ export const Coordinates: React.FC<PropsType> = ({
   }, [allBox]);
 
   useEffect(() => {
-    setCoords(coordinates);
+    setCoords(oldBox);
   }, [oldBox]);
 
   const onChangeSize = () => {

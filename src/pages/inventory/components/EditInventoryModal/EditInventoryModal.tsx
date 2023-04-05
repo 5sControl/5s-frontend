@@ -33,6 +33,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
   const submitHandler = () => {
     const dataForm = formData;
     dataForm.coords = coords;
+    console.log(dataForm);
     dispatch(
       editItem({
         token: cookies.token,
