@@ -53,23 +53,32 @@ export const Coordinates: React.FC<PropsType> = ({
   const movePosition = (e: any) => {
     if (e && !target && isStartDraw) {
       const target = e.target.getBoundingClientRect();
+      if (e.clientX - target.x < 0) {
+        setMoveDraw(isStartDraw);
+        setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+      }
       setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
-      console.log({ x: e.clientX - target.x, y: e.clientY - target.y });
+      console.log(e.clientX - target.x - isStartDraw.x);
     }
   };
 
   const endPosition = (e: any) => {
     if (e && !target) {
-      setAllBox([
-        ...allBox,
-        {
-          x: isStartDraw.x,
-          y: isStartDraw.y,
-          width: moveDraw.x - isStartDraw.x,
-          height: moveDraw.y - isStartDraw.y,
-          id: generateString(),
-        },
-      ]);
+      const response = {
+        x:
+          moveDraw.x - isStartDraw.x > 0
+            ? isStartDraw.x
+            : isStartDraw.x - Math.abs(moveDraw.x - isStartDraw.x),
+        y:
+          moveDraw.y - isStartDraw.y > 0
+            ? isStartDraw.y
+            : isStartDraw.y - Math.abs(moveDraw.y - isStartDraw.y),
+        width: Math.abs(moveDraw.x - isStartDraw.x),
+        height: Math.abs(moveDraw.y - isStartDraw.y),
+        id: generateString(),
+      };
+
+      setAllBox([...allBox, response]);
       setIsStartDraw(false);
       setMoveDraw({ x: 0, y: 0 });
       // const target = e.target.getBoundingClientRect();
@@ -82,6 +91,7 @@ export const Coordinates: React.FC<PropsType> = ({
     if (allBox.length > 0) {
       setTarget(document.getElementById(allBox[allBox.length - 1].id));
     }
+    console.log(allBox);
     onChangeSize();
   }, [allBox]);
 
@@ -177,10 +187,16 @@ export const Coordinates: React.FC<PropsType> = ({
             <div
               className={styles.newCoordinates}
               style={{
-                left: isStartDraw.x,
-                top: isStartDraw.y,
-                width: moveDraw.x - isStartDraw.x,
-                height: moveDraw.y - isStartDraw.y,
+                left:
+                  moveDraw.x - isStartDraw.x > 0
+                    ? isStartDraw.x
+                    : isStartDraw.x - Math.abs(moveDraw.x - isStartDraw.x),
+                top:
+                  moveDraw.y - isStartDraw.y > 0
+                    ? isStartDraw.y
+                    : isStartDraw.y - Math.abs(moveDraw.y - isStartDraw.y),
+                width: Math.abs(moveDraw.x - isStartDraw.x),
+                height: Math.abs(moveDraw.y - isStartDraw.y),
                 zIndex: 1,
               }}
             ></div>
