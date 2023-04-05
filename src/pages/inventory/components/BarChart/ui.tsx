@@ -9,7 +9,8 @@ import {
 } from '../StockImageModal/stockImageModalSlice';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { selectActiveInventoryItem } from '../InventoryItemsList/InventoryItemsListSlice';
-import { InventoryHistory } from '../../types';
+import { HistoryExtra, InventoryHistory } from '../../types';
+import { getExtraOfActiveData } from '../../helper';
 
 type PropsType = {
   data: Array<InventoryHistory> | null;
@@ -47,6 +48,10 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
     );
   };
 
+  const setExtraOfActiveData = (extra: Array<HistoryExtra>) => {
+    return getExtraOfActiveData(extra, activeInventoryItem);
+  };
+
   useEffect(() => {
     if (data) {
       const svg = d3.select('#chart');
@@ -66,7 +71,10 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
 
       const yScale = d3
         .scaleLinear()
-        .domain([getMaxOfArray(update.map((item) => item.extra[0].count)) + 10, 0])
+        .domain([
+          getMaxOfArray(update.map((item) => setExtraOfActiveData(item.extra).count)) + 10,
+          0,
+        ])
         .range([0, height - dimensions.top - dimensions.bottom]);
 
       svg
@@ -135,14 +143,16 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
           }">${'| '}${timeDifference(d1.start_tracking, d1.stop_tracking)}</span></h2><div class="${
             styles.stock
           }"><span class="${styles.stockNumber} ${
-            d1.extra[0].status === 'In stock' && styles.stockIn
-          } ${d1.extra[0].status === 'Low stock level' && styles.low} ${
-            d1.extra[0].status === 'Out of stock' && styles.out
-          }">${d1.extra[0].count}</span> in stock</div>
-          <div class="${styles.status} ${d1.extra[0].status === 'In stock' && styles.statusStock} ${
-            d1.extra[0].status === 'Low stock level' && styles.statusLowStock
-          } ${d1.extra[0].status === 'Out of stock' && styles.statusOutStock}">${
-            d1.extra[0].status
+            setExtraOfActiveData(d1.extra).status === 'In stock' && styles.stockIn
+          } ${setExtraOfActiveData(d1.extra).status === 'Low stock level' && styles.low} ${
+            setExtraOfActiveData(d1.extra).status === 'Out of stock' && styles.out
+          }">${setExtraOfActiveData(d1.extra).count}</span> in stock</div>
+          <div class="${styles.status} ${
+            setExtraOfActiveData(d1.extra).status === 'In stock' && styles.statusStock
+          } ${
+            setExtraOfActiveData(d1.extra).status === 'Low stock level' && styles.statusLowStock
+          } ${setExtraOfActiveData(d1.extra).status === 'Out of stock' && styles.statusOutStock}">${
+            setExtraOfActiveData(d1.extra).status
           }</div>
           <p class="${styles.click}">Click to see details</p></div>`
         );
@@ -160,7 +170,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
       const bar = enter.append('g').attr('transform', (d) => {
         if (d) {
           return `translate(${xScale(d.start_tracking) + dimensions.left}, ${
-            yScale(d.extra[0].count) + dimensions.top
+            yScale(setExtraOfActiveData(d.extra).count) + dimensions.top
           } )`;
         }
         return '';
@@ -168,15 +178,20 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
 
       bar
         .append('rect')
-        .attr('width', 5)
+        .attr('width', width / data.length)
         .attr(
           'height',
-          (d) => height - yScale(d.extra[0].count) - dimensions.bottom - dimensions.top
+          (d) =>
+            height -
+            yScale(setExtraOfActiveData(d.extra).count) -
+            dimensions.bottom -
+            dimensions.top +
+            8
         )
         .attr('fill', (d) =>
-          d.extra[0].status === 'In stock'
+          setExtraOfActiveData(d.extra).status === 'In stock'
             ? '#87BC45'
-            : d.extra[0].status === 'Low stock level'
+            : setExtraOfActiveData(d.extra).status === 'Low stock level'
             ? '#FF7B29'
             : '#E00606'
         )
