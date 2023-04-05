@@ -58,5 +58,7 @@ export interface Coordinat {
 export interface NewCoordinates {
   x: number;
   y: number;
+  width?: number;
+  height?: number;
   id: string;
 }

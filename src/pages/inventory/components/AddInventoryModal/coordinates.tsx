@@ -24,28 +24,66 @@ export const Coordinates: React.FC<PropsType> = ({
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
-  const [allBox, setAllBox] = useState<NewCoordinates[]>([]);
+  const [allBox, setAllBox] = useState<any[]>([]);
+  const [isStartDraw, setIsStartDraw] = useState<any>(false);
+  const [moveDraw, setMoveDraw] = useState<any>({ x: 0, y: 0 });
 
   const createCoord = (e: any) => {
     if (e && !target) {
-      const target = e.target.getBoundingClientRect();
-      const id = generateString();
-      setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
+      // const target = e.target.getBoundingClientRect();
+      // const id = generateString();
+      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
     } else {
       setTarget(null);
     }
-    console.log(allBox);
   };
 
+  const startPosition = (e: any) => {
+    if (e && !target) {
+      const target = e.target.getBoundingClientRect();
+      setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+      setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+      console.log({ x: e.clientX - target.x, y: e.clientY - target.y });
+      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
+    } else {
+      // setTarget(null);
+    }
+  };
+
+  const movePosition = (e: any) => {
+    if (e && !target && isStartDraw) {
+      const target = e.target.getBoundingClientRect();
+      setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+      console.log({ x: e.clientX - target.x, y: e.clientY - target.y });
+    }
+  };
+
+  const endPosition = (e: any) => {
+    if (e && !target) {
+      setAllBox([
+        ...allBox,
+        {
+          x: isStartDraw.x,
+          y: isStartDraw.y,
+          width: moveDraw.x - isStartDraw.x,
+          height: moveDraw.y - isStartDraw.y,
+          id: generateString(),
+        },
+      ]);
+      setIsStartDraw(false);
+      setMoveDraw({ x: 0, y: 0 });
+      // const target = e.target.getBoundingClientRect();
+      // console.log({ x: e.clientX - target.x, y: e.clientY - target.y });
+    } else {
+      // setTarget(null);
+    }
+  };
   useEffect(() => {
     if (allBox.length > 0) {
       setTarget(document.getElementById(allBox[allBox.length - 1].id));
     }
+    onChangeSize();
   }, [allBox]);
-
-  useEffect(() => {
-    console.log(target);
-  }, [target]);
 
   const removeCoord = () => {
     setAllBox(allBox.filter((el: any) => el.id !== target.id));
@@ -56,7 +94,6 @@ export const Coordinates: React.FC<PropsType> = ({
     if (target) {
       setTarget(null);
     } else {
-      console.log(currentTarget);
       setTarget(currentTarget);
     }
   };
@@ -74,8 +111,9 @@ export const Coordinates: React.FC<PropsType> = ({
       const bufWidth = Number(element.style.width.replace(/px/gi, ''));
       const bufHeight = Number(element.style.height.replace(/px/gi, ''));
       const bufTrans = element.style.transform.replace(/[^\d,-]/g, '').split(',');
-      const bufTransWidth = Number(bufTrans[0]);
-      const bufTransHeight = Number(bufTrans[1]);
+      const bufTransWidth = Number(bufTrans[0]) || 0;
+      const bufTransHeight = Number(bufTrans[1]) || 0;
+      console.log(bufTransHeight);
       const totalX = bufTransWidth + bufLeft;
       const totalY = bufTransHeight + bufTop;
       sendCoord.push({
@@ -104,7 +142,7 @@ export const Coordinates: React.FC<PropsType> = ({
                 ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera}/snapshot.jpg`
                 : `http://${window.location.hostname}/images/${formData.camera}/snapshot.jpg`
             }
-            onClick={(e) => createCoord(e)}
+            // onClick={(e) => createCoord(e)}
           />
           {allBox.map((el: any) => (
             <div
@@ -112,7 +150,13 @@ export const Coordinates: React.FC<PropsType> = ({
               className={
                 target && target.id === el.id ? 'coordinates coordSelected' : 'coordinates'
               }
-              style={{ left: el.x, top: el.y, width: 10, height: 10 }}
+              style={{
+                left: el.x,
+                top: el.y,
+                width: el.width,
+                height: el.height,
+                zIndex: isStartDraw ? 1 : 1001,
+              }}
               onClick={(e) => changeTarget(e.target)}
               key={el.id}
             >
@@ -121,6 +165,26 @@ export const Coordinates: React.FC<PropsType> = ({
               )}
             </div>
           ))}
+          <div
+            className={styles.draw}
+            onClick={(e) => createCoord(e)}
+            onMouseDown={(e) => startPosition(e)}
+            onMouseMove={(e) => movePosition(e)}
+            onMouseUp={(e) => endPosition(e)}
+            style={{ zIndex: target ? 100 : 1000 }}
+          ></div>
+          {isStartDraw && (
+            <div
+              className={styles.newCoordinates}
+              style={{
+                left: isStartDraw.x,
+                top: isStartDraw.y,
+                width: moveDraw.x - isStartDraw.x,
+                height: moveDraw.y - isStartDraw.y,
+                zIndex: 1,
+              }}
+            ></div>
+          )}
         </div>
         <Moveable
           target={target}
