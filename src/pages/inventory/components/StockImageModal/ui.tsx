@@ -4,7 +4,8 @@ import moment from 'moment-timezone';
 import { useAppSelector } from '../../../../store/hooks';
 import { selectActiveInventoryItem } from '../InventoryItemsList/InventoryItemsListSlice';
 import { setDateDot } from '../../../previewOrders/previewOrdersHelper';
-import { InventoryHistory } from '../../types';
+import { HistoryExtra, InventoryHistory } from '../../types';
+import { getExtraOfActiveData } from '../../helper';
 
 type PropsType = {
   isOpen: boolean;
@@ -20,6 +21,11 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
       moment(currentReport.photos[0].date).format('LT');
 
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
+
+  const setExtraOfActiveData = (extra: Array<HistoryExtra>) => {
+    return getExtraOfActiveData(extra, activeInventoryItem);
+  };
+
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
       <div
@@ -44,24 +50,31 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
           <p className={styles.operation}>{activeInventoryItem?.name}</p>
           <p
             className={`${styles.status} ${
-              currentReport.extra[0].status === 'In stock' && styles.statusStock
-            } ${currentReport.extra[0].status === 'Low stock level' && styles.statusLowStock} ${
-              currentReport.extra[0].status === 'Out of stock' && styles.statusOutStock
+              setExtraOfActiveData(currentReport.extra).status === 'In stock' && styles.statusStock
+            } ${
+              setExtraOfActiveData(currentReport.extra).status === 'Low stock level' &&
+              styles.statusLowStock
+            } ${
+              setExtraOfActiveData(currentReport.extra).status === 'Out of stock' &&
+              styles.statusOutStock
             }`}
           >
-            {currentReport.extra[0].status}
+            {setExtraOfActiveData(currentReport.extra).status}
           </p>
         </div>
 
         <div className={styles.wrapper}>
           <div className={styles.subtitle}>
             <span>{'Stock level at the time : '}</span>
-            <span className={styles.value}>{currentReport.extra[0].count}</span>
+            <span className={styles.value}>{setExtraOfActiveData(currentReport.extra).count}</span>
           </div>
 
           <div className={styles.subtitle}>
             <span>{'Low stock level: '}</span>
-            <span className={styles.value}> {currentReport.extra[0].low_stock_level}</span>
+            <span className={styles.value}>
+              {' '}
+              {setExtraOfActiveData(currentReport.extra).low_stock_level}
+            </span>
           </div>
 
           <div className={styles.subtitle}>
