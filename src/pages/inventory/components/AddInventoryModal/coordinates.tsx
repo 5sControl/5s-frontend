@@ -83,6 +83,7 @@ export const Coordinates: React.FC<PropsType> = ({
       // setTarget(null);
     }
   };
+
   useEffect(() => {
     if (allBox.length > 0) {
       setTarget(document.getElementById(allBox[allBox.length - 1].id));
