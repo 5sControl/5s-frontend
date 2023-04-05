@@ -176,7 +176,9 @@ export const Coordinates: React.FC<PropsType> = ({
             onMouseDown={(e) => startPosition(e)}
             onMouseMove={(e) => movePosition(e)}
             onMouseUp={(e) => endPosition(e)}
-            style={{ zIndex: target ? 100 : 1000 }}
+            style={
+              target ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
+            }
           ></div>
           {isStartDraw && (
             <div
