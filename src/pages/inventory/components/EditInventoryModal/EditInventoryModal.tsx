@@ -46,7 +46,11 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       setTimeout(() => {
         handleClose();
         dispatch(
-          getInventoryItemsAsync({ token: cookies.token, hostname: window.location.hostname })
+          getInventoryItemsAsync({
+            token: cookies.token,
+            hostname: window.location.hostname,
+            isSort: false,
+          })
         );
       }, 2000);
     });
