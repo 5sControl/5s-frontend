@@ -59,7 +59,7 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
               styles.statusOutStock
             }`}
           >
-            {currentReport.extra[0].status}
+            {setExtraOfActiveData(currentReport.extra).status}
           </p>
         </div>
 
