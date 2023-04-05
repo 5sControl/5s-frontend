@@ -176,7 +176,11 @@ export const Coordinates: React.FC<PropsType> = ({
   return (
     <div className={styles.modalCoordContainer}>
       <div className={styles.area}>
-        <div className={styles.back} onClick={() => setIsShowCoord(false)}>
+        <div
+          className={styles.back}
+          onClick={() => setIsShowCoord(false)}
+          style={{ zIndex: isStartDraw ? 1 : 1001 }}
+        >
           <AiOutlineLeft /> Back
         </div>
         <div className={styles.image_container}>
