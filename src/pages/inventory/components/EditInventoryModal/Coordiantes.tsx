@@ -286,9 +286,17 @@ export const Coordinates: React.FC<PropsType> = ({
           }}
         />
       </div>
-      <div className={styles.footer}>{formData.name}</div>
-      <div className={styles.footer}>Camera: {formData.camera}</div>
-      <Button text="Save" className={styles.button} type="button" onClick={submitHandler} />
+      <div className={styles.footer}>
+        <p>Item name: {formData.name}</p>
+        <p>Camera: {formData.camera}</p>
+        <Button
+          text="Save"
+          className={styles.button}
+          type="button"
+          onClick={submitHandler}
+          disabled={allBox.length + oldBox.length === 0}
+        />
+      </div>
     </div>
   );
 };

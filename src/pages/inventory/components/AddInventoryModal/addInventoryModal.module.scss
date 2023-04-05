@@ -145,4 +145,13 @@
       color:green;
     }
 } 
+.footer{
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+  padding: 30px;
+  .button{
+    align-self: flex-end;
+  }
+}
 }
