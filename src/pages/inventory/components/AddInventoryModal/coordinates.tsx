@@ -137,7 +137,7 @@ export const Coordinates: React.FC<PropsType> = ({
         <div
           className={styles.back}
           onClick={() => setIsShowCoord(false)}
-          style={{ zIndex: isStartDraw ? 1 : 1001 }}
+          style={{ zIndex: isStartDraw ? 1 : 2001 }}
         >
           <AiOutlineLeft /> Back
         </div>
