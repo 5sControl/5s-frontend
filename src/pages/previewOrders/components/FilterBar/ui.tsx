@@ -5,6 +5,7 @@ import { Radio } from '../../../../components/radio';
 import { ReactPortal } from '../../../../components/reactPortal';
 import styles from './filter.module.scss';
 import {
+  FilterDataType,
   selectOrdersList,
   setOperationStatusFilterData,
   setOrderStatusFilterData,
@@ -14,12 +15,11 @@ import { useSearchParams } from 'react-router-dom';
 import { Cross } from '../../../../assets/svg/SVGcomponent';
 import { Checkbox } from '../../../../components/checkbox';
 import { operationStatusData, orderStatusData } from './config';
-import { FilterDataQuery } from './types';
 
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
-  handleSubmit: (data: FilterDataQuery) => void;
+  handleSubmit: (data: FilterDataType) => void;
   handleResetFilters: () => void;
   className?: string;
 };
@@ -32,7 +32,8 @@ export const FilterBar: React.FC<PropsType> = ({
   className,
 }) => {
   const dispatch = useAppDispatch();
-  const { filterData } = useAppSelector(selectOrdersList);
+  const { filterData, isLoadingFilterOperations, filterOperationsData } =
+    useAppSelector(selectOrdersList);
   const [searchParams] = useSearchParams();
   const navigateSearch = useNavigateSearch();
 
@@ -61,21 +62,21 @@ export const FilterBar: React.FC<PropsType> = ({
       dispatch(setOrderStatusFilterData(value));
     }
     if (name === 'operation-status') {
-      console.log(name, value);
-
-      dispatch(setOperationStatusFilterData(value));
+      dispatch(setOperationStatusFilterData({ [name]: value }));
+    }
+    if (name === 'operation') {
+      dispatch(setOperationStatusFilterData({ [name]: value }));
     }
   };
 
   const onSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    console.log('filterData', filterData);
     const queryParams = Object.fromEntries([...searchParams]);
     const newQueryParams = {
       ...queryParams,
       ...filterData,
     };
+
     navigateSearch('/orders-view', newQueryParams as any);
     handleSubmit(filterData);
   };
@@ -103,6 +104,26 @@ export const FilterBar: React.FC<PropsType> = ({
                   onChange={onChange}
                 />
               ))}
+            </div>
+
+            <div className={styles.block}>
+              <legend className={styles.block_title}>Operation</legend>
+              <div className={styles.block_content}>
+                {isLoadingFilterOperations
+                  ? 'Loading...'
+                  : filterOperationsData.map((element, index) => (
+                      <Checkbox
+                        key={index}
+                        id={index.toString()}
+                        name="operation"
+                        value={element}
+                        label={element}
+                        isChecked={filterData['operation'].includes(element)}
+                        onChange={onChange}
+                        className={styles.checkbox}
+                      />
+                    ))}
+              </div>
             </div>
 
             <div className={styles.block}>

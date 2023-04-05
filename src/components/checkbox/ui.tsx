@@ -7,11 +7,20 @@ type PropsType = {
   value: string;
   isChecked?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
 };
 
-export const Checkbox: React.FC<PropsType> = ({ id, name, label, value, isChecked, onChange }) => {
+export const Checkbox: React.FC<PropsType> = ({
+  id,
+  name,
+  label,
+  value,
+  isChecked,
+  onChange,
+  className,
+}) => {
   return (
-    <div className={styles.content}>
+    <div className={`${styles.content} ${className}`}>
       <input
         id={id}
         type="checkbox"

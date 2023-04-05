@@ -25,6 +25,10 @@ export const getOrdersAPI = (
     for (const p of params['operation-status']) {
       searchParams.append('operation-status', p);
     }
+    for (const p of params['operation']) {
+      searchParams.append('operation', p);
+    }
+
     return proxy<OrderWithPaginationCustomer>(url.toString(), 'GET', {
       Authorization: cookies,
     });
@@ -40,6 +44,10 @@ export const getOrdersAPI = (
     for (const p of params['operation-status']) {
       searchParams.append('operation-status', p);
     }
+    for (const p of params['operation']) {
+      searchParams.append('operation', p);
+    }
+
     return axios.get<OrderWithPaginationCustomer>(url.toString(), {
       headers: {
         Authorization: cookies,
@@ -57,6 +65,10 @@ export const getOrdersAPI = (
     for (const p of params['operation-status']) {
       searchParams.append('operation-status', p);
     }
+    for (const p of params['operation']) {
+      searchParams.append('operation', p);
+    }
+
     return axios.get<OrderWithPaginationCustomer>(url.toString(), {
       headers: {
         Authorization: cookies,

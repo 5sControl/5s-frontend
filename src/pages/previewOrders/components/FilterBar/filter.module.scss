@@ -51,13 +51,28 @@
 
 .block {
   color: var(--HightEmphasis);
-
   &_title {
     @include h4;
     margin-bottom: 10px;
   }
   &_text {
     @include body2;
+  }
+  &_content {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.checkbox {
+  width: 100%;
+  max-width: 170px;
+
+  & label {
+    max-width: 170px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }
 

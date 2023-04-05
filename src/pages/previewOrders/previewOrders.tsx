@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   addActiveOrder,
   FilterDataType,
+  getFilterOperationsAsync,
   getOrdersAsync,
   resetFilterData,
   selectOrdersList,
@@ -34,7 +35,6 @@ import { useNavigateSearch } from '../../functions/useNavigateSearch';
 import { OperationItem, OrderItem } from '../../storage/orderView';
 import { Button } from '../../components/button';
 import { FilterBar } from './components/FilterBar';
-import { FilterDataQuery } from './components/FilterBar/types';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -108,10 +108,15 @@ export const PreviewOrders: React.FC = () => {
   };
 
   const handleClickFilter = (value: boolean) => {
+    if (value) {
+      dispatch(
+        getFilterOperationsAsync({ token: cookies.token, hostname: window.location.hostname })
+      );
+    }
     dispatch(setIsShowOrdersViewFilter(value));
   };
 
-  const handleSubmitFilters = (data: FilterDataQuery) => {
+  const handleSubmitFilters = (data: FilterDataType) => {
     getOrdersList(1, ordersList?.records_on_page as number, search, data);
     handleClickFilter(false);
   };

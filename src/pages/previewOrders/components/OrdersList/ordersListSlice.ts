@@ -2,11 +2,13 @@ import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@
 import { OrdersWithPagination } from '../../../../storage/orderView';
 import { OrderListByCustomer } from '../../../../storage/orderViewCustomer';
 import { RootState } from '../../../../store';
+import { getFilterOperationsAPI } from '../FilterBar/filterBarAPI';
 import { parseOrderData } from './orderListHelper';
 import { getOrdersAPI } from './ordersListAPI';
 
 export type FilterDataType = {
   'order-status': string;
+  operation: string[];
   'operation-status': string[];
 };
 
@@ -20,6 +22,10 @@ interface ReportState {
 
   isShowOrdersViewFilter: boolean;
   filterData: FilterDataType;
+  isLoadingFilterOperations: boolean;
+  isErrorFilterOperations: boolean;
+  filterOperationsData: Array<string>;
+  errorFilterOperations: SerializedError;
 }
 
 const initialState: ReportState = {
@@ -33,8 +39,13 @@ const initialState: ReportState = {
   isShowOrdersViewFilter: false,
   filterData: {
     'order-status': 'all',
+    operation: [],
     'operation-status': [],
   },
+  isLoadingFilterOperations: false,
+  isErrorFilterOperations: false,
+  filterOperationsData: [],
+  errorFilterOperations: {},
 };
 
 export const getOrdersAsync = createAsyncThunk(
@@ -68,6 +79,18 @@ export const getOrdersAsync = createAsyncThunk(
   }
 );
 
+export const getFilterOperationsAsync = createAsyncThunk(
+  'getFilterOperations',
+  async (data: { token: string; hostname: string }) => {
+    const response = await getFilterOperationsAPI(data.hostname, data.token);
+    if (response.data) {
+      console.log('getFilterOperations', response.data);
+      return response.data;
+    }
+    return [];
+  }
+);
+
 const ordersList = createSlice({
   name: 'ordersList',
   initialState,
@@ -87,21 +110,22 @@ const ordersList = createSlice({
     setOrderStatusFilterData(state, action: PayloadAction<string>) {
       state.filterData['order-status'] = action.payload;
     },
-    setOperationStatusFilterData(state, action: PayloadAction<string>) {
-      if (state.filterData['operation-status'].includes(action.payload)) {
-        const index = state.filterData['operation-status'].indexOf(action.payload);
-        state.filterData['operation-status'].splice(index, 1);
+    setOperationStatusFilterData(state, action: PayloadAction<{ [key: string]: string }>) {
+      const key = Object.keys(action.payload)[0] as 'operation' | 'operation-status';
+      const value = Object.values(action.payload)[0];
+
+      if (state.filterData[key].includes(value)) {
+        const index = state.filterData[key].indexOf(value);
+        state.filterData[key].splice(index, 1);
       } else {
-        state.filterData['operation-status'] = [
-          ...state.filterData['operation-status'],
-          action.payload,
-        ];
+        state.filterData[key] = [...state.filterData[key], value];
       }
     },
     resetFilterData(state) {
       state.filterData = {
         ...state.filterData,
         'order-status': 'all',
+        operation: [],
         'operation-status': [],
       };
     },
@@ -119,6 +143,20 @@ const ordersList = createSlice({
       state.isLoadingOrdersList = false;
       state.isErrorOfOrdersList = true;
       state.errorOfOrdersData = action.error;
+    });
+
+    builder.addCase(getFilterOperationsAsync.pending, (state) => {
+      state.isLoadingFilterOperations = true;
+    });
+    builder.addCase(getFilterOperationsAsync.fulfilled, (state, action) => {
+      state.isLoadingFilterOperations = false;
+      state.isErrorFilterOperations = false;
+      state.filterOperationsData = action.payload as string[];
+    });
+    builder.addCase(getFilterOperationsAsync.rejected, (state, action) => {
+      state.isLoadingFilterOperations = false;
+      state.isErrorFilterOperations = true;
+      state.errorFilterOperations = action.error;
     });
   },
 });
