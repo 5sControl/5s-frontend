@@ -26,7 +26,7 @@ export const getInventoryItems = (hostname: string, cookies: string) => {
 };
 
 export const setInventoryItem = (hostname: string, cookies: string, body: AddInventoryData) => {
-  const API_INVENTORY_SET = '/api/inventory/items/create/';
+  const API_INVENTORY_SET = 'api/inventory/items/create/';
 
   if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post(process.env.REACT_APP_PROXY, {
