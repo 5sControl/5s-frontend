@@ -42,20 +42,19 @@ export const Button: React.FC<PropsType> = ({
       target,
       download,
     },
-    [
-      IconLeft &&
-        React.createElement(IconLeft, {
-          className: styles[`${variant}_icon`],
-          color: iconColor,
-        }),
-      React.createElement('span', {
-        children: text,
+
+    IconLeft &&
+      React.createElement(IconLeft, {
+        className: styles[`${variant}_icon`],
+        color: iconColor,
       }),
-      IconRight &&
-        React.createElement(IconRight, {
-          className: styles[`${variant}_icon`],
-          color: iconColor,
-        }),
-    ]
+    React.createElement('span', {
+      children: text,
+    }),
+    IconRight &&
+      React.createElement(IconRight, {
+        className: styles[`${variant}_icon`],
+        color: iconColor,
+      })
   );
 };
