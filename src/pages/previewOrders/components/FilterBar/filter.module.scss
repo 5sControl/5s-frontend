@@ -26,6 +26,7 @@
 .settings {
   display: flex;
   flex-direction: column;
+  overflow: scroll;
   gap: 30px;
   padding: 20px 10px 0 10px;
 }
@@ -44,9 +45,15 @@
     @include h3;
     color: var(--HightEmphasis);
     position: relative;
-    right: 40px;
     cursor: pointer;
   }
+}
+
+.scrollarea {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  height: 100vh;
 }
 
 .block {
