@@ -10,12 +10,15 @@
   background-color: var(--White);
 
   .titleWrapper {
+    width: 100%;
     display: flex;
     justify-content: space-between;
 
     .titleContent {
+      width: 100%;
       display: flex;
       flex-direction: row;
+      justify-content: space-between;
       gap: 5px;
       margin-bottom: 20px;
 

@@ -106,8 +106,10 @@ export const FilterBar: React.FC<PropsType> = ({
             <div className={styles.block}>
               <legend className={styles.block_title}>Operation</legend>
               <div className={styles.block_content}>
-                {isLoadingFilterOperations
+                {isLoadingFilterOperations && !isErrorFilterOperations
                   ? 'Loading...'
+                  : isErrorFilterOperations
+                  ? 'Error'
                   : filterOperationsData.map((element, index) => (
                       <Checkbox
                         key={index}
@@ -120,7 +122,6 @@ export const FilterBar: React.FC<PropsType> = ({
                         className={styles.checkbox}
                       />
                     ))}
-                {isErrorFilterOperations ? 'Error' : 'Loading...'}
               </div>
             </div>
 
