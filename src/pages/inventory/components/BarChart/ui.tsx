@@ -38,7 +38,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
     item && dispatch(setCurrentReportData(item));
   };
 
-  const timeDifference = (start: string, end: string) => {
+  const timeDifference = (start: string, end: any) => {
     return (
       moment(end).diff(moment(start), 'hours') +
       'h' +
@@ -139,12 +139,21 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
         .style('position', 'absolute');
 
       const showTooltip = function (d: any, d1: any) {
+        let currentItemIndex = +d.target.getAttribute('data-index');
+        let nextReport;
+        currentItemIndex = +d.target.getAttribute('data-index');
+        if (currentItemIndex !== update.length - 1) {
+          nextReport = update[currentItemIndex + 1].start_tracking;
+        } else {
+          nextReport = update[currentItemIndex].stop_tracking;
+        }
+
         tooltip.html(
           `<div class="${styles.container}"><h2 class="${styles.header}">${moment(
             d1.start_tracking
-          ).format('HH:mm')} - ${moment(d1.stop_tracking).format('HH:mm')}&nbsp;<span class="${
+          ).format('HH:mm')} - ${moment(nextReport).format('HH:mm')}&nbsp;<span class="${
             styles.time
-          }">${'| '}${timeDifference(d1.start_tracking, d1.stop_tracking)}</span></h2><div class="${
+          }">${'| '}${timeDifference(d1.start_tracking, nextReport)}</span></h2><div class="${
             styles.stock
           }"><span class="${styles.stockNumber} ${
             setExtraOfActiveData(d1.extra).status === 'In stock' && styles.stockIn
@@ -182,7 +191,13 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
 
       bar
         .append('rect')
-        .attr('width', 2)
+        .attr('width', function (d, i) {
+          if (i !== update.length - 1) {
+            return xScale(update[i + 1].start_tracking) - xScale(d.start_tracking);
+          } else {
+            return 2;
+          }
+        })
         .attr(
           'height',
           (d) =>
@@ -200,6 +215,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
             : '#E00606'
         )
         .attr('id', (d) => d.id)
+        .attr('data-index', (d, i) => i)
         .style('cursor', 'pointer')
         .on('mouseover', showTooltip)
         .on('mousemove', showTooltip)
