@@ -116,7 +116,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
                   onChange={(e: any) => setItemCount(e.target.value.replace(/[^\d.]/g, ''))}
                 />
               </div>
-              {camerasData && (
+              {camerasData && camerasData.length ? (
                 <div className={styles.input}>
                   <SelectBase
                     id="camera_type"
@@ -125,7 +125,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
                     listOfData={camerasData}
                   />
                 </div>
-              )}
+              ) : null}
               <Button
                 text="Continue"
                 className={styles.button}
