@@ -3,12 +3,20 @@
 
 .wrapper {
   width: 100%;
-  padding: 10px 10px 27px 10px;
+  max-height: 590px;
+  padding: 0px 10px 27px 10px;
+  overflow: auto;
+  position: relative;
   .header {
     color: var(--HightEmphasis);
+    position: sticky;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    top:0;
+    left:0;
+    background-color: #FFFFFF;
+    padding: 10px 0 0 0;
     .title {
       @include h4;
       letter-spacing: 0.03em;
@@ -41,6 +49,11 @@
         minmax(100px, 1fr)
         minmax(100px, 1.5fr)
         minmax(48px, 0.26fr);
+    }
+    thead th {
+      position: sticky;
+      top: 33px;
+      background: white;
     }
     tbody td {
       margin-top: 20px;
