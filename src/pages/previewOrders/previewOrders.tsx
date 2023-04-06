@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import styles from './previewOrders.module.scss';
 import { OrderCard } from './components/OrderCard';
@@ -9,7 +9,8 @@ import {
   FilterDataType,
   getFilterOperationsAsync,
   getOrdersAsync,
-  resetFilterData,
+  resetAllFilterData,
+  resetSelectFilterData,
   selectOrdersList,
   setFilterData,
   setIsShowOrdersViewFilter,
@@ -29,7 +30,7 @@ import {
   setIsOpenOperationVideoModal,
   setTimeOperationVideoModal,
 } from './components/OperationVideoModal/operationVideoModalSlice';
-import { Disconnect, Filter } from '../../assets/svg/SVGcomponent';
+import { Delete, Disconnect, Filter } from '../../assets/svg/SVGcomponent';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useNavigateSearch } from '../../functions/useNavigateSearch';
 import { OperationItem, OrderItem } from '../../storage/orderView';
@@ -112,7 +113,7 @@ export const PreviewOrders: React.FC = () => {
   };
 
   const handleResetFilters = () => {
-    dispatch(resetFilterData());
+    dispatch(resetAllFilterData());
     getOrdersList(1, ordersList?.records_on_page as number, search, {
       'order-status': 'all',
       'operation-name': [],
@@ -142,6 +143,10 @@ export const PreviewOrders: React.FC = () => {
     );
   };
 
+  const [queryProps, setQueryProps] = useState<
+    { name: string; value: string; onClick: () => void }[]
+  >([]);
+
   useEffect(() => {
     const queryOrderStatusParam = searchParams.get('order-status');
     const queryOperationStatusParam = searchParams.getAll('operation-status');
@@ -163,6 +168,72 @@ export const PreviewOrders: React.FC = () => {
       dispatch(addActiveOrder(null));
     };
   }, []);
+
+  useEffect(() => {
+    if (!isShowOrdersViewFilter) {
+      const queryOrderStatusParam = searchParams.get('order-status');
+      const queryOperationStatusParam = searchParams.getAll('operation-status');
+      const queryOrderNameParam = searchParams.getAll('operation-name');
+
+      const queryData = {
+        'order-status': queryOrderStatusParam as string,
+        'operation-status': queryOperationStatusParam,
+        'operation-name': queryOrderNameParam,
+      };
+
+      const operationNameLength = queryData['operation-name'].length;
+      const orderStatus = queryData['order-status'];
+      const operationStatus = queryData['operation-status'].length;
+
+      const deletFilter = (param: string) => {
+        const queryParams = Object.fromEntries([...searchParams]);
+        delete queryParams[param];
+        navigateSearch('/orders-view', queryParams);
+        dispatch(resetSelectFilterData(param));
+      };
+
+      const newProps = [];
+      if (operationNameLength > 0) {
+        newProps.push({
+          name: 'Operation:',
+          value: operationNameLength.toString(),
+          onClick: () => deletFilter('operation-name'),
+        });
+      }
+      if (operationStatus > 0) {
+        newProps.push({
+          name: 'Operation status:',
+          value: operationStatus.toString(),
+          onClick: () => deletFilter('operation-status'),
+        });
+      }
+      if (orderStatus) {
+        newProps.push({
+          name: 'Order status:',
+          value: orderStatus,
+          onClick: () => deletFilter('order-status'),
+        });
+      }
+
+      setQueryProps(newProps);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const queryOrderStatusParam = searchParams.get('order-status');
+    const queryOperationStatusParam = searchParams.getAll('operation-status');
+    const queryOrderNameParam = searchParams.getAll('operation-name');
+
+    const queryData = {
+      'order-status': queryOrderStatusParam as string,
+      'operation-status': queryOperationStatusParam,
+      'operation-name': queryOrderNameParam,
+    };
+
+    console.log('queryData', queryData);
+
+    getOrdersList(1, 50, null, queryData);
+  }, [searchParams]);
 
   useEffect(() => {
     const queryOrderIdParam = searchParams.get('order_id');
@@ -226,22 +297,35 @@ export const PreviewOrders: React.FC = () => {
       <WrapperPage>
         <div className={styles.content}>
           <div className={styles.header}>
-            <h2 className={styles.title}>Orders View</h2>
+            <h2 className={styles.header_title}>Orders View</h2>
 
-            <div className={styles.selectContainer}>
+            <div className={styles.header_container}>
               {/* <Select listOfData={listOfstatus} />
-              <Select className={styles.listOfDate} listOfData={listOfDate} /> */}
+              <Select className={styles.header_container_date} listOfData={listOfDate} /> */}
+              <div className={styles.header_container_filters}>
+                <Button
+                  text="Filter"
+                  IconLeft={Filter}
+                  type="button"
+                  variant="oval"
+                  iconColor={
+                    searchParams.get('order-status') ? 'var(--Orange)' : 'var(--HightEmphasis)'
+                  }
+                  onClick={() => handleClickFilter(true)}
+                />
 
-              <Button
-                text="Filter"
-                IconLeft={Filter}
-                type="button"
-                variant="oval"
-                iconColor={
-                  searchParams.get('order-status') ? 'var(--Orange)' : 'var(--HightEmphasis)'
-                }
-                onClick={() => handleClickFilter(true)}
-              />
+                {queryProps.map(({ name, value, onClick }, index) => (
+                  <Button
+                    key={index}
+                    text={`${name} ${value}`}
+                    IconRight={Delete}
+                    type="button"
+                    variant="oval"
+                    iconColor={'var(--MediumEmphasis)'}
+                    onClick={onClick}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
@@ -258,15 +342,15 @@ export const PreviewOrders: React.FC = () => {
             {activeOrder && orderData ? (
               <OrderCard data={orderData} />
             ) : (
-              <Cover className={styles.noOrder}>
+              <Cover className={styles.body_error}>
                 {isErrorOfOrdersList ? (
-                  <div className={styles.errorConnection}>
-                    <Disconnect className={styles.errorConnection_icon} />
-                    <p className={styles.errorConnection_desc}>
+                  <div className={styles.error}>
+                    <Disconnect className={styles.body_error_icon} />
+                    <p className={styles.body_error_subtitle}>
                       To view your orders{' '}
                       <Link
                         to={'/configuration/database'}
-                        className={styles.errorConnection_desc_link}
+                        className={styles.body_error_subtitle_link}
                       >
                         connect
                       </Link>{' '}
@@ -275,8 +359,10 @@ export const PreviewOrders: React.FC = () => {
                   </div>
                 ) : (
                   <>
-                    <h4 className={styles.title}>No order</h4>
-                    <p className={styles.subtitle}>Select an order from the list on the left</p>
+                    <h4 className={styles.body_error_title}>No order</h4>
+                    <p className={styles.body_error_subtitle}>
+                      Select an order from the list on the left
+                    </p>
                   </>
                 )}
               </Cover>
