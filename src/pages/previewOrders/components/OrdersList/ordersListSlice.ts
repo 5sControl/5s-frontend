@@ -124,7 +124,20 @@ const ordersList = createSlice({
     setFilterData(state, action) {
       state.filterData = action.payload;
     },
-    resetFilterData(state) {
+    resetSelectFilterData(state, action) {
+      if (action.payload === 'order-status') {
+        state.filterData = {
+          ...state.filterData,
+          [action.payload]: 'all',
+        };
+      } else {
+        state.filterData = {
+          ...state.filterData,
+          [action.payload]: [],
+        };
+      }
+    },
+    resetAllFilterData(state) {
       state.filterData = {
         ...state.filterData,
         'order-status': 'all',
@@ -171,7 +184,8 @@ export const {
   setIsShowOrdersViewFilter,
   setOrderStatusFilterData,
   setOperationsFilterData,
-  resetFilterData,
+  resetAllFilterData,
+  resetSelectFilterData,
   setFilterData,
 } = ordersList.actions;
 export const selectOrdersList = (state: RootState) => state.orderList;
