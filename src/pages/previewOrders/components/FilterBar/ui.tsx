@@ -87,56 +87,58 @@ export const FilterBar: React.FC<PropsType> = ({
               <h3 className={styles.header_title}>Filters</h3>
               <Cross className={styles.header_cross} onClick={handleClose} />
             </div>
-
-            <div className={styles.block}>
-              <legend className={styles.block_title}>Order status</legend>
-              {orderStatusData.map(({ id, value, label, name }) => (
-                <Radio
-                  key={id}
-                  id={id}
-                  name={name}
-                  value={value}
-                  label={label}
-                  checked={value === filterData['order-status']}
-                  onChange={onChange}
-                />
-              ))}
-            </div>
-
-            <div className={styles.block}>
-              <legend className={styles.block_title}>Operation</legend>
-              <div className={styles.block_content}>
-                {isLoadingFilterOperations
-                  ? 'Loading...'
-                  : filterOperationsData.map((element, index) => (
-                      <Checkbox
-                        key={index}
-                        id={index.toString()}
-                        name="operation-name"
-                        value={element}
-                        label={element}
-                        isChecked={filterData['operation-name'].includes(element)}
-                        onChange={onChange}
-                        className={styles.checkbox}
-                      />
-                    ))}
-                {isErrorFilterOperations ? 'Error' : 'Loading...'}
+            <div className={styles.scrollarea}>
+              <div className={styles.block}>
+                <legend className={styles.block_title}>Order status</legend>
+                {orderStatusData.map(({ id, value, label, name }) => (
+                  <Radio
+                    key={id}
+                    id={id}
+                    name={name}
+                    value={value}
+                    label={label}
+                    checked={value === filterData['order-status']}
+                    onChange={onChange}
+                  />
+                ))}
               </div>
-            </div>
 
-            <div className={styles.block}>
-              <legend className={styles.block_title}>Operation status</legend>
-              {operationStatusData.map(({ id, label, name, value }) => (
-                <Checkbox
-                  key={id}
-                  id={id}
-                  name={name}
-                  value={value}
-                  label={label}
-                  isChecked={filterData['operation-status'].includes(value)}
-                  onChange={onChange}
-                />
-              ))}
+              <div className={styles.block}>
+                <legend className={styles.block_title}>Operation</legend>
+                <div className={styles.block_content}>
+                  {isLoadingFilterOperations && !isErrorFilterOperations
+                    ? 'Loading...'
+                    : isErrorFilterOperations
+                    ? 'Error'
+                    : filterOperationsData.map((element, index) => (
+                        <Checkbox
+                          key={index}
+                          id={index.toString()}
+                          name="operation-name"
+                          value={element}
+                          label={element}
+                          isChecked={filterData['operation-name'].includes(element)}
+                          onChange={onChange}
+                          className={styles.checkbox}
+                        />
+                      ))}
+                </div>
+              </div>
+
+              <div className={styles.block}>
+                <legend className={styles.block_title}>Operation status</legend>
+                {operationStatusData.map(({ id, label, name, value }) => (
+                  <Checkbox
+                    key={id}
+                    id={id}
+                    name={name}
+                    value={value}
+                    label={label}
+                    isChecked={filterData['operation-status'].includes(value)}
+                    onChange={onChange}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 

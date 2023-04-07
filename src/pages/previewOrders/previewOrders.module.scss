@@ -7,65 +7,61 @@
     flex-direction: column;
     justify-content: space-between;
     padding-bottom: 20px;
-
-    .title {
+    &_title {
       @include h1;
       color: var(--HightEmphasis);
     }
-
-    .selectContainer {
+    &_container {
       display: flex;
-      .listOfDate {
+      &_date {
         margin-left: 10px;
         padding-right: 30px;
       }
-    }
-  }
-
-  .body {
-    height: calc(100vh - 208px);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    .noOrder {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-
-      .title {
-        @include h4;
-        color: var(--HightEmphasis);
-      }
-
-      .subtitle {
-        @include body1;
-        color: var(--MediumEmphasis);
+      &_filters {
+        display: flex;
+        gap: 10px;
       }
     }
   }
 }
 
-.errorConnection {
+.body {
+  height: calc(100vh - 148px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &_error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    &_title {
+      @include h4;
+      color: var(--HightEmphasis);
+    }
+    &_icon {
+      color: var(--LowEmphasis);
+    }
+    &_subtitle {
+      @include body1;
+      color: var(--MediumEmphasis);
+      text-align: center;
+      max-width: 320px;
+      &_link {
+        text-decoration: none;
+        color: var(--Orange);
+      }
+    }
+  }
+}
+
+.error {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 36px;
-  &_icon {
-    color: var(--LowEmphasis);
-  }
-  &_desc {
-    @include body1;
-    color: var(--HightEmphasis);
-    text-align: center;
-    max-width: 320px;
-    &_link {
-      text-decoration: none;
-      color: var(--Orange);
-    }
-  }
 }
 
 @include md {
