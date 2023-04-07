@@ -14,6 +14,7 @@ import { EditInventoryData } from './types';
 import { Coordinat } from '../../types';
 import { Coordinates } from './Coordiantes';
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
+import { Preloader } from '../../../../components/preloader';
 
 type PropsType = {
   isOpen: boolean;
@@ -35,6 +36,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
   const submitHandler = () => {
     const dataForm = formData;
     dataForm.coords = coords;
+    setIsClose({ loading: true });
     dispatch(
       editItem({
         token: cookies.token,
@@ -42,7 +44,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
         body: dataForm,
       })
     ).then((response: any) => {
-      setIsClose({ status: response.type.includes('fulfilled') });
+      setIsClose({ status: response.type.includes('fulfilled'), loading: false });
       setTimeout(() => {
         handleClose();
         dispatch(
@@ -158,12 +160,19 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       {isClose && (
         <div className={styles.response}>
           <div>
-            {isClose.status ? (
-              <IoIosCheckmarkCircle className={styles.icons} style={{ color: 'green' }} />
+            {isClose.loading ? (
+              <Preloader loading={true} />
+            ) : isClose.status ? (
+              <>
+                <IoIosCheckmarkCircle className={styles.icons} style={{ color: 'green' }} />
+                <p>The item is saved</p>
+              </>
             ) : (
-              <IoIosCloseCircle className={styles.icons} style={{ color: 'red' }} />
+              <>
+                <IoIosCloseCircle className={styles.icons} style={{ color: 'red' }} />
+                <p>The item is not saved</p>
+              </>
             )}
-            <p>{isClose.status ? 'The item is saved' : 'The item is not saved'}</p>
           </div>
         </div>
       )}
