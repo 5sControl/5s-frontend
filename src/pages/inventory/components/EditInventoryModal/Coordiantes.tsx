@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Moveable from 'react-moveable';
 import styles from './editInventoryModal.module.scss';
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { Button } from '../../../../components/button';
 import { AiOutlineLeft } from 'react-icons/ai';
 import './moveable.scss';
@@ -9,6 +9,8 @@ import { generateString } from '../../../../functions/randomizer';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { EditInventoryData } from './types';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
+import { useCookies } from 'react-cookie';
+import { getInventoryItemsToCamera } from '../../inventoryAPI';
 type PropsType = {
   submitHandler: () => void;
   formData: EditInventoryData;
@@ -30,9 +32,10 @@ export const Coordinates: React.FC<PropsType> = ({
   const [proportionHeight, setProportionHeight] = useState(1);
   const [allBox, setAllBox] = useState<NewCoordinates[]>([]);
   const [oldBox, setOldBox] = useState<Coordinat[]>([]);
-
+  const [cookie] = useCookies(['token']);
   const [isStartDraw, setIsStartDraw] = useState<any>(false);
   const [moveDraw, setMoveDraw] = useState<DrawingCoordinates>({ x: 0, y: 0 });
+  const [cameraBox, setCameraBox] = useState<any>([]);
 
   const changeTarget = (currentTarget: any) => {
     if (target !== '') {
@@ -133,6 +136,12 @@ export const Coordinates: React.FC<PropsType> = ({
         })
       );
     }
+    getInventoryItemsToCamera(window.location.hostname, cookie.token, formData.camera).then(
+      (res: any) => {
+        console.log(res.data.results);
+        setCameraBox(res.data.results.filter((el: any) => el.name !== formData.name));
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -212,6 +221,8 @@ export const Coordinates: React.FC<PropsType> = ({
                 }}
                 onClick={(e) => changeTarget(e.target)}
               >
+                {' '}
+                {formData.name}
                 {target && target.id === element.id && (
                   <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
                 )}
@@ -233,11 +244,33 @@ export const Coordinates: React.FC<PropsType> = ({
               onClick={(e) => changeTarget(e.target)}
               key={el.id}
             >
+              {formData.name}
               {target && target.id === el.id && (
                 <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
               )}
             </div>
           ))}
+          {cameraBox &&
+            cameraBox.length > 0 &&
+            cameraBox.map((el: any) => (
+              <Fragment key={el.id}>
+                {el.coords.map((element: any) => (
+                  <div
+                    key={generateString(14)}
+                    className={styles.oldCoord}
+                    style={{
+                      top: `${element?.y1 / proportionHeight}px`,
+                      left: `${element?.x1 / proportionWidth}px`,
+                      width: `${(element?.x2 - element?.x1) / proportionHeight}px`,
+                      height: `${(element?.y2 - element?.y1) / proportionWidth}px`,
+                      zIndex: 1,
+                    }}
+                  >
+                    {el.name}
+                  </div>
+                ))}
+              </Fragment>
+            ))}
           <div
             className={styles.draw}
             onClick={(e) => createCoord(e)}
