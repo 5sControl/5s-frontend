@@ -2,13 +2,15 @@
 import Moveable from 'react-moveable';
 import './moveable.scss';
 import styles from './addInventoryModal.module.scss';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, Fragment } from 'react';
 import { Button } from '../../../../components/button';
 import { AiOutlineLeft } from 'react-icons/ai';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { generateString } from '../../../../functions/randomizer';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { AddInventoryData } from './types';
+import { getInventoryItemsToCamera } from '../../inventoryAPI';
+import { useCookies } from 'react-cookie';
 type PropsType = {
   submitHandler: () => void;
   formData: AddInventoryData;
@@ -25,9 +27,12 @@ export const Coordinates: React.FC<PropsType> = ({
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
   const [allBox, setAllBox] = useState<NewCoordinates[]>([]);
+  const [cameraBox, setCameraBox] = useState<any>([]);
   const [isStartDraw, setIsStartDraw] = useState<any>(false);
   const [moveDraw, setMoveDraw] = useState<DrawingCoordinates>({ x: 0, y: 0 });
-
+  const [cookie] = useCookies(['token']);
+  const [proportionWidth, setProportionWidth] = useState(1);
+  const [proportionHeight, setProportionHeight] = useState(1);
   const createCoord = (e: any) => {
     if (e && !target) {
       // const target = e.target.getBoundingClientRect();
@@ -49,6 +54,22 @@ export const Coordinates: React.FC<PropsType> = ({
     }
   };
 
+  const timer = setInterval(() => {
+    if (image.current && image.current.naturalWidth) {
+      setProportionWidth(image.current.naturalWidth / image.current.width);
+      setProportionHeight(image.current.naturalHeight / image.current.height);
+      clearInterval(timer);
+    }
+  }, 200);
+
+  useEffect(() => {
+    getInventoryItemsToCamera(window.location.hostname, cookie.token, formData.camera).then(
+      (res: any) => {
+        console.log(res.data.results);
+        setCameraBox(res.data.results);
+      }
+    );
+  }, []);
   const movePosition = (e: any) => {
     if (e && !target && isStartDraw) {
       const target = e.target.getBoundingClientRect();
@@ -174,6 +195,27 @@ export const Coordinates: React.FC<PropsType> = ({
               )}
             </div>
           ))}
+          {cameraBox &&
+            cameraBox.length > 0 &&
+            cameraBox.map((el: any) => (
+              <Fragment key={el.id}>
+                {el.coords.map((element: any) => (
+                  <div
+                    key={generateString(14)}
+                    className={styles.oldCoord}
+                    style={{
+                      top: `${element?.y1 / proportionHeight}px`,
+                      left: `${element?.x1 / proportionWidth}px`,
+                      width: `${(element?.x2 - element?.x1) / proportionHeight}px`,
+                      height: `${(element?.y2 - element?.y1) / proportionWidth}px`,
+                      zIndex: 1,
+                    }}
+                  >
+                    {el.name}
+                  </div>
+                ))}
+              </Fragment>
+            ))}
           <div
             className={styles.draw}
             onClick={(e) => createCoord(e)}
