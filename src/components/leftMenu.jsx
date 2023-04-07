@@ -16,9 +16,37 @@ export const LeftMenu = () => {
   const [useless, setUseless] = useState(false);
   const [cookies] = useCookies(['token']);
   const [companyInfo, setCompanyInfo] = useState([]);
+
   const send = () => {
     setUseless(!useless);
   };
+
+  useEffect(() => {
+    if (window.location.pathname.includes('dashboard')) {
+      document.title = 'Dashboard';
+    }
+    if (window.location.pathname.includes('live')) {
+      document.title = 'Live';
+    }
+    if (window.location.pathname.includes('orders-view')) {
+      document.title = 'Orders view';
+    }
+    if (window.location.pathname.includes('inventory')) {
+      document.title = 'Inventory';
+    }
+    if (window.location.pathname.includes('configuration')) {
+      document.title = 'Configuration';
+    }
+    if (window.location.pathname.includes('company')) {
+      document.title = 'Company';
+    }
+    if (window.location.pathname.includes('info')) {
+      document.title = 'Info';
+    }
+    if (window.location.pathname === '/') {
+      document.title = '5s Control';
+    }
+  }, [useless]);
 
   useEffect(() => {
     getCompanyInfo(window.location.hostname, cookies.token).then((response) => {

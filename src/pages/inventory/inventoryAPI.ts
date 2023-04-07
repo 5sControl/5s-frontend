@@ -25,6 +25,32 @@ export const getInventoryItems = (hostname: string, cookies: string, isSort: boo
   }
 };
 
+export const getInventoryItemsToCamera = (
+  hostname: string,
+  cookies: string,
+  camera: string | undefined
+) => {
+  const API_BY_ORDER = `api/inventory/items/?camera=${camera}`;
+
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(process.env.REACT_APP_NGROK + API_BY_ORDER, 'GET', {
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_BY_ORDER}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_BY_ORDER}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
 export const setInventoryItem = (hostname: string, cookies: string, body: AddInventoryData) => {
   const API_INVENTORY_SET = 'api/inventory/items/create/';
 
