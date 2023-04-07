@@ -62,6 +62,13 @@
   }
 }
 
+.disabled{
+  background: #FFD1B4;
+  &:hover{
+    background: #FFD1B4;
+  }
+}
+
 .gap {
   gap: 4px;
 }

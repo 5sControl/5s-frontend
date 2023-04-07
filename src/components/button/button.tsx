@@ -35,7 +35,9 @@ export const Button: React.FC<PropsType> = ({
     href ? 'a' : 'button',
     {
       type,
-      className: `${styles[variant]} ${text ? styles.gap : ''} ${className}`,
+      className: `${styles[variant]} ${disabled ? styles.disabled : ''} ${
+        text ? styles.gap : ''
+      } ${className}`,
       disabled: disabled,
       onClick: onClick,
       href,
