@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Eye } from '../../assets/svg/SVGcomponent';
+import { Eye, SearchIcon } from '../../assets/svg/SVGcomponent';
 import styles from './input.module.scss';
 
 type PropsType = {
@@ -7,6 +7,7 @@ type PropsType = {
   name: string;
   type: string;
   showEye?: boolean;
+  showSearch?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange?: (e: any) => void;
   placeholder?: string;
@@ -15,6 +16,8 @@ type PropsType = {
   disabled?: boolean;
   required?: boolean;
   defaultValue?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  className?: any;
 };
 
 export const Input: React.FC<PropsType> = ({
@@ -28,7 +31,9 @@ export const Input: React.FC<PropsType> = ({
   label,
   disabled,
   showEye,
+  showSearch,
   required,
+  className,
 }) => {
   const [inputType, setInputType] = useState(type);
 
@@ -55,10 +60,11 @@ export const Input: React.FC<PropsType> = ({
           placeholder={placeholder}
           required={required}
           onChange={onChange}
-          className={styles.block__input}
+          className={className ? className : styles.block__input}
         />
 
         {showEye && <Eye className={styles.block__eye} onClick={handleClickToEye} />}
+        {showSearch && <SearchIcon className={styles.block__search} />}
       </div>
     </div>
   );

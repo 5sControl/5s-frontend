@@ -20,6 +20,20 @@
     .title {
       @include h4;
       letter-spacing: 0.03em;
+      &_left{
+        display: flex;
+        align-items: center;
+        .search{
+          width: 260px;
+          padding: 5px;
+          border: none;
+          border-bottom: 1px solid #9E9E9E;
+          outline:none;
+          &::after{
+            content: 'sdf'
+          }
+        }
+      }
     }
 
     .date {

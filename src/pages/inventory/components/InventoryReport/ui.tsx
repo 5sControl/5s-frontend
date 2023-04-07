@@ -21,6 +21,7 @@ import { selectStatusSort, setStatusSort } from './InventoryReportSlice';
 import { selectAddInventoryModal } from '../AddInventoryModal/addInventoryModalSlice';
 import { useCookies } from 'react-cookie';
 import moment from 'moment-timezone';
+import { Input } from '../../../../components/input';
 
 export const InventoryReport: React.FC = () => {
   const { inventoryItems, isLoading } = useAppSelector(selectInventory);
@@ -35,7 +36,7 @@ export const InventoryReport: React.FC = () => {
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
   const [cookies] = useCookies(['token']);
   const [currentUpdateDate, setCurrentUpdateDate] = useState<string | null>(null);
-
+  const [filterItem, setFilterItem] = useState('');
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openSettings = (event: any, currentItem: InventoryItem) => {
     dispatch(setCurrentEditItem(currentItem));
@@ -97,8 +98,19 @@ export const InventoryReport: React.FC = () => {
       <Cover className={styles.wrapper}>
         <div className={styles.header}>
           <h4 className={styles.title}>Inventory Report</h4>
-
-          <p className={styles.date}>{currentUpdateDate}</p>
+          <div className={styles.title_left}>
+            <Input
+              type={'text'}
+              id={'1'}
+              name={'filter item'}
+              value={filterItem}
+              onChange={(e) => setFilterItem(e.target.value)}
+              className={styles.search}
+              placeholder={'Search item'}
+              showSearch={true}
+            />
+            <p className={styles.date}>{currentUpdateDate}</p>
+          </div>
         </div>
 
         <div className={styles.content}>
@@ -124,35 +136,39 @@ export const InventoryReport: React.FC = () => {
             <tbody>
               {inventoryItems ? (
                 <>
-                  {inventoryItems?.map((item) => {
-                    return (
-                      <tr key={item.id}>
-                        <td>{item.name}</td>
-                        <td>
-                          <span
-                            className={`${styles.status} ${
-                              item.status === 'In stock' && styles.statusStock
-                            } ${item.status === 'Low stock level' && styles.statusLowStock} ${
-                              item.status === 'Out of stock' && styles.statusOutStock
-                            }`}
-                          >
-                            {item.status}
-                          </span>
-                        </td>
-                        <td>{item.current_stock_level}</td>
-                        <td>{item.low_stock_level}</td>
-                        <td>{item.camera}</td>
-                        <td>
-                          <Settings
-                            className={styles.editIcon}
-                            onClick={(event: React.MouseEvent<Element, MouseEvent>) =>
-                              openSettings(event, item)
-                            }
-                          />
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {inventoryItems
+                    ?.filter((invItem) =>
+                      invItem.name.toString().toLowerCase().includes(filterItem.toLowerCase())
+                    )
+                    .map((item) => {
+                      return (
+                        <tr key={item.id}>
+                          <td>{item.name}</td>
+                          <td>
+                            <span
+                              className={`${styles.status} ${
+                                item.status === 'In stock' && styles.statusStock
+                              } ${item.status === 'Low stock level' && styles.statusLowStock} ${
+                                item.status === 'Out of stock' && styles.statusOutStock
+                              }`}
+                            >
+                              {item.status}
+                            </span>
+                          </td>
+                          <td>{item.current_stock_level}</td>
+                          <td>{item.low_stock_level}</td>
+                          <td>{item.camera}</td>
+                          <td>
+                            <Settings
+                              className={styles.editIcon}
+                              onClick={(event: React.MouseEvent<Element, MouseEvent>) =>
+                                openSettings(event, item)
+                              }
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </>
               ) : isLoading ? (
                 <tr>
