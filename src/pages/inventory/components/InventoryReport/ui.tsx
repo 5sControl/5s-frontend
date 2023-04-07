@@ -76,6 +76,7 @@ export const InventoryReport: React.FC = () => {
     );
   }, [connectResponse, connectResponseDataAdd, connectDeleteResponse, statusSort]);
 
+  console.log(inventoryItems);
   return (
     <>
       {currentEditItem && (
