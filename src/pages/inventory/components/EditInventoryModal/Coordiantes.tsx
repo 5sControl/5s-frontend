@@ -138,8 +138,8 @@ export const Coordinates: React.FC<PropsType> = ({
     }
     getInventoryItemsToCamera(window.location.hostname, cookie.token, formData.camera).then(
       (res: any) => {
-        console.log(res.data.results);
-        setCameraBox(res.data.results.filter((el: any) => el.name !== formData.name));
+        console.log(res.data);
+        setCameraBox(res.data.filter((el: any) => el.name !== formData.name));
       }
     );
   }, []);

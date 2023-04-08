@@ -65,8 +65,8 @@ export const Coordinates: React.FC<PropsType> = ({
   useEffect(() => {
     getInventoryItemsToCamera(window.location.hostname, cookie.token, formData.camera).then(
       (res: any) => {
-        console.log(res.data.results);
-        setCameraBox(res.data.results);
+        console.log(res.data);
+        setCameraBox(res.data);
       }
     );
   }, []);
