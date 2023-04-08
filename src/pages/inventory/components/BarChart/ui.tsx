@@ -21,7 +21,6 @@ type PropsType = {
 export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
   const dispatch = useAppDispatch();
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
-
   const dimensions = {
     top: 80,
     left: 60,
