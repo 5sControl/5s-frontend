@@ -33,7 +33,7 @@ export const getInventoryItemsAsync = createAsyncThunk(
   async (data: { token: string; hostname: string; isSort: boolean }) => {
     const response: any = await getInventoryItems(data.hostname, data.token, data.isSort);
     if (response.data) {
-      return response.data.results;
+      return response.data;
     }
     return null;
   }
@@ -74,6 +74,7 @@ const inventoryPage = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getInventoryItemsAsync.fulfilled, (state, action) => {
+      console.log(action);
       state.isLoading = false;
       state.inventoryItems = action.payload;
     });

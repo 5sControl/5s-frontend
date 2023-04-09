@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  position: relative;
 }
 
 .label {
@@ -33,5 +34,9 @@
     &:hover {
       color: var(--HightEmphasis);
     }
+  }
+  &__search{
+    position: absolute;
+    right: 50px;
   }
 }

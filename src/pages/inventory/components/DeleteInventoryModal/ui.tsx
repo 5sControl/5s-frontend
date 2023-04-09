@@ -43,7 +43,7 @@ export const DeleteInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose,
       </div>
       <div className={styles.buttons}>
         <Button text="Cancel" className={styles.cancel} onClick={handleClose} />
-        <Button text="Delete" onClick={deleteAction} disabled={isLoadingDeleteRequest} />
+        <Button text="Delete" onClick={deleteAction} />
       </div>
     </Modal>
   );

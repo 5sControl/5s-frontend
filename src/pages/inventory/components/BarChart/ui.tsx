@@ -21,7 +21,6 @@ type PropsType = {
 export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
   const dispatch = useAppDispatch();
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
-
   const dimensions = {
     top: 80,
     left: 60,
@@ -62,7 +61,6 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
           stop_tracking: moment(item.stop_tracking).add(3, 'hours'),
         };
       });
-
       const selection = svg.selectAll('rect').data(update);
       const enter = selection.enter();
 

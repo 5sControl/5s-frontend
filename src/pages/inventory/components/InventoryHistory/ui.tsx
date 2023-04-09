@@ -58,7 +58,14 @@ export const InventoryHistory: React.FC = () => {
             />
           )}
         </div>
-
+        {inventoryHistoryData && inventoryHistoryData.length === 0 && (
+          <div className={styles.noItem}>
+            <h2>No data</h2>
+            <p>
+              There must be a problem with the camera <br></br>connection or algorithm’s work
+            </p>
+          </div>
+        )}
         {!isLoadingHistory &&
         inventoryHistoryData &&
         inventoryHistoryData[0] &&

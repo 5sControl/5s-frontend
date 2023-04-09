@@ -2,6 +2,7 @@
 @import '../../../../styles/fonts.scss';
 
 .container {
+  height: 100%;
   .history {
     margin-top: 16px;
     display: flex;
@@ -30,5 +31,26 @@
   #d3Test {
     width: 100%;
     margin-top: 50px;
+  }
+  .noItem {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: -40px;
+    h2 {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 150%;
+      margin-bottom: 11px;
+    }
+    p {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: #666666;
+    }
   }
 }
