@@ -82,8 +82,8 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
     });
   };
   const closed = () => {
-    setIsCloseClick(true);
-    // handleClose();
+    // setIsCloseClick(true);
+    handleClose();
   };
 
   return (
