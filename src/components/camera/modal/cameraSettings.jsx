@@ -2,7 +2,13 @@ import { useEffect, useState } from 'react';
 import { patchCamera } from '../../../api/cameraRequest';
 import { Close } from '../../../assets/svg/SVGcomponent';
 import { AlgorithmSelect } from './components/algorithmSelect';
-import { deleteProcess, getProcess, postAlgorithnDependences } from '../../../api/algorithmRequest';
+import {
+  deleteProcess,
+  getOperationID,
+  getProcess,
+  postAlgorithnDependences,
+  postOperationID,
+} from '../../../api/algorithmRequest';
 
 export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamera }) => {
   const [cameraName, setCameraName] = useState(nameCamera);
@@ -10,6 +16,8 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   const [processLocal, setProcess] = useState([]);
   const [informationToSend, setInformationToSend] = useState({});
   const [isEnabled, setIsEnabled] = useState(true);
+  const [operationID, setOperationID] = useState('');
+
   const deleteProcessFromDB = async (whatIsDelete) => {
     for (const processID of whatIsDelete) {
       await deleteProcess(window.location.hostname, token, processID).then(() => {
@@ -20,7 +28,6 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   };
 
   const addProcessToDB = async (whatIsAdd) => {
-    // console.log(whatIsAdd);
     for (const algorithm of whatIsAdd) {
       let response = {
         server_url: window.location.hostname.includes('localhost')
@@ -28,9 +35,16 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
           : `http://${window.location.hostname}`,
         [algorithm]: [IPCamera],
       };
-      await postAlgorithnDependences(window.location.hostname, token, response).then(() => {
-        // console.log(e);
-      });
+      // await postAlgorithnDependences(window.location.hostname, token, response).then(() => {
+      //   // console.log(e);
+      // });
+
+      if (whatIsAdd.includes('operation_control')) {
+        console.log('operation_control');
+        await postOperationID(window.location.hostname, token, { id: operationID }).then((e) => {
+          console.log(e);
+        });
+      }
     }
     return;
   };
@@ -66,6 +80,9 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
       }, {});
       setProcess(response.data);
       setAlgorithmsActiveObject(bufObject);
+    });
+    getOperationID(window.location.hostname, token).then((response) => {
+      console.log(response);
     });
   }, []);
 
@@ -117,6 +134,8 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                     process={processLocal}
                     IPCamera={IPCamera}
                     setInformationToSend={(e) => setInformationToSend(e)}
+                    operationID={operationID}
+                    setOperationID={(id) => setOperationID(id)}
                   />
                 </div>
                 <div className="cameras__settings_right">

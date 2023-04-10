@@ -6,6 +6,7 @@ const API_POSTALGORITHM = 'api/algorithms/create-process/';
 const API_DELPROCESS = 'api/algorithms/stop-process/';
 const API_GETPROCESS = 'api/algorithms/get-process/';
 const API_GETLOGS = 'api/algorithms/logs/';
+const API_POSTOPERATIONID = 'api/order/index_operations/';
 
 export const getAveilableAlgorithms = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
@@ -131,6 +132,54 @@ export const getLogs = (hostname, cookies) => {
   } else {
     return axios.get(`http://${hostname}/${API_GETLOGS}`, {
       headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const getOperationID = (hostname, cookies) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(process.env.REACT_APP_NGROK + API_POSTOPERATIONID, 'GET', {
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_POSTOPERATIONID}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_POSTOPERATIONID}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const postOperationID = async (hostname, cookies, response) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+      url: process.env.REACT_APP_NGROK + API_POSTOPERATIONID,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+      body: JSON.stringify(response),
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_POSTOPERATIONID}`, response, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.post(`http://${hostname}/${API_POSTOPERATIONID}`, response, {
+      headers: {
+        'Content-Type': 'application/json',
         Authorization: cookies,
       },
     });
