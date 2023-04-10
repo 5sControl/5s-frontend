@@ -169,57 +169,7 @@ export const PreviewOrders: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!isShowOrdersViewFilter) {
-      const queryOrderStatusParam = searchParams.get('order-status');
-      const queryOperationStatusParam = searchParams.getAll('operation-status');
-      const queryOrderNameParam = searchParams.getAll('operation-name');
-
-      const queryData = {
-        'order-status': queryOrderStatusParam as string,
-        'operation-status': queryOperationStatusParam,
-        'operation-name': queryOrderNameParam,
-      };
-
-      const operationNameLength = queryData['operation-name'].length;
-      const orderStatus = queryData['order-status'];
-      const operationStatus = queryData['operation-status'].length;
-
-      const deletFilter = (param: string) => {
-        const queryParams = Object.fromEntries([...searchParams]);
-        delete queryParams[param];
-        navigateSearch('/orders-view', queryParams);
-        dispatch(resetSelectFilterData(param));
-      };
-
-      const newProps = [];
-      if (operationNameLength > 0) {
-        newProps.push({
-          name: 'Operation:',
-          value: operationNameLength.toString(),
-          onClick: () => deletFilter('operation-name'),
-        });
-      }
-      if (operationStatus > 0) {
-        newProps.push({
-          name: 'Operation status:',
-          value: operationStatus.toString(),
-          onClick: () => deletFilter('operation-status'),
-        });
-      }
-      if (orderStatus) {
-        newProps.push({
-          name: 'Order status:',
-          value: orderStatus,
-          onClick: () => deletFilter('order-status'),
-        });
-      }
-
-      setQueryProps(newProps);
-    }
-  }, [searchParams]);
-
-  useEffect(() => {
+  const getFilterQueryData = () => {
     const queryOrderStatusParam = searchParams.get('order-status');
     const queryOperationStatusParam = searchParams.getAll('operation-status');
     const queryOrderNameParam = searchParams.getAll('operation-name');
@@ -229,10 +179,53 @@ export const PreviewOrders: React.FC = () => {
       'operation-status': queryOperationStatusParam,
       'operation-name': queryOrderNameParam,
     };
+    return queryData;
+  };
 
-    console.log('queryData', queryData);
+  useEffect(() => {
+    const queryData = getFilterQueryData();
+    const operationNameLength = queryData['operation-name'].length;
+    const orderStatus = queryData['order-status'];
+    const operationStatus = queryData['operation-status'].length;
 
-    getOrdersList(1, 50, null, queryData);
+    const deletFilter = (param: string) => {
+      const queryParams = Object.fromEntries([...searchParams]);
+      delete queryParams[param];
+      (queryData as any)[param] = [];
+      navigateSearch('/orders-view', queryParams);
+      dispatch(resetSelectFilterData(param));
+      getOrdersList(
+        ordersList?.current_page as number,
+        ordersList?.records_on_page as number,
+        search,
+        queryData
+      );
+    };
+
+    const newProps = [];
+    if (operationNameLength > 0) {
+      newProps.push({
+        name: 'Operation:',
+        value: operationNameLength.toString(),
+        onClick: () => deletFilter('operation-name'),
+      });
+    }
+    if (operationStatus > 0) {
+      newProps.push({
+        name: 'Operation status:',
+        value: operationStatus.toString(),
+        onClick: () => deletFilter('operation-status'),
+      });
+    }
+    if (orderStatus) {
+      newProps.push({
+        name: 'Order status:',
+        value: orderStatus,
+        onClick: () => deletFilter('order-status'),
+      });
+    }
+
+    setQueryProps(newProps);
   }, [searchParams]);
 
   useEffect(() => {
