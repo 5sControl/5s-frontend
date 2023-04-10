@@ -6,7 +6,7 @@ const API_POSTALGORITHM = 'api/algorithms/create-process/';
 const API_DELPROCESS = 'api/algorithms/stop-process/';
 const API_GETPROCESS = 'api/algorithms/get-process/';
 const API_GETLOGS = 'api/algorithms/logs/';
-const API_POSTOPERATIONID = 'api/order/index_operations/';
+const API_POSTOPERATIONID = 'api/order/index_stanowisko/';
 
 export const getAveilableAlgorithms = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
@@ -180,6 +180,26 @@ export const postOperationID = async (hostname, cookies, response) => {
     return axios.post(`http://${hostname}/${API_POSTOPERATIONID}`, response, {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const deleteOperationID = (hostname, cookies, id) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(process.env.REACT_APP_NGROK + API_POSTOPERATIONID + '/' + id, 'DELETE', {
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_POSTOPERATIONID}/${id}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_POSTOPERATIONID}/${id}`, {
+      headers: {
         Authorization: cookies,
       },
     });

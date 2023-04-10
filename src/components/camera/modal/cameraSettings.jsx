@@ -3,6 +3,7 @@ import { patchCamera } from '../../../api/cameraRequest';
 import { Close } from '../../../assets/svg/SVGcomponent';
 import { AlgorithmSelect } from './components/algorithmSelect';
 import {
+  deleteOperationID,
   deleteProcess,
   getOperationID,
   getProcess,
@@ -17,13 +18,15 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   const [informationToSend, setInformationToSend] = useState({});
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
+  const [currentOperation, setCurrentOperation] = useState({});
 
   const deleteProcessFromDB = async (whatIsDelete) => {
     for (const processID of whatIsDelete) {
-      await deleteProcess(window.location.hostname, token, processID).then(() => {
+      await deleteProcess(window.location.hostname, token, processID.process_id).then(() => {
         console.log('delete');
       });
     }
+    console.log(whatIsDelete);
     return;
   };
 
@@ -35,13 +38,16 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
           : `http://${window.location.hostname}`,
         [algorithm]: [IPCamera],
       };
-      // await postAlgorithnDependences(window.location.hostname, token, response).then(() => {
-      //   // console.log(e);
-      // });
+      await postAlgorithnDependences(window.location.hostname, token, response).then(() => {
+        // console.log(e);
+      });
 
       if (whatIsAdd.includes('operation_control')) {
         console.log('operation_control');
-        await postOperationID(window.location.hostname, token, { id: operationID }).then((e) => {
+        await postOperationID(window.location.hostname, token, {
+          type_operation: operationID,
+          camera: IPCamera,
+        }).then((e) => {
           console.log(e);
         });
       }
@@ -56,12 +62,14 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
         // console.log(res);
       });
     }
+    console.log(informationToSend);
     if (informationToSend.delete && informationToSend.delete.length > 0) {
       await deleteProcessFromDB(informationToSend.delete);
     }
     if (informationToSend.add && informationToSend.add.length > 0) {
       await addProcessToDB(informationToSend.add);
     }
+
     await setIsCameraSettings(false);
   };
 
@@ -75,14 +83,28 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
       bufObject = bufObject.reduce((acc, obj) => {
         const key = obj[Object.keys(obj)[0]];
         const curGroup = acc[key] ?? [];
-
         return { ...acc, [key]: [...curGroup, Object.keys(obj)[0]] };
       }, {});
       setProcess(response.data);
       setAlgorithmsActiveObject(bufObject);
-    });
-    getOperationID(window.location.hostname, token).then((response) => {
-      console.log(response);
+      getOperationID(window.location.hostname, token).then((response) => {
+        console.log(response.data.results);
+        console.log(bufObject);
+        if (
+          response.data &&
+          response.data.results &&
+          response.data.results.length > 0 &&
+          bufObject[IPCamera].includes('operation_control')
+        ) {
+          const currentOper = response.data.results.filter((item) => item.camera === IPCamera)[
+            response.data.results.length - 1
+          ];
+          setOperationID(currentOper.type_operation || '');
+          setCurrentOperation(currentOper);
+        } else {
+          setOperationID('');
+        }
+      });
     });
   }, []);
 
