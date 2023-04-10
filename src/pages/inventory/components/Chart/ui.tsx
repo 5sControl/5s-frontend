@@ -9,7 +9,6 @@ import styles from './chart.module.scss';
 export const Chart: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = useRef<any>(null);
-  const [height, setHeight] = useState<number>(400);
   const [size, setSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
   const { inventoryHistoryData } = useAppSelector(selectInventory);
 
@@ -17,8 +16,6 @@ export const Chart: React.FC = () => {
     if (ref && ref.current) {
       const wrapper = (d3.select(ref.current).node() as Element).getBoundingClientRect();
       wrapper && setSize({ width: wrapper.width, height: wrapper.height });
-      setHeight(ref.current.offsetHeight);
-      console.log(window.screen.height);
     }
   }, []);
 
