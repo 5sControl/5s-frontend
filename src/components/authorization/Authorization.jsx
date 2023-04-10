@@ -89,11 +89,6 @@ export const Authorization = () => {
             Incorrect email or password. Please, try again.
           </span>
         )}
-        {errorResponse && (
-          <span className="authorization__error_response">
-            Incorrect email or password. Please, try again.
-          </span>
-        )}
         {errorPassword && (
           <span className="authorization__error_password">This field is required</span>
         )}
