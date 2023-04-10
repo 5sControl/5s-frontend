@@ -44,51 +44,50 @@
   }
 }
 
-.modalCoord{
+.modalCoord {
   width: 90%;
   height: 90%;
   display: flex;
   flex-direction: column;
   overflow: auto;
-  .modalCoordContainer{
+  .modalCoordContainer {
     width: 100%;
     height: 100%;
   }
-  .area{
+  .area {
     display: flex;
     justify-content: center;
     position: relative;
     height: 80%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    .image_container{
+    .image_container {
       position: relative;
       width: max-content;
-      .newCoordinates{
+      .newCoordinates {
         position: absolute;
         z-index: 5;
         background-color: #ffffff40;
       }
-      .draw{
+      .draw {
         position: absolute;
-        top:0;
+        top: 0;
         left: 0;
         width: 100%;
         height: 100%;
       }
-
     }
-    img{
+    img {
       max-height: 100%;
     }
-    .back{
+    .back {
       display: flex;
       align-items: center;
-      gap:10px;
+      gap: 10px;
       position: absolute;
-      top:20px;
-      left:40px;
-      color: #FFFFFF;
+      top: 20px;
+      left: 40px;
+      color: #ffffff;
       z-index: 100;
       font-family: 'Inter';
       font-style: normal;
@@ -97,9 +96,9 @@
       line-height: 24px;
       cursor: pointer;
     }
-    .remove{
+    .remove {
       position: absolute;
-      top:20px;
+      top: 20px;
       right: 20px;
       height: 50px;
       width: 20px;
@@ -107,43 +106,42 @@
       cursor: pointer;
       transition: all 0.4s;
       z-index: 101;
-      color:white;
+      color: white;
       transform: translate(43px, -43px);
       opacity: 10 !important;
-      &:hover{
-        color:rgb(218, 215, 47);
+      &:hover {
+        color: rgb(218, 215, 47);
       }
     }
-  
   }
 
-.footer{
-  display: flex;
-  flex-direction: column;
-  gap:10px;
-  padding: 30px;
-  .button{
-    align-self: flex-end;
+  .footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 30px;
+    .button {
+      align-self: flex-end;
+    }
+  }
+  .oldCoord {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background: rgba(33, 33, 33, 0.6);
+    color: #ffffff;
+    border: 1px solid #666666;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 24px;
   }
 }
-.oldCoord{
-  position: absolute;
-  top:0px;
-  left: 0px;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  background: rgba(33, 33, 33, 0.6);
-  color: #FFFFFF;
-  border: 1px solid #666666;
-  font-weight: 400;
-font-size: 12px;
-line-height: 24px;
-}
-}
-.response{
+.response {
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
@@ -152,20 +150,85 @@ line-height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  > div{
+  > div {
     padding: 42px 22px 100px 22px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    p{
+    p {
       font-style: normal;
       font-weight: 600;
       font-size: 24px;
       line-height: 150%;
     }
   }
-  .icons{
+  .icons {
     width: 40px;
     height: 40px;
-    color:green;
+    color: green;
   }
-} 
+}
+.ifClose {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.205);
+  z-index: 4000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__container {
+    min-height: 360px;
+    min-width: 560px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: #ffffff;
+    box-shadow: 0px 0px 8px rgba(68, 87, 104, 0.25);
+    border-radius: 4px;
+  }
+  &__header {
+    h2 {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 150%;
+    }
+    span {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+  &__footer{
+    display: flex;
+    justify-content: flex-end;
+    gap:20px;
+    button{
+      width: 33px;
+      padding: 4px 0;
+      border-radius: 4px;
+      border: none;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    &_yes{
+      background: #FE6100;
+      &:hover{
+        background: rgb(1, 135, 1);
+      }
+    }
+    &_no{
+      background: inherit;
+      &:hover{
+        background: #FE6100;
+      }
+    }
+  }
+  .icons {
+    width: 40px;
+    height: 40px;
+    color: green;
+  }
+}
