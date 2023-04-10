@@ -2,7 +2,14 @@ import { useEffect, useState } from 'react';
 import { patchCamera } from '../../../api/cameraRequest';
 import { Close } from '../../../assets/svg/SVGcomponent';
 import { AlgorithmSelect } from './components/algorithmSelect';
-import { deleteProcess, getProcess, postAlgorithnDependences } from '../../../api/algorithmRequest';
+import {
+  deleteOperationID,
+  deleteProcess,
+  getOperationID,
+  getProcess,
+  postAlgorithnDependences,
+  postOperationID,
+} from '../../../api/algorithmRequest';
 
 export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamera }) => {
   const [cameraName, setCameraName] = useState(nameCamera);
@@ -10,17 +17,20 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   const [processLocal, setProcess] = useState([]);
   const [informationToSend, setInformationToSend] = useState({});
   const [isEnabled, setIsEnabled] = useState(true);
+  const [operationID, setOperationID] = useState('');
+  const [currentOperation, setCurrentOperation] = useState({});
+
   const deleteProcessFromDB = async (whatIsDelete) => {
     for (const processID of whatIsDelete) {
-      await deleteProcess(window.location.hostname, token, processID).then(() => {
+      await deleteProcess(window.location.hostname, token, processID.process_id).then(() => {
         console.log('delete');
       });
     }
+    console.log(whatIsDelete);
     return;
   };
 
   const addProcessToDB = async (whatIsAdd) => {
-    // console.log(whatIsAdd);
     for (const algorithm of whatIsAdd) {
       let response = {
         server_url: window.location.hostname.includes('localhost')
@@ -31,6 +41,16 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
       await postAlgorithnDependences(window.location.hostname, token, response).then(() => {
         // console.log(e);
       });
+
+      // if (whatIsAdd.includes('operation_control') && operationID !== '') {
+      //   console.log('operation_control');
+      //   await postOperationID(window.location.hostname, token, {
+      //     type_operation: operationID,
+      //     camera: IPCamera,
+      //   }).then((e) => {
+      //     console.log(e);
+      //   });
+      // }
     }
     return;
   };
@@ -48,6 +68,15 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
     if (informationToSend.add && informationToSend.add.length > 0) {
       await addProcessToDB(informationToSend.add);
     }
+    if (currentOperation.type_operation !== operationID && operationID !== '') {
+      await postOperationID(window.location.hostname, token, {
+        type_operation: operationID,
+        camera: IPCamera,
+      }).then((e) => {
+        console.log(e);
+      });
+    }
+
     await setIsCameraSettings(false);
   };
 
@@ -61,17 +90,34 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
       bufObject = bufObject.reduce((acc, obj) => {
         const key = obj[Object.keys(obj)[0]];
         const curGroup = acc[key] ?? [];
-
         return { ...acc, [key]: [...curGroup, Object.keys(obj)[0]] };
       }, {});
       setProcess(response.data);
       setAlgorithmsActiveObject(bufObject);
+      console.log(bufObject);
+      getOperationID(window.location.hostname, token).then((response) => {
+        if (
+          response.data &&
+          response.data.results &&
+          response.data.results.length > 0 &&
+          bufObject[IPCamera] &&
+          bufObject[IPCamera].includes('operation_control')
+        ) {
+          console.log(response.data.results);
+          const currentOper = response.data.results.filter((item) => item.camera === IPCamera);
+          if (currentOper.length > 0) {
+            setOperationID(currentOper[currentOper.length - 1].type_operation || '');
+          } else {
+            setOperationID('');
+          }
+
+          setCurrentOperation(currentOper);
+        } else {
+          setOperationID('');
+        }
+      });
     });
   }, []);
-
-  useEffect(() => {
-    // console.log(informationToSend);
-  }, [informationToSend]);
 
   return (
     <>
@@ -117,6 +163,8 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                     process={processLocal}
                     IPCamera={IPCamera}
                     setInformationToSend={(e) => setInformationToSend(e)}
+                    operationID={operationID}
+                    setOperationID={(id) => setOperationID(id)}
                   />
                 </div>
                 <div className="cameras__settings_right">

@@ -30,6 +30,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
   const [coords, setCoords] = useState<Coordinat[]>([]);
   const [isClose, setIsClose] = useState<any>(false);
+  const [isCloseClick, setIsCloseClick] = useState<any>(false);
   const [itemName, setItemName] = useState<string>('');
   const [itemCount, setItemCount] = useState<number>(0);
 
@@ -61,7 +62,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
     };
     setFormData(dataForm);
     setIsShowCoord(true);
-    console.log(isShowCoord);
   };
 
   const submitHandler = () => {
@@ -81,6 +81,10 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       }, 2000);
     });
   };
+  const closed = () => {
+    setIsCloseClick(true);
+    // handleClose();
+  };
 
   return (
     <Modal
@@ -92,7 +96,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
         <div>
           <div className={styles.header}>
             <h3 className={styles.title}>Add item</h3>
-            <Close onClick={handleClose} />
+            <Close onClick={closed} />
           </div>
           <div className={styles.content}>
             <form onSubmit={onSubmit}>
@@ -162,6 +166,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
                 <p>The item is not saved</p>
               </>
             )}
+            {/* <p>{isClose.status ? 'The item is saved' : 'The item is not saved'}</p> */}
           </div>
         </div>
       )}
