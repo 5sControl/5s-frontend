@@ -73,6 +73,8 @@ body {
       display: flex;
       flex-direction: column;
       gap: 48px;
+      height: calc(100% - 170px);
+      overflow: auto;
     }
     li,
     a {
