@@ -75,7 +75,7 @@ export const AlgorithmSelect = ({
                     className={'cameras__settings_algorithms_container_input'}
                     placeholder={'Enter ID'}
                     value={operationID}
-                    onChange={(e) => setOperationID(e.target.value.replace(/[^\d.]/g, ''))}
+                    onChange={(e) => setOperationID(e.target.value.replace(/[^\d]/g, ''))}
                   />
                 </>
               )}

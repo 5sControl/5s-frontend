@@ -42,15 +42,15 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
         // console.log(e);
       });
 
-      if (whatIsAdd.includes('operation_control')) {
-        console.log('operation_control');
-        await postOperationID(window.location.hostname, token, {
-          type_operation: operationID,
-          camera: IPCamera,
-        }).then((e) => {
-          console.log(e);
-        });
-      }
+      // if (whatIsAdd.includes('operation_control') && operationID !== '') {
+      //   console.log('operation_control');
+      //   await postOperationID(window.location.hostname, token, {
+      //     type_operation: operationID,
+      //     camera: IPCamera,
+      //   }).then((e) => {
+      //     console.log(e);
+      //   });
+      // }
     }
     return;
   };
@@ -62,12 +62,19 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
         // console.log(res);
       });
     }
-    console.log(informationToSend);
     if (informationToSend.delete && informationToSend.delete.length > 0) {
       await deleteProcessFromDB(informationToSend.delete);
     }
     if (informationToSend.add && informationToSend.add.length > 0) {
       await addProcessToDB(informationToSend.add);
+    }
+    if (currentOperation.type_operation !== operationID && operationID !== '') {
+      await postOperationID(window.location.hostname, token, {
+        type_operation: operationID,
+        camera: IPCamera,
+      }).then((e) => {
+        console.log(e);
+      });
     }
 
     await setIsCameraSettings(false);
@@ -87,19 +94,23 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
       }, {});
       setProcess(response.data);
       setAlgorithmsActiveObject(bufObject);
+      console.log(bufObject);
       getOperationID(window.location.hostname, token).then((response) => {
-        console.log(response.data.results);
-        console.log(bufObject);
         if (
           response.data &&
           response.data.results &&
           response.data.results.length > 0 &&
+          bufObject[IPCamera] &&
           bufObject[IPCamera].includes('operation_control')
         ) {
-          const currentOper = response.data.results.filter((item) => item.camera === IPCamera)[
-            response.data.results.length - 1
-          ];
-          setOperationID(currentOper.type_operation || '');
+          console.log(response.data.results);
+          const currentOper = response.data.results.filter((item) => item.camera === IPCamera);
+          if (currentOper.length > 0) {
+            setOperationID(currentOper[currentOper.length - 1].type_operation || '');
+          } else {
+            setOperationID('');
+          }
+
           setCurrentOperation(currentOper);
         } else {
           setOperationID('');
@@ -107,10 +118,6 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
       });
     });
   }, []);
-
-  useEffect(() => {
-    // console.log(informationToSend);
-  }, [informationToSend]);
 
   return (
     <>
