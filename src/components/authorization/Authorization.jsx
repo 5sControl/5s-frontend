@@ -94,9 +94,10 @@ export const Authorization = () => {
         )}
         <button
           className={
-            correctEmail && correctPassword
-              ? 'authorization__button'
-              : 'authorization__button disableButton'
+            'authorization__button'
+            // correctEmail && correctPassword
+            //   ?
+            //   : 'authorization__button disableButton'
           }
           onClick={post}
         >
