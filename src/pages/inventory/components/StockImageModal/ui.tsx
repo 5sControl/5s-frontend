@@ -33,10 +33,10 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
         style={{
           backgroundImage: `url(${
             process.env.REACT_APP_ENV === 'proxy'
-              ? `${process.env.REACT_APP_NGROK}${currentReport.photos[0].image}`
+              ? `${process.env.REACT_APP_NGROK}${currentReport.extra[0].image_item}`
               : process.env.REACT_APP_ENV === 'wify'
-              ? `${process.env.REACT_APP_IP_SERVER}${currentReport.photos[0].image}`
-              : `http://${window.location.hostname}/${currentReport.photos[0].image}`
+              ? `${process.env.REACT_APP_IP_SERVER}${currentReport.extra[0].image_item}`
+              : `http://${window.location.hostname}/${currentReport.extra[0].image_item}`
           })`,
         }}
       >

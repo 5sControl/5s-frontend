@@ -13,6 +13,7 @@ export interface HistoryExtra {
   itemId: number;
   low_stock_level: number;
   status: string;
+  image_item: string;
 }
 
 export interface HistoryPhoto {
