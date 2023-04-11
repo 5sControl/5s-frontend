@@ -8,8 +8,8 @@ import { authorizationRequest } from '../../api/companyRequest';
 export const Authorization = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [correctEmail, setCorrectEmail] = useState(false);
-  const [correctPassword, setCorrectPassword] = useState(false);
+  const [correctEmail, setCorrectEmail] = useState(true);
+  const [correctPassword, setCorrectPassword] = useState(true);
   const [errorResponse, setErrorResponse] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
   const [, setCookie] = useCookies(['token']);
