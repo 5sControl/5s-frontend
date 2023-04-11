@@ -23,7 +23,7 @@ export const Authorization = () => {
   }, [password]);
 
   useEffect(() => {
-    if (email.length > 4 && email.length < 25) {
+    if (email.length < 25) {
       setCorrectEmail(true);
     } else {
       setCorrectEmail(false);
