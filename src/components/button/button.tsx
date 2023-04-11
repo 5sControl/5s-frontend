@@ -15,6 +15,8 @@ type PropsType = {
   className?: string;
   target?: string;
   download?: string;
+  id?: string;
+  ref?: React.RefObject<HTMLButtonElement>;
 };
 
 export const Button: React.FC<PropsType> = ({
@@ -30,19 +32,23 @@ export const Button: React.FC<PropsType> = ({
   href,
   target,
   download,
+  id,
+  ref,
 }) => {
   return React.createElement(
     href ? 'a' : 'button',
     {
       type,
-      className: `${styles[variant]} ${disabled ? styles.disabled : ''} ${
-        text ? styles.gap : ''
-      } ${className}`,
+      className: `${styles[variant]} ${disabled ? styles.disabled : ''} ${text ? styles.gap : ''} ${
+        className ?? ''
+      }`,
       disabled: disabled,
       onClick: onClick,
       href,
       target,
       download,
+      id,
+      ref,
     },
 
     IconLeft &&
