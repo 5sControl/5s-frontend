@@ -144,9 +144,13 @@ thead th {
   top: 55px;
   background: white;
 }
+
 tbody td {
-  margin-top: 20px;
   @include body2;
+  line-height: 40px;
   letter-spacing: 0.1px;
   color: var(--HightEmphasis);
+}
+.itemLine{
+  cursor: pointer;
 }

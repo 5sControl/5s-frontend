@@ -134,7 +134,8 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
         .append('div')
         .attr('class', styles.tooltip)
         .style('opacity', 0)
-        .style('position', 'absolute');
+        .style('position', 'absolute')
+        .style('z-index', -1);
 
       const showTooltip = function (d: any, d1: any) {
         let currentItemIndex = +d.target.getAttribute('data-index');
@@ -171,7 +172,8 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
         tooltip
           .style('opacity', 1)
           .style('left', d.layerX - 120 + 'px')
-          .style('top', d.layerY - 25 - 160 + 'px');
+          .style('top', d.layerY - 25 - 160 + 'px')
+          .style('z-index', 1000);
       };
 
       const hideTooltip = () => {
