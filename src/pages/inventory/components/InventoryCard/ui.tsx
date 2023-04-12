@@ -17,7 +17,7 @@ export const InventoryCard: React.FC<PropsType> = ({ data }) => {
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
   return (
     <Cover className={styles.cover}>
-      <h4 className={styles.header}>{data.name}</h4>
+      {/* <h4 className={styles.header}>{data.name}</h4> */}
 
       {!isLoadingHistory &&
       inventoryHistoryData &&
@@ -42,14 +42,14 @@ export const InventoryCard: React.FC<PropsType> = ({ data }) => {
               ).status === 'Out of stock' && styles.out
             }`}
           >
-            {
+            {/* {
               getExtraOfActiveData(
                 inventoryHistoryData[inventoryHistoryData.length - 1].extra,
                 activeInventoryItem
               ).count
-            }
+            } */}
           </span>
-          <p className={styles.stockData_description}>in stock now</p>
+          {/* <p className={styles.stockData_description}>in stock now</p> */}
         </div>
       ) : null}
 

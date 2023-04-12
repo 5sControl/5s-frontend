@@ -22,11 +22,7 @@ export const Chart: React.FC = () => {
   return (
     <div id="chartBar" ref={ref}>
       {size.width && inventoryHistoryData && (
-        <BarChart
-          data={inventoryHistoryData}
-          width={size.width}
-          height={window.screen.height / 2.5}
-        />
+        <BarChart data={inventoryHistoryData} width={size.width} height={500} />
       )}
 
       <div className={styles.labels}>

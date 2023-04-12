@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Cover } from '../../../../components/cover';
-import { Settings } from '../../../../assets/svg/SVGcomponent';
+import { ArrowDown, Dots, SortSVG } from '../../../../assets/svg/SVGcomponent';
 import styles from './inventoryReport.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { getInventoryItemsAsync, selectInventory } from '../../inventorySlice';
@@ -22,6 +22,11 @@ import { selectAddInventoryModal } from '../AddInventoryModal/addInventoryModalS
 import { useCookies } from 'react-cookie';
 import moment from 'moment-timezone';
 import { Input } from '../../../../components/input';
+import {
+  addActiveInventoryItem,
+  selectActiveInventoryItem,
+} from '../InventoryItemsList/InventoryItemsListSlice';
+import { InventoryCard } from '../InventoryCard';
 
 export const InventoryReport: React.FC = () => {
   const { inventoryItems, isLoading } = useAppSelector(selectInventory);
@@ -37,6 +42,9 @@ export const InventoryReport: React.FC = () => {
   const [cookies] = useCookies(['token']);
   const [currentUpdateDate, setCurrentUpdateDate] = useState<string | null>(null);
   const [filterItem, setFilterItem] = useState('');
+  const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
+
+  const [isOpen, setIsOpen] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openSettings = (event: any, currentItem: InventoryItem) => {
     dispatch(setCurrentEditItem(currentItem));
@@ -76,7 +84,15 @@ export const InventoryReport: React.FC = () => {
     );
   }, [connectResponse, connectResponseDataAdd, connectDeleteResponse, statusSort]);
 
-  console.log(inventoryItems);
+  const onclickHandler = (activeItem: InventoryItem) => {
+    if (!activeInventoryItem || activeItem.id !== activeInventoryItem.id || !isOpen) {
+      dispatch(addActiveInventoryItem(activeItem));
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  };
+
   return (
     <>
       {currentEditItem && (
@@ -117,21 +133,17 @@ export const InventoryReport: React.FC = () => {
         <div className={styles.content}>
           <table>
             <thead>
-              <tr>
-                <th>Item</th>
-                <th
-                  className={`${styles.statusTh} ${isLoading && styles.disableSort}`}
-                  onClick={handleStatusSort}
-                >
+              <tr className={styles.tableHeader}>
+                <th className={styles.item}>Item</th>
+                <th onClick={handleStatusSort}>
                   <span>Status</span>
-                  <span
-                    className={`${styles.arrowUp} ${statusSort ? styles.sortOn : styles.sortOff}`}
-                  ></span>
+                  <SortSVG className={statusSort ? styles.sortOn : styles.sortOff} />
                 </th>
-                <th>Current Stock</th>
-                <th>Low Stock Level</th>
-                <th>Camera</th>
-                <th></th>
+                <th className={styles.stock}>Current Stock</th>
+                <th className={styles.low}>Low Stock Level</th>
+                <th className={styles.camera}>Camera</th>
+                <th className={styles.settings}></th>
+                <th className={styles.show}></th>
               </tr>
             </thead>
             <tbody>
@@ -143,31 +155,61 @@ export const InventoryReport: React.FC = () => {
                     )
                     .map((item) => {
                       return (
-                        <tr key={item.id}>
-                          <td>{item.name}</td>
-                          <td>
-                            <span
-                              className={`${styles.status} ${
-                                item.status === 'In stock' && styles.statusStock
-                              } ${item.status === 'Low stock level' && styles.statusLowStock} ${
-                                item.status === 'Out of stock' && styles.statusOutStock
-                              }`}
-                            >
-                              {item.status}
-                            </span>
-                          </td>
-                          <td>{item.current_stock_level}</td>
-                          <td>{item.low_stock_level}</td>
-                          <td>{item.camera}</td>
-                          <td>
-                            <Settings
-                              className={styles.editIcon}
-                              onClick={(event: React.MouseEvent<Element, MouseEvent>) =>
-                                openSettings(event, item)
-                              }
-                            />
-                          </td>
-                        </tr>
+                        <Fragment key={item.id}>
+                          <tr className={styles.itemLine}>
+                            <td onClick={() => onclickHandler(item)} className={styles.item}>
+                              {item.name}
+                            </td>
+                            <td onClick={() => onclickHandler(item)}>
+                              <span
+                                className={`${styles.status} ${
+                                  item.status === 'In stock' && styles.statusStock
+                                } ${item.status === 'Low stock level' && styles.statusLowStock} ${
+                                  item.status === 'Out of stock' && styles.statusOutStock
+                                }`}
+                              >
+                                {item.status}
+                              </span>
+                            </td>
+                            <td onClick={() => onclickHandler(item)} className={styles.stock}>
+                              {item.current_stock_level}
+                            </td>
+                            <td onClick={() => onclickHandler(item)} className={styles.low}>
+                              {item.low_stock_level}
+                            </td>
+                            <td onClick={() => onclickHandler(item)} className={styles.camera}>
+                              {item.camera}
+                            </td>
+                            <td className={styles.settings}>
+                              <Dots
+                                className={styles.editIcon}
+                                onClick={(event: React.MouseEvent<Element, MouseEvent>) =>
+                                  openSettings(event, item)
+                                }
+                              />
+                            </td>
+                            <td onClick={() => onclickHandler(item)} className={styles.show}>
+                              <ArrowDown
+                                className={
+                                  isOpen &&
+                                  activeInventoryItem &&
+                                  activeInventoryItem.id === item.id
+                                    ? styles.top
+                                    : styles.down
+                                }
+                              />
+                            </td>
+                          </tr>
+                          <tr className={styles.history}>
+                            <td colSpan={7}>
+                              {isOpen &&
+                                activeInventoryItem &&
+                                activeInventoryItem.id === item.id && (
+                                  <InventoryCard data={activeInventoryItem} />
+                                )}
+                            </td>
+                          </tr>
+                        </Fragment>
                       );
                     })}
                 </>

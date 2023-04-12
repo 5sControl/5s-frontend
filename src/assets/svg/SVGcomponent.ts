@@ -31,6 +31,9 @@ import { ReactComponent as Cross } from './cross.svg';
 import { ReactComponent as Download } from './download.svg';
 import { ReactComponent as Filter } from './filter.svg';
 import { ReactComponent as VideoCameraCrossed } from './videoCameraCrossed.svg';
+import { ReactComponent as Dots } from './dots.svg';
+import { ReactComponent as ArrowDown } from './arrowDown.svg';
+import { ReactComponent as SortSVG } from './sort.svg';
 
 export {
   Algorithm,
@@ -66,4 +69,7 @@ export {
   Filter,
   VideoCameraCrossed,
   Live,
+  Dots,
+  ArrowDown,
+  SortSVG,
 };
