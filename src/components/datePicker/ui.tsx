@@ -43,9 +43,6 @@ export const DatePicker: React.FC = () => {
   const handleSelect = (date: RangeKeyDict) => {
     date.selection.startDate?.setHours(date.selection.startDate.getHours() + 3);
     date.selection.endDate?.setHours(date.selection.endDate.getHours() + 3);
-
-    console.log(date.selection.startDate?.toISOString());
-
     setStartDate(date.selection.startDate as Date);
     setEndDate(date.selection.endDate as Date);
   };
@@ -85,8 +82,15 @@ export const DatePicker: React.FC = () => {
       to: queryToParam,
     };
 
-    setStartDate(new Date(queryDateParam.from));
-    setEndDate(new Date(queryDateParam.to));
+    if (queryFromParam && queryToParam) {
+      setStartDate(new Date(queryDateParam.from));
+      setEndDate(new Date(queryDateParam.to));
+    } else {
+      console.log('from', filterDateData.from, 'to', filterDateData.to);
+
+      setStartDate(new Date(filterDateData.from));
+      setEndDate(new Date(filterDateData.to));
+    }
   }, []);
 
   return (

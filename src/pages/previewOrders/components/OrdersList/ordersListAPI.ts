@@ -22,8 +22,12 @@ export const getOrdersAPI = (
     searchParams.append('page_size', `${page_size}`);
     search && searchParams.append('search', search);
     searchParams.append('order-status', params['order-status']);
-    searchParams.append('from', params['from']);
-    searchParams.append('to', params['to']);
+    if (params['from']) {
+      searchParams.append('from', params['from']);
+    }
+    if (params['to']) {
+      searchParams.append('to', params['to']);
+    }
     for (const p of params['operation-status']) {
       searchParams.append('operation-status', p);
     }
@@ -43,8 +47,12 @@ export const getOrdersAPI = (
     searchParams.append('page_size', `${page_size}`);
     search && searchParams.append('search', search);
     searchParams.append('order-status', params['order-status']);
-    searchParams.append('from', params['from']);
-    searchParams.append('to', params['to']);
+    if (params['from']) {
+      searchParams.append('from', params['from']);
+    }
+    if (params['to']) {
+      searchParams.append('to', params['to']);
+    }
     for (const p of params['operation-status']) {
       searchParams.append('operation-status', p);
     }
@@ -66,8 +74,12 @@ export const getOrdersAPI = (
     searchParams.append('page_size', `${page_size}`);
     search && searchParams.append('search', search);
     searchParams.append('order-status', params['order-status']);
-    searchParams.append('from', params['from']);
-    searchParams.append('to', params['to']);
+    if (params['from']) {
+      searchParams.append('from', params['from']);
+    }
+    if (params['to']) {
+      searchParams.append('to', params['to']);
+    }
     for (const p of params['operation-status']) {
       searchParams.append('operation-status', p);
     }

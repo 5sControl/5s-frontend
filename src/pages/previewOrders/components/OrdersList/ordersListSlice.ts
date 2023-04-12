@@ -57,7 +57,7 @@ const initialState: ReportState = {
   },
   filterDateData: {
     from: startDateDefault,
-    to: currentDate.toISOString(),
+    to: new Date().toISOString(),
   },
   isLoadingFilterOperations: false,
   isErrorFilterOperations: false,
