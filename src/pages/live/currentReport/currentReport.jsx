@@ -6,13 +6,14 @@ import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName.js
 import { selectCurrentReport } from '../../../store/dataSlice';
 import { useAppSelector } from '../../../store/hooks';
 import './current-report.scss';
-export const CurrentReport = () => {
+export const CurrentReport = ({ camera }) => {
   const { currentReport } = useAppSelector(selectCurrentReport);
   const [fullImage, setFullImage] = useState(false);
+  console.log(camera);
 
   return (
     <>
-      {currentReport && (
+      {currentReport ? (
         <>
           <div className="current-report">
             <div className="current-report__image">
@@ -40,6 +41,19 @@ export const CurrentReport = () => {
               </div>
             </div>
           </div>
+        </>
+      ) : (
+        <>
+          {camera !== 'camera' && (
+            <div className="current-report">
+              <video
+                id="videoPlayer"
+                src={`http://192.168.1.110:3456/stream?camera_ip=${camera}`}
+                controls
+                autoPlay
+              ></video>
+            </div>
+          )}
         </>
       )}
       {fullImage && (

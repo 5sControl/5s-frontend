@@ -128,7 +128,7 @@ export const Live = () => {
                   </div>
                 ))} */}
               </div>
-              <CurrentReport />
+              <CurrentReport camera={cameraToResponse} />
             </div>
           </div>
           <div className="live__timeline">
