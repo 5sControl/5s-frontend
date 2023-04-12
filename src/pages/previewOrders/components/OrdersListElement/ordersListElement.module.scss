@@ -23,7 +23,7 @@
     }
 
     .activeOrder {
-      @include h5;
+      @include h4;
       letter-spacing: 0.15px;
       color: var(--HightEmphasis);
     }

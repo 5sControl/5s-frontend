@@ -6,11 +6,18 @@ import { getFilterOperationsAPI } from '../FilterBar/filterBarAPI';
 import { parseOrderData } from './orderListHelper';
 import { getOrdersAPI } from './ordersListAPI';
 
-export type FilterDataType = {
+export interface FilterDataType {
   'order-status': string;
   'operation-name': string[];
   'operation-status': string[];
-};
+}
+
+export interface FilterDateDataType {
+  from: string;
+  to: string;
+}
+
+export interface FilterDataParams extends FilterDataType, FilterDateDataType {}
 
 interface ReportState {
   activeOrder: null | string;
@@ -22,11 +29,17 @@ interface ReportState {
 
   isShowOrdersViewFilter: boolean;
   filterData: FilterDataType;
+  filterDateData: FilterDateDataType;
   isLoadingFilterOperations: boolean;
   isErrorFilterOperations: boolean;
   filterOperationsData: Array<string>;
   errorFilterOperations: SerializedError;
 }
+
+const currentDate = new Date();
+currentDate.setHours(currentDate.getHours() + 3);
+currentDate.setMonth(currentDate.getMonth() - 1);
+const startDateDefault = currentDate.toISOString();
 
 const initialState: ReportState = {
   activeOrder: null,
@@ -42,6 +55,10 @@ const initialState: ReportState = {
     'operation-name': [],
     'operation-status': [],
   },
+  filterDateData: {
+    from: startDateDefault,
+    to: new Date().toISOString(),
+  },
   isLoadingFilterOperations: false,
   isErrorFilterOperations: false,
   filterOperationsData: [],
@@ -56,7 +73,7 @@ export const getOrdersAsync = createAsyncThunk(
     page: number;
     page_size: number;
     search: string | null;
-    params: FilterDataType;
+    params: FilterDataParams;
   }) => {
     const response = await getOrdersAPI(
       data.hostname,
@@ -145,6 +162,13 @@ const ordersList = createSlice({
         'operation-status': [],
       };
     },
+    setFilterDateData(state, action) {
+      state.filterDateData = {
+        ...state.filterDateData,
+        from: action.payload.from,
+        to: action.payload.to,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getOrdersAsync.pending, (state) => {
@@ -187,6 +211,7 @@ export const {
   resetAllFilterData,
   resetSelectFilterData,
   setFilterData,
+  setFilterDateData,
 } = ordersList.actions;
 export const selectOrdersList = (state: RootState) => state.orderList;
 export default ordersList.reducer;

@@ -18,7 +18,7 @@
     background-color: #ffffff;
     padding: 10px 0 0 0;
     .title {
-      @include h4;
+      @include h3;
       letter-spacing: 0.03em;
       &_left {
         display: flex;
@@ -37,7 +37,7 @@
     }
 
     .date {
-      @include h5;
+      @include h4;
     }
   }
   table{

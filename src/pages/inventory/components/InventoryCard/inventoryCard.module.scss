@@ -9,7 +9,7 @@
   border-bottom: 1px solid #c5c5c5;
   margin-bottom: 5px;
   .header {
-    @include h4;
+    @include h3;
     color: var(--TotalBlack);
   }
 
@@ -17,7 +17,7 @@
     display: flex;
     align-items: baseline;
     &_value {
-      @include h2;
+      @include h1;
     }
 
     .stockIn {

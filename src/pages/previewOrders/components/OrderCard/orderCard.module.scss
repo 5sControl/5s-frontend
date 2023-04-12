@@ -23,13 +23,13 @@
       margin-bottom: 20px;
 
       .title {
-        @include h4;
+        @include h3;
         color: var(--HightEmphasis);
       }
     }
 
     .orderDate {
-      @include h5;
+      @include h4;
       color: var(--HightEmphasis);
     }
   }
