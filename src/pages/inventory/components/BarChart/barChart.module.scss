@@ -28,7 +28,7 @@
 }
 
 .stockNumber {
-  @include h2;
+  @include h1;
   display: flex;
   align-items: center;
   letter-spacing: 0.03em;

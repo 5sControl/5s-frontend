@@ -38,7 +38,7 @@
     align-items: center;
     gap: 10px;
     &_title {
-      @include h4;
+      @include h3;
       color: var(--HightEmphasis);
     }
     &_icon {
