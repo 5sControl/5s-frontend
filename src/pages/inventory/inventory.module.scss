@@ -10,7 +10,7 @@
     margin-bottom: 40px;
 
     .title {
-      @include h2;
+      @include h1;
       color: var(--HightEmphasis);
     }
   }
@@ -29,7 +29,7 @@
       gap: 10px;
 
       .title {
-        @include h4;
+        @include h3;
         color: var(--HightEmphasis);
       }
 

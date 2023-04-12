@@ -6,7 +6,7 @@
   padding: 10px 4px 10px 10px;
   .header {
     .title {
-      @include h4;
+      @include h3;
       letter-spacing: 0.03em;
     }
     .listInput {

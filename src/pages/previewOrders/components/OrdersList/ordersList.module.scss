@@ -8,7 +8,7 @@
 .header {
   margin: 10px 10px 0 10px;
   &_title {
-    @include h4;
+    @include h3;
     letter-spacing: 0.03em;
     margin-bottom: 20px;
   }

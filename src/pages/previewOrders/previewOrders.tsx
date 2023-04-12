@@ -6,13 +6,16 @@ import { OrderList } from './components/OrdersList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   addActiveOrder,
+  FilterDataParams,
   FilterDataType,
+  FilterDateDataType,
   getFilterOperationsAsync,
   getOrdersAsync,
   resetAllFilterData,
   resetSelectFilterData,
   selectOrdersList,
   setFilterData,
+  setFilterDateData,
   setIsShowOrdersViewFilter,
   setSearchValue,
 } from './components/OrdersList/ordersListSlice';
@@ -36,6 +39,7 @@ import { useNavigateSearch } from '../../functions/useNavigateSearch';
 import { OperationItem, OrderItem } from '../../storage/orderView';
 import { Button } from '../../components/button';
 import { FilterBar } from './components/FilterBar';
+import { DatePicker } from '../../components/datePicker';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -46,6 +50,7 @@ export const PreviewOrders: React.FC = () => {
   const {
     isShowOrdersViewFilter,
     filterData,
+    filterDateData,
     isErrorOfOrdersList,
     isLoadingOrdersList,
     activeOrder,
@@ -53,18 +58,6 @@ export const PreviewOrders: React.FC = () => {
     search,
   } = useAppSelector(selectOrdersList);
   const { isOpenOperationVideoModal, videoState } = useAppSelector(selectOperationVideoModal);
-
-  // const listOfDate = [
-  //   { id: 1, text: 'Last month, 2023 Jan 16 - Feb 16' },
-  //   { id: 2, text: 'Last month, 2023 Feb 17 - Mar 16' },
-  //   { id: 3, text: 'Last month, 2023 Mar 17 - Apr 16' },
-  //   { id: 4, text: 'Last month, 2023 Apr 17 - May 16' },
-  // ];
-
-  // const listOfstatus = [
-  //   { id: 1, text: 'Started' },
-  //   { id: 2, text: 'Completed' },
-  // ];
 
   const handleCloseModal = () => {
     dispatch(setIsOpenOperationVideoModal(false));
@@ -77,14 +70,14 @@ export const PreviewOrders: React.FC = () => {
 
   const handleSubmitClear = () => {
     dispatch(setSearchValue(null));
-    getOrdersList(1, 50, null, filterData);
+    getOrdersList(1, 50, null, { ...filterData, ...filterDateData });
   };
 
   const getOrdersList = (
     page: number,
     page_size: number,
     search: string | null,
-    params: FilterDataType
+    params: FilterDataParams
   ) => {
     dispatch(
       getOrdersAsync({
@@ -108,7 +101,7 @@ export const PreviewOrders: React.FC = () => {
   };
 
   const handleSubmitFilters = (data: FilterDataType) => {
-    getOrdersList(1, ordersList?.records_on_page as number, search, data);
+    getOrdersList(1, ordersList?.records_on_page as number, search, { ...data, ...filterDateData });
     handleClickFilter(false);
   };
 
@@ -118,6 +111,7 @@ export const PreviewOrders: React.FC = () => {
       'order-status': 'all',
       'operation-name': [],
       'operation-status': [],
+      ...filterDateData,
     });
 
     const queryParams = Object.fromEntries([...searchParams]);
@@ -132,6 +126,7 @@ export const PreviewOrders: React.FC = () => {
   const handleHyperLink = (operationData: OperationItem) => {
     dispatch(setTimeOperationVideoModal(operationData));
   };
+
   const handleChangeSearch = (value: string) => {
     dispatch(setSearchValue(value));
 
@@ -139,7 +134,7 @@ export const PreviewOrders: React.FC = () => {
       ordersList?.current_page as number,
       ordersList?.records_on_page as number,
       value,
-      filterData
+      { ...filterData, ...filterDateData }
     );
   };
 
@@ -147,29 +142,7 @@ export const PreviewOrders: React.FC = () => {
     { name: string; value: string; onClick: () => void }[]
   >([]);
 
-  useEffect(() => {
-    const queryOrderStatusParam = searchParams.get('order-status');
-    const queryOperationStatusParam = searchParams.getAll('operation-status');
-    const queryOrderNameParam = searchParams.getAll('operation-name');
-
-    const queryData: FilterDataType = {
-      'order-status': queryOrderStatusParam as string,
-      'operation-status': queryOperationStatusParam,
-      'operation-name': queryOrderNameParam,
-    };
-    if (queryOrderStatusParam) {
-      dispatch(setFilterData(queryData));
-      getOrdersList(1, 50, null, queryData);
-    } else {
-      getOrdersList(1, 50, null, filterData);
-    }
-
-    return () => {
-      dispatch(addActiveOrder(null));
-    };
-  }, []);
-
-  const getFilterQueryData = () => {
+  const getFilterQueryData = (): FilterDataType => {
     const queryOrderStatusParam = searchParams.get('order-status');
     const queryOperationStatusParam = searchParams.getAll('operation-status');
     const queryOrderNameParam = searchParams.getAll('operation-name');
@@ -181,6 +154,37 @@ export const PreviewOrders: React.FC = () => {
     };
     return queryData;
   };
+
+  const getFilterDateQueryData = (): FilterDateDataType => {
+    const queryFromParam = searchParams.get('from') as string;
+    const queryToParam = searchParams.get('to') as string;
+
+    const queryDateParam: FilterDateDataType = {
+      from: queryFromParam,
+      to: queryToParam,
+    };
+
+    return queryDateParam;
+  };
+
+  useEffect(() => {
+    const queryData = getFilterQueryData();
+    const queryDateParam = getFilterDateQueryData();
+
+    if (queryDateParam.from && queryDateParam.to) {
+      dispatch(setFilterDateData(queryDateParam));
+    }
+
+    dispatch(setFilterData(queryData));
+    getOrdersList(1, 50, null, {
+      ...queryData,
+      ...filterDateData,
+    });
+
+    return () => {
+      dispatch(addActiveOrder(null));
+    };
+  }, []);
 
   useEffect(() => {
     const queryData = getFilterQueryData();
@@ -198,7 +202,7 @@ export const PreviewOrders: React.FC = () => {
         ordersList?.current_page as number,
         ordersList?.records_on_page as number,
         search,
-        queryData
+        { ...queryData, ...filterDateData }
       );
     };
 
@@ -293,8 +297,6 @@ export const PreviewOrders: React.FC = () => {
             <h2 className={styles.header_title}>Orders View</h2>
 
             <div className={styles.header_container}>
-              {/* <Select listOfData={listOfstatus} />
-              <Select className={styles.header_container_date} listOfData={listOfDate} /> */}
               <div className={styles.header_container_filters}>
                 <Button
                   text="Filter"
@@ -318,6 +320,8 @@ export const PreviewOrders: React.FC = () => {
                     onClick={onClick}
                   />
                 ))}
+
+                <DatePicker />
               </div>
             </div>
           </div>

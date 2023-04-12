@@ -5,7 +5,7 @@
   padding: 10px;
 
   .header {
-    @include h4;
+    @include h3;
     color: var(--TotalBlack);
   }
 
@@ -14,7 +14,7 @@
     align-items: baseline;
     margin-top: 15px;
     &_value {
-      @include h2;
+      @include h1;
     }
 
     .stockIn {

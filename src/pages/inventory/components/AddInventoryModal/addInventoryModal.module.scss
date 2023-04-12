@@ -13,7 +13,7 @@
     justify-content: space-between;
 
     .title {
-      @include h3;
+      @include h2;
       color: var(--HightEmphasis);
     }
     svg {
@@ -201,11 +201,11 @@
       line-height: 24px;
     }
   }
-  &__footer{
+  &__footer {
     display: flex;
     justify-content: flex-end;
-    gap:20px;
-    button{
+    gap: 20px;
+    button {
       width: 33px;
       padding: 4px 0;
       border-radius: 4px;
@@ -213,16 +213,16 @@
       transition: all 0.3s;
       cursor: pointer;
     }
-    &_yes{
-      background: #FE6100;
-      &:hover{
+    &_yes {
+      background: #fe6100;
+      &:hover {
         background: rgb(1, 135, 1);
       }
     }
-    &_no{
+    &_no {
       background: inherit;
-      &:hover{
-        background: #FE6100;
+      &:hover {
+        background: #fe6100;
       }
     }
   }
