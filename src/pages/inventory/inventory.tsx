@@ -67,7 +67,7 @@ export const Inventory: React.FC = () => {
           </div>
           <>
             <InventoryReport />
-            <div className={styles.body}>
+            {/* <div className={styles.body}>
               <InventoryItemsList data={inventoryItems} />
 
               {activeInventoryItem ? (
@@ -78,7 +78,7 @@ export const Inventory: React.FC = () => {
                   <p className={styles.subtitle}>Select an order from the list on the left</p>
                 </Cover>
               )}
-            </div>
+            </div> */}
           </>
         </div>
       </WrapperPage>
