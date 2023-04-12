@@ -191,11 +191,8 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
                   <button className={styles.ifClose__footer_no} onClick={handleClose}>
                     No
                   </button>
-                  <button
-                    className={styles.ifClose__footer_yes}
-                    onClick={() => setIsCloseClick(false)}
-                  >
-                    Yes
+                  <button className={styles.ifClose__footer_yes} onClick={submitHandler}>
+                    Save
                   </button>
                 </div>
               </div>
