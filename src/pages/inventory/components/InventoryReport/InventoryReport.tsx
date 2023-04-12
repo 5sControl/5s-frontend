@@ -180,13 +180,13 @@ export const InventoryReport: React.FC = () => {
                             <td onClick={() => onclickHandler(item)} className={styles.camera}>
                               {item.camera}
                             </td>
-                            <td className={styles.settings}>
-                              <Dots
-                                className={styles.editIcon}
-                                onClick={(event: React.MouseEvent<Element, MouseEvent>) =>
-                                  openSettings(event, item)
-                                }
-                              />
+                            <td
+                              className={styles.settings}
+                              onClick={(event: React.MouseEvent<Element, MouseEvent>) =>
+                                openSettings(event, item)
+                              }
+                            >
+                              <Dots className={styles.editIcon} />
                             </td>
                             <td onClick={() => onclickHandler(item)} className={styles.show}>
                               <ArrowDown
