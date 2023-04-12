@@ -67,15 +67,17 @@
         margin-left: 7px;
       }
 
-      .sortOn {
-        transform: rotateX(180deg);
-      }
-
-      .sortOff {
-        transform: rotateX(0deg);
-      }
+      
+    }
+    .sortOn {
+      margin: 0 0 1px 5px;
+      transform: rotateX(180deg);
     }
 
+    .sortOff {
+      margin: 0 0 1px 5px;
+      transform: rotateX(0deg);
+    }
     .disableSort {
       pointer-events: none;
     }
@@ -119,16 +121,32 @@
   min-width: 200px;
   width: 25%;
 }
-.status, .stock, .low, .camera{
-  width: 11%;
+.status, .stock, .low, .camera, .settings{
+  width: 14%;
 }
-.settings, .show{
+.show{
   min-width: 100px;
   width: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 10px 0 0 0;
+  cursor: pointer;
+  .top{
+    transform: rotate(180deg);
+  }
 }
 .history{
   width: 100%;
 }
-.itemLine{
-  cursor: pointer;
+thead th {
+  position: sticky;
+  top: 55px;
+  background: white;
+}
+tbody td {
+  margin-top: 20px;
+  @include body2;
+  letter-spacing: 0.1px;
+  color: var(--HightEmphasis);
 }

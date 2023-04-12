@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Cover } from '../../../../components/cover';
-import { Settings } from '../../../../assets/svg/SVGcomponent';
+import { ArrowDown, Dots, SortSVG } from '../../../../assets/svg/SVGcomponent';
 import styles from './inventoryReport.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { getInventoryItemsAsync, selectInventory } from '../../inventorySlice';
@@ -85,7 +85,7 @@ export const InventoryReport: React.FC = () => {
   }, [connectResponse, connectResponseDataAdd, connectDeleteResponse, statusSort]);
 
   const onclickHandler = (activeItem: InventoryItem) => {
-    if (!activeInventoryItem || activeItem.id !== activeInventoryItem.id) {
+    if (!activeInventoryItem || activeItem.id !== activeInventoryItem.id || !isOpen) {
       dispatch(addActiveInventoryItem(activeItem));
       setIsOpen(true);
     } else {
@@ -135,14 +135,9 @@ export const InventoryReport: React.FC = () => {
             <thead>
               <tr className={styles.tableHeader}>
                 <th className={styles.item}>Item</th>
-                <th
-                  className={`${styles.statusTh} ${isLoading && styles.disableSort}`}
-                  onClick={handleStatusSort}
-                >
+                <th onClick={handleStatusSort}>
                   <span>Status</span>
-                  <span
-                    className={`${styles.arrowUp} ${statusSort ? styles.sortOn : styles.sortOff}`}
-                  ></span>
+                  <SortSVG className={statusSort ? styles.sortOn : styles.sortOff} />
                 </th>
                 <th className={styles.stock}>Current Stock</th>
                 <th className={styles.low}>Low Stock Level</th>
@@ -161,9 +156,11 @@ export const InventoryReport: React.FC = () => {
                     .map((item) => {
                       return (
                         <Fragment key={item.id}>
-                          <tr onClick={() => onclickHandler(item)} className={styles.itemLine}>
-                            <td className={styles.item}> {item.name}</td>
-                            <td>
+                          <tr className={styles.itemLine}>
+                            <td onClick={() => onclickHandler(item)} className={styles.item}>
+                              {item.name}
+                            </td>
+                            <td onClick={() => onclickHandler(item)}>
                               <span
                                 className={`${styles.status} ${
                                   item.status === 'In stock' && styles.statusStock
@@ -174,18 +171,34 @@ export const InventoryReport: React.FC = () => {
                                 {item.status}
                               </span>
                             </td>
-                            <td className={styles.stock}>{item.current_stock_level}</td>
-                            <td className={styles.low}>{item.low_stock_level}</td>
-                            <td className={styles.camera}>{item.camera}</td>
+                            <td onClick={() => onclickHandler(item)} className={styles.stock}>
+                              {item.current_stock_level}
+                            </td>
+                            <td onClick={() => onclickHandler(item)} className={styles.low}>
+                              {item.low_stock_level}
+                            </td>
+                            <td onClick={() => onclickHandler(item)} className={styles.camera}>
+                              {item.camera}
+                            </td>
                             <td className={styles.settings}>
-                              <Settings
+                              <Dots
                                 className={styles.editIcon}
                                 onClick={(event: React.MouseEvent<Element, MouseEvent>) =>
                                   openSettings(event, item)
                                 }
                               />
                             </td>
-                            <td className={styles.show}></td>
+                            <td onClick={() => onclickHandler(item)} className={styles.show}>
+                              <ArrowDown
+                                className={
+                                  isOpen &&
+                                  activeInventoryItem &&
+                                  activeInventoryItem.id === item.id
+                                    ? styles.top
+                                    : styles.down
+                                }
+                              />
+                            </td>
                           </tr>
                           <tr className={styles.history}>
                             <td colSpan={7}>
