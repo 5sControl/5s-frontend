@@ -41,8 +41,7 @@ export const DatePicker: React.FC = () => {
   };
 
   const handleSelect = (date: RangeKeyDict) => {
-    date.selection.startDate?.setHours(date.selection.startDate.getHours() + 3);
-    date.selection.endDate?.setHours(date.selection.endDate.getHours() + 3);
+    console.log('date:', date);
     setStartDate(date.selection.startDate as Date);
     setEndDate(date.selection.endDate as Date);
   };
@@ -52,6 +51,10 @@ export const DatePicker: React.FC = () => {
   };
 
   const handleClickApply = () => {
+    // add 3 hours for our timezone
+    startDate.setHours(startDate.getHours() + 3);
+    endDate.setHours(endDate.getHours() + 3);
+
     const dateData = { from: startDate.toISOString(), to: endDate.toISOString() };
 
     dispatch(setFilterDateData(dateData));
