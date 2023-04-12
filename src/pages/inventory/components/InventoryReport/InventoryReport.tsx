@@ -43,12 +43,9 @@ export const InventoryReport: React.FC = () => {
   const [currentUpdateDate, setCurrentUpdateDate] = useState<string | null>(null);
   const [filterItem, setFilterItem] = useState('');
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
+
+  const [isOpen, setIsOpen] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
-  const onclickHandler = (activeItem: InventoryItem) => {
-    dispatch(addActiveInventoryItem(activeItem));
-  };
-
   const openSettings = (event: any, currentItem: InventoryItem) => {
     dispatch(setCurrentEditItem(currentItem));
     setCoordinates({ x: event.nativeEvent.layerX, y: event.nativeEvent.layerY });
@@ -86,6 +83,15 @@ export const InventoryReport: React.FC = () => {
       })
     );
   }, [connectResponse, connectResponseDataAdd, connectDeleteResponse, statusSort]);
+
+  const onclickHandler = (activeItem: InventoryItem) => {
+    if (!activeInventoryItem || activeItem.id !== activeInventoryItem.id) {
+      dispatch(addActiveInventoryItem(activeItem));
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  };
 
   return (
     <>
@@ -155,7 +161,7 @@ export const InventoryReport: React.FC = () => {
                     .map((item) => {
                       return (
                         <Fragment key={item.id}>
-                          <tr onClick={() => onclickHandler(item)}>
+                          <tr onClick={() => onclickHandler(item)} className={styles.itemLine}>
                             <td className={styles.item}> {item.name}</td>
                             <td>
                               <span
@@ -181,9 +187,15 @@ export const InventoryReport: React.FC = () => {
                             </td>
                             <td className={styles.show}></td>
                           </tr>
-                          {activeInventoryItem && activeInventoryItem.id === item.id && (
-                            <InventoryCard data={activeInventoryItem} />
-                          )}
+                          <tr className={styles.history}>
+                            <td colSpan={7}>
+                              {isOpen &&
+                                activeInventoryItem &&
+                                activeInventoryItem.id === item.id && (
+                                  <InventoryCard data={activeInventoryItem} />
+                                )}
+                            </td>
+                          </tr>
                         </Fragment>
                       );
                     })}
