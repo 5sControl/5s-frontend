@@ -9,7 +9,6 @@ import './current-report.scss';
 export const CurrentReport = ({ camera }) => {
   const { currentReport } = useAppSelector(selectCurrentReport);
   const [fullImage, setFullImage] = useState(false);
-  console.log(camera);
 
   return (
     <>
@@ -48,7 +47,7 @@ export const CurrentReport = ({ camera }) => {
             <div className="current-report">
               <video
                 id="videoPlayer"
-                src={`http://192.168.1.110:3456/stream?camera_ip=${camera}`}
+                src={`http://${window.location.hostname}:3456/stream?camera_ip=${camera}`}
                 controls
                 autoPlay
               ></video>
