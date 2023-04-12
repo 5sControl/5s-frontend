@@ -13,24 +13,24 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    top:0;
-    left:0;
-    background-color: #FFFFFF;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
     padding: 10px 0 0 0;
     .title {
       @include h4;
       letter-spacing: 0.03em;
-      &_left{
+      &_left {
         display: flex;
         align-items: center;
-        .search{
+        .search {
           width: 260px;
           padding: 5px;
           border: none;
-          border-bottom: 1px solid #9E9E9E;
-          outline:none;
-          &::after{
-            content: 'sdf'
+          border-bottom: 1px solid #9e9e9e;
+          outline: none;
+          &::after {
+            content: 'sdf';
           }
         }
       }
@@ -40,7 +40,9 @@
       @include h5;
     }
   }
-
+  table{
+    width: 100%;
+  }
   .content {
     margin-top: 20px;
 
@@ -51,41 +53,11 @@
       margin-top: 20px;
     }
 
-    table {
-      display: grid;
-      border-collapse: collapse;
-      min-width: 100%;
-      padding-right: 65px;
-      grid-template-columns:
-        minmax(100px, 2fr)
-        minmax(100px, 1.1875fr)
-        minmax(100px, 1fr)
-        minmax(100px, 1fr)
-        minmax(100px, 1.5fr)
-        minmax(48px, 0.26fr);
-    }
-    thead th {
-      position: sticky;
-      top: 55px;
-      background: white;
-    }
-    tbody td {
-      margin-top: 20px;
-      @include body2;
-      letter-spacing: 0.1px;
-      color: var(--HightEmphasis);
-    }
-
-    thead,
-    tbody,
-    tr {
-      display: contents;
-    }
-
     .statusTh {
       display: flex;
       align-items: center;
       cursor: pointer;
+      width: 20%;
       .arrowUp {
         width: 0;
         height: 0;
@@ -124,7 +96,6 @@
       color: var(--White);
       border-radius: 20px;
       padding: 4px 10px;
-
       @include caption;
     }
 
@@ -140,4 +111,18 @@
       background: var(--StockRed);
     }
   }
+}
+.tableHeader {
+  width: 100%;
+}
+.item {
+  min-width: 200px;
+  width: 25%;
+}
+.status, .stock, .low, .camera{
+  width: 11%;
+}
+.settings, .show{
+  min-width: 100px;
+  width: 10%;
 }
