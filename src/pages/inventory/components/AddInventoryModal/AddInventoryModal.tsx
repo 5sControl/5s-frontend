@@ -69,18 +69,22 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
     const dataForm = formData;
     dataForm.coords = coords;
     setIsClose({ loading: true });
-    dispatch(
-      addItem({
-        token: cookies.token,
-        hostname: window.location.hostname,
-        body: dataForm,
-      })
-    ).then((response: any) => {
-      setIsClose({ status: response.type.includes('fulfilled'), loading: false });
-      setTimeout(() => {
-        handleClose();
-      }, 2000);
-    });
+    if (coords.length > 0) {
+      dispatch(
+        addItem({
+          token: cookies.token,
+          hostname: window.location.hostname,
+          body: dataForm,
+        })
+      ).then((response: any) => {
+        setIsClose({ status: response.type.includes('fulfilled'), loading: false });
+      });
+    } else {
+      setIsClose({ status: false });
+    }
+    setTimeout(() => {
+      handleClose();
+    }, 2000);
   };
   const closed = () => {
     setIsCloseClick(true);
@@ -183,11 +187,8 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
                   <button className={styles.ifClose__footer_no} onClick={handleClose}>
                     No
                   </button>
-                  <button
-                    className={styles.ifClose__footer_yes}
-                    onClick={() => setIsCloseClick(false)}
-                  >
-                    Yes
+                  <button className={styles.ifClose__footer_yes} onClick={submitHandler}>
+                    Save
                   </button>
                 </div>
               </div>
