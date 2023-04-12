@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { proxy } from '../../../../api/api';
 import { OrderWithPaginationCustomer } from '../../../../storage/orderViewCustomer';
-import { FilterDataType } from './ordersListSlice';
+import { FilterDataParams } from './ordersListSlice';
 
 export const getOrdersAPI = (
   hostname: string,
@@ -9,7 +9,7 @@ export const getOrdersAPI = (
   page: number,
   page_size: number,
   search: string | null,
-  params: FilterDataType
+  params: FilterDataParams
 ) => {
   const API_ALL_ORDERS = 'api/order/all-orders/';
 
@@ -22,6 +22,8 @@ export const getOrdersAPI = (
     searchParams.append('page_size', `${page_size}`);
     search && searchParams.append('search', search);
     searchParams.append('order-status', params['order-status']);
+    searchParams.append('from', params['from']);
+    searchParams.append('to', params['to']);
     for (const p of params['operation-status']) {
       searchParams.append('operation-status', p);
     }
@@ -41,6 +43,8 @@ export const getOrdersAPI = (
     searchParams.append('page_size', `${page_size}`);
     search && searchParams.append('search', search);
     searchParams.append('order-status', params['order-status']);
+    searchParams.append('from', params['from']);
+    searchParams.append('to', params['to']);
     for (const p of params['operation-status']) {
       searchParams.append('operation-status', p);
     }
@@ -62,6 +66,8 @@ export const getOrdersAPI = (
     searchParams.append('page_size', `${page_size}`);
     search && searchParams.append('search', search);
     searchParams.append('order-status', params['order-status']);
+    searchParams.append('from', params['from']);
+    searchParams.append('to', params['to']);
     for (const p of params['operation-status']) {
       searchParams.append('operation-status', p);
     }

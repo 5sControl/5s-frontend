@@ -18,6 +18,7 @@ export const SearchInput: React.FC<PropsType> = ({
   disabled = false,
 }) => {
   const [term, setTerm] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
   const [debouncedTerm, setDebouncedTerm] = useState(term);
 
   const handleClear = () => {
@@ -36,7 +37,8 @@ export const SearchInput: React.FC<PropsType> = ({
   useEffect(() => {
     if (term !== '') {
       handleChange && handleChange(term);
-    } else {
+    }
+    if (isFocused && term === '') {
       handleClearList && handleClearList();
     }
   }, [term]);
@@ -53,6 +55,8 @@ export const SearchInput: React.FC<PropsType> = ({
           placeholder={placeholder}
           disabled={disabled}
           onChange={(e) => setDebouncedTerm(e.target.value)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
         <button type="button" className={styles.form_submit}>
           {!term ? <SearchIcon /> : <CloseCross onClick={handleClear} className={styles.cross} />}
