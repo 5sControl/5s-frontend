@@ -73,6 +73,8 @@ body {
       display: flex;
       flex-direction: column;
       gap: 48px;
+      height: calc(100% - 170px);
+      overflow: auto;
     }
     li,
     a {
@@ -143,4 +145,34 @@ body {
 }
 .pointer {
   cursor: pointer;
+}
+::-webkit-scrollbar {
+  background-color: inherit;
+  width: 6px
+}
+
+/* background of the scrollbar except button or resizer */
+::-webkit-scrollbar-track {
+  background-color: inherit
+}
+
+::-webkit-scrollbar-track:hover {
+  background-color: #fff
+}
+
+/* scrollbar itself */
+::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 16px;
+  border: 0px solid #fff
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a0a0a5;
+  border: 1px solid #f4f4f4
+}
+
+/* set button(top and bottom of the scrollbar) */
+::-webkit-scrollbar-button {
+  display: none
 }

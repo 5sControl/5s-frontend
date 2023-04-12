@@ -7,7 +7,8 @@ import * as d3 from 'd3';
 import styles from './chart.module.scss';
 
 export const Chart: React.FC = () => {
-  const ref = useRef(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const ref = useRef<any>(null);
   const [size, setSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
   const { inventoryHistoryData } = useAppSelector(selectInventory);
 
@@ -15,13 +16,17 @@ export const Chart: React.FC = () => {
     if (ref && ref.current) {
       const wrapper = (d3.select(ref.current).node() as Element).getBoundingClientRect();
       wrapper && setSize({ width: wrapper.width, height: wrapper.height });
-      console.log(wrapper.width);
     }
   }, []);
+
   return (
     <div id="chartBar" ref={ref}>
       {size.width && inventoryHistoryData && (
-        <BarChart data={inventoryHistoryData} width={size.width} height={350} />
+        <BarChart
+          data={inventoryHistoryData}
+          width={size.width}
+          height={window.screen.height / 2.5}
+        />
       )}
 
       <div className={styles.labels}>

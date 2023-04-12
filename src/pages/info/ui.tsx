@@ -28,9 +28,15 @@ export const Info: React.FC = () => {
   return (
     <WrapperPage title="5S Control">
       <div className={styles.links}>
-        <Link to="/">Website</Link>
-        <Link to="/">Privacy policy</Link>
-        <Link to="/">Terms of use</Link>
+        <a href="https://5controls.com/" target="_blank" rel="noreferrer">
+          Website
+        </a>
+        <a href="https://5controls.com/privacy" target="_blank" rel="noreferrer">
+          Privacy policy
+        </a>
+        <a href="https://5controls.com/terms-conditions" target="_blank" rel="noreferrer">
+          Terms of use
+        </a>
       </div>
 
       <p className={styles.version_app}>

@@ -30,6 +30,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
   const [coords, setCoords] = useState<Coordinat[]>([]);
   const [isClose, setIsClose] = useState<any>(false);
+  const [isCloseClick, setIsCloseClick] = useState<any>(false);
   const [itemName, setItemName] = useState<string>('');
   const [itemCount, setItemCount] = useState<number>(0);
 
@@ -37,6 +38,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
     if (!isOpen) {
       setIsShowCoord(false);
       setIsClose(false);
+      setIsCloseClick(false);
       setItemName('');
       setItemCount(0);
     }
@@ -61,7 +63,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
     };
     setFormData(dataForm);
     setIsShowCoord(true);
-    console.log(isShowCoord);
   };
 
   const submitHandler = () => {
@@ -81,6 +82,10 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       }, 2000);
     });
   };
+  const closed = () => {
+    setIsCloseClick(true);
+    // handleClose();
+  };
 
   return (
     <Modal
@@ -92,7 +97,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
         <div>
           <div className={styles.header}>
             <h3 className={styles.title}>Add item</h3>
-            <Close onClick={handleClose} />
+            <Close onClick={closed} />
           </div>
           <div className={styles.content}>
             <form onSubmit={onSubmit}>
@@ -146,24 +151,49 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           setIsShowCoord={(type: boolean) => setIsShowCoord(type)}
         />
       )}
-      {isClose && (
-        <div className={styles.response}>
-          <div>
-            {isClose.loading ? (
-              <Preloader loading={true} />
-            ) : isClose.status ? (
-              <>
-                <IoIosCheckmarkCircle className={styles.icons} style={{ color: 'green' }} />
-                <p>The item is saved</p>
-              </>
-            ) : (
-              <>
-                <IoIosCloseCircle className={styles.icons} style={{ color: 'red' }} />
-                <p>The item is not saved</p>
-              </>
-            )}
-          </div>
-        </div>
+      {(isClose || isCloseClick) && (
+        <>
+          {isClose && (
+            <div className={styles.response}>
+              <div>
+                {isClose.loading ? (
+                  <Preloader loading={true} />
+                ) : isClose.status ? (
+                  <>
+                    <IoIosCheckmarkCircle className={styles.icons} style={{ color: 'green' }} />
+                    <p>The item is saved</p>
+                  </>
+                ) : (
+                  <>
+                    <IoIosCloseCircle className={styles.icons} style={{ color: 'red' }} />
+                    <p>The item is not saved</p>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+          {isCloseClick && (
+            <div className={styles.ifClose}>
+              <div className={styles.ifClose__container}>
+                <div className={styles.ifClose__header}>
+                  <h2>Save changes?</h2>
+                  <span>You’ve made changes to the item. Click “Save” to keep them.</span>
+                </div>
+                <div className={styles.ifClose__footer}>
+                  <button className={styles.ifClose__footer_no} onClick={handleClose}>
+                    No
+                  </button>
+                  <button
+                    className={styles.ifClose__footer_yes}
+                    onClick={() => setIsCloseClick(false)}
+                  >
+                    Yes
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </Modal>
   );

@@ -8,13 +8,14 @@ import { authorizationRequest } from '../../api/companyRequest';
 export const Authorization = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [correctEmail, setCorrectEmail] = useState(false);
-  const [correctPassword, setCorrectPassword] = useState(false);
+  const [correctEmail, setCorrectEmail] = useState(true);
+  const [correctPassword, setCorrectPassword] = useState(true);
   const [errorResponse, setErrorResponse] = useState(false);
-  const [cookies, setCookie] = useCookies(['token']);
+  const [errorPassword, setErrorPassword] = useState(false);
+  const [, setCookie] = useCookies(['token']);
 
   useEffect(() => {
-    if (password.length > 4 && password.length < 20) {
+    if (password.length < 20) {
       setCorrectPassword(true);
     } else {
       setCorrectPassword(false);
@@ -22,7 +23,7 @@ export const Authorization = () => {
   }, [password]);
 
   useEffect(() => {
-    if (email.length > 4 && email.length < 20) {
+    if (email.length < 25) {
       setCorrectEmail(true);
     } else {
       setCorrectEmail(false);
@@ -30,20 +31,24 @@ export const Authorization = () => {
   }, [email]);
 
   const post = () => {
-    authorizationRequest(window.location.hostname, email, password)
-      .then((response) => {
-        if (response.status === 200 && response.data.access) {
-          setCookie('token', `JWT ${response.data.access}`, { path: '/' });
-        }
-        if (!response.data.access) {
-          console.log(response);
-          setErrorResponse('Incorrect email or password. Please, try again.');
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-        setErrorResponse(error.message);
-      });
+    if (password.length > 0) {
+      authorizationRequest(window.location.hostname, email, password)
+        .then((response) => {
+          if (response.status === 200 && response.data.access) {
+            setCookie('token', `JWT ${response.data.access}`, { path: '/' });
+          }
+          if (!response.data.access) {
+            console.log(response);
+            setErrorResponse('Incorrect email or password. Please, try again.');
+          }
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setErrorResponse(error.message);
+        });
+    } else {
+      setErrorPassword(true);
+    }
   };
 
   const pressEnter = (event) => {
@@ -72,16 +77,27 @@ export const Authorization = () => {
           className="authorization__input"
           placeholder="Enter Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setErrorPassword(false);
+          }}
           onKeyDown={(e) => pressEnter(e)}
         />
         {/* {!correctPassword && <span className='authorization__error'>This field is required</span>} */}
-        {errorResponse && <span className="authorization__error_response">{errorResponse}</span>}
+        {errorResponse && (
+          <span className="authorization__error_response">
+            Incorrect email or password. Please, try again.
+          </span>
+        )}
+        {errorPassword && (
+          <span className="authorization__error_password">This field is required</span>
+        )}
         <button
           className={
-            correctEmail && correctPassword
-              ? 'authorization__button'
-              : 'authorization__button disableButton'
+            'authorization__button'
+            // correctEmail && correctPassword
+            //   ?
+            //   : 'authorization__button disableButton'
           }
           onClick={post}
         >
