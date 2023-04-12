@@ -63,6 +63,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
       });
       console.log(update);
       const selection = svg.selectAll('rect').data(update);
+      console.log(selection);
       const enter = selection.enter();
 
       const extentValue = d3.extent(update, (d) => d.start_tracking);
