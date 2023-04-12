@@ -16,7 +16,7 @@ export const Camera = () => {
   const [createdCameras, setCreatedCameras] = useState(false);
   const [IPCamera, setIPCamera] = useState('');
   const [error, setError] = useState(false);
-
+  const [security, setSecurity] = useState(false);
   useEffect(() => {
     if (isShowModal) {
       findCamera(window.location.hostname)
@@ -84,6 +84,23 @@ export const Camera = () => {
               </Link>
             );
           })}
+          <div onClick={() => setSecurity(!security)}> Security </div>
+          {security && (
+            <div className="security">
+              {createdCameras &&
+                createdCameras.map((el) => {
+                  return (
+                    <video
+                      id="videoPlayer"
+                      key={el.id}
+                      src={`http://${window.location.href}:3456/stream?camera_ip=${el.id}`}
+                      controls
+                      autoPlay
+                    ></video>
+                  );
+                })}
+            </div>
+          )}
         </div>
       )}
       {error && <div style={{ color: 'red', fontSize: '26px' }}>{error}</div>}
