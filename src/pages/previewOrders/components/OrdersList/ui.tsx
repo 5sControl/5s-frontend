@@ -9,6 +9,7 @@ import { addActiveOrder, selectOrdersList } from './ordersListSlice';
 import styles from './ordersList.module.scss';
 import { PaginationBlock } from '../PaginationBlock';
 import { useNavigateSearch } from '../../../../functions/useNavigateSearch';
+import { useSearchParams } from 'react-router-dom';
 
 type PropsType = {
   data: Array<PreviewOrderItem>;
@@ -30,10 +31,17 @@ export const OrderList: React.FC<PropsType> = ({
   const { activeOrder } = useAppSelector(selectOrdersList);
   const dispatch = useAppDispatch();
   const navigateSearch = useNavigateSearch();
+  const [searchParams] = useSearchParams();
 
   const handleClickToElement = (id: string) => {
     dispatch(addActiveOrder(id));
-    navigateSearch('/orders-view', { order_id: id });
+
+    const queryParams = Object.fromEntries([...searchParams]);
+    const newQueryParams = {
+      ...queryParams,
+      order_id: id,
+    };
+    navigateSearch('/orders-view', newQueryParams);
   };
 
   return (
