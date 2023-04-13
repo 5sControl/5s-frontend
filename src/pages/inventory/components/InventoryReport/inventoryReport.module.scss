@@ -38,13 +38,14 @@
     }
 
     .date {
-      min-width:190px;
+      min-width: 190px;
       margin-left: 20px;
       @include h4;
     }
   }
-  table{
+  table {
     width: 100%;
+    background: white;
   }
   .content {
     margin-top: 20px;
@@ -69,8 +70,6 @@
         border-bottom: 5px solid var(--LowEmphasis);
         margin-left: 7px;
       }
-
-      
     }
     .sortOn {
       margin: 0 0 1px 5px;
@@ -119,37 +118,41 @@
 }
 .tableHeader {
   width: 100%;
+  background: white;
 }
 .item {
-  min-width: 200px;
-  width: 25%;
+  width: 22%;
 }
- .stock, .low, .camera, .settings{
-  width: 10%;
+.stock,
+.low {
+  width: 14%;
 }
-.status{
-  width: 20%;
+.camera {
+  width: 18%;
 }
-.show{
-  min-width: 100px;
-  width: 10%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin: 10px 0 0 0;
+.status {
+  width: 18%;
+}
+.settings {
+  width: 7%;
+}
+.show {
+  width: 5%;
   cursor: pointer;
-  .top{
+  .top {
     transform: rotate(180deg);
   }
 }
-.history{
+.history {
   width: 100%;
 }
+
 thead th {
   position: sticky;
-  top: 55px;
+  top: 37px;
   background: white;
   z-index: 100;
+  border-collapse: collapse;
 }
 
 tbody td {
@@ -157,7 +160,8 @@ tbody td {
   line-height: 40px;
   letter-spacing: 0.1px;
   color: var(--HightEmphasis);
+  background: white;
 }
-.itemLine{
+.itemLine {
   cursor: pointer;
 }
