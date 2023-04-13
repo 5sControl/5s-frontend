@@ -180,6 +180,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
 
       const hideTooltip = () => {
         tooltip.style('opacity', 0);
+        tooltip.style('z-index', -1);
       };
 
       const bar = enter.append('g').attr('transform', (d) => {
