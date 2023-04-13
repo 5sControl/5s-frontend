@@ -190,6 +190,7 @@ export const InventoryReport: React.FC = () => {
                             </td>
                             <td onClick={() => onclickHandler(item)} className={styles.show}>
                               <ArrowDown
+                                color="var(--LowEmphasis)"
                                 className={
                                   isOpen &&
                                   activeInventoryItem &&

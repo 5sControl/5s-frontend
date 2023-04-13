@@ -18,6 +18,7 @@ import {
 } from '../../pages/previewOrders/components/OrdersList/ordersListSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useCookies } from 'react-cookie';
+import { ArrowDown, ArrowTop } from '../../assets/svg/SVGcomponent';
 
 export const DatePicker: React.FC = () => {
   const startDateDefault = new Date();
@@ -105,6 +106,8 @@ export const DatePicker: React.FC = () => {
           )}`}
           variant="oval"
           onClick={handleClick}
+          iconColor="var(--LowEmphasis)"
+          IconRight={isOpenDatePicker ? ArrowTop : ArrowDown}
         />
       </div>
 
