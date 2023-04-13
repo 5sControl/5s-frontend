@@ -191,7 +191,7 @@ const ordersList = createSlice({
     builder.addCase(getFilterOperationsAsync.fulfilled, (state, action) => {
       state.isLoadingFilterOperations = false;
       state.isErrorFilterOperations = false;
-      state.filterOperationsData = action.payload as string[];
+      state.filterOperationsData = (action.payload as string[]).sort();
     });
     builder.addCase(getFilterOperationsAsync.rejected, (state, action) => {
       state.isLoadingFilterOperations = false;
