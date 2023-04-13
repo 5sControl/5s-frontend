@@ -34,6 +34,7 @@ import { ReactComponent as VideoCameraCrossed } from './videoCameraCrossed.svg';
 import { ReactComponent as Dots } from './dots.svg';
 import { ReactComponent as ArrowDown } from './arrowDown.svg';
 import { ReactComponent as SortSVG } from './sort.svg';
+import { ReactComponent as ArrowTop } from './arrowTop.svg';
 
 export {
   Algorithm,
@@ -72,4 +73,5 @@ export {
   Dots,
   ArrowDown,
   SortSVG,
+  ArrowTop,
 };
