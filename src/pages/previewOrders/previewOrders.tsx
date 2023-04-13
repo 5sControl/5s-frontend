@@ -193,10 +193,9 @@ export const PreviewOrders: React.FC = () => {
     const operationStatus = queryData['operation-status'].length;
 
     const deletFilter = (param: string) => {
-      const queryParams = Object.fromEntries([...searchParams]);
-      delete queryParams[param];
       (queryData as any)[param] = [];
-      navigateSearch('/orders-view', queryParams);
+
+      navigateSearch('/orders-view', queryData as any);
       dispatch(resetSelectFilterData(param));
       getOrdersList(
         ordersList?.current_page as number,
