@@ -131,7 +131,7 @@ export const InventoryReport: React.FC = () => {
         </div>
 
         <div className={styles.content}>
-          <table>
+          <table cellSpacing="0" cellPadding="0">
             <thead>
               <tr className={styles.tableHeader}>
                 <th className={styles.item}>Item</th>

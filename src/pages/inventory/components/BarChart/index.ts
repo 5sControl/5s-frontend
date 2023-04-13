@@ -1,1 +1,1 @@
-export { BarChart } from './ui';
+export { BarChart } from './barChart';

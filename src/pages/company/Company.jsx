@@ -34,7 +34,7 @@ export const Company = () => {
   return (
     <>
       <div className="company">
-        <h2>Company</h2>
+        <h1>Company</h1>
         {Object.keys(companyInfo).length > 0 && (
           <div className="company__name">
             <h3>{companyInfo.name_company}</h3>
