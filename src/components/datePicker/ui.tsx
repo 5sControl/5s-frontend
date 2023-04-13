@@ -19,6 +19,8 @@ import {
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useCookies } from 'react-cookie';
 import { ArrowDown, ArrowTop } from '../../assets/svg/SVGcomponent';
+import { enGB } from 'date-fns/locale';
+import staticRangesGenerator from './staticRangesGenerator';
 
 export const DatePicker: React.FC = () => {
   const startDateDefault = new Date();
@@ -34,6 +36,7 @@ export const DatePicker: React.FC = () => {
   const refPicker = useRef<HTMLDivElement>(null);
   const refButton = useRef<HTMLDivElement>(null);
   useOutsideClick(refPicker, () => setIsOpenDatePicker(false), refButton);
+  const staticRanges = staticRangesGenerator(enGB as any);
 
   const selectionRange = {
     startDate: startDate,
@@ -52,10 +55,6 @@ export const DatePicker: React.FC = () => {
   };
 
   const handleClickApply = () => {
-    // add 3 hours for our timezone
-    startDate.setHours(startDate.getHours() + 3);
-    endDate.setHours(endDate.getHours() + 3);
-
     const dateData = { from: startDate.toISOString(), to: endDate.toISOString() };
 
     dispatch(setFilterDateData(dateData));
@@ -90,8 +89,6 @@ export const DatePicker: React.FC = () => {
       setStartDate(new Date(queryDateParam.from));
       setEndDate(new Date(queryDateParam.to));
     } else {
-      console.log('from', filterDateData.from, 'to', filterDateData.to);
-
       setStartDate(new Date(filterDateData.from));
       setEndDate(new Date(filterDateData.to));
     }
@@ -114,11 +111,13 @@ export const DatePicker: React.FC = () => {
       {isOpenDatePicker && (
         <div ref={refPicker} className={styles.picker}>
           <DateRangePicker
+            locale={enGB}
             ranges={[selectionRange]}
             onChange={handleSelect}
             maxDate={addDays(new Date(), 0)}
             rangeColors={['var(--Orange)', 'var(--Orange)']}
             inputRanges={[]}
+            staticRanges={staticRanges}
           />
           <div className={styles.picker_buttons}>
             <Button text="Cancel" variant="outlined" onClick={handleClick} />
