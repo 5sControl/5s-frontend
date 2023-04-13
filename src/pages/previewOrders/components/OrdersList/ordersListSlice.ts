@@ -37,7 +37,6 @@ interface ReportState {
 }
 
 const currentDate = new Date();
-currentDate.setHours(currentDate.getHours() + 3);
 currentDate.setMonth(currentDate.getMonth() - 1);
 const startDateDefault = currentDate.toISOString();
 
@@ -191,7 +190,7 @@ const ordersList = createSlice({
     builder.addCase(getFilterOperationsAsync.fulfilled, (state, action) => {
       state.isLoadingFilterOperations = false;
       state.isErrorFilterOperations = false;
-      state.filterOperationsData = action.payload as string[];
+      state.filterOperationsData = (action.payload as string[]).sort();
     });
     builder.addCase(getFilterOperationsAsync.rejected, (state, action) => {
       state.isLoadingFilterOperations = false;
