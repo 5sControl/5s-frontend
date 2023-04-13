@@ -37,7 +37,7 @@ export const FilterForm = ({
 
   return (
     <div className="dashboard__title">
-      <h1>Dashboard</h1>
+      <h1 className="dashboard__title_h1">Dashboard</h1>
       <div className="dashboard__title__filter">
         <select
           value={cameraToResponse}
