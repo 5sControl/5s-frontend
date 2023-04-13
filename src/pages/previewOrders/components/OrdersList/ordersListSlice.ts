@@ -37,7 +37,7 @@ interface ReportState {
 }
 
 const currentDate = new Date();
-currentDate.setHours(currentDate.getHours() + 3);
+// currentDate.setHours(currentDate.getHours() + 3);
 currentDate.setMonth(currentDate.getMonth() - 1);
 const startDateDefault = currentDate.toISOString();
 
