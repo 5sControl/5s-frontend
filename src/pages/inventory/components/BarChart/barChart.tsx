@@ -136,7 +136,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
         .append('div')
         .attr('class', styles.tooltip)
         .style('opacity', 0)
-        .style('position', 'absolute')
+        .style('position', 'fixed')
         .style('z-index', -1);
 
       const showTooltip = function (d: any, d1: any) {
@@ -170,11 +170,10 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
           }</div>
           <p class="${styles.click}">Click to see details</p></div>`
         );
-
         tooltip
           .style('opacity', 1)
-          .style('left', d.layerX - 120 + 'px')
-          .style('top', d.layerY - 25 - 160 + 'px')
+          .style('left', d.pageX - 120 + 'px')
+          .style('top', d.pageY - 25 - 160 + 'px')
           .style('z-index', 1000);
       };
 
