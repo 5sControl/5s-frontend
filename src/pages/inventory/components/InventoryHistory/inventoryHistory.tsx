@@ -58,7 +58,7 @@ export const InventoryHistory: React.FC = () => {
             />
           )}
         </div>
-        {inventoryHistoryData && inventoryHistoryData.length === 0 && (
+        {inventoryHistoryData && inventoryHistoryData.length === 0 && !isLoadingHistory && (
           <div className={styles.noItem}>
             <h2>No data</h2>
             <p>
