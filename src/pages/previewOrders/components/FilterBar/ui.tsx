@@ -59,7 +59,7 @@ export const FilterBar: React.FC<PropsType> = ({
     const { name, value } = event.target;
 
     if (name === 'order-status') {
-      dispatch(setOrderStatusFilterData(value));
+      dispatch(setOrderStatusFilterData(value ?? 'all'));
     }
     if (name === 'operation-status' || name === 'operation-name') {
       dispatch(setOperationsFilterData({ [name]: value }));

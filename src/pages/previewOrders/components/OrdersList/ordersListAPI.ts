@@ -21,18 +21,24 @@ export const getOrdersAPI = (
     searchParams.append('page', `${page}`);
     searchParams.append('page_size', `${page_size}`);
     search && searchParams.append('search', search);
-    searchParams.append('order-status', params['order-status']);
+    if (params['order-status']) {
+      searchParams.append('order-status', params['order-status']);
+    }
     if (params['from']) {
       searchParams.append('from', params['from']);
     }
     if (params['to']) {
       searchParams.append('to', params['to']);
     }
-    for (const p of params['operation-status']) {
-      searchParams.append('operation-status', p);
+    if (params['operation-status']) {
+      for (const p of params['operation-status']) {
+        searchParams.append('operation-status', p);
+      }
     }
-    for (const p of params['operation-name']) {
-      searchParams.append('operation-name', p.toLocaleLowerCase());
+    if (params['operation-name']) {
+      for (const p of params['operation-name']) {
+        searchParams.append('operation-name', p.toLocaleLowerCase());
+      }
     }
 
     return proxy<OrderWithPaginationCustomer>(url.toString(), 'GET', {
