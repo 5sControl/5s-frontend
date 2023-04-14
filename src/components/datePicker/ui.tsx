@@ -55,6 +55,14 @@ export const DatePicker: React.FC = () => {
   };
 
   const handleClickApply = () => {
+    // this is kostil - add 3 hours for local zone
+    if (startDate.getDate() === endDate.getDate()) {
+      startDate.setHours(startDate.getHours() + 3);
+      endDate.setHours(startDate.getHours() + 3);
+    }
+    if (startDate.getDate() !== endDate.getDate()) {
+      startDate.setHours(startDate.getHours() + 3);
+    }
     const dateData = { from: startDate.toISOString(), to: endDate.toISOString() };
 
     dispatch(setFilterDateData(dateData));
@@ -70,9 +78,7 @@ export const DatePicker: React.FC = () => {
       })
     );
 
-    const queryParams = Object.fromEntries([...searchParams]);
-    navigateSearch('/orders-view', { ...queryParams, from: dateData.from, to: dateData.to });
-
+    navigateSearch('/orders-view', { from: dateData.from, to: dateData.to });
     setIsOpenDatePicker(!isOpenDatePicker);
   };
 

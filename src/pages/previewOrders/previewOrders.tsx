@@ -8,7 +8,6 @@ import {
   addActiveOrder,
   FilterDataParams,
   FilterDataType,
-  FilterDateDataType,
   getFilterOperationsAsync,
   getOrdersAsync,
   resetAllFilterData,
@@ -40,6 +39,7 @@ import { OperationItem, OrderItem } from '../../storage/orderView';
 import { Button } from '../../components/button';
 import { FilterBar } from './components/FilterBar';
 import { DatePicker } from '../../components/datePicker';
+import { getFilterQueryData, getFilterDateQueryData } from './config';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -62,10 +62,7 @@ export const PreviewOrders: React.FC = () => {
   const handleCloseModal = () => {
     dispatch(setIsOpenOperationVideoModal(false));
 
-    const queryParams = Object.fromEntries([...searchParams]);
-    delete queryParams.operation_id;
-    delete queryParams.product_id;
-    navigateSearch('/orders-view', queryParams);
+    navigateSearch('/orders-view', {}, ['product_id', 'operation_id']);
   };
 
   const handleSubmitClear = () => {
@@ -113,12 +110,7 @@ export const PreviewOrders: React.FC = () => {
       'operation-status': [],
       ...filterDateData,
     });
-
-    const queryParams = Object.fromEntries([...searchParams]);
-    delete queryParams['order-status'];
-    delete queryParams['operation-status'];
-    delete queryParams['operation-name'];
-    navigateSearch('/orders-view', queryParams);
+    navigateSearch('/orders-view', {}, ['order-status', 'operation-status', 'operation-name']);
 
     handleClickFilter(false);
   };
@@ -142,34 +134,12 @@ export const PreviewOrders: React.FC = () => {
     { name: string; value: string; onClick: () => void }[]
   >([]);
 
-  const getFilterQueryData = (): FilterDataType => {
-    const queryOrderStatusParam = searchParams.get('order-status');
-    const queryOperationStatusParam = searchParams.getAll('operation-status');
-    const queryOrderNameParam = searchParams.getAll('operation-name');
-
-    const queryData = {
-      'order-status': queryOrderStatusParam as string,
-      'operation-status': queryOperationStatusParam,
-      'operation-name': queryOrderNameParam,
-    };
-    return queryData;
-  };
-
-  const getFilterDateQueryData = (): FilterDateDataType => {
-    const queryFromParam = searchParams.get('from') as string;
-    const queryToParam = searchParams.get('to') as string;
-
-    const queryDateParam: FilterDateDataType = {
-      from: queryFromParam,
-      to: queryToParam,
-    };
-
-    return queryDateParam;
-  };
-
   useEffect(() => {
-    const queryData = getFilterQueryData();
-    const queryDateParam = getFilterDateQueryData();
+    const queryData = getFilterQueryData(searchParams);
+    if (!queryData['order-status']) {
+      queryData['order-status'] = 'all';
+    }
+    const queryDateParam = getFilterDateQueryData(searchParams);
 
     if (queryDateParam.from && queryDateParam.to) {
       dispatch(setFilterDateData(queryDateParam));
@@ -178,7 +148,7 @@ export const PreviewOrders: React.FC = () => {
     dispatch(setFilterData(queryData));
     getOrdersList(1, 50, null, {
       ...queryData,
-      ...filterDateData,
+      ...queryDateParam,
     });
 
     return () => {
@@ -187,21 +157,26 @@ export const PreviewOrders: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const queryData = getFilterQueryData();
+    const queryData = getFilterQueryData(searchParams);
+
     const operationNameLength = queryData['operation-name'].length;
     const orderStatus = queryData['order-status'];
     const operationStatus = queryData['operation-status'].length;
 
     const deletFilter = (param: string) => {
-      (queryData as any)[param] = [];
-
-      navigateSearch('/orders-view', queryData as any);
+      navigateSearch('/orders-view', {}, [param]);
       dispatch(resetSelectFilterData(param));
+
+      const queryData = getFilterQueryData(searchParams);
+      const queryDateParam = getFilterDateQueryData(searchParams);
+      const params = { ...queryData, ...filterData, ...queryDateParam };
+
+      Reflect.deleteProperty(params, param);
       getOrdersList(
         ordersList?.current_page as number,
         ordersList?.records_on_page as number,
         search,
-        { ...queryData, ...filterDateData }
+        params
       );
     };
 
