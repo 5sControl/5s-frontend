@@ -135,8 +135,36 @@ body {
 }
 
 .swiper-pagination-fraction {
-  color: red !important;
+  position: absolute !important;
+  top: 20px !important;
+  right: 10px !important; 
+  left: calc(100% - 70px) !important;
+  padding: 5px 15px !important;
+  color: white !important;
+  width: max-content !important;
+  height: max-content !important;
+  background: #0000006b;
+  border-radius: 21px;
 }
+.swiper-button-disabled{
+  opacity: 0 !important;
+}
+
+.swiper-button-prev, .swiper-button-next{
+  width: 30px !important;
+  height: 30px !important;
+  background: #0000006b !important;
+  border-radius: 50%;
+  transition: all 0.5s;
+  &:hover{
+    transform: scale(1.1);
+  }
+  &::after{
+    font-size:20px !important;
+    color:white !important;
+  }
+}
+
 .preloader-wrapper {
   width: 100%;
   height: 100%;
