@@ -58,7 +58,7 @@
     display: flex;
     justify-content: center;
     position: relative;
-    height: 80%;
+    height: calc(100% - 120px);
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     .image_container {
@@ -119,7 +119,20 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 30px;
+    height: 120px;
+    padding: 10px 30px 20px 10px;
+    h5 {
+      @include h5;
+    }
+    p {
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 24px;
+      color: #666666;
+      span{
+        color:#212121;
+      }
+    }
     .button {
       align-self: flex-end;
     }
@@ -215,7 +228,7 @@
     }
     &_yes {
       background: #fe6100;
-      color:#ffffff;
+      color: #ffffff;
       &:hover {
         background: #8e3600;
       }
@@ -225,7 +238,7 @@
 
       &:hover {
         background: #fe6100;
-        color:#ffffff;
+        color: #ffffff;
       }
     }
   }

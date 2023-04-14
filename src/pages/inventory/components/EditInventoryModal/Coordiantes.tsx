@@ -324,8 +324,10 @@ export const Coordinates: React.FC<PropsType> = ({
         />
       </div>
       <div className={styles.footer}>
-        <p>Item name: {formData.name}</p>
-        <p>Camera: {formData.camera}</p>
+        <h5>Item name: {formData.name}</h5>
+        <p>
+          Camera: <span>{formData.camera}</span>
+        </p>
         <Button
           text="Save"
           className={styles.button}
