@@ -6,7 +6,7 @@ import { selectActiveInventoryItem } from '../InventoryItemsList/InventoryItemsL
 import { setDateDot } from '../../../previewOrders/previewOrdersHelper';
 import { HistoryExtra, InventoryHistory } from '../../types';
 import { getExtraOfActiveData } from '../../helper';
-
+import { Сlosing } from '../../../../components/close';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
@@ -87,6 +87,7 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
             <span>{'Time: '}</span>
             <span className={styles.value}>{operationStart}</span>
           </div>
+          <Сlosing className={styles.close} onClick={handleClose} />
         </div>
       </div>
     </Modal>
