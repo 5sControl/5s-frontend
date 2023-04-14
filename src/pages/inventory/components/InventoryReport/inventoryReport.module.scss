@@ -160,8 +160,12 @@ tbody td {
   line-height: 40px;
   letter-spacing: 0.1px;
   color: var(--HightEmphasis);
-  background: white;
 }
 .itemLine {
   cursor: pointer;
+  background-color: white;
+  transition: all 0.4s;
+  &:hover{
+    background: rgba(254, 97, 0, 0.1);
+  }
 }
