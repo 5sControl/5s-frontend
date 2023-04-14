@@ -157,6 +157,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
           setCoords={(coords: any) => setCoords(coords)}
           coordinates={currentEditItem?.coords}
           setIsShowCoord={(type) => setIsShowCoord(type)}
+          closed={() => setIsCloseClick(true)}
         />
       )}
       {(isClose || isCloseClick) && (

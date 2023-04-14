@@ -11,9 +11,11 @@ import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { AddInventoryData } from './types';
 import { getInventoryItemsToCamera } from '../../inventoryAPI';
 import { useCookies } from 'react-cookie';
+import { Сlosing } from '../../../../components/close';
 type PropsType = {
   submitHandler: () => void;
   formData: AddInventoryData;
+  closed: () => void;
   setCoords: (coords: Coordinat[]) => void;
   setIsShowCoord: (type: boolean) => void;
 };
@@ -23,6 +25,7 @@ export const Coordinates: React.FC<PropsType> = ({
   formData,
   setCoords,
   setIsShowCoord,
+  closed,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
@@ -162,6 +165,7 @@ export const Coordinates: React.FC<PropsType> = ({
         >
           <AiOutlineLeft /> Back
         </div>
+        <Сlosing onClick={closed} className={styles.close} />
         <div className={styles.image_container}>
           <img
             ref={image}

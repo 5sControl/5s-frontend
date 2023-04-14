@@ -95,6 +95,13 @@
       font-size: 14px;
       line-height: 24px;
       cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 21px;
+      background: rgba(0, 0, 0, 0.50);
+      transition: all 0.4s;
+      &:hover{
+        background: rgba(0, 0, 0, 1);
+      }
     }
     .remove {
       position: absolute;
@@ -247,4 +254,9 @@
     height: 40px;
     color: green;
   }
+}
+.close{
+  position: absolute;
+  right: 40px;
+  top:20px;
 }
