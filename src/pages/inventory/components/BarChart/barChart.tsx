@@ -48,6 +48,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
   };
 
   const setExtraOfActiveData = (extra: Array<HistoryExtra>) => {
+    console.log(activeInventoryItem, extra);
     return getExtraOfActiveData(extra, activeInventoryItem);
   };
 
