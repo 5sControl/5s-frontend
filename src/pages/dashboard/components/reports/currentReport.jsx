@@ -21,25 +21,27 @@ export const CurrentReport = () => {
               )}
             </div>
             <div className="dashboard__report_item">
-              <span>Date & Time</span>
-              <span>
+              <span className="dashboard_text">Date & Time</span>
+              <span className="dashboard_text2">
                 {moment(currentReport.start_tracking).add(3, 'hours').format('YYYY-MM-DD ')}|
                 {moment(currentReport.start_tracking).add(3, 'hours').format('HH:mm:ss')}-
                 {moment(currentReport.stop_tracking).add(3, 'hours').format('HH:mm:ss')}
               </span>
             </div>
             <div className="dashboard__report_item">
-              <span>Camera</span>
-              <span>{currentReport.camera.name}</span>
+              <span className="dashboard_text">Camera</span>
+              <span className="dashboard_text2">{currentReport.camera.name}</span>
             </div>
             <div className="dashboard__report_item">
-              <span>Algorithm</span>
+              <span className="dashboard_text">Algorithm</span>
 
-              <span>{parsingAlgorithmName(currentReport.algorithm.name)}</span>
+              <span className="dashboard_text2">
+                {parsingAlgorithmName(currentReport.algorithm.name)}
+              </span>
             </div>
             <div className="dashboard__report_item">
-              <span>Status</span>
-              <span>
+              <span className="dashboard_text">Status</span>
+              <span className="dashboard_text2">
                 {currentReport.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
               </span>
             </div>
