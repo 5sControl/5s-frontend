@@ -4,6 +4,25 @@
 .dashboard {
   width: 100%;
   color: #212121;
+  &_text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 150%;
+    letter-spacing: 0.1px;
+    color: #9e9e9e;
+  }
+  &_text2 {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: right;
+    letter-spacing: 0.15px;
+    color: #212121;
+  }
   &__title {
     display: flex;
     justify-content: space-between;
@@ -159,10 +178,12 @@
       height: 130px;
       background-color: white;
       margin: 20px 0 0 0px;
-      box-shadow: 0px 0px 8px rgba(255, 0, 0, 0.25);
       transition: all 0.5s;
       cursor: pointer;
       border-radius: 4px;
+      &:hover{
+        background: rgba(254, 97, 0, 0.1);
+      }
       svg {
         height: 16px;
         width: 16px;
@@ -211,7 +232,7 @@
       height: calc(80vh - 290px);
       // object-fit: contain;
       // object-position:center center;
-      cursor: pointer;
+
       &_src {
         position: absolute;
         top: 0;
@@ -220,6 +241,21 @@
         height: 100%;
         object-fit: contain;
         object-position: center center;
+      }
+      &_time{
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        width: 100%;
+        z-index: 500;
+        display: flex;
+        justify-content: center;
+        span{
+          padding: 5px 50px;
+          background: #00000050;
+          color: white;
+          border-radius: 21px;
+        }
       }
       // background-color: rgb(45, 45, 45);
     }
@@ -282,4 +318,9 @@
 .active {
   box-shadow: rgba(254, 97, 0, 0.4) 0px 0px 0px 2px, rgba(254, 97, 0, 0.65) 0px 4px 6px -1px,
     rgba(254, 97, 0, 0.08) 0px 1px 0px inset;
+}
+.scale {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }

@@ -11,12 +11,14 @@ import { EditInventoryData } from './types';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { useCookies } from 'react-cookie';
 import { getInventoryItemsToCamera } from '../../inventoryAPI';
+import { Сlosing } from '../../../../components/close';
 type PropsType = {
   submitHandler: () => void;
   formData: EditInventoryData;
   setCoords: (coords: Coordinat[]) => void;
   setIsShowCoord: (type: boolean) => void;
   coordinates: Coordinat[] | undefined;
+  closed: () => void;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -25,6 +27,7 @@ export const Coordinates: React.FC<PropsType> = ({
   setCoords,
   coordinates,
   setIsShowCoord,
+  closed,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>('');
@@ -136,7 +139,7 @@ export const Coordinates: React.FC<PropsType> = ({
         })
       );
     }
-    getInventoryItemsToCamera(window.location.hostname, cookie.token, formData.camera).then(
+    getInventoryItemsToCamera(window.location.hostname, cookie.token, formData.camera?.id).then(
       (res: any) => {
         console.log(res.data);
         setCameraBox(res.data.filter((el: any) => el.name !== formData.name));
@@ -181,7 +184,7 @@ export const Coordinates: React.FC<PropsType> = ({
     });
     setCoords(sendCoord);
   };
-
+  console.log(formData);
   return (
     <div className={styles.modalCoordContainer}>
       <div className={styles.area}>
@@ -192,15 +195,16 @@ export const Coordinates: React.FC<PropsType> = ({
         >
           <AiOutlineLeft /> Back
         </div>
+        <Сlosing onClick={closed} className={styles.close} />
         <div className={styles.image_container}>
           <img
             ref={image}
             src={
               process.env.REACT_APP_ENV === 'proxy'
-                ? `${process.env.REACT_APP_NGROK}images/${formData.camera}/snapshot.jpg`
+                ? `${process.env.REACT_APP_NGROK}images/${formData.camera?.id}/snapshot.jpg`
                 : process.env.REACT_APP_ENV === 'wify'
-                ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera}/snapshot.jpg`
-                : `http://${window.location.hostname}/images/${formData.camera}/snapshot.jpg`
+                ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera?.id}/snapshot.jpg`
+                : `http://${window.location.hostname}/images/${formData.camera?.id}/snapshot.jpg`
             }
             onClick={(e) => createCoord(e)}
           />
@@ -324,8 +328,10 @@ export const Coordinates: React.FC<PropsType> = ({
         />
       </div>
       <div className={styles.footer}>
-        <p>Item name: {formData.name}</p>
-        <p>Camera: {formData.camera}</p>
+        <h5>Item name: {formData.name}</h5>
+        <p>
+          Camera: <span>{formData.camera?.text}</span>
+        </p>
         <Button
           text="Save"
           className={styles.button}
