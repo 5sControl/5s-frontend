@@ -59,7 +59,9 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
     const dataForm = {
       name,
       low_stock_level,
-      camera,
+      camera: camerasData
+        ? camerasData.filter((el: any) => el.text === camera)[0]
+        : { id: '0', text: 'asd' },
     };
     setFormData(dataForm);
     setIsShowCoord(true);
@@ -74,7 +76,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
         addItem({
           token: cookies.token,
           hostname: window.location.hostname,
-          body: dataForm,
+          body: { ...dataForm, camera: dataForm.camera?.id },
         })
       ).then((response: any) => {
         setIsClose({ status: response.type.includes('fulfilled'), loading: false });

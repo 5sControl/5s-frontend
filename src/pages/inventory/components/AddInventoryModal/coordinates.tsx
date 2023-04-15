@@ -66,7 +66,7 @@ export const Coordinates: React.FC<PropsType> = ({
   }, 200);
 
   useEffect(() => {
-    getInventoryItemsToCamera(window.location.hostname, cookie.token, formData.camera).then(
+    getInventoryItemsToCamera(window.location.hostname, cookie.token, formData.camera?.id).then(
       (res: any) => {
         console.log(res.data);
         setCameraBox(res.data);
@@ -171,10 +171,10 @@ export const Coordinates: React.FC<PropsType> = ({
             ref={image}
             src={
               process.env.REACT_APP_ENV === 'proxy'
-                ? `${process.env.REACT_APP_NGROK}images/${formData.camera}/snapshot.jpg`
+                ? `${process.env.REACT_APP_NGROK}images/${formData.camera?.id}/snapshot.jpg`
                 : process.env.REACT_APP_ENV === 'wify'
-                ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera}/snapshot.jpg`
-                : `http://${window.location.hostname}/images/${formData.camera}/snapshot.jpg`
+                ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera?.id}/snapshot.jpg`
+                : `http://${window.location.hostname}/images/${formData.camera?.id}/snapshot.jpg`
             }
             // onClick={(e) => createCoord(e)}
           />
@@ -275,7 +275,7 @@ export const Coordinates: React.FC<PropsType> = ({
       <div className={styles.footer}>
         <h5>Item name: {formData.name}</h5>
         <p>
-          Camera: <span>{formData.camera}</span>
+          Camera: <span>{formData.camera?.text}</span>
         </p>
         <Button
           text="Save"

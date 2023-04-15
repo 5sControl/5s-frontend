@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { proxy } from '../../api/api';
-import { AddInventoryData } from './components/AddInventoryModal/types';
+import { AddInventoryData, AddInventoryDataResponse } from './components/AddInventoryModal/types';
 import { EditInventoryDataResponse } from './components/EditInventoryModal/types';
 
 export const getInventoryItems = (hostname: string, cookies: string, isSort: boolean) => {
@@ -51,7 +51,11 @@ export const getInventoryItemsToCamera = (
   }
 };
 
-export const setInventoryItem = (hostname: string, cookies: string, body: AddInventoryData) => {
+export const setInventoryItem = (
+  hostname: string,
+  cookies: string,
+  body: AddInventoryDataResponse
+) => {
   const API_INVENTORY_SET = 'api/inventory/items/create/';
 
   if (process.env.REACT_APP_ENV === 'proxy') {
