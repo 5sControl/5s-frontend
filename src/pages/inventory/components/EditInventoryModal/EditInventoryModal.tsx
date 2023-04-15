@@ -42,7 +42,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       editItem({
         token: cookies.token,
         hostname: window.location.hostname,
-        body: dataForm,
+        body: { ...dataForm, camera: dataForm.camera?.id },
       })
     ).then((response: any) => {
       setIsClose({ status: response.type.includes('fulfilled'), loading: false });
@@ -80,19 +80,20 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
     const name = target.name.value;
     const low_stock_level = target.low_stock_level.value;
     const camera = target.camera_type.value;
-
     if (currentEditItem && currentEditItem.id) {
       const dataForm = {
         name,
         low_stock_level,
-        camera,
         id: currentEditItem.id,
+        camera: camerasData
+          ? camerasData.filter((el: any) => el.text === camera)[0]
+          : { id: '0', text: 'asd' },
       };
       setFormData(dataForm);
       setIsShowCoord(true);
     }
   };
-
+  console.log(currentEditItem, camerasData);
   return (
     <Modal
       isOpen={isOpen}
@@ -135,7 +136,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
                     label="Select a camera"
                     listOfData={camerasData}
                     activeSelect={camerasData.findIndex(
-                      (item: { text: string; id: string }) => item.text === currentEditItem?.camera
+                      (item: { text: string; id: string }) => item.id === currentEditItem?.camera
                     )}
                   />
                 </div>

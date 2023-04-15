@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { proxy } from '../../api/api';
 import { AddInventoryData } from './components/AddInventoryModal/types';
-import { EditInventoryData } from './components/EditInventoryModal/types';
+import { EditInventoryDataResponse } from './components/EditInventoryModal/types';
 
 export const getInventoryItems = (hostname: string, cookies: string, isSort: boolean) => {
   const API_BY_ORDER = `api/inventory/items/${isSort ? '?order=desc' : ''}`;
@@ -82,7 +82,7 @@ export const setInventoryItem = (hostname: string, cookies: string, body: AddInv
 export const editInventoryItemAxios = (
   hostname: string,
   cookies: string,
-  body: EditInventoryData
+  body: EditInventoryDataResponse
 ) => {
   const API_INVENTORY_SET = 'api/inventory/items/';
 
