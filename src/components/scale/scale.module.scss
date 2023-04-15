@@ -15,8 +15,6 @@
   }
   &:hover{
     background: rgba(33, 33, 33, 1);
-    svg{
-      color:red;
-    } 
+    transform: scale(1.1);
   }
 }

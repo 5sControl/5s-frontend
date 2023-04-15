@@ -100,3 +100,29 @@
   top:20px;
   right: 20px;
 }
+
+.scale{
+  position: absolute;
+  bottom:20px;
+  right: 20px;
+}
+.fullimage {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  background-color: #00000070;
+  backdrop-filter: blur(5px);
+  z-index: 1004;
+  cursor: pointer;
+  &_image {
+    margin: 0 auto;
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+  }
+}
