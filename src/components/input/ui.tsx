@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Eye, SearchIcon } from '../../assets/svg/SVGcomponent';
+import { SearchIcon } from '../../assets/svg/SVGcomponent';
 import styles from './input.module.scss';
-
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 type PropsType = {
   id: string;
   name: string;
@@ -18,6 +18,7 @@ type PropsType = {
   defaultValue?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   className?: any;
+  onKeyDown?: () => void;
 };
 
 export const Input: React.FC<PropsType> = ({
@@ -34,6 +35,7 @@ export const Input: React.FC<PropsType> = ({
   showSearch,
   required,
   className,
+  onKeyDown,
 }) => {
   const [inputType, setInputType] = useState(type);
 
@@ -61,9 +63,15 @@ export const Input: React.FC<PropsType> = ({
           required={required}
           onChange={onChange}
           className={className ? className : styles.block__input}
+          onKeyDown={onKeyDown}
         />
 
-        {showEye && <Eye className={styles.block__eye} onClick={handleClickToEye} />}
+        {showEye && inputType === 'text' && (
+          <AiFillEyeInvisible className={styles.block__eye} onClick={handleClickToEye} />
+        )}
+        {showEye && inputType === 'password' && (
+          <AiFillEye className={styles.block__eye} onClick={handleClickToEye} />
+        )}
         {showSearch && <SearchIcon className={styles.block__search} />}
       </div>
     </div>

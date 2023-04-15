@@ -1,0 +1,1 @@
+export { Сlosing } from './ui';

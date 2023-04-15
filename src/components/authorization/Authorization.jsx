@@ -4,6 +4,7 @@ import logo from '../../assets/svg/icon.svg';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { authorizationRequest } from '../../api/companyRequest';
+import { Input } from '../input';
 
 export const Authorization = () => {
   const [email, setEmail] = useState('');
@@ -72,7 +73,7 @@ export const Authorization = () => {
         />
         {/* {!correctEmail && <span className='authorization__error'>Email isn't correct!</span>} */}
         <label>Password</label>
-        <input
+        <Input
           type="password"
           className="authorization__input"
           placeholder="Enter Password"
@@ -82,7 +83,19 @@ export const Authorization = () => {
             setErrorPassword(false);
           }}
           onKeyDown={(e) => pressEnter(e)}
+          showEye={true}
         />
+        {/* <input
+          type="password"
+          className="authorization__input"
+          placeholder="Enter Password"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setErrorPassword(false);
+          }}
+          onKeyDown={(e) => pressEnter(e)}
+        /> */}
         {/* {!correctPassword && <span className='authorization__error'>This field is required</span>} */}
         {errorResponse && (
           <span className="authorization__error_response">

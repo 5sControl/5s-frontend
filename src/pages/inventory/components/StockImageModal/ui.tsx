@@ -6,7 +6,9 @@ import { selectActiveInventoryItem } from '../InventoryItemsList/InventoryItemsL
 import { setDateDot } from '../../../previewOrders/previewOrdersHelper';
 import { HistoryExtra, InventoryHistory } from '../../types';
 import { getExtraOfActiveData } from '../../helper';
-
+import { Сlosing } from '../../../../components/close';
+import { Scale } from '../../../../components/scale';
+import { useState } from 'react';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
@@ -25,7 +27,8 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   const setExtraOfActiveData = (extra: Array<HistoryExtra>) => {
     return getExtraOfActiveData(extra, activeInventoryItem);
   };
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [fullImage, setFullImage] = useState<any>(false);
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
       <div
@@ -49,6 +52,24 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
         <div className={styles.camera}>
           <p className={styles.text}>{activeInventoryItem?.camera}</p>
         </div>
+        <Scale
+          className={styles.scale}
+          onClick={() =>
+            setFullImage(
+              process.env.REACT_APP_ENV === 'proxy'
+                ? `${process.env.REACT_APP_NGROK}${
+                    setExtraOfActiveData(currentReport.extra).image_item
+                  }`
+                : process.env.REACT_APP_ENV === 'wify'
+                ? `${process.env.REACT_APP_IP_SERVER}${
+                    setExtraOfActiveData(currentReport.extra).image_item
+                  }`
+                : `http://${window.location.hostname}/${
+                    setExtraOfActiveData(currentReport.extra).image_item
+                  }`
+            )
+          }
+        />
       </div>
 
       <div className={styles.infoBlock}>
@@ -87,8 +108,16 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
             <span>{'Time: '}</span>
             <span className={styles.value}>{operationStart}</span>
           </div>
+          <Сlosing className={styles.close} onClick={handleClose} />
         </div>
       </div>
+      {fullImage && (
+        <>
+          <div className={styles.fullimage} onClick={() => setFullImage(false)}>
+            <img src={fullImage} alt="report img" className={styles.fullimage_image} />
+          </div>
+        </>
+      )}
     </Modal>
   );
 };

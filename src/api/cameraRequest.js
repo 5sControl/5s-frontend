@@ -68,12 +68,15 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
 };
 
 export const patchCamera = (hostname, IPCamera, cameraName, cookies) => {
+  console.log(cameraName);
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy(
       process.env.REACT_APP_NGROK + API_CAMERAUPDATE,
       'PATCH',
       {
         Authorization: cookies,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       JSON.stringify({
         ip: IPCamera,

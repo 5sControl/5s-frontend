@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
 import { setInventoryItem } from '../../inventoryAPI';
-import { AddInventoryData } from './types';
+import { AddInventoryDataResponse } from './types';
 
 interface addInventoryModalState {
   isLoadingAddData: boolean;
@@ -22,7 +22,7 @@ const initialState: addInventoryModalState = {
 
 export const addItem = createAsyncThunk(
   'addItem',
-  async (data: { token: string; hostname: string; body: AddInventoryData }) => {
+  async (data: { token: string; hostname: string; body: AddInventoryDataResponse }) => {
     const response = await setInventoryItem(data.hostname, data.token, data.body);
     return response.data;
   }

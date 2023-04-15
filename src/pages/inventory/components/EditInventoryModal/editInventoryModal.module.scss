@@ -58,7 +58,7 @@
     display: flex;
     justify-content: center;
     position: relative;
-    height: 80%;
+    height: calc(100% - 120px);
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     .image_container {
@@ -95,6 +95,13 @@
       font-size: 14px;
       line-height: 24px;
       cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 21px;
+      background: rgba(0, 0, 0, 0.50);
+      transition: all 0.4s;
+      &:hover{
+        background: rgba(0, 0, 0, 1);
+      }
     }
     .remove {
       position: absolute;
@@ -119,7 +126,20 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 30px;
+    height: 120px;
+    padding: 10px 30px 20px 10px;
+    h5 {
+      @include h5;
+    }
+    p {
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 24px;
+      color: #666666;
+      span{
+        color:#212121;
+      }
+    }
     .button {
       align-self: flex-end;
     }
@@ -215,16 +235,17 @@
     }
     &_yes {
       background: #fe6100;
-      color:#ffffff;
+      color: #ffffff;
       &:hover {
         background: #8e3600;
       }
     }
     &_no {
       background: inherit;
+
       &:hover {
         background: #fe6100;
-        color:#ffffff;
+        color: #ffffff;
       }
     }
   }
@@ -233,4 +254,9 @@
     height: 40px;
     color: green;
   }
+}
+.close{
+  position: absolute;
+  right: 40px;
+  top:20px;
 }

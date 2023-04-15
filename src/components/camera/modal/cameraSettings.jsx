@@ -58,8 +58,8 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   const applySettings = async () => {
     setIsEnabled(false);
     if (cameraName !== nameCamera) {
-      await patchCamera(window.location.hostname, IPCamera, cameraName, token).then(() => {
-        // console.log(res);
+      await patchCamera(window.location.hostname, IPCamera, cameraName, token).then((res) => {
+        console.log(res);
       });
     }
     if (informationToSend.delete && informationToSend.delete.length > 0) {
