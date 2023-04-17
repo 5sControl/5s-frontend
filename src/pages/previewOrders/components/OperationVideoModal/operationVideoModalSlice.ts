@@ -40,7 +40,7 @@ const operationVideoModalSlice = createSlice({
       const timeAction = minutes * 60 + sec;
 
       state.playerRef?.seekTo(timeAction);
-      state.videoState.url = `http://192.168.1.110:3456/video?time=${outputStr}&camera_ip=192.168.1.110#t=${timeAction}`;
+      state.videoState.url = `http://${window.location.hostname}:3456/video?time=${outputStr}&camera_ip=${window.location.hostname}#t=${timeAction}`;
     },
     setUrlOperationVideoModal(state, action: PayloadAction<string>) {
       state.videoState.url = action.payload;
