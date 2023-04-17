@@ -144,10 +144,6 @@ export const DatabaseTab: React.FC = () => {
           </div>
           {databases && databases?.count > 0 && (
             <>
-              {/* <div>
-                <span className={styles.desc_title}>Database type: </span>
-                <span className={styles.desc}>{databases.results[0].database_type}</span>
-              </div> */}
               <div>
                 <span className={styles.desc_title}>Database name: </span>
                 <span className={styles.desc}>{databases.results[0].database}</span>

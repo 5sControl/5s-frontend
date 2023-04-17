@@ -16,6 +16,7 @@ import deleteInventoryModalSlice from '../pages/inventory/components/DeleteInven
 import editInventoryModalSlice from '../pages/inventory/components/EditInventoryModal/editInventoryModalSlice';
 import inventoryHistorySlice from '../pages/inventory/components/InventoryHistory/inventoryHistorySlice';
 import inventoryReportSlice from '../pages/inventory/components/InventoryReport/InventoryReportSlice';
+import NightModeSlice from '../pages/inventory/components/NightModeModal/NightModeSlice';
 
 export const store = configureStore({
   reducer: {
@@ -34,6 +35,7 @@ export const store = configureStore({
     stockImageModal: stockImageModalSlice,
     infoPage: infoPageSlice,
     deleteInventoryModal: deleteInventoryModalSlice,
+    NightModeSlice: NightModeSlice,
     inventoryHistory: inventoryHistorySlice,
     inventoryReportState: inventoryReportSlice,
   },
