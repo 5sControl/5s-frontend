@@ -48,7 +48,6 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
   };
 
   const setExtraOfActiveData = (extra: Array<HistoryExtra>) => {
-    console.log(activeInventoryItem, extra);
     return getExtraOfActiveData(extra, activeInventoryItem);
   };
 
@@ -149,7 +148,6 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
         } else {
           nextReport = update[currentItemIndex].stop_tracking;
         }
-
         tooltip.html(
           `<div class="${styles.container}"><h2 class="${styles.header}">${moment(
             d1.start_tracking
@@ -217,12 +215,25 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
             ? '#FF7B29'
             : '#E00606'
         )
+        .attr('data-value', (d) => {
+          return setExtraOfActiveData(d.extra).status === 'In stock'
+            ? '#87BC45'
+            : setExtraOfActiveData(d.extra).status === 'Low stock level'
+            ? '#FF7B29'
+            : '#E00606';
+        })
         .attr('id', (d) => d.id)
         .attr('data-index', (d, i) => i)
         .style('cursor', 'pointer')
-        .on('mouseover', showTooltip)
         .on('mousemove', showTooltip)
-        .on('mouseleave', hideTooltip)
+        .on('mouseleave', function () {
+          d3.select(this).style('fill', this.dataset.value ? this.dataset.value : '');
+          hideTooltip();
+        })
+        .on('mouseover', function (d, d1) {
+          d3.select(this).style('fill', 'yellow');
+          showTooltip(d, d1);
+        })
         .on('click', (d) => {
           handleOpenModel(data.find((item: InventoryHistory) => item.id === +d.target.id));
         });
