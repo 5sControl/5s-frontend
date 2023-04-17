@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { Button } from '../../../../components/button';
 import { Input } from '../../../../components/input';
 import { Modal } from '../../../../components/modal';
 import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import { setDatabasesOrdersView } from '../../connectionSlice';
+import { selectConnectionPage, setDatabasesOrdersView } from '../../connectionSlice';
 import { inputProps, listOfDataForSelect } from './config';
 import styles from './connectToDbModal.module.scss';
 import { createConnectionWithDB, selectConnectToDbModal } from './connectToDbModalSlice';
@@ -13,10 +13,12 @@ import { ConnectionToDatabaseForm } from './types';
 
 type PropsType = {
   isOpen: boolean;
+  isEdit: boolean;
   handleClose: () => void;
 };
 
-export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
+export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleClose }) => {
+  const [inputs, setInputs] = useState(inputProps);
   const [cookies] = useCookies(['token']);
   const {
     isLoadingPostConnectionToDb,
@@ -24,7 +26,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, handleClose }) =
     connectResponse,
     errorConnectToDbResponse,
   } = useAppSelector(selectConnectToDbModal);
-
+  const { databases } = useAppSelector(selectConnectionPage);
   const dispatch = useAppDispatch();
 
   const onSubmit = (e: React.SyntheticEvent) => {
@@ -69,10 +71,21 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, handleClose }) =
     }
   }, [connectResponse]);
 
+  useEffect(() => {
+    if (isEdit) {
+      const newInputsProps = inputs.map((el) => {
+        return { ...el, defaultValue: databases.results[0][el.name] };
+      });
+      setInputs(newInputsProps);
+    } else {
+      setInputs(inputProps);
+    }
+  }, [isEdit]);
+
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal} showCross>
       <div className={styles.header}>
-        <h2 className={styles.header_title}>Connecting to database</h2>
+        <h2 className={styles.header_title}>Database connection</h2>
       </div>
 
       <form onSubmit={onSubmit} className={styles.form}>
@@ -84,7 +97,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, handleClose }) =
             listOfData={listOfDataForSelect}
           />
 
-          {inputProps.map((props, index) => (
+          {inputs.map((props, index) => (
             <Input key={index} {...props} />
           ))}
 

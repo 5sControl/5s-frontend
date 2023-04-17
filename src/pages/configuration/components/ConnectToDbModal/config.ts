@@ -6,6 +6,7 @@ export const inputProps = [
     type: 'text',
     placeholder: 'Enter host',
     required: true,
+    defaultValue: '',
   },
   // {
   //   id: 'port',
@@ -22,6 +23,7 @@ export const inputProps = [
     type: 'text',
     placeholder: 'Database name',
     required: true,
+    defaultValue: '',
   },
   {
     id: 'username',
@@ -30,6 +32,7 @@ export const inputProps = [
     type: 'text',
     placeholder: 'Enter user',
     required: true,
+    defaultValue: '',
   },
   {
     id: 'password',
@@ -39,6 +42,7 @@ export const inputProps = [
     placeholder: 'Enter password',
     showEye: true,
     required: true,
+    defaultValue: '',
   },
 ];
 
