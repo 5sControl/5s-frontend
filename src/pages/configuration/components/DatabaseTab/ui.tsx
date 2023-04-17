@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { Button } from '../../../../components/button';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
@@ -18,6 +18,7 @@ import {
 import styles from './databaseTab.module.scss';
 
 export const DatabaseTab: React.FC = () => {
+  const [isEditConnectToDbModal, setIsEditConnectToDbModal] = useState(false);
   const [cookies] = useCookies(['token']);
   const { databases, isLoadingGetConnectionsToDB } = useAppSelector(selectConnectionPage);
   const { isOpenConnectToDbModal } = useAppSelector(selectConnectToDbModal);
@@ -30,6 +31,10 @@ export const DatabaseTab: React.FC = () => {
   };
 
   const handleOpenModalConnect = () => {
+    dispatch(setIsOpenConnectToDbModal(true));
+  };
+
+  const handleOpenModalConnectionSettings = () => {
     dispatch(setIsOpenConnectToDbModal(true));
   };
 
@@ -67,9 +72,21 @@ export const DatabaseTab: React.FC = () => {
     }
   }, [disconnectDbResponse]);
 
+  useEffect(() => {
+    if (databases) {
+      setIsEditConnectToDbModal(true);
+    } else {
+      setIsEditConnectToDbModal(false);
+    }
+  }, [databases]);
+
   return (
     <>
-      <ConnectToDbModal isOpen={isOpenConnectToDbModal} handleClose={handleCloseConnectModal} />
+      <ConnectToDbModal
+        isOpen={isOpenConnectToDbModal}
+        isEdit={isEditConnectToDbModal}
+        handleClose={handleCloseConnectModal}
+      />
 
       <DisconnectDbModal
         isOpen={isOpenDisconnectModal}
@@ -89,12 +106,19 @@ export const DatabaseTab: React.FC = () => {
           <h3 className={styles.header_title}>Orders View database</h3>
 
           {databases && databases?.count > 0 ? (
-            <Button
-              onClick={handleOpenModalDisconnect}
-              disabled={isLoadingGetConnectionsToDB}
-              text="Disconnect"
-              variant="outlined"
-            />
+            <div className={styles.header_buttons}>
+              <Button
+                onClick={handleOpenModalDisconnect}
+                disabled={isLoadingGetConnectionsToDB}
+                text="Disconnect"
+                variant="outlined"
+              />
+              <Button
+                onClick={handleOpenModalConnectionSettings}
+                disabled={isLoadingGetConnectionsToDB}
+                text="Connection settings"
+              ></Button>
+            </div>
           ) : (
             <Button
               onClick={handleOpenModalConnect}
