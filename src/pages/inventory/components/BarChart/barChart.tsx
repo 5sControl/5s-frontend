@@ -225,6 +225,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
         .attr('id', (d) => d.id)
         .attr('data-index', (d, i) => i)
         .style('cursor', 'pointer')
+        .style('display', (d) => (setExtraOfActiveData(d.extra).isShow ? 'block' : 'none'))
         .on('mousemove', showTooltip)
         .on('mouseleave', function () {
           d3.select(this).style('fill', this.dataset.value ? this.dataset.value : '');

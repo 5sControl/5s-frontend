@@ -14,6 +14,7 @@ export interface HistoryExtra {
   low_stock_level: number;
   status: string;
   image_item: string;
+  isShow?: boolean;
 }
 
 export interface HistoryPhoto {
