@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { proxy } from '../../api/api';
-import { AddInventoryData, AddInventoryDataResponse } from './components/AddInventoryModal/types';
+import { AddInventoryDataResponse } from './components/AddInventoryModal/types';
 import { EditInventoryDataResponse } from './components/EditInventoryModal/types';
+import { NightModeResponse } from './components/NightModeModal/types';
 
 export const getInventoryItems = (hostname: string, cookies: string, isSort: boolean) => {
   const API_BY_ORDER = `api/inventory/items/${isSort ? '?order=desc' : ''}`;
@@ -170,5 +171,55 @@ export const getInventoryItemHistory = (
         },
       }
     );
+  }
+};
+
+export const setNightTime = (hostname: string, cookies: string, body: NightModeResponse) => {
+  const API_INVENTORY_SET = 'api/mailer/working-time/';
+
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.post(process.env.REACT_APP_PROXY, {
+      url: process.env.REACT_APP_NGROK + API_INVENTORY_SET,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+      body: JSON.stringify(body),
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(process.env.REACT_APP_IP_SERVER + API_INVENTORY_SET, body, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.post(`http://${hostname}/${API_INVENTORY_SET}`, body, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const getNightTime = (hostname: string, cookies: string) => {
+  const API_HISTORY = 'api/mailer/working-time/';
+
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(`${process.env.REACT_APP_NGROK}${API_HISTORY}`, 'GET', {
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_HISTORY}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_HISTORY}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
   }
 };
