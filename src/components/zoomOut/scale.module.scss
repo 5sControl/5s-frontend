@@ -9,10 +9,6 @@
   cursor: pointer;
   transition: all 0.5s;
   z-index: 1000;
-  svg{
-    color:#FFFFFF;
-    transition: all 0.5s;
-  }
   &:hover{
     background: rgba(33, 33, 33, 1);
     transform: scale(1.1);

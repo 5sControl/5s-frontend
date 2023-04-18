@@ -1,5 +1,5 @@
 import styles from './scale.module.scss';
-import { AiOutlineFullscreenExit } from 'react-icons/ai';
+import { MdOutlineFullscreenExit } from 'react-icons/md';
 type PropsType = {
   className?: string;
   onClick: () => void;
@@ -8,7 +8,7 @@ type PropsType = {
 export const ZoomOut: React.FC<PropsType> = ({ className, onClick }) => {
   return (
     <div className={`${styles.cover} ${className}`} onClick={onClick}>
-      <AiOutlineFullscreenExit style={{ color: 'white' }} />
+      <MdOutlineFullscreenExit style={{ color: 'white', width: '25px', height: '25px' }} />
     </div>
   );
 };
