@@ -1,14 +1,14 @@
 import styles from './scale.module.scss';
-import { AiOutlineFullscreen } from 'react-icons/ai';
+import { AiOutlineFullscreenExit } from 'react-icons/ai';
 type PropsType = {
   className?: string;
   onClick: () => void;
 };
 
-export const Scale: React.FC<PropsType> = ({ className, onClick }) => {
+export const ZoomOut: React.FC<PropsType> = ({ className, onClick }) => {
   return (
     <div className={`${styles.cover} ${className}`} onClick={onClick}>
-      <AiOutlineFullscreen style={{ color: 'white' }} />
+      <AiOutlineFullscreenExit style={{ color: 'white' }} />
     </div>
   );
 };

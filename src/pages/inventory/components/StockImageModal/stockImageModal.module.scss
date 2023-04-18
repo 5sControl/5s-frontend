@@ -117,12 +117,18 @@
   left: 0;
   background-color: #00000070;
   backdrop-filter: blur(5px);
-  z-index: 1004;
-  cursor: pointer;
+  z-index: 5000;
+
   &_image {
     margin: 0 auto;
     width: 90%;
     height: 90%;
-    object-fit: contain;
+    // object-fit: contain;
+    position: relative;
+  }
+  &_out{
+    position: absolute;
+    bottom: calc(5% + 20px);
+    right: calc(5% + 20px);
   }
 }

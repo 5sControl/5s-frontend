@@ -9,6 +9,7 @@ import { getExtraOfActiveData } from '../../helper';
 import { Сlosing } from '../../../../components/close';
 import { Scale } from '../../../../components/scale';
 import { useState } from 'react';
+import { ZoomOut } from '../../../../components/zoomOut';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
@@ -113,8 +114,9 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
       </div>
       {fullImage && (
         <>
-          <div className={styles.fullimage} onClick={() => setFullImage(false)}>
+          <div className={styles.fullimage}>
             <img src={fullImage} alt="report img" className={styles.fullimage_image} />
+            <ZoomOut onClick={() => setFullImage(false)} className={styles.fullimage_out} />
           </div>
         </>
       )}
