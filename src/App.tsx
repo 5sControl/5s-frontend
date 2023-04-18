@@ -16,7 +16,7 @@ import { Inventory } from './pages/inventory/inventory';
 import { Info } from './pages/info';
 
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [cookies, , removeCookie] = useCookies(['token']);
 
   useEffect(() => {
     isVerifyToken(window.location.hostname, cookies.token).then((response) => {
@@ -43,7 +43,8 @@ function App() {
             <Route path="/configuration" element={<Configuration activeTab={0} />} />
             <Route path="/configuration/license" element={<Configuration activeTab={0} />} />
             <Route path="/configuration/database" element={<Configuration activeTab={1} />} />
-            <Route path="/configuration/camera" element={<Configuration activeTab={2} />} />
+            <Route path="/configuration/camera" element={<Configuration activeTab={3} />} />
+            <Route path="/configuration/notifications" element={<Configuration activeTab={2} />} />
             <Route path="/configuration/:camera" element={<ConfigurationCamera />} />
             <Route path="/orders-view" element={<PreviewOrders />} />
             <Route path="/inventory" element={<Inventory />} />
