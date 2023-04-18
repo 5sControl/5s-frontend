@@ -66,12 +66,18 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      position: relative;
       .trash{
         color:#666666;
         cursor: pointer;
         &:hover{
             color: #212121;
         }
+      }
+      .checkmark{
+        position: absolute;
+        right: 35px;
+        color:green;
       }
       input {
         width: calc(100% - 30px);

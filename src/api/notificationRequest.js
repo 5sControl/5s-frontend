@@ -103,7 +103,7 @@ export const postNotificationEmail = async (hostname, cookies, response) => {
 export const patchNotificationEmail = (hostname, cookies, id, email) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy(
-      process.env.REACT_APP_NGROK + API_EMAIL + '/' + id + '/',
+      process.env.REACT_APP_NGROK + API_EMAIL + id + '/',
       'PATCH',
       {
         Authorization: cookies,
@@ -118,7 +118,7 @@ export const patchNotificationEmail = (hostname, cookies, id, email) => {
     );
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.patch(
-      `${process.env.REACT_APP_IP_SERVER}${API_EMAIL}/${id}/`,
+      `${process.env.REACT_APP_IP_SERVER}${API_EMAIL}${id}/`,
       {
         id: id,
         email: email,
@@ -148,20 +148,23 @@ export const patchNotificationEmail = (hostname, cookies, id, email) => {
 };
 
 export const deleteNotificationEmail = (hostname, cookies, id) => {
+  console.log(id);
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(process.env.REACT_APP_NGROK + API_EMAIL + '/' + id + '/', 'DELETE', {
-      Authorization: cookies,
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+    return proxy(`${process.env.REACT_APP_NGROK}${API_EMAIL}${id}/`, 'DELETE', {
+      headers: {
+        Authorization: cookies,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.patch(`${process.env.REACT_APP_IP_SERVER}${API_EMAIL}/${id}/`, {
+    return axios.delete(`${process.env.REACT_APP_IP_SERVER}${API_EMAIL}${id}/`, {
       headers: {
         Authorization: cookies,
       },
     });
   } else {
-    return axios.patch(`http://${hostname}/${API_EMAIL}/${id}/`, {
+    return axios.delete(`http://${hostname}/${API_EMAIL}${id}/`, {
       headers: {
         Authorization: cookies,
       },

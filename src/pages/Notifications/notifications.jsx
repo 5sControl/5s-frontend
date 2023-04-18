@@ -10,6 +10,7 @@ import {
   postNotificationEmail,
 } from '../../api/notificationRequest';
 import { BsFillTrashFill } from 'react-icons/bs';
+import { GrCheckmark } from 'react-icons/gr';
 import { useCookies } from 'react-cookie';
 
 export const Notifications = () => {
@@ -42,7 +43,13 @@ export const Notifications = () => {
         });
       } else {
         patchNotificationEmail(window.location.hostname, cookies.token, id, e.target.value).then(
-          (res) => console.log(res)
+          (res) => {
+            getNotificationEmail(window.location.hostname).then((res) => {
+              setEmails(res.data.results);
+              console.log(res);
+            });
+            console.log(res);
+          }
         );
       }
       console.log(e.target.value, id);
@@ -50,7 +57,9 @@ export const Notifications = () => {
   };
 
   const deleteEmail = (id) => {
-    deleteNotificationEmail(window.location.hostname, cookies.token, id).then((res) => {
+    deleteNotificationEmail(window.location.hostname, cookies.token, id);
+    getNotificationEmail(window.location.hostname).then((res) => {
+      setEmails(res.data.results);
       console.log(res);
     });
   };
@@ -110,6 +119,7 @@ export const Notifications = () => {
                 <div key={index} className={styles.emails__list_div}>
                   <input defaultValue={email.email} onKeyUp={(e) => changeEmail(e, email.id)} />
                   <BsFillTrashFill onClick={() => deleteEmail(email.id)} className={styles.trash} />
+                  {email.id !== 0 && <GrCheckmark className={styles.checkmark} />}
                 </div>
               ))}
           </div>
