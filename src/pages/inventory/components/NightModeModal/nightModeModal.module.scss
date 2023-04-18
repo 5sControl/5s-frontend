@@ -1,11 +1,25 @@
 @import '../../../../styles/media.scss';
 @import '../../../../styles/fonts.scss';
 
+.container{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top:0;
+  left: 0;
+  z-index: 2000;
+}
 .modal {
-  max-width: 560px;
-  max-height: 470px;
+  width: 560px;
+  height: 320px;
   padding: 20px;
   justify-content: flex-start;
+  position: absolute;
+  top:90px;
+  left: 330px;
+  background-color: white;
+
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   .header {
     @include h1;
     letter-spacing: 0.15px;
@@ -22,6 +36,7 @@
   .buttons {
     position: absolute;
     bottom: 20px;
+    right: 20px;
     display: flex;
     align-self: flex-end;
 
