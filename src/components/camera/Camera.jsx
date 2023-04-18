@@ -84,7 +84,7 @@ export const Camera = () => {
               </Link>
             );
           })}
-          <div onClick={() => setSecurity(!security)}> Security </div>
+          {/* <div onClick={() => setSecurity(!security)}> Security </div>
           {security && (
             <div className="security">
               {createdCameras &&
@@ -100,7 +100,7 @@ export const Camera = () => {
                   );
                 })}
             </div>
-          )}
+          )} */}
         </div>
       )}
       {error && <div style={{ color: 'red', fontSize: '26px' }}>{error}</div>}
