@@ -10,7 +10,7 @@ import {
   postNotificationEmail,
 } from '../../api/notificationRequest';
 import { BsFillTrashFill } from 'react-icons/bs';
-import { GrCheckmark } from 'react-icons/gr';
+import { FcCheckmark } from 'react-icons/fc';
 import { useCookies } from 'react-cookie';
 
 export const Notifications = () => {
@@ -119,7 +119,7 @@ export const Notifications = () => {
                 <div key={index} className={styles.emails__list_div}>
                   <input defaultValue={email.email} onKeyUp={(e) => changeEmail(e, email.id)} />
                   <BsFillTrashFill onClick={() => deleteEmail(email.id)} className={styles.trash} />
-                  {email.id !== 0 && <GrCheckmark className={styles.checkmark} />}
+                  {email.id !== 0 && <FcCheckmark className={styles.checkmark} />}
                 </div>
               ))}
           </div>
