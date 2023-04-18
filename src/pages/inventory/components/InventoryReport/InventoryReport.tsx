@@ -29,7 +29,7 @@ import {
 import { InventoryCard } from '../InventoryCard';
 
 export const InventoryReport: React.FC = () => {
-  const { inventoryItems, isLoading } = useAppSelector(selectInventory);
+  const { inventoryItems, isLoading, camerasData } = useAppSelector(selectInventory);
   const { isOpenEditModal, currentEditItem } = useAppSelector(selectEditInventoryModal);
   const { isOpenDeleteModal, currentDeleteItemId } = useAppSelector(selectDeleteInventoryModal);
   const { connectResponse } = useAppSelector(selectEditInventoryModal);
@@ -43,7 +43,6 @@ export const InventoryReport: React.FC = () => {
   const [currentUpdateDate, setCurrentUpdateDate] = useState<string | null>(null);
   const [filterItem, setFilterItem] = useState('');
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
-
   const [isOpen, setIsOpen] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openSettings = (event: any, currentItem: InventoryItem) => {
@@ -51,7 +50,7 @@ export const InventoryReport: React.FC = () => {
     setCoordinates({ x: event.nativeEvent.layerX, y: event.nativeEvent.layerY });
     setIsOpenSettings(!isOpenSettings);
   };
-
+  console.log(camerasData);
   const outsideClick = (value: boolean) => {
     setIsOpenSettings(value);
   };
@@ -149,6 +148,7 @@ export const InventoryReport: React.FC = () => {
             <tbody>
               {inventoryItems ? (
                 <>
+                  {console.log(inventoryItems)}
                   {inventoryItems
                     ?.filter((invItem) =>
                       invItem.name.toString().toLowerCase().includes(filterItem.toLowerCase())
@@ -178,7 +178,10 @@ export const InventoryReport: React.FC = () => {
                               {item.low_stock_level}
                             </td>
                             <td onClick={() => onclickHandler(item)} className={styles.camera}>
-                              {item.camera}
+                              {camerasData !== undefined &&
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                camerasData?.filter((camera: any) => camera?.id === item?.camera)[0]
+                                  .text}
                             </td>
                             <td
                               className={styles.settings}
