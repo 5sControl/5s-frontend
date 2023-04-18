@@ -8,7 +8,7 @@ import { HistoryExtra, InventoryHistory } from '../../types';
 import { getExtraOfActiveData } from '../../helper';
 import { Сlosing } from '../../../../components/close';
 import { Scale } from '../../../../components/scale';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ZoomOut } from '../../../../components/zoomOut';
 type PropsType = {
   isOpen: boolean;
@@ -30,6 +30,11 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [fullImage, setFullImage] = useState<any>(false);
+
+  useEffect(() => {
+    setFullImage(false);
+  }, []);
+
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
       <div
