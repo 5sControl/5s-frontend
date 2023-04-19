@@ -167,7 +167,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
           } ${setExtraOfActiveData(d1.extra).status === 'Out of stock' && styles.statusOutStock}">${
             setExtraOfActiveData(d1.extra).status
           }</div>
-          <p class="${styles.click}">Click to see details</p></div>`
+          </div>`
         );
         tooltip
           .style('opacity', 1)
