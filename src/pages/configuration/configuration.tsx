@@ -23,7 +23,6 @@ export const Configuration: React.FC<{ activeTab: number }> = ({ activeTab }) =>
   return (
     <WrapperPage>
       <h2 className={styles.title}>Configuration</h2>
-
       <Tabs activeTabDefault={activeTab} tabList={tabsData}>
         {tabsData.map((tab) => (
           <Tab key={tab.id} label={tab.title}>
