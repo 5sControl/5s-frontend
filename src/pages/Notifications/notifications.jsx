@@ -57,10 +57,12 @@ export const Notifications = () => {
   };
 
   const deleteEmail = (id) => {
-    deleteNotificationEmail(window.location.hostname, cookies.token, id);
-    getNotificationEmail(window.location.hostname).then((res) => {
-      setEmails(res.data.results);
+    deleteNotificationEmail(window.location.hostname, cookies.token, id).then((res) => {
       console.log(res);
+      getNotificationEmail(window.location.hostname).then((res) => {
+        setEmails(res.data.results);
+        console.log(res);
+      });
     });
   };
 
