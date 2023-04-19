@@ -29,6 +29,10 @@ function App() {
     });
   }, [cookies]);
 
+  // setInterval(() => {
+  //   console.log('space');
+  // }, 2000);
+
   return (
     <BrowserRouter>
       <Routes>

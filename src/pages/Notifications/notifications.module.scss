@@ -67,17 +67,17 @@
       align-items: center;
       justify-content: space-between;
       position: relative;
-      .trash{
-        color:#666666;
+      .trash {
+        color: #666666;
         cursor: pointer;
-        &:hover{
-            color: #212121;
+        &:hover {
+          color: #212121;
         }
       }
-      .checkmark{
+      .checkmark {
         position: absolute;
         right: 35px;
-        color:green;
+        color: green;
       }
       input {
         width: calc(100% - 30px);
@@ -85,10 +85,30 @@
         border: 1px solid #9e9e9e;
         border-radius: 4px;
         &:focus {
-          border-color: #212121; 
-          outline: none; 
-          }
+          border-color: #212121;
+          outline: none;
+        }
       }
     }
+  }
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fe6100;
+  border-radius: 4px;
+  padding: 4px 10px;
+  gap: 4px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  color:#FFFFFF;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s;
+  &:hover {
+    background: var(--SaddleBrown);
   }
 }

@@ -12,7 +12,7 @@ import {
 import { BsFillTrashFill } from 'react-icons/bs';
 import { FcCheckmark } from 'react-icons/fc';
 import { useCookies } from 'react-cookie';
-
+import { IoMdSettings } from 'react-icons/io';
 export const Notifications = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [emails, setEmails] = useState([]);
@@ -73,7 +73,10 @@ export const Notifications = () => {
       <section className={styles.server}>
         <div className={styles.server__header}>
           <h2>SMTP server</h2>
-          <Button text="settings" onClick={() => setIsShowModal(true)} />
+          <button onClick={() => setIsShowModal(true)} className={styles.button}>
+            <IoMdSettings style={{ color: 'white' }} />
+            settings
+          </button>
         </div>
         <p className={styles.server__create}>Create SMTP server to send notifications.</p>
         <div className={styles.server__status}>

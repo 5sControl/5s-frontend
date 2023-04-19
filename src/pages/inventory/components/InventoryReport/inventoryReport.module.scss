@@ -173,13 +173,15 @@ tbody td {
 .cameraTD{
   position: relative;
 }
+
 .glazik{
   position: absolute;
-  top:9px;
+  top:12px;
+  left:110px;
   color:#666666;
   cursor: pointer;
-  height: 20px;
-  width: 20px;
+  height: 14px;
+  width: 14px;
   &:hover{
     color:black;
   }
