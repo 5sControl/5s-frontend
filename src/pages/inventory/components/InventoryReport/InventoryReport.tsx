@@ -257,7 +257,7 @@ export const InventoryReport: React.FC = () => {
                     ? `${process.env.REACT_APP_IP_SERVER}${
                         inventoryHistoryData[inventoryHistoryData.length - 1].photos[0].image
                       }`
-                    : `http://${window.location.hostname}${
+                    : `http://${window.location.hostname}/${
                         inventoryHistoryData[inventoryHistoryData.length - 1].photos[0].image
                       }`
                 }
