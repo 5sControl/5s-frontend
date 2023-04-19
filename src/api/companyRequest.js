@@ -7,6 +7,7 @@ const API_REGISTRATION = 'register/';
 const API_AUTH = 'auth/jwt/create/';
 const API_USERLIST = 'api/staff-control/employees/admin/';
 const API_VERIFYTOKEN = 'auth/jwt/verify/';
+const API_MEMORYSTATUS = 'api/core/is_enough_memory/';
 
 export const authorizationRequest = (hostname, email, password) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
@@ -165,6 +166,26 @@ export const isVerifyToken = (hostname, cookies) => {
   } else {
     return axios.post(`http://${hostname}/${API_VERIFYTOKEN}`, {
       token: cookies,
+    });
+  }
+};
+
+export const getMemoryStatus = (hostname, cookies) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(process.env.REACT_APP_NGROK + API_MEMORYSTATUS, 'GET', {
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_MEMORYSTATUS}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_MEMORYSTATUS}`, {
+      headers: {
+        Authorization: cookies,
+      },
     });
   }
 };

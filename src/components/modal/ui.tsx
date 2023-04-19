@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Cross } from '../../assets/svg/SVGcomponent';
 import { ReactPortal } from '../reactPortal';
 import './modal.scss';
