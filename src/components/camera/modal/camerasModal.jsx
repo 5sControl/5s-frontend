@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Close } from '../../../assets/svg/SVGcomponent';
 import { AiOutlineRight } from 'react-icons/ai';
 import { postCamera } from '../../../api/cameraRequest';
+import { Input } from '../../input';
 
 export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera, IPCamera }) => {
   const [stage, setStage] = useState('selectCamera');
@@ -70,16 +71,17 @@ export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera
                 onChange={(e) => setUsername(e.target.value)}
                 onFocus={() => setConnectMessage('')}
               />
-              <label>Password</label>
-              <input
+              <label className="label_bot">Password</label>
+              <Input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onFocus={() => setConnectMessage('')}
+                showEye={true}
               />
               <div style={{ color: 'red' }}>{connectMessage}</div>
-              <div className="cameras__modal__login__footer">
+              <div className="cameras__modal__login__footer label_bot">
                 <button
                   className="cameras__modal__login__cancel"
                   onClick={() => setStage('selectCamera')}
