@@ -36,6 +36,7 @@ import { ReactComponent as ArrowDown } from './arrowDown.svg';
 import { ReactComponent as SortSVG } from './sort.svg';
 import { ReactComponent as ArrowTop } from './arrowTop.svg';
 import { ReactComponent as Warning } from './warning.svg';
+import { ReactComponent as Tooltip } from './tooltip.svg';
 
 export {
   Algorithm,
@@ -76,4 +77,5 @@ export {
   SortSVG,
   ArrowTop,
   Warning,
+  Tooltip,
 };

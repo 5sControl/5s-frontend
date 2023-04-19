@@ -1,29 +1,21 @@
 @import '../../../../styles/media.scss';
 @import '../../../../styles/fonts.scss';
 
-.container{
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top:0;
-  left: 0;
-  z-index: 2000;
-}
 .modal {
-  width: 560px;
-  height: 320px;
+  max-width: 560px;
+  max-height: 470px;
   padding: 20px;
   justify-content: flex-start;
-  position: absolute;
-  top:90px;
-  left: 330px;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+
   .header {
     @include h1;
     letter-spacing: 0.15px;
     color: var(--HightEmphasis);
     margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
   }
   .text {
     @include h4;
@@ -35,7 +27,6 @@
   .buttons {
     position: absolute;
     bottom: 20px;
-    right: 20px;
     display: flex;
     align-self: flex-end;
 
@@ -69,4 +60,38 @@
       line-height: 24px;
     }
   }
+}
+
+.closeCross {
+  font-size: 20px;
+  transition: all 0.4s;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+.tooltip {
+  position: absolute;
+  top: 120px;
+  left: 128px;
+  background: #ffffff;
+  box-shadow: 0px 0px 8px rgba(42, 98, 149, 0.25);
+  border-radius: 4px;
+  padding: 10px;
+  z-index: 100;
+  h6 {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 150%;
+    color: #666666;
+  }
+  p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+  }
+}
+.tooltipSVG {
+  fill: #666666;
+  cursor: pointer;
 }
