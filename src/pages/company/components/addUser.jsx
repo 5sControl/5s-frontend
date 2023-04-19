@@ -42,7 +42,7 @@ export const AddUser = ({ close }) => {
         <h5>Role</h5>
         <label>Select a role of the account.</label>
         <select value={role} onChange={(e) => setRole(e.target.value)} className="add-user__select">
-          <option value="">Select algorithm</option>
+          <option value="">Select role</option>
           <option value={'Worker'}>Worker</option>
           <option value={'Staff'}>Staff</option>
         </select>
