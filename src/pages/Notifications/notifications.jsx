@@ -34,7 +34,6 @@ export const Notifications = () => {
       if (id === 0) {
         postNotificationEmail(window.location.hostname, cookies.token, {
           email: e.target.value,
-          is_active: false,
         }).then(() => {
           getNotificationEmail(window.location.hostname).then((res) => {
             setEmails(res.data.results);

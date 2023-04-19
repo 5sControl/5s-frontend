@@ -113,7 +113,6 @@ export const patchNotificationEmail = (hostname, cookies, id, email) => {
       JSON.stringify({
         id: id,
         email: email,
-        is_active: false,
       })
     );
   } else if (process.env.REACT_APP_ENV === 'wify') {
@@ -122,7 +121,6 @@ export const patchNotificationEmail = (hostname, cookies, id, email) => {
       {
         id: id,
         email: email,
-        is_active: false,
       },
       {
         headers: {
@@ -136,7 +134,6 @@ export const patchNotificationEmail = (hostname, cookies, id, email) => {
       {
         id: id,
         email: email,
-        is_active: false,
       },
       {
         headers: {
