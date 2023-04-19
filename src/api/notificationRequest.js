@@ -52,6 +52,35 @@ export const postNotificationSettings = async (hostname, cookies, response) => {
   }
 };
 
+export const patchNotificationSettings = (hostname, cookies, response) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(
+      process.env.REACT_APP_NGROK + API_EMAIL + API_SETTINGS + '1/',
+      'PATCH',
+      {
+        Authorization: cookies,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      JSON.stringify({
+        response,
+      })
+    );
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.patch(`${process.env.REACT_APP_IP_SERVER}${API_SETTINGS}1/`, response, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.patch(`http://${hostname}/${API_EMAIL}1/`, response, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
 export const getNotificationEmail = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy(process.env.REACT_APP_NGROK + API_EMAIL, 'GET', {

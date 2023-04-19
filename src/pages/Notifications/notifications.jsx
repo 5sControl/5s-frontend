@@ -20,14 +20,16 @@ export const Notifications = () => {
   const [defaultSettings, setDefaultSettings] = useState(false);
 
   useEffect(() => {
-    getNotificationEmail(window.location.hostname, cookies.token).then((res) =>
-      setEmails(res.data)
-    );
-    getNotificationSettings(window.location.hostname, cookies.token).then((response) => {
-      setDefaultSettings(response.data, cookies.token);
-      // console.log(response.data.results);
-    });
-  }, []);
+    if (!isShowModal) {
+      getNotificationEmail(window.location.hostname, cookies.token).then((res) =>
+        setEmails(res.data)
+      );
+      getNotificationSettings(window.location.hostname, cookies.token).then((response) => {
+        setDefaultSettings(response.data, cookies.token);
+        // console.log(response.data.results);
+      });
+    }
+  }, [isShowModal]);
 
   const changeEmail = (e, id) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

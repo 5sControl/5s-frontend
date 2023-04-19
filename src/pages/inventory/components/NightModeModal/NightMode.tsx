@@ -30,7 +30,6 @@ export const NightModeModal: React.FC<PropsType> = ({ isOpen, handleClose }) => 
         token: cookies.token,
         hostname: window.location.hostname,
       })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     );
   }, []);
   console.log(nightTime);

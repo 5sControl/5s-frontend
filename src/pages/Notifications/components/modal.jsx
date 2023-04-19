@@ -4,7 +4,10 @@ import { Input } from '../../../components/input';
 import { Modal } from '../../../components/modal';
 import styles from './modal.module.scss';
 import { Button } from '../../../components/button';
-import { postNotificationSettings } from '../../../api/notificationRequest';
+import {
+  patchNotificationSettings,
+  postNotificationSettings,
+} from '../../../api/notificationRequest';
 
 export const ModalEmail = ({ isOpen, handleClose, token, defaultSettings }) => {
   const [server, setServer] = useState('');
@@ -13,6 +16,7 @@ export const ModalEmail = ({ isOpen, handleClose, token, defaultSettings }) => {
   const [password, setPassword] = useState('');
   const [isTls, setIsTls] = useState(false);
   const [isSsl, setIsSsl] = useState(false);
+
   const save = () => {
     const response = {
       server: server,
@@ -23,9 +27,16 @@ export const ModalEmail = ({ isOpen, handleClose, token, defaultSettings }) => {
       email_use_ssl: isSsl,
     };
 
-    postNotificationSettings(window.location.hostname, token, response).then((response) => {
-      // console.log(response);
-    });
+    if (defaultSettings) {
+      patchNotificationSettings(window.location.hostname, token, response).then((response) => {
+        handleClose();
+      });
+    } else {
+      postNotificationSettings(window.location.hostname, token, response).then((response) => {
+        handleClose();
+      });
+    }
+
     // console.log(response);
   };
   useEffect(() => {
