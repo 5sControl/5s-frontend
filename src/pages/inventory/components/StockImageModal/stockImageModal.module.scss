@@ -73,7 +73,10 @@
   }
 
   .operation {
-    @include h6;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 150%;
     color: var(--HightEmphasis);
     margin-bottom: 10px;
   }
@@ -95,15 +98,15 @@
   }
 }
 
-.close{
+.close {
   position: absolute;
-  top:20px;
+  top: 20px;
   right: 20px;
 }
 
-.scale{
+.scale {
   position: absolute;
-  bottom:20px;
+  bottom: 20px;
   right: 20px;
 }
 .fullimage {
@@ -126,7 +129,7 @@
     // object-fit: contain;
     position: relative;
   }
-  &_out{
+  &_out {
     position: absolute;
     bottom: calc(5% + 20px);
     right: calc(5% + 20px);
