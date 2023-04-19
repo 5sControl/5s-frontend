@@ -273,7 +273,7 @@ export const Coordinates: React.FC<PropsType> = ({
         />
       </div>
       <div className={styles.footer}>
-        <h5>Item name: {formData.name}</h5>
+        <h5>Select the area to track for {formData.name}</h5>
         <p>
           Camera: <span>{formData.camera?.text}</span>
         </p>
