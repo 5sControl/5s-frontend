@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Fragment, useEffect, useState } from 'react';
 import { Cover } from '../../../../components/cover';
 import { ArrowDown, Dots, SortSVG } from '../../../../assets/svg/SVGcomponent';
@@ -27,6 +28,7 @@ import {
   selectActiveInventoryItem,
 } from '../InventoryItemsList/InventoryItemsListSlice';
 import { InventoryCard } from '../InventoryCard';
+import { BsEyeFill } from 'react-icons/bs';
 
 export const InventoryReport: React.FC = () => {
   const { inventoryItems, isLoading, camerasData } = useAppSelector(selectInventory);
@@ -91,7 +93,9 @@ export const InventoryReport: React.FC = () => {
       setIsOpen(false);
     }
   };
-
+  const glazik = (ip: any) => {
+    console.log(ip);
+  };
   return (
     <>
       {currentEditItem && (
@@ -177,7 +181,20 @@ export const InventoryReport: React.FC = () => {
                             <td onClick={() => onclickHandler(item)} className={styles.low}>
                               {item.low_stock_level}
                             </td>
-                            <td onClick={() => onclickHandler(item)} className={styles.camera}>
+                            <td className={`${styles.camera} ${styles.cameraTD}`}>
+                              <BsEyeFill
+                                className={styles.glazik}
+                                onClick={() =>
+                                  glazik(
+                                    camerasData !== undefined &&
+                                      camerasData?.filter(
+                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                        (camera: any) => camera?.id === item?.camera
+                                      )[0].id
+                                  )
+                                }
+                              />
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                               {camerasData !== undefined &&
                                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 camerasData?.filter((camera: any) => camera?.id === item?.camera)[0]
