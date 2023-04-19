@@ -21,10 +21,10 @@ export const Notifications = () => {
 
   useEffect(() => {
     getNotificationEmail(window.location.hostname, cookies.token).then((res) =>
-      setEmails(res.data.results)
+      setEmails(res.data)
     );
     getNotificationSettings(window.location.hostname, cookies.token).then((response) => {
-      setDefaultSettings(response.data.results, cookies.token);
+      setDefaultSettings(response.data, cookies.token);
       // console.log(response.data.results);
     });
   }, []);
@@ -37,7 +37,7 @@ export const Notifications = () => {
           email: e.target.value,
         }).then(() => {
           getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
-            setEmails(res.data.results);
+            setEmails(res.data);
             // console.log(res);
           });
         });
@@ -45,7 +45,7 @@ export const Notifications = () => {
         patchNotificationEmail(window.location.hostname, cookies.token, id, e.target.value).then(
           (res) => {
             getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
-              setEmails(res.data.results);
+              setEmails(res.data);
               // console.log(res);
             });
             // console.log(res);
@@ -61,7 +61,7 @@ export const Notifications = () => {
       deleteNotificationEmail(window.location.hostname, cookies.token, id).then((res) => {
         // console.log(res);
         getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
-          setEmails(res.data.results);
+          setEmails(res.data);
           // console.log(res);
         });
       });
