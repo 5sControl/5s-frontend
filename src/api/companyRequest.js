@@ -97,7 +97,7 @@ export const sendLicenseKey = (hostname, cookies, key) => {
   }
 };
 
-export const registerNewUser = (hostname, email, password) => {
+export const registerNewUser = (hostname, email, password, role) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post(process.env.REACT_APP_PROXY, {
       url: `${process.env.REACT_APP_NGROK + API_REGISTRATION}`,
@@ -109,6 +109,7 @@ export const registerNewUser = (hostname, email, password) => {
         username: email,
         password: password,
         repeat_password: password,
+        user_type: role,
       }),
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
@@ -116,12 +117,14 @@ export const registerNewUser = (hostname, email, password) => {
       username: email,
       password: password,
       repeat_password: password,
+      user_type: role,
     });
   } else {
     return axios.post(`http://${hostname}/${API_REGISTRATION}`, {
       username: email,
       password: password,
       repeat_password: password,
+      user_type: role,
     });
   }
 };

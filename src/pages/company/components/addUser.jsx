@@ -7,9 +7,9 @@ import './addUser.scss';
 export const AddUser = ({ close }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [role, setRole] = useState('');
   const registration = () => {
-    registerNewUser(window.location.hostname, email, password).then((res) => {
+    registerNewUser(window.location.hostname, email, password, role).then((res) => {
       // console.log(res);
       if (res.data.message === 'User has been successfully created') {
         close();
@@ -40,8 +40,12 @@ export const AddUser = ({ close }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <h5>Role</h5>
-        <label>Select a role of the account. Not today.</label>
-        <h3>Worker</h3>
+        <label>Select a role of the account.</label>
+        <select value={role} onChange={(e) => setRole(e.target.value)} className="add-user__select">
+          <option value="">Select algorithm</option>
+          <option value={'Worker'}>Worker</option>
+          <option value={'Staff'}>Staff</option>
+        </select>
         <div className="add-user__footer">
           <button className="add-user__cancel" onClick={close}>
             Cancel
