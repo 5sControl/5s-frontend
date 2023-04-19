@@ -181,11 +181,6 @@ export const InventoryReport: React.FC = () => {
                               {item.low_stock_level}
                             </td>
                             <td className={`${styles.camera} ${styles.cameraTD}`}>
-                              {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
-                              {camerasData !== undefined &&
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                camerasData?.filter((camera: any) => camera?.id === item?.camera)[0]
-                                  .text}
                               <BsEyeFill
                                 className={styles.glazik}
                                 onClick={() =>
@@ -198,6 +193,11 @@ export const InventoryReport: React.FC = () => {
                                   )
                                 }
                               />
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                              {camerasData !== undefined &&
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                camerasData?.filter((camera: any) => camera?.id === item?.camera)[0]
+                                  .text}
                             </td>
                             <td
                               className={styles.settings}
