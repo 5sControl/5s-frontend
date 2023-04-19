@@ -7,9 +7,9 @@ import { Notifications } from '../Notifications/notifications';
 export const tabsData: TabListProps[] = [
   {
     id: 0,
-    title: 'License',
-    path: '/configuration/license',
-    component: <LicenseTab />,
+    title: 'Camera',
+    path: '/configuration/camera',
+    component: <Camera />,
   },
   {
     id: 1,
@@ -22,11 +22,5 @@ export const tabsData: TabListProps[] = [
     title: 'Notifications',
     path: '/configuration/notifications',
     component: <Notifications />,
-  },
-  {
-    id: 3,
-    title: 'Camera',
-    path: '/configuration/camera',
-    component: <Camera />,
   },
 ];

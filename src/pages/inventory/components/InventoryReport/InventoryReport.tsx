@@ -46,13 +46,14 @@ export const InventoryReport: React.FC = () => {
   const [filterItem, setFilterItem] = useState('');
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
   const [isOpen, setIsOpen] = useState(false);
+  const [showGlazik, setShowGlazik] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openSettings = (event: any, currentItem: InventoryItem) => {
     dispatch(setCurrentEditItem(currentItem));
     setCoordinates({ x: event.nativeEvent.layerX, y: event.nativeEvent.layerY });
     setIsOpenSettings(!isOpenSettings);
   };
-  // console.log(camerasData);
+
   const outsideClick = (value: boolean) => {
     setIsOpenSettings(value);
   };
@@ -93,9 +94,14 @@ export const InventoryReport: React.FC = () => {
       setIsOpen(false);
     }
   };
-  const glazik = (ip: any) => {
-    console.log(ip);
+
+  const glazik = async (activeItem: InventoryItem) => {
+    console.log(activeItem);
+    setShowGlazik(true);
+    dispatch(addActiveInventoryItem(activeItem));
+    console.log(activeInventoryItem);
   };
+
   return (
     <>
       {currentEditItem && (
@@ -181,18 +187,7 @@ export const InventoryReport: React.FC = () => {
                               {item.low_stock_level}
                             </td>
                             <td className={`${styles.camera} ${styles.cameraTD}`}>
-                              <BsEyeFill
-                                className={styles.glazik}
-                                onClick={() =>
-                                  glazik(
-                                    camerasData !== undefined &&
-                                      camerasData?.filter(
-                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                        (camera: any) => camera?.id === item?.camera
-                                      )[0].id
-                                  )
-                                }
-                              />
+                              <BsEyeFill className={styles.glazik} onClick={() => glazik(item)} />
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                               {camerasData !== undefined &&
                                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -245,6 +240,7 @@ export const InventoryReport: React.FC = () => {
             </tbody>
           </table>
         </div>
+        {/* {showGlazik && activeInventoryItem && <section className={styles.glazikModal}></section>} */}
       </Cover>
     </>
   );
