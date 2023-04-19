@@ -29,7 +29,6 @@ export const Notifications = () => {
 
   const changeEmail = (e, id) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    console.log();
     if (e.key === 'Enter' && emailRegex.test(e.target.value)) {
       if (id === 0) {
         postNotificationEmail(window.location.hostname, cookies.token, {
@@ -56,13 +55,17 @@ export const Notifications = () => {
   };
 
   const deleteEmail = (id) => {
-    deleteNotificationEmail(window.location.hostname, cookies.token, id).then((res) => {
-      console.log(res);
-      getNotificationEmail(window.location.hostname).then((res) => {
-        setEmails(res.data.results);
+    if (id !== 0) {
+      deleteNotificationEmail(window.location.hostname, cookies.token, id).then((res) => {
         console.log(res);
+        getNotificationEmail(window.location.hostname).then((res) => {
+          setEmails(res.data.results);
+          console.log(res);
+        });
       });
-    });
+    } else {
+      setEmails(emails.filter((email) => email.id !== 0));
+    }
   };
 
   return (
