@@ -22,7 +22,7 @@ export const getConnectionsToDB = createAsyncThunk(
   async (data: { token: string; hostname: string }) => {
     const response = await getConnectionsToDatabases(data.hostname, data.token);
 
-    console.log('getConnectionsToDB', response.data);
+    // console.log('getConnectionsToDB', response.data);
 
     return response.data;
   }

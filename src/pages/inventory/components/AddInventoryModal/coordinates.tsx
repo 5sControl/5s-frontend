@@ -68,7 +68,7 @@ export const Coordinates: React.FC<PropsType> = ({
   useEffect(() => {
     getInventoryItemsToCamera(window.location.hostname, cookie.token, formData.camera?.id).then(
       (res: any) => {
-        console.log(res.data);
+        // console.log(res.data);
         setCameraBox(res.data);
       }
     );
@@ -152,7 +152,7 @@ export const Coordinates: React.FC<PropsType> = ({
         y2: bufHeight * proportionHeight + totalY * proportionHeight,
       });
     });
-    console.log(sendCoord);
+    // console.log(sendCoord);
     setCoords(sendCoord);
   };
   return (

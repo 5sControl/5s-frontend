@@ -21,7 +21,7 @@ export const getCompanyVersionAsync = createAsyncThunk(
     const response = await getCompanyVersionAPI(data.hostname, data.token);
 
     if (response.data) {
-      console.log('getCompanyVersionAPI', response.data[0]);
+      // console.log('getCompanyVersionAPI', response.data[0]);
       return response.data;
     }
 

@@ -67,7 +67,7 @@ function Dashboard() {
   useEffect(() => {
     update();
     getLogs(window.location.hostname, cookies.token).then((res) => {
-      console.log(res);
+      // console.log(res);
     });
   }, [selectDate, cameraToResponse, algorithmToResponse]);
 

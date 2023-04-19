@@ -32,7 +32,7 @@ export const AlgorithmSelect = ({
     let sendDelete = process.filter((element) => {
       return element.camera.id === IPCamera && willDelete.includes(element.algorithm.name);
     });
-    console.log(sendDelete);
+    // console.log(sendDelete);
     const changedAfterSelect = {
       delete: sendDelete, // .map((el) => el.process_id),
       add: willAdd,

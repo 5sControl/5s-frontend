@@ -141,14 +141,14 @@ export const Coordinates: React.FC<PropsType> = ({
     }
     getInventoryItemsToCamera(window.location.hostname, cookie.token, formData.camera?.id).then(
       (res: any) => {
-        console.log(res.data);
+        // console.log(res.data);
         setCameraBox(res.data.filter((el: any) => el.name !== formData.name));
       }
     );
   }, []);
 
   useEffect(() => {
-    console.log(allBox.length);
+    // console.log(allBox.length);
     if (allBox.length > 0) {
       setTarget(document.getElementById(allBox[allBox.length - 1].id));
     }
@@ -184,7 +184,7 @@ export const Coordinates: React.FC<PropsType> = ({
     });
     setCoords(sendCoord);
   };
-  console.log(formData);
+  // console.log(formData);
   return (
     <div className={styles.modalCoordContainer}>
       <div className={styles.area}>

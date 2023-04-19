@@ -25,7 +25,7 @@ export const disconnectDb = createAsyncThunk(
   async (data: { token: string; hostname: string; id: number }) => {
     const response = await disconnectDbAPI(data.hostname, data.token, data.id);
 
-    console.log('disconnectDb', response.data);
+    // console.log('disconnectDb', response.data);
 
     return response.data;
   }

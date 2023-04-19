@@ -20,9 +20,9 @@ function App() {
 
   useEffect(() => {
     isVerifyToken(window.location.hostname, cookies.token).then((response) => {
-      console.log(response);
+      // console.log(response);
       if (Object.keys(response.data).length === 0) {
-        console.log('token is available');
+        // console.log('token is available');
       } else {
         removeCookie('token');
       }

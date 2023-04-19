@@ -63,7 +63,7 @@ export const DatabaseTab: React.FC = () => {
       dispatch(clearOrdersList());
     });
 
-    console.log('You are disconnecting from the database');
+    // console.log('You are disconnecting from the database');
   };
 
   useEffect(() => {

@@ -10,7 +10,7 @@ export const AddUser = ({ close }) => {
 
   const registration = () => {
     registerNewUser(window.location.hostname, email, password).then((res) => {
-      console.log(res);
+      // console.log(res);
       if (res.data.message === 'User has been successfully created') {
         close();
       }

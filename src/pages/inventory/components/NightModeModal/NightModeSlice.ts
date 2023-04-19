@@ -42,7 +42,7 @@ export const nightTimeGet = createAsyncThunk(
     if (response.status === 204) {
       return { mesasge: 'Item deleted success' };
     }
-    console.log(response);
+    // console.log(response);
     return response.data.results[response.data.results.length - 1];
   }
 );

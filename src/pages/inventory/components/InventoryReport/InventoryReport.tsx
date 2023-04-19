@@ -52,7 +52,7 @@ export const InventoryReport: React.FC = () => {
     setCoordinates({ x: event.nativeEvent.layerX, y: event.nativeEvent.layerY });
     setIsOpenSettings(!isOpenSettings);
   };
-  console.log(camerasData);
+  // console.log(camerasData);
   const outsideClick = (value: boolean) => {
     setIsOpenSettings(value);
   };
@@ -152,7 +152,6 @@ export const InventoryReport: React.FC = () => {
             <tbody>
               {inventoryItems ? (
                 <>
-                  {console.log(inventoryItems)}
                   {inventoryItems
                     ?.filter((invItem) =>
                       invItem.name.toString().toLowerCase().includes(filterItem.toLowerCase())

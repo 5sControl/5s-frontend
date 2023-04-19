@@ -83,7 +83,7 @@ export const getOrdersAsync = createAsyncThunk(
       data.params
     );
     if (response.data) {
-      console.log('getOrdersAsync', response.data);
+      // console.log('getOrdersAsync', response.data);
 
       const orderData = response.data.results.map((item: OrderListByCustomer) => {
         return parseOrderData(item);
@@ -100,7 +100,7 @@ export const getFilterOperationsAsync = createAsyncThunk(
   async (data: { token: string; hostname: string }) => {
     const response = await getFilterOperationsAPI(data.hostname, data.token);
     if (response.data) {
-      console.log('getFilterOperations', response.data);
+      // console.log('getFilterOperations', response.data);
       return response.data;
     }
     return [];

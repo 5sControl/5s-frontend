@@ -29,7 +29,7 @@ export const ConfigurationCamera = () => {
       const cameraResponse = res.data.filter((camera) => camera.id === location.camera)[0];
       setCamera(cameraResponse);
       getProcess(window.location.hostname, cookie.token).then((res) => {
-        console.log(res);
+        // console.log(res);
         setAlgorithm(res.data.filter((process) => process.camera.id === cameraResponse.id));
       });
     });

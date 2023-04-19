@@ -21,7 +21,7 @@ export const Info: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log('version', version);
+    // console.log('version', version);
   }, [version]);
 
   return (

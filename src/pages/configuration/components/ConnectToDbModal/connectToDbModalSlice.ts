@@ -24,7 +24,7 @@ export const createConnectionWithDB = createAsyncThunk(
   async (data: { token: string; hostname: string; body: ConnectionToDatabaseForm }) => {
     const response = await postConnectionWithDbAPI(data.hostname, data.token, data.body);
 
-    console.log('createConnectionWithDB', response.data);
+    // console.log('createConnectionWithDB', response.data);
 
     return response.data;
   }

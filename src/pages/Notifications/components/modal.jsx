@@ -24,9 +24,9 @@ export const ModalEmail = ({ isOpen, handleClose, token, defaultSettings }) => {
     };
 
     postNotificationSettings(window.location.hostname, token, response).then((response) => {
-      console.log(response);
+      // console.log(response);
     });
-    console.log(response);
+    // console.log(response);
   };
   useEffect(() => {
     if (defaultSettings) {

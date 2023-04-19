@@ -93,7 +93,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       setIsShowCoord(true);
     }
   };
-  console.log(currentEditItem, camerasData);
+  // console.log(currentEditItem, camerasData);
   return (
     <Modal
       isOpen={isOpen}

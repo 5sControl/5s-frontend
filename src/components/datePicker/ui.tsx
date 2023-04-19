@@ -45,7 +45,7 @@ export const DatePicker: React.FC = () => {
   };
 
   const handleSelect = (date: RangeKeyDict) => {
-    console.log('date:', date);
+    // console.log('date:', date);
     setStartDate(date.selection.startDate as Date);
     setEndDate(date.selection.endDate as Date);
   };

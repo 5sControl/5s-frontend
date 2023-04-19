@@ -23,7 +23,7 @@ export const Notifications = () => {
     getNotificationEmail(window.location.hostname).then((res) => setEmails(res.data.results));
     getNotificationSettings(window.location.hostname, cookies.token).then((response) => {
       setDefaultSettings(response.data.results);
-      console.log(response.data.results);
+      // console.log(response.data.results);
     });
   }, []);
 
@@ -36,7 +36,7 @@ export const Notifications = () => {
         }).then(() => {
           getNotificationEmail(window.location.hostname).then((res) => {
             setEmails(res.data.results);
-            console.log(res);
+            // console.log(res);
           });
         });
       } else {
@@ -44,23 +44,23 @@ export const Notifications = () => {
           (res) => {
             getNotificationEmail(window.location.hostname).then((res) => {
               setEmails(res.data.results);
-              console.log(res);
+              // console.log(res);
             });
-            console.log(res);
+            // console.log(res);
           }
         );
       }
-      console.log(e.target.value, id);
+      // console.log(e.target.value, id);
     }
   };
 
   const deleteEmail = (id) => {
     if (id !== 0) {
       deleteNotificationEmail(window.location.hostname, cookies.token, id).then((res) => {
-        console.log(res);
+        // console.log(res);
         getNotificationEmail(window.location.hostname).then((res) => {
           setEmails(res.data.results);
-          console.log(res);
+          // console.log(res);
         });
       });
     } else {

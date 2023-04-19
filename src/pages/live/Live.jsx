@@ -41,7 +41,7 @@ export const Live = () => {
         'algorithm',
         cameraToResponse
       ).then((el) => {
-        console.log(el.data);
+        // console.log(el.data);
         setReports(el.data);
       });
     }
@@ -49,7 +49,7 @@ export const Live = () => {
 
   useEffect(() => {
     getLogs(location, cookies.token).then((res) => {
-      console.log(res, 'logs');
+      // cosnsole.log(res, 'logs');
     });
 
     getSelectedCameras(location, cookies.token).then((res) => {
