@@ -6,6 +6,8 @@ export interface InventoryHistory {
   photos: Array<HistoryPhoto>;
   start_tracking: string;
   stop_tracking: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  camera?: any;
 }
 
 export interface HistoryExtra {

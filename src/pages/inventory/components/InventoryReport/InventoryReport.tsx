@@ -31,7 +31,8 @@ import { InventoryCard } from '../InventoryCard';
 import { BsEyeFill } from 'react-icons/bs';
 
 export const InventoryReport: React.FC = () => {
-  const { inventoryItems, isLoading, camerasData } = useAppSelector(selectInventory);
+  const { inventoryItems, isLoading, camerasData, inventoryHistoryData } =
+    useAppSelector(selectInventory);
   const { isOpenEditModal, currentEditItem } = useAppSelector(selectEditInventoryModal);
   const { isOpenDeleteModal, currentDeleteItemId } = useAppSelector(selectDeleteInventoryModal);
   const { connectResponse } = useAppSelector(selectEditInventoryModal);
@@ -47,6 +48,7 @@ export const InventoryReport: React.FC = () => {
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
   const [isOpen, setIsOpen] = useState(false);
   const [showGlazik, setShowGlazik] = useState(false);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openSettings = (event: any, currentItem: InventoryItem) => {
     dispatch(setCurrentEditItem(currentItem));
@@ -87,6 +89,7 @@ export const InventoryReport: React.FC = () => {
   }, [connectResponse, connectResponseDataAdd, connectDeleteResponse, statusSort]);
 
   const onclickHandler = (activeItem: InventoryItem) => {
+    console.log(activeInventoryItem);
     if (!activeInventoryItem || activeItem.id !== activeInventoryItem.id || !isOpen) {
       dispatch(addActiveInventoryItem(activeItem));
       setIsOpen(true);
@@ -96,10 +99,8 @@ export const InventoryReport: React.FC = () => {
   };
 
   const glazik = async (activeItem: InventoryItem) => {
-    console.log(activeItem);
     setShowGlazik(true);
     dispatch(addActiveInventoryItem(activeItem));
-    console.log(activeInventoryItem);
   };
 
   return (
@@ -240,7 +241,31 @@ export const InventoryReport: React.FC = () => {
             </tbody>
           </table>
         </div>
-        {/* {showGlazik && activeInventoryItem && <section className={styles.glazikModal}></section>} */}
+        {showGlazik &&
+          inventoryHistoryData &&
+          activeInventoryItem &&
+          inventoryHistoryData[inventoryHistoryData.length - 1].camera.id ===
+            activeInventoryItem.camera && (
+            <section className={styles.glazikModal} onClick={() => setShowGlazik(false)}>
+              <img
+                src={
+                  process.env.REACT_APP_ENV === 'proxy'
+                    ? `${process.env.REACT_APP_NGROK}${
+                        inventoryHistoryData[inventoryHistoryData.length - 1].photos[0].image
+                      }`
+                    : process.env.REACT_APP_ENV === 'wify'
+                    ? `${process.env.REACT_APP_IP_SERVER}${
+                        inventoryHistoryData[inventoryHistoryData.length - 1].photos[0].image
+                      }`
+                    : `http://${window.location.hostname}${
+                        inventoryHistoryData[inventoryHistoryData.length - 1].photos[0].image
+                      }`
+                }
+                // onClick={(e) => createCoord(e)}
+              />
+              {}
+            </section>
+          )}
       </Cover>
     </>
   );

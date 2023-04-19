@@ -192,4 +192,12 @@ tbody td {
   top: 0;
   left: 0;
   z-index: 5000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  img{
+    width: 80%;
+    object-fit: contain;
+  }
 }
