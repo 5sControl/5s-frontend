@@ -20,9 +20,11 @@ export const Notifications = () => {
   const [defaultSettings, setDefaultSettings] = useState(false);
 
   useEffect(() => {
-    getNotificationEmail(window.location.hostname).then((res) => setEmails(res.data.results));
+    getNotificationEmail(window.location.hostname, cookies.token).then((res) =>
+      setEmails(res.data.results)
+    );
     getNotificationSettings(window.location.hostname, cookies.token).then((response) => {
-      setDefaultSettings(response.data.results);
+      setDefaultSettings(response.data.results, cookies.token);
       // console.log(response.data.results);
     });
   }, []);
@@ -34,7 +36,7 @@ export const Notifications = () => {
         postNotificationEmail(window.location.hostname, cookies.token, {
           email: e.target.value,
         }).then(() => {
-          getNotificationEmail(window.location.hostname).then((res) => {
+          getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
             setEmails(res.data.results);
             // console.log(res);
           });
@@ -42,7 +44,7 @@ export const Notifications = () => {
       } else {
         patchNotificationEmail(window.location.hostname, cookies.token, id, e.target.value).then(
           (res) => {
-            getNotificationEmail(window.location.hostname).then((res) => {
+            getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
               setEmails(res.data.results);
               // console.log(res);
             });
@@ -58,7 +60,7 @@ export const Notifications = () => {
     if (id !== 0) {
       deleteNotificationEmail(window.location.hostname, cookies.token, id).then((res) => {
         // console.log(res);
-        getNotificationEmail(window.location.hostname).then((res) => {
+        getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
           setEmails(res.data.results);
           // console.log(res);
         });
@@ -121,7 +123,8 @@ export const Notifications = () => {
             These emails will receive notifications when items reach low stock level.
           </p>
           <div className={styles.emails__list}>
-            {emails.length > 0 &&
+            {emails &&
+              emails.length > 0 &&
               emails.map((email, index) => (
                 <div key={index} className={styles.emails__list_div}>
                   <input defaultValue={email.email} onKeyUp={(e) => changeEmail(e, email.id)} />

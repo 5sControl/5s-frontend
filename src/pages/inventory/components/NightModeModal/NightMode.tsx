@@ -7,7 +7,7 @@ import styles from './nightModeModal.module.scss';
 import { nightTimeSet, nightTimeGet, selectNightInventoryModal } from './NightModeSlice';
 import { NightModeResponse } from './types';
 import { Input } from '../../../../components/input';
-import { CloseCross, Tooltip } from '../../../../assets/svg/SVGcomponent';
+import { Tooltip } from '../../../../assets/svg/SVGcomponent';
 import { GrClose } from 'react-icons/gr';
 type PropsType = {
   isOpen: boolean;
@@ -33,7 +33,7 @@ export const NightModeModal: React.FC<PropsType> = ({ isOpen, handleClose }) => 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     );
   }, []);
-
+  console.log(nightTime);
   useEffect(() => {
     if (nightTime) {
       setTime({
