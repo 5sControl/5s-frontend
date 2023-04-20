@@ -19,7 +19,7 @@ export const ConfigurationCamera = () => {
   const [camera, setCamera] = useState({});
   const [algorithm, setAlgorithm] = useState({});
   // const [algorithmList, setAlgorithmList] = useState([]);
-  const [isShowModal, setIsShowModal] = useState(false);
+  const [isShowModal, setIsShowModal] = useState(true);
   const [cookie] = useCookies(['token']);
   const navigate = useNavigate();
   const location = useParams();

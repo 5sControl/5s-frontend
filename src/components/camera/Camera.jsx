@@ -78,7 +78,10 @@ export const Camera = () => {
                     }
                     alt="Camera"
                   />
-                  <>Name: {el.name}</>
+                  <div>
+                    <div>Name: {el.name}</div>
+                    <div>IP: {el.id}</div>
+                  </div>
                 </div>
                 <AiOutlineArrowRight />
               </Link>

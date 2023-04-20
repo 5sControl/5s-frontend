@@ -31,8 +31,19 @@ export const getSelectedCameras = (hostname, cookies) => {
 
 export const postCamera = (hostname, IPCamera, username, password, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(process.env.REACT_APP_NGROK + API_CAMERACREATE, 'POST', {
-      Authorization: cookies,
+    return axios.post(process.env.REACT_APP_PROXY, {
+      url: `${process.env.REACT_APP_NGROK + API_CAMERACREATE}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+      body: JSON.stringify({
+        ip: IPCamera,
+        username: username,
+        password: password,
+        url: 'http://192.168.1.110',
+      }),
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.post(

@@ -4,8 +4,9 @@ import { AiOutlineRight } from 'react-icons/ai';
 import { postCamera } from '../../../api/cameraRequest';
 import { Input } from '../../input';
 import { Preloader } from '../../preloader';
-
+import { useNavigate } from 'react-router-dom';
 export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera, IPCamera }) => {
+  const navigate = useNavigate();
   const [stage, setStage] = useState('selectCamera');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
@@ -13,14 +14,20 @@ export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera
 
   const connect = () => {
     postCamera(window.location.hostname, IPCamera, username, password, cookies.token).then((e) => {
-      if (e.data.message && e.data.message.includes('failed')) {
-        setConnectMessage(e.data.message);
+      console.log(e);
+      if (
+        (e.data.message && e.data.message.includes('failed')) ||
+        (e.data.detail && e.data.detail.includes('were not provided')) ||
+        e.data.error
+      ) {
+        setConnectMessage(e.data.detail + '  ' + e.data.message + ' ' + e.data.error);
       } else {
         setIsShowModal(false);
+        navigate('/configuration/' + IPCamera);
       }
     });
   };
-  console.log(camerasList);
+
   return (
     <div className="cameras__modal">
       <div className="cameras__modal__container">
