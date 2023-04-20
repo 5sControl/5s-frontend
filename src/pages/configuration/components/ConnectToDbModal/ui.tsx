@@ -41,6 +41,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
       username: { value: string };
       password: { value: string };
     };
+
     const database_type = target.database_type.value; // typechecks!
     const database = target.database.value; // typechecks!
     const server = target?.server?.value; // typechecks!
@@ -74,8 +75,12 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
   useEffect(() => {
     if (isEdit) {
       const newInputsProps = inputs.map((el) => {
-        return { ...el, defaultValue: databases.results[0][el.name] };
+        return {
+          ...el,
+          defaultValue: databases.results.length > 0 ? databases.results[0][el.name] : '',
+        };
       });
+
       setInputs(newInputsProps);
     } else {
       setInputs(inputProps);
