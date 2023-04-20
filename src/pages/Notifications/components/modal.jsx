@@ -40,7 +40,7 @@ export const ModalEmail = ({ isOpen, handleClose, token, defaultSettings }) => {
     // console.log(response);
   };
   useEffect(() => {
-    if (defaultSettings) {
+    if (defaultSettings && defaultSettings.length > 0) {
       setServer(defaultSettings[0].server);
       setPort(defaultSettings[0].port);
       setUsername(defaultSettings[0].username);

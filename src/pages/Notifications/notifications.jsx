@@ -25,7 +25,7 @@ export const Notifications = () => {
         setEmails(res.data)
       );
       getNotificationSettings(window.location.hostname, cookies.token).then((response) => {
-        setDefaultSettings(response.data, cookies.token);
+        setDefaultSettings(response.data);
         // console.log(response.data.results);
       });
     }
@@ -87,7 +87,7 @@ export const Notifications = () => {
           <span className={styles.server__status_type}>Status:</span>
           <span className={styles.server__status_date}>Not connected</span>
         </div>
-        {defaultSettings && defaultSettings[0].server && (
+        {defaultSettings && defaultSettings.length > 0 && defaultSettings[0].server && (
           <>
             <div className={styles.server__status}>
               <span className={styles.server__status_type}>Server:</span>
