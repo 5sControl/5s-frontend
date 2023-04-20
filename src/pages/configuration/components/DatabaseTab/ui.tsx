@@ -146,7 +146,7 @@ export const DatabaseTab: React.FC = () => {
             <>
               <div>
                 <span className={styles.desc_title}>Database name: </span>
-                <span className={styles.desc}>{databases.results[0].database}</span>
+                <span className={styles.desc}>{databases.results[0]?.database}</span>
               </div>
             </>
           )}

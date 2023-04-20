@@ -113,7 +113,6 @@ export const Notifications = () => {
         <div className={styles.emails__container}>
           <div className={styles.emails__header}>
             <h3>Inventory</h3>
-
             <span
               className={styles.emails__header_add}
               onClick={() => setEmails([...emails, { id: 0, email: '' }])}
