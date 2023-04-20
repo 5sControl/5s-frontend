@@ -20,7 +20,11 @@ export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera
         (e.data.detail && e.data.detail.includes('were not provided')) ||
         e.data.error
       ) {
-        setConnectMessage(e.data.detail + '  ' + e.data.message + ' ' + e.data.error);
+        setConnectMessage(
+          e.data.detail + '  ' + e.data.message + ' ' + e.data.error
+            ? 'This camera already exists'
+            : ''
+        );
       } else {
         setIsShowModal(false);
         navigate('/configuration/' + IPCamera);
