@@ -17,6 +17,7 @@ export const Camera = () => {
   const [IPCamera, setIPCamera] = useState('');
   const [error, setError] = useState(false);
   const [security, setSecurity] = useState(false);
+
   useEffect(() => {
     if (isShowModal) {
       findCamera(window.location.hostname)
@@ -26,7 +27,7 @@ export const Camera = () => {
         })
         .catch((error) => setError(error.message));
     } else {
-      setCamerasList([]);
+      setCamerasList(false);
     }
   }, [isShowModal]);
 

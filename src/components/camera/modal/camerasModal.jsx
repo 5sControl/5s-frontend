@@ -3,6 +3,7 @@ import { Close } from '../../../assets/svg/SVGcomponent';
 import { AiOutlineRight } from 'react-icons/ai';
 import { postCamera } from '../../../api/cameraRequest';
 import { Input } from '../../input';
+import { Preloader } from '../../preloader';
 
 export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera, IPCamera }) => {
   const [stage, setStage] = useState('selectCamera');
@@ -19,11 +20,12 @@ export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera
       }
     });
   };
-
+  console.log(camerasList);
   return (
     <div className="cameras__modal">
       <div className="cameras__modal__container">
-        {stage === 'selectCamera' && camerasList.length > 0 && (
+        {stage === 'selectCamera' && !camerasList && <Preloader loading={true} />}
+        {stage === 'selectCamera' && camerasList && camerasList.length > 0 && (
           <>
             <div className="cameras__modal__title">
               <h2>Select a camera from your local network</h2>
