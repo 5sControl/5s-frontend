@@ -55,6 +55,18 @@ export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera
             </div>
           </>
         )}
+        {stage === 'selectCamera' && camerasList && camerasList.length === 0 && (
+          <>
+            <div className="cameras__modal__title">
+              <h2>Select a camera from your local network</h2>
+              <Close
+                onClick={() => setIsShowModal(false)}
+                className="cameras__modal__title_close pointer"
+              />
+            </div>
+            <div>No cameras found on the network</div>
+          </>
+        )}
         {stage === 'logAndPass' && (
           <>
             <div className="cameras__modal__title">
