@@ -43,8 +43,8 @@ export const AddUser = ({ close }) => {
         <label>Select a role of the account.</label>
         <select value={role} onChange={(e) => setRole(e.target.value)} className="add-user__select">
           <option value="">Select role</option>
-          <option value={'Worker'}>Worker</option>
-          <option value={'Staff'}>Staff</option>
+          <option value={'worker'}>Worker</option>
+          <option value={'staff'}>Staff</option>
         </select>
         <div className="add-user__footer">
           <button className="add-user__cancel" onClick={close}>
