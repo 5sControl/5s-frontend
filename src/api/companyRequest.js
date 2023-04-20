@@ -3,9 +3,9 @@ import { proxy } from './api';
 
 const API_COMPANYINFO = 'api/company/info/';
 const API_CREATELICENSE = 'api/company/create_license/';
-const API_REGISTRATION = 'register/';
+const API_REGISTRATION = 'api/employees/register/';
 const API_AUTH = 'auth/jwt/create/';
-const API_USERLIST = 'api/staff-control/employees/admin/';
+const API_USERLIST = 'api/employees/';
 const API_VERIFYTOKEN = 'auth/jwt/verify/';
 const API_MEMORYSTATUS = 'api/core/is_enough_memory/';
 

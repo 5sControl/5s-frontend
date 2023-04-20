@@ -19,6 +19,7 @@ export const Company = () => {
 
   useEffect(() => {
     getUserList(window.location.hostname, cookies.token).then((res) => {
+      console.log(res);
       if (
         res.data.detail !== 'Authentication credentials were not provided.' &&
         res.data.detail !== 'Given token not valid for any token type'

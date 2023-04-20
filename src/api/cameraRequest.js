@@ -4,7 +4,7 @@ import { proxy } from './api';
 const API_CAMERASELECT = 'api/cameras/';
 const API_CAMERACREATE = 'api/cameras/create-camera/';
 const API_CAMERAUPDATE = 'api/cameras/update-camera/';
-const API_CAMERAFIND = 'find_cameras/';
+const API_CAMERAFIND = 'api/core/find_cameras/';
 
 export const getSelectedCameras = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
