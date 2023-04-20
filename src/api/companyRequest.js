@@ -3,7 +3,7 @@ import { proxy } from './api';
 
 const API_COMPANYINFO = 'api/company/info/';
 const API_CREATELICENSE = 'api/company/create_license/';
-const API_REGISTRATION = 'api/employees/register/';
+const API_REGISTRATION = 'api/employees/create/';
 const API_AUTH = 'auth/jwt/create/';
 const API_USERLIST = 'api/employees/';
 const API_VERIFYTOKEN = 'auth/jwt/verify/';
@@ -97,13 +97,14 @@ export const sendLicenseKey = (hostname, cookies, key) => {
   }
 };
 
-export const registerNewUser = (hostname, email, password, role) => {
+export const registerNewUser = (hostname, cookies, email, password, role) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post(process.env.REACT_APP_PROXY, {
       url: `${process.env.REACT_APP_NGROK + API_REGISTRATION}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: cookies,
       },
       body: JSON.stringify({
         username: email,
@@ -113,19 +114,37 @@ export const registerNewUser = (hostname, email, password, role) => {
       }),
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_REGISTRATION}`, {
-      username: email,
-      password: password,
-      repeat_password: password,
-      user_type: role,
-    });
+    return axios.post(
+      `${process.env.REACT_APP_IP_SERVER}${API_REGISTRATION}`,
+      {
+        username: email,
+        password: password,
+        repeat_password: password,
+        user_type: role,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookies,
+        },
+      }
+    );
   } else {
-    return axios.post(`http://${hostname}/${API_REGISTRATION}`, {
-      username: email,
-      password: password,
-      repeat_password: password,
-      user_type: role,
-    });
+    return axios.post(
+      `http://${hostname}/${API_REGISTRATION}`,
+      {
+        username: email,
+        password: password,
+        repeat_password: password,
+        user_type: role,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookies,
+        },
+      }
+    );
   }
 };
 

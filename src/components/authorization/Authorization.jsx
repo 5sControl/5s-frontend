@@ -13,7 +13,7 @@ export const Authorization = () => {
   const [correctPassword, setCorrectPassword] = useState(true);
   const [errorResponse, setErrorResponse] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
-  const [, setCookie] = useCookies(['token']);
+  const [cookies, setCookie] = useCookies(['token']);
 
   useEffect(() => {
     if (password.length < 20) {

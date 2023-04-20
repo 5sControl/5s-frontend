@@ -87,7 +87,7 @@ export const Notifications = () => {
           <span className={styles.server__status_type}>Status:</span>
           <span className={styles.server__status_date}>Not connected</span>
         </div>
-        {defaultSettings && (
+        {defaultSettings && defaultSettings[0].server && (
           <>
             <div className={styles.server__status}>
               <span className={styles.server__status_type}>Server:</span>

@@ -17,7 +17,9 @@ type PropsType = {
 };
 
 export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, currentReport }) => {
+  console.log(currentReport);
   const operationStart =
+    currentReport.photos.length > 0 &&
     currentReport.photos[0].date &&
     setDateDot(moment(currentReport.photos[0].date).subtract(10, 'days').calendar()) +
       ' | ' +

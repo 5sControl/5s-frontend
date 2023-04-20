@@ -4,19 +4,22 @@ import { useState } from 'react';
 import { registerNewUser } from '../../../api/companyRequest';
 
 import './addUser.scss';
+import { useCookies } from 'react-cookie';
+
 export const AddUser = ({ close }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
+  const [cookies] = useCookies(['token']);
   const registration = () => {
-    registerNewUser(window.location.hostname, email, password, role).then((res) => {
+    registerNewUser(window.location.hostname, cookies.token, email, password, role).then((res) => {
       // console.log(res);
       if (res.data.message === 'User has been successfully created') {
         close();
       }
     });
   };
-
+  console.log(role);
   return (
     <div className="add-user">
       <div className="add-user__container">
@@ -43,8 +46,8 @@ export const AddUser = ({ close }) => {
         <label>Select a role of the account.</label>
         <select value={role} onChange={(e) => setRole(e.target.value)} className="add-user__select">
           <option value="">Select role</option>
-          <option value={'worker'}>Worker</option>
-          <option value={'staff'}>Staff</option>
+          <option value={'worker'}>worker</option>
+          <option value={'staff'}>staff</option>
         </select>
         <div className="add-user__footer">
           <button className="add-user__cancel" onClick={close}>
