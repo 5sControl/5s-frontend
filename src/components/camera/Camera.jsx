@@ -22,7 +22,6 @@ export const Camera = () => {
     if (isShowModal) {
       findCamera(window.location.hostname)
         .then((response) => {
-          console.log(response.data.results);
           setCamerasList(response.data.results);
         })
         .catch((error) => setError(error.message));
