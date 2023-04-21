@@ -39,7 +39,7 @@ export const ConfigurationCamera = () => {
     <>
       {Object.keys(camera).length > 0 ? (
         <section className="camera-config">
-          {/* <Back onClick={() => navigate(-1)} className="pointer" />
+          <Back onClick={() => navigate(-1)} className="pointer" />
           <div className="camera-config__title">
             <h1>{camera.name}</h1>
             <button className="camera-config__button" onClick={() => setIsShowModal(true)}>
@@ -57,7 +57,7 @@ export const ConfigurationCamera = () => {
           </div>
           <div className="camera-config__recordings">
             <h2>Recordings</h2>
-          </div> */}
+          </div>
         </section>
       ) : (
         <Preloader loading={true} />
