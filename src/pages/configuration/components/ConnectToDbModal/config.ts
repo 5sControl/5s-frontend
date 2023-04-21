@@ -8,14 +8,14 @@ export const inputProps = [
     required: true,
     defaultValue: '',
   },
-  // {
-  //   id: 'port',
-  //   name: 'port',
-  //   label: 'Port',
-  //   type: 'text',
-  //   placeholder: 'Enter port',
-  //   required: true,
-  // },
+  {
+    id: 'port',
+    name: 'port',
+    label: 'Port',
+    type: 'text',
+    placeholder: 'Enter port',
+    required: true,
+  },
   {
     id: 'database',
     name: 'database',

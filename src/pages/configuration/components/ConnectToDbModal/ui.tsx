@@ -44,7 +44,8 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
 
     const database_type = target.database_type.value; // typechecks!
     const database = target.database.value; // typechecks!
-    const server = target?.server?.value; // typechecks!
+    const server = target?.server?.value;
+    const port = target?.port?.value; // typechecks!
     const username = target.username.value; // typechecks!
     const password = target.password.value; // typechecks!
 
@@ -52,6 +53,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
       database_type,
       database,
       server,
+      port,
       username,
       password,
     };
