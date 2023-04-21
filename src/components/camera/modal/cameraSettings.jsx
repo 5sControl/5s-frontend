@@ -32,7 +32,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
 
   useEffect(() => {
     setCameraName(nameCamera);
-  }, []);
+  }, [nameCamera]);
   const addProcessToDB = async (whatIsAdd) => {
     for (const algorithm of whatIsAdd) {
       let response = {
