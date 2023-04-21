@@ -19,7 +19,7 @@ export const ConfigurationCamera = () => {
   const [camera, setCamera] = useState({});
   const [algorithm, setAlgorithm] = useState({});
   // const [algorithmList, setAlgorithmList] = useState([]);
-  const [isShowModal, setIsShowModal] = useState(true);
+  const [isShowModal, setIsShowModal] = useState(false);
   const [cookie] = useCookies(['token']);
   const navigate = useNavigate();
   const location = useParams();
@@ -31,6 +31,7 @@ export const ConfigurationCamera = () => {
       getProcess(window.location.hostname, cookie.token).then((res) => {
         // console.log(res);
         setAlgorithm(res.data.filter((process) => process.camera.id === cameraResponse.id));
+        isShowModal(true);
       });
     });
   }, [isShowModal]);
