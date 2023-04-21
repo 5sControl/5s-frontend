@@ -12,7 +12,7 @@ import {
 } from '../../../api/algorithmRequest';
 
 export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamera }) => {
-  const [cameraName, setCameraName] = useState(nameCamera);
+  const [cameraName, setCameraName] = useState('');
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
   const [processLocal, setProcess] = useState([]);
   const [informationToSend, setInformationToSend] = useState({});
@@ -30,6 +30,9 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
     return;
   };
 
+  useEffect(() => {
+    setCameraName(nameCamera);
+  }, []);
   const addProcessToDB = async (whatIsAdd) => {
     for (const algorithm of whatIsAdd) {
       let response = {
