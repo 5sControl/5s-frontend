@@ -1,7 +1,7 @@
 import { Modal } from '../../../../components/modal';
 import styles from './stockImageModal.module.scss';
 import moment from 'moment-timezone';
-import { useAppSelector } from '../../../../store/hooks';
+import { useAppSelector, useAppDispatch } from '../../../../store/hooks';
 import { selectActiveInventoryItem } from '../InventoryItemsList/InventoryItemsListSlice';
 import { setDateDot } from '../../../previewOrders/previewOrdersHelper';
 import { HistoryExtra, InventoryHistory } from '../../types';
@@ -10,6 +10,10 @@ import { Сlosing } from '../../../../components/close';
 import { Scale } from '../../../../components/scale';
 import { useEffect, useState } from 'react';
 import { ZoomOut } from '../../../../components/zoomOut';
+import { selectInventory } from '../../inventorySlice';
+import { setCurrentReportData } from '../StockImageModal/stockImageModalSlice';
+import { Prev } from '../../../../assets/svg/SVGcomponent';
+
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
@@ -17,7 +21,7 @@ type PropsType = {
 };
 
 export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, currentReport }) => {
-  console.log(currentReport);
+  const dispatch = useAppDispatch();
   const operationStart =
     currentReport.photos.length > 0 &&
     currentReport.photos[0].date &&
@@ -32,10 +36,28 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [fullImage, setFullImage] = useState<any>(false);
+  const { inventoryHistoryData } = useAppSelector(selectInventory);
 
+  const currentIndex = inventoryHistoryData?.indexOf(currentReport) || 1;
   useEffect(() => {
     setFullImage(false);
   }, []);
+
+  const prevReport = () => {
+    const prevReport = inventoryHistoryData
+      ? inventoryHistoryData[currentIndex - 1]
+      : currentReport;
+
+    dispatch(setCurrentReportData(prevReport));
+  };
+
+  const nextReport = () => {
+    const nextReport = inventoryHistoryData
+      ? inventoryHistoryData[currentIndex + 1]
+      : currentReport;
+
+    dispatch(setCurrentReportData(nextReport));
+  };
 
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
@@ -60,6 +82,13 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
         <div className={styles.camera}>
           <p className={styles.text}>{activeInventoryItem?.camera}</p>
         </div>
+        {inventoryHistoryData && inventoryHistoryData?.indexOf(currentReport) > 0 && (
+          <Prev className={styles.prev} onClick={prevReport} />
+        )}
+        {inventoryHistoryData &&
+          inventoryHistoryData?.indexOf(currentReport) < inventoryHistoryData.length - 1 && (
+            <Prev className={styles.next} onClick={nextReport} />
+          )}
         <Scale
           className={styles.scale}
           onClick={() =>

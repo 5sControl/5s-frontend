@@ -1,1 +1,1 @@
-export { StockImageModal } from './ui';
+export { StockImageModal } from './stockImageModal';

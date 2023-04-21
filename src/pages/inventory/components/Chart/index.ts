@@ -1,1 +1,1 @@
-export { Chart } from './ui';
+export { Chart } from './Chart';

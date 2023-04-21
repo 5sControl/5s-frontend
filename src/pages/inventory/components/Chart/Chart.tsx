@@ -19,7 +19,6 @@ export const Chart: React.FC = () => {
     }
   }, []);
 
-  // console.log(inventoryHistoryData);
   return (
     <div id="chartBar" ref={ref}>
       {size.width && inventoryHistoryData && (

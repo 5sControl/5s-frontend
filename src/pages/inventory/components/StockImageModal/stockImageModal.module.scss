@@ -104,6 +104,31 @@
   right: 20px;
 }
 
+.prev{
+  position: absolute;
+  left:20px;
+  top:49%;
+  transition: all 0.4s;
+  cursor: pointer;
+  opacity: 0.8;
+  &:hover{
+    opacity: 1;
+  }
+}
+
+.next{
+  position: absolute;
+  right:20px;
+  top:49%;
+  transition: all 0.4s;
+  cursor: pointer;
+  opacity: 0.8;
+  transform: rotate(180deg);
+  &:hover{
+    opacity: 1;
+  }
+}
+
 .scale {
   position: absolute;
   bottom: 20px;

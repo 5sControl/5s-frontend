@@ -243,6 +243,7 @@ export const InventoryReport: React.FC = () => {
         </div>
         {showGlazik &&
           inventoryHistoryData &&
+          inventoryHistoryData.length > 0 &&
           activeInventoryItem &&
           inventoryHistoryData[inventoryHistoryData.length - 1].camera.id ===
             activeInventoryItem.camera && (
