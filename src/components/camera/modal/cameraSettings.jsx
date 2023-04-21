@@ -10,6 +10,7 @@ import {
   postAlgorithnDependences,
   postOperationID,
 } from '../../../api/algorithmRequest';
+import { useNavigate } from 'react-router-dom';
 
 export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamera }) => {
   const [cameraName, setCameraName] = useState('');
@@ -19,7 +20,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
   const [currentOperation, setCurrentOperation] = useState({});
-
+  const navigate = useNavigate();
   const deleteProcessFromDB = async (whatIsDelete) => {
     for (const processID of whatIsDelete) {
       await deleteProcess(window.location.hostname, token, processID.process_id).then(() => {
@@ -130,7 +131,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
             <div className="cameras__settings_modal">
               <div className="cameras__settings_header">
                 <h1>Camera Settings</h1>
-                <Close onClick={() => setIsCameraSettings(false)} className="pointer" />
+                <Close onClick={() => navigate('/configuration')} className="pointer" />
               </div>
               <p className="cameras__settings_desc">
                 Successfully connected. Give camera a name that will be used in 5S Control system
