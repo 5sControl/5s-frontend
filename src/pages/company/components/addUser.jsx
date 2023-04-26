@@ -11,15 +11,21 @@ export const AddUser = ({ close }) => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const [cookies] = useCookies(['token']);
+  const [error, setError] = useState('');
   const registration = () => {
-    registerNewUser(window.location.hostname, cookies.token, email, password, role).then((res) => {
-      // console.log(res);
-      if (res.data.message === 'User has been successfully created') {
-        close();
-      }
-    });
+    registerNewUser(window.location.hostname, cookies.token, email, password, role)
+      .then((res) => {
+        console.log(res);
+        if (res.status === 201) {
+          close();
+        }
+      })
+      .catch((err) => {
+        console.log(err.response);
+        setError(err.response.data.error);
+      });
   };
-  console.log(role);
+
   return (
     <div className="add-user">
       <div className="add-user__container">
@@ -47,8 +53,9 @@ export const AddUser = ({ close }) => {
         <select value={role} onChange={(e) => setRole(e.target.value)} className="add-user__select">
           <option value="">Select role</option>
           <option value={'worker'}>worker</option>
-          <option value={'staff'}>staff</option>
+          <option value={'admin'}>staff</option>
         </select>
+        {error.length > 0 && <span style={{ color: 'red' }}>{error}</span>}
         <div className="add-user__footer">
           <button className="add-user__cancel" onClick={close}>
             Cancel

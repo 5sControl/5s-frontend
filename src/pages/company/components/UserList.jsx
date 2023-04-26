@@ -13,10 +13,10 @@ export const UserList = ({ userList }) => {
             ) : (
               <div
                 className={
-                  user.status === 'Worker' ? 'company__user_worker' : 'company__user_staff'
+                  user.status === 'worker' ? 'company__user_worker' : 'company__user_staff'
                 }
               >
-                {user.status}
+                {user.status === 'admin' ? 'staff' : user.status}
               </div>
             )}
           </div>
