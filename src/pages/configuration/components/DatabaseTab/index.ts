@@ -1,1 +1,1 @@
-export { DatabaseTab } from './ui';
+export { DatabaseTab } from './DatabaseTab';

@@ -1,1 +1,1 @@
-export { DeleteInventoryModal } from './ui';
+export { DeleteInventoryModal } from './DeleteInventoryModal';

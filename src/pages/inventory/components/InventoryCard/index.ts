@@ -1,1 +1,1 @@
-export { InventoryCard } from './ui';
+export { InventoryCard } from './InventoryCard';

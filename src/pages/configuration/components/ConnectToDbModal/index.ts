@@ -1,1 +1,1 @@
-export { ConnectToDbModal } from './ui';
+export { ConnectToDbModal } from './ConnectToDbModal';

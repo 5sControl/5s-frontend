@@ -1,1 +1,1 @@
-export { LicenseTab } from './ui';
+export { LicenseTab } from './LicenseTab';

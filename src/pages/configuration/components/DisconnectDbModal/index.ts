@@ -1,1 +1,1 @@
-export { DisconnectDbModal } from './ui';
+export { DisconnectDbModal } from './DisconnectDbModal';
