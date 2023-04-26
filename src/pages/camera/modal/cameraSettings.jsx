@@ -34,6 +34,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   useEffect(() => {
     setCameraName(nameCamera);
   }, [nameCamera]);
+
   const addProcessToDB = async (whatIsAdd) => {
     for (const algorithm of whatIsAdd) {
       let response = {
@@ -45,16 +46,6 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
       await postAlgorithnDependences(window.location.hostname, token, response).then(() => {
         // console.log(e);
       });
-
-      // if (whatIsAdd.includes('operation_control') && operationID !== '') {
-      //   console.log('operation_control');
-      //   await postOperationID(window.location.hostname, token, {
-      //     type_operation: operationID,
-      //     camera: IPCamera,
-      //   }).then((e) => {
-      //     console.log(e);
-      //   });
-      // }
     }
     return;
   };
@@ -131,7 +122,7 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
             <div className="cameras__settings_modal">
               <div className="cameras__settings_header">
                 <h1>Camera Settings</h1>
-                <Close onClick={() => navigate('/configuration')} className="pointer" />
+                <Close onClick={() => setIsCameraSettings(false)} className="pointer" />
               </div>
               <p className="cameras__settings_desc">
                 Successfully connected. Give camera a name that will be used in 5S Control system

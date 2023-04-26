@@ -4,9 +4,8 @@ import { AiOutlineRight } from 'react-icons/ai';
 import { postCamera } from '../../../api/cameraRequest';
 import { Input } from '../../../components/input';
 import { Preloader } from '../../../components/preloader';
-import { useNavigate } from 'react-router-dom';
+
 export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera, IPCamera }) => {
-  const navigate = useNavigate();
   const [stage, setStage] = useState('selectCamera');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
@@ -27,7 +26,7 @@ export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera
         );
       } else {
         setIsShowModal(false);
-        navigate('/configuration/' + IPCamera);
+        // navigate('/configuration/' + IPCamera);
       }
     });
   };

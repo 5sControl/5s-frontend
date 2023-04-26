@@ -9,6 +9,7 @@ import { Button } from '../../components/button';
 import { CamerasDeleteModal } from './modal/camerasDeleteModal';
 import { getProcess } from '../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
+import { CameraSettings } from './modal/cameraSettings';
 export const Camera = () => {
   const navigate = useNavigate();
   const [cookies] = useCookies(['token']);
@@ -19,7 +20,7 @@ export const Camera = () => {
   const [error, setError] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [processList, setProcessList] = useState([]);
-
+  const [cameraSelect, setCameraSelect] = useState(false);
   useEffect(() => {
     if (isShowModal) {
       findCamera(window.location.hostname)
@@ -71,7 +72,7 @@ export const Camera = () => {
           {createdCameras.map((el, ind) => {
             return (
               <div key={ind} className="cameras__list_item">
-                <div onClick={() => navigate(`/configuration/${el.id}`)}>
+                <div onClick={() => setCameraSelect(el.id)}>
                   <img
                     className="cameras__list_image"
                     src={
@@ -126,6 +127,13 @@ export const Camera = () => {
           processList={processList}
           camera={isDeleteModal}
           token={cookies.token}
+        />
+      )}
+      {cameraSelect && (
+        <CameraSettings
+          IPCamera={cameraSelect}
+          token={cookies.token}
+          setIsCameraSettings={(bool) => setCameraSelect(bool)}
         />
       )}
     </section>

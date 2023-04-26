@@ -8,7 +8,7 @@ import { useCookies } from 'react-cookie';
 import { isVerifyToken } from './api/companyRequest';
 import { PreviewOrders } from './pages/previewOrders/previewOrders';
 import { Configuration } from './pages/configuration/configuration';
-import { ConfigurationCamera } from './pages/configuration/camera/ConfigurationCamera';
+// import { ConfigurationCamera } from './pages/configuration/camera/ConfigurationCamera';
 import { Main } from './pages/main/Main';
 import { Live } from './pages/live/Live';
 import Dashboard from './pages/dashboard/Dashboard';
@@ -50,7 +50,7 @@ function App() {
             <Route path="/configuration/database" element={<Configuration activeTab={1} />} />
             <Route path="/configuration/camera" element={<Configuration activeTab={0} />} />
             <Route path="/configuration/notifications" element={<Configuration activeTab={2} />} />
-            <Route path="/configuration/:camera" element={<ConfigurationCamera />} />
+            {/* <Route path="/configuration/:camera" element={<ConfigurationCamera />} /> */}
             <Route path="/orders-view" element={<PreviewOrders />} />
             <Route path="/inventory" element={<Inventory />} />
           </Route>
