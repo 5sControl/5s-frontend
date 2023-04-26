@@ -96,6 +96,7 @@ export const InventoryReport: React.FC = () => {
     } else {
       setIsOpen(false);
     }
+    setShowGlazik(false);
   };
 
   const glazik = async (activeItem: InventoryItem) => {
