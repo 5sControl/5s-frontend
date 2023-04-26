@@ -15,6 +15,7 @@ export const inputProps = [
     type: 'text',
     placeholder: 'Enter port',
     required: true,
+    defaultValue: '',
   },
   {
     id: 'database',

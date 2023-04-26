@@ -20,10 +20,6 @@ export const Info: React.FC = () => {
     );
   }, []);
 
-  useEffect(() => {
-    // console.log('version', version);
-  }, [version]);
-
   return (
     <WrapperPage title="5S Control">
       <div className={styles.version_app}>
