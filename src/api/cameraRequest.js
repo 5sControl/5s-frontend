@@ -82,7 +82,7 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
 export const deleteCameraAPI = (hostname, cookies, IPCamera) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post(process.env.REACT_APP_PROXY, {
-      url: `${process.env.REACT_APP_NGROK + API_CAMERADELETE}`,
+      url: `${process.env.REACT_APP_NGROK + API_CAMERADELETE + IPCamera}/`,
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ export const deleteCameraAPI = (hostname, cookies, IPCamera) => {
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.delete(
-      `${process.env.REACT_APP_IP_SERVER}${API_CAMERADELETE}`,
+      `${process.env.REACT_APP_IP_SERVER}${API_CAMERADELETE}${IPCamera}/`,
       {
         headers: {
           Authorization: cookies,
@@ -106,7 +106,7 @@ export const deleteCameraAPI = (hostname, cookies, IPCamera) => {
     );
   } else {
     return axios.delete(
-      `http://${hostname}/${API_CAMERADELETE}`,
+      `http://${hostname}/${API_CAMERADELETE}${IPCamera}/`,
       {
         id: IPCamera,
       },

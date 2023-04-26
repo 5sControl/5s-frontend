@@ -49,7 +49,7 @@ export const Camera = () => {
         }
       })
       .catch((error) => setError(error.message));
-  }, [isShowModal]);
+  }, [isShowModal, isDeleteModal]);
 
   const showAddCameras = () => {
     setIsShowModal(true);
@@ -125,6 +125,7 @@ export const Camera = () => {
           cancelClick={() => setIsDeleteModal(false)}
           processList={processList}
           camera={isDeleteModal}
+          token={cookies.token}
         />
       )}
     </section>
