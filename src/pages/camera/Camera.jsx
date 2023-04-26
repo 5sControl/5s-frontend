@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/button';
 import { CamerasDeleteModal } from './modal/camerasDeleteModal';
 import { getProcess } from '../../api/algorithmRequest';
-
+import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
 export const Camera = () => {
   const navigate = useNavigate();
   const [cookies] = useCookies(['token']);
@@ -84,8 +84,16 @@ export const Camera = () => {
                     alt="Camera"
                   />
                   <div>
-                    <div>Name: {el.name}</div>
-                    <div>IP: {el.id}</div>
+                    <div className="cameras__name">Name: {el.name}</div>
+                    <div className="cameras__desciption">
+                      Algorithms:{' '}
+                      {processList
+                        .filter((element) => element.camera.id === el.id)
+                        .map((item, index) => (
+                          <span key={index}>{parsingAlgorithmName(item.algorithm.name)}&nbsp;</span>
+                        ))}
+                    </div>
+                    <div className="cameras__desciption">IP: {el.id}</div>
                   </div>
                 </div>
                 <MdDeleteOutline

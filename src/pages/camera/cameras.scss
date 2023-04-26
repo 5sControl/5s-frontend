@@ -4,6 +4,17 @@
 .cameras {
   width: 100%;
   height: 100%;
+  &__name {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  &__desciption {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    color: #666666;
+  }
   &__title {
     display: flex;
     justify-content: space-between;
@@ -421,7 +432,7 @@
       list-style-type: disc;
       list-style-position: inside;
     }
-    li{
+    li {
       margin-left: 10px;
     }
   }
