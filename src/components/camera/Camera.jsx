@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { CamerasModal } from './modal/camerasModal';
 import './cameras.scss';
-import { deleteCameraAPI, findCamera, getSelectedCameras } from '../../api/cameraRequest';
+import { findCamera, getSelectedCameras } from '../../api/cameraRequest';
 import { MdDeleteOutline } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../button';
@@ -57,7 +57,6 @@ export const Camera = () => {
 
   const deleteCamera = (camera) => {
     setIsDeleteModal(camera);
-    // deleteCameraAPI(window.location.hostname, cookies.token, camera);
   };
 
   return (

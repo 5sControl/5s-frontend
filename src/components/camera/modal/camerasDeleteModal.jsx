@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
+import { deleteCameraAPI } from '../../../api/cameraRequest';
 
 export const CamerasDeleteModal = ({ cancelClick, processList, camera }) => {
   const [algorithms, setAlgorithms] = useState([]);
+
   useEffect(() => {
     setAlgorithms(processList.filter((el) => el.camera.id === camera));
   }, []);
-  console.log();
+  const deleteCamera = () => {
+    // deleteCameraAPI(window.location.hostname, cookies.token, camera);
+  };
   return (
     <section className="deleteModal">
       <div className="deleteModal__container">
@@ -25,7 +29,7 @@ export const CamerasDeleteModal = ({ cancelClick, processList, camera }) => {
           <button type="button" className="deleteModal__footer_cancel" onClick={cancelClick}>
             Cancel
           </button>
-          <button type="button" className="deleteModal__footer_remove">
+          <button type="button" className="deleteModal__footer_remove" onClick={deleteCamera}>
             Remove
           </button>
         </div>
