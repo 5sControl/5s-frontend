@@ -39,7 +39,7 @@ export const Camera = () => {
         setProcessList(response.data);
       }
     });
-  }, []);
+  }, [cameraSelect]);
 
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token)
@@ -72,7 +72,7 @@ export const Camera = () => {
           {createdCameras.map((el, ind) => {
             return (
               <div key={ind} className="cameras__list_item">
-                <div onClick={() => setCameraSelect(el.id)}>
+                <div onClick={() => setCameraSelect(el)}>
                   <img
                     className="cameras__list_image"
                     src={
@@ -131,9 +131,10 @@ export const Camera = () => {
       )}
       {cameraSelect && (
         <CameraSettings
-          IPCamera={cameraSelect}
+          IPCamera={cameraSelect.id}
           token={cookies.token}
           setIsCameraSettings={(bool) => setCameraSelect(bool)}
+          nameCamera={cameraSelect.name}
         />
       )}
     </section>
