@@ -5,7 +5,7 @@ import { postCamera } from '../../../api/cameraRequest';
 import { Input } from '../../../components/input';
 import { Preloader } from '../../../components/preloader';
 
-export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera, IPCamera }) => {
+export const AddCamera = ({ setIsShowModal, cookies, camerasList, setIPCamera, IPCamera }) => {
   const [stage, setStage] = useState('selectCamera');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');

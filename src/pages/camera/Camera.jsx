@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { CamerasModal } from './modal/camerasModal';
+import { AddCamera } from './modal/camerasAdd';
 import './cameras.scss';
 import { findCamera, getSelectedCameras } from '../../api/cameraRequest';
 import { MdDeleteOutline } from 'react-icons/md';
@@ -112,7 +112,7 @@ export const Camera = () => {
       {error && <div style={{ color: 'red', fontSize: '26px' }}>{error}</div>}
 
       {isShowModal && (
-        <CamerasModal
+        <AddCamera
           setIsShowModal={(e) => setIsShowModal(e)}
           cookies={cookies}
           setIPCamera={(e) => setIPCamera(e)}
