@@ -90,7 +90,9 @@ export const Camera = () => {
                       {processList
                         .filter((element) => element.camera.id === el.id)
                         .map((item, index) => (
-                          <span key={index}>{parsingAlgorithmName(item.algorithm.name)}&nbsp;</span>
+                          <span key={index}>
+                            {parsingAlgorithmName(item.algorithm.name)},&nbsp;
+                          </span>
                         ))}
                     </div>
                     <div className="cameras__desciption">IP: {el.id}</div>
