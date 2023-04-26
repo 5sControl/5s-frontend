@@ -98,7 +98,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
     <Modal
       isOpen={isOpen}
       handleClose={handleClose}
-      className={isShowCoord ? styles.modalCoord : styles.modal}
+      className={isCloseClick ? styles.modalHide : isShowCoord ? styles.modalCoord : styles.modal}
     >
       {!isShowCoord && (
         <div>
