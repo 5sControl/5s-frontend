@@ -16,17 +16,22 @@ import { Inventory } from './pages/inventory/inventory';
 import { Info } from './pages/info';
 
 function App() {
-  const [cookies, , removeCookie] = useCookies(['token']);
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
   useEffect(() => {
-    isVerifyToken(window.location.hostname, cookies.token).then((response) => {
-      console.log(response);
-      if (Object.keys(response.data).length === 0) {
-        // console.log('token is available');
-      } else {
+    isVerifyToken(window.location.hostname, cookies.token)
+      .then((response) => {
+        console.log(response);
+        if (Object.keys(response.data).length === 0) {
+          // console.log('token is available');
+        } else {
+          removeCookie('token');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
         removeCookie('token');
-      }
-    });
+      });
   }, [cookies]);
 
   return (
