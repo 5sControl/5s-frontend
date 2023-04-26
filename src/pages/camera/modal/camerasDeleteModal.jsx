@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { deleteCameraAPI } from '../../../api/cameraRequest';
+import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName';
 
 export const CamerasDeleteModal = ({ cancelClick, processList, camera }) => {
   const [algorithms, setAlgorithms] = useState([]);
@@ -20,7 +21,7 @@ export const CamerasDeleteModal = ({ cancelClick, processList, camera }) => {
             <span>This camera has the following algorithms:</span>
             <ul>
               {algorithms.map((algorithm, id) => (
-                <li key={id}>{algorithm.algorithm.name}</li>
+                <li key={id}>{parsingAlgorithmName(algorithm.algorithm.name)}</li>
               ))}
             </ul>
           </div>

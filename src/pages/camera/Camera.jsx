@@ -5,7 +5,7 @@ import './cameras.scss';
 import { findCamera, getSelectedCameras } from '../../api/cameraRequest';
 import { MdDeleteOutline } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../button';
+import { Button } from '../../components/button';
 import { CamerasDeleteModal } from './modal/camerasDeleteModal';
 import { getProcess } from '../../api/algorithmRequest';
 

@@ -11,7 +11,7 @@ import { Back } from '../../../assets/svg/SVGcomponent';
 import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName';
 
 import { Preloader } from '../../../components/preloader';
-import { CameraSettings } from '../../../components/camera/modal/cameraSettings';
+import { CameraSettings } from '../../camera/modal/cameraSettings';
 
 import './camera-config.scss';
 

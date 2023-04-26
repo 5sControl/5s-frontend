@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Close } from '../../../assets/svg/SVGcomponent';
 import { AiOutlineRight } from 'react-icons/ai';
 import { postCamera } from '../../../api/cameraRequest';
-import { Input } from '../../input';
-import { Preloader } from '../../preloader';
+import { Input } from '../../../components/input';
+import { Preloader } from '../../../components/preloader';
 import { useNavigate } from 'react-router-dom';
 export const CamerasModal = ({ setIsShowModal, cookies, camerasList, setIPCamera, IPCamera }) => {
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import { Camera } from '../../components/camera/Camera';
+import { Camera } from '../camera/Camera';
 import { TabListProps } from '../../components/tabs';
 import { DatabaseTab } from './components/DatabaseTab';
 import { LicenseTab } from './components/LicenseTab';
