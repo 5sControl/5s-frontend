@@ -3,6 +3,7 @@ import { proxy } from './api';
 
 const API_CAMERASELECT = 'api/cameras/';
 const API_CAMERACREATE = 'api/cameras/create-camera/';
+const API_CAMERADELETE = 'api/cameras/delete-camera/';
 const API_CAMERAUPDATE = 'api/cameras/update-camera/';
 const API_CAMERAFIND = 'api/core/find_cameras/';
 
@@ -68,6 +69,46 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
         username: username,
         password: password,
         url: `http://${hostname}`,
+      },
+      {
+        headers: {
+          Authorization: cookies,
+        },
+      }
+    );
+  }
+};
+
+export const deleteCameraAPI = (hostname, cookies, IPCamera) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.post(process.env.REACT_APP_PROXY, {
+      url: `${process.env.REACT_APP_NGROK + API_CAMERADELETE}`,
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+      body: JSON.stringify({
+        id: IPCamera,
+      }),
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.delete(
+      `${process.env.REACT_APP_IP_SERVER}${API_CAMERADELETE}`,
+      {
+        headers: {
+          Authorization: cookies,
+        },
+      },
+      {
+        id: IPCamera,
+      }
+    );
+  } else {
+    return axios.delete(
+      `http://${hostname}/${API_CAMERADELETE}`,
+      {
+        id: IPCamera,
       },
       {
         headers: {

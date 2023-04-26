@@ -19,8 +19,6 @@
   &__accounts_container {
     display: flex;
     flex-direction: column;
-    overflow: auto;
-    height: calc(100vh - 300px);
   }
   &__user {
     margin-top: 34px;

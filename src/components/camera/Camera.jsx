@@ -2,21 +2,23 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { CamerasModal } from './modal/camerasModal';
 import './cameras.scss';
-import { findCamera, getSelectedCameras } from '../../api/cameraRequest';
-import { CameraSettings } from './modal/cameraSettings';
-import { AiOutlineArrowRight } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { deleteCameraAPI, findCamera, getSelectedCameras } from '../../api/cameraRequest';
+import { MdDeleteOutline } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../button';
+import { CamerasDeleteModal } from './modal/camerasDeleteModal';
+import { getProcess } from '../../api/algorithmRequest';
 
 export const Camera = () => {
+  const navigate = useNavigate();
   const [cookies] = useCookies(['token']);
   const [camerasList, setCamerasList] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
-  const [isCameraSettings, setIsCameraSettings] = useState(false);
   const [createdCameras, setCreatedCameras] = useState(false);
   const [IPCamera, setIPCamera] = useState('');
   const [error, setError] = useState(false);
-  const [security, setSecurity] = useState(false);
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [processList, setProcessList] = useState([]);
 
   useEffect(() => {
     if (isShowModal) {
@@ -31,6 +33,14 @@ export const Camera = () => {
   }, [isShowModal]);
 
   useEffect(() => {
+    getProcess(window.location.hostname, cookies.token).then((response) => {
+      if (response && response.data && response.data.length > 0) {
+        setProcessList(response.data);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token)
       .then((response) => {
         // console.log(response);
@@ -39,15 +49,15 @@ export const Camera = () => {
         }
       })
       .catch((error) => setError(error.message));
-  }, [isCameraSettings, isShowModal]);
+  }, [isShowModal]);
 
   const showAddCameras = () => {
     setIsShowModal(true);
   };
 
-  const openSettings = (ip) => {
-    setIPCamera(ip);
-    setIsCameraSettings(true);
+  const deleteCamera = (camera) => {
+    setIsDeleteModal(camera);
+    // deleteCameraAPI(window.location.hostname, cookies.token, camera);
   };
 
   return (
@@ -56,17 +66,13 @@ export const Camera = () => {
         <h2>Cameras</h2>
         <Button text="+ Add Camera" onClick={showAddCameras} />
       </div>
+
       {createdCameras && (
         <div className="cameras__list">
           {createdCameras.map((el, ind) => {
             return (
-              <Link
-                to={`/configuration/${el.id}`}
-                key={ind}
-                className="cameras__list_item"
-                onClick={() => openSettings(el.id)}
-              >
-                <div>
+              <div key={ind} className="cameras__list_item">
+                <div onClick={() => navigate(`/configuration/${el.id}`)}>
                   <img
                     className="cameras__list_image"
                     src={
@@ -83,30 +89,18 @@ export const Camera = () => {
                     <div>IP: {el.id}</div>
                   </div>
                 </div>
-                <AiOutlineArrowRight />
-              </Link>
+                <MdDeleteOutline
+                  className="cameras__list_delete"
+                  onClick={() => deleteCamera(el.id)}
+                />
+              </div>
             );
           })}
-          {/* <div onClick={() => setSecurity(!security)}> Security </div>
-          {security && (
-            <div className="security">
-              {createdCameras &&
-                createdCameras.map((el) => {
-                  return (
-                    <video
-                      id="videoPlayer"
-                      key={el.id}
-                      src={`http://${window.location.href}:3456/stream?camera_ip=${el.id}`}
-                      controls
-                      autoPlay
-                    ></video>
-                  );
-                })}
-            </div>
-          )} */}
         </div>
       )}
+
       {error && <div style={{ color: 'red', fontSize: '26px' }}>{error}</div>}
+
       {isShowModal && (
         <CamerasModal
           setIsShowModal={(e) => setIsShowModal(e)}
@@ -116,12 +110,12 @@ export const Camera = () => {
           camerasList={camerasList}
         />
       )}
-      {isCameraSettings && (
-        <CameraSettings
-          IPCamera={IPCamera}
-          nameCamera={createdCameras.filter((camera) => camera.id === IPCamera)[0].name}
-          token={cookies.token}
-          setIsCameraSettings={(e) => setIsCameraSettings(e)}
+
+      {isDeleteModal && (
+        <CamerasDeleteModal
+          cancelClick={() => setIsDeleteModal(false)}
+          processList={processList}
+          camera={isDeleteModal}
         />
       )}
     </section>
