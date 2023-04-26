@@ -4,14 +4,12 @@ import { AddCamera } from './modal/camerasAdd';
 import './cameras.scss';
 import { findCamera, getSelectedCameras } from '../../api/cameraRequest';
 import { MdDeleteOutline } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/button';
 import { CamerasDeleteModal } from './modal/camerasDeleteModal';
 import { getProcess } from '../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
 import { CameraSettings } from './modal/cameraSettings';
 export const Camera = () => {
-  const navigate = useNavigate();
   const [cookies] = useCookies(['token']);
   const [camerasList, setCamerasList] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
