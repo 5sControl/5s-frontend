@@ -88,34 +88,19 @@ export const deleteCameraAPI = (hostname, cookies, IPCamera) => {
         'Content-Type': 'application/json',
         Authorization: cookies,
       },
-      body: JSON.stringify({
-        id: IPCamera,
-      }),
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.delete(
-      `${process.env.REACT_APP_IP_SERVER}${API_CAMERADELETE}${IPCamera}/`,
-      {
-        headers: {
-          Authorization: cookies,
-        },
+    return axios.delete(`${process.env.REACT_APP_IP_SERVER}${API_CAMERADELETE}${IPCamera}/`, {
+      headers: {
+        Authorization: cookies,
       },
-      {
-        id: IPCamera,
-      }
-    );
+    });
   } else {
-    return axios.delete(
-      `http://${hostname}/${API_CAMERADELETE}${IPCamera}/`,
-      {
-        id: IPCamera,
+    return axios.delete(`http://${hostname}/${API_CAMERADELETE}${IPCamera}/`, {
+      headers: {
+        Authorization: cookies,
       },
-      {
-        headers: {
-          Authorization: cookies,
-        },
-      }
-    );
+    });
   }
 };
 
