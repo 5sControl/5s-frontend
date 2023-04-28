@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
-import { Button } from '../../../../components/button/button';
 import { Modal } from '../../../../components/modal';
-import { Close } from '../../../../assets/svg/SVGcomponent';
 import styles from './addInventoryModal.module.scss';
 import { Input } from '../../../../components/input';
 import { SelectBase } from '../../../../components/selectBase';
@@ -26,12 +24,12 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const dispatch = useAppDispatch();
   const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
-  const [formData, setFormData] = useState<AddInventoryData>({});
   const [coords, setCoords] = useState<Coordinat[]>([]);
   const [isClose, setIsClose] = useState<any>(false);
   const [itemName, setItemName] = useState<string>('');
   const [itemCount, setItemCount] = useState<number>(0);
   const [currentSelect, setCurrentSelect] = useState('');
+
   useEffect(() => {
     if (!isOpen) {
       setIsClose(false);
@@ -39,28 +37,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       setItemCount(0);
     }
   }, [isOpen]);
-
-  const onSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-
-    const target = e.target as typeof e.target & {
-      name: { value: string };
-      low_stock_level: { value: number };
-      camera_type: { value: string };
-    };
-    const name = target.name.value;
-    const low_stock_level = target.low_stock_level.value;
-    const camera = target.camera_type.value;
-
-    const dataForm = {
-      name,
-      low_stock_level,
-      camera: camerasData
-        ? camerasData.filter((el: any) => el.text === camera)[0]
-        : { id: '0', text: 'asd' },
-    };
-    setFormData(dataForm);
-  };
 
   const submitHandler = () => {
     const dataForm = {
@@ -99,7 +75,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           <h3 className={styles.title}>Item settings</h3>
         </div>
         <div className={styles.content}>
-          <form onSubmit={onSubmit}>
+          <form>
             <div className={styles.input}>
               <Input
                 id="name"
@@ -134,12 +110,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
                 />
               </div>
             ) : null}
-            {/* <Button
-              text="Continue"
-              className={styles.button}
-              type="submit"
-              disabled={itemName === '' || String(itemCount).length === 0}
-            /> */}
           </form>
         </div>
       </div>
@@ -147,6 +117,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
         submitHandler={submitHandler}
         setCoords={(coords: any) => setCoords(coords)}
         currentSelect={currentSelect}
+        handleClose={handleClose}
       />
       {isClose && (
         <>

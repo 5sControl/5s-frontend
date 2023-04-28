@@ -262,3 +262,11 @@
 position: absolute;
 top:-50000px
 }
+.button_cancel {
+  background: #ffffff;
+  color: #fe6100;
+  &:hover {
+    background: #fe6100;
+    color: #ffffff;
+  }
+}

@@ -13,9 +13,15 @@ type PropsType = {
   submitHandler: () => void;
   setCoords: (coords: Coordinat[]) => void;
   currentSelect: string;
+  handleClose: () => void;
 };
 
-export const Coordinates: React.FC<PropsType> = ({ submitHandler, setCoords, currentSelect }) => {
+export const Coordinates: React.FC<PropsType> = ({
+  submitHandler,
+  setCoords,
+  currentSelect,
+  handleClose,
+}) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
   const [allBox, setAllBox] = useState<NewCoordinates[]>([]);
@@ -255,6 +261,12 @@ export const Coordinates: React.FC<PropsType> = ({ submitHandler, setCoords, cur
         />
       </div>
       <div className={styles.footer}>
+        <Button
+          text="Cancel"
+          className={styles.button_cancel}
+          type="button"
+          onClick={handleClose}
+        />
         <Button
           text="Save"
           className={styles.button}
