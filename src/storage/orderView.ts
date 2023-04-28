@@ -35,6 +35,7 @@ export type VideoDataStatus = {
   date_start: number;
   date_end: number;
   file_name: string;
+  camera_ip: string;
 };
 
 export interface OperationItem {
