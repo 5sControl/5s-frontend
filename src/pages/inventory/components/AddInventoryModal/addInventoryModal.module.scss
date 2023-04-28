@@ -9,6 +9,8 @@
   display: flex;
   flex-direction: row;
   padding: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
   .header {
     display: flex;
     align-items: center;
@@ -52,15 +54,17 @@
 }
 
   .modalCoordContainer {
-    width: 100%;
+    width: calc(100% - 320px);
     height: 100%;
+    background-color: #F5F5F5;
+    position: relative;
   }
   .area {
     display: flex;
     position: relative;
     height: max-content;
-    width: calc(100% - 320px);
-    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    background-color: #F5F5F5;
     .image_container {
       position: relative;
       width: max-content;
@@ -126,25 +130,17 @@
   }
 
   .footer {
-    display: flex;
-    flex-direction: column;
     gap: 10px;
     height: 81px;
     width: 100%;
     padding: 10px 30px 20px 10px;
-    h5 {
-      @include h5;
-    }
-    p {
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 24px;
-      color: #666666;
-      span{
-        color:#212121;
-      }
-    }
-
+    background-color: #FFFFFF;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
   }
   .oldCoord {
     position: absolute;
