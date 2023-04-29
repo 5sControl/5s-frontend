@@ -38,6 +38,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       low_stock_level: itemCount,
       camera: currentSelect,
       coords: coords,
+      id: currentEditItem?.id,
     };
     setIsClose({ loading: true });
     dispatch(
