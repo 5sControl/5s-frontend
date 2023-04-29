@@ -2,11 +2,15 @@
 @import '../../../../styles/fonts.scss';
 
 .modal {
-  max-width: 560px;
-  max-height: 492px;
+  width: 90vw;
+  height: 90vh;
   padding: 20px;
   justify-content: start;
-
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
   .header {
     display: flex;
     align-items: center;
@@ -20,7 +24,12 @@
       cursor: pointer;
     }
   }
-
+  .form{
+    max-width: 320px;
+    min-width: 320px;
+    padding: 20px;
+    border-right: 1px solid #E0E0E0;
+  }
   .content {
     margin-top: 30px;
     form {
@@ -44,23 +53,18 @@
   }
 }
 
-.modalCoord {
-  width: 90%;
-  height: 90%;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
   .modalCoordContainer {
-    width: 100%;
+    width: calc(100% - 320px);
     height: 100%;
+    background-color: #F5F5F5;
+    position: relative;
   }
   .area {
     display: flex;
-    justify-content: center;
     position: relative;
-    height: calc(100% - 120px);
+    height: max-content;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #F5F5F5;
     .image_container {
       position: relative;
       width: max-content;
@@ -78,7 +82,10 @@
       }
     }
     img {
-      max-height: 100%;
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      object-position: top left;
     }
     .back {
       display: flex;
@@ -123,26 +130,17 @@
   }
 
   .footer {
-    display: flex;
-    flex-direction: column;
     gap: 10px;
-    height: 120px;
+    height: 81px;
+    width: 100%;
     padding: 10px 30px 20px 10px;
-    h5 {
-      @include h5;
-    }
-    p {
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 24px;
-      color: #666666;
-      span{
-        color:#212121;
-      }
-    }
-    .button {
-      align-self: flex-end;
-    }
+    background-color: #FFFFFF;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
   }
   .oldCoord {
     position: absolute;
@@ -158,7 +156,7 @@
     font-size: 12px;
     line-height: 24px;
   }
-}
+
 .response {
   position: fixed;
   top: 0;
@@ -263,4 +261,12 @@
 .modalHide{
 position: absolute;
 top:-50000px
+}
+.button_cancel {
+  background: #ffffff;
+  color: #fe6100;
+  &:hover {
+    background: #fe6100;
+    color: #ffffff;
+  }
 }

@@ -72,17 +72,6 @@ export const Inventory: React.FC = () => {
           </div>
           <>
             <InventoryReport />
-            {/* <div className={styles.body}>
-              <InventoryItemsList data={inventoryItems} />
-              {activeInventoryItem ? (
-                <InventoryCard data={activeInventoryItem} />
-              ) : (
-                <Cover className={styles.noInventoryItem}>
-                  <h4 className={styles.title}>No order</h4>
-                  <p className={styles.subtitle}>Select an order from the list on the left</p>
-                </Cover>
-              )}
-            </div> */}
           </>
         </div>
         {isOpenNightModal && (

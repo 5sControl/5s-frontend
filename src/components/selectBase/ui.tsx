@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { ArrowBottom } from '../../assets/svg/SVGcomponent';
 import styles from './selectBase.module.scss';
 
@@ -9,6 +10,10 @@ type PropsType = {
   label?: string;
   className?: string;
   activeSelect?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setCurrentSelect?: (select: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  camerasData?: any;
 };
 
 export const SelectBase: React.FC<PropsType> = ({
@@ -18,6 +23,8 @@ export const SelectBase: React.FC<PropsType> = ({
   name,
   className,
   activeSelect,
+  setCurrentSelect,
+  camerasData,
 }) => {
   const [dataSelect, setDataSelect] = useState<string>(
     activeSelect ? listOfData[activeSelect].text : listOfData[0].text
@@ -26,6 +33,12 @@ export const SelectBase: React.FC<PropsType> = ({
   const handleOnChangeSelection = (e: ChangeEvent<HTMLSelectElement>) => {
     setDataSelect(e.target.value);
   };
+
+  useEffect(() => {
+    if (dataSelect && setCurrentSelect && camerasData) {
+      setCurrentSelect(camerasData.filter((el: any) => el.text === dataSelect)[0].id);
+    }
+  }, [dataSelect]);
 
   return (
     <div className={styles.container}>

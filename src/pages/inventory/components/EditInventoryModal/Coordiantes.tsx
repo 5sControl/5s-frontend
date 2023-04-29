@@ -3,31 +3,26 @@ import Moveable from 'react-moveable';
 import styles from './editInventoryModal.module.scss';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Button } from '../../../../components/button';
-import { AiOutlineLeft } from 'react-icons/ai';
 import './moveable.scss';
 import { generateString } from '../../../../functions/randomizer';
 import { IoIosCloseCircle } from 'react-icons/io';
-import { EditInventoryData } from './types';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { useCookies } from 'react-cookie';
 import { getInventoryItemsToCamera } from '../../inventoryAPI';
-import { Сlosing } from '../../../../components/close';
 type PropsType = {
   submitHandler: () => void;
-  formData: EditInventoryData;
   setCoords: (coords: Coordinat[]) => void;
-  setIsShowCoord: (type: boolean) => void;
   coordinates: Coordinat[] | undefined;
-  closed: () => void;
+  currentSelect: string;
+  itemName: any;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
   submitHandler,
-  formData,
   setCoords,
   coordinates,
-  setIsShowCoord,
-  closed,
+  currentSelect,
+  itemName,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>('');
@@ -111,6 +106,15 @@ export const Coordinates: React.FC<PropsType> = ({
     onChangeSize();
   }, [allBox]);
 
+  useEffect(() => {
+    getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect).then(
+      (res: any) => {
+        console.log(res.data);
+        setCameraBox(res.data.filter((el: any) => el.name !== itemName));
+      }
+    );
+  }, [currentSelect]);
+
   const removeCoord = () => {
     if (target.id.length > 10) {
       setOldBox(oldBox.filter((el: Coordinat) => el.id !== target.id));
@@ -139,12 +143,6 @@ export const Coordinates: React.FC<PropsType> = ({
         })
       );
     }
-    getInventoryItemsToCamera(window.location.hostname, cookie.token, formData.camera?.id).then(
-      (res: any) => {
-        // console.log(res.data);
-        setCameraBox(res.data.filter((el: any) => el.name !== formData.name));
-      }
-    );
   }, []);
 
   useEffect(() => {
@@ -184,27 +182,18 @@ export const Coordinates: React.FC<PropsType> = ({
     });
     setCoords(sendCoord);
   };
-  // console.log(formData);
   return (
     <div className={styles.modalCoordContainer}>
       <div className={styles.area}>
-        <div
-          className={styles.back}
-          onClick={() => setIsShowCoord(false)}
-          style={{ zIndex: isStartDraw ? 1 : 2001 }}
-        >
-          <AiOutlineLeft /> Back
-        </div>
-        <Сlosing onClick={closed} className={styles.close} />
         <div className={styles.image_container}>
           <img
             ref={image}
             src={
               process.env.REACT_APP_ENV === 'proxy'
-                ? `${process.env.REACT_APP_NGROK}images/${formData.camera?.id}/snapshot.jpg`
+                ? `${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`
                 : process.env.REACT_APP_ENV === 'wify'
-                ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera?.id}/snapshot.jpg`
-                : `http://${window.location.hostname}/images/${formData.camera?.id}/snapshot.jpg`
+                ? `${process.env.REACT_APP_IP_SERVER}images/${currentSelect}/snapshot.jpg`
+                : `http://${window.location.hostname}/images/${currentSelect}/snapshot.jpg`
             }
             onClick={(e) => createCoord(e)}
           />
@@ -226,7 +215,7 @@ export const Coordinates: React.FC<PropsType> = ({
                 onClick={(e) => changeTarget(e.target)}
               >
                 {' '}
-                {formData.name}
+                {itemName}
                 {target && target.id === element.id && (
                   <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
                 )}
@@ -248,7 +237,7 @@ export const Coordinates: React.FC<PropsType> = ({
               onClick={(e) => changeTarget(e.target)}
               key={el.id}
             >
-              {formData.name}
+              {itemName}
               {target && target.id === el.id && (
                 <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
               )}
@@ -328,10 +317,6 @@ export const Coordinates: React.FC<PropsType> = ({
         />
       </div>
       <div className={styles.footer}>
-        <h5>Select the area to track for {formData.name}</h5>
-        <p>
-          Camera: <span>{formData.camera?.text}</span>
-        </p>
         <Button
           text="Save"
           className={styles.button}

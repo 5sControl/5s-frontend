@@ -4,28 +4,23 @@ import './moveable.scss';
 import styles from './addInventoryModal.module.scss';
 import { useRef, useState, useEffect, Fragment } from 'react';
 import { Button } from '../../../../components/button';
-import { AiOutlineLeft } from 'react-icons/ai';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { generateString } from '../../../../functions/randomizer';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
-import { AddInventoryData } from './types';
 import { getInventoryItemsToCamera } from '../../inventoryAPI';
 import { useCookies } from 'react-cookie';
-import { Сlosing } from '../../../../components/close';
 type PropsType = {
   submitHandler: () => void;
-  formData: AddInventoryData;
-  closed: () => void;
   setCoords: (coords: Coordinat[]) => void;
-  setIsShowCoord: (type: boolean) => void;
+  currentSelect: string;
+  handleClose: () => void;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
   submitHandler,
-  formData,
   setCoords,
-  setIsShowCoord,
-  closed,
+  currentSelect,
+  handleClose,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
@@ -66,13 +61,14 @@ export const Coordinates: React.FC<PropsType> = ({
   }, 200);
 
   useEffect(() => {
-    getInventoryItemsToCamera(window.location.hostname, cookie.token, formData.camera?.id).then(
+    getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect).then(
       (res: any) => {
-        // console.log(res.data);
+        console.log(res.data);
         setCameraBox(res.data);
       }
     );
-  }, []);
+  }, [currentSelect]);
+
   const movePosition = (e: any) => {
     if (e && !target && isStartDraw) {
       const target = e.target.getBoundingClientRect();
@@ -158,23 +154,15 @@ export const Coordinates: React.FC<PropsType> = ({
   return (
     <div className={styles.modalCoordContainer}>
       <div className={styles.area}>
-        <div
-          className={styles.back}
-          onClick={() => setIsShowCoord(false)}
-          style={{ zIndex: isStartDraw ? 1 : 2001 }}
-        >
-          <AiOutlineLeft /> Back
-        </div>
-        <Сlosing onClick={closed} className={styles.close} />
         <div className={styles.image_container}>
           <img
             ref={image}
             src={
               process.env.REACT_APP_ENV === 'proxy'
-                ? `${process.env.REACT_APP_NGROK}images/${formData.camera?.id}/snapshot.jpg`
+                ? `${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`
                 : process.env.REACT_APP_ENV === 'wify'
-                ? `${process.env.REACT_APP_IP_SERVER}images/${formData.camera?.id}/snapshot.jpg`
-                : `http://${window.location.hostname}/images/${formData.camera?.id}/snapshot.jpg`
+                ? `${process.env.REACT_APP_IP_SERVER}images/${currentSelect}/snapshot.jpg`
+                : `http://${window.location.hostname}/images/${currentSelect}/snapshot.jpg`
             }
             // onClick={(e) => createCoord(e)}
           />
@@ -273,10 +261,12 @@ export const Coordinates: React.FC<PropsType> = ({
         />
       </div>
       <div className={styles.footer}>
-        <h5>Select the area to track for {formData.name}</h5>
-        <p>
-          Camera: <span>{formData.camera?.text}</span>
-        </p>
+        <Button
+          text="Cancel"
+          className={styles.button_cancel}
+          type="button"
+          onClick={handleClose}
+        />
         <Button
           text="Save"
           className={styles.button}
