@@ -26,22 +26,26 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
   const { currentEditItem } = useAppSelector(selectEditInventoryModal);
   const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
-  const [isShowCoord, setIsShowCoord] = useState<boolean>(false);
-  const [formData, setFormData] = useState<EditInventoryData>({});
+  const [currentSelect, setCurrentSelect] = useState('');
   const [coords, setCoords] = useState<Coordinat[]>([]);
   const [isClose, setIsClose] = useState<any>(false);
   const [itemName, setItemName] = useState<string | undefined>('');
   const [itemCount, setItemCount] = useState<number | undefined>(0);
 
   const submitHandler = () => {
-    const dataForm = formData;
-    dataForm.coords = coords;
+    const dataForm = {
+      name: itemName,
+      low_stock_level: itemCount,
+      camera: currentSelect,
+      coords: coords,
+    };
     setIsClose({ loading: true });
+    console.log(dataForm);
     dispatch(
       editItem({
         token: cookies.token,
         hostname: window.location.hostname,
-        body: { ...dataForm, camera: dataForm.camera?.id },
+        body: { ...dataForm },
       })
     ).then((response: any) => {
       setIsClose({ status: response.type.includes('fulfilled'), loading: false });
@@ -67,28 +71,6 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
     }
   }, [isOpen]);
 
-  const onSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    const target = e.target as typeof e.target & {
-      name: { value: string };
-      low_stock_level: { value: number };
-      camera_type: { value: string };
-    };
-    const name = target.name.value;
-    const low_stock_level = target.low_stock_level.value;
-    const camera = target.camera_type.value;
-    if (currentEditItem && currentEditItem.id) {
-      const dataForm = {
-        name,
-        low_stock_level,
-        id: currentEditItem.id,
-        camera: camerasData
-          ? camerasData.filter((el: any) => el.text === camera)[0]
-          : { id: '0', text: 'asd' },
-      };
-      setFormData(dataForm);
-    }
-  };
   // console.log(currentEditItem, camerasData);
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
@@ -97,7 +79,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
           <h3 className={styles.title}>Edit item</h3>
         </div>
         <div className={styles.content}>
-          <form onSubmit={onSubmit}>
+          <form>
             <div className={styles.input}>
               <Input
                 id="name"
@@ -128,6 +110,8 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
                   activeSelect={camerasData.findIndex(
                     (item: { text: string; id: string }) => item.id === currentEditItem?.camera
                   )}
+                  setCurrentSelect={(select) => setCurrentSelect(select)}
+                  camerasData={camerasData}
                 />
               </div>
             )}
@@ -142,9 +126,10 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       </div>
       <Coordinates
         submitHandler={submitHandler}
-        formData={formData}
+        itemName={itemName}
         setCoords={(coords: any) => setCoords(coords)}
         coordinates={currentEditItem?.coords}
+        currentSelect={currentSelect}
       />
       {isClose && (
         <>
