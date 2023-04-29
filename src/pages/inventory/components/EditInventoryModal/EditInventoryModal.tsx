@@ -115,12 +115,6 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
                 />
               </div>
             )}
-            <Button
-              text="Continue"
-              className={styles.button}
-              type="submit"
-              disabled={itemName === '' || String(itemCount).length === 0}
-            />
           </form>
         </div>
       </div>
