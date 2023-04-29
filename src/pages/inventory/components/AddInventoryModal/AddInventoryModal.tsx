@@ -54,7 +54,8 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           body: { ...dataForm },
         })
       ).then((response: any) => {
-        setIsClose({ status: response.type.includes('fulfilled'), loading: false });
+        console.log();
+        setIsClose({ status: !!response.payload.id, loading: false });
         setTimeout(() => {
           handleClose();
         }, 2000);
