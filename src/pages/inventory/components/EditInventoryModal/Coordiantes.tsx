@@ -110,7 +110,7 @@ export const Coordinates: React.FC<PropsType> = ({
     getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect).then(
       (res: any) => {
         console.log(res.data);
-        setCameraBox(res.data);
+        setCameraBox(res.data.filter((el: any) => el.name !== itemName));
       }
     );
   }, [currentSelect]);
