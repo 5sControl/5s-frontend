@@ -3,7 +3,6 @@ import Moveable from 'react-moveable';
 import styles from './editInventoryModal.module.scss';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Button } from '../../../../components/button';
-import { AiOutlineLeft } from 'react-icons/ai';
 import './moveable.scss';
 import { generateString } from '../../../../functions/randomizer';
 import { IoIosCloseCircle } from 'react-icons/io';
@@ -11,14 +10,11 @@ import { EditInventoryData } from './types';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { useCookies } from 'react-cookie';
 import { getInventoryItemsToCamera } from '../../inventoryAPI';
-import { Сlosing } from '../../../../components/close';
 type PropsType = {
   submitHandler: () => void;
   formData: EditInventoryData;
   setCoords: (coords: Coordinat[]) => void;
-  setIsShowCoord: (type: boolean) => void;
   coordinates: Coordinat[] | undefined;
-  closed: () => void;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -26,8 +22,6 @@ export const Coordinates: React.FC<PropsType> = ({
   formData,
   setCoords,
   coordinates,
-  setIsShowCoord,
-  closed,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>('');
@@ -188,14 +182,6 @@ export const Coordinates: React.FC<PropsType> = ({
   return (
     <div className={styles.modalCoordContainer}>
       <div className={styles.area}>
-        <div
-          className={styles.back}
-          onClick={() => setIsShowCoord(false)}
-          style={{ zIndex: isStartDraw ? 1 : 2001 }}
-        >
-          <AiOutlineLeft /> Back
-        </div>
-        <Сlosing onClick={closed} className={styles.close} />
         <div className={styles.image_container}>
           <img
             ref={image}
@@ -328,10 +314,6 @@ export const Coordinates: React.FC<PropsType> = ({
         />
       </div>
       <div className={styles.footer}>
-        <h5>Select the area to track for {formData.name}</h5>
-        <p>
-          Camera: <span>{formData.camera?.text}</span>
-        </p>
         <Button
           text="Save"
           className={styles.button}
