@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { useCookies } from 'react-cookie';
 import { addItem } from './addInventoryModalSlice';
 import { selectInventory } from '../../inventorySlice';
-import { AddInventoryData } from './types';
 import { Coordinates } from './coordinates';
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
 import './moveable.scss';
