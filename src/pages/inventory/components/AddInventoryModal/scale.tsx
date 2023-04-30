@@ -43,6 +43,7 @@ export const Scaleble: React.FC<PropsType> = ({
   useEffect(() => {
     console.log(coords);
     if (coords) {
+      console.log(coords);
       setOldCoord(
         coords.map((el: Coordinat) => {
           return {
@@ -52,7 +53,7 @@ export const Scaleble: React.FC<PropsType> = ({
         })
       );
     }
-  }, [coords]);
+  }, []);
 
   const removeCoord = () => {
     setAllBox(allBox.filter((el: NewCoordinates) => el.id !== target.id));
@@ -80,14 +81,38 @@ export const Scaleble: React.FC<PropsType> = ({
     }
   };
 
-  console.log(coords);
-
   const handlerClose = () => {
-    setIsScale();
+    const coordinatesLayout: any = document.querySelectorAll('.coordinatesScale');
+
+    const proportionWidth = imageRef.current.naturalWidth / imageRef.current.width;
+    const proportionHeight = imageRef.current.naturalHeight / imageRef.current.height;
+
+    const sendCoord: Coordinat[] = [];
+    coordinatesLayout.forEach((element: any) => {
+      console.log(element);
+      const bufLeft = Number(element.style.left.replace(/px/gi, ''));
+      const bufTop = Number(element.style.top.replace(/px/gi, ''));
+      const bufWidth = Number(element.style.width.replace(/px/gi, ''));
+      const bufHeight = Number(element.style.height.replace(/px/gi, ''));
+      const bufTrans = element.style.transform.replace(/[^\d,-]/g, '').split(',');
+      const bufTransWidth = Number(bufTrans[0]) || 0;
+      const bufTransHeight = Number(bufTrans[1]) || 0;
+      const totalX = bufTransWidth + bufLeft;
+      const totalY = bufTransHeight + bufTop;
+
+      sendCoord.push({
+        x1: totalX * proportionWidth,
+        y1: totalY * proportionHeight,
+        x2: bufWidth * proportionWidth + totalX * proportionWidth,
+        y2: bufHeight * proportionHeight + totalY * proportionHeight,
+      });
+    });
+    console.log(sendCoord);
+    // setIsScale();
   };
 
   const onChangeSize = () => {
-    const coordinatesLayout: any = document.querySelectorAll('.coordinates');
+    const coordinatesLayout: any = document.querySelectorAll('.coordinatesScale');
     const proportionWidth = imageRef.current.naturalWidth / imageRef.current.width;
     const proportionHeight = imageRef.current.naturalHeight / imageRef.current.height;
 
@@ -193,7 +218,9 @@ export const Scaleble: React.FC<PropsType> = ({
             <div
               id={el.id}
               className={
-                target && target.id === el.id ? 'coordinates coordSelected' : 'coordinates'
+                target && target.id === el.id
+                  ? 'coordinatesScale coordSelected'
+                  : 'coordinatesScale'
               }
               style={{
                 left: el.x,
@@ -215,7 +242,9 @@ export const Scaleble: React.FC<PropsType> = ({
               <div
                 key={element.id}
                 className={
-                  target && target.id === element.id ? 'coordinates coordSelected' : 'coordinates '
+                  target && target.id === element.id
+                    ? 'coordinatesScale coordSelected'
+                    : 'coordinatesScale'
                 }
                 id={element.id}
                 style={{
