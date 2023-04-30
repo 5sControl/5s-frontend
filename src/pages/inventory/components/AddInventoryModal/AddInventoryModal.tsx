@@ -121,25 +121,23 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       />
       {isClose && (
         <>
-          {isClose && (
-            <div className={styles.response}>
-              <div>
-                {isClose.loading ? (
-                  <Preloader loading={true} />
-                ) : isClose.status ? (
-                  <>
-                    <IoIosCheckmarkCircle className={styles.icons} style={{ color: 'green' }} />
-                    <p>The item is saved</p>
-                  </>
-                ) : (
-                  <>
-                    <IoIosCloseCircle className={styles.icons} style={{ color: 'red' }} />
-                    <p>The item is not saved</p>
-                  </>
-                )}
-              </div>
+          <div className={styles.response}>
+            <div>
+              {isClose.loading ? (
+                <Preloader loading={true} />
+              ) : isClose.status ? (
+                <>
+                  <IoIosCheckmarkCircle className={styles.icons} style={{ color: 'green' }} />
+                  <p>The item is saved</p>
+                </>
+              ) : (
+                <>
+                  <IoIosCloseCircle className={styles.icons} style={{ color: 'red' }} />
+                  <p>The item is not saved</p>
+                </>
+              )}
             </div>
-          )}
+          </div>
         </>
       )}
     </Modal>
