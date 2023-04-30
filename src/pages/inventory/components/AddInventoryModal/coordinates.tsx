@@ -9,6 +9,7 @@ import { generateString } from '../../../../functions/randomizer';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { getInventoryItemsToCamera } from '../../inventoryAPI';
 import { useCookies } from 'react-cookie';
+import { Scale } from '../../../../components/scale';
 type PropsType = {
   submitHandler: () => void;
   setCoords: (coords: Coordinat[]) => void;
@@ -218,6 +219,9 @@ export const Coordinates: React.FC<PropsType> = ({
               target ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
             }
           ></div>
+          <div className={styles.scale} style={{ zIndex: isStartDraw ? 1 : 2001 }}>
+            <Scale onClick={() => console.log('sdfsdf')} />
+          </div>
           {isStartDraw && (
             <div
               className={styles.newCoordinates}
