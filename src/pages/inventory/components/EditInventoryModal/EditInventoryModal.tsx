@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
-import { Button } from '../../../../components/button/button';
 import { Modal } from '../../../../components/modal';
-import { Close } from '../../../../assets/svg/SVGcomponent';
 import styles from './editInventoryModal.module.scss';
 import { Input } from '../../../../components/input';
 import { SelectBase } from '../../../../components/selectBase';
@@ -10,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { editItem, selectEditInventoryModal } from './editInventoryModalSlice';
 import { useCookies } from 'react-cookie';
 import { getInventoryItemsAsync, selectInventory } from '../../inventorySlice';
-import { EditInventoryData } from './types';
 import { Coordinat } from '../../types';
 import { Coordinates } from './Coordiantes';
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';

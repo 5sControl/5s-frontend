@@ -2,15 +2,17 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import styles from './addInventoryModal.module.scss';
 import { generateString } from '../../../../functions/randomizer';
-import { Coordinat, NewCoordinates } from '../../types';
+import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { IoIosCloseCircle } from 'react-icons/io';
 import Moveable from 'react-moveable';
+import { ZoomOut } from '../../../../components/zoomOut';
 type PropsType = {
   image: string;
   cameraBox: any;
   coords: any;
   setCoords: (coords: Coordinat[]) => void;
   itemName: string;
+  setIsScale: () => void;
 };
 
 export const Scaleble: React.FC<PropsType> = ({
@@ -19,24 +21,27 @@ export const Scaleble: React.FC<PropsType> = ({
   coords,
   setCoords,
   itemName,
+  setIsScale,
 }) => {
   const [target, setTarget] = useState<any>('');
-  const [proportionWidth, setProportionWidth] = useState(1);
-  const [proportionHeight, setProportionHeight] = useState(1);
+  const [proportionWidth, setProportionWidth] = useState(0);
+  const [proportionHeight, setProportionHeight] = useState(0);
   const [oldCoord, setOldCoord] = useState<Coordinat[]>([]);
   const [isStartDraw, setIsStartDraw] = useState<any>(false);
   const [allBox, setAllBox] = useState<NewCoordinates[]>([]);
   const imageRef = useRef<any>();
+  const [moveDraw, setMoveDraw] = useState<DrawingCoordinates>({ x: 0, y: 0 });
 
   const timer = setInterval(() => {
-    if (imageRef.current && imageRef.current.naturalWidth) {
+    if (imageRef.current && imageRef.current.naturalWidth && imageRef.current.width) {
       setProportionWidth(imageRef.current.naturalWidth / imageRef.current.width);
       setProportionHeight(imageRef.current.naturalHeight / imageRef.current.height);
       clearInterval(timer);
     }
-  }, 200);
+  }, 100);
 
   useEffect(() => {
+    console.log(coords);
     if (coords) {
       setOldCoord(
         coords.map((el: Coordinat) => {
@@ -47,11 +52,38 @@ export const Scaleble: React.FC<PropsType> = ({
         })
       );
     }
-  }, []);
+  }, [coords]);
 
   const removeCoord = () => {
     setAllBox(allBox.filter((el: NewCoordinates) => el.id !== target.id));
     setTarget('');
+  };
+
+  const createCoord = (e: any) => {
+    if (e && !target) {
+      // const target = e.target.getBoundingClientRect();
+      // const id = generateString();
+      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
+    } else {
+      setTarget(null);
+    }
+  };
+
+  const startPosition = (e: any) => {
+    if (e && !target) {
+      const target = e.target.getBoundingClientRect();
+      setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+      setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
+    } else {
+      // setTarget(null);
+    }
+  };
+
+  console.log(coords);
+
+  const handlerClose = () => {
+    setIsScale();
   };
 
   const onChangeSize = () => {
@@ -60,6 +92,7 @@ export const Scaleble: React.FC<PropsType> = ({
     const proportionHeight = imageRef.current.naturalHeight / imageRef.current.height;
 
     const sendCoord: Coordinat[] = [];
+
     coordinatesLayout.forEach((element: any) => {
       const bufLeft = Number(element.style.left.replace(/px/gi, ''));
       const bufTop = Number(element.style.top.replace(/px/gi, ''));
@@ -78,7 +111,7 @@ export const Scaleble: React.FC<PropsType> = ({
         y2: bufHeight * proportionHeight + totalY * proportionHeight,
       });
     });
-    setCoords(sendCoord);
+    // setCoords(sendCoord);
   };
 
   const changeTarget = (currentTarget: any) => {
@@ -88,6 +121,48 @@ export const Scaleble: React.FC<PropsType> = ({
       setTarget(currentTarget);
     }
   };
+  const endPosition = (e: any) => {
+    if (e && !target) {
+      const response = {
+        x:
+          moveDraw.x - isStartDraw.x > 0
+            ? isStartDraw.x
+            : isStartDraw.x - Math.abs(moveDraw.x - isStartDraw.x),
+        y:
+          moveDraw.y - isStartDraw.y > 0
+            ? isStartDraw.y
+            : isStartDraw.y - Math.abs(moveDraw.y - isStartDraw.y),
+        width: Math.abs(moveDraw.x - isStartDraw.x),
+        height: Math.abs(moveDraw.y - isStartDraw.y),
+        id: generateString(),
+      };
+
+      setAllBox([...allBox, response]);
+      setIsStartDraw(false);
+      setMoveDraw({ x: 0, y: 0 });
+    } else {
+      // setTarget(null);
+    }
+  };
+
+  const movePosition = (e: any) => {
+    if (e && !target && isStartDraw) {
+      const target = e.target.getBoundingClientRect();
+      if (e.clientX - target.x < 0) {
+        setMoveDraw(isStartDraw);
+        setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+      }
+      setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
+    }
+  };
+
+  useEffect(() => {
+    if (allBox.length > 0) {
+      setTarget(document.getElementById(allBox[allBox.length - 1].id));
+    }
+    // onChangeSize();
+  }, [allBox]);
+
   return (
     <section className={styles.scaleble}>
       <div className={styles.scaleble__area}>
@@ -114,6 +189,27 @@ export const Scaleble: React.FC<PropsType> = ({
                 ))}
               </Fragment>
             ))}
+          {allBox.map((el: NewCoordinates) => (
+            <div
+              id={el.id}
+              className={
+                target && target.id === el.id ? 'coordinates coordSelected' : 'coordinates'
+              }
+              style={{
+                left: el.x,
+                top: el.y,
+                width: el.width,
+                height: el.height,
+                zIndex: isStartDraw ? 1 : 1001,
+              }}
+              onClick={(e) => changeTarget(e.target)}
+              key={el.id}
+            >
+              {target && target.id === el.id && (
+                <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
+              )}
+            </div>
+          ))}
           {oldCoord.length > 0 &&
             oldCoord.map((element: Coordinat) => (
               <div
@@ -138,6 +234,34 @@ export const Scaleble: React.FC<PropsType> = ({
                 )}
               </div>
             ))}
+          {isStartDraw && (
+            <div
+              className={styles.newCoordinates}
+              style={{
+                left:
+                  moveDraw.x - isStartDraw.x > 0
+                    ? isStartDraw.x
+                    : isStartDraw.x - Math.abs(moveDraw.x - isStartDraw.x),
+                top:
+                  moveDraw.y - isStartDraw.y > 0
+                    ? isStartDraw.y
+                    : isStartDraw.y - Math.abs(moveDraw.y - isStartDraw.y),
+                width: Math.abs(moveDraw.x - isStartDraw.x),
+                height: Math.abs(moveDraw.y - isStartDraw.y),
+                zIndex: 1,
+              }}
+            ></div>
+          )}
+          <div
+            className={styles.draw}
+            onClick={(e) => createCoord(e)}
+            onMouseDown={(e) => startPosition(e)}
+            onMouseMove={(e) => movePosition(e)}
+            onMouseUp={(e) => endPosition(e)}
+            style={
+              target ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
+            }
+          ></div>
           <Moveable
             target={target}
             draggable={true}
@@ -160,6 +284,7 @@ export const Scaleble: React.FC<PropsType> = ({
               e.target.style.transform = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`;
             }}
           />
+          <ZoomOut onClick={handlerClose} className={styles.scaleble__close} />
         </div>
       </div>
     </section>

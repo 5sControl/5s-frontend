@@ -282,4 +282,9 @@ top:-50000px
     width: 100%;
     height: 100%;
   }
+  &__close{
+    position: absolute;
+    bottom: calc(20px);
+    right: calc(20px);
+  }
 }

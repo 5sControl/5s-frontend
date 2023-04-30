@@ -36,9 +36,10 @@ export const Coordinates: React.FC<PropsType> = ({
   const [isStartDraw, setIsStartDraw] = useState<any>(false);
   const [moveDraw, setMoveDraw] = useState<DrawingCoordinates>({ x: 0, y: 0 });
   const [cookie] = useCookies(['token']);
-  const [proportionWidth, setProportionWidth] = useState(1);
-  const [proportionHeight, setProportionHeight] = useState(1);
+  const [proportionWidth, setProportionWidth] = useState(0);
+  const [proportionHeight, setProportionHeight] = useState(0);
   const [isScale, setIsScale] = useState<any>(false);
+  const [coordToScale, setCoordToScale] = useState<any[]>([]);
   const createCoord = (e: any) => {
     if (e && !target) {
       // const target = e.target.getBoundingClientRect();
@@ -61,12 +62,19 @@ export const Coordinates: React.FC<PropsType> = ({
   };
 
   const timer = setInterval(() => {
-    if (image.current && image.current.naturalWidth) {
+    if (
+      image.current &&
+      image.current.naturalWidth &&
+      image.current.width &&
+      image.current.naturalHeight &&
+      image.current.height
+    ) {
       setProportionWidth(image.current.naturalWidth / image.current.width);
       setProportionHeight(image.current.naturalHeight / image.current.height);
+
       clearInterval(timer);
     }
-  }, 200);
+  }, 100);
 
   useEffect(() => {
     getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect).then(
@@ -160,8 +168,34 @@ export const Coordinates: React.FC<PropsType> = ({
     // console.log(sendCoord);
     setCoords(sendCoord);
   };
-  const scaleHandler = (image: string) => {
-    setIsScale(image);
+  const scaleHandler = (img: string) => {
+    console.log(allBox);
+    const coordinatesLayout: any = document.querySelectorAll('.coordinates');
+
+    const proportionWidth = image.current.naturalWidth / image.current.width;
+    const proportionHeight = image.current.naturalHeight / image.current.height;
+
+    const sendCoord: Coordinat[] = [];
+    coordinatesLayout.forEach((element: any) => {
+      const bufLeft = Number(element.style.left.replace(/px/gi, ''));
+      const bufTop = Number(element.style.top.replace(/px/gi, ''));
+      const bufWidth = Number(element.style.width.replace(/px/gi, ''));
+      const bufHeight = Number(element.style.height.replace(/px/gi, ''));
+      const bufTrans = element.style.transform.replace(/[^\d,-]/g, '').split(',');
+      const bufTransWidth = Number(bufTrans[0]) || 0;
+      const bufTransHeight = Number(bufTrans[1]) || 0;
+      const totalX = bufTransWidth + bufLeft;
+      const totalY = bufTransHeight + bufTop;
+
+      sendCoord.push({
+        x1: totalX * proportionWidth,
+        y1: totalY * proportionHeight,
+        x2: bufWidth * proportionWidth + totalX * proportionWidth,
+        y2: bufHeight * proportionHeight + totalY * proportionHeight,
+      });
+    });
+    setCoordToScale(sendCoord);
+    setIsScale(img);
   };
   return (
     <div className={styles.modalCoordContainer}>
@@ -201,7 +235,10 @@ export const Coordinates: React.FC<PropsType> = ({
             </div>
           ))}
           {cameraBox &&
+            proportionWidth &&
+            proportionHeight &&
             cameraBox.length > 0 &&
+            image.current &&
             cameraBox.map((el: any) => (
               <Fragment key={el.id}>
                 {el.coords.map((element: any) => (
@@ -248,9 +285,10 @@ export const Coordinates: React.FC<PropsType> = ({
             <Scaleble
               image={isScale}
               cameraBox={cameraBox}
-              coords={coords}
+              coords={coordToScale}
               setCoords={(e) => setCoords(e)}
               itemName={itemName}
+              setIsScale={() => setIsScale(false)}
             />
           )}
           {isStartDraw && (
