@@ -40,6 +40,7 @@ export const Coordinates: React.FC<PropsType> = ({
   const [proportionHeight, setProportionHeight] = useState(0);
   const [isScale, setIsScale] = useState<any>(false);
   const [coordToScale, setCoordToScale] = useState<any[]>([]);
+
   const createCoord = (e: any) => {
     if (e && !target) {
       // const target = e.target.getBoundingClientRect();
@@ -49,6 +50,24 @@ export const Coordinates: React.FC<PropsType> = ({
       setTarget(null);
     }
   };
+
+  useEffect(() => {
+    if (coordToScale.length > 0 && !isScale) {
+      const proportionWidth = image.current.naturalWidth / image.current.width;
+      const proportionHeight = image.current.naturalHeight / image.current.height;
+      const bufCoord = coordToScale.map((element: any) => {
+        return {
+          y: element?.y1 / proportionHeight,
+          x: element?.x1 / proportionWidth,
+          width: (element?.x2 - element?.x1) / proportionHeight,
+          height: (element?.y2 - element?.y1) / proportionWidth,
+          id: generateString(10),
+        };
+      });
+      setAllBox(bufCoord);
+      console.log(coordToScale);
+    }
+  }, [isScale]);
 
   const startPosition = (e: any) => {
     if (e && !target) {
@@ -286,9 +305,9 @@ export const Coordinates: React.FC<PropsType> = ({
               image={isScale}
               cameraBox={cameraBox}
               coords={coordToScale}
-              setCoords={(e) => setCoords(e)}
               itemName={itemName}
               setIsScale={() => setIsScale(false)}
+              setCoordToScale={(coord) => setCoordToScale(coord)}
             />
           )}
           {isStartDraw && (

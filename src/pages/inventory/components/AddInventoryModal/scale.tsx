@@ -10,7 +10,7 @@ type PropsType = {
   image: string;
   cameraBox: any;
   coords: any;
-  setCoords: (coords: Coordinat[]) => void;
+  setCoordToScale: (coords: Coordinat[]) => void;
   itemName: string;
   setIsScale: () => void;
 };
@@ -19,7 +19,7 @@ export const Scaleble: React.FC<PropsType> = ({
   image,
   cameraBox,
   coords,
-  setCoords,
+  setCoordToScale,
   itemName,
   setIsScale,
 }) => {
@@ -89,7 +89,6 @@ export const Scaleble: React.FC<PropsType> = ({
 
     const sendCoord: Coordinat[] = [];
     coordinatesLayout.forEach((element: any) => {
-      console.log(element);
       const bufLeft = Number(element.style.left.replace(/px/gi, ''));
       const bufTop = Number(element.style.top.replace(/px/gi, ''));
       const bufWidth = Number(element.style.width.replace(/px/gi, ''));
@@ -107,8 +106,8 @@ export const Scaleble: React.FC<PropsType> = ({
         y2: bufHeight * proportionHeight + totalY * proportionHeight,
       });
     });
-    console.log(sendCoord);
-    // setIsScale();
+    setCoordToScale(sendCoord);
+    setIsScale();
   };
 
   const onChangeSize = () => {
