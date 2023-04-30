@@ -56,7 +56,11 @@ export const Scaleble: React.FC<PropsType> = ({
   }, []);
 
   const removeCoord = () => {
-    setAllBox(allBox.filter((el: NewCoordinates) => el.id !== target.id));
+    if (target.id.length === 10) {
+      setAllBox(allBox.filter((el: NewCoordinates) => el.id !== target.id));
+    } else {
+      setOldCoord(oldCoord.filter((el: Coordinat) => el.id !== target.id));
+    }
     setTarget('');
   };
 
