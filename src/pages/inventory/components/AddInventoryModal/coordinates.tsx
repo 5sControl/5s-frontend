@@ -10,11 +10,15 @@ import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { getInventoryItemsToCamera } from '../../inventoryAPI';
 import { useCookies } from 'react-cookie';
 import { Scale } from '../../../../components/scale';
+import { Scaleble } from './scale';
+
 type PropsType = {
   submitHandler: () => void;
   setCoords: (coords: Coordinat[]) => void;
   currentSelect: string;
   handleClose: () => void;
+  coords: Coordinat[];
+  itemName: string;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -22,6 +26,8 @@ export const Coordinates: React.FC<PropsType> = ({
   setCoords,
   currentSelect,
   handleClose,
+  coords,
+  itemName,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
@@ -32,6 +38,7 @@ export const Coordinates: React.FC<PropsType> = ({
   const [cookie] = useCookies(['token']);
   const [proportionWidth, setProportionWidth] = useState(1);
   const [proportionHeight, setProportionHeight] = useState(1);
+  const [isScale, setIsScale] = useState<any>(false);
   const createCoord = (e: any) => {
     if (e && !target) {
       // const target = e.target.getBoundingClientRect();
@@ -142,6 +149,7 @@ export const Coordinates: React.FC<PropsType> = ({
       const bufTransHeight = Number(bufTrans[1]) || 0;
       const totalX = bufTransWidth + bufLeft;
       const totalY = bufTransHeight + bufTop;
+
       sendCoord.push({
         x1: totalX * proportionWidth,
         y1: totalY * proportionHeight,
@@ -152,12 +160,16 @@ export const Coordinates: React.FC<PropsType> = ({
     // console.log(sendCoord);
     setCoords(sendCoord);
   };
+  const scaleHandler = (image: string) => {
+    setIsScale(image);
+  };
   return (
     <div className={styles.modalCoordContainer}>
       <div className={styles.area}>
         <div className={styles.image_container}>
           <img
             ref={image}
+            className={styles.image_container_img}
             src={
               process.env.REACT_APP_ENV === 'proxy'
                 ? `${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`
@@ -220,8 +232,27 @@ export const Coordinates: React.FC<PropsType> = ({
             }
           ></div>
           <div className={styles.scale} style={{ zIndex: isStartDraw ? 1 : 2001 }}>
-            <Scale onClick={() => console.log('sdfsdf')} />
+            <Scale
+              onClick={() =>
+                scaleHandler(
+                  process.env.REACT_APP_ENV === 'proxy'
+                    ? `${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`
+                    : process.env.REACT_APP_ENV === 'wify'
+                    ? `${process.env.REACT_APP_IP_SERVER}images/${currentSelect}/snapshot.jpg`
+                    : `http://${window.location.hostname}/images/${currentSelect}/snapshot.jpg`
+                )
+              }
+            />
           </div>
+          {isScale && (
+            <Scaleble
+              image={isScale}
+              cameraBox={cameraBox}
+              coords={coords}
+              setCoords={(e) => setCoords(e)}
+              itemName={itemName}
+            />
+          )}
           {isStartDraw && (
             <div
               className={styles.newCoordinates}

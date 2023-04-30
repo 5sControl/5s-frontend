@@ -80,13 +80,14 @@
         width: 100%;
         height: 100%;
       }
+      &_img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        object-position: top left;
+      }
     }
-    img {
-      height: 100%;
-      width: 100%;
-      object-fit: contain;
-      object-position: top left;
-    }
+
     .scale {
       position: absolute;
       bottom: 20px;
@@ -254,5 +255,31 @@ top:-50000px
   &:hover {
     background: #fe6100;
     color: #ffffff;
+  }
+}
+.scaleble{
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000F0;
+  z-index: 99999;
+  &__area{
+    display: flex;
+    position: relative;
+    height: max-content;
+    width: 90%;
+  }
+  &__container {
+    position: relative;
+    width: max-content;
+  }
+  img{
+    width: 100%;
+    height: 100%;
   }
 }
