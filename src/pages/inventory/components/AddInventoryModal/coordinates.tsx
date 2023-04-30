@@ -17,7 +17,6 @@ type PropsType = {
   setCoords: (coords: Coordinat[]) => void;
   currentSelect: string;
   handleClose: () => void;
-  coords: Coordinat[];
   itemName: string;
 };
 
@@ -26,7 +25,6 @@ export const Coordinates: React.FC<PropsType> = ({
   setCoords,
   currentSelect,
   handleClose,
-  coords,
   itemName,
 }) => {
   const image = useRef<any>();

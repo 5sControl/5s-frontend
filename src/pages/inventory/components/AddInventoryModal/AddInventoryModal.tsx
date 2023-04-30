@@ -118,7 +118,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
         setCoords={(coords: any) => setCoords(coords)}
         currentSelect={currentSelect}
         handleClose={handleClose}
-        coords={coords}
         itemName={itemName}
       />
       {isClose && (
