@@ -50,7 +50,7 @@ export const Coordinates: React.FC<PropsType> = ({
       setTarget(null);
     }
   };
-
+  console.log(cameraBox);
   useEffect(() => {
     if (coordToScale.length > 0 && !isScale) {
       const proportionWidth = image.current.naturalWidth / image.current.width;
@@ -96,12 +96,14 @@ export const Coordinates: React.FC<PropsType> = ({
   }, 100);
 
   useEffect(() => {
-    getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect).then(
-      (res: any) => {
-        console.log(res.data);
-        setCameraBox(res.data);
-      }
-    );
+    if (currentSelect.length > 0) {
+      getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect).then(
+        (res: any) => {
+          console.log(res);
+          setCameraBox(res.data);
+        }
+      );
+    }
   }, [currentSelect]);
 
   const movePosition = (e: any) => {
@@ -257,7 +259,6 @@ export const Coordinates: React.FC<PropsType> = ({
             proportionWidth &&
             proportionHeight &&
             cameraBox.length > 0 &&
-            image.current &&
             cameraBox.map((el: any) => (
               <Fragment key={el.id}>
                 {el.coords.map((element: any) => (
