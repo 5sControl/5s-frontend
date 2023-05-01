@@ -62,6 +62,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
   useEffect(() => {
     if (!isOpen) {
       setIsClose(false);
+      setCurrentSelect('');
     } else {
       setItemName(currentEditItem?.name);
       setItemCount(currentEditItem?.low_stock_level);

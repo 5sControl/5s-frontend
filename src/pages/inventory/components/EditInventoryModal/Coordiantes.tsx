@@ -132,11 +132,10 @@ export const Coordinates: React.FC<PropsType> = ({
   }, [isScale]);
 
   useEffect(() => {
-    console.log(itemName);
+    console.log(currentSelect);
     if (currentSelect.length > 0) {
       getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect).then(
         (res: any) => {
-          console.log(res.data);
           setCameraBox(res.data.filter((el: any) => el.name !== itemName));
         }
       );
