@@ -127,16 +127,13 @@ export const Coordinates: React.FC<PropsType> = ({
       });
       setAllBox(bufCoord);
       setOldBox([]);
-      console.log(coordToScale);
     }
   }, [isScale]);
 
   useEffect(() => {
-    console.log(itemName);
     if (currentSelect.length > 0) {
       getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect).then(
         (res: any) => {
-          console.log(res.data);
           setCameraBox(res.data.filter((el: any) => el.name !== itemName));
         }
       );
@@ -152,7 +149,6 @@ export const Coordinates: React.FC<PropsType> = ({
     setTarget('');
   };
   const scaleHandler = (img: string) => {
-    console.log(allBox);
     const coordinatesLayout: any = document.querySelectorAll('.coordinates');
 
     const proportionWidth = image.current.naturalWidth / image.current.width;
@@ -203,7 +199,6 @@ export const Coordinates: React.FC<PropsType> = ({
   }, []);
 
   useEffect(() => {
-    // console.log(allBox.length);
     if (allBox.length > 0) {
       setTarget(document.getElementById(allBox[allBox.length - 1].id));
     }

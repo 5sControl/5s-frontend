@@ -48,7 +48,6 @@ export const Coordinates: React.FC<PropsType> = ({
       setTarget(null);
     }
   };
-  console.log(cameraBox);
   useEffect(() => {
     if (coordToScale.length > 0 && !isScale) {
       const proportionWidth = image.current.naturalWidth / image.current.width;
@@ -63,7 +62,6 @@ export const Coordinates: React.FC<PropsType> = ({
         };
       });
       setAllBox(bufCoord);
-      console.log(coordToScale);
     }
   }, [isScale]);
 
@@ -97,7 +95,6 @@ export const Coordinates: React.FC<PropsType> = ({
     if (currentSelect.length > 0) {
       getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect).then(
         (res: any) => {
-          console.log(res);
           setCameraBox(res.data);
         }
       );
@@ -184,11 +181,9 @@ export const Coordinates: React.FC<PropsType> = ({
         y2: bufHeight * proportionHeight + totalY * proportionHeight,
       });
     });
-    // console.log(sendCoord);
     setCoords(sendCoord);
   };
   const scaleHandler = (img: string) => {
-    console.log(allBox);
     const coordinatesLayout: any = document.querySelectorAll('.coordinates');
 
     const proportionWidth = image.current.naturalWidth / image.current.width;

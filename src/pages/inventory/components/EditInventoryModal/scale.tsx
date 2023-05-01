@@ -41,9 +41,7 @@ export const Scaleble: React.FC<PropsType> = ({
   }, 100);
 
   useEffect(() => {
-    console.log(coords);
     if (coords) {
-      console.log(coords);
       setOldCoord(
         coords.map((el: Coordinat) => {
           return {

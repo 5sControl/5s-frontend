@@ -45,7 +45,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       coords: coords,
     };
     setIsClose({ loading: true });
-    console.log(dataForm);
     if (coords.length > 0) {
       dispatch(
         addItem({
@@ -54,7 +53,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           body: { ...dataForm },
         })
       ).then((response: any) => {
-        console.log();
         setIsClose({ status: !!response.payload.id, loading: false });
         setTimeout(() => {
           handleClose();
