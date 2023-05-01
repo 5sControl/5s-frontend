@@ -9,11 +9,15 @@ import { generateString } from '../../../../functions/randomizer';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { getInventoryItemsToCamera } from '../../inventoryAPI';
 import { useCookies } from 'react-cookie';
+import { Scale } from '../../../../components/scale';
+import { Scaleble } from './scale';
+
 type PropsType = {
   submitHandler: () => void;
   setCoords: (coords: Coordinat[]) => void;
   currentSelect: string;
   handleClose: () => void;
+  itemName: string;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -21,6 +25,7 @@ export const Coordinates: React.FC<PropsType> = ({
   setCoords,
   currentSelect,
   handleClose,
+  itemName,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
@@ -29,8 +34,11 @@ export const Coordinates: React.FC<PropsType> = ({
   const [isStartDraw, setIsStartDraw] = useState<any>(false);
   const [moveDraw, setMoveDraw] = useState<DrawingCoordinates>({ x: 0, y: 0 });
   const [cookie] = useCookies(['token']);
-  const [proportionWidth, setProportionWidth] = useState(1);
-  const [proportionHeight, setProportionHeight] = useState(1);
+  const [proportionWidth, setProportionWidth] = useState(0);
+  const [proportionHeight, setProportionHeight] = useState(0);
+  const [isScale, setIsScale] = useState<any>(false);
+  const [coordToScale, setCoordToScale] = useState<any[]>([]);
+
   const createCoord = (e: any) => {
     if (e && !target) {
       // const target = e.target.getBoundingClientRect();
@@ -40,6 +48,24 @@ export const Coordinates: React.FC<PropsType> = ({
       setTarget(null);
     }
   };
+  console.log(cameraBox);
+  useEffect(() => {
+    if (coordToScale.length > 0 && !isScale) {
+      const proportionWidth = image.current.naturalWidth / image.current.width;
+      const proportionHeight = image.current.naturalHeight / image.current.height;
+      const bufCoord = coordToScale.map((element: any) => {
+        return {
+          y: element?.y1 / proportionHeight,
+          x: element?.x1 / proportionWidth,
+          width: (element?.x2 - element?.x1) / proportionHeight,
+          height: (element?.y2 - element?.y1) / proportionWidth,
+          id: generateString(10),
+        };
+      });
+      setAllBox(bufCoord);
+      console.log(coordToScale);
+    }
+  }, [isScale]);
 
   const startPosition = (e: any) => {
     if (e && !target) {
@@ -53,20 +79,29 @@ export const Coordinates: React.FC<PropsType> = ({
   };
 
   const timer = setInterval(() => {
-    if (image.current && image.current.naturalWidth) {
+    if (
+      image.current &&
+      image.current.naturalWidth &&
+      image.current.width &&
+      image.current.naturalHeight &&
+      image.current.height
+    ) {
       setProportionWidth(image.current.naturalWidth / image.current.width);
       setProportionHeight(image.current.naturalHeight / image.current.height);
+
       clearInterval(timer);
     }
-  }, 200);
+  }, 100);
 
   useEffect(() => {
-    getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect).then(
-      (res: any) => {
-        console.log(res.data);
-        setCameraBox(res.data);
-      }
-    );
+    if (currentSelect.length > 0) {
+      getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect).then(
+        (res: any) => {
+          console.log(res);
+          setCameraBox(res.data);
+        }
+      );
+    }
   }, [currentSelect]);
 
   const movePosition = (e: any) => {
@@ -141,6 +176,7 @@ export const Coordinates: React.FC<PropsType> = ({
       const bufTransHeight = Number(bufTrans[1]) || 0;
       const totalX = bufTransWidth + bufLeft;
       const totalY = bufTransHeight + bufTop;
+
       sendCoord.push({
         x1: totalX * proportionWidth,
         y1: totalY * proportionHeight,
@@ -151,12 +187,42 @@ export const Coordinates: React.FC<PropsType> = ({
     // console.log(sendCoord);
     setCoords(sendCoord);
   };
+  const scaleHandler = (img: string) => {
+    console.log(allBox);
+    const coordinatesLayout: any = document.querySelectorAll('.coordinates');
+
+    const proportionWidth = image.current.naturalWidth / image.current.width;
+    const proportionHeight = image.current.naturalHeight / image.current.height;
+
+    const sendCoord: Coordinat[] = [];
+    coordinatesLayout.forEach((element: any) => {
+      const bufLeft = Number(element.style.left.replace(/px/gi, ''));
+      const bufTop = Number(element.style.top.replace(/px/gi, ''));
+      const bufWidth = Number(element.style.width.replace(/px/gi, ''));
+      const bufHeight = Number(element.style.height.replace(/px/gi, ''));
+      const bufTrans = element.style.transform.replace(/[^\d,-]/g, '').split(',');
+      const bufTransWidth = Number(bufTrans[0]) || 0;
+      const bufTransHeight = Number(bufTrans[1]) || 0;
+      const totalX = bufTransWidth + bufLeft;
+      const totalY = bufTransHeight + bufTop;
+
+      sendCoord.push({
+        x1: totalX * proportionWidth,
+        y1: totalY * proportionHeight,
+        x2: bufWidth * proportionWidth + totalX * proportionWidth,
+        y2: bufHeight * proportionHeight + totalY * proportionHeight,
+      });
+    });
+    setCoordToScale(sendCoord);
+    setIsScale(img);
+  };
   return (
     <div className={styles.modalCoordContainer}>
       <div className={styles.area}>
         <div className={styles.image_container}>
           <img
             ref={image}
+            className={styles.image_container_img}
             src={
               process.env.REACT_APP_ENV === 'proxy'
                 ? `${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`
@@ -188,6 +254,8 @@ export const Coordinates: React.FC<PropsType> = ({
             </div>
           ))}
           {cameraBox &&
+            proportionWidth &&
+            proportionHeight &&
             cameraBox.length > 0 &&
             cameraBox.map((el: any) => (
               <Fragment key={el.id}>
@@ -218,6 +286,29 @@ export const Coordinates: React.FC<PropsType> = ({
               target ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
             }
           ></div>
+          <div className={styles.scale} style={{ zIndex: isStartDraw ? 1 : 2001 }}>
+            <Scale
+              onClick={() =>
+                scaleHandler(
+                  process.env.REACT_APP_ENV === 'proxy'
+                    ? `${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`
+                    : process.env.REACT_APP_ENV === 'wify'
+                    ? `${process.env.REACT_APP_IP_SERVER}images/${currentSelect}/snapshot.jpg`
+                    : `http://${window.location.hostname}/images/${currentSelect}/snapshot.jpg`
+                )
+              }
+            />
+          </div>
+          {isScale && (
+            <Scaleble
+              image={isScale}
+              cameraBox={cameraBox}
+              coords={coordToScale}
+              itemName={itemName}
+              setIsScale={() => setIsScale(false)}
+              setCoordToScale={(coord) => setCoordToScale(coord)}
+            />
+          )}
           {isStartDraw && (
             <div
               className={styles.newCoordinates}

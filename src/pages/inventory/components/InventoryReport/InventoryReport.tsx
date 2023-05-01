@@ -12,7 +12,7 @@ import {
   setCurrentEditItem,
 } from '../EditInventoryModal/editInventoryModalSlice';
 import { ReportSettings } from '../ReportSettings';
-import { DeleteInventoryModal } from '../DeleteInventoryModal';
+import { DeleteInventoryModal } from '../DeleteInventoryModal/DeleteInventoryModal';
 import {
   selectDeleteInventoryModal,
   setIsOpenDeleteModal,
@@ -27,7 +27,7 @@ import {
   addActiveInventoryItem,
   selectActiveInventoryItem,
 } from '../InventoryItemsList/InventoryItemsListSlice';
-import { InventoryCard } from '../InventoryCard';
+import { InventoryCard } from '../InventoryCard/InventoryCard';
 import { BsEyeFill } from 'react-icons/bs';
 
 export const InventoryReport: React.FC = () => {

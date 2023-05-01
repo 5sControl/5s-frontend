@@ -13,7 +13,7 @@ import { Main } from './pages/main/Main';
 import { Live } from './pages/live/Live';
 import Dashboard from './pages/dashboard/Dashboard';
 import { Inventory } from './pages/inventory/inventory';
-import { Info } from './pages/info';
+import { Info } from './pages/info/info';
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);

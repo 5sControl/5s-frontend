@@ -54,7 +54,8 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           body: { ...dataForm },
         })
       ).then((response: any) => {
-        setIsClose({ status: response.type.includes('fulfilled'), loading: false });
+        console.log();
+        setIsClose({ status: !!response.payload.id, loading: false });
         setTimeout(() => {
           handleClose();
         }, 2000);
@@ -117,28 +118,27 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
         setCoords={(coords: any) => setCoords(coords)}
         currentSelect={currentSelect}
         handleClose={handleClose}
+        itemName={itemName}
       />
       {isClose && (
         <>
-          {isClose && (
-            <div className={styles.response}>
-              <div>
-                {isClose.loading ? (
-                  <Preloader loading={true} />
-                ) : isClose.status ? (
-                  <>
-                    <IoIosCheckmarkCircle className={styles.icons} style={{ color: 'green' }} />
-                    <p>The item is saved</p>
-                  </>
-                ) : (
-                  <>
-                    <IoIosCloseCircle className={styles.icons} style={{ color: 'red' }} />
-                    <p>The item is not saved</p>
-                  </>
-                )}
-              </div>
+          <div className={styles.response}>
+            <div>
+              {isClose.loading ? (
+                <Preloader loading={true} />
+              ) : isClose.status ? (
+                <>
+                  <IoIosCheckmarkCircle className={styles.icons} style={{ color: 'green' }} />
+                  <p>The item is saved</p>
+                </>
+              ) : (
+                <>
+                  <IoIosCloseCircle className={styles.icons} style={{ color: 'red' }} />
+                  <p>The item is not saved</p>
+                </>
+              )}
             </div>
-          )}
+          </div>
         </>
       )}
     </Modal>
