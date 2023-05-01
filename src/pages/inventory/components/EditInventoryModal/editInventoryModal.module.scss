@@ -80,35 +80,22 @@
         width: 100%;
         height: 100%;
       }
+      &_img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        object-position: top left;
+      }
     }
-    img {
-      height: 100%;
-      width: 100%;
-      object-fit: contain;
-      object-position: top left;
-    }
-    .back {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+
+    .scale {
       position: absolute;
-      top: 20px;
-      left: 40px;
+      bottom: 20px;
+      right: 20px;
       color: #ffffff;
       z-index: 100;
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 24px;
       cursor: pointer;
-      padding: 5px 10px;
-      border-radius: 21px;
-      background: rgba(0, 0, 0, 0.50);
       transition: all 0.4s;
-      &:hover{
-        background: rgba(0, 0, 0, 1);
-      }
     }
     .remove {
       position: absolute;
@@ -268,5 +255,36 @@ top:-50000px
   &:hover {
     background: #fe6100;
     color: #ffffff;
+  }
+}
+.scaleble{
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000F0;
+  z-index: 99999;
+  &__area{
+    display: flex;
+    position: relative;
+    height: max-content;
+    width: 90%;
+  }
+  &__container {
+    position: relative;
+    width: max-content;
+  }
+  img{
+    width: 100%;
+    height: 100%;
+  }
+  &__close{
+    position: absolute;
+    bottom: calc(20px);
+    right: calc(20px);
   }
 }
