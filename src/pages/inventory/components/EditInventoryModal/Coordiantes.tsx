@@ -17,6 +17,7 @@ type PropsType = {
   coordinates: Coordinat[] | undefined;
   currentSelect: string;
   itemName: any;
+  handleClose: () => void;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -25,6 +26,7 @@ export const Coordinates: React.FC<PropsType> = ({
   coordinates,
   currentSelect,
   itemName,
+  handleClose,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>('');
@@ -399,6 +401,12 @@ export const Coordinates: React.FC<PropsType> = ({
         />
       </div>
       <div className={styles.footer}>
+        <Button
+          text="Cancel"
+          className={styles.button_cancel}
+          type="button"
+          onClick={handleClose}
+        />
         <Button
           text="Save"
           className={styles.button}

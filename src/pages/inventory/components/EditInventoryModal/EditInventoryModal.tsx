@@ -45,7 +45,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
         body: { ...dataForm },
       })
     ).then((response: any) => {
-      setIsClose({ status: response.type.includes('fulfilled'), loading: false });
+      setIsClose({ status: !!response.payload.id, loading: false });
       setTimeout(() => {
         handleClose();
         dispatch(
@@ -97,7 +97,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
                 onChange={(e: any) => setItemCount(e.target.value.replace(/[^\d.]/g, ''))}
               />
             </div>
-            {camerasData && (
+            {camerasData && currentEditItem && (
               <div className={styles.input}>
                 <SelectBase
                   id="camera_type"
@@ -121,6 +121,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
         setCoords={(coords: any) => setCoords(coords)}
         coordinates={currentEditItem?.coords}
         currentSelect={currentSelect}
+        handleClose={handleClose}
       />
       {isClose && (
         <>
