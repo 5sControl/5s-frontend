@@ -124,11 +124,13 @@ export const Coordinates: React.FC<PropsType> = ({
         };
       });
       setAllBox(bufCoord);
+      setOldBox([]);
       console.log(coordToScale);
     }
   }, [isScale]);
 
   useEffect(() => {
+    console.log(itemName);
     if (currentSelect.length > 0) {
       getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect).then(
         (res: any) => {
@@ -206,7 +208,9 @@ export const Coordinates: React.FC<PropsType> = ({
   }, [allBox]);
 
   useEffect(() => {
-    setCoords(oldBox);
+    if (oldBox.length > 0) {
+      setCoords(oldBox);
+    }
   }, [oldBox]);
 
   const onChangeSize = () => {
@@ -341,6 +345,16 @@ export const Coordinates: React.FC<PropsType> = ({
               }
             />
           </div>
+          {isScale && (
+            <Scaleble
+              image={isScale}
+              cameraBox={cameraBox}
+              coords={coordToScale}
+              itemName={itemName}
+              setIsScale={() => setIsScale(false)}
+              setCoordToScale={(coord) => setCoordToScale(coord)}
+            />
+          )}
           {isStartDraw && (
             <div
               className={styles.newCoordinates}
@@ -360,16 +374,7 @@ export const Coordinates: React.FC<PropsType> = ({
             ></div>
           )}
         </div>
-        {isScale && (
-          <Scaleble
-            image={isScale}
-            cameraBox={cameraBox}
-            coords={coordToScale}
-            itemName={itemName}
-            setIsScale={() => setIsScale(false)}
-            setCoordToScale={(coord) => setCoordToScale(coord)}
-          />
-        )}
+
         <Moveable
           target={target}
           draggable={true}
