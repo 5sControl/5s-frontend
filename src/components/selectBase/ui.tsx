@@ -29,11 +29,10 @@ export const SelectBase: React.FC<PropsType> = ({
   const [dataSelect, setDataSelect] = useState<string>(
     activeSelect ? listOfData[activeSelect].text : listOfData[0].text
   );
-
   const handleOnChangeSelection = (e: ChangeEvent<HTMLSelectElement>) => {
     setDataSelect(e.target.value);
   };
-
+  console.log(activeSelect);
   useEffect(() => {
     if (dataSelect && setCurrentSelect && camerasData) {
       setCurrentSelect(camerasData.filter((el: any) => el.text === dataSelect)[0].id);

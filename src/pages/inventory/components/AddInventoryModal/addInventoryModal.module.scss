@@ -58,6 +58,9 @@
     height: 100%;
     background-color: #F5F5F5;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .area {
     display: flex;
@@ -122,9 +125,6 @@
     width: 100%;
     padding: 10px 30px 20px 10px;
     background-color: #FFFFFF;
-    position: absolute;
-    bottom: 0;
-    right: 0;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
