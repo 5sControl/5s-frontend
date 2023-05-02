@@ -1,5 +1,5 @@
 import styles from './reportSettings.module.scss';
-import { Edit, Delete } from '../../../../assets/svg/SVGcomponent';
+import { Delete, Edit } from '../../../../assets/svg/SVGcomponent';
 import { useAppDispatch } from '../../../../store/hooks';
 import {
   setIsOpenEditModal,

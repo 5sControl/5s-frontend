@@ -348,8 +348,9 @@
       height: 20px;
       z-index: 2000;
       transition: all 0.4s;
+      fill: #26272B;
       &:hover {
-        color: #fe6100;
+        fill: #fe6100;
       }
     }
     &_image {

@@ -21,6 +21,7 @@ import { ReactComponent as Eye } from './eye.svg';
 import { ReactComponent as Disconnect } from './disconnect.svg';
 import { ReactComponent as Edit } from './editIcon.svg';
 import { ReactComponent as Delete } from './deleteIcon.svg';
+import { ReactComponent as DeleteClear } from './deleteIconClear.svg';
 import { ReactComponent as Error } from './error.svg';
 import { ReactComponent as QuestionSquere } from './questionSquere.svg';
 import { ReactComponent as CheckCircle } from './checkCircle.svg';
@@ -62,6 +63,7 @@ export {
   Disconnect,
   Edit,
   Delete,
+  DeleteClear,
   Error,
   QuestionSquere,
   CheckCircle,

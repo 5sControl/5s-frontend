@@ -3,12 +3,13 @@ import { useCookies } from 'react-cookie';
 import { AddCamera } from './modal/camerasAdd';
 import './cameras.scss';
 import { findCamera, getSelectedCameras } from '../../api/cameraRequest';
-import { MdDeleteOutline } from 'react-icons/md';
 import { Button } from '../../components/button';
 import { CamerasDeleteModal } from './modal/camerasDeleteModal';
 import { getProcess } from '../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
 import { CameraSettings } from './modal/cameraSettings';
+import { DeleteClear } from '../../assets/svg/SVGcomponent';
+
 export const Camera = () => {
   const [cookies] = useCookies(['token']);
   const [camerasList, setCamerasList] = useState(false);
@@ -97,10 +98,7 @@ export const Camera = () => {
                     <div className="cameras__desciption">IP: {el.id}</div>
                   </div>
                 </div>
-                <MdDeleteOutline
-                  className="cameras__list_delete"
-                  onClick={() => deleteCamera(el.id)}
-                />
+                <DeleteClear className="cameras__list_delete" onClick={() => deleteCamera(el.id)} />
               </div>
             );
           })}
