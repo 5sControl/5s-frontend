@@ -48,3 +48,12 @@
     align-self: flex-end;
   }
 }
+.close{
+  color: var(--HightEmphasis);
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.4s;
+  &:hover {
+    color: var(--MediumEmphasis);
+  }
+}

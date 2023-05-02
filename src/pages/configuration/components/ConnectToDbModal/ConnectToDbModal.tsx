@@ -10,6 +10,7 @@ import { inputProps, listOfDataForSelect } from './config';
 import styles from './connectToDbModal.module.scss';
 import { createConnectionWithDB, selectConnectToDbModal } from './connectToDbModalSlice';
 import { ConnectionToDatabaseForm } from './types';
+import { Cross } from '../../../../assets/svg/SVGcomponent';
 
 type PropsType = {
   isOpen: boolean;
@@ -90,9 +91,10 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
   }, [isEdit]);
 
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal} showCross>
+    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
       <div className={styles.header}>
         <h2 className={styles.header_title}>Database connection</h2>
+        <Cross onClick={handleClose} className={styles.close} />
       </div>
 
       <form onSubmit={onSubmit} className={styles.form}>
