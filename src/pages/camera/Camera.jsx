@@ -8,7 +8,7 @@ import { CamerasDeleteModal } from './modal/camerasDeleteModal';
 import { getProcess } from '../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
 import { CameraSettings } from './modal/cameraSettings';
-import { DeleteClear } from '../../assets/svg/SVGcomponent';
+import { DeleteClear, Plus } from '../../assets/svg/SVGcomponent';
 
 export const Camera = () => {
   const [cookies] = useCookies(['token']);
@@ -63,7 +63,7 @@ export const Camera = () => {
     <section className="cameras">
       <div className="cameras__title">
         <h2>Cameras</h2>
-        <Button text="+ Add Camera" onClick={showAddCameras} />
+        <Button text="Add Camera" onClick={showAddCameras} IconLeft={Plus} />
       </div>
 
       {createdCameras && (

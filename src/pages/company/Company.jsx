@@ -8,7 +8,8 @@ import { AddUser } from './components/addUser';
 import { LicenseKey } from './components/licenseKey';
 import { UserList } from './components/UserList';
 import { AvailableProcess } from './components/availableProcess';
-
+import { Button } from '../../components/button';
+import { Plus } from '../../assets/svg/SVGcomponent';
 import './Company.scss';
 
 export const Company = () => {
@@ -53,9 +54,12 @@ export const Company = () => {
         <AvailableProcess />
         <div className="company__accounts_tab">
           <h2>Accounts</h2>
-          <button className="company__add" onClick={() => setIsAddAccount(true)}>
-            + Add Account
-          </button>
+          <Button
+            className="company__add"
+            text="Add account"
+            onClick={() => setIsAddAccount(true)}
+            IconLeft={Plus}
+          />
         </div>
         <UserList userList={userList} />
 
