@@ -396,6 +396,9 @@ export const Coordinates: React.FC<PropsType> = ({
         />
       </div>
       <div className={styles.footer}>
+        <h2 className={styles.footer__text}>
+          Select the area to track <span>*</span>
+        </h2>
         <Button
           text="Cancel"
           className={styles.button_cancel}

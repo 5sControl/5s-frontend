@@ -24,11 +24,11 @@
       cursor: pointer;
     }
   }
-  .form{
+  .form {
     max-width: 320px;
     min-width: 320px;
     padding: 20px;
-    border-right: 1px solid #E0E0E0;
+    border-right: 1px solid #e0e0e0;
   }
   .content {
     margin-top: 30px;
@@ -53,96 +53,107 @@
   }
 }
 
-  .modalCoordContainer {
-    width: calc(100% - 320px);
-    height: 100%;
-    background-color: #F5F5F5;
+.modalCoordContainer {
+  width: calc(100% - 320px);
+  height: 100%;
+  background-color: #f5f5f5;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.area {
+  display: flex;
+  position: relative;
+  height: max-content;
+  width: 100%;
+  background-color: #f5f5f5;
+  .image_container {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .area {
-    display: flex;
-    position: relative;
-    height: max-content;
-    width: 100%;
-    background-color: #F5F5F5;
-    .image_container {
-      position: relative;
-      width: max-content;
-      .newCoordinates {
-        position: absolute;
-        z-index: 5;
-        background-color: #ffffff40;
-      }
-      .draw {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-      &_img {
-        height: 100%;
-        width: 100%;
-        object-fit: contain;
-        object-position: top left;
-      }
-    }
-
-    .scale {
+    width: max-content;
+    .newCoordinates {
       position: absolute;
-      bottom: 20px;
-      right: 20px;
-      color: #ffffff;
-      z-index: 100;
-      cursor: pointer;
-      transition: all 0.4s;
+      z-index: 5;
+      background-color: #ffffff40;
     }
-    .remove {
+    .draw {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      height: 50px;
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      transition: all 0.4s;
-      z-index: 101;
-      color: white;
-      transform: translate(43px, -43px);
-      opacity: 10 !important;
-      &:hover {
-        color: rgb(218, 215, 47);
-      }
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    &_img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      object-position: top left;
     }
   }
 
-  .footer {
-    gap: 10px;
-    height: 81px;
-    width: 100%;
-    padding: 10px 30px 20px 10px;
-    background-color: #FFFFFF;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-  }
-  .oldCoord {
+  .scale {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    bottom: 20px;
+    right: 20px;
+    color: #ffffff;
+    z-index: 100;
+    cursor: pointer;
+    transition: all 0.4s;
+  }
+  .remove {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: 50px;
     width: 20px;
     height: 20px;
     cursor: pointer;
-    background: rgba(33, 33, 33, 0.6);
-    color: #ffffff;
-    border: 1px solid #666666;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 24px;
+    transition: all 0.4s;
+    z-index: 101;
+    color: white;
+    transform: translate(43px, -43px);
+    opacity: 10 !important;
+    &:hover {
+      color: rgb(218, 215, 47);
+    }
   }
+}
+
+.footer {
+  gap: 10px;
+  height: 81px;
+  width: 100%;
+  padding: 10px 30px 20px 10px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  position: relative;
+  &__text {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    span{
+      color:red;
+    }
+  }
+}
+.oldCoord {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background: rgba(33, 33, 33, 0.6);
+  color: #ffffff;
+  border: 1px solid #666666;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 24px;
+}
 
 .response {
   position: fixed;
@@ -240,14 +251,14 @@
     color: green;
   }
 }
-.close{
+.close {
   position: absolute;
   right: 40px;
-  top:20px;
+  top: 20px;
 }
-.modalHide{
-position: absolute;
-top:-50000px
+.modalHide {
+  position: absolute;
+  top: -50000px;
 }
 .button_cancel {
   background: #ffffff;
@@ -257,18 +268,18 @@ top:-50000px
     color: #ffffff;
   }
 }
-.scaleble{
+.scaleble {
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #000000F0;
+  background-color: #000000f0;
   z-index: 99999;
-  &__area{
+  &__area {
     display: flex;
     position: relative;
     height: max-content;
@@ -278,11 +289,11 @@ top:-50000px
     position: relative;
     width: max-content;
   }
-  img{
+  img {
     width: 100%;
     height: 100%;
   }
-  &__close{
+  &__close {
     position: absolute;
     bottom: calc(20px);
     right: calc(20px);
