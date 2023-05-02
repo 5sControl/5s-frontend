@@ -78,8 +78,8 @@ export const Notifications = () => {
         <div className={styles.server__header}>
           <h2>SMTP server</h2>
           <button onClick={() => setIsShowModal(true)} className={styles.button}>
-            <IoMdSettings style={{ color: 'white' }} />
-            settings
+            <IoMdSettings style={{ color: 'white', width: '20px', height: '20px' }} />
+            Settings
           </button>
         </div>
         <p className={styles.server__create}>Create SMTP server to send notifications.</p>
