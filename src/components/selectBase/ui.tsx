@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { ArrowBottom } from '../../assets/svg/SVGcomponent';
 import styles from './selectBase.module.scss';
 
@@ -62,7 +62,7 @@ export const SelectBase: React.FC<PropsType> = ({
           ))}
         </select>
 
-        <ArrowBottom className={styles.block__arrow} />
+        {/* <ArrowBottom className={styles.block__arrow} /> */}
       </div>
     </div>
   );
