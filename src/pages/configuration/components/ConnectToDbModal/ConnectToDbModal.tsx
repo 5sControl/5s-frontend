@@ -102,6 +102,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
             name="database_type"
             label="Database type"
             listOfData={listOfDataForSelect}
+            activeSelect={0}
           />
 
           {inputs.map((props, index) => (

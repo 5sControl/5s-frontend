@@ -4,14 +4,23 @@
 .modal {
   max-width: 880px;
   height: fit-content;
-  padding: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  background-color: #FFFFFF;
+  z-index: 2;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  position: sticky;
+  top:0;
+  left: 0;
+  background: #FFFFFF;
+  z-index: 2;
+  padding: 20px;
   &_title {
     @include h2;
     color: var(--HightEmphasis);
@@ -22,7 +31,10 @@
   display: flex;
   flex-direction: column;
   gap: 68px;
-
+  margin-top: 140px;
+  top:40px;
+  left: 0;
+  padding: 20px;
   &_wrapper {
     display: flex;
     flex-direction: column;
