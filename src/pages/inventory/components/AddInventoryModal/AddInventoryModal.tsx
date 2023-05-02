@@ -44,8 +44,13 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       camera: currentSelect,
       coords: coords,
     };
+
+    const coordNegativeArray = coords.filter(
+      (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
+    );
+
     setIsClose({ loading: true });
-    if (coords.length > 0) {
+    if (coords.length > 0 && coordNegativeArray.length === 0 && itemName && itemName.length > 0) {
       dispatch(
         addItem({
           token: cookies.token,

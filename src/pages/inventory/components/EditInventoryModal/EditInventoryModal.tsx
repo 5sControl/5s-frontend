@@ -37,26 +37,37 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       coords: coords,
       id: currentEditItem?.id,
     };
+    console.log(coords);
+    const coordNegativeArray = coords.filter(
+      (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
+    );
     setIsClose({ loading: true });
-    dispatch(
-      editItem({
-        token: cookies.token,
-        hostname: window.location.hostname,
-        body: { ...dataForm },
-      })
-    ).then((response: any) => {
-      setIsClose({ status: !!response.payload.id, loading: false });
+    if (coords.length > 0 && coordNegativeArray.length === 0 && itemName && itemName.length > 0) {
+      dispatch(
+        editItem({
+          token: cookies.token,
+          hostname: window.location.hostname,
+          body: { ...dataForm },
+        })
+      ).then((response: any) => {
+        setIsClose({ status: !!response.payload.id, loading: false });
+        setTimeout(() => {
+          handleClose();
+          dispatch(
+            getInventoryItemsAsync({
+              token: cookies.token,
+              hostname: window.location.hostname,
+              isSort: false,
+            })
+          );
+        }, 2000);
+      });
+    } else {
+      setIsClose({ status: false });
       setTimeout(() => {
         handleClose();
-        dispatch(
-          getInventoryItemsAsync({
-            token: cookies.token,
-            hostname: window.location.hostname,
-            isSort: false,
-          })
-        );
       }, 2000);
-    });
+    }
   };
 
   useEffect(() => {
