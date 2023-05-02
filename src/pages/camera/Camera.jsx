@@ -37,7 +37,7 @@ export const Camera = () => {
         setProcessList(response.data);
       }
     });
-  }, [cameraSelect]);
+  }, [cameraSelect, isShowModal]);
 
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token)
