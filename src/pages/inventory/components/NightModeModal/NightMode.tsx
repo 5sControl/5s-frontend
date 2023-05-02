@@ -32,7 +32,6 @@ export const NightModeModal: React.FC<PropsType> = ({ isOpen, handleClose }) => 
       })
     );
   }, []);
-  console.log(nightTime);
   useEffect(() => {
     if (nightTime) {
       setTime({
@@ -43,11 +42,18 @@ export const NightModeModal: React.FC<PropsType> = ({ isOpen, handleClose }) => 
   }, [nightTime]);
 
   const deleteAction = () => {
+    const bufTime: NightModeResponse = time;
+    if (!bufTime.time_end.includes(':')) {
+      bufTime.time_end = bufTime.time_end + ':00';
+    }
+    if (!bufTime.time_start.includes(':')) {
+      bufTime.time_start = bufTime.time_start + ':00';
+    }
     dispatch(
       nightTimeSet({
         token: cookies.token,
         hostname: window.location.hostname,
-        time,
+        bufTime,
       })
     );
     handleClose();

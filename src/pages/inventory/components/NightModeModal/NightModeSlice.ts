@@ -26,8 +26,8 @@ const initialState: nightModalState = {
 
 export const nightTimeSet = createAsyncThunk(
   'nightTime',
-  async (data: { token: string; hostname: string; time: NightModeResponse }) => {
-    const response: any = await setNightTime(data.hostname, data.token, data.time);
+  async (data: { token: string; hostname: string; bufTime: NightModeResponse }) => {
+    const response: any = await setNightTime(data.hostname, data.token, data.bufTime);
     if (response.status === 204) {
       return { mesasge: 'Item deleted success' };
     }
