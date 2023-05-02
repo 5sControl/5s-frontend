@@ -37,7 +37,7 @@ export const Camera = () => {
         setProcessList(response.data);
       }
     });
-  }, [cameraSelect, isShowModal]);
+  }, [cameraSelect]);
 
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token)
@@ -48,7 +48,7 @@ export const Camera = () => {
         }
       })
       .catch((error) => setError(error.message));
-  }, [isShowModal, isDeleteModal]);
+  }, [isShowModal, isDeleteModal, cameraSelect]);
 
   const showAddCameras = () => {
     setIsShowModal(true);
