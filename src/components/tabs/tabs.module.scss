@@ -4,7 +4,17 @@
 .container {
   display: flex;
   margin-bottom: 50px;
-  border-bottom: 1px solid var(--Gray85);
+  padding-left: 10px;
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 392px;
+    width: calc(100% - 392px);
+    border-bottom: 1px solid var(--Gray85);
+  }
+  border-bottom: none;
 }
 
 .tab {
@@ -15,6 +25,8 @@
   cursor: pointer;
   text-align: center;
   user-select: none;
+  
+  // border-bottom: 1px solid var(--Gray85);
   &_active {
     &::after {
       content: '';
@@ -23,10 +35,21 @@
       position: absolute;
       top: 0;
       left: 0;
+      border: 1px solid var(--LowEmphasis);
       border-radius: 4px 4px 0px 0px;
-      border-top: 1px solid var(--LowEmphasis);
-      border-left: 1px solid var(--LowEmphasis);
-      border-right: 1px solid var(--LowEmphasis);
+      border-bottom: none;
+    }
+  }
+  &_nonActive {
+    &::after {
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-bottom: 1px solid var(--Gray85);
+      
     }
   }
 }

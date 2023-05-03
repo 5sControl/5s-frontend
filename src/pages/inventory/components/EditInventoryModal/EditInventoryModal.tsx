@@ -135,26 +135,28 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
         currentSelect={currentSelect}
         handleClose={handleClose}
       />
-      {isClose && (
+      {!isClose && (
         <>
-          {isClose && (
-            <div className={styles.response}>
-              <div>
-                {isClose.loading ? (
-                  <Preloader loading={true} />
+          {!isClose && (
+            <>
+              <div className={styles.response}>
+                {!isClose.loading ? (
+                  <section>
+                    <Preloader loading={true} />
+                  </section>
                 ) : isClose.status ? (
-                  <>
+                  <div>
                     <IoIosCheckmarkCircle className={styles.icons} style={{ color: 'green' }} />
                     <p>The item is saved</p>
-                  </>
+                  </div>
                 ) : (
-                  <>
+                  <div>
                     <IoIosCloseCircle className={styles.icons} style={{ color: 'red' }} />
                     <p>The item is not saved</p>
-                  </>
+                  </div>
                 )}
               </div>
-            </div>
+            </>
           )}
         </>
       )}

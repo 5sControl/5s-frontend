@@ -39,7 +39,9 @@ export const Tabs: React.FC<PropsType> = ({ children, activeTabDefault = 0, tabL
           return (
             <li
               onClick={() => handleTabClick(index)}
-              className={`${styles.tab} ${activeTab === index ? styles.tab_active : ''}`}
+              className={`${styles.tab} ${
+                activeTab === index ? styles.tab_active : styles.tab_nonActive
+              }`}
             >
               {label}
             </li>
