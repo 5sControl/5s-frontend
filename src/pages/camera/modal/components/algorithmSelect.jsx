@@ -6,8 +6,6 @@ import { Input } from '../../../../components/input';
 export const AlgorithmSelect = ({
   token,
   algorithmsActive,
-  process,
-  IPCamera,
   setInformationToSend,
   operationID,
   setOperationID,
@@ -25,19 +23,7 @@ export const AlgorithmSelect = ({
   }, []);
 
   useEffect(() => {
-    let willDelete = algorithmsActive
-      ? algorithmsActive.filter((el) => !checkboxAlgo.includes(el))
-      : [];
-    let willAdd = checkboxAlgo.filter((el) => !algorithmsActive.includes(el));
-    let sendDelete = process.filter((element) => {
-      return element.camera.id === IPCamera && willDelete.includes(element.algorithm.name);
-    });
-    // console.log(sendDelete);
-    const changedAfterSelect = {
-      delete: sendDelete, // .map((el) => el.process_id),
-      add: willAdd,
-    };
-    setInformationToSend(changedAfterSelect);
+    setInformationToSend(checkboxAlgo);
   }, [checkboxAlgo]);
 
   const checkboxHandler = (state) => {

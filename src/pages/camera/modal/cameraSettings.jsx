@@ -3,71 +3,51 @@ import { patchCamera } from '../../../api/cameraRequest';
 import { Close } from '../../../assets/svg/SVGcomponent';
 import { AlgorithmSelect } from './components/algorithmSelect';
 import {
-  deleteOperationID,
-  deleteProcess,
   getOperationID,
   getProcess,
   postAlgorithnDependences,
-  postOperationID,
 } from '../../../api/algorithmRequest';
-import { useNavigate } from 'react-router-dom';
 
-export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamera }) => {
-  const [cameraName, setCameraName] = useState('');
+export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings }) => {
+  const [cameraName, setCameraName] = useState(cameraSelect.name);
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
   const [processLocal, setProcess] = useState([]);
   const [informationToSend, setInformationToSend] = useState({});
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
   const [currentOperation, setCurrentOperation] = useState({});
-  const navigate = useNavigate();
-  const deleteProcessFromDB = async (whatIsDelete) => {
-    for (const processID of whatIsDelete) {
-      await deleteProcess(window.location.hostname, token, processID.process_id).then(() => {
-        console.log('delete');
-      });
-    }
-    // console.log(whatIsDelete);
-    return;
-  };
-
-  useEffect(() => {
-    setCameraName(nameCamera);
-  }, [nameCamera]);
-
-  const addProcessToDB = async (whatIsAdd) => {
-    for (const algorithm of whatIsAdd) {
-      let response = {
-        [algorithm]: [IPCamera],
-      };
-      await postAlgorithnDependences(window.location.hostname, token, response).then(() => {
-        // console.log(e);
-      });
-    }
-    return;
-  };
 
   const applySettings = async () => {
+    const response = {
+      camera: {
+        ip: cameraSelect.id,
+        name: cameraName.length > 0 ? cameraName : cameraSelect.id,
+        username: cameraSelect.username,
+        password: cameraSelect.password,
+      },
+      algorithms: [],
+    };
+    for (const algorithm of informationToSend) {
+      if (algorithm === 'operation_control') {
+        response.algorithms = [
+          ...response.algorithms,
+          {
+            name: algorithm,
+            config: {
+              operation_control_id: operationID,
+            },
+          },
+        ];
+      } else {
+        response.algorithms = [...response.algorithms, { name: algorithm }];
+      }
+
+      await postAlgorithnDependences(window.location.hostname, token, response).then((res) => {
+        console.log(res);
+      });
+    }
     setIsEnabled(false);
-    if (cameraName !== nameCamera) {
-      await patchCamera(window.location.hostname, IPCamera, cameraName, token).then((res) => {
-        // console.log(res);
-      });
-    }
-    if (informationToSend.delete && informationToSend.delete.length > 0) {
-      await deleteProcessFromDB(informationToSend.delete);
-    }
-    if (informationToSend.add && informationToSend.add.length > 0) {
-      await addProcessToDB(informationToSend.add);
-    }
-    if (currentOperation.type_operation !== operationID && operationID !== '') {
-      await postOperationID(window.location.hostname, token, {
-        type_operation: operationID,
-        camera: IPCamera,
-      }).then((e) => {
-        // conssole.log(e);
-      });
-    }
+    console.log(response);
 
     await setIsCameraSettings(false);
   };
@@ -92,18 +72,18 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
           response.data &&
           response.data.results &&
           response.data.results.length > 0 &&
-          bufObject[IPCamera] &&
-          bufObject[IPCamera].includes('operation_control')
+          bufObject[cameraSelect.id] &&
+          bufObject[cameraSelect.id].includes('operation_control')
         ) {
           // console.log(response.data.results);
-          const currentOper = response.data.results.filter((item) => item.camera === IPCamera);
+          const currentOper = response.data.results.filter(
+            (item) => item.camera === cameraSelect.id
+          );
           if (currentOper.length > 0) {
             setOperationID(currentOper[currentOper.length - 1].type_operation || '');
           } else {
             setOperationID('');
           }
-
-          setCurrentOperation(currentOper);
         } else {
           setOperationID('');
         }
@@ -150,10 +130,12 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                   <AlgorithmSelect
                     token={token}
                     algorithmsActive={
-                      algorithmsActiveObject[IPCamera] ? algorithmsActiveObject[IPCamera] : []
+                      algorithmsActiveObject[cameraSelect.id]
+                        ? algorithmsActiveObject[cameraSelect.id]
+                        : []
                     }
                     process={processLocal}
-                    IPCamera={IPCamera}
+                    IPCamera={cameraSelect.id}
                     setInformationToSend={(e) => setInformationToSend(e)}
                     operationID={operationID}
                     setOperationID={(id) => setOperationID(id)}
@@ -163,10 +145,10 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
                   <img
                     src={
                       process.env.REACT_APP_ENV === 'proxy'
-                        ? `${process.env.REACT_APP_NGROK}/images/${IPCamera}/snapshot.jpg`
+                        ? `${process.env.REACT_APP_NGROK}/images/${cameraSelect.id}/snapshot.jpg`
                         : process.env.REACT_APP_ENV === 'wify'
-                        ? `${process.env.REACT_APP_IP_SERVER}images/${IPCamera}/snapshot.jpg`
-                        : `http://${window.location.hostname}/images/${IPCamera}/snapshot.jpg`
+                        ? `${process.env.REACT_APP_IP_SERVER}images/${cameraSelect.id}/snapshot.jpg`
+                        : `http://${window.location.hostname}/images/${cameraSelect.id}/snapshot.jpg`
                     }
                     alt="Camera"
                     className="cameras__settings_img"

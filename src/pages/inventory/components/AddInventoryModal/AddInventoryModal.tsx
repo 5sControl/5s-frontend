@@ -48,7 +48,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       low_stock_level: itemCount,
       camera: currentSelect,
       coords: coords,
-      isMulti: isMulti,
+      multi_row: isMulti,
     };
     console.log(dataForm);
     const coordNegativeArray = coords.filter(
