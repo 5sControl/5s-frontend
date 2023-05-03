@@ -39,27 +39,7 @@ export const ConfigurationCamera = () => {
   return (
     <>
       {Object.keys(camera).length > 0 ? (
-        <section className="camera-config">
-          {/* <Back onClick={() => navigate(-1)} className="pointer" />
-          <div className="camera-config__title">
-            <h1>{camera.name}</h1>
-            <button className="camera-config__button" onClick={() => setIsShowModal(true)}>
-              <IoSettingsSharp /> Settings
-            </button>
-          </div>
-          <h2>Algorithms</h2>
-          <div className="camera-config__algorithms">
-            {Object.keys(algorithm).length > 0 &&
-              algorithm.map((algorithm) => (
-                <div key={algorithm.process_id} className="camera-config__algorithms_item">
-                  {parsingAlgorithmName(algorithm.algorithm.name)}
-                </div>
-              ))}
-          </div>
-          <div className="camera-config__recordings">
-            <h2>Recordings</h2>
-          </div> */}
-        </section>
+        <section className="camera-config"></section>
       ) : (
         <Preloader loading={true} />
       )}
