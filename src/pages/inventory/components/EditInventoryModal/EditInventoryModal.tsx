@@ -50,7 +50,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
           body: { ...dataForm },
         })
       ).then((response: any) => {
-        setIsClose({ status: !!response.payload.id, loading: false });
+        setIsClose({ status: !!response.payload?.id, loading: false });
         setTimeout(() => {
           handleClose();
           dispatch(

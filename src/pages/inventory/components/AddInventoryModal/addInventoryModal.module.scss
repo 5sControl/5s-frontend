@@ -298,3 +298,17 @@
     right: calc(20px);
   }
 }
+.addCamera{
+  margin-top: 40px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 4px;
+  background: var(--Orange);
+  color: var(--White);
+  border: none;
+  transition: all 0.4s;
+  text-decoration: none;
+  &:hover {
+    background: var(--SaddleBrown);
+  }
+}

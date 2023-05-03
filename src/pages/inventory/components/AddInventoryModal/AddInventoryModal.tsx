@@ -13,6 +13,7 @@ import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
 import './moveable.scss';
 import { Coordinat } from '../../types';
 import { Preloader } from '../../../../components/preloader';
+import { Link } from 'react-router-dom';
 
 type PropsType = {
   isOpen: boolean;
@@ -112,17 +113,23 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
                   camerasData={camerasData}
                 />
               </div>
-            ) : null}
+            ) : (
+              <Link to="/configuration/camera" className={styles.addCamera}>
+                Add Camera
+              </Link>
+            )}
           </form>
         </div>
       </div>
-      <Coordinates
-        submitHandler={submitHandler}
-        setCoords={(coords: any) => setCoords(coords)}
-        currentSelect={currentSelect}
-        handleClose={handleClose}
-        itemName={itemName}
-      />
+      {currentSelect.length > 0 && (
+        <Coordinates
+          submitHandler={submitHandler}
+          setCoords={(coords: any) => setCoords(coords)}
+          currentSelect={currentSelect}
+          handleClose={handleClose}
+          itemName={itemName}
+        />
+      )}
       {isClose && (
         <>
           <div className={styles.response}>
