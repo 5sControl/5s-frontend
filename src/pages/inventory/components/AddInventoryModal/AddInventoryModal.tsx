@@ -14,6 +14,8 @@ import './moveable.scss';
 import { Coordinat } from '../../types';
 import { Preloader } from '../../../../components/preloader';
 import { Link } from 'react-router-dom';
+import { Tooltip } from '../../../../assets/svg/SVGcomponent';
+import tooltipImage from '../../../../assets/png/tooltipInventory.png';
 
 type PropsType = {
   isOpen: boolean;
@@ -29,6 +31,8 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
   const [itemName, setItemName] = useState<string>('');
   const [itemCount, setItemCount] = useState<number>(0);
   const [currentSelect, setCurrentSelect] = useState('');
+  const [isMulti, setIsMulti] = useState(false);
+  const [isTooltipClicked, setIsTooltipClicked] = useState(false);
 
   useEffect(() => {
     if (!isOpen) {
@@ -44,8 +48,9 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       low_stock_level: itemCount,
       camera: currentSelect,
       coords: coords,
+      isMulti: isMulti,
     };
-
+    console.log(dataForm);
     const coordNegativeArray = coords.filter(
       (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
     );
@@ -72,6 +77,10 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
     }
   };
 
+  const handleToggle = () => {
+    setIsMulti((prevState) => !prevState);
+  };
+
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
       <div className={styles.form}>
@@ -79,6 +88,31 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
           <h3 className={styles.title}>Item settings</h3>
         </div>
         <div className={styles.content}>
+          <div className={styles.algorithm}>
+            <h2>
+              Algorithm <Tooltip onClick={() => setIsTooltipClicked(true)} />
+              {isTooltipClicked && (
+                <>
+                  <div
+                    className={styles.algorithm__container}
+                    onClick={() => setIsTooltipClicked(false)}
+                  ></div>
+                  <img src={tooltipImage} className={styles.algorithm__image} />
+                </>
+              )}
+            </h2>
+            <div className={styles.algorithm__toggle}>
+              <span>One row</span>
+              <div
+                className={`toggle ${isMulti ? 'toggle--on' : 'toggle--off'}`}
+                onClick={handleToggle}
+              >
+                <div className="toggle__button"></div>
+              </div>
+              <span>Multi row</span>
+            </div>
+          </div>
+
           <form>
             <div className={styles.input}>
               <Input

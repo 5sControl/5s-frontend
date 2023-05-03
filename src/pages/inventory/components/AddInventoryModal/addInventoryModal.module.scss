@@ -135,8 +135,8 @@
     left: 10px;
     font-weight: 600;
     font-size: 14px;
-    span{
-      color:red;
+    span {
+      color: red;
     }
   }
 }
@@ -298,7 +298,7 @@
     right: calc(20px);
   }
 }
-.addCamera{
+.addCamera {
   margin-top: 40px;
   text-align: center;
   padding: 10px;
@@ -310,5 +310,51 @@
   text-decoration: none;
   &:hover {
     background: var(--SaddleBrown);
+  }
+}
+.algorithm {
+  width: 100%;
+  padding: 0 0 23px 0;
+  border-bottom: 1px solid #e0e0e0;
+  h2 {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 8px;
+    display: flex;
+    gap:8px;
+    align-items: baseline;
+    transition: all 0.4s;
+    svg{
+      cursor: pointer;
+      fill: #666666;
+      &:hover{
+        fill:#2c2c2c;
+      }
+    }
+  }
+  &__image{
+    position: fixed;
+    top:170px;
+    left: 170px;
+    z-index: 9999;
+  }
+  &__container{
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9998;
+  }
+  &__toggle {
+    display: flex;
+    align-items: center;
+    span {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      
+    }
   }
 }
