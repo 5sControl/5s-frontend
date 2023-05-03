@@ -70,7 +70,7 @@ export const InventoryReport: React.FC = () => {
 
   const formatDate = () => {
     const date = new Date();
-    return `${moment(date).format('YYYY-MM-DD ')}| ${moment(date).format('HH:mm:ss')}`;
+    return `| ${moment(date).format('HH:mm:ss')}`;
   };
 
   const handleStatusSort = () => {
@@ -125,7 +125,10 @@ export const InventoryReport: React.FC = () => {
       )}
       <Cover className={styles.wrapper}>
         <div className={styles.header}>
-          <h4 className={styles.title}>Inventory Report</h4>
+          <div className={styles.title_left}>
+            <h4 className={styles.title}>Inventory Report</h4>
+            <p className={styles.date}>{currentUpdateDate}</p>
+          </div>
           <div className={styles.title_left}>
             <Input
               type={'text'}
@@ -137,7 +140,6 @@ export const InventoryReport: React.FC = () => {
               placeholder={'Search item'}
               showSearch={true}
             />
-            <p className={styles.date}>{currentUpdateDate}</p>
           </div>
         </div>
 
