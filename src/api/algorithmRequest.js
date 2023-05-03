@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { proxy } from './api';
 
-const API_ALGORITHM = 'api/algorithms/available-process/';
-const API_POSTALGORITHM = 'api/algorithms/create-process/';
-const API_DELPROCESS = 'api/algorithms/stop-process/';
-const API_GETPROCESS = 'api/algorithms/get-process/';
-const API_GETLOGS = 'api/algorithms/logs/';
+const API_ALGORITHM = 'api/camera-algorithms/available-process/';
+const API_POSTALGORITHM = 'api/camera-algorithms/create-process/';
+const API_DELPROCESS = 'api/camera-algorithms/stop-process/';
+const API_GETPROCESS = 'api/camera-algorithms/get-process/';
+const API_GETLOGS = 'api/camera-algorithms/logs/';
 const API_POSTOPERATIONID = 'api/order/index_stanowisko/';
 
 export const getAveilableAlgorithms = (hostname, cookies) => {

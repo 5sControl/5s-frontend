@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { proxy } from './api';
 
-const API_CAMERASELECT = 'api/cameras/';
+const API_CAMERASELECT = 'api/camera-algorithms/camera/';
 const API_CAMERACREATE = 'api/cameras/create-camera/';
-const API_CAMERADELETE = 'api/cameras/delete-camera/';
-const API_CAMERAUPDATE = 'api/cameras/update-camera/';
+const API_CAMERADELETE = 'api/camera-algorithms/delete-camera/';
+const API_CAMERAUPDATE = 'api/camera-algorithms/update-camera/';
 const API_CAMERAFIND = 'api/core/find_cameras/';
 
 export const getSelectedCameras = (hostname, cookies) => {
