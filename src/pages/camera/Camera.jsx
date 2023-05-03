@@ -58,7 +58,7 @@ export const Camera = () => {
   const deleteCamera = (camera) => {
     setIsDeleteModal(camera);
   };
-
+  console.log(cameraSelect);
   return (
     <section className="cameras">
       <div className="cameras__title">
@@ -125,12 +125,12 @@ export const Camera = () => {
           token={cookies.token}
         />
       )}
+
       {cameraSelect && (
         <CameraSettings
-          IPCamera={cameraSelect.id}
+          cameraSelect={cameraSelect}
           token={cookies.token}
           setIsCameraSettings={(bool) => setCameraSelect(bool)}
-          nameCamera={cameraSelect.name}
         />
       )}
     </section>
