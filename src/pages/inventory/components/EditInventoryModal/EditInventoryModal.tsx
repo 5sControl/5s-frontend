@@ -135,12 +135,12 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
         currentSelect={currentSelect}
         handleClose={handleClose}
       />
-      {!isClose && (
+      {isClose && (
         <>
-          {!isClose && (
+          {isClose && (
             <>
               <div className={styles.response}>
-                {!isClose.loading ? (
+                {isClose.loading ? (
                   <section>
                     <Preloader loading={true} />
                   </section>
