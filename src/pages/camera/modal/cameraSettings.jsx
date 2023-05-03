@@ -38,9 +38,6 @@ export const CameraSettings = ({ IPCamera, token, setIsCameraSettings, nameCamer
   const addProcessToDB = async (whatIsAdd) => {
     for (const algorithm of whatIsAdd) {
       let response = {
-        server_url: window.location.hostname.includes('localhost')
-          ? 'http://192.168.1.110'
-          : `http://${window.location.hostname}`,
         [algorithm]: [IPCamera],
       };
       await postAlgorithnDependences(window.location.hostname, token, response).then(() => {

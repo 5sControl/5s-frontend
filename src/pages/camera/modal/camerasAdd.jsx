@@ -34,7 +34,7 @@ export const AddCamera = ({ setIsShowModal, cookies, camerasList, setIPCamera, I
   return (
     <div className="cameras__modal">
       {stage === 'selectCamera' && !camerasList && <Preloader loading={true} />}
-      {stage === 'selectCamera' && camerasList && (
+      {camerasList && camerasList.length > 0 && (
         <div className="cameras__modal__container">
           {stage === 'selectCamera' && camerasList && camerasList.length > 0 && (
             <>

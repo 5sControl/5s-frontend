@@ -80,11 +80,7 @@ export const AlogorithmStage = ({ token, setShowAfterRegistration }) => {
   }, []);
 
   const saveSettings = () => {
-    let response = {
-      server_url: window.location.hostname.includes('localhost')
-        ? 'http://192.168.1.101'
-        : `http://${window.location.hostname}`,
-    };
+    let response = {};
 
     if (
       camerasSafety_Control_Ear_protection.filter((el) => el.isSelected).map((e) => e.ip).length > 0
