@@ -187,7 +187,11 @@ export const InventoryReport: React.FC = () => {
                               <span className={styles.multi}>{item.multi_row ? 'M' : 'O'}</span>
                             </td>
                             <td onClick={() => onclickHandler(item)} className={styles.stock}>
-                              {item.current_stock_level}
+                              {!item.multi_row
+                                ? item.current_stock_level
+                                : item.status === 'In stock'
+                                ? `>${item.low_stock_level}`
+                                : `<${item.low_stock_level}`}
                             </td>
                             <td onClick={() => onclickHandler(item)} className={styles.low}>
                               {item.low_stock_level}
