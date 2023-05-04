@@ -22,7 +22,7 @@
       }
       .red-li {
         &::before {
-          color: #ea5545;
+          color: #e00606;
           content: '▪';
           padding-right: 10px;
           font-size: 40px;
@@ -45,7 +45,7 @@
   }
   &_red {
     height: 100%;
-    background-color: #ea5545;
+    background-color: #e00606;
     position: relative;
   }
   &_green {
