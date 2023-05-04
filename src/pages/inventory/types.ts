@@ -43,6 +43,7 @@ export type InventoryItemDataBaseResponse = {
 };
 
 export interface InventoryItem {
+  multi_row: string;
   id: number;
   name: string;
   status: string;

@@ -103,7 +103,7 @@ export const InventoryReport: React.FC = () => {
     setShowGlazik(true);
     dispatch(addActiveInventoryItem(activeItem));
   };
-
+  console.log(inventoryItems);
   return (
     <>
       {currentEditItem && (
@@ -183,6 +183,8 @@ export const InventoryReport: React.FC = () => {
                               >
                                 {item.status}
                               </span>
+
+                              <span className={styles.multi}>{item.multi_row ? 'M' : 'O'}</span>
                             </td>
                             <td onClick={() => onclickHandler(item)} className={styles.stock}>
                               {item.current_stock_level}
