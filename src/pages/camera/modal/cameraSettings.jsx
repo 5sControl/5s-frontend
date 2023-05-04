@@ -15,7 +15,6 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings }) => 
   const [informationToSend, setInformationToSend] = useState({});
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
-  const [currentOperation, setCurrentOperation] = useState({});
 
   const applySettings = async () => {
     const response = {
@@ -41,11 +40,11 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings }) => 
       } else {
         response.algorithms = [...response.algorithms, { name: algorithm }];
       }
-
-      await postAlgorithnDependences(window.location.hostname, token, response).then((res) => {
-        console.log(res);
-      });
     }
+    console.log(response);
+    await postAlgorithnDependences(window.location.hostname, token, response).then((res) => {
+      console.log(res);
+    });
     setIsEnabled(false);
     console.log(response);
 
