@@ -69,7 +69,7 @@ export const Coordinates: React.FC<PropsType> = ({
     if (e && !target) {
       const target = e.target.getBoundingClientRect();
       setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
-      setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y }); 
+      setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
     }
   };
 
