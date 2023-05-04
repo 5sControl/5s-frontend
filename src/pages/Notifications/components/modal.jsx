@@ -103,7 +103,7 @@ export const ModalEmail = ({ isOpen, handleClose, token, defaultSettings }) => {
           />
           Email use ssl
         </label>
-        <Button text="Save" className={styles.save} onClick={save} />
+        <Button text="Done" className={styles.save} onClick={save} />
       </section>
     </Modal>
   );
