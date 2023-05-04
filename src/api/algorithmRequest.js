@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { proxy } from './api';
 
-const API_ALGORITHM = 'api/camera-algorithms/available-process/';
+const API_ALGORITHM = 'api/camera-algorithms/algorithms-detail/';
 const API_POSTALGORITHM = 'api/camera-algorithms/create-process/';
 const API_DELPROCESS = 'api/camera-algorithms/stop-process/';
 const API_GETPROCESS = 'api/camera-algorithms/get-process/';

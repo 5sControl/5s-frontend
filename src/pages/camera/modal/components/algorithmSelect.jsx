@@ -17,8 +17,11 @@ export const AlgorithmSelect = ({
 
   useEffect(() => {
     getAveilableAlgorithms(window.location.hostname, token).then((res) => {
-      let allAlgorithm = Object.keys(res.data).filter((key) => res.data[key]);
-      setAlgorithmList(allAlgorithm);
+      if (res.data.length > 0) {
+        let allAlgorithm = res.data.filter((alg) => alg.is_available);
+        console.log(allAlgorithm);
+        setAlgorithmList(allAlgorithm);
+      }
     });
   }, []);
 
@@ -33,7 +36,7 @@ export const AlgorithmSelect = ({
       setCheckboxAlgo([...checkboxAlgo, state]);
     }
   };
-
+  console.log(algorithmList);
   return (
     <div className="cameras__settings_algorithms">
       <h1 className="cameras__settings_algorithms_title">
@@ -46,15 +49,18 @@ export const AlgorithmSelect = ({
           algorithmList.map((algorithm, index) => (
             <div className="cameras__settings_algorithms_container" key={index}>
               <label className="cameras__settings_algorithms_list_item">
-                {parsingAlgorithmName(algorithm)}
+                {parsingAlgorithmName(algorithm.name)}
                 <input
                   type="checkbox"
-                  defaultChecked={algorithmsActive && algorithmsActive.includes(algorithm)}
-                  onChange={() => checkboxHandler(algorithm)}
+                  defaultChecked={algorithmsActive && algorithmsActive.includes(algorithm.name)}
+                  onChange={() => checkboxHandler(algorithm.name)}
                   className={'checkbox'}
                 />
               </label>
-              {parsingAlgorithmName(algorithm) === 'Operation control' && (
+              <span className="cameras__settings_algorithms_list_item_desc">
+                {algorithm.description}
+              </span>
+              {parsingAlgorithmName(algorithm.name) === 'Operation control' && (
                 <>
                   <h2>Controlled operation</h2>
                   <Input

@@ -213,6 +213,7 @@
     }
     &_left {
       min-width: calc(100% - 360px);
+      width: calc(100% - 360px);
       padding: 0 12px 0 0;
       border-right: 1px solid #e0e0e0;
     }
@@ -280,6 +281,18 @@
           font-weight: 600;
           font-size: 16px;
           line-height: 24px;
+          &_desc {
+            width: calc(100% - 100px);
+            height: 20px;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 24px;
+            color: #666666;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+          }
         }
         .checkbox {
           display: flex;
@@ -348,7 +361,7 @@
       height: 20px;
       z-index: 2000;
       transition: all 0.4s;
-      fill: #26272B;
+      fill: #26272b;
       &:hover {
         fill: #fe6100;
       }
@@ -370,6 +383,7 @@
       text-decoration: none;
       transition: all 0.7s;
       border-radius: 6px;
+
       > div {
         padding: 20px 5px;
         display: flex;
