@@ -243,6 +243,7 @@ export const Coordinates: React.FC<PropsType> = ({
               onClick={(e) => changeTarget(e.target)}
               key={el.id}
             >
+              {itemName}
               {target && target.id === el.id && (
                 <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
               )}
