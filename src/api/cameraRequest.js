@@ -4,7 +4,6 @@ import { proxy } from './api';
 const API_CAMERASELECT = 'api/camera-algorithms/camera/';
 const API_CAMERACREATE = 'api/cameras/create-camera/';
 const API_CAMERADELETE = 'api/camera-algorithms/delete-camera/';
-const API_CAMERAUPDATE = 'api/camera-algorithms/update-camera/';
 const API_CAMERAFIND = 'api/core/find_cameras/';
 
 export const getSelectedCameras = (hostname, cookies) => {
@@ -101,51 +100,6 @@ export const deleteCameraAPI = (hostname, cookies, IPCamera) => {
         Authorization: cookies,
       },
     });
-  }
-};
-
-export const patchCamera = (hostname, IPCamera, cameraName, cookies) => {
-  // console.log(cameraName);
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(
-      process.env.REACT_APP_NGROK + API_CAMERAUPDATE,
-      'PATCH',
-      {
-        Authorization: cookies,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      JSON.stringify({
-        ip: IPCamera,
-        name: cameraName,
-      })
-    );
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.patch(
-      `${process.env.REACT_APP_IP_SERVER}${API_CAMERAUPDATE}`,
-      {
-        ip: IPCamera,
-        name: cameraName,
-      },
-      {
-        headers: {
-          Authorization: cookies,
-        },
-      }
-    );
-  } else {
-    return axios.patch(
-      `http://${hostname}/${API_CAMERAUPDATE}`,
-      {
-        ip: IPCamera,
-        name: cameraName,
-      },
-      {
-        headers: {
-          Authorization: cookies,
-        },
-      }
-    );
   }
 };
 

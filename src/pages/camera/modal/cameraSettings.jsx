@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { patchCamera } from '../../../api/cameraRequest';
 import { Close } from '../../../assets/svg/SVGcomponent';
 import { AlgorithmSelect } from './components/algorithmSelect';
 import {

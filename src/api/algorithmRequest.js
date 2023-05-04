@@ -3,7 +3,6 @@ import { proxy } from './api';
 
 const API_ALGORITHM = 'api/camera-algorithms/algorithms-detail/';
 const API_POSTALGORITHM = 'api/camera-algorithms/create-process/';
-const API_DELPROCESS = 'api/camera-algorithms/stop-process/';
 const API_GETPROCESS = 'api/camera-algorithms/get-process/';
 const API_GETLOGS = 'api/camera-algorithms/logs/';
 const API_POSTOPERATIONID = 'api/order/index_stanowisko/';
@@ -53,48 +52,6 @@ export const postAlgorithnDependences = async (hostname, cookies, response) => {
         Authorization: cookies,
       },
     });
-  }
-};
-
-export const deleteProcess = (hostname, cookies, pid) => {
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
-      url: process.env.REACT_APP_NGROK + API_DELPROCESS,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookies,
-      },
-      body: JSON.stringify({
-        pid: pid,
-      }),
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.post(
-      `${process.env.REACT_APP_IP_SERVER}${API_DELPROCESS}`,
-      {
-        pid: pid,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: cookies,
-        },
-      }
-    );
-  } else {
-    return axios.post(
-      `http://${hostname}/${API_DELPROCESS}`,
-      {
-        pid: pid,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: cookies,
-        },
-      }
-    );
   }
 };
 
@@ -151,54 +108,6 @@ export const getOperationID = (hostname, cookies) => {
     });
   } else {
     return axios.get(`http://${hostname}/${API_POSTOPERATIONID}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  }
-};
-
-export const postOperationID = async (hostname, cookies, response) => {
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
-      url: process.env.REACT_APP_NGROK + API_POSTOPERATIONID,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookies,
-      },
-      body: JSON.stringify(response),
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_POSTOPERATIONID}`, response, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookies,
-      },
-    });
-  } else {
-    return axios.post(`http://${hostname}/${API_POSTOPERATIONID}`, response, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookies,
-      },
-    });
-  }
-};
-
-export const deleteOperationID = (hostname, cookies, id) => {
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(process.env.REACT_APP_NGROK + API_POSTOPERATIONID + '/' + id, 'DELETE', {
-      Authorization: cookies,
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_POSTOPERATIONID}/${id}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  } else {
-    return axios.get(`http://${hostname}/${API_POSTOPERATIONID}/${id}`, {
       headers: {
         Authorization: cookies,
       },
