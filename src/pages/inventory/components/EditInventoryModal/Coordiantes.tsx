@@ -406,7 +406,7 @@ export const Coordinates: React.FC<PropsType> = ({
           onClick={handleClose}
         />
         <Button
-          text="Save"
+          text="Done"
           className={styles.button}
           type="button"
           onClick={submitHandler}

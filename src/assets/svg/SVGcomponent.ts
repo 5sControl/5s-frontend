@@ -39,6 +39,7 @@ import { ReactComponent as ArrowTop } from './arrowTop.svg';
 import { ReactComponent as Warning } from './warning.svg';
 import { ReactComponent as Tooltip } from './tooltip.svg';
 import { ReactComponent as Prev } from './prev.svg';
+import { ReactComponent as SettingsWhite } from './settingsWhite.svg';
 
 export {
   Algorithm,
@@ -82,4 +83,5 @@ export {
   Warning,
   Tooltip,
   Prev,
+  SettingsWhite,
 };

@@ -55,7 +55,7 @@ export const postNotificationSettings = async (hostname, cookies, response) => {
 export const patchNotificationSettings = (hostname, cookies, response) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy(
-      process.env.REACT_APP_NGROK + API_EMAIL + API_SETTINGS + '1/',
+      process.env.REACT_APP_NGROK + API_SETTINGS + '1/',
       'PATCH',
       {
         Authorization: cookies,
@@ -73,7 +73,7 @@ export const patchNotificationSettings = (hostname, cookies, response) => {
       },
     });
   } else {
-    return axios.patch(`http://${hostname}/${API_EMAIL}1/`, response, {
+    return axios.patch(`http://${hostname}/${API_SETTINGS}1/`, response, {
       headers: {
         Authorization: cookies,
       },

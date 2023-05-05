@@ -16,7 +16,7 @@ import {
   setIsOpenDisconnectModal,
 } from '../DisconnectDbModal/disconnectDbModalSlice';
 import styles from './databaseTab.module.scss';
-
+import { SettingsWhite } from '../../../../assets/svg/SVGcomponent';
 export const DatabaseTab: React.FC = () => {
   const [isEditConnectToDbModal, setIsEditConnectToDbModal] = useState(false);
   const [cookies] = useCookies(['token']);
@@ -116,7 +116,8 @@ export const DatabaseTab: React.FC = () => {
               <Button
                 onClick={handleOpenModalConnectionSettings}
                 disabled={isLoadingGetConnectionsToDB}
-                text="Connection settings"
+                IconLeft={SettingsWhite}
+                text="Settings"
               ></Button>
             </div>
           ) : (

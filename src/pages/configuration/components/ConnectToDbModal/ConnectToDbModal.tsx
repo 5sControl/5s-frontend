@@ -93,7 +93,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
       <div className={styles.header}>
-        <h2 className={styles.header_title}>Database connection</h2>
+        <h2 className={styles.header_title}>Сonnection settings</h2>
         <Cross onClick={handleClose} className={styles.close} />
       </div>
 
@@ -119,7 +119,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
         <Button
           disabled={isLoadingPostConnectionToDb}
           type="submit"
-          text="Connect"
+          text="Done"
           className={styles.form_submit}
         />
       </form>

@@ -12,6 +12,8 @@ import { Coordinat } from '../../types';
 import { Coordinates } from './Coordiantes';
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
 import { Preloader } from '../../../../components/preloader';
+import { Tooltip } from '../../../../assets/svg/SVGcomponent';
+import tooltipImage from '../../../../assets/png/tooltipInventory.png';
 
 type PropsType = {
   isOpen: boolean;
@@ -28,6 +30,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
   const [isClose, setIsClose] = useState<any>(false);
   const [itemName, setItemName] = useState<string | undefined>('');
   const [itemCount, setItemCount] = useState<number | undefined>(0);
+  const [isTooltipClicked, setIsTooltipClicked] = useState(false);
 
   const submitHandler = () => {
     const dataForm = {
@@ -37,7 +40,6 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       coords: coords,
       id: currentEditItem?.id,
     };
-    console.log(coords);
     const coordNegativeArray = coords.filter(
       (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
     );
@@ -52,20 +54,24 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       ).then((response: any) => {
         setIsClose({ status: !!response.payload?.id, loading: false });
         setTimeout(() => {
-          handleClose();
-          dispatch(
-            getInventoryItemsAsync({
-              token: cookies.token,
-              hostname: window.location.hostname,
-              isSort: false,
-            })
-          );
+          if (response.payload.id) {
+            handleClose();
+            dispatch(
+              getInventoryItemsAsync({
+                token: cookies.token,
+                hostname: window.location.hostname,
+                isSort: false,
+              })
+            );
+          } else {
+            setIsClose(false);
+          }
         }, 2000);
       });
     } else {
       setIsClose({ status: false });
       setTimeout(() => {
-        handleClose();
+        setIsClose(false);
       }, 2000);
     }
   };
@@ -80,14 +86,31 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
     }
   }, [isOpen]);
 
-  // console.log(currentEditItem, camerasData);
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
       <div className={styles.form}>
         <div className={styles.header}>
-          <h3 className={styles.title}>Edit item</h3>
+          <h3 className={styles.title}>Item settings</h3>
         </div>
+
         <div className={styles.content}>
+          <div className={styles.algorithm}>
+            <h2>
+              Algorithm <Tooltip onClick={() => setIsTooltipClicked(true)} />
+              {isTooltipClicked && (
+                <>
+                  <div
+                    className={styles.algorithm__container}
+                    onClick={() => setIsTooltipClicked(false)}
+                  ></div>
+                  <img src={tooltipImage} className={styles.algorithm__image} />
+                </>
+              )}
+            </h2>
+            <div className={styles.algorithm__toggle}>
+              {currentEditItem?.multi_row ? <span>Multi row</span> : <span>One row</span>}
+            </div>
+          </div>
           <form>
             <div className={styles.input}>
               <Input

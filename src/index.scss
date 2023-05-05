@@ -205,3 +205,30 @@ body {
 ::-webkit-scrollbar-button {
   display: none
 }
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 5px solid rgba(0, 0, 0, 0.0);
+  border-top-color: #fe6100;
+  border-left-color: #fe6100;
+  border-bottom-color: #fe6100;
+  animation: spin 1.2s ease-out infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

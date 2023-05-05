@@ -61,7 +61,7 @@ export const AddUser = ({ close }) => {
             Cancel
           </button>
           <button className="add-user__create" onClick={registration}>
-            Create
+            Done
           </button>
         </div>
       </div>
