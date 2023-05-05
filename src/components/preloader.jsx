@@ -1,7 +1,9 @@
-import ClockLoader from 'react-spinners/ClockLoader';
-import Gorilla from '../assets/gif/gorila.gif';
+import ClipLoader from 'react-spinners/ClipLoader';
+
 export const Preloader = ({ loading }) => (
   <div className="preloader-wrapper">
-    <img src={Gorilla} alt="" />
+    <div className="spinner">
+      <div className="circle"></div>
+    </div>
   </div>
 );
