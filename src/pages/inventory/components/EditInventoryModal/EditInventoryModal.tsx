@@ -37,7 +37,6 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       coords: coords,
       id: currentEditItem?.id,
     };
-    console.log(coords);
     const coordNegativeArray = coords.filter(
       (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
     );
@@ -52,20 +51,24 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       ).then((response: any) => {
         setIsClose({ status: !!response.payload?.id, loading: false });
         setTimeout(() => {
-          handleClose();
-          dispatch(
-            getInventoryItemsAsync({
-              token: cookies.token,
-              hostname: window.location.hostname,
-              isSort: false,
-            })
-          );
+          if (response.payload.id) {
+            handleClose();
+            dispatch(
+              getInventoryItemsAsync({
+                token: cookies.token,
+                hostname: window.location.hostname,
+                isSort: false,
+              })
+            );
+          } else {
+            setIsClose(false);
+          }
         }, 2000);
       });
     } else {
       setIsClose({ status: false });
       setTimeout(() => {
-        handleClose();
+        setIsClose(false);
       }, 2000);
     }
   };

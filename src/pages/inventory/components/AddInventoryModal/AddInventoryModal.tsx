@@ -66,13 +66,17 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       ).then((response: any) => {
         setIsClose({ status: !!response.payload.id, loading: false });
         setTimeout(() => {
-          handleClose();
+          if (response.payload.id) {
+            handleClose();
+          } else {
+            setIsClose(false);
+          }
         }, 2000);
       });
     } else {
       setIsClose({ status: false });
       setTimeout(() => {
-        handleClose();
+        setIsClose(false);
       }, 2000);
     }
   };
