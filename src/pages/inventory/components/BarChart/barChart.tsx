@@ -53,6 +53,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       const svg = d3.select('#chart');
       const update = data.map((item) => {
         return {
@@ -61,7 +62,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
           stop_tracking: moment(item.stop_tracking).add(3, 'hours'),
         };
       });
-      // console.log(update);
+      console.log(update);
       const selection = svg.selectAll('rect').data(update);
       // console.log(selection);
       const enter = selection.enter();
@@ -251,6 +252,5 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
           .attr('y2', yScale(activeInventoryItem.low_stock_level) + dimensions.top);
     }
   }, []);
-
   return <svg id="chart" width={width} height={height}></svg>;
 };
