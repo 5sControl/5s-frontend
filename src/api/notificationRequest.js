@@ -174,7 +174,6 @@ export const patchNotificationEmail = (hostname, cookies, id, email) => {
 };
 
 export const deleteNotificationEmail = (hostname, cookies, id) => {
-  console.log(id);
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy(`${process.env.REACT_APP_NGROK}${API_EMAIL}${id}/`, 'DELETE', {
       headers: {

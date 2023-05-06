@@ -40,12 +40,10 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings }) => 
         response.algorithms = [...response.algorithms, { name: algorithm }];
       }
     }
-    console.log(response);
     await postAlgorithnDependences(window.location.hostname, token, response).then((res) => {
       console.log(res);
     });
     setIsEnabled(false);
-    console.log(response);
 
     await setIsCameraSettings(false);
   };
