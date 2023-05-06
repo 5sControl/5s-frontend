@@ -53,7 +53,6 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       const svg = d3.select('#chart');
       const update = data.map((item) => {
         return {
@@ -62,9 +61,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
           stop_tracking: moment(item.stop_tracking).add(3, 'hours'),
         };
       });
-      console.log(update);
       const selection = svg.selectAll('rect').data(update);
-      // console.log(selection);
       const enter = selection.enter();
 
       const extentValue = d3.extent(update, (d) => d.start_tracking);
