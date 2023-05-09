@@ -169,14 +169,20 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       )}
       {isClose && (
         <>
-          {isClose.loading ? (
-            <section>
-              <Preloader loading={true} />
-            </section>
-          ) : isClose.status ? (
-            <Notification status={true} message={'Item saved'} />
-          ) : (
-            <Notification status={false} message={'Could not safe the item'} />
+          {isClose && (
+            <>
+              {isClose.loading ? (
+                <div className={styles.response}>
+                  <section>
+                    <Preloader loading={true} />
+                  </section>
+                </div>
+              ) : isClose.status ? (
+                <Notification status={true} message={'Item saved'} />
+              ) : (
+                <Notification status={false} message={'Could not safe the item'} />
+              )}
+            </>
           )}
         </>
       )}
