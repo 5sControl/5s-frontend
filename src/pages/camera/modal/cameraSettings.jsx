@@ -81,8 +81,8 @@ export const CameraSettings = ({
         return { ...acc, [key]: [...curGroup, Object.keys(obj)[0]] };
       }, {});
       setProcess(response.data);
+      console.log(bufObject);
       setAlgorithmsActiveObject(bufObject);
-      // console.log(bufObject);
       getOperationID(window.location.hostname, token).then((response) => {
         if (
           response.data &&
@@ -105,20 +105,19 @@ export const CameraSettings = ({
         }
       });
     });
-    if (isCreateCamera) {
-      findCamera(window.location.hostname)
-        .then((response) => {
-          if (response.data && response.data.results) {
-            const allCameras = response.data.results;
-            const bufCreatedCameras = camerasList.length > 0 ? camerasList.map((e) => e.id) : [];
-            const resultCameras = [...new Set([...allCameras, ...bufCreatedCameras])];
-            setFindCameraList(resultCameras);
-          } else {
-            setFindCameraList([]);
-          }
-        })
-        .catch((error) => console.log(error.message));
-    }
+    findCamera(window.location.hostname)
+      .then((response) => {
+        console.log(response);
+        if (response.data && response.data.results) {
+          const allCameras = response.data.results;
+          const bufCreatedCameras = camerasList.length > 0 ? camerasList.map((e) => e.id) : [];
+          const resultCameras = [...new Set([...allCameras, ...bufCreatedCameras])];
+          setFindCameraList(resultCameras);
+        } else {
+          setFindCameraList([]);
+        }
+      })
+      .catch((error) => console.log(error.message));
   }, []);
 
   return (
@@ -136,7 +135,7 @@ export const CameraSettings = ({
                 <div className="cameras__settings_left">
                   <div className="cameras__settings_camera">
                     <h6>Settings</h6>
-                    {isCreateCamera && (
+                    {isCreateCamera ? (
                       <>
                         <div className="cameras__settings_inputs">
                           <div>
@@ -175,6 +174,15 @@ export const CameraSettings = ({
                           </div>
                         </div>
                       </>
+                    ) : (
+                      <div className="cameras__settings_inputs">
+                        <div>
+                          <div style={{ marginBottom: '10px' }}>
+                            <label htmlFor="cameraName">Camera IP</label>
+                            <Input type="text" value={cameraName} disabled={true} />
+                          </div>
+                        </div>
+                      </div>
                     )}
                     <div className="cameras__settings_inputs">
                       <div>
