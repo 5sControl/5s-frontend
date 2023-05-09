@@ -6,7 +6,7 @@ import {
   getProcess,
   postAlgorithnDependences,
 } from '../../../api/algorithmRequest';
-
+import { findCamera } from '../../../api/cameraRequest';
 export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCreateCamera }) => {
   const [cameraName, setCameraName] = useState(cameraSelect.name);
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
@@ -14,6 +14,7 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
   const [informationToSend, setInformationToSend] = useState({});
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
+  const [findCameraList, setFindCameraList] = useState([]);
 
   console.log(isCreateCamera);
 
@@ -87,6 +88,13 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
         }
       });
     });
+    if (isCreateCamera) {
+      findCamera(window.location.hostname)
+        .then((response) => {
+          setFindCameraList(response.data.results);
+        })
+        .catch((error) => console.log(error.message));
+    }
   }, []);
 
   return (
@@ -103,6 +111,30 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
               <div className="cameras__settings_container">
                 <div className="cameras__settings_left">
                   <div className="cameras__settings_camera">
+                    {isCreateCamera && (
+                      <>
+                        <div className="cameras__settings_inputs">
+                          <div>
+                            <label htmlFor="cameraName">Camera IP address</label>
+                            <select></select>
+                          </div>
+                        </div>
+                        <div className="cameras__settings_inputs">
+                          <div>
+                            <label htmlFor="cameraName">Username</label>
+                            <input
+                              type="text"
+                              value={cameraName}
+                              onChange={(e) => setCameraName(e.target.value)}
+                            />
+                          </div>
+                          <div>
+                            <label htmlFor="cameraName">Password</label>
+                            <input type="text" />
+                          </div>
+                        </div>
+                      </>
+                    )}
                     <div className="cameras__settings_inputs">
                       <div>
                         <label htmlFor="cameraName">Camera Name</label>

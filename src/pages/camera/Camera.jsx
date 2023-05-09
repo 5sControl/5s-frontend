@@ -62,6 +62,12 @@ export const Camera = () => {
   const deleteCamera = (camera) => {
     setIsDeleteModal(camera);
   };
+
+  const handleClickCamera = (el) => {
+    setIsCreateCamera(false);
+    setCameraSelect(el);
+  };
+
   return (
     <section className="cameras">
       <div className="cameras__title">
@@ -74,7 +80,7 @@ export const Camera = () => {
           {createdCameras.map((el, ind) => {
             return (
               <div key={ind} className="cameras__list_item">
-                <div onClick={() => setCameraSelect(el)}>
+                <div onClick={() => handleClickCamera(el)}>
                   <img
                     className="cameras__list_image"
                     src={
