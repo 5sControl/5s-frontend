@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import './cameras.scss';
-import { findCamera, getSelectedCameras } from '../../api/cameraRequest';
+import { getSelectedCameras } from '../../api/cameraRequest';
 import { Button } from '../../components/button';
 import { CamerasDeleteModal } from './modal/camerasDeleteModal';
 import { getProcess } from '../../api/algorithmRequest';
@@ -11,26 +11,12 @@ import { DeleteClear, Plus } from '../../assets/svg/SVGcomponent';
 
 export const Camera = () => {
   const [cookies] = useCookies(['token']);
-  const [camerasList, setCamerasList] = useState(false);
-  const [isShowModal, setIsShowModal] = useState(false);
   const [createdCameras, setCreatedCameras] = useState(false);
   const [error, setError] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [processList, setProcessList] = useState([]);
   const [cameraSelect, setCameraSelect] = useState(false);
   const [isCreateCamera, setIsCreateCamera] = useState(false);
-
-  useEffect(() => {
-    if (isShowModal) {
-      findCamera(window.location.hostname)
-        .then((response) => {
-          setCamerasList(response.data.results);
-        })
-        .catch((error) => setError(error.message));
-    } else {
-      setCamerasList(false);
-    }
-  }, [isShowModal]);
 
   useEffect(() => {
     getProcess(window.location.hostname, cookies.token).then((response) => {
@@ -49,7 +35,7 @@ export const Camera = () => {
         }
       })
       .catch((error) => setError(error.message));
-  }, [isShowModal, isDeleteModal, cameraSelect]);
+  }, [isDeleteModal, cameraSelect]);
 
   const showAddCameras = () => {
     setIsCreateCamera(true);
