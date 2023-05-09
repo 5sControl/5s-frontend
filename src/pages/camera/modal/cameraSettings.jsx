@@ -64,7 +64,7 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
       }, {});
       setProcess(response.data);
       setAlgorithmsActiveObject(bufObject);
-      console.log(bufObject);
+      // console.log(bufObject);
       getOperationID(window.location.hostname, token).then((response) => {
         if (
           response.data &&
