@@ -19,7 +19,6 @@ export const AlgorithmSelect = ({
     getAveilableAlgorithms(window.location.hostname, token).then((res) => {
       if (res.data.length > 0) {
         let allAlgorithm = res.data.filter((alg) => alg.is_available);
-        console.log(allAlgorithm);
         setAlgorithmList(allAlgorithm);
       }
     });
@@ -36,7 +35,6 @@ export const AlgorithmSelect = ({
       setCheckboxAlgo([...checkboxAlgo, state]);
     }
   };
-  console.log(algorithmList);
   return (
     <div className="cameras__settings_algorithms">
       <h1 className="cameras__settings_algorithms_title">

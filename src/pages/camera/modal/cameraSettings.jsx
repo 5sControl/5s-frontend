@@ -7,25 +7,32 @@ import {
   postAlgorithnDependences,
 } from '../../../api/algorithmRequest';
 import { findCamera } from '../../../api/cameraRequest';
-export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCreateCamera }) => {
-  const [cameraName, setCameraName] = useState(cameraSelect.name);
+import { Preloader } from '../../../components/preloader';
+export const CameraSettings = ({
+  cameraSelect,
+  token,
+  setIsCameraSettings,
+  isCreateCamera,
+  camerasList,
+}) => {
+  const [cameraName, setCameraName] = useState(cameraSelect.name ? cameraSelect.name : '');
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
   const [processLocal, setProcess] = useState([]);
   const [informationToSend, setInformationToSend] = useState({});
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
-  const [findCameraList, setFindCameraList] = useState([]);
+  const [findCameraList, setFindCameraList] = useState(false);
   const [cameraIP, setCameraIP] = useState('');
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
-  console.log(cameraSelect, cameraName);
+  console.log(camerasList);
 
   const applySettings = async () => {
     const response = {
       camera: {
         ip: cameraIP,
-        name: cameraName.length > 0 ? cameraName : cameraSelect.id,
+        name: cameraName.length > 0 ? cameraName : cameraIP,
         username: userName,
         password: password,
       },
@@ -99,7 +106,14 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
     if (isCreateCamera) {
       findCamera(window.location.hostname)
         .then((response) => {
-          setFindCameraList(response.data.results);
+          if (response.data && response.data.results) {
+            const allCameras = response.data.results;
+            const bufCreatedCameras = camerasList.length > 0 ? camerasList.map((e) => e.id) : [];
+            const resultCameras = [...new Set([...allCameras, ...bufCreatedCameras])];
+            setFindCameraList(resultCameras);
+          } else {
+            setFindCameraList([]);
+          }
         })
         .catch((error) => console.log(error.message));
     }
@@ -107,7 +121,7 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
 
   return (
     <>
-      {algorithmsActiveObject && (
+      {algorithmsActiveObject && findCameraList ? (
         <>
           <section className="cameras__settings">
             <div className="cameras__settings_modal">
@@ -125,11 +139,9 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
                           <div>
                             <label htmlFor="cameraName">Camera IP address</label>
                             <select onChange={(e) => setCameraIP(e.target.value)}>
-                              {isCreateCamera && (
-                                <option selected disabled>
-                                  Select the camera
-                                </option>
-                              )}
+                              <option selected disabled value={''}>
+                                Select the camera
+                              </option>
 
                               {findCameraList.length > 0 &&
                                 findCameraList.map((camera, index) => (
@@ -213,6 +225,8 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
             </div>
           </section>
         </>
+      ) : (
+        <Preloader />
       )}
     </>
   );
