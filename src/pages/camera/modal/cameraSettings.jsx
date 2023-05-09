@@ -27,8 +27,6 @@ export const CameraSettings = ({
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
-  console.log(camerasList);
-
   const applySettings = async () => {
     const response = {
       camera: {
@@ -81,7 +79,6 @@ export const CameraSettings = ({
         return { ...acc, [key]: [...curGroup, Object.keys(obj)[0]] };
       }, {});
       setProcess(response.data);
-      console.log(bufObject);
       setAlgorithmsActiveObject(bufObject);
       getOperationID(window.location.hostname, token).then((response) => {
         if (
