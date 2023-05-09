@@ -89,7 +89,6 @@ export const InventoryReport: React.FC = () => {
   }, [connectResponse, connectResponseDataAdd, connectDeleteResponse, statusSort]);
 
   const onclickHandler = (activeItem: InventoryItem) => {
-    console.log(activeInventoryItem);
     if (!activeInventoryItem || activeItem.id !== activeInventoryItem.id || !isOpen) {
       dispatch(addActiveInventoryItem(activeItem));
       setIsOpen(true);
@@ -103,7 +102,7 @@ export const InventoryReport: React.FC = () => {
     setShowGlazik(true);
     dispatch(addActiveInventoryItem(activeItem));
   };
-  console.log(inventoryItems);
+
   return (
     <>
       {currentEditItem && (

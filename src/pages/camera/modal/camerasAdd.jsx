@@ -13,7 +13,6 @@ export const AddCamera = ({ setIsShowModal, cookies, camerasList, setIPCamera, I
 
   const connect = () => {
     postCamera(window.location.hostname, IPCamera, username, password, cookies.token).then((e) => {
-      console.log(e);
       if (
         (e.data.message && e.data.message.includes('failed')) ||
         (e.data.detail && e.data.detail.includes('were not provided')) ||
