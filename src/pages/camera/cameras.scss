@@ -4,15 +4,17 @@
 .cameras {
   width: 100%;
   height: 100%;
-  &__preloader{
+  &__preloader {
     position: fixed;
-    top:0;
+    top: 0;
     left: 0;
     display: flex;
     width: 100vw;
     height: 100vh;
     align-items: center;
     justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
   }
   &__name {
     font-weight: 600;
@@ -148,7 +150,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
+    h6 {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 150%;
+      color: #9e9e9e;
+      margin-bottom: 10px;
+    }
     button {
       padding: 4px 20px;
       text-align: center;
@@ -201,7 +209,7 @@
         font-weight: 400;
         font-size: 15px;
         line-height: 20px;
-        margin-bottom: 10px;
+        margin-bottom: 30px;
       }
       @media screen and (max-width: 970px) {
         font-weight: 400;
@@ -240,7 +248,8 @@
         width: 48%;
         display: flex;
         flex-direction: column;
-        input, select {
+        input,
+        select {
           border: 1px solid #9e9e9e;
           border-radius: 4px;
           font-weight: 400;
@@ -256,14 +265,14 @@
       }
     }
     &_camera {
-      padding: 30px 0;
+      padding: 0 0 30px 0;
       border-bottom: 1px solid #e0e0e0;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       align-items: flex-start;
       @media screen and (max-height: 675px) {
-        padding: 15px 0;
+        padding: 0 0 15px 0;
       }
     }
     &_algorithms {

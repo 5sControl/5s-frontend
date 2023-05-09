@@ -135,6 +135,7 @@ export const CameraSettings = ({
               <div className="cameras__settings_container">
                 <div className="cameras__settings_left">
                   <div className="cameras__settings_camera">
+                    <h6>Settings</h6>
                     {isCreateCamera && (
                       <>
                         <div className="cameras__settings_inputs">
