@@ -15,16 +15,19 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
   const [findCameraList, setFindCameraList] = useState([]);
+  const [cameraIP, setCameraIP] = useState('');
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
 
-  console.log(isCreateCamera);
+  console.log(cameraSelect, cameraName);
 
   const applySettings = async () => {
     const response = {
       camera: {
-        ip: cameraSelect.id,
+        ip: cameraIP,
         name: cameraName.length > 0 ? cameraName : cameraSelect.id,
-        username: cameraSelect.username,
-        password: cameraSelect.password,
+        username: userName,
+        password: password,
       },
       algorithms: [],
     };
@@ -52,6 +55,11 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
   };
 
   useEffect(() => {
+    if (!isCreateCamera) {
+      setCameraName(cameraSelect.name);
+      setUserName(cameraSelect.userName);
+      setPassword(cameraSelect.password);
+    }
     getProcess(window.location.hostname, token).then((response) => {
       let bufObject = response.data?.map((item) => {
         return {
@@ -116,7 +124,20 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
                         <div className="cameras__settings_inputs">
                           <div>
                             <label htmlFor="cameraName">Camera IP address</label>
-                            <select></select>
+                            <select onChange={(e) => setCameraIP(e.target.value)}>
+                              {isCreateCamera && (
+                                <option selected disabled>
+                                  Select the camera
+                                </option>
+                              )}
+
+                              {findCameraList.length > 0 &&
+                                findCameraList.map((camera, index) => (
+                                  <option key={index} value={camera}>
+                                    {camera}
+                                  </option>
+                                ))}
+                            </select>
                           </div>
                         </div>
                         <div className="cameras__settings_inputs">
@@ -124,13 +145,17 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
                             <label htmlFor="cameraName">Username</label>
                             <input
                               type="text"
-                              value={cameraName}
-                              onChange={(e) => setCameraName(e.target.value)}
+                              value={userName}
+                              onChange={(e) => setUserName(e.target.value)}
                             />
                           </div>
                           <div>
                             <label htmlFor="cameraName">Password</label>
-                            <input type="text" />
+                            <input
+                              type="text"
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                            />
                           </div>
                         </div>
                       </>
