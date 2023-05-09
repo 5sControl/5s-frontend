@@ -8,6 +8,7 @@ import {
 } from '../../../api/algorithmRequest';
 import { findCamera } from '../../../api/cameraRequest';
 import { Preloader } from '../../../components/preloader';
+import { Input } from '../../../components/input';
 export const CameraSettings = ({
   cameraSelect,
   token,
@@ -164,10 +165,11 @@ export const CameraSettings = ({
                           </div>
                           <div>
                             <label htmlFor="cameraName">Password</label>
-                            <input
-                              type="text"
+                            <Input
+                              type="password"
                               value={password}
                               onChange={(e) => setPassword(e.target.value)}
+                              showEye={true}
                             />
                           </div>
                         </div>
@@ -207,17 +209,19 @@ export const CameraSettings = ({
                   />
                 </div>
                 <div className="cameras__settings_right">
-                  <img
-                    src={
-                      process.env.REACT_APP_ENV === 'proxy'
-                        ? `${process.env.REACT_APP_NGROK}/images/${cameraSelect.id}/snapshot.jpg`
-                        : process.env.REACT_APP_ENV === 'wify'
-                        ? `${process.env.REACT_APP_IP_SERVER}images/${cameraSelect.id}/snapshot.jpg`
-                        : `http://${window.location.hostname}/images/${cameraSelect.id}/snapshot.jpg`
-                    }
-                    alt="Camera"
-                    className="cameras__settings_img"
-                  />
+                  {!isCreateCamera && (
+                    <img
+                      src={
+                        process.env.REACT_APP_ENV === 'proxy'
+                          ? `${process.env.REACT_APP_NGROK}/images/${cameraSelect.id}/snapshot.jpg`
+                          : process.env.REACT_APP_ENV === 'wify'
+                          ? `${process.env.REACT_APP_IP_SERVER}images/${cameraSelect.id}/snapshot.jpg`
+                          : `http://${window.location.hostname}/images/${cameraSelect.id}/snapshot.jpg`
+                      }
+                      alt="Camera"
+                      className="cameras__settings_img"
+                    />
+                  )}
                 </div>
               </div>
               <button disabled={!isEnabled} className="cameras__button" onClick={applySettings}>
