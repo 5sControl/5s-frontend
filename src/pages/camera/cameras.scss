@@ -4,6 +4,16 @@
 .cameras {
   width: 100%;
   height: 100%;
+  &__preloader{
+    position: fixed;
+    top:0;
+    left: 0;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+  }
   &__name {
     font-weight: 600;
     font-size: 16px;
@@ -391,16 +401,6 @@
         background: rgba(254, 97, 0, 0.1);
       }
     }
-  }
-}
-.security {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  video {
-    width: 25%;
   }
 }
 

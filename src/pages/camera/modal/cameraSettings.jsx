@@ -67,6 +67,7 @@ export const CameraSettings = ({
       setUserName(cameraSelect.userName);
       setPassword(cameraSelect.password);
     }
+
     getProcess(window.location.hostname, token).then((response) => {
       let bufObject = response.data?.map((item) => {
         return {
@@ -226,7 +227,9 @@ export const CameraSettings = ({
           </section>
         </>
       ) : (
-        <Preloader />
+        <div className="cameras__preloader" onClick={() => setIsCameraSettings(false)}>
+          <Preloader />
+        </div>
       )}
     </>
   );
