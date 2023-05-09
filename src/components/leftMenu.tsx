@@ -12,11 +12,17 @@ import { useEffect, useState } from 'react';
 import { getCompanyInfo } from '../api/companyRequest';
 import { useCookies } from 'react-cookie';
 
+interface CompanyInfo {
+  name_company: string;
+  days_left: string;
+}
 export const LeftMenu = () => {
   const [useless, setUseless] = useState(false);
   const [cookies] = useCookies(['token']);
-  const [companyInfo, setCompanyInfo] = useState([]);
-
+  const [companyInfo, setCompanyInfo] = useState<CompanyInfo>({
+    name_company: '',
+    days_left: '',
+  });
   const send = () => {
     setUseless(!useless);
   };
