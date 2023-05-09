@@ -10,10 +10,10 @@ import { useCookies } from 'react-cookie';
 import { getInventoryItemsAsync, selectInventory } from '../../inventorySlice';
 import { Coordinat } from '../../types';
 import { Coordinates } from './Coordiantes';
-import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
 import { Preloader } from '../../../../components/preloader';
 import { Tooltip } from '../../../../assets/svg/SVGcomponent';
 import tooltipImage from '../../../../assets/png/tooltipInventory.png';
+import { Notification } from '../../../../components/notification/notification';
 
 type PropsType = {
   isOpen: boolean;
@@ -162,23 +162,17 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
         <>
           {isClose && (
             <>
-              <div className={styles.response}>
-                {isClose.loading ? (
+              {isClose.loading ? (
+                <div className={styles.response}>
                   <section>
                     <Preloader loading={true} />
                   </section>
-                ) : isClose.status ? (
-                  <div>
-                    <IoIosCheckmarkCircle className={styles.icons} style={{ color: 'green' }} />
-                    <p>The item is saved</p>
-                  </div>
-                ) : (
-                  <div>
-                    <IoIosCloseCircle className={styles.icons} style={{ color: 'red' }} />
-                    <p>The item is not saved</p>
-                  </div>
-                )}
-              </div>
+                </div>
+              ) : isClose.status ? (
+                <Notification status={true} message={'Item saved'} />
+              ) : (
+                <Notification status={false} message={'Could not safe the item'} />
+              )}
             </>
           )}
         </>

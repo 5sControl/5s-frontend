@@ -40,6 +40,8 @@ import { ReactComponent as Warning } from './warning.svg';
 import { ReactComponent as Tooltip } from './tooltip.svg';
 import { ReactComponent as Prev } from './prev.svg';
 import { ReactComponent as SettingsWhite } from './settingsWhite.svg';
+import { ReactComponent as NotificationGood } from './notificationGood.svg';
+import { ReactComponent as NotificationBad } from './notificationBad.svg';
 
 export {
   Algorithm,
@@ -84,4 +86,6 @@ export {
   Tooltip,
   Prev,
   SettingsWhite,
+  NotificationGood,
+  NotificationBad,
 };

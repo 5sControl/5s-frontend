@@ -9,13 +9,13 @@ import { useCookies } from 'react-cookie';
 import { addItem } from './addInventoryModalSlice';
 import { selectInventory } from '../../inventorySlice';
 import { Coordinates } from './coordinates';
-import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
 import './moveable.scss';
 import { Coordinat } from '../../types';
 import { Preloader } from '../../../../components/preloader';
 import { Link } from 'react-router-dom';
 import { Tooltip } from '../../../../assets/svg/SVGcomponent';
 import tooltipImage from '../../../../assets/png/tooltipInventory.png';
+import { Notification } from '../../../../components/notification/notification';
 
 type PropsType = {
   isOpen: boolean;
@@ -50,7 +50,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       coords: coords,
       multi_row: isMulti,
     };
-    console.log(dataForm);
     const coordNegativeArray = coords.filter(
       (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
     );
@@ -170,23 +169,21 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       )}
       {isClose && (
         <>
-          <div className={styles.response}>
-            {isClose.loading ? (
-              <section>
-                <Preloader loading={true} />
-              </section>
-            ) : isClose.status ? (
-              <div>
-                <IoIosCheckmarkCircle className={styles.icons} style={{ color: 'green' }} />
-                <p>The item is saved</p>
-              </div>
-            ) : (
-              <div>
-                <IoIosCloseCircle className={styles.icons} style={{ color: 'red' }} />
-                <p>The item is not saved</p>
-              </div>
-            )}
-          </div>
+          {isClose && (
+            <>
+              {isClose.loading ? (
+                <div className={styles.response}>
+                  <section>
+                    <Preloader loading={true} />
+                  </section>
+                </div>
+              ) : isClose.status ? (
+                <Notification status={true} message={'Item saved'} />
+              ) : (
+                <Notification status={false} message={'Could not safe the item'} />
+              )}
+            </>
+          )}
         </>
       )}
     </Modal>
