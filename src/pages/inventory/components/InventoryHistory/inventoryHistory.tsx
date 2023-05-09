@@ -72,7 +72,7 @@ export const InventoryHistory: React.FC = () => {
             </p>
           </div>
         ) : (
-          <Preloader loading={isLoadingHistory} />
+          <Preloader />
         )}
       </div>
     </>

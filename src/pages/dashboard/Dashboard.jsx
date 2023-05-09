@@ -91,7 +91,7 @@ function Dashboard() {
         />
 
         {!data ? (
-          <Preloader loading={true} />
+          <Preloader />
         ) : data.length > 0 ? (
           <>
             <TimelineHub

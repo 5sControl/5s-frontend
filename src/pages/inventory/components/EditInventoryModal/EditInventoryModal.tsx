@@ -165,7 +165,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
               {isClose.loading ? (
                 <div className={styles.response}>
                   <section>
-                    <Preloader loading={true} />
+                    <Preloader />
                   </section>
                 </div>
               ) : isClose.status ? (

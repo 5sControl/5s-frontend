@@ -41,7 +41,7 @@ export const ConfigurationCamera = () => {
       {Object.keys(camera).length > 0 ? (
         <section className="camera-config"></section>
       ) : (
-        <Preloader loading={true} />
+        <Preloader />
       )}
       {isShowModal && (
         <CameraSettings
