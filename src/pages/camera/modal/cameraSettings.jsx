@@ -6,24 +6,36 @@ import {
   getProcess,
   postAlgorithnDependences,
 } from '../../../api/algorithmRequest';
-
-export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCreateCamera }) => {
-  const [cameraName, setCameraName] = useState(cameraSelect.name);
+import { findCamera } from '../../../api/cameraRequest';
+import { Preloader } from '../../../components/preloader';
+import { Input } from '../../../components/input';
+export const CameraSettings = ({
+  cameraSelect,
+  token,
+  setIsCameraSettings,
+  isCreateCamera,
+  camerasList,
+}) => {
+  const [cameraName, setCameraName] = useState(cameraSelect.name ? cameraSelect.name : '');
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
   const [processLocal, setProcess] = useState([]);
   const [informationToSend, setInformationToSend] = useState({});
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
+  const [findCameraList, setFindCameraList] = useState(false);
+  const [cameraIP, setCameraIP] = useState('');
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
 
-  console.log(isCreateCamera);
+  console.log(camerasList);
 
   const applySettings = async () => {
     const response = {
       camera: {
-        ip: cameraSelect.id,
-        name: cameraName.length > 0 ? cameraName : cameraSelect.id,
-        username: cameraSelect.username,
-        password: cameraSelect.password,
+        ip: cameraIP,
+        name: cameraName.length > 0 ? cameraName : cameraIP,
+        username: userName,
+        password: password,
       },
       algorithms: [],
     };
@@ -51,6 +63,12 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
   };
 
   useEffect(() => {
+    if (!isCreateCamera) {
+      setCameraName(cameraSelect.name);
+      setUserName(cameraSelect.userName);
+      setPassword(cameraSelect.password);
+    }
+
     getProcess(window.location.hostname, token).then((response) => {
       let bufObject = response.data?.map((item) => {
         return {
@@ -63,8 +81,8 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
         return { ...acc, [key]: [...curGroup, Object.keys(obj)[0]] };
       }, {});
       setProcess(response.data);
+      console.log(bufObject);
       setAlgorithmsActiveObject(bufObject);
-      // console.log(bufObject);
       getOperationID(window.location.hostname, token).then((response) => {
         if (
           response.data &&
@@ -87,11 +105,24 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
         }
       });
     });
+    findCamera(window.location.hostname)
+      .then((response) => {
+        console.log(response);
+        if (response.data && response.data.results) {
+          const allCameras = response.data.results;
+          const bufCreatedCameras = camerasList.length > 0 ? camerasList.map((e) => e.id) : [];
+          const resultCameras = [...new Set([...allCameras, ...bufCreatedCameras])];
+          setFindCameraList(resultCameras);
+        } else {
+          setFindCameraList([]);
+        }
+      })
+      .catch((error) => console.log(error.message));
   }, []);
 
   return (
     <>
-      {algorithmsActiveObject && (
+      {algorithmsActiveObject && findCameraList ? (
         <>
           <section className="cameras__settings">
             <div className="cameras__settings_modal">
@@ -103,6 +134,56 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
               <div className="cameras__settings_container">
                 <div className="cameras__settings_left">
                   <div className="cameras__settings_camera">
+                    <h6>Settings</h6>
+                    {isCreateCamera ? (
+                      <>
+                        <div className="cameras__settings_inputs">
+                          <div>
+                            <label htmlFor="cameraName">Camera IP address</label>
+                            <select onChange={(e) => setCameraIP(e.target.value)}>
+                              <option selected disabled value={''}>
+                                Select the camera
+                              </option>
+
+                              {findCameraList.length > 0 &&
+                                findCameraList.map((camera, index) => (
+                                  <option key={index} value={camera}>
+                                    {camera}
+                                  </option>
+                                ))}
+                            </select>
+                          </div>
+                        </div>
+                        <div className="cameras__settings_inputs">
+                          <div>
+                            <label htmlFor="cameraName">Username</label>
+                            <input
+                              type="text"
+                              value={userName}
+                              onChange={(e) => setUserName(e.target.value)}
+                            />
+                          </div>
+                          <div>
+                            <label htmlFor="cameraName">Password</label>
+                            <Input
+                              type="password"
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              showEye={true}
+                            />
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="cameras__settings_inputs">
+                        <div>
+                          <div style={{ marginBottom: '10px' }}>
+                            <label htmlFor="cameraName">Camera IP</label>
+                            <Input type="text" value={cameraName} disabled={true} />
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     <div className="cameras__settings_inputs">
                       <div>
                         <label htmlFor="cameraName">Camera Name</label>
@@ -137,17 +218,19 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
                   />
                 </div>
                 <div className="cameras__settings_right">
-                  <img
-                    src={
-                      process.env.REACT_APP_ENV === 'proxy'
-                        ? `${process.env.REACT_APP_NGROK}/images/${cameraSelect.id}/snapshot.jpg`
-                        : process.env.REACT_APP_ENV === 'wify'
-                        ? `${process.env.REACT_APP_IP_SERVER}images/${cameraSelect.id}/snapshot.jpg`
-                        : `http://${window.location.hostname}/images/${cameraSelect.id}/snapshot.jpg`
-                    }
-                    alt="Camera"
-                    className="cameras__settings_img"
-                  />
+                  {!isCreateCamera && (
+                    <img
+                      src={
+                        process.env.REACT_APP_ENV === 'proxy'
+                          ? `${process.env.REACT_APP_NGROK}/images/${cameraSelect.id}/snapshot.jpg`
+                          : process.env.REACT_APP_ENV === 'wify'
+                          ? `${process.env.REACT_APP_IP_SERVER}images/${cameraSelect.id}/snapshot.jpg`
+                          : `http://${window.location.hostname}/images/${cameraSelect.id}/snapshot.jpg`
+                      }
+                      alt="Camera"
+                      className="cameras__settings_img"
+                    />
+                  )}
                 </div>
               </div>
               <button disabled={!isEnabled} className="cameras__button" onClick={applySettings}>
@@ -156,6 +239,10 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCre
             </div>
           </section>
         </>
+      ) : (
+        <div className="cameras__preloader" onClick={() => setIsCameraSettings(false)}>
+          <Preloader />
+        </div>
       )}
     </>
   );

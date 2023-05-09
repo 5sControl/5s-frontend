@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { AddCamera } from './modal/camerasAdd';
 import './cameras.scss';
 import { findCamera, getSelectedCameras } from '../../api/cameraRequest';
 import { Button } from '../../components/button';
@@ -15,7 +14,6 @@ export const Camera = () => {
   const [camerasList, setCamerasList] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [createdCameras, setCreatedCameras] = useState(false);
-  const [IPCamera, setIPCamera] = useState('');
   const [error, setError] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [processList, setProcessList] = useState([]);
@@ -62,6 +60,12 @@ export const Camera = () => {
   const deleteCamera = (camera) => {
     setIsDeleteModal(camera);
   };
+
+  const handleClickCamera = (el) => {
+    setIsCreateCamera(false);
+    setCameraSelect(el);
+  };
+
   return (
     <section className="cameras">
       <div className="cameras__title">
@@ -74,7 +78,7 @@ export const Camera = () => {
           {createdCameras.map((el, ind) => {
             return (
               <div key={ind} className="cameras__list_item">
-                <div onClick={() => setCameraSelect(el)}>
+                <div onClick={() => handleClickCamera(el)}>
                   <img
                     className="cameras__list_image"
                     src={
@@ -109,17 +113,6 @@ export const Camera = () => {
       )}
 
       {error && <div style={{ color: 'red', fontSize: '26px' }}>{error}</div>}
-
-      {isShowModal && (
-        <AddCamera
-          setIsShowModal={(e) => setIsShowModal(e)}
-          cookies={cookies}
-          setIPCamera={(e) => setIPCamera(e)}
-          IPCamera={IPCamera}
-          camerasList={camerasList}
-        />
-      )}
-
       {isDeleteModal && (
         <CamerasDeleteModal
           cancelClick={() => setIsDeleteModal(false)}
@@ -135,6 +128,7 @@ export const Camera = () => {
           token={cookies.token}
           setIsCameraSettings={(bool) => setCameraSelect(bool)}
           isCreateCamera={isCreateCamera}
+          camerasList={createdCameras}
         />
       )}
     </section>
