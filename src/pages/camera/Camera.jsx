@@ -20,6 +20,8 @@ export const Camera = () => {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [processList, setProcessList] = useState([]);
   const [cameraSelect, setCameraSelect] = useState(false);
+  const [isCreateCamera, setIsCreateCamera] = useState(false);
+
   useEffect(() => {
     if (isShowModal) {
       findCamera(window.location.hostname)
@@ -52,13 +54,14 @@ export const Camera = () => {
   }, [isShowModal, isDeleteModal, cameraSelect]);
 
   const showAddCameras = () => {
-    setIsShowModal(true);
+    setIsCreateCamera(true);
+    setCameraSelect(true);
+    // setIsShowModal(true);
   };
 
   const deleteCamera = (camera) => {
     setIsDeleteModal(camera);
   };
-  console.log(cameraSelect);
   return (
     <section className="cameras">
       <div className="cameras__title">
@@ -131,6 +134,7 @@ export const Camera = () => {
           cameraSelect={cameraSelect}
           token={cookies.token}
           setIsCameraSettings={(bool) => setCameraSelect(bool)}
+          isCreateCamera={isCreateCamera}
         />
       )}
     </section>

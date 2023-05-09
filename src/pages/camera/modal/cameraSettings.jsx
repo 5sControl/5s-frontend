@@ -7,13 +7,15 @@ import {
   postAlgorithnDependences,
 } from '../../../api/algorithmRequest';
 
-export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings }) => {
+export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings, isCreateCamera }) => {
   const [cameraName, setCameraName] = useState(cameraSelect.name);
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
   const [processLocal, setProcess] = useState([]);
   const [informationToSend, setInformationToSend] = useState({});
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
+
+  console.log(isCreateCamera);
 
   const applySettings = async () => {
     const response = {
@@ -97,10 +99,7 @@ export const CameraSettings = ({ cameraSelect, token, setIsCameraSettings }) => 
                 <h1>Camera Settings</h1>
                 <Close onClick={() => setIsCameraSettings(false)} className="pointer" />
               </div>
-              <p className="cameras__settings_desc">
-                Successfully connected. Give camera a name that will be used in 5S Control system
-                and select algorithms that will be used on it.
-              </p>
+              <p className="cameras__settings_desc">Connect to camera and configure settings</p>
               <div className="cameras__settings_container">
                 <div className="cameras__settings_left">
                   <div className="cameras__settings_camera">
