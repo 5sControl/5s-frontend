@@ -374,6 +374,7 @@
     }
     &_image {
       height: 70px;
+      min-width: 120px;
       max-width: 120px;
       object-fit: contain;
     }
