@@ -1,0 +1,29 @@
+.container {
+  position: fixed;
+  top: 20px;
+  left: calc(50% - 200px);
+  width: 400px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 175%;
+  z-index: 9999;
+  span{
+    margin-left: 10px;
+  }
+}
+.good {
+  background: #e3f3d0;
+  border: 2px solid #87bc45;
+  color: #629424;
+
+}
+.bad {
+  background: #f6cbcb;
+  border: 2px solid #e00606;
+  color: #B00808;
+}
