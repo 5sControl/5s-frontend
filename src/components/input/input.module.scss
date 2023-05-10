@@ -24,6 +24,10 @@
     @include body1;
     color: var(--HightEmphasis);
     padding: 13px 16px;
+    &:focus {
+      border-color: #212121;
+      outline: none;
+    }
   }
   &__eye {
     cursor: pointer;
@@ -37,7 +41,7 @@
       color: var(--HightEmphasis);
     }
   }
-  &__search{
+  &__search {
     position: absolute;
     right: 0px;
   }

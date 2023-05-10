@@ -15,6 +15,11 @@
     width: calc(100% + 10px);
     -webkit-appearance: none;
     appearance: none;
+    border: 1px solid var(--LowEmphasis);
+    &:focus {
+      border-color: #212121;
+      outline: none;
+    }
     &:hover {
       background: #f3e0e0;
     }

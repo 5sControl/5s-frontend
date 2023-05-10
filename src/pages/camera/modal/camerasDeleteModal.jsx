@@ -20,6 +20,7 @@ export const CamerasDeleteModal = ({ cancelClick, processList, camera, token }) 
         console.log(error);
       });
   };
+
   return (
     <section className="deleteModal">
       <div className="deleteModal__container">
