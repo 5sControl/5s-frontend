@@ -102,6 +102,7 @@ export const CameraSettings = ({
         }
       });
     });
+
     findCamera(window.location.hostname)
       .then((response) => {
         console.log(response);

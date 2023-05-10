@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Cross } from '../../assets/svg/SVGcomponent';
 import { ReactPortal } from '../reactPortal';
 import './modal.scss';
@@ -19,13 +20,13 @@ export const Modal: React.FC<PropsType> = ({
   showCross = false,
   showSubstrateCross = false,
 }) => {
-  // useEffect(() => {
-  //   const closeOnEscapeKey = (e: KeyboardEvent) => (e.key === 'Escape' ? handleClose() : null);
-  //   document.body.addEventListener('keydown', closeOnEscapeKey);
-  //   return () => {
-  //     document.body.removeEventListener('keydown', closeOnEscapeKey);
-  //   };
-  // }, [handleClose]);
+  useEffect(() => {
+    const closeOnEscapeKey = (e: KeyboardEvent) => (e.key === 'Escape' ? handleClose() : null);
+    document.body.addEventListener('keydown', closeOnEscapeKey);
+    return () => {
+      document.body.removeEventListener('keydown', closeOnEscapeKey);
+    };
+  }, [handleClose]);
 
   if (!isOpen) return null;
 
