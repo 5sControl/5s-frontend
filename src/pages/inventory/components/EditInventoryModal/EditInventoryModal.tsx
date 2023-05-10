@@ -18,9 +18,14 @@ import { Notification } from '../../../../components/notification/notification';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
+  setIsNotification: () => void;
 };
 
-export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
+export const EditInventoryModal: React.FC<PropsType> = ({
+  isOpen,
+  handleClose,
+  setIsNotification,
+}) => {
   const dispatch = useAppDispatch();
   const { currentEditItem } = useAppSelector(selectEditInventoryModal);
   const { camerasData } = useAppSelector(selectInventory);
@@ -44,6 +49,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
     );
     setIsClose({ loading: true });
+
     if (coords.length > 0 && coordNegativeArray.length === 0 && itemName && itemName.length > 0) {
       dispatch(
         editItem({
@@ -53,20 +59,14 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
         })
       ).then((response: any) => {
         setIsClose({ status: !!response.payload?.id, loading: false });
-        setTimeout(() => {
-          if (response.payload.id) {
-            handleClose();
-            dispatch(
-              getInventoryItemsAsync({
-                token: cookies.token,
-                hostname: window.location.hostname,
-                isSort: false,
-              })
-            );
-          } else {
+        if (response.payload.id) {
+          handleClose();
+          setIsNotification();
+        } else {
+          setTimeout(() => {
             setIsClose(false);
-          }
-        }, 2000);
+          }, 2000);
+        }
       });
     } else {
       setIsClose({ status: false });
@@ -160,20 +160,14 @@ export const EditInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose })
       />
       {isClose && (
         <>
-          {isClose && (
-            <>
-              {isClose.loading ? (
-                <div className={styles.response}>
-                  <section>
-                    <Preloader />
-                  </section>
-                </div>
-              ) : isClose.status ? (
-                <Notification status={true} message={'Item saved'} />
-              ) : (
-                <Notification status={false} message={'Could not safe the item'} />
-              )}
-            </>
+          {isClose.loading ? (
+            <div className={styles.response}>
+              <section>
+                <Preloader />
+              </section>
+            </div>
+          ) : (
+            !isClose.status && <Notification status={false} message={'Could not safe the item'} />
           )}
         </>
       )}

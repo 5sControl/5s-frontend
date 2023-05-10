@@ -52,6 +52,7 @@ export const CameraSettings = ({
         response.algorithms = [...response.algorithms, { name: algorithm }];
       }
     }
+
     await postAlgorithnDependences(window.location.hostname, token, response).then((res) => {
       console.log(res);
     });

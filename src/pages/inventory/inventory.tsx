@@ -18,6 +18,8 @@ import {
 
 import { IoMdSettings } from 'react-icons/io';
 import { NightModeModal } from './components/NightModeModal';
+import { Notification } from '../../components/notification/notification';
+
 export const Inventory: React.FC = () => {
   const dispatch = useAppDispatch();
   const { camerasData } = useAppSelector(selectInventory);
@@ -25,7 +27,10 @@ export const Inventory: React.FC = () => {
   const { selectDate } = useAppSelector(selectInventoryHistory);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
+  const [isNotification, setIsNotification] = useState<boolean>(false);
+
   const { isOpenNightModal } = useAppSelector(selectNightInventoryModal);
+
   useEffect(() => {
     dispatch(getCamerasAsync({ token: cookies.token, hostname: window.location.hostname }));
   }, []);
@@ -53,9 +58,21 @@ export const Inventory: React.FC = () => {
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    if (isNotification) {
+      setTimeout(() => {
+        setIsNotification(false);
+      }, 2000);
+    }
+  }, [isNotification]);
+
   return (
     <>
-      <AddInventoryModal isOpen={isOpen} handleClose={closeInventoryButton} />
+      <AddInventoryModal
+        isOpen={isOpen}
+        handleClose={closeInventoryButton}
+        setIsNotification={() => setIsNotification(true)}
+      />
       <WrapperPage>
         <div className={styles.content}>
           <div className={styles.header}>
@@ -71,7 +88,7 @@ export const Inventory: React.FC = () => {
             {camerasData && <Button text="Add item" IconLeft={Plus} onClick={addInventoryButton} />}
           </div>
           <>
-            <InventoryReport />
+            <InventoryReport setIsNotification={() => setIsNotification(true)} />
           </>
         </div>
         {isOpenNightModal && (
@@ -82,6 +99,7 @@ export const Inventory: React.FC = () => {
             }}
           />
         )}
+        {isNotification && <Notification status={true} message={'Item saved'} />}
       </WrapperPage>
     </>
   );

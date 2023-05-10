@@ -20,9 +20,14 @@ import { Notification } from '../../../../components/notification/notification';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
+  setIsNotification: () => void;
 };
 
-export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) => {
+export const AddInventoryModal: React.FC<PropsType> = ({
+  isOpen,
+  handleClose,
+  setIsNotification,
+}) => {
   const dispatch = useAppDispatch();
   const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
@@ -64,13 +69,15 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
         })
       ).then((response: any) => {
         setIsClose({ status: !!response.payload.id, loading: false });
-        setTimeout(() => {
-          if (response.payload.id) {
-            handleClose();
-          } else {
+
+        if (response.payload.id) {
+          handleClose();
+          setIsNotification();
+        } else {
+          setTimeout(() => {
             setIsClose(false);
-          }
-        }, 2000);
+          }, 2000);
+        }
       });
     } else {
       setIsClose({ status: false });
@@ -169,20 +176,14 @@ export const AddInventoryModal: React.FC<PropsType> = ({ isOpen, handleClose }) 
       )}
       {isClose && (
         <>
-          {isClose && (
-            <>
-              {isClose.loading ? (
-                <div className={styles.response}>
-                  <section>
-                    <Preloader />
-                  </section>
-                </div>
-              ) : isClose.status ? (
-                <Notification status={true} message={'Item saved'} />
-              ) : (
-                <Notification status={false} message={'Could not safe the item'} />
-              )}
-            </>
+          {isClose.loading ? (
+            <div className={styles.response}>
+              <section>
+                <Preloader />
+              </section>
+            </div>
+          ) : (
+            !isClose.status && <Notification status={false} message={'Could not safe the item'} />
           )}
         </>
       )}

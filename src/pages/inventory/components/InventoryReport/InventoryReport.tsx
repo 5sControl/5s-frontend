@@ -30,7 +30,11 @@ import {
 import { InventoryCard } from '../InventoryCard/InventoryCard';
 import { BsEyeFill } from 'react-icons/bs';
 
-export const InventoryReport: React.FC = () => {
+type PropsType = {
+  setIsNotification: () => void;
+};
+
+export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
   const { inventoryItems, isLoading, camerasData, inventoryHistoryData } =
     useAppSelector(selectInventory);
   const { isOpenEditModal, currentEditItem } = useAppSelector(selectEditInventoryModal);
@@ -106,7 +110,11 @@ export const InventoryReport: React.FC = () => {
   return (
     <>
       {currentEditItem && (
-        <EditInventoryModal isOpen={isOpenEditModal} handleClose={handleCloseEditModal} />
+        <EditInventoryModal
+          isOpen={isOpenEditModal}
+          handleClose={handleCloseEditModal}
+          setIsNotification={setIsNotification}
+        />
       )}
       {currentDeleteItemId && (
         <DeleteInventoryModal
