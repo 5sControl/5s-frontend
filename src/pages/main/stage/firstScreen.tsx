@@ -1,6 +1,10 @@
 import logo from '../../../assets/svg/icon.svg';
 
-export const Congratulations = ({ setStage }) => {
+type PropsType = {
+  setStage: () => void;
+};
+
+export const Congratulations: React.FC<PropsType> = ({ setStage }) => {
   return (
     <div className="main">
       <img src={logo} alt="logo" className="main__logo" />
