@@ -11,12 +11,14 @@ import { Preloader } from '../../../components/preloader';
 import { Input } from '../../../components/input';
 import Combobox from 'react-widgets/Combobox';
 import 'react-widgets/styles.css';
+import { Notification } from '../../../components/notification/notification';
 export const CameraSettings = ({
   cameraSelect,
   token,
   setIsCameraSettings,
   isCreateCamera,
   camerasList,
+  setIsNotificationAfterCreate,
 }) => {
   const [cameraName, setCameraName] = useState(cameraSelect.name ? cameraSelect.name : '');
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
@@ -28,8 +30,11 @@ export const CameraSettings = ({
   const [cameraIP, setCameraIP] = useState(cameraSelect.id ? cameraSelect.id : '');
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [isNotification, setIsNotification] = useState(false);
+  const [isPreloader, setIsPreloader] = useState(false);
 
   const applySettings = async () => {
+    setIsPreloader(true);
     const response = {
       camera: {
         ip: cameraIP,
@@ -55,13 +60,17 @@ export const CameraSettings = ({
         response.algorithms = [...response.algorithms, { name: algorithm }];
       }
     }
-    console.log(response);
-    await postAlgorithnDependences(window.location.hostname, token, response).then((res) => {
-      console.log(res);
-    });
-    setIsEnabled(false);
-
-    await setIsCameraSettings(false);
+    await postAlgorithnDependences(window.location.hostname, token, response)
+      .then((res) => {
+        setIsEnabled(false);
+        setIsNotificationAfterCreate();
+        setIsCameraSettings(false);
+        setIsPreloader(false);
+      })
+      .catch((res) => {
+        setIsNotification(true);
+        setIsPreloader(false);
+      });
   };
 
   useEffect(() => {
@@ -240,6 +249,12 @@ export const CameraSettings = ({
               </button>
             </div>
           </section>
+          {isNotification && <Notification status={false} message="Camera not create" />}
+          {isPreloader && (
+            <div className="cameras__preloader" onClick={() => setIsCameraSettings(false)}>
+              <Preloader />
+            </div>
+          )}
         </>
       ) : (
         <div className="cameras__preloader" onClick={() => setIsCameraSettings(false)}>

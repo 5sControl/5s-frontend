@@ -8,6 +8,7 @@ import { getProcess } from '../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
 import { CameraSettings } from './modal/cameraSettings';
 import { DeleteClear, Plus } from '../../assets/svg/SVGcomponent';
+import { Notification } from '../../components/notification/notification';
 
 export const Camera = () => {
   const [cookies] = useCookies(['token']);
@@ -17,6 +18,7 @@ export const Camera = () => {
   const [processList, setProcessList] = useState([]);
   const [cameraSelect, setCameraSelect] = useState(false);
   const [isCreateCamera, setIsCreateCamera] = useState(false);
+  const [isNotificationAfterCreate, setIsNotificationAfterCreate] = useState(false);
 
   useEffect(() => {
     if (!cameraSelect) {
@@ -53,6 +55,12 @@ export const Camera = () => {
     setIsCreateCamera(false);
     setCameraSelect(el);
   };
+
+  useEffect(() => {
+    if (isNotificationAfterCreate) {
+      setTimeout(() => setIsNotificationAfterCreate(false), 2000);
+    }
+  }, [isNotificationAfterCreate]);
 
   return (
     <section className="cameras">
@@ -99,7 +107,7 @@ export const Camera = () => {
           })}
         </div>
       )}
-
+      {isNotificationAfterCreate && <Notification status={true} message={'Camera saved'} />}
       {error && <div style={{ color: 'red', fontSize: '26px' }}>{error}</div>}
       {isDeleteModal && (
         <CamerasDeleteModal
@@ -117,6 +125,7 @@ export const Camera = () => {
           setIsCameraSettings={(bool) => setCameraSelect(bool)}
           isCreateCamera={isCreateCamera}
           camerasList={createdCameras}
+          setIsNotificationAfterCreate={() => setIsNotificationAfterCreate(true)}
         />
       )}
     </section>
