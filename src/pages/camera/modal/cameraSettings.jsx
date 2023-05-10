@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Close } from '../../../assets/svg/SVGcomponent';
-import { AlgorithmSelect } from './components/algorithmSelect';
+import { AlgorithmSelect } from '../components/algorithmSelect';
 import {
   getOperationID,
   getProcess,

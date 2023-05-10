@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getAveilableAlgorithms } from '../../../../api/algorithmRequest';
-import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
-import { Input } from '../../../../components/input';
+import { getAveilableAlgorithms } from '../../../api/algorithmRequest';
+import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName';
+import { Input } from '../../../components/input';
 
 export const AlgorithmSelect = ({
   token,

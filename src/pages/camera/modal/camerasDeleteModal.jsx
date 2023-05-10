@@ -8,6 +8,7 @@ export const CamerasDeleteModal = ({ cancelClick, processList, camera, token }) 
   useEffect(() => {
     setAlgorithms(processList.filter((el) => el.camera.id === camera));
   }, []);
+
   const deleteCamera = () => {
     deleteCameraAPI(window.location.hostname, token, camera)
       .then((response) => {
