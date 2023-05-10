@@ -13,11 +13,13 @@ import { BsFillTrashFill } from 'react-icons/bs';
 import { FcCheckmark } from 'react-icons/fc';
 import { useCookies } from 'react-cookie';
 import { IoMdSettings } from 'react-icons/io';
+import { Notification } from '../../components/notification/notification';
 export const Notifications = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [emails, setEmails] = useState([]);
   const [cookies] = useCookies(['token']);
   const [defaultSettings, setDefaultSettings] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState(false);
 
   useEffect(() => {
     if (!isShowModal) {
@@ -72,6 +74,13 @@ export const Notifications = () => {
     }
   };
 
+  useEffect(() => {
+    if (notificationMessage) {
+      setTimeout(() => {
+        setNotificationMessage(false);
+      }, 2000);
+    }
+  }, [notificationMessage]);
   return (
     <>
       <section className={styles.server}>
@@ -142,7 +151,11 @@ export const Notifications = () => {
           handleClose={() => setIsShowModal(false)}
           token={cookies.token}
           defaultSettings={defaultSettings}
+          setNotificationMessage={() => setNotificationMessage(true)}
         />
+      )}
+      {notificationMessage && (
+        <Notification status={true} message={'Settings are saved successfully'} />
       )}
     </>
   );

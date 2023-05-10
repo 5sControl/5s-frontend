@@ -8,17 +8,26 @@ import {
   patchNotificationSettings,
   postNotificationSettings,
 } from '../../../api/notificationRequest';
+import { Notification } from '../../../components/notification/notification';
+import { Preloader } from '../../../components/preloader';
 
-export const ModalEmail = ({ isOpen, handleClose, token, defaultSettings }) => {
+export const ModalEmail = ({
+  isOpen,
+  handleClose,
+  token,
+  defaultSettings,
+  setNotificationMessage,
+}) => {
   const [server, setServer] = useState('');
   const [port, setPort] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isTls, setIsTls] = useState(false);
   const [isSsl, setIsSsl] = useState(false);
-
-  console.log(defaultSettings);
+  const [isNotification, setIsNotification] = useState(false);
+  const [isPreloader, setIsPreloader] = useState(false);
   const save = () => {
+    setIsPreloader(true);
     const response = {
       server: server,
       port: port,
@@ -29,13 +38,27 @@ export const ModalEmail = ({ isOpen, handleClose, token, defaultSettings }) => {
     };
 
     if (defaultSettings && defaultSettings.length > 0) {
-      patchNotificationSettings(window.location.hostname, token, response).then((response) => {
-        handleClose();
-      });
+      patchNotificationSettings(window.location.hostname, token, response)
+        .then((response) => {
+          handleClose();
+          setIsPreloader(false);
+          setNotificationMessage();
+        })
+        .catch(() => {
+          setIsNotification(true);
+          setIsPreloader(false);
+        });
     } else {
-      postNotificationSettings(window.location.hostname, token, response).then((response) => {
-        handleClose();
-      });
+      postNotificationSettings(window.location.hostname, token, response)
+        .then((response) => {
+          handleClose();
+          setIsPreloader(false);
+          setNotificationMessage();
+        })
+        .catch(() => {
+          setIsNotification(true);
+          setIsPreloader(false);
+        });
     }
 
     // console.log(response);
@@ -50,6 +73,15 @@ export const ModalEmail = ({ isOpen, handleClose, token, defaultSettings }) => {
       setIsSsl(defaultSettings[0].email_use_ssl);
     }
   }, []);
+
+  useEffect(() => {
+    if (isNotification) {
+      setTimeout(() => {
+        setIsNotification(false);
+      }, 2000);
+    }
+  }, [isNotification]);
+
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.wrapper}>
       <section className={styles.modal}>
@@ -104,8 +136,13 @@ export const ModalEmail = ({ isOpen, handleClose, token, defaultSettings }) => {
           />
           Email use ssl
         </label>
-        <Button text="Done" className={styles.save} onClick={save} />
+        {isPreloader ? (
+          <Preloader />
+        ) : (
+          <Button text="Done" className={styles.save} onClick={save} />
+        )}
       </section>
+      {isNotification && <Notification status={false} message={'Could not safe the item'} />}
     </Modal>
   );
 };
