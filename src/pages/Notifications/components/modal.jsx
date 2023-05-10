@@ -17,6 +17,7 @@ export const ModalEmail = ({ isOpen, handleClose, token, defaultSettings }) => {
   const [isTls, setIsTls] = useState(false);
   const [isSsl, setIsSsl] = useState(false);
 
+  console.log(defaultSettings);
   const save = () => {
     const response = {
       server: server,
@@ -27,7 +28,7 @@ export const ModalEmail = ({ isOpen, handleClose, token, defaultSettings }) => {
       email_use_ssl: isSsl,
     };
 
-    if (defaultSettings) {
+    if (defaultSettings && defaultSettings.length > 0) {
       patchNotificationSettings(window.location.hostname, token, response).then((response) => {
         handleClose();
       });
