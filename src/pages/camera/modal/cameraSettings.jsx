@@ -153,19 +153,6 @@ export const CameraSettings = ({
                               onSelect={(value) => setCameraIP(value)}
                               className="cameras__combobox"
                             />
-
-                            {/* <select onChange={(e) => setCameraIP(e.target.value)}>
-                              <option selected disabled value={''}>
-                                Select the camera
-                              </option>
-
-                              {findCameraList.length > 0 &&
-                                findCameraList.map((camera, index) => (
-                                  <option key={index} value={camera}>
-                                    {camera}
-                                  </option>
-                                ))}
-                            </select> */}
                           </div>
                         </div>
                         <div className="cameras__settings_inputs">
