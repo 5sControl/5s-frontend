@@ -10,6 +10,7 @@ type PropsType = {
   className?: string;
   showCross?: boolean;
   showSubstrateCross?: boolean;
+  disableClickBg?: boolean;
 };
 
 export const Modal: React.FC<PropsType> = ({
@@ -19,6 +20,7 @@ export const Modal: React.FC<PropsType> = ({
   className,
   showCross = false,
   showSubstrateCross = false,
+  disableClickBg = false,
 }) => {
   useEffect(() => {
     const closeOnEscapeKey = (e: KeyboardEvent) => (e.key === 'Escape' ? handleClose() : null);
@@ -33,7 +35,7 @@ export const Modal: React.FC<PropsType> = ({
   const handleClickToBg = (event: React.MouseEvent) => {
     const { id } = event.target as HTMLDivElement;
 
-    if (id === 'modal-bg') {
+    if (id === 'modal-bg' && !disableClickBg) {
       handleClose();
     }
   };

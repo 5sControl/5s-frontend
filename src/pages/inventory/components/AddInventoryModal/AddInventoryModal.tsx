@@ -92,7 +92,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
+    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal} disableClickBg={true}>
       <div className={styles.form}>
         <div className={styles.header}>
           <h3 className={styles.title}>Item settings</h3>
