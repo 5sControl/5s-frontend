@@ -19,11 +19,13 @@ export const Camera = () => {
   const [isCreateCamera, setIsCreateCamera] = useState(false);
 
   useEffect(() => {
-    getProcess(window.location.hostname, cookies.token).then((response) => {
-      if (response && response.data && response.data.length > 0) {
-        setProcessList(response.data);
-      }
-    });
+    if (!cameraSelect) {
+      getProcess(window.location.hostname, cookies.token).then((response) => {
+        if (response && response.data && response.data.length > 0) {
+          setProcessList(response.data);
+        }
+      });
+    }
   }, [cameraSelect]);
 
   useEffect(() => {
