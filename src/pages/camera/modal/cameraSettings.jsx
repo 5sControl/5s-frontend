@@ -23,7 +23,7 @@ export const CameraSettings = ({
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
   const [findCameraList, setFindCameraList] = useState(false);
-  const [cameraIP, setCameraIP] = useState(cameraSelect.name ? cameraSelect.id : '');
+  const [cameraIP, setCameraIP] = useState(cameraSelect.id ? cameraSelect.id : '');
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
@@ -63,7 +63,7 @@ export const CameraSettings = ({
   useEffect(() => {
     if (!isCreateCamera) {
       setCameraName(cameraSelect.name);
-      setUserName(cameraSelect.userName);
+      setUserName(cameraSelect.username);
       setPassword(cameraSelect.password);
     }
 
