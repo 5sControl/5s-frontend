@@ -1,15 +1,16 @@
+import { useEffect, useState } from 'react';
+import { getMemoryStatus } from '../api/companyRequest';
+import { useCookies } from 'react-cookie';
+
 import { LeftMenu } from '../components/leftMenu/leftMenu';
 import { Outlet } from 'react-router-dom';
 import { Button } from '../components/button';
 import { Warning } from '../assets/svg/SVGcomponent';
 
 import './modalDisk.scss';
-import { useEffect, useState } from 'react';
-import { getMemoryStatus } from '../api/companyRequest';
-import { useCookies } from 'react-cookie';
 
 export const RoutesOutlet = () => {
-  const [isMemory, setIsMemory] = useState(true);
+  const [isMemory, setIsMemory] = useState<boolean>(true);
 
   const [cookies] = useCookies(['token']);
 
