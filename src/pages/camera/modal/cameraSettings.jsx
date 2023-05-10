@@ -9,6 +9,8 @@ import {
 import { findCamera } from '../../../api/cameraRequest';
 import { Preloader } from '../../../components/preloader';
 import { Input } from '../../../components/input';
+import Combobox from 'react-widgets/Combobox';
+import 'react-widgets/styles.css';
 export const CameraSettings = ({
   cameraSelect,
   token,
@@ -37,6 +39,7 @@ export const CameraSettings = ({
       },
       algorithms: [],
     };
+
     for (const algorithm of informationToSend) {
       if (algorithm === 'operation_control') {
         response.algorithms = [
@@ -52,7 +55,7 @@ export const CameraSettings = ({
         response.algorithms = [...response.algorithms, { name: algorithm }];
       }
     }
-
+    console.log(response);
     await postAlgorithnDependences(window.location.hostname, token, response).then((res) => {
       console.log(res);
     });
@@ -141,7 +144,17 @@ export const CameraSettings = ({
                         <div className="cameras__settings_inputs">
                           <div>
                             <label htmlFor="cameraName">Camera IP address</label>
-                            <select onChange={(e) => setCameraIP(e.target.value)}>
+                            <Combobox
+                              data={findCameraList}
+                              placeholder="Select or enter"
+                              hideEmptyPopup
+                              value={cameraIP}
+                              onChange={(value) => setCameraIP(value)}
+                              onSelect={(value) => setCameraIP(value)}
+                              className="cameras__combobox"
+                            />
+
+                            {/* <select onChange={(e) => setCameraIP(e.target.value)}>
                               <option selected disabled value={''}>
                                 Select the camera
                               </option>
@@ -152,13 +165,13 @@ export const CameraSettings = ({
                                     {camera}
                                   </option>
                                 ))}
-                            </select>
+                            </select> */}
                           </div>
                         </div>
                         <div className="cameras__settings_inputs">
                           <div>
                             <label htmlFor="cameraName">Username</label>
-                            <input
+                            <Input
                               type="text"
                               value={userName}
                               onChange={(e) => setUserName(e.target.value)}
@@ -188,7 +201,7 @@ export const CameraSettings = ({
                     <div className="cameras__settings_inputs">
                       <div>
                         <label htmlFor="cameraName">Camera Name</label>
-                        <input
+                        <Input
                           type="text"
                           value={cameraName}
                           onChange={(e) => setCameraName(e.target.value)}
@@ -196,7 +209,7 @@ export const CameraSettings = ({
                       </div>
                       <div>
                         <label htmlFor="cameraName">Controlled workplace</label>
-                        <input type="text" />
+                        <Input type="text" />
                       </div>
                     </div>
                     <label>

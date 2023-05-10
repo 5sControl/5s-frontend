@@ -36,10 +36,18 @@ export const CamerasDeleteModal = ({ cancelClick, processList, camera, token }) 
           </div>
         )}
         <div className="deleteModal__footer">
-          <button type="button" className="deleteModal__footer_cancel" onClick={cancelClick}>
+          <button
+            type="button"
+            className="deleteModal__footer_button deleteModal__footer_cancel"
+            onClick={cancelClick}
+          >
             Cancel
           </button>
-          <button type="button" className="deleteModal__footer_remove" onClick={deleteCamera}>
+          <button
+            type="button"
+            className="deleteModal__footer_button  deleteModal__footer_remove"
+            onClick={deleteCamera}
+          >
             Remove
           </button>
         </div>
