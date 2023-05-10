@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Close } from '../../../assets/svg/SVGcomponent';
+import { ArrowDown, Close } from '../../../assets/svg/SVGcomponent';
 import { AlgorithmSelect } from '../components/algorithmSelect';
 import {
   getOperationID,
@@ -152,6 +152,7 @@ export const CameraSettings = ({
                               onChange={(value) => setCameraIP(value)}
                               onSelect={(value) => setCameraIP(value)}
                               className="cameras__combobox"
+                              selectIcon={<ArrowDown />}
                             />
                           </div>
                         </div>
