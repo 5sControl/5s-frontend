@@ -39,9 +39,10 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   const { inventoryHistoryData } = useAppSelector(selectInventory);
 
   const currentIndex = inventoryHistoryData?.indexOf(currentReport) || 1;
+
   useEffect(() => {
     setFullImage(false);
-  }, []);
+  }, [isOpen]);
 
   const prevReport = () => {
     const prevReport = inventoryHistoryData
