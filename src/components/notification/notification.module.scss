@@ -12,10 +12,27 @@
   font-size: 16px;
   line-height: 175%;
   z-index: 9999;
+  opacity: 0;
+  animation: fade-in-out 2s linear forwards;
   span{
     margin-left: 10px;
   }
 }
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .good {
   background: #e3f3d0;
   border: 2px solid #87bc45;
