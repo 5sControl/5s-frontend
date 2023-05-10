@@ -108,7 +108,9 @@ export const CameraSettings = ({
         if (response.data && response.data.results) {
           const allCameras = response.data.results;
           const bufCreatedCameras = camerasList.length > 0 ? camerasList.map((e) => e.id) : [];
-          const resultCameras = [...new Set([...allCameras, ...bufCreatedCameras])];
+          const resultCameras = allCameras.filter((value) => {
+            return !bufCreatedCameras.includes(value);
+          });
           setFindCameraList(resultCameras);
         } else {
           setFindCameraList([]);
