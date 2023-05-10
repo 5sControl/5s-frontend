@@ -1,4 +1,4 @@
-import { LeftMenu } from '../components/leftMenu';
+import { LeftMenu } from '../components/leftMenu/leftMenu';
 import { Outlet } from 'react-router-dom';
 import { Button } from '../components/button';
 import { Warning } from '../assets/svg/SVGcomponent';

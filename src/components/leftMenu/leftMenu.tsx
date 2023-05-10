@@ -6,23 +6,22 @@ import {
   Algorithm,
   Inventory,
   Live,
-} from '../assets/svg/SVGcomponent';
-import logo from '../assets/svg/icon.svg';
+} from '../../assets/svg/SVGcomponent';
+import logo from '../../assets/svg/icon.svg';
 import { useEffect, useState } from 'react';
-import { getCompanyInfo } from '../api/companyRequest';
+import { getCompanyInfo } from '../../api/companyRequest';
 import { useCookies } from 'react-cookie';
+import { CompanyInfo } from './types';
+import './styles.scss';
 
-interface CompanyInfo {
-  name_company: string;
-  days_left: string;
-}
 export const LeftMenu = () => {
-  const [useless, setUseless] = useState(false);
+  const [useless, setUseless] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo>({
     name_company: '',
     days_left: '',
   });
+
   const send = () => {
     setUseless(!useless);
   };
