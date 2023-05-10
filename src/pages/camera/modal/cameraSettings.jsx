@@ -23,7 +23,7 @@ export const CameraSettings = ({
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
   const [findCameraList, setFindCameraList] = useState(false);
-  const [cameraIP, setCameraIP] = useState('');
+  const [cameraIP, setCameraIP] = useState(cameraSelect.name ? cameraSelect.id : '');
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
@@ -179,7 +179,7 @@ export const CameraSettings = ({
                         <div>
                           <div style={{ marginBottom: '10px' }}>
                             <label htmlFor="cameraName">Camera IP</label>
-                            <Input type="text" value={cameraName} disabled={true} />
+                            <Input type="text" value={cameraIP} disabled={true} />
                           </div>
                         </div>
                       </div>
