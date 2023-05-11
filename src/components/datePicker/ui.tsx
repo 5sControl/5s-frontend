@@ -24,7 +24,7 @@ import staticRangesGenerator from './staticRangesGenerator';
 
 export const DatePicker: React.FC = () => {
   const startDateDefault = new Date();
-  startDateDefault.setMonth(startDateDefault.getMonth() - 1);
+  startDateDefault.setMonth(startDateDefault.getMonth() - 4);
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const navigateSearch = useNavigateSearch();
@@ -37,7 +37,7 @@ export const DatePicker: React.FC = () => {
   const refButton = useRef<HTMLDivElement>(null);
   useOutsideClick(refPicker, () => setIsOpenDatePicker(false), refButton);
   const staticRanges = staticRangesGenerator(enGB as any);
-
+  console.log(startDate);
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
@@ -63,6 +63,7 @@ export const DatePicker: React.FC = () => {
     if (startDate.getDate() !== endDate.getDate()) {
       startDate.setHours(startDate.getHours() + 3);
     }
+    console.log(startDate);
     const dateData = { from: startDate.toISOString(), to: endDate.toISOString() };
 
     dispatch(setFilterDateData(dateData));
@@ -94,9 +95,6 @@ export const DatePicker: React.FC = () => {
     if (queryFromParam && queryToParam) {
       setStartDate(new Date(queryDateParam.from));
       setEndDate(new Date(queryDateParam.to));
-    } else {
-      setStartDate(new Date(filterDateData.from));
-      setEndDate(new Date(filterDateData.to));
     }
   }, []);
 
