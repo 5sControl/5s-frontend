@@ -36,7 +36,7 @@ export const ReportListItem = ({ item }) => {
               <Camera /> {item.camera.name}
             </div>
             <div>
-              <Algorithm />
+              <Algorithm style={{ fill: '#666666' }} />
               {parsingAlgorithmName(item.algorithm.name)}
             </div>
           </div>
