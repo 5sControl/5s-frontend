@@ -27,6 +27,8 @@ export const LeftMenu = () => {
     setUseless(!useless);
   };
 
+  setInterval(send, 1000);
+
   useEffect(() => {
     if (window.location.pathname.includes('dashboard')) {
       document.title = 'Dashboard';
@@ -64,19 +66,19 @@ export const LeftMenu = () => {
   return (
     <aside className="leftMenu">
       <Link to="/info" className="leftMenu__logo">
-        <LogoHorizontal onClick={send} className="leftMenu__logo_svg" />
+        <LogoHorizontal className="leftMenu__logo_svg" />
       </Link>
       <ul>
         <li
           className={window.location.pathname.includes('dashboard') ? 'activeMenu' : 'noActiveMenu'}
         >
-          <Link to="dashboard" onClick={send}>
+          <Link to="dashboard">
             <Dashboard />
             <span>Dashboard</span>
           </Link>
         </li>
         <li className={window.location.pathname.includes('live') ? 'activeMenu' : 'noActiveMenu'}>
-          <Link to="live" onClick={send}>
+          <Link to="live">
             <Live />
             <span>Live</span>
           </Link>
@@ -86,7 +88,7 @@ export const LeftMenu = () => {
             window.location.pathname.includes('orders-view') ? 'activeMenu' : 'noActiveMenu'
           }
         >
-          <Link to="/orders-view" onClick={send}>
+          <Link to="/orders-view">
             <OrdersView />
             <span>Orders View</span>
           </Link>
@@ -94,7 +96,7 @@ export const LeftMenu = () => {
         <li
           className={window.location.pathname.includes('inventory') ? 'activeMenu' : 'noActiveMenu'}
         >
-          <Link to="/inventory" onClick={send}>
+          <Link to="/inventory">
             <Inventory />
             <span>Inventory</span>
           </Link>
@@ -105,7 +107,7 @@ export const LeftMenu = () => {
             window.location.pathname.includes('configuration') ? 'activeMenu' : 'noActiveMenu'
           }
         >
-          <Link to="/configuration" onClick={send}>
+          <Link to="/configuration">
             <ConfigurationNew />
             <span>Configuration</span>
           </Link>
@@ -113,13 +115,13 @@ export const LeftMenu = () => {
         <li
           className={window.location.pathname.includes('company') ? 'activeMenu' : 'noActiveMenu'}
         >
-          <Link to="/company" onClick={send}>
+          <Link to="/company">
             <Company />
             <span>Company</span>
           </Link>
         </li>
         <li className={window.location.pathname.includes('info') ? 'activeMenu' : 'noActiveMenu'}>
-          <Link to="/info" onClick={send}>
+          <Link to="/info">
             <Info />
             <span>Info</span>
           </Link>
