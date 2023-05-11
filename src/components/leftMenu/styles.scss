@@ -1,16 +1,22 @@
 .leftMenu {
     position: relative;
-    min-width: 120px;
-    width: 120px;
+    min-width: 160px;
+    width: 160px;
     height: 100vh;
     max-height: 100vh;
     background-color: white;
     box-shadow: 0px 0px 8px rgba(42, 98, 149, 0.25);
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 20px 0;
     z-index: 2;
+    &__logo{
+      padding: 0 0 0 13px !important;
+      &_svg{
+        width: 110px !important;
+        height: 22px !important;
+      }
+    }
     &__company {
       position: absolute;
       width: 100%;
@@ -41,47 +47,48 @@
       }
     }
     ul {
-      margin-top: 40px;
+      margin-top: 20px;
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 48px;
       height: calc(100% - 170px);
+      width: 100%;
       overflow: auto;
     }
-    li,
     a {
       display: flex;
-      flex-direction: column;
       align-items: center;
       list-style-type: none;
       text-decoration: none;
-      &:hover {
-        span {
-          color: #fe6100;
-        }
-
-        svg {
-          fill: #fe6100;
-        }
-      }
+      padding: 15px 0 15px 12px;
       svg {
-        width: 18px;
-        height: 18px;
+        width: 15px;
+        height: 15px;
         fill: #666666;
         transition: all 0.4s;
+        margin-right: 12px;
       }
       span {
         font-weight: 400;
-        font-size: 12px;
-        line-height: 16px;
-        text-align: center;
-        letter-spacing: 0.4px;
+        font-size: 14px;
+        line-height: 24px;
+        letter-spacing: 0.1px;
         transition: all 0.4s;
       }
     }
     .noActiveMenu {
+      background: white;
       cursor: pointer;
+      transition: all 0.5s;
+      &:hover {
+        background: rgba(254, 97, 0, 0.1);
+        span {
+          color: #fe6100;
+        }
+        svg {
+          fill: #fe6100;
+        }
+      }
       svg {
         fill: #666666;
       }
@@ -90,11 +97,19 @@
       }
     }
     .activeMenu {
+      background: rgba(254, 97, 0, 0.1);
       svg {
         fill: #fe6100;
       }
       span {
         color: #fe6100;
       }
+    }
+    hr{
+      width: calc(100% - 20px);
+      margin: 10px;
+      text-align: center;
+      color:#E0E0E0;
+      border: 0.7px solid #E0E0E0;
     }
   }

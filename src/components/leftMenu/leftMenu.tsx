@@ -3,11 +3,12 @@ import {
   Company,
   Dashboard,
   OrdersView,
-  Algorithm,
   Inventory,
   Live,
+  LogoHorizontal,
+  ConfigurationNew,
+  Info,
 } from '../../assets/svg/SVGcomponent';
-import logo from '../../assets/svg/icon.svg';
 import { useEffect, useState } from 'react';
 import { getCompanyInfo } from '../../api/companyRequest';
 import { useCookies } from 'react-cookie';
@@ -62,8 +63,8 @@ export const LeftMenu = () => {
 
   return (
     <aside className="leftMenu">
-      <Link to="/info" onClick={send}>
-        <img src={logo} alt="logo" />
+      <Link to="/info" className="leftMenu__logo">
+        <LogoHorizontal onClick={send} className="leftMenu__logo_svg" />
       </Link>
       <ul>
         <li
@@ -98,13 +99,14 @@ export const LeftMenu = () => {
             <span>Inventory</span>
           </Link>
         </li>
+        <hr></hr>
         <li
           className={
             window.location.pathname.includes('configuration') ? 'activeMenu' : 'noActiveMenu'
           }
         >
           <Link to="/configuration" onClick={send}>
-            <Algorithm />
+            <ConfigurationNew />
             <span>Configuration</span>
           </Link>
         </li>
@@ -114,6 +116,12 @@ export const LeftMenu = () => {
           <Link to="/company" onClick={send}>
             <Company />
             <span>Company</span>
+          </Link>
+        </li>
+        <li className={window.location.pathname.includes('info') ? 'activeMenu' : 'noActiveMenu'}>
+          <Link to="/info" onClick={send}>
+            <Info />
+            <span>Info</span>
           </Link>
         </li>
       </ul>
