@@ -104,6 +104,21 @@ export const FilterBar: React.FC<PropsType> = ({
               </div>
 
               <div className={styles.block}>
+                <legend className={styles.block_title}>Operation status</legend>
+                {operationStatusData.map(({ id, label, name, value }) => (
+                  <Checkbox
+                    key={id}
+                    id={id}
+                    name={name}
+                    value={value}
+                    label={label}
+                    isChecked={filterData['operation-status'].includes(value)}
+                    onChange={onChange}
+                  />
+                ))}
+              </div>
+
+              <div className={styles.block}>
                 <legend className={styles.block_title}>Operation</legend>
                 <div className={styles.block_content}>
                   {isLoadingFilterOperations && !isErrorFilterOperations
@@ -123,21 +138,6 @@ export const FilterBar: React.FC<PropsType> = ({
                         />
                       ))}
                 </div>
-              </div>
-
-              <div className={styles.block}>
-                <legend className={styles.block_title}>Operation status</legend>
-                {operationStatusData.map(({ id, label, name, value }) => (
-                  <Checkbox
-                    key={id}
-                    id={id}
-                    name={name}
-                    value={value}
-                    label={label}
-                    isChecked={filterData['operation-status'].includes(value)}
-                    onChange={onChange}
-                  />
-                ))}
               </div>
             </div>
           </div>
