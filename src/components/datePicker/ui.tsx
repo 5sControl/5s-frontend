@@ -118,7 +118,6 @@ export const DatePicker: React.FC = () => {
             locale={enGB}
             ranges={[selectionRange]}
             onChange={handleSelect}
-            maxDate={addDays(new Date(), 0)}
             rangeColors={['var(--Orange)', 'var(--Orange)']}
             inputRanges={[]}
             staticRanges={staticRanges}
