@@ -169,15 +169,16 @@ thead th {
 
 tbody td {
   @include body2;
-  line-height: 40px;
   letter-spacing: 0.1px;
   color: var(--HightEmphasis);
+  padding: 5px 0;
 }
 
 .itemLine {
   cursor: pointer;
   background-color: white;
   transition: all 0.4s;
+  
   &:hover {
     background: rgba(254, 97, 0, 0.1);
   }
@@ -187,7 +188,7 @@ tbody td {
 }
 .glazik {
   position: absolute;
-  top: 12px;
+  top: calc(50% - 8px);
   color: #666666;
   cursor: pointer;
   height: 14px;
