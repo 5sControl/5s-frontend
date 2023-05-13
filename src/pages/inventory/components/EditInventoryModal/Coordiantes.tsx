@@ -148,6 +148,10 @@ export const Coordinates: React.FC<PropsType> = ({
     }
     setTarget('');
   };
+  const handleImageLoad = () => {
+    setProportionWidth(image.current.naturalWidth / image.current.width);
+    setProportionHeight(image.current.naturalHeight / image.current.height);
+  };
   const scaleHandler = (img: string) => {
     const coordinatesLayout: any = document.querySelectorAll('.coordinates');
 
@@ -177,14 +181,6 @@ export const Coordinates: React.FC<PropsType> = ({
     setIsScale(img);
   };
 
-  const timer = setInterval(() => {
-    if (image.current && image.current.naturalWidth) {
-      setProportionWidth(image.current.naturalWidth / image.current.width);
-      setProportionHeight(image.current.naturalHeight / image.current.height);
-      clearInterval(timer);
-    }
-  }, 200);
-
   useEffect(() => {
     if (coordinates) {
       setOldBox(
@@ -199,16 +195,20 @@ export const Coordinates: React.FC<PropsType> = ({
   }, []);
 
   useEffect(() => {
-    if (allBox.length > 0) {
-      setTarget(document.getElementById(allBox[allBox.length - 1].id));
+    if (proportionWidth) {
+      if (allBox.length > 0) {
+        setTarget(document.getElementById(allBox[allBox.length - 1].id));
+      }
     }
-  }, [allBox]);
+  }, [allBox, proportionWidth]);
 
   useEffect(() => {
-    if (oldBox.length > 0) {
-      setCoords(oldBox);
+    if (proportionWidth) {
+      if (oldBox.length > 0) {
+        setCoords(oldBox);
+      }
     }
-  }, [oldBox]);
+  }, [oldBox, proportionWidth]);
 
   const onChangeSize = () => {
     const coordinatesLayout: any = document.querySelectorAll('.coordinates');
@@ -243,6 +243,7 @@ export const Coordinates: React.FC<PropsType> = ({
           <img
             ref={image}
             className={styles.image_container_img}
+            onLoad={handleImageLoad}
             src={
               process.env.REACT_APP_ENV === 'proxy'
                 ? `${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`
@@ -253,6 +254,7 @@ export const Coordinates: React.FC<PropsType> = ({
             onClick={(e) => createCoord(e)}
           />
           {oldBox.length > 0 &&
+            !!proportionWidth &&
             oldBox.map((element: Coordinat) => (
               <div
                 key={element.id}
@@ -298,8 +300,9 @@ export const Coordinates: React.FC<PropsType> = ({
               )}
             </div>
           ))}
-          {cameraBox &&
+          {!!cameraBox &&
             cameraBox.length > 0 &&
+            !!proportionWidth &&
             cameraBox.map((el: any) => (
               <Fragment key={el.id}>
                 {el.coords.map((element: any) => (
@@ -329,20 +332,23 @@ export const Coordinates: React.FC<PropsType> = ({
               target ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
             }
           ></div>
-          <div className={styles.scale} style={{ zIndex: isStartDraw ? 1 : 2001 }}>
-            <Scale
-              onClick={() =>
-                scaleHandler(
-                  process.env.REACT_APP_ENV === 'proxy'
-                    ? `${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`
-                    : process.env.REACT_APP_ENV === 'wify'
-                    ? `${process.env.REACT_APP_IP_SERVER}images/${currentSelect}/snapshot.jpg`
-                    : `http://${window.location.hostname}/images/${currentSelect}/snapshot.jpg`
-                )
-              }
-            />
-          </div>
-          {isScale && (
+          {!!proportionWidth && (
+            <div className={styles.scale} style={{ zIndex: isStartDraw ? 1 : 2001 }}>
+              <Scale
+                onClick={() =>
+                  scaleHandler(
+                    process.env.REACT_APP_ENV === 'proxy'
+                      ? `${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`
+                      : process.env.REACT_APP_ENV === 'wify'
+                      ? `${process.env.REACT_APP_IP_SERVER}images/${currentSelect}/snapshot.jpg`
+                      : `http://${window.location.hostname}/images/${currentSelect}/snapshot.jpg`
+                  )
+                }
+              />
+            </div>
+          )}
+
+          {!!isScale && (
             <Scaleble
               image={isScale}
               cameraBox={cameraBox}
@@ -352,7 +358,7 @@ export const Coordinates: React.FC<PropsType> = ({
               setCoordToScale={(coord) => setCoordToScale(coord)}
             />
           )}
-          {isStartDraw && (
+          {!!isStartDraw && (
             <div
               className={styles.newCoordinates}
               style={{
