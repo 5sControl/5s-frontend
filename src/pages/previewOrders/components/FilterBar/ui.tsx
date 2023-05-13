@@ -9,6 +9,7 @@ import {
   selectOrdersList,
   setOperationsFilterData,
   setOrderStatusFilterData,
+  getOrdersAsync,
 } from '../OrdersList/ordersListSlice';
 import { useNavigateSearch } from '../../../../functions/useNavigateSearch';
 import { useSearchParams } from 'react-router-dom';
@@ -32,11 +33,15 @@ export const FilterBar: React.FC<PropsType> = ({
   className,
 }) => {
   const dispatch = useAppDispatch();
-  const { filterData, isLoadingFilterOperations, filterOperationsData, isErrorFilterOperations } =
-    useAppSelector(selectOrdersList);
+  const {
+    filterData,
+    isLoadingFilterOperations,
+    filterOperationsData,
+    isErrorFilterOperations,
+    ordersList,
+  } = useAppSelector(selectOrdersList);
   const [searchParams] = useSearchParams();
   const navigateSearch = useNavigateSearch();
-
   useEffect(() => {
     const closeOnEscapeKey = (e: KeyboardEvent) => (e.key === 'Escape' ? handleClose() : null);
     document.body.addEventListener('keydown', closeOnEscapeKey);
@@ -44,7 +49,6 @@ export const FilterBar: React.FC<PropsType> = ({
       document.body.removeEventListener('keydown', closeOnEscapeKey);
     };
   }, [handleClose]);
-
   if (!isOpen) return null;
 
   const handleClickToBg = (event: React.MouseEvent) => {
@@ -143,7 +147,7 @@ export const FilterBar: React.FC<PropsType> = ({
           </div>
 
           <div className={styles.footer}>
-            <p className={styles.footer_text}></p>
+            <p className={styles.footer_text}>{ordersList?.count} reports were found</p>
             <div className={styles.footer_buttons}>
               <Button text="Reset" variant="text" onClick={handleResetFilters} />
               <Button text="Apply" type="submit" />
