@@ -15,7 +15,6 @@ export const AddUser = ({ close }) => {
   const registration = () => {
     registerNewUser(window.location.hostname, cookies.token, email, password, role)
       .then((res) => {
-        console.log(res);
         if (res.status === 201) {
           close();
         }
