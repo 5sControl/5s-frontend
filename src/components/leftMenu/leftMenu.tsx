@@ -58,7 +58,6 @@ export const LeftMenu = () => {
 
   useEffect(() => {
     getCompanyInfo(window.location.hostname, cookies.token).then((response) => {
-      // console.log(response.data)
       setCompanyInfo(response.data);
     });
   }, []);
