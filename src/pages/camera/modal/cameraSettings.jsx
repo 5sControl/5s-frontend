@@ -101,7 +101,6 @@ export const CameraSettings = ({
           bufObject[cameraSelect.id] &&
           bufObject[cameraSelect.id].includes('operation_control')
         ) {
-          // console.log(response.data.results);
           const currentOper = response.data.results.filter(
             (item) => item.camera === cameraSelect.id
           );
