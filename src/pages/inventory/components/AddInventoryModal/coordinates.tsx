@@ -72,21 +72,10 @@ export const Coordinates: React.FC<PropsType> = ({
       setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
     }
   };
-
-  const timer = setInterval(() => {
-    if (
-      image.current &&
-      image.current.naturalWidth &&
-      image.current.width &&
-      image.current.naturalHeight &&
-      image.current.height
-    ) {
-      setProportionWidth(image.current.naturalWidth / image.current.width);
-      setProportionHeight(image.current.naturalHeight / image.current.height);
-
-      clearInterval(timer);
-    }
-  }, 100);
+  const handleImageLoad = () => {
+    setProportionWidth(image.current.naturalWidth / image.current.width);
+    setProportionHeight(image.current.naturalHeight / image.current.height);
+  };
 
   useEffect(() => {
     if (currentSelect.length > 0) {
@@ -134,11 +123,13 @@ export const Coordinates: React.FC<PropsType> = ({
   };
 
   useEffect(() => {
-    if (allBox.length > 0) {
-      setTarget(document.getElementById(allBox[allBox.length - 1].id));
+    if (proportionWidth) {
+      if (allBox.length > 0) {
+        setTarget(document.getElementById(allBox[allBox.length - 1].id));
+      }
+      onChangeSize();
     }
-    onChangeSize();
-  }, [allBox]);
+  }, [allBox, proportionWidth]);
 
   const removeCoord = () => {
     setAllBox(allBox.filter((el: NewCoordinates) => el.id !== target.id));
@@ -215,6 +206,7 @@ export const Coordinates: React.FC<PropsType> = ({
           <img
             ref={image}
             className={styles.image_container_img}
+            onLoad={handleImageLoad}
             src={
               process.env.REACT_APP_ENV === 'proxy'
                 ? `${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`
@@ -245,9 +237,9 @@ export const Coordinates: React.FC<PropsType> = ({
               )}
             </div>
           ))}
-          {cameraBox &&
-            proportionWidth &&
-            proportionHeight &&
+          {!!cameraBox &&
+            !!proportionWidth &&
+            !!proportionHeight &&
             cameraBox.length > 0 &&
             cameraBox.map((el: any) => (
               <Fragment key={el.id}>
@@ -278,19 +270,22 @@ export const Coordinates: React.FC<PropsType> = ({
               target ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
             }
           ></div>
-          <div className={styles.scale} style={{ zIndex: isStartDraw ? 1 : 2001 }}>
-            <Scale
-              onClick={() =>
-                scaleHandler(
-                  process.env.REACT_APP_ENV === 'proxy'
-                    ? `${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`
-                    : process.env.REACT_APP_ENV === 'wify'
-                    ? `${process.env.REACT_APP_IP_SERVER}images/${currentSelect}/snapshot.jpg`
-                    : `http://${window.location.hostname}/images/${currentSelect}/snapshot.jpg`
-                )
-              }
-            />
-          </div>
+          {!!proportionHeight && (
+            <div className={styles.scale} style={{ zIndex: isStartDraw ? 1 : 2001 }}>
+              <Scale
+                onClick={() =>
+                  scaleHandler(
+                    process.env.REACT_APP_ENV === 'proxy'
+                      ? `${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`
+                      : process.env.REACT_APP_ENV === 'wify'
+                      ? `${process.env.REACT_APP_IP_SERVER}images/${currentSelect}/snapshot.jpg`
+                      : `http://${window.location.hostname}/images/${currentSelect}/snapshot.jpg`
+                  )
+                }
+              />
+            </div>
+          )}
+
           {isScale && (
             <Scaleble
               image={isScale}

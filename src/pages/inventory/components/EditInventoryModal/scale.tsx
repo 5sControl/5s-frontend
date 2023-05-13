@@ -32,13 +32,10 @@ export const Scaleble: React.FC<PropsType> = ({
   const imageRef = useRef<any>();
   const [moveDraw, setMoveDraw] = useState<DrawingCoordinates>({ x: 0, y: 0 });
 
-  const timer = setInterval(() => {
-    if (imageRef.current && imageRef.current.naturalWidth && imageRef.current.width) {
-      setProportionWidth(imageRef.current.naturalWidth / imageRef.current.width);
-      setProportionHeight(imageRef.current.naturalHeight / imageRef.current.height);
-      clearInterval(timer);
-    }
-  }, 100);
+  const handleImageLoad = () => {
+    setProportionWidth(imageRef.current.naturalWidth / imageRef.current.width);
+    setProportionHeight(imageRef.current.naturalHeight / imageRef.current.height);
+  };
 
   useEffect(() => {
     if (coords) {
@@ -193,9 +190,10 @@ export const Scaleble: React.FC<PropsType> = ({
     <section className={styles.scaleble}>
       <div className={styles.scaleble__area}>
         <div className={styles.scaleble__container}>
-          <img src={image} ref={imageRef} />
+          <img src={image} ref={imageRef} onLoad={handleImageLoad} />
           {cameraBox &&
             cameraBox.length > 0 &&
+            !!proportionWidth &&
             cameraBox.map((el: any) => (
               <Fragment key={el.id}>
                 {el.coords.map((element: any) => (
@@ -239,6 +237,7 @@ export const Scaleble: React.FC<PropsType> = ({
             </div>
           ))}
           {oldCoord.length > 0 &&
+            proportionWidth &&
             oldCoord.map((element: Coordinat) => (
               <div
                 key={element.id}
@@ -264,7 +263,7 @@ export const Scaleble: React.FC<PropsType> = ({
                 )}
               </div>
             ))}
-          {isStartDraw && (
+          {isStartDraw && proportionWidth && (
             <div
               className={styles.newCoordinates}
               style={{
