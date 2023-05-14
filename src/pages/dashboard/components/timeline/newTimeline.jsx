@@ -51,7 +51,7 @@ export const NewTimeline = ({
       console.log(res.data);
       setData(res.data);
     });
-  }, []);
+  }, [startDate]);
 
   return (
     <div className="timeline-hub-clickable">

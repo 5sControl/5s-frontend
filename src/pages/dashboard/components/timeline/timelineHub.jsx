@@ -1,7 +1,16 @@
+import { useEffect, useState } from 'react';
 import { NewTimeline } from './newTimeline';
-export const TimelineHub = ({ data, startDate, startTime, endTime }) => {
-  const cameras = data.reduce((prev, curr) => {
-    return [...new Set([...prev, curr.camera.id])];
+import { getSelectedCameras } from '../../../../api/cameraRequest';
+import { useCookies } from 'react-cookie';
+export const TimelineHub = ({ startDate, startTime, endTime }) => {
+  const [cookies] = useCookies(['token']);
+  const [cameras, setCameras] = useState([]);
+
+  useEffect(() => {
+    getSelectedCameras(window.location.hostname, cookies.token).then((res) => {
+      console.log(res.data);
+      setCameras(res.data);
+    });
   }, []);
 
   return (
@@ -9,12 +18,12 @@ export const TimelineHub = ({ data, startDate, startTime, endTime }) => {
       {cameras.map((el, id) => {
         return (
           <div key={id} className="timeline-hub__container">
-            <h1>{el}</h1>
+            <h1>{el.name}</h1>
             <NewTimeline
               startDate={startDate}
               startTime={startTime}
               endTime={endTime}
-              camera={el}
+              camera={el.id}
             />
           </div>
         );
