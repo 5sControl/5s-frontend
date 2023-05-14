@@ -71,6 +71,7 @@ export const Live = () => {
       update();
     }
   }, [visibleModalDate, cameraToResponse]);
+
   return (
     <>
       <section className="live">
@@ -131,6 +132,7 @@ export const Live = () => {
               <CurrentReport camera={cameraToResponse} />
             </div>
           </div>
+          {console.log(reports)}
           <div className="live__timeline">
             {reports.length > 0 && cameraToResponse !== 'camera' ? (
               <TimelineHub

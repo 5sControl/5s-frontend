@@ -1,13 +1,13 @@
 import { Timeline } from './timeline';
 import { calculateTimeCenter } from '../../../../functions/calculateTimeCenter';
-
+import { NewTimeline } from './newTimeline';
 export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) => {
   const algorithm = data.reduce((prev, curr) => {
     return [...new Set([...prev, curr.algorithm.name])];
   }, []);
 
   const cameras = data.reduce((prev, curr) => {
-    return [...new Set([...prev, curr.camera.name])];
+    return [...new Set([...prev, curr.camera.id])];
   }, []);
 
   return (
@@ -16,27 +16,21 @@ export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) =>
         return (
           <div key={id} className="timeline-hub__container">
             <h1>{el}</h1>
-            {algorithm.map((algorithm, id) => {
-              return (
-                <div className="timeline-hub__camera" key={id}>
-                  <Timeline
-                    data={data
-                      .filter((e) => e.camera.name === el)
-                      .filter((cam) => cam.algorithm.name === algorithm)}
-                    startDate={startDate}
-                    endDate={endDate}
-                    algorithm={algorithm}
-                    startTime={startTime}
-                    endTime={endTime}
-                  />
-                </div>
-              );
-            })}
-            <div className="timeline__line">
-              {calculateTimeCenter(endTime, startTime).map((el, id) => (
-                <span key={id}>{el.split(':').slice(0, 2).join(':')}</span>
-              ))}
-            </div>
+            <NewTimeline
+              startDate={startDate}
+              startTime={startTime}
+              endTime={endTime}
+              camera={el}
+            />
+            {/* <TimelineNew
+              data={reports}
+              startDate={selectDate}
+              endDate={selectDate}
+              startTime={startTime}
+              endTime={endTime}
+              setStartTime={(e) => setStartTime(e)}
+              setEndTime={(e) => setEndTime(e)}
+            /> */}
           </div>
         );
       })}

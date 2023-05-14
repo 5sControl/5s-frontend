@@ -96,8 +96,8 @@ function Dashboard() {
           <>
             <TimelineHub
               data={data}
-              startDate={moment(selectDate).format('YYYY-MM-DD 00:00:00')}
-              endDate={moment(selectDate).add(+1, 'days').format('YYYY-MM-DD 00:00:00')}
+              startDate={moment(selectDate).format('YYYY-MM-DD')}
+              endDate={moment(selectDate).add(+1, 'days').format('YYYY-MM-DD')}
               startTime={startTime}
               endTime={endTime}
             />

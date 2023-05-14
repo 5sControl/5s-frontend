@@ -12,11 +12,14 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   const [timeLine, setTimeLine] = useState([]);
   const dispatch = useAppDispatch();
 
+  const time = () => {
+    return moment().format(`YYYY-MM-DD ${endTime}`) > moment().format('YYYY-MM-DD HH:mm:ss')
+      ? moment().format('YYYY-MM-DD HH:mm:ss')
+      : moment().format(`YYYY-MM-DD ${endTime}`);
+  };
   useEffect(() => {
     if (data) {
-      let buf = [
-        { id: 0, time: moment(startDate).format(`YYYY-MM-DD ${endTime}`), violation_found: false },
-      ];
+      let buf = [{ id: 0, time: time(), violation_found: false }];
       data.forEach((el) => {
         buf.push({
           id: el.id,
@@ -46,7 +49,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
           : 0
       );
       buf.pop();
-
       setTimeLine(buf);
     }
   }, [data]);
@@ -55,21 +57,17 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     <>
       {timeLine.length > 1 && (
         <section className="report-page_timeline">
-          <div className="timeline">
-            <span className="timeline__text"> {parsingAlgorithmName(algorithm)}</span>
-            <div className="timeline__container">
+          <div className="timeline-clickable">
+            <span className="timeline-clickable__text"> {parsingAlgorithmName(algorithm)}</span>
+            <div className="timeline-clickable__container">
               {timeLine.map((el, ind) => (
                 <span
                   key={ind}
                   style={el.time > 0 ? { width: `${(el.time / seconds) * 100}%` } : {}}
                   className={
-                    algorithm !== 'machine_control'
-                      ? ind % 2 && el.violation_found
-                        ? 'timeline_red timeline_pointer'
-                        : ' timeline_green'
-                      : ind % 2
-                      ? 'timeline_green timeline_pointer'
-                      : ' timeline_red'
+                    ind % 2 && el.violation_found
+                      ? 'timeline-clickable_red timeline-clickable_pointer'
+                      : ' timeline-clickable_green'
                   }
                   title={`${el.violation_found}`}
                   onClick={() =>
