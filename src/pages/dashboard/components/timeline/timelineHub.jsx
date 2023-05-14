@@ -5,7 +5,6 @@ import { useCookies } from 'react-cookie';
 export const TimelineHub = ({ startDate, startTime, endTime }) => {
   const [cookies] = useCookies(['token']);
   const [cameras, setCameras] = useState([]);
-
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token).then((res) => {
       console.log(res.data);

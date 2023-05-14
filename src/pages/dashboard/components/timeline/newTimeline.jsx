@@ -16,6 +16,9 @@ export const NewTimeline = ({
   const [data, setData] = useState([]);
   const [algorithm, setAlgorithm] = useState([]);
 
+  const [start, setStart] = useState(startTime);
+  const [end, setEnd] = useState(endTime);
+
   const setTimeFunct = (startTime, endTime) => {
     setStartTime(startTime);
     setEndTime(endTime);
@@ -37,13 +40,13 @@ export const NewTimeline = ({
       window.location.hostname,
       cookies.token,
       startDate,
-      startTime
+      start
         .split(':')
-        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
         .join(':'),
-      endTime
+      end
         .split(':')
-        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
         .join(':'),
       'algorithm',
       camera

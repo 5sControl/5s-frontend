@@ -13,8 +13,8 @@ import { getLogs } from '../../api/algorithmRequest';
 function Dashboard() {
   const [data, setData] = useState(false);
   const [errorCatch, setErrorCatch] = useState(false);
-  const [startTime, setStartTime] = useState('7:00:00');
-  const [endTime, setEndTime] = useState('19:00:00');
+  const [startTime, setStartTime] = useState('01:00:00');
+  const [endTime, setEndTime] = useState('24:00:00');
   const [cookies] = useCookies(['token']);
 
   const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
@@ -30,13 +30,13 @@ function Dashboard() {
       selectDate,
       startTime
         .split(':')
-        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
         .join(':'),
       endTime
         .split(':')
-        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
         .join(':'),
-      algorithmToResponse,
+      'algorithm',
       cameraToResponse
     )
       .then((el) => {
@@ -96,7 +96,6 @@ function Dashboard() {
           <>
             <TimelineHub
               startDate={moment(selectDate).format('YYYY-MM-DD')}
-              endDate={moment(selectDate).add(+1, 'days').format('YYYY-MM-DD')}
               startTime={startTime}
               endTime={endTime}
             />
