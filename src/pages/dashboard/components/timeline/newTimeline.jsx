@@ -3,7 +3,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
 import { getData } from '../../../../api/reportsRequest';
 import { useCookies } from 'react-cookie';
-import { Timeline } from '../../../live/timeline/timeline';
+import { Timeline } from './timeline';
 export const NewTimeline = ({
   startDate,
   startTime,
@@ -33,7 +33,6 @@ export const NewTimeline = ({
       );
     }
   }, [data]);
-  console.log(algorithm);
 
   useEffect(() => {
     getData(
@@ -51,7 +50,6 @@ export const NewTimeline = ({
       'algorithm',
       camera
     ).then((res) => {
-      console.log(res.data);
       setData(res.data);
     });
   }, [startDate]);
@@ -66,8 +64,8 @@ export const NewTimeline = ({
                 data={data.filter((cam) => cam.algorithm.name === algorithm)}
                 startDate={startDate}
                 algorithm={algorithm}
-                startTime={startTime}
-                endTime={endTime}
+                startTime={start}
+                endTime={end}
               />
             </div>
           );
@@ -79,7 +77,7 @@ export const NewTimeline = ({
           >
             <AiOutlineZoomOut />
           </span>
-          {calculateTimeCenter(endTime, startTime).map((el, id, array) => (
+          {calculateTimeCenter(startTime, endTime).map((el, id, array) => (
             <Fragment key={id}>
               <span>{el.split(':').slice(0, 2).join(':')}</span>
               {array.length - 1 !== id && (

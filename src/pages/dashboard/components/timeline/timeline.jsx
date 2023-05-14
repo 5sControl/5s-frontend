@@ -11,15 +11,19 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   const seconds = calculateTime(startTime, endTime);
   const [timeLine, setTimeLine] = useState([]);
   const dispatch = useAppDispatch();
+  console.log(moment(startDate).dayOfYear(), moment().dayOfYear());
 
   const time = () => {
-    return moment().format(`YYYY-MM-DD ${endTime}`) > moment().format('YYYY-MM-DD HH:mm:ss')
-      ? moment().format('YYYY-MM-DD HH:mm:ss')
+    return moment(startDate).dayOfYear() < moment().dayOfYear()
+      ? moment(startDate).format('YYYY-MM-DD 24:00:00')
       : moment().format(`YYYY-MM-DD ${endTime}`);
   };
   useEffect(() => {
     if (data) {
-      let buf = [{ id: 0, time: time(), violation_found: false }];
+      let buf = [
+        { id: 0, time: time(), violation_found: false },
+        { id: 1, time: time(), violation_found: false },
+      ];
       data.forEach((el) => {
         buf.push({
           id: el.id,
@@ -38,6 +42,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
         violation_found: false,
       });
       buf.reverse();
+      console.log(buf);
       //  buf = buf.filter(el => el.includes(moment().format("YYYY-MM-DD")))
       buf = buf.map((el, index, array) =>
         index < array.length - 1
@@ -49,10 +54,11 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
           : 0
       );
       buf.pop();
+      buf.pop();
       setTimeLine(buf);
     }
   }, [data]);
-
+  console.log(timeLine);
   return (
     <>
       {timeLine.length > 1 && (

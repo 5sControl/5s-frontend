@@ -7,7 +7,6 @@ export const TimelineHub = ({ startDate, startTime, endTime }) => {
   const [cameras, setCameras] = useState([]);
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token).then((res) => {
-      console.log(res.data);
       setCameras(res.data);
     });
   }, []);
