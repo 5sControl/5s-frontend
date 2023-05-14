@@ -1,11 +1,5 @@
-import { Timeline } from './timeline';
-import { calculateTimeCenter } from '../../../../functions/calculateTimeCenter';
 import { NewTimeline } from './newTimeline';
-export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) => {
-  const algorithm = data.reduce((prev, curr) => {
-    return [...new Set([...prev, curr.algorithm.name])];
-  }, []);
-
+export const TimelineHub = ({ data, startDate, startTime, endTime }) => {
   const cameras = data.reduce((prev, curr) => {
     return [...new Set([...prev, curr.camera.id])];
   }, []);
@@ -22,15 +16,6 @@ export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) =>
               endTime={endTime}
               camera={el}
             />
-            {/* <TimelineNew
-              data={reports}
-              startDate={selectDate}
-              endDate={selectDate}
-              startTime={startTime}
-              endTime={endTime}
-              setStartTime={(e) => setStartTime(e)}
-              setEndTime={(e) => setEndTime(e)}
-            /> */}
           </div>
         );
       })}

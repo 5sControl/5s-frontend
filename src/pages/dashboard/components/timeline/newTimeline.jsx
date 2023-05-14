@@ -15,9 +15,7 @@ export const NewTimeline = ({
   const [cookies] = useCookies(['token']);
   const [data, setData] = useState([]);
   const [algorithm, setAlgorithm] = useState([]);
-  //   const algorithm = data.reduce((prev, curr) => {
-  //     return [...new Set([...prev, curr.algorithm.name])];
-  //   }, []);
+
   const setTimeFunct = (startTime, endTime) => {
     setStartTime(startTime);
     setEndTime(endTime);
@@ -58,6 +56,19 @@ export const NewTimeline = ({
   return (
     <div className="timeline-hub-clickable">
       <div className="timeline-hub-clickable__container">
+        {algorithm.map((algorithm, id) => {
+          return (
+            <div className="timeline-hub-clickable__camera" key={id}>
+              <Timeline
+                data={data.filter((cam) => cam.algorithm.name === algorithm)}
+                startDate={startDate}
+                algorithm={algorithm}
+                startTime={startTime}
+                endTime={endTime}
+              />
+            </div>
+          );
+        })}
         <div className="timeline-clickable__line">
           <span
             className="timeline-clickable__zoomout"
@@ -79,19 +90,6 @@ export const NewTimeline = ({
             </Fragment>
           ))}
         </div>
-        {algorithm.map((algorithm, id) => {
-          return (
-            <div className="timeline-hub-clickable__camera" key={id}>
-              <Timeline
-                data={data.filter((cam) => cam.algorithm.name === algorithm)}
-                startDate={startDate}
-                algorithm={algorithm}
-                startTime={startTime}
-                endTime={endTime}
-              />
-            </div>
-          );
-        })}
       </div>
     </div>
   );
