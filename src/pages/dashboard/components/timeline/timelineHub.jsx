@@ -15,15 +15,13 @@ export const TimelineHub = ({ startDate, startTime, endTime }) => {
     <div className="timeline-hub">
       {cameras.map((el, id) => {
         return (
-          <div key={id} className="timeline-hub__container">
-            <h1>{el.name}</h1>
-            <NewTimeline
-              startDate={startDate}
-              startTime={startTime}
-              endTime={endTime}
-              camera={el.id}
-            />
-          </div>
+          <NewTimeline
+            startDate={startDate}
+            startTime={startTime}
+            endTime={endTime}
+            camera={el}
+            key={id}
+          />
         );
       })}
     </div>

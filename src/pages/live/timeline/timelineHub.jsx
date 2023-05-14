@@ -29,7 +29,7 @@ export const TimelineHub = ({
           >
             <AiOutlineZoomOut />
           </span>
-          {calculateTimeCenter(endTime, startTime).map((el, id, array) => (
+          {calculateTimeCenter(startTime, endTime).map((el, id, array) => (
             <Fragment key={id}>
               <span>{el.split(':').slice(0, 2).join(':')}</span>
               {array.length - 1 !== id && (

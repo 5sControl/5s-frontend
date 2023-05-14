@@ -15,24 +15,28 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
 
   const time = () => {
     return moment(startDate).dayOfYear() < moment().dayOfYear()
-      ? moment(startDate).format('YYYY-MM-DD 24:00:00')
-      : moment().format(`YYYY-MM-DD ${endTime}`);
+      ? moment(startDate).format(`YYYY-MM-DD ${endTime}`)
+      : moment().format('YYYY-MM-DD HH:mm:ss');
   };
   useEffect(() => {
     if (data) {
-      let buf = [
-        { id: 0, time: time(), violation_found: false },
-        { id: 1, time: time(), violation_found: false },
-      ];
+      console.log(data);
+      let buf = [{ id: 0, time: time(), violation_found: false }];
       data.forEach((el) => {
         buf.push({
           id: el.id,
-          time: moment(new Date(el.stop_tracking)).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss'),
+          time:
+            moment(new Date(el.stop_tracking)).dayOfYear() !== moment(startDate).dayOfYear()
+              ? moment(startDate).format(`YYYY-MM-DD ${endTime}`)
+              : moment(new Date(el.stop_tracking)).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss'),
           violation_found: el.violation_found,
         });
         buf.push({
           id: el.id,
-          time: moment(new Date(el.start_tracking)).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss'),
+          time:
+            moment(new Date(el.start_tracking)).dayOfYear() !== moment(startDate).dayOfYear()
+              ? moment(startDate).format(`YYYY-MM-DD ${startTime}`)
+              : moment(new Date(el.start_tracking)).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss'),
           violation_found: el.violation_found,
         });
       });
@@ -54,7 +58,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
           : 0
       );
       buf.pop();
-      buf.pop();
       setTimeLine(buf);
     }
   }, [data]);
@@ -71,7 +74,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                   key={ind}
                   style={el.time > 0 ? { width: `${(el.time / seconds) * 100}%` } : {}}
                   className={
-                    ind % 2 && el.violation_found
+                    el.violation_found
                       ? 'timeline-clickable_red timeline-clickable_pointer'
                       : ' timeline-clickable_green'
                   }
