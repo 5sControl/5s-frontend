@@ -32,14 +32,18 @@ export const FilterForm = ({ selectDate, setSelectDate }) => {
       </div>
 
       {visibleModalDate && (
-        <DateRangePicker
-          locale={enGB}
-          ranges={[selectionRange]}
-          onChange={handleSelect}
-          dateDisplayFormat="dd MMM yyyy"
-          showMonthAndYearPickers={false}
-          rangeColors={['var(--Orange)', 'var(--Orange)']}
-        />
+        <div className="datapicker">
+          <DateRangePicker
+            locale={enGB}
+            ranges={[selectionRange]}
+            onChange={handleSelect}
+            dateDisplayFormat="dd MMM yyyy"
+            showMonthAndYearPickers={false}
+            showDateDisplay={false}
+            inputRanges={[]}
+            rangeColors={['var(--Orange)', 'var(--Orange)']}
+          />
+        </div>
       )}
     </div>
   );
