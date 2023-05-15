@@ -8,20 +8,17 @@ import './timeline.scss';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 
 export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => {
-  const seconds = calculateTime(startTime, endTime);
-  console.log(seconds);
   const [timeLine, setTimeLine] = useState([]);
   const dispatch = useAppDispatch();
 
-  console.log(data);
-
   const duration = (start, end) => {
-    return (moment(end).diff(moment(start), 'seconds') / seconds) * 100;
+    return (moment(end).diff(moment(start), 'seconds') / calculateTime(startTime, endTime)) * 100;
   };
+  console.log(startTime);
 
   useEffect(() => {
     if (data && data.length > 0) {
-      data = data.reverse().map((dat) => {
+      let bufdata = data.reverse().map((dat) => {
         return {
           id: dat.id,
           start: moment(dat.start_tracking).isSame(moment(new Date(startDate)), 'day')
@@ -34,7 +31,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
         };
       });
 
-      data.unshift({
+      bufdata.unshift({
         id: 0,
         start: moment(startDate).format(`YYYY-MM-DD ${startTime}`),
         stop: moment(startDate).format(`YYYY-MM-DD ${startTime}`),
@@ -42,26 +39,26 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
       });
 
       if (moment(startDate).isSame(moment(new Date()), 'day')) {
-        data.push({
+        bufdata.push({
           id: 0,
           start: moment().format('YYYY-MM-DD HH:mm:ss'),
           stop: moment().format('YYYY-MM-DD HH:mm:ss'),
           violation_found: 'yellow',
         });
       } else {
-        data.push({
+        bufdata.push({
           id: 0,
           start: moment(startDate).format(`YYYY-MM-DD ${endTime}`),
           stop: moment(startDate).format(`YYYY-MM-DD ${endTime}`),
           violation_found: 'yellow',
         });
       }
-      setTimeLine(data);
-      console.log(data);
+      console.log(bufdata);
+      setTimeLine(bufdata);
     }
   }, [data]);
 
-  console.log(timeLine);
+  console.log(data);
   return (
     <>
       {timeLine.length > 1 && (
@@ -79,13 +76,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                   }
                   className={`timeline-clickable_${el.violation_found} timeline-clickable_pointer`}
                   style={{
-                    width: `${
-                      el.violation_found !== 'yellow'
-                        ? duration(el.start, el.stop)
-                          ? duration(el.start, el.stop)
-                          : 0.0008
-                        : 1
-                    }%`,
+                    width: `${el.violation_found !== 'yellow' ? duration(el.start, el.stop) : 1}%`,
                     marginLeft: `${
                       index === 0 ? '0px' : duration(array[index - 1].stop, el.start)
                     }%`,

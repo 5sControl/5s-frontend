@@ -8,8 +8,6 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
 
   const [start, setStart] = useState(startTime);
   const [end, setEnd] = useState(endTime);
-  const [lowTime, setLowTime] = useState(moment(new Date(`${startDate + ' ' + start}`)));
-  const [highTime, setHighTime] = useState(moment(new Date(`${startDate + ' ' + end}`)));
 
   const setTimeFunct = (startTime, endTime) => {
     setStart(startTime);
@@ -23,14 +21,11 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
         }, [])
       );
     }
-  }, [data]);
-  useEffect(() => {
-    setLowTime(moment(new Date(`${startDate + ' ' + start}`)));
-    setHighTime(moment(new Date(`${startDate + ' ' + end}`)));
-  }, [start, end]);
+  }, [data, start, end]);
+
   return (
     <>
-      {data.length > 0 && (
+      {data.length > 0 && start && end && (
         <div className="timeline-hub__container">
           <h1>{camera.name}</h1>
           <div className="timeline-hub-clickable">
@@ -39,7 +34,14 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
                 return (
                   <div className="timeline-hub-clickable__camera" key={id}>
                     <Timeline
-                      data={data.filter((cam) => cam.algorithm.name === algorithm)}
+                      data={data.filter(
+                        (cam) =>
+                          cam.algorithm.name === algorithm &&
+                          new Date(`${startDate + ' ' + start}`) <
+                            new Date(moment(cam.stop_tracking).add(3, 'hours')) &&
+                          new Date(`${startDate + ' ' + end}`) >
+                            new Date(moment(cam.start_tracking).add(3, 'hours'))
+                      )}
                       startDate={startDate}
                       algorithm={algorithm}
                       startTime={start}
