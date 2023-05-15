@@ -6,7 +6,11 @@ import moment from 'moment';
 import { enGB } from 'date-fns/locale';
 import { Button } from '../../../components/button';
 import { useOutsideClick } from '../../../functions/useOutsideClick';
-export const FilterForm = ({ selectDate, setSelectDate }) => {
+
+import './datapicker.scss';
+import { ArrowBottom } from '../../../assets/svg/SVGcomponent';
+
+export const Header = ({ selectDate, setSelectDate }) => {
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const refPicker = useRef(null);
 
@@ -25,7 +29,7 @@ export const FilterForm = ({ selectDate, setSelectDate }) => {
     setVisibleModalDate(false);
   };
   const handleClickApply = () => {
-    console.log('sdfsdf');
+    setVisibleModalDate(false);
   };
   return (
     <div className="dashboard__title">
@@ -35,7 +39,8 @@ export const FilterForm = ({ selectDate, setSelectDate }) => {
           onClick={() => setVisibleModalDate(!visibleModalDate)}
           className="dashboard__title_button"
         >
-          {`${selectDate}`}
+          {`${moment(selectDate).format('ll')}`}
+          <ArrowBottom style={{ color: 'red', marginLeft: '10px', width: '9px' }} />
         </button>
       </div>
 
@@ -50,6 +55,7 @@ export const FilterForm = ({ selectDate, setSelectDate }) => {
             showDateDisplay={false}
             inputRanges={[]}
             rangeColors={['var(--Orange)', 'var(--Orange)']}
+            maxDate={new Date()}
           />
           <div className={'picker-dashboard_buttons'}>
             <Button text="Cancel" variant="outlined" onClick={handleClick} />

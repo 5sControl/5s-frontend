@@ -7,7 +7,7 @@ import { Reports } from './components/reports/Reports';
 import { getData } from '../../api/reportsRequest';
 import { TimelineHub } from './components/timeline/timelineHub';
 import { Preloader } from '../../components/preloader';
-import { FilterForm } from './components/filter';
+import { Header } from './components/header';
 
 function Dashboard() {
   const [data, setData] = useState(false);
@@ -60,21 +60,7 @@ function Dashboard() {
   return (
     <>
       <div className="dashboard">
-        <FilterForm
-          cookies={cookies}
-          setCameraToResponse={(e) => setCameraToResponse(e)}
-          cameraToResponse={cameraToResponse}
-          algorithmToResponse={algorithmToResponse}
-          setAlgorithmToResponse={(e) => setAlgorithmToResponse(e)}
-          update={update}
-          endTime={endTime}
-          setEndTime={(e) => setEndTime(e)}
-          selectDate={selectDate}
-          setSelectDate={(e) => setSelectDate(e)}
-          setStartTime={(e) => setStartTime(e)}
-          startTime={startTime}
-        />
-
+        <Header selectDate={selectDate} setSelectDate={(e) => setSelectDate(e)} />
         {!data || isPreloader ? (
           <Preloader />
         ) : data.length > 0 ? (
