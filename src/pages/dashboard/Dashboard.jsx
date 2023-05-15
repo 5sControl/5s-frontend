@@ -55,9 +55,6 @@ function Dashboard() {
   useEffect(() => {
     update();
     setIsPreloader(true);
-    // getLogs(window.location.hostname, cookies.token).then((res) => {
-    //   // console.log(res);
-    // });
   }, [selectDate]);
 
   return (
