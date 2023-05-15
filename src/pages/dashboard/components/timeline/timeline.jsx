@@ -14,7 +14,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   const duration = (start, end) => {
     return (moment(end).diff(moment(start), 'seconds') / calculateTime(startTime, endTime)) * 100;
   };
-  console.log(startTime);
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -62,12 +61,10 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
           violation_found: 'yellow',
         });
       }
-      console.log(bufdata);
       setTimeLine(bufdata);
     }
   }, [data]);
 
-  console.log(timeLine);
   return (
     <>
       {timeLine.length > 1 && (
