@@ -98,6 +98,7 @@ function Dashboard() {
               startDate={moment(selectDate).format('YYYY-MM-DD')}
               startTime={startTime}
               endTime={endTime}
+              data={data}
             />
             <h3>
               Reports <span>{data.length}</span>

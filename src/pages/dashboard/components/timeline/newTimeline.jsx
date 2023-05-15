@@ -1,10 +1,9 @@
 import { calculateTimeCenter } from '../../../../functions/calculateTimeCenter';
 import { Fragment, useEffect, useState } from 'react';
 import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
-import { getData } from '../../../../api/reportsRequest';
-import { useCookies } from 'react-cookie';
 import { Timeline } from './timeline';
 export const NewTimeline = ({
+  data,
   startDate,
   startTime,
   endTime,
@@ -12,8 +11,6 @@ export const NewTimeline = ({
   setEndTime,
   camera,
 }) => {
-  const [cookies] = useCookies(['token']);
-  const [data, setData] = useState([]);
   const [algorithm, setAlgorithm] = useState([]);
 
   const [start, setStart] = useState(startTime);
@@ -23,7 +20,7 @@ export const NewTimeline = ({
     setStartTime(startTime);
     setEndTime(endTime);
   };
-
+  console.log(data);
   useEffect(() => {
     if (data.length > 0) {
       setAlgorithm(
@@ -33,26 +30,6 @@ export const NewTimeline = ({
       );
     }
   }, [data]);
-
-  useEffect(() => {
-    getData(
-      window.location.hostname,
-      cookies.token,
-      startDate,
-      start
-        .split(':')
-        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
-        .join(':'),
-      end
-        .split(':')
-        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
-        .join(':'),
-      'algorithm',
-      camera.id
-    ).then((res) => {
-      setData(res.data);
-    });
-  }, [startDate]);
 
   return (
     <>
