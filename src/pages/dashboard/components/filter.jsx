@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // Импортируйте стили
 import 'react-date-range/dist/theme/default.css';
 import moment from 'moment';
 import { enGB } from 'date-fns/locale';
-
+import { Button } from '../../../components/button';
+import { useOutsideClick } from '../../../functions/useOutsideClick';
 export const FilterForm = ({ selectDate, setSelectDate }) => {
-  console.log(new Date(selectDate));
   const [visibleModalDate, setVisibleModalDate] = useState(false);
+  const refPicker = useRef(null);
+
   const handleSelect = (ranges) => {
     setSelectDate(moment(ranges.selection.startDate).format('YYYY-MM-DD'));
     setVisibleModalDate(false);
@@ -18,7 +20,13 @@ export const FilterForm = ({ selectDate, setSelectDate }) => {
     endDate: new Date(selectDate),
     key: 'selection',
   };
-
+  useOutsideClick(refPicker, () => setVisibleModalDate(false));
+  const handleClick = () => {
+    setVisibleModalDate(false);
+  };
+  const handleClickApply = () => {
+    console.log('sdfsdf');
+  };
   return (
     <div className="dashboard__title">
       <h1 className="dashboard__title_h1">Dashboard</h1>
@@ -32,7 +40,7 @@ export const FilterForm = ({ selectDate, setSelectDate }) => {
       </div>
 
       {visibleModalDate && (
-        <div className="datapicker">
+        <div className="picker-dashboard" ref={refPicker}>
           <DateRangePicker
             locale={enGB}
             ranges={[selectionRange]}
@@ -43,6 +51,10 @@ export const FilterForm = ({ selectDate, setSelectDate }) => {
             inputRanges={[]}
             rangeColors={['var(--Orange)', 'var(--Orange)']}
           />
+          <div className={'picker-dashboard_buttons'}>
+            <Button text="Cancel" variant="outlined" onClick={handleClick} />
+            <Button text="Apply" variant="contained" onClick={handleClickApply} />
+          </div>
         </div>
       )}
     </div>
