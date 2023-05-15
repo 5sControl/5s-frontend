@@ -39,12 +39,7 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
                 return (
                   <div className="timeline-hub-clickable__camera" key={id}>
                     <Timeline
-                      data={data.filter(
-                        (cam) =>
-                          cam.algorithm.name === algorithm &&
-                          lowTime.isBefore(moment(cam.stop_tracking)) &&
-                          highTime.isAfter(moment(cam.stop_tracking))
-                      )}
+                      data={data.filter((cam) => cam.algorithm.name === algorithm)}
                       startDate={startDate}
                       algorithm={algorithm}
                       startTime={start}
