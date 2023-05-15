@@ -26,18 +26,18 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
           id: dat.id,
           start: moment(dat.start_tracking).isSame(moment(new Date(startDate)), 'day')
             ? moment(dat.start_tracking).format('YYYY-MM-DD HH:mm:ss')
-            : moment(startDate).format('YYYY-MM-DD 00:00:00'),
+            : moment(startDate).format(`YYYY-MM-DD ${startTime}`),
           stop: moment(dat.stop_tracking).isSame(moment(new Date(startDate)), 'day')
             ? moment(dat.stop_tracking).format('YYYY-MM-DD HH:mm:ss')
-            : moment(startDate).format('YYYY-MM-DD 24:00:00'),
+            : moment(startDate).format(`YYYY-MM-DD ${endTime}`),
           violation_found: dat.violation_found ? 'red' : 'green',
         };
       });
 
       data.unshift({
         id: 0,
-        start: moment(startDate).format('YYYY-MM-DD 00:00:00'),
-        stop: moment(startDate).format('YYYY-MM-DD 00:00:00'),
+        start: moment(startDate).format(`YYYY-MM-DD ${startTime}`),
+        stop: moment(startDate).format(`YYYY-MM-DD ${startTime}`),
         violation_found: 'grey',
       });
 
@@ -51,8 +51,8 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
       } else {
         data.push({
           id: 0,
-          start: moment(startDate).format('YYYY-MM-DD 24:00:00'),
-          stop: moment(startDate).format('YYYY-MM-DD 24:00:00'),
+          start: moment(startDate).format(`YYYY-MM-DD ${endTime}`),
+          stop: moment(startDate).format(`YYYY-MM-DD ${endTime}`),
           violation_found: 'yellow',
         });
       }
@@ -84,7 +84,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                         ? duration(el.start, el.stop)
                           ? duration(el.start, el.stop)
                           : 0.0008
-                        : 0.1
+                        : 1
                     }%`,
                     marginLeft: `${
                       index === 0 ? '0px' : duration(array[index - 1].stop, el.start)

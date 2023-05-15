@@ -2,23 +2,15 @@ import { calculateTimeCenter } from '../../../../functions/calculateTimeCenter';
 import { Fragment, useEffect, useState } from 'react';
 import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
 import { Timeline } from './timeline';
-export const NewTimeline = ({
-  data,
-  startDate,
-  startTime,
-  endTime,
-  setStartTime,
-  setEndTime,
-  camera,
-}) => {
+export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => {
   const [algorithm, setAlgorithm] = useState([]);
 
   const [start, setStart] = useState(startTime);
   const [end, setEnd] = useState(endTime);
 
   const setTimeFunct = (startTime, endTime) => {
-    setStartTime(startTime);
-    setEndTime(endTime);
+    setStart(startTime);
+    setEnd(endTime);
   };
   useEffect(() => {
     if (data.length > 0) {
@@ -57,7 +49,7 @@ export const NewTimeline = ({
                 >
                   <AiOutlineZoomOut />
                 </span>
-                {calculateTimeCenter(startTime, endTime).map((el, id, array) => (
+                {calculateTimeCenter(start, end).map((el, id, array) => (
                   <Fragment key={id}>
                     <span>{el.split(':').slice(0, 2).join(':')}</span>
                     {array.length - 1 !== id && (
