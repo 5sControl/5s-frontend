@@ -26,13 +26,13 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
   return (
     <>
       {data.length > 0 && start && end && startDate && (
-        <div className="timeline-hub__container">
+        <div className="timeline-hubNew__container">
           <h1>{camera.name}</h1>
-          <div className="timeline-hub-clickable">
-            <div className="timeline-hub-clickable__container">
+          <div className="timeline-hubclickableNew-">
+            <div className="timeline-hub-clickableNew__container">
               {algorithm.map((algorithm, id) => {
                 return (
-                  <div className="timeline-hub-clickable__camera" key={id}>
+                  <div className="timeline-hub-clickableNew__camera" key={id}>
                     <Timeline
                       data={data.filter(
                         (cam) =>
@@ -50,9 +50,9 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
                   </div>
                 );
               })}
-              <div className="timeline-clickable__line">
+              <div className="timeline-clickableNew__line">
                 <span
-                  className="timeline-clickable__zoomout"
+                  className="timeline-clickableNew__zoomout"
                   onClick={() => setTimeFunct('00:00:00', '24:00:00')}
                 >
                   <AiOutlineZoomOut />
@@ -62,7 +62,7 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
                     <span>{el.split(':').slice(0, 2).join(':')}</span>
                     {array.length - 1 !== id && (
                       <span
-                        className="timeline-clickable__timezone"
+                        className="timeline-clickableNew__timezone"
                         onClick={() => setTimeFunct(el, array[id + 1])}
                       >
                         <AiOutlineZoomIn />

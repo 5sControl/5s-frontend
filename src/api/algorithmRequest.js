@@ -4,7 +4,6 @@ import { proxy } from './api';
 const API_ALGORITHM = 'api/camera-algorithms/algorithms-detail/';
 const API_POSTALGORITHM = 'api/camera-algorithms/create-process/';
 const API_GETPROCESS = 'api/camera-algorithms/get-process/';
-const API_GETLOGS = 'api/camera-algorithms/logs/';
 const API_POSTOPERATIONID = 'api/order/index_stanowisko/';
 
 export const getAveilableAlgorithms = (hostname, cookies) => {
@@ -68,26 +67,6 @@ export const getProcess = (hostname, cookies) => {
     });
   } else {
     return axios.get(`http://${hostname}/${API_GETPROCESS}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  }
-};
-
-export const getLogs = (hostname, cookies) => {
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(process.env.REACT_APP_NGROK + API_GETLOGS, 'GET', {
-      Authorization: cookies,
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_GETLOGS}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  } else {
-    return axios.get(`http://${hostname}/${API_GETLOGS}`, {
       headers: {
         Authorization: cookies,
       },

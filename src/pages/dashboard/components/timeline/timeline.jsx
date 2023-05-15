@@ -69,9 +69,9 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     <>
       {timeLine.length > 1 && (
         <section className="report-page_timeline">
-          <div className="timeline-clickable">
-            <span className="timeline-clickable__text"> {parsingAlgorithmName(algorithm)}</span>
-            <div className="timeline-clickable__container">
+          <div className="timeline-clickableNew">
+            <span className="timeline-clickableNew__text"> {parsingAlgorithmName(algorithm)}</span>
+            <div className="timeline-clickableNew__container">
               {timeLine.map((el, index, array) => (
                 <span
                   key={index}
@@ -80,7 +80,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                       ? dispatch(addCurrentReport(data.filter((item) => item.id === el.id)[0]))
                       : undefined
                   }
-                  className={`timeline-clickable_${el.violation_found} timeline-clickable_pointer`}
+                  className={`timeline-clickableNew_${el.violation_found} timeline-clickableNew_pointer`}
                   style={{
                     width: `${el.violation_found !== 'yellow' ? duration(el.start, el.stop) : 0}%`,
                     marginLeft: `${

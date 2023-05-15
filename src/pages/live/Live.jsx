@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
 import moment from 'moment';
-import { getLogs } from '../../api/algorithmRequest';
 import { getData } from '../../api/reportsRequest';
 import { useCookies } from 'react-cookie';
 import { DataPicker } from '../dashboard/components/dataPicker';
@@ -48,10 +47,6 @@ export const Live = () => {
   };
 
   useEffect(() => {
-    getLogs(location, cookies.token).then((res) => {
-      // cosnsole.log(res, 'logs');
-    });
-
     getSelectedCameras(location, cookies.token).then((res) => {
       setCameras(res.data ? res.data : []);
     });

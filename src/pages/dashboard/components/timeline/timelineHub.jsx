@@ -13,7 +13,7 @@ export const TimelineHub = ({ data, startDate, startTime, endTime }) => {
   }, []);
 
   return (
-    <div className="timeline-hub">
+    <div className="timeline-hubNew">
       {cameras.map((el, id) => {
         return (
           <NewTimeline
