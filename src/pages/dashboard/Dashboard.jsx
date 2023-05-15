@@ -40,36 +40,22 @@ function Dashboard() {
       cameraToResponse
     )
       .then((el) => {
-        let onlyCamera = el.data.map((el) => el.camera);
-        let res = [
-          ...new Set(
-            onlyCamera.map((item) =>
-              JSON.stringify(
-                Object.keys(item)
-                  .sort()
-                  .reduce((obj, value) => ((obj[value] = item[value]), obj), {})
-              )
-            )
-          ),
-        ].map((item) => JSON.parse(item));
-        setSelectCameras(res);
-
         el.data.detail === 'Authentication credentials were not provided.' ||
         el.data.detail === 'Given token not valid for any token type'
           ? setData(0)
           : el.data.length !== data.length
           ? setData(el.data)
-          : setData(data);
+          : setData(el.data);
       })
       .catch((error) => setErrorCatch(error.message));
   };
 
   useEffect(() => {
     update();
-    getLogs(window.location.hostname, cookies.token).then((res) => {
-      // console.log(res);
-    });
-  }, [selectDate, cameraToResponse, algorithmToResponse]);
+    // getLogs(window.location.hostname, cookies.token).then((res) => {
+    //   // console.log(res);
+    // });
+  }, [selectDate]);
 
   return (
     <>

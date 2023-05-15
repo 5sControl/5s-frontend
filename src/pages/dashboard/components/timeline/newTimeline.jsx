@@ -20,7 +20,6 @@ export const NewTimeline = ({
     setStartTime(startTime);
     setEndTime(endTime);
   };
-  console.log(data);
   useEffect(() => {
     if (data.length > 0) {
       setAlgorithm(
