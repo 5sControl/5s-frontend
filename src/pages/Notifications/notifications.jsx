@@ -92,11 +92,7 @@ export const Notifications = () => {
           </button>
         </div>
         <p className={styles.server__create}>Create SMTP server to send notifications.</p>
-        <div className={styles.server__status}>
-          <span className={styles.server__status_type}>Status:</span>
-          <span className={styles.server__status_date}>Not connected</span>
-        </div>
-        {defaultSettings && defaultSettings.length > 0 && defaultSettings[0].server && (
+        {defaultSettings && defaultSettings.length > 0 && defaultSettings[0].server ? (
           <>
             <div className={styles.server__status}>
               <span className={styles.server__status_type}>Server:</span>
@@ -113,6 +109,11 @@ export const Notifications = () => {
               } ${defaultSettings[0].email_use_ssl ? 'ssl' : ''}`}</span>
             </div>
           </>
+        ) : (
+          <div className={styles.server__status}>
+            <span className={styles.server__status_type}>Status:</span>
+            <span className={styles.server__status_date}>Not connected</span>
+          </div>
         )}
       </section>
       <section className={styles.emails}>

@@ -1,43 +1,29 @@
-import { Timeline } from './timeline';
-import { calculateTimeCenter } from '../../../../functions/calculateTimeCenter';
+import { useEffect, useState } from 'react';
+import { NewTimeline } from './newTimeline';
+import { getSelectedCameras } from '../../../../api/cameraRequest';
+import { useCookies } from 'react-cookie';
+export const TimelineHub = ({ data, startDate, startTime, endTime }) => {
+  const [cookies] = useCookies(['token']);
+  const [cameras, setCameras] = useState([]);
 
-export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) => {
-  const algorithm = data.reduce((prev, curr) => {
-    return [...new Set([...prev, curr.algorithm.name])];
-  }, []);
-
-  const cameras = data.reduce((prev, curr) => {
-    return [...new Set([...prev, curr.camera.name])];
+  useEffect(() => {
+    getSelectedCameras(window.location.hostname, cookies.token).then((res) => {
+      setCameras(res.data);
+    });
   }, []);
 
   return (
     <div className="timeline-hub">
       {cameras.map((el, id) => {
         return (
-          <div key={id} className="timeline-hub__container">
-            <h1>{el}</h1>
-            {algorithm.map((algorithm, id) => {
-              return (
-                <div className="timeline-hub__camera" key={id}>
-                  <Timeline
-                    data={data
-                      .filter((e) => e.camera.name === el)
-                      .filter((cam) => cam.algorithm.name === algorithm)}
-                    startDate={startDate}
-                    endDate={endDate}
-                    algorithm={algorithm}
-                    startTime={startTime}
-                    endTime={endTime}
-                  />
-                </div>
-              );
-            })}
-            <div className="timeline__line">
-              {calculateTimeCenter(endTime, startTime).map((el, id) => (
-                <span key={id}>{el.split(':').slice(0, 2).join(':')}</span>
-              ))}
-            </div>
-          </div>
+          <NewTimeline
+            data={data.filter((dat) => dat.camera.id === el.id)}
+            startDate={startDate}
+            startTime={startTime}
+            endTime={endTime}
+            camera={el}
+            key={id}
+          />
         );
       })}
     </div>

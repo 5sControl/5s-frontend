@@ -13,8 +13,8 @@ import { getLogs } from '../../api/algorithmRequest';
 function Dashboard() {
   const [data, setData] = useState(false);
   const [errorCatch, setErrorCatch] = useState(false);
-  const [startTime, setStartTime] = useState('7:00:00');
-  const [endTime, setEndTime] = useState('19:00:00');
+  const [startTime, setStartTime] = useState('00:00:00');
+  const [endTime, setEndTime] = useState('24:00:00');
   const [cookies] = useCookies(['token']);
 
   const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
@@ -30,46 +30,32 @@ function Dashboard() {
       selectDate,
       startTime
         .split(':')
-        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
         .join(':'),
       endTime
         .split(':')
-        .map((el, ind) => (ind === 0 ? el - 1 : el))
+        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
         .join(':'),
-      algorithmToResponse,
+      'algorithm',
       cameraToResponse
     )
       .then((el) => {
-        let onlyCamera = el.data.map((el) => el.camera);
-        let res = [
-          ...new Set(
-            onlyCamera.map((item) =>
-              JSON.stringify(
-                Object.keys(item)
-                  .sort()
-                  .reduce((obj, value) => ((obj[value] = item[value]), obj), {})
-              )
-            )
-          ),
-        ].map((item) => JSON.parse(item));
-        setSelectCameras(res);
-
         el.data.detail === 'Authentication credentials were not provided.' ||
         el.data.detail === 'Given token not valid for any token type'
           ? setData(0)
           : el.data.length !== data.length
           ? setData(el.data)
-          : setData(data);
+          : setData(el.data);
       })
       .catch((error) => setErrorCatch(error.message));
   };
 
   useEffect(() => {
     update();
-    getLogs(window.location.hostname, cookies.token).then((res) => {
-      // console.log(res);
-    });
-  }, [selectDate, cameraToResponse, algorithmToResponse]);
+    // getLogs(window.location.hostname, cookies.token).then((res) => {
+    //   // console.log(res);
+    // });
+  }, [selectDate]);
 
   return (
     <>
@@ -95,11 +81,10 @@ function Dashboard() {
         ) : data.length > 0 ? (
           <>
             <TimelineHub
-              data={data}
-              startDate={moment(selectDate).format('YYYY-MM-DD 00:00:00')}
-              endDate={moment(selectDate).add(+1, 'days').format('YYYY-MM-DD 00:00:00')}
+              startDate={moment(selectDate).format('YYYY-MM-DD')}
               startTime={startTime}
               endTime={endTime}
+              data={data}
             />
             <h3>
               Reports <span>{data.length}</span>

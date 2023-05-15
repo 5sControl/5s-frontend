@@ -8,46 +8,60 @@ import './timeline.scss';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 
 export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => {
-  const seconds = calculateTime(startTime, endTime);
   const [timeLine, setTimeLine] = useState([]);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (data) {
-      let buf = [
-        { id: 0, time: moment(startDate).format(`YYYY-MM-DD ${endTime}`), violation_found: false },
-      ];
-      data.forEach((el) => {
-        buf.push({
-          id: el.id,
-          time: moment(new Date(el.stop_tracking)).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss'),
-          violation_found: el.violation_found,
-        });
-        buf.push({
-          id: el.id,
-          time: moment(new Date(el.start_tracking)).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss'),
-          violation_found: el.violation_found,
-        });
-      });
-      buf.push({
-        id: 0,
-        time: moment(startDate).format(`YYYY-MM-DD ${startTime}`),
-        violation_found: false,
-      });
-      buf.reverse();
-      //  buf = buf.filter(el => el.includes(moment().format("YYYY-MM-DD")))
-      buf = buf.map((el, index, array) =>
-        index < array.length - 1
-          ? {
-              id: el.id,
-              time: moment(array[index + 1].time).diff(moment(el.time), 'seconds'),
-              violation_found: el.violation_found,
-            }
-          : 0
-      );
-      buf.pop();
+  const duration = (start, end) => {
+    return (moment(end).diff(moment(start), 'seconds') / calculateTime(startTime, endTime)) * 100;
+  };
 
-      setTimeLine(buf);
+  useEffect(() => {
+    if (data && data.length > 0) {
+      let bufdata = data.reverse().map((dat) => {
+        return {
+          id: dat.id,
+          start: moment(dat.start_tracking).isSame(moment(new Date(startDate)), 'day')
+            ? moment(dat.start_tracking).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss')
+            : moment(startDate).format(`YYYY-MM-DD ${startTime}`),
+          stop: moment(dat.stop_tracking).isSame(moment(new Date(startDate)), 'day')
+            ? moment(dat.stop_tracking).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss')
+            : moment(startDate).format(`YYYY-MM-DD ${endTime}`),
+          violation_found: dat.violation_found ? 'red' : 'green',
+        };
+      });
+
+      bufdata.unshift({
+        id: 0,
+        start: moment(startDate).format(`YYYY-MM-DD ${startTime}`),
+        stop: moment(startDate).format(`YYYY-MM-DD ${startTime}`),
+        violation_found: 'grey',
+      });
+
+      if (moment(startDate).isSame(moment(new Date()), 'day')) {
+        if (new Date(`${startDate + ' ' + endTime}`) > new Date()) {
+          bufdata.push({
+            id: 0,
+            start: moment().format('YYYY-MM-DD HH:mm:ss'),
+            stop: moment().format('YYYY-MM-DD HH:mm:ss'),
+            violation_found: 'yellow',
+          });
+        } else {
+          bufdata.push({
+            id: 0,
+            start: moment().format(`YYYY-MM-DD ${endTime}`),
+            stop: moment().format(`YYYY-MM-DD ${endTime}`),
+            violation_found: 'yellow',
+          });
+        }
+      } else {
+        bufdata.push({
+          id: 0,
+          start: moment(startDate).format(`YYYY-MM-DD ${endTime}`),
+          stop: moment(startDate).format(`YYYY-MM-DD ${endTime}`),
+          violation_found: 'yellow',
+        });
+      }
+      setTimeLine(bufdata);
     }
   }, [data]);
 
@@ -55,28 +69,24 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     <>
       {timeLine.length > 1 && (
         <section className="report-page_timeline">
-          <div className="timeline">
-            <span className="timeline__text"> {parsingAlgorithmName(algorithm)}</span>
-            <div className="timeline__container">
-              {timeLine.map((el, ind) => (
+          <div className="timeline-clickable">
+            <span className="timeline-clickable__text"> {parsingAlgorithmName(algorithm)}</span>
+            <div className="timeline-clickable__container">
+              {timeLine.map((el, index, array) => (
                 <span
-                  key={ind}
-                  style={el.time > 0 ? { width: `${(el.time / seconds) * 100}%` } : {}}
-                  className={
-                    algorithm !== 'machine_control'
-                      ? ind % 2 && el.violation_found
-                        ? 'timeline_red timeline_pointer'
-                        : ' timeline_green'
-                      : ind % 2
-                      ? 'timeline_green timeline_pointer'
-                      : ' timeline_red'
-                  }
-                  title={`${el.violation_found}`}
+                  key={index}
                   onClick={() =>
                     el.id !== 0
                       ? dispatch(addCurrentReport(data.filter((item) => item.id === el.id)[0]))
                       : undefined
                   }
+                  className={`timeline-clickable_${el.violation_found} timeline-clickable_pointer`}
+                  style={{
+                    width: `${el.violation_found !== 'yellow' ? duration(el.start, el.stop) : 0}%`,
+                    marginLeft: `${
+                      index === 0 ? '0px' : duration(array[index - 1].stop, el.start)
+                    }%`,
+                  }}
                 ></span>
               ))}
             </div>
