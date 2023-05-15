@@ -83,8 +83,8 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                       el.violation_found !== 'yellow'
                         ? duration(el.start, el.stop)
                           ? duration(el.start, el.stop)
-                          : 0.0009
-                        : 1
+                          : 0.0008
+                        : 0.1
                     }%`,
                     marginLeft: `${
                       index === 0 ? '0px' : duration(array[index - 1].stop, el.start)

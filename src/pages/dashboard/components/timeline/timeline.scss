@@ -103,7 +103,7 @@
 .timeline-clickable {
   display: flex;
   align-items: center;
-  height: 20px;
+  height: 30px;
   width: 100%;
   margin: 7px 0;
   &__description {
@@ -117,9 +117,6 @@
     background-color: #e00606;
     position: relative;
     box-sizing: border-box;
-    &:hover{
-      background-color: yellow;
-    }
   }
   &_green {
     height: 100%;
@@ -135,12 +132,21 @@
     background-color: #838383;
   }
   &__container {
+    > span{
+      box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+      transition: all 0.3s;
+      &:hover{
+        background-color: yellow;
+      }
+    }
+
+    height: 100%;
     width: calc(100% - 120px);
-    height: 30px;
-    background-color: rgb(156, 154, 154);
+    background-color:#E0E0E0;
     display: flex;
     border-radius: 6px;
     overflow: hidden;
+
   }
   &__text {
     width: 120px;
