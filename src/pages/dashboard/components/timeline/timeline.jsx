@@ -9,10 +9,15 @@ import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName
 
 export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => {
   const seconds = calculateTime(startTime, endTime);
+  console.log(seconds);
   const [timeLine, setTimeLine] = useState([]);
   const dispatch = useAppDispatch();
 
   console.log(data);
+
+  const duration = (start, end) => {
+    return (moment(end).diff(moment(start), 'seconds') / seconds) * 100;
+  };
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -51,7 +56,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
           violation_found: 'yellow',
         });
       }
-
+      setTimeLine(data);
       console.log(data);
     }
   }, [data]);
@@ -63,7 +68,31 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
         <section className="report-page_timeline">
           <div className="timeline-clickable">
             <span className="timeline-clickable__text"> {parsingAlgorithmName(algorithm)}</span>
-            <div className="timeline-clickable__container"></div>
+            <div className="timeline-clickable__container">
+              {timeLine.map((el, index, array) => (
+                <span
+                  key={index}
+                  onClick={() =>
+                    el.id !== 0
+                      ? dispatch(addCurrentReport(data.filter((item) => item.id === el.id)[0]))
+                      : undefined
+                  }
+                  className={`timeline-clickable_${el.violation_found} timeline-clickable_pointer`}
+                  style={{
+                    width: `${
+                      el.violation_found !== 'yellow'
+                        ? duration(el.start, el.stop)
+                          ? duration(el.start, el.stop)
+                          : 0.0009
+                        : 1
+                    }%`,
+                    marginLeft: `${
+                      index === 0 ? '0px' : duration(array[index - 1].stop, el.start)
+                    }%`,
+                  }}
+                ></span>
+              ))}
+            </div>
           </div>
         </section>
       )}
