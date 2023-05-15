@@ -85,7 +85,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                   }
                   className={`timeline-clickable_${el.violation_found} timeline-clickable_pointer`}
                   style={{
-                    width: `${el.violation_found !== 'yellow' ? duration(el.start, el.stop) : 1}%`,
+                    width: `${el.violation_found !== 'yellow' ? duration(el.start, el.stop) : 0}%`,
                     marginLeft: `${
                       index === 0 ? '0px' : duration(array[index - 1].stop, el.start)
                     }%`,
