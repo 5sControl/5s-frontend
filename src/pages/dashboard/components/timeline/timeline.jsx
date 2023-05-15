@@ -25,10 +25,10 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
         return {
           id: dat.id,
           start: moment(dat.start_tracking).isSame(moment(new Date(startDate)), 'day')
-            ? moment(dat.start_tracking).format('YYYY-MM-DD HH:mm:ss')
+            ? moment(dat.start_tracking).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss')
             : moment(startDate).format(`YYYY-MM-DD ${startTime}`),
           stop: moment(dat.stop_tracking).isSame(moment(new Date(startDate)), 'day')
-            ? moment(dat.stop_tracking).format('YYYY-MM-DD HH:mm:ss')
+            ? moment(dat.stop_tracking).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss')
             : moment(startDate).format(`YYYY-MM-DD ${endTime}`),
           violation_found: dat.violation_found ? 'red' : 'green',
         };

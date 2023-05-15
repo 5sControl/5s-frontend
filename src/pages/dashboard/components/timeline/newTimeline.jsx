@@ -2,11 +2,14 @@ import { calculateTimeCenter } from '../../../../functions/calculateTimeCenter';
 import { Fragment, useEffect, useState } from 'react';
 import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
 import { Timeline } from './timeline';
+import moment from 'moment';
 export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => {
   const [algorithm, setAlgorithm] = useState([]);
 
   const [start, setStart] = useState(startTime);
   const [end, setEnd] = useState(endTime);
+  const [lowTime, setLowTime] = useState(moment(new Date(`${startDate + ' ' + start}`)));
+  const [highTime, setHighTime] = useState(moment(new Date(`${startDate + ' ' + end}`)));
 
   const setTimeFunct = (startTime, endTime) => {
     setStart(startTime);
@@ -21,7 +24,10 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
       );
     }
   }, [data]);
-
+  useEffect(() => {
+    setLowTime(moment(new Date(`${startDate + ' ' + start}`)));
+    setHighTime(moment(new Date(`${startDate + ' ' + end}`)));
+  }, [start, end]);
   return (
     <>
       {data.length > 0 && (
@@ -33,7 +39,12 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
                 return (
                   <div className="timeline-hub-clickable__camera" key={id}>
                     <Timeline
-                      data={data.filter((cam) => cam.algorithm.name === algorithm)}
+                      data={data.filter(
+                        (cam) =>
+                          cam.algorithm.name === algorithm &&
+                          lowTime.isBefore(moment(cam.stop_tracking)) &&
+                          highTime.isAfter(moment(cam.stop_tracking))
+                      )}
                       startDate={startDate}
                       algorithm={algorithm}
                       startTime={start}
