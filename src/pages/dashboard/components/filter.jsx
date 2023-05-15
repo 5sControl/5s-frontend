@@ -5,13 +5,10 @@ import 'react-date-range/dist/theme/default.css';
 import moment from 'moment';
 import { enGB } from 'date-fns/locale';
 
-export const FilterForm = ({ update, selectDate, setSelectDate }) => {
+export const FilterForm = ({ selectDate, setSelectDate }) => {
   console.log(new Date(selectDate));
   const [visibleModalDate, setVisibleModalDate] = useState(false);
-  const [startDate, setStartDate] = useState(new Date(selectDate));
   const handleSelect = (ranges) => {
-    console.log(ranges);
-    // Определяем дату начала и записываем ее в state
     setSelectDate(moment(ranges.selection.startDate).format('YYYY-MM-DD'));
     setVisibleModalDate(false);
   };
@@ -35,13 +32,6 @@ export const FilterForm = ({ update, selectDate, setSelectDate }) => {
       </div>
 
       {visibleModalDate && (
-        // <DataPicker
-        //   setSelectDate={(e) => setSelectDate(e)}
-        //   update={update}
-        //   setVisibleModalDate={(e) => setVisibleModalDate(e)}
-        //   selectDateDash={selectDate}
-        // />
-
         <DateRangePicker
           locale={enGB}
           ranges={[selectionRange]}
