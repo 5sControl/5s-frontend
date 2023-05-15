@@ -1,8 +1,26 @@
 import { useState } from 'react';
-import { DataPicker } from './dataPicker';
+import { DateRangePicker } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; // Импортируйте стили
+import 'react-date-range/dist/theme/default.css';
+import moment from 'moment';
+import { enGB } from 'date-fns/locale';
 
 export const FilterForm = ({ update, selectDate, setSelectDate }) => {
+  console.log(new Date(selectDate));
   const [visibleModalDate, setVisibleModalDate] = useState(false);
+  const [startDate, setStartDate] = useState(new Date(selectDate));
+  const handleSelect = (ranges) => {
+    console.log(ranges);
+    // Определяем дату начала и записываем ее в state
+    setSelectDate(moment(ranges.selection.startDate).format('YYYY-MM-DD'));
+    setVisibleModalDate(false);
+  };
+
+  const selectionRange = {
+    startDate: new Date(selectDate),
+    endDate: new Date(selectDate),
+    key: 'selection',
+  };
 
   return (
     <div className="dashboard__title">
@@ -17,11 +35,20 @@ export const FilterForm = ({ update, selectDate, setSelectDate }) => {
       </div>
 
       {visibleModalDate && (
-        <DataPicker
-          setSelectDate={(e) => setSelectDate(e)}
-          update={update}
-          setVisibleModalDate={(e) => setVisibleModalDate(e)}
-          selectDateDash={selectDate}
+        // <DataPicker
+        //   setSelectDate={(e) => setSelectDate(e)}
+        //   update={update}
+        //   setVisibleModalDate={(e) => setVisibleModalDate(e)}
+        //   selectDateDash={selectDate}
+        // />
+
+        <DateRangePicker
+          locale={enGB}
+          ranges={[selectionRange]}
+          onChange={handleSelect}
+          dateDisplayFormat="dd MMM yyyy"
+          showMonthAndYearPickers={false}
+          rangeColors={['var(--Orange)', 'var(--Orange)']}
         />
       )}
     </div>
