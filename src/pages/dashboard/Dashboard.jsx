@@ -8,7 +8,6 @@ import { getData } from '../../api/reportsRequest';
 import { TimelineHub } from './components/timeline/timelineHub';
 import { Preloader } from '../../components/preloader';
 import { FilterForm } from './components/filter';
-import { getLogs } from '../../api/algorithmRequest';
 
 function Dashboard() {
   const [data, setData] = useState(false);
@@ -16,9 +15,8 @@ function Dashboard() {
   const [startTime, setStartTime] = useState('00:00:00');
   const [endTime, setEndTime] = useState('24:00:00');
   const [cookies] = useCookies(['token']);
-
+  const [isPreloader, setIsPreloader] = useState(false);
   const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
-  const [selectCameras, setSelectCameras] = useState([]);
 
   const [cameraToResponse, setCameraToResponse] = useState('camera');
   const [algorithmToResponse, setAlgorithmToResponse] = useState('algorithm');
@@ -46,12 +44,17 @@ function Dashboard() {
           : el.data.length !== data.length
           ? setData(el.data)
           : setData(el.data);
+        setIsPreloader(false);
       })
-      .catch((error) => setErrorCatch(error.message));
+      .catch((error) => {
+        setIsPreloader(false);
+        setErrorCatch(error.message);
+      });
   };
 
   useEffect(() => {
     update();
+    setIsPreloader(true);
     // getLogs(window.location.hostname, cookies.token).then((res) => {
     //   // console.log(res);
     // });
@@ -73,10 +76,9 @@ function Dashboard() {
           setSelectDate={(e) => setSelectDate(e)}
           setStartTime={(e) => setStartTime(e)}
           startTime={startTime}
-          selectCameras={selectCameras}
         />
 
-        {!data ? (
+        {!data || isPreloader ? (
           <Preloader />
         ) : data.length > 0 ? (
           <>
