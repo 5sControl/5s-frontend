@@ -25,7 +25,7 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
 
   return (
     <>
-      {data.length > 0 && start && end && (
+      {data.length > 0 && start && end && startDate && (
         <div className="timeline-hub__container">
           <h1>{camera.name}</h1>
           <div className="timeline-hub-clickable">

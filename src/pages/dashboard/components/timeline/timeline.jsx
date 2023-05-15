@@ -39,12 +39,21 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
       });
 
       if (moment(startDate).isSame(moment(new Date()), 'day')) {
-        bufdata.push({
-          id: 0,
-          start: moment().format('YYYY-MM-DD HH:mm:ss'),
-          stop: moment().format('YYYY-MM-DD HH:mm:ss'),
-          violation_found: 'yellow',
-        });
+        if (new Date(`${startDate + ' ' + endTime}`) > new Date()) {
+          bufdata.push({
+            id: 0,
+            start: moment().format('YYYY-MM-DD HH:mm:ss'),
+            stop: moment().format('YYYY-MM-DD HH:mm:ss'),
+            violation_found: 'yellow',
+          });
+        } else {
+          bufdata.push({
+            id: 0,
+            start: moment().format(`YYYY-MM-DD ${endTime}`),
+            stop: moment().format(`YYYY-MM-DD ${endTime}`),
+            violation_found: 'yellow',
+          });
+        }
       } else {
         bufdata.push({
           id: 0,
@@ -58,7 +67,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     }
   }, [data]);
 
-  console.log(data);
+  console.log(timeLine);
   return (
     <>
       {timeLine.length > 1 && (
