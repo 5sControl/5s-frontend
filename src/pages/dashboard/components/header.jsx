@@ -11,16 +11,9 @@ import './datapicker.scss';
 import { ArrowBottom, Filter } from '../../../assets/svg/SVGcomponent';
 import { FilterForm } from './filter';
 
-export const Header = ({
-  selectDate,
-  setSelectDate,
-  cameras,
-  algorithms,
-  dataCount,
-  setIsShowFilter,
-  isShowFilter,
-}) => {
+export const Header = ({ selectDate, setSelectDate, cameras, algorithms, dataCount }) => {
   const [visibleModalDate, setVisibleModalDate] = useState(false);
+  const [isShowFilter, setIsShowFilter] = useState(false);
 
   const refPicker = useRef(null);
 

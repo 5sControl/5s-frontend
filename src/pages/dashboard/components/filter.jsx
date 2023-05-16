@@ -7,6 +7,7 @@ import { Button } from '../../../components/button';
 import { useNavigate } from 'react-router-dom';
 export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount }) => {
   const navigate = useNavigate();
+
   const onSubmit = () => {
     console.log('sdfsdf');
   };

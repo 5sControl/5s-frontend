@@ -20,9 +20,9 @@ function Dashboard() {
   const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
   const [cameras, setCameras] = useState([]);
   const [algorithms, setAlgorithms] = useState([]);
-  const [isShowFilter, setIsShowFilter] = useState(false);
 
   const update = () => {
+    setIsPreloader(true);
     const searchParams = new URLSearchParams(window.location.search);
     const algorithmsURL = searchParams.getAll('algorithm');
     const camerasURL = searchParams.getAll('camera');
@@ -60,11 +60,8 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    if (!isShowFilter) {
-      update();
-      setIsPreloader(true);
-    }
-  }, [selectDate, isShowFilter]);
+    update();
+  }, [selectDate]);
 
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token).then((res) => {
@@ -86,8 +83,6 @@ function Dashboard() {
           cameras={cameras}
           algorithms={algorithms}
           dataCount={data.length}
-          setIsShowFilter={(e) => setIsShowFilter(e)}
-          isShowFilter={isShowFilter}
         />
         {!data || isPreloader ? (
           <Preloader />
