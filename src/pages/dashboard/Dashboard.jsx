@@ -2,7 +2,7 @@ import './Dashboard.scss';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useCookies } from 'react-cookie';
-
+import { getSelectedCameras } from '../../api/cameraRequest';
 import { Reports } from './components/reports/Reports';
 import { getData } from '../../api/reportsRequest';
 import { TimelineHub } from './components/timeline/timelineHub';
@@ -17,6 +17,7 @@ function Dashboard() {
   const [cookies] = useCookies(['token']);
   const [isPreloader, setIsPreloader] = useState(false);
   const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
+  const [cameras, setCameras] = useState([]);
 
   const update = () => {
     getData(
@@ -54,10 +55,16 @@ function Dashboard() {
     setIsPreloader(true);
   }, [selectDate]);
 
+  useEffect(() => {
+    getSelectedCameras(window.location.hostname, cookies.token).then((res) => {
+      setCameras(res.data);
+    });
+  }, []);
+
   return (
     <>
       <div className="dashboard">
-        <Header selectDate={selectDate} setSelectDate={(e) => setSelectDate(e)} />
+        <Header selectDate={selectDate} setSelectDate={(e) => setSelectDate(e)} cameras={cameras} />
         {!data || isPreloader ? (
           <Preloader />
         ) : data.length > 0 ? (
@@ -67,6 +74,7 @@ function Dashboard() {
               startTime={startTime}
               endTime={endTime}
               data={data}
+              cameras={cameras}
             />
             <h3>
               Reports <span>{data.length}</span>
