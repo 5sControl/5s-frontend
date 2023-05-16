@@ -4,6 +4,7 @@ import { Cross } from '../../../assets/svg/SVGcomponent';
 import { Checkbox } from '../../../components/checkbox';
 import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName';
 import { Button } from '../../../components/button';
+
 export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount }) => {
   const onSubmit = () => {
     console.log('sdfsdf');
@@ -24,8 +25,8 @@ export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount }) 
                 {algorithms.map((element, index) => (
                   <Checkbox
                     key={index}
-                    id={index}
-                    name={element.name}
+                    id={element.name}
+                    name={'algorithm'}
                     value={element.name}
                     label={parsingAlgorithmName(element.name)}
                     // isChecked={filterData['operation-status'].includes(value)}
@@ -41,8 +42,8 @@ export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount }) 
                   cameras.map((element, index) => (
                     <Checkbox
                       key={index}
-                      id={index.toString()}
-                      name="operation-name"
+                      id={element.id}
+                      name={'camera'}
                       value={element.id}
                       label={element.name}
                       // isChecked={filterData['operation-name'].includes(element)}
