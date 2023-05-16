@@ -10,16 +10,13 @@ import { Preloader } from '../../components/preloader';
 import { Header } from './components/header';
 
 function Dashboard() {
+  const startTime = '00:00:00';
+  const endTime = '24:00:00';
   const [data, setData] = useState(false);
   const [errorCatch, setErrorCatch] = useState(false);
-  const [startTime, setStartTime] = useState('00:00:00');
-  const [endTime, setEndTime] = useState('24:00:00');
   const [cookies] = useCookies(['token']);
   const [isPreloader, setIsPreloader] = useState(false);
   const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
-
-  const [cameraToResponse, setCameraToResponse] = useState('camera');
-  const [algorithmToResponse, setAlgorithmToResponse] = useState('algorithm');
 
   const update = () => {
     getData(
@@ -35,7 +32,7 @@ function Dashboard() {
         .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
         .join(':'),
       'algorithm',
-      cameraToResponse
+      'camera'
     )
       .then((el) => {
         el.data.detail === 'Authentication credentials were not provided.' ||

@@ -20,6 +20,7 @@ export const Info: React.FC = () => {
     );
   }, []);
 
+  console.log(version);
   return (
     <WrapperPage title="5S Control">
       <div className={styles.version_app}>
