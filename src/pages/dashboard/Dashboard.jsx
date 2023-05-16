@@ -27,8 +27,6 @@ function Dashboard() {
     const algorithmsURL = searchParams.getAll('algorithm');
     const camerasURL = searchParams.getAll('camera');
 
-    console.log(algorithmsURL);
-    console.log(camerasURL);
     getData(
       window.location.hostname,
       cookies.token,
