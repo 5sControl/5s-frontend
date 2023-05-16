@@ -42,14 +42,17 @@ export const EditInventoryModal: React.FC<PropsType> = ({
       name: itemName,
       low_stock_level: itemCount,
       camera: currentSelect,
-      coords: coords,
+      coords: coords.map((element: Coordinat) => {
+        const { id, ...rest } = element; // Используйте деструктуризацию объекта и оператор rest
+        return rest;
+      }),
       id: currentEditItem?.id,
     };
     const coordNegativeArray = coords.filter(
       (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
     );
     setIsClose({ loading: true });
-
+    console.log(dataForm);
     if (coords.length > 0 && coordNegativeArray.length === 0 && itemName && itemName.length > 0) {
       dispatch(
         editItem({
