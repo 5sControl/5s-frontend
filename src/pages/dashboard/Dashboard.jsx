@@ -2,26 +2,31 @@ import './Dashboard.scss';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useCookies } from 'react-cookie';
-
+import { getSelectedCameras } from '../../api/cameraRequest';
 import { Reports } from './components/reports/Reports';
 import { getData } from '../../api/reportsRequest';
 import { TimelineHub } from './components/timeline/timelineHub';
 import { Preloader } from '../../components/preloader';
 import { Header } from './components/header';
+import { getAveilableAlgorithms } from '../../api/algorithmRequest';
 
 function Dashboard() {
+  const startTime = '00:00:00';
+  const endTime = '24:00:00';
   const [data, setData] = useState(false);
   const [errorCatch, setErrorCatch] = useState(false);
-  const [startTime, setStartTime] = useState('00:00:00');
-  const [endTime, setEndTime] = useState('24:00:00');
   const [cookies] = useCookies(['token']);
   const [isPreloader, setIsPreloader] = useState(false);
   const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
-
-  const [cameraToResponse, setCameraToResponse] = useState('camera');
-  const [algorithmToResponse, setAlgorithmToResponse] = useState('algorithm');
+  const [cameras, setCameras] = useState([]);
+  const [algorithms, setAlgorithms] = useState([]);
 
   const update = () => {
+    setIsPreloader(true);
+    const searchParams = new URLSearchParams(window.location.search);
+    const algorithmsURL = searchParams.getAll('algorithm');
+    const camerasURL = searchParams.getAll('camera');
+
     getData(
       window.location.hostname,
       cookies.token,
@@ -34,8 +39,8 @@ function Dashboard() {
         .split(':')
         .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
         .join(':'),
-      'algorithm',
-      cameraToResponse
+      algorithmsURL.length > 0 ? algorithmsURL : 'algorithm',
+      camerasURL.length > 0 ? camerasURL : 'camera'
     )
       .then((el) => {
         el.data.detail === 'Authentication credentials were not provided.' ||
@@ -54,13 +59,30 @@ function Dashboard() {
 
   useEffect(() => {
     update();
-    setIsPreloader(true);
   }, [selectDate]);
+
+  useEffect(() => {
+    getSelectedCameras(window.location.hostname, cookies.token).then((res) => {
+      setCameras(res.data);
+    });
+    getAveilableAlgorithms(window.location.hostname, cookies.token).then((res) => {
+      if (res.data.length > 0) {
+        setAlgorithms(res.data.filter((alg) => alg.is_available));
+      }
+    });
+  }, []);
 
   return (
     <>
       <div className="dashboard">
-        <Header selectDate={selectDate} setSelectDate={(e) => setSelectDate(e)} />
+        <Header
+          selectDate={selectDate}
+          setSelectDate={(e) => setSelectDate(e)}
+          cameras={cameras}
+          algorithms={algorithms}
+          dataCount={data.length}
+          update={update}
+        />
         {!data || isPreloader ? (
           <Preloader />
         ) : data.length > 0 ? (
@@ -70,6 +92,7 @@ function Dashboard() {
               startTime={startTime}
               endTime={endTime}
               data={data}
+              cameras={cameras}
             />
             <h3>
               Reports <span>{data.length}</span>

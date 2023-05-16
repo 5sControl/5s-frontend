@@ -8,10 +8,13 @@ import { Button } from '../../../components/button';
 import { useOutsideClick } from '../../../functions/useOutsideClick';
 
 import './datapicker.scss';
-import { ArrowBottom } from '../../../assets/svg/SVGcomponent';
+import { ArrowBottom, Filter } from '../../../assets/svg/SVGcomponent';
+import { FilterForm } from './filter';
 
-export const Header = ({ selectDate, setSelectDate }) => {
+export const Header = ({ selectDate, setSelectDate, cameras, algorithms, dataCount, update }) => {
   const [visibleModalDate, setVisibleModalDate] = useState(false);
+  const [isShowFilter, setIsShowFilter] = useState(false);
+
   const refPicker = useRef(null);
 
   const handleSelect = (ranges) => {
@@ -35,6 +38,14 @@ export const Header = ({ selectDate, setSelectDate }) => {
     <div className="dashboard__title">
       <h1 className="dashboard__title_h1">Dashboard</h1>
       <div className="dashboard__title__filter">
+        <Button
+          text="Filter"
+          IconLeft={Filter}
+          type="button"
+          variant="oval"
+          // iconColor={searchParams.get('order-status') ? 'var(--Orange)' : 'var(--HightEmphasis)'}
+          onClick={() => setIsShowFilter(true)}
+        />
         <button
           onClick={() => setVisibleModalDate(!visibleModalDate)}
           className="dashboard__title_button"
@@ -62,6 +73,15 @@ export const Header = ({ selectDate, setSelectDate }) => {
             <Button text="Apply" variant="contained" onClick={handleClickApply} />
           </div>
         </div>
+      )}
+      {isShowFilter && (
+        <FilterForm
+          setIsShowFilter={() => setIsShowFilter(false)}
+          cameras={cameras}
+          algorithms={algorithms}
+          dataCount={dataCount}
+          update={update}
+        />
       )}
     </div>
   );
