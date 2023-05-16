@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // Импортируйте стили
 import 'react-date-range/dist/theme/default.css';
@@ -8,14 +8,34 @@ import { Button } from '../../../components/button';
 import { useOutsideClick } from '../../../functions/useOutsideClick';
 
 import './datapicker.scss';
-import { ArrowBottom, Filter } from '../../../assets/svg/SVGcomponent';
+import { ArrowBottom, Filter, Delete } from '../../../assets/svg/SVGcomponent';
 import { FilterForm } from './filter';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = ({ selectDate, setSelectDate, cameras, algorithms, dataCount, update }) => {
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [isShowFilter, setIsShowFilter] = useState(false);
 
   const refPicker = useRef(null);
+  const [algorithmsURL, setAlgorithmsURL] = useState([]);
+  const [camerasURL, setCamerasURL] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+  const navigate = useNavigate();
+
+  const onDelete = (text) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.delete(text);
+    navigate('/dashboard?' + searchParams.toString());
+    setIsShowFilter();
+    update();
+    setRefresh(!refresh);
+  };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    setAlgorithmsURL(searchParams.getAll('algorithm'));
+    setCamerasURL(searchParams.getAll('camera'));
+  }, [refresh]);
 
   const handleSelect = (ranges) => {
     setSelectDate(moment(ranges.selection.startDate).format('YYYY-MM-DD'));
@@ -34,6 +54,7 @@ export const Header = ({ selectDate, setSelectDate, cameras, algorithms, dataCou
   const handleClickApply = () => {
     setVisibleModalDate(false);
   };
+
   return (
     <div className="dashboard__title">
       <h1 className="dashboard__title_h1">Dashboard</h1>
@@ -43,9 +64,31 @@ export const Header = ({ selectDate, setSelectDate, cameras, algorithms, dataCou
           IconLeft={Filter}
           type="button"
           variant="oval"
-          // iconColor={searchParams.get('order-status') ? 'var(--Orange)' : 'var(--HightEmphasis)'}
+          iconColor={
+            algorithmsURL.length + camerasURL.length > 0 ? 'var(--Orange)' : 'var(--HightEmphasis)'
+          }
           onClick={() => setIsShowFilter(true)}
         />
+        {algorithmsURL.length > 0 && (
+          <Button
+            text={`${'Algorithms'} ${algorithmsURL.length}`}
+            IconRight={Delete}
+            type="button"
+            variant="oval"
+            iconColor={'var(--MediumEmphasis)'}
+            onClick={() => onDelete('algorithm')}
+          />
+        )}
+        {camerasURL.length > 0 && (
+          <Button
+            text={`${'Cameras'} ${camerasURL.length}`}
+            IconRight={Delete}
+            type="button"
+            variant="oval"
+            iconColor={'var(--MediumEmphasis)'}
+            onClick={() => onDelete('camera')}
+          />
+        )}
         <button
           onClick={() => setVisibleModalDate(!visibleModalDate)}
           className="dashboard__title_button"
