@@ -20,8 +20,15 @@ function Dashboard() {
   const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
   const [cameras, setCameras] = useState([]);
   const [algorithms, setAlgorithms] = useState([]);
+  const [isShowFilter, setIsShowFilter] = useState(false);
 
   const update = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const algorithmsURL = searchParams.getAll('algorithm');
+    const camerasURL = searchParams.getAll('camera');
+
+    console.log(algorithmsURL);
+    console.log(camerasURL);
     getData(
       window.location.hostname,
       cookies.token,
@@ -34,8 +41,8 @@ function Dashboard() {
         .split(':')
         .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
         .join(':'),
-      'algorithm',
-      'camera'
+      algorithmsURL.length > 0 ? algorithmsURL : 'algorithm',
+      camerasURL.length > 0 ? camerasURL : 'camera'
     )
       .then((el) => {
         el.data.detail === 'Authentication credentials were not provided.' ||
@@ -53,9 +60,11 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    update();
-    setIsPreloader(true);
-  }, [selectDate]);
+    if (!isShowFilter) {
+      update();
+      setIsPreloader(true);
+    }
+  }, [selectDate, isShowFilter]);
 
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token).then((res) => {
@@ -77,6 +86,8 @@ function Dashboard() {
           cameras={cameras}
           algorithms={algorithms}
           dataCount={data.length}
+          setIsShowFilter={(e) => setIsShowFilter(e)}
+          isShowFilter={isShowFilter}
         />
         {!data || isPreloader ? (
           <Preloader />

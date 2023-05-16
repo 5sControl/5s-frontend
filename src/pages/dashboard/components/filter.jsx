@@ -4,12 +4,17 @@ import { Cross } from '../../../assets/svg/SVGcomponent';
 import { Checkbox } from '../../../components/checkbox';
 import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName';
 import { Button } from '../../../components/button';
-
+import { useNavigate } from 'react-router-dom';
 export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount }) => {
+  const navigate = useNavigate();
   const onSubmit = () => {
     console.log('sdfsdf');
   };
-  console.log(algorithms);
+  const onReset = () => {
+    setIsShowFilter();
+    navigate('/dashboard');
+  };
+
   return (
     <ReactPortal wrapperId="filter-container">
       <div id="filter" className={styles.wrapper}>
@@ -58,7 +63,7 @@ export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount }) 
           <div className={styles.footer}>
             <p className={styles.footer_text}>{dataCount} reports were found</p>
             <div className={styles.footer_buttons}>
-              <Button text="Reset" variant="text" />
+              <Button text="Reset" variant="text" onClick={onReset} />
               <Button text="Apply" type="submit" />
             </div>
           </div>
