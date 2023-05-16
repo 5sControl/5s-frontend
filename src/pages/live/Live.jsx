@@ -112,18 +112,7 @@ export const Live = () => {
               </div>
             </div>
             <div className="live__report-info">
-              <div className="live__report-info_list">
-                {/* {reports.map((report, index) => (
-                  <div
-                    key={index}
-                    className="live__report-info_list_item"
-                    onClick={() => console.log(report)}
-                  >
-                    <p>{report.id}</p>
-                    <p>{parsingAlgorithmName(report.algorithm.name)}</p>
-                  </div>
-                ))} */}
-              </div>
+              <div className="live__report-info_list"></div>
               <CurrentReport camera={cameraToResponse} />
             </div>
           </div>

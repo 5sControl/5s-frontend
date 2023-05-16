@@ -1,24 +1,24 @@
 import { Timeline } from './timeline';
 import { calculateTimeCenter } from '../../../functions/calculateTimeCenter';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
-export const TimelineHub = ({
-  data,
-  startDate,
-  endDate,
-  startTime,
-  endTime,
-  setStartTime,
-  setEndTime,
-}) => {
+import moment from 'moment';
+export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) => {
   const algorithm = data.reduce((prev, curr) => {
     return [...new Set([...prev, curr.algorithm.name])];
   }, []);
+  const [newData, setNewData] = useState(data);
+  const [start, setStart] = useState(startTime);
+  const [end, setEnd] = useState(endTime);
+
   const setTimeFunct = (startTime, endTime) => {
-    setStartTime(startTime);
-    setEndTime(endTime);
+    setStart(startTime);
+    setEnd(endTime);
   };
 
+  useEffect(() => {
+    setNewData(data);
+  }, [data]);
   return (
     <div className="timeline-hub-clickable">
       <div className="timeline-hub-clickable__container">
@@ -29,7 +29,7 @@ export const TimelineHub = ({
           >
             <AiOutlineZoomOut />
           </span>
-          {calculateTimeCenter(startTime, endTime).map((el, id, array) => (
+          {calculateTimeCenter(start, end).map((el, id, array) => (
             <Fragment key={id}>
               <span>{el.split(':').slice(0, 2).join(':')}</span>
               {array.length - 1 !== id && (
@@ -43,20 +43,30 @@ export const TimelineHub = ({
             </Fragment>
           ))}
         </div>
-        {algorithm.map((algorithm, id) => {
-          return (
-            <div className="timeline-hub-clickable__camera" key={id}>
-              <Timeline
-                data={data.filter((cam) => cam.algorithm.name === algorithm)}
-                startDate={startDate}
-                endDate={endDate}
-                algorithm={algorithm}
-                startTime={startTime}
-                endTime={endTime}
-              />
-            </div>
-          );
-        })}
+        {algorithm.length > 0 &&
+          start &&
+          end &&
+          algorithm.map((algorithm, id) => {
+            return (
+              <div className="timeline-hub-clickable__camera" key={id}>
+                <Timeline
+                  data={newData.filter(
+                    (cam) =>
+                      cam.algorithm.name === algorithm &&
+                      new Date(`${startDate + ' ' + start}`) <
+                        new Date(moment(cam.stop_tracking).add(3, 'hours')) &&
+                      new Date(`${startDate + ' ' + end}`) >
+                        new Date(moment(cam.start_tracking).add(3, 'hours'))
+                  )}
+                  startDate={startDate}
+                  endDate={endDate}
+                  algorithm={algorithm}
+                  startTime={start}
+                  endTime={end}
+                />
+              </div>
+            );
+          })}
       </div>
     </div>
   );
