@@ -83,6 +83,7 @@ function Dashboard() {
           cameras={cameras}
           algorithms={algorithms}
           dataCount={data.length}
+          update={update}
         />
         {!data || isPreloader ? (
           <Preloader />

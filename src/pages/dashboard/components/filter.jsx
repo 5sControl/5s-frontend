@@ -5,13 +5,14 @@ import { Checkbox } from '../../../components/checkbox';
 import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName';
 import { Button } from '../../../components/button';
 import { useNavigate } from 'react-router-dom';
-export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount }) => {
+export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount, update }) => {
   const navigate = useNavigate();
 
   const onSubmit = () => {
     console.log('sdfsdf');
   };
   const onReset = () => {
+    update();
     setIsShowFilter();
     navigate('/dashboard');
   };
