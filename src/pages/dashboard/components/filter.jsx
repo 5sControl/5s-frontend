@@ -13,8 +13,8 @@ export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount, up
   const navigate = useNavigate();
 
   const onReset = () => {
-    setIsShowFilter();
     navigate('/dashboard');
+    setIsShowFilter();
     update();
   };
 
@@ -39,9 +39,6 @@ export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount, up
       setCamerasURL([...camerasURL, e.target.value]);
     }
   };
-
-  console.log(algorithmsURL);
-  console.log(camerasURL);
 
   return (
     <ReactPortal wrapperId="filter-container">
