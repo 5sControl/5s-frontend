@@ -13,9 +13,9 @@ export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount, up
   const navigate = useNavigate();
 
   const onReset = () => {
-    update();
     setIsShowFilter();
     navigate('/dashboard');
+    update();
   };
 
   useEffect(() => {
