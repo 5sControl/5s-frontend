@@ -4,7 +4,6 @@ import { Cross } from '../../../assets/svg/SVGcomponent';
 import { Checkbox } from '../../../components/checkbox';
 import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName';
 import { Button } from '../../../components/button';
-
 export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount }) => {
   const onSubmit = () => {
     console.log('sdfsdf');
@@ -13,7 +12,7 @@ export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount }) 
   return (
     <ReactPortal wrapperId="filter-container">
       <div id="filter" className={styles.wrapper}>
-        <form className={`${styles.content} `}>
+        <form className={`${styles.content} `} onSubmit={onSubmit}>
           <div className={styles.settings}>
             <div className={styles.header}>
               <h3 className={styles.header_title}>Filters</h3>
@@ -59,7 +58,7 @@ export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount }) 
             <p className={styles.footer_text}>{dataCount} reports were found</p>
             <div className={styles.footer_buttons}>
               <Button text="Reset" variant="text" />
-              <Button text="Apply" onClick={onSubmit} />
+              <Button text="Apply" type="submit" />
             </div>
           </div>
         </form>
