@@ -8,6 +8,7 @@ import { getData } from '../../api/reportsRequest';
 import { TimelineHub } from './components/timeline/timelineHub';
 import { Preloader } from '../../components/preloader';
 import { Header } from './components/header';
+import { getAveilableAlgorithms } from '../../api/algorithmRequest';
 
 function Dashboard() {
   const startTime = '00:00:00';
@@ -18,6 +19,7 @@ function Dashboard() {
   const [isPreloader, setIsPreloader] = useState(false);
   const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
   const [cameras, setCameras] = useState([]);
+  const [algorithms, setAlgorithms] = useState([]);
 
   const update = () => {
     getData(
@@ -59,12 +61,23 @@ function Dashboard() {
     getSelectedCameras(window.location.hostname, cookies.token).then((res) => {
       setCameras(res.data);
     });
+    getAveilableAlgorithms(window.location.hostname, cookies.token).then((res) => {
+      if (res.data.length > 0) {
+        setAlgorithms(res.data.filter((alg) => alg.is_available));
+      }
+    });
   }, []);
 
   return (
     <>
       <div className="dashboard">
-        <Header selectDate={selectDate} setSelectDate={(e) => setSelectDate(e)} cameras={cameras} />
+        <Header
+          selectDate={selectDate}
+          setSelectDate={(e) => setSelectDate(e)}
+          cameras={cameras}
+          algorithms={algorithms}
+          dataCount={data.length}
+        />
         {!data || isPreloader ? (
           <Preloader />
         ) : data.length > 0 ? (

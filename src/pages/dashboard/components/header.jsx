@@ -11,7 +11,7 @@ import './datapicker.scss';
 import { ArrowBottom, Filter } from '../../../assets/svg/SVGcomponent';
 import { FilterForm } from './filter';
 
-export const Header = ({ selectDate, setSelectDate, cameras }) => {
+export const Header = ({ selectDate, setSelectDate, cameras, algorithms, dataCount }) => {
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [isShowFilter, setIsShowFilter] = useState(false);
   const refPicker = useRef(null);
@@ -74,7 +74,12 @@ export const Header = ({ selectDate, setSelectDate, cameras }) => {
         </div>
       )}
       {isShowFilter && (
-        <FilterForm setIsShowFilter={() => setIsShowFilter(false)} cameras={cameras} />
+        <FilterForm
+          setIsShowFilter={() => setIsShowFilter(false)}
+          cameras={cameras}
+          algorithms={algorithms}
+          dataCount={dataCount}
+        />
       )}
     </div>
   );
