@@ -20,6 +20,7 @@ function Dashboard() {
   const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
   const [cameras, setCameras] = useState([]);
   const [algorithms, setAlgorithms] = useState([]);
+  const timeDef = moment().utcOffset() / 60;
 
   const update = () => {
     setIsPreloader(true);
@@ -33,11 +34,11 @@ function Dashboard() {
       selectDate,
       startTime
         .split(':')
-        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
+        .map((el, ind) => (ind === 0 && el >= timeDef ? el - timeDef : el))
         .join(':'),
       endTime
         .split(':')
-        .map((el, ind) => (ind === 0 && el >= 3 ? el - 3 : el))
+        .map((el, ind) => (ind === 0 && el >= timeDef ? el - timeDef : el))
         .join(':'),
       algorithmsURL.length > 0 ? algorithmsURL : 'algorithm',
       camerasURL.length > 0 ? camerasURL : 'camera'
