@@ -35,3 +35,11 @@
     padding: 0px 18px;
   }
 }
+.rdrStaticRange{
+  &:nth-child(-n+2) {
+    display: block;
+  }
+  &:nth-child(n+3) {
+    display: none;
+  }
+}
