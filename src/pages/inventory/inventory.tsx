@@ -8,7 +8,7 @@ import { InventoryReport } from './components/InventoryReport';
 import { getCamerasAsync, getInventoryItemHistoryAsync, selectInventory } from './inventorySlice';
 import styles from './inventory.module.scss';
 import { selectActiveInventoryItem } from './components/InventoryItemsList/InventoryItemsListSlice';
-import moment from 'moment-timezone';
+import moment from 'moment';
 import { selectInventoryHistory } from './components/InventoryHistory/inventoryHistorySlice';
 import { Plus } from '../../assets/svg/SVGcomponent';
 import {
