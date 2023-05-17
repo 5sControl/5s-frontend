@@ -12,7 +12,7 @@ import { ArrowBottom, Filter, Delete } from '../../../assets/svg/SVGcomponent';
 import { FilterForm } from './filter';
 import { useNavigate } from 'react-router-dom';
 
-export const Header = ({ selectDate, setSelectDate, cameras, algorithms, dataCount, update }) => {
+export const Header = ({ selectDate, setSelectDate, cameras, algorithms, data, update }) => {
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [isShowFilter, setIsShowFilter] = useState(false);
 
@@ -35,7 +35,7 @@ export const Header = ({ selectDate, setSelectDate, cameras, algorithms, dataCou
     const searchParams = new URLSearchParams(window.location.search);
     setAlgorithmsURL(searchParams.getAll('algorithm'));
     setCamerasURL(searchParams.getAll('camera'));
-  }, [refresh]);
+  }, [refresh, data]);
 
   const handleSelect = (ranges) => {
     setSelectDate(moment(ranges.selection.startDate).format('YYYY-MM-DD'));
@@ -122,7 +122,7 @@ export const Header = ({ selectDate, setSelectDate, cameras, algorithms, dataCou
           setIsShowFilter={() => setIsShowFilter(false)}
           cameras={cameras}
           algorithms={algorithms}
-          dataCount={dataCount}
+          dataCount={data.length}
           update={update}
         />
       )}

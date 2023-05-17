@@ -80,7 +80,7 @@ function Dashboard() {
           setSelectDate={(e) => setSelectDate(e)}
           cameras={cameras}
           algorithms={algorithms}
-          dataCount={data.length}
+          data={data}
           update={update}
         />
         {!data || isPreloader ? (
