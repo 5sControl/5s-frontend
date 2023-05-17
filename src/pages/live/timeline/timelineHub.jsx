@@ -54,9 +54,9 @@ export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) =>
                     (cam) =>
                       cam.algorithm.name === algorithm &&
                       new Date(`${startDate + ' ' + start}`) <
-                        new Date(moment(cam.stop_tracking).add(3, 'hours')) &&
+                        new Date(moment.utc(cam.stop_tracking).utcOffset(moment().utcOffset())) &&
                       new Date(`${startDate + ' ' + end}`) >
-                        new Date(moment(cam.start_tracking).add(3, 'hours'))
+                        new Date(moment.utc(cam.start_tracking).utcOffset(moment().utcOffset()))
                   )}
                   startDate={startDate}
                   endDate={endDate}

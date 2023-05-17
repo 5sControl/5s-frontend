@@ -32,7 +32,9 @@ export const Slider = ({ currentReport, setFullImage }) => {
               className="dashboard__report_image_src"
             />
             <div className="dashboard__report_image_time" onClick={() => console.log(photo)}>
-              <span>{moment(photo.date).add(3, 'hours').format('HH:MM:SS')}</span>
+              <span>
+                {moment.utc(photo.date).utcOffset(moment().utcOffset()).format('HH:MM:SS')}
+              </span>
             </div>
             <Scale
               className="scale"

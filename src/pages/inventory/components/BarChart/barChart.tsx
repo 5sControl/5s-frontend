@@ -57,8 +57,8 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
       const update = data.map((item) => {
         return {
           ...item,
-          start_tracking: moment(new Date(Date.parse(item.start_tracking))).add(3, 'hours'),
-          stop_tracking: moment(item.stop_tracking).add(3, 'hours'),
+          start_tracking: moment.utc(item.start_tracking).utcOffset(moment().utcOffset()),
+          stop_tracking: moment.utc(item.stop_tracking).utcOffset(moment().utcOffset()),
         };
       });
       const selection = svg.selectAll('rect').data(update);

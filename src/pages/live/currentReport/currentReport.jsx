@@ -22,9 +22,20 @@ export const CurrentReport = ({ camera }) => {
             </div>
             <div className="current-report__description">
               <span>
-                {moment(currentReport.start_tracking).add(3, 'hours').format('YYYY-MM-DD ')}|
-                {moment(currentReport.start_tracking).add(3, 'hours').format('HH:mm:ss')}-
-                {moment(currentReport.stop_tracking).add(3, 'hours').format('HH:mm:ss')}
+                {moment
+                  .utc(currentReport.start_tracking)
+                  .utcOffset(moment().utcOffset())
+                  .format('YYYY-MM-DD ')}
+                |
+                {moment
+                  .utc(currentReport.start_tracking)
+                  .utcOffset(moment().utcOffset())
+                  .format('HH:mm:ss')}
+                -
+                {moment
+                  .utc(currentReport.stop_tracking)
+                  .utcOffset(moment().utcOffset())
+                  .format('HH:mm:ss')}
               </span>
 
               <div className="current-report_item">
