@@ -80,7 +80,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     }
   }, [data]);
 
-  console.log(timeLine);
   return (
     <>
       {timeLine.length > 1 && (
