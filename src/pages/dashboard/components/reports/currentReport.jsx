@@ -11,6 +11,7 @@ export const CurrentReport = () => {
   const { currentReport } = useAppSelector(selectCurrentReport);
   const [fullImage, setFullImage] = useState(false);
 
+  console.log(moment().utcOffset());
   return (
     <>
       {currentReport && (
@@ -24,9 +25,20 @@ export const CurrentReport = () => {
             <div className="dashboard__report_item">
               <span className="dashboard_text">Date & Time</span>
               <span className="dashboard_text2">
-                {moment(currentReport.start_tracking).add(3, 'hours').format('YYYY-MM-DD ')}|
-                {moment(currentReport.start_tracking).add(3, 'hours').format('HH:mm:ss')}-
-                {moment(currentReport.stop_tracking).add(3, 'hours').format('HH:mm:ss')}
+                {moment
+                  .utc(currentReport.start_tracking)
+                  .utcOffset(moment().utcOffset())
+                  .format('YYYY-MM-DD ')}
+                |
+                {moment
+                  .utc(currentReport.start_tracking)
+                  .utcOffset(moment().utcOffset())
+                  .format('HH:mm:ss')}
+                -
+                {moment
+                  .utc(currentReport.stop_tracking)
+                  .utcOffset(moment().utcOffset())
+                  .format('HH:mm:ss')}
               </span>
             </div>
             <div className="dashboard__report_item">

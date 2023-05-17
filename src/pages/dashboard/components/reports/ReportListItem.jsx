@@ -26,9 +26,9 @@ export const ReportListItem = ({ item }) => {
           ></div>
           <div className="dashboard__reports_item_container_content">
             <div className={'dashboard__reports_item_title'}>
-              {moment(new Date(item.start_tracking)).add(3, 'hours').format('YYYY-MM-DD')} |{' '}
-              {moment(new Date(item.start_tracking)).add(3, 'hours').format('HH:mm:ss')} -{' '}
-              {moment(new Date(item.stop_tracking)).add(3, 'hours').format('HH:mm:ss')}
+              {moment.utc(item.start_tracking).utcOffset(moment().utcOffset()).format('YYYY-MM-DD')}{' '}
+              | {moment.utc(item.start_tracking).utcOffset(moment().utcOffset()).format('HH:mm:ss')}{' '}
+              - {moment.utc(item.stop_tracking).utcOffset(moment().utcOffset()).format('HH:mm:ss')}
             </div>
 
             <div>{`# ${item.id}`}</div>
