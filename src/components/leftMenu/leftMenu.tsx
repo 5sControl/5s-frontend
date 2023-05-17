@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Company,
   Dashboard,
@@ -16,6 +16,7 @@ import { CompanyInfo } from './types';
 import './styles.scss';
 
 export const LeftMenu = () => {
+  const navigate = useNavigate();
   const [useless, setUseless] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo>({
@@ -57,9 +58,13 @@ export const LeftMenu = () => {
   }, [useless]);
 
   useEffect(() => {
-    getCompanyInfo(window.location.hostname, cookies.token).then((response) => {
-      setCompanyInfo(response.data);
-    });
+    getCompanyInfo(window.location.hostname, cookies.token)
+      .then((response) => {
+        setCompanyInfo(response.data);
+      })
+      .catch(() => {
+        navigate('/company');
+      });
   }, []);
 
   return (

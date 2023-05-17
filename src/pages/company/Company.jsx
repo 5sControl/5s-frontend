@@ -17,7 +17,7 @@ export const Company = () => {
   const [userList, setUserList] = useState([]);
   const [isAddAccount, setIsAddAccount] = useState(false);
   const [companyInfo, setCompanyInfo] = useState({});
-
+  const [isLicensed, setIsLicensed] = useState(false);
   useEffect(() => {
     getUserList(window.location.hostname, cookies.token).then((res) => {
       console.log(res);
@@ -28,16 +28,21 @@ export const Company = () => {
         setUserList(res.data.results);
       }
     });
-    getCompanyInfo(window.location.hostname, cookies.token).then((response) => {
-      setCompanyInfo(response.data);
-    });
+    getCompanyInfo(window.location.hostname, cookies.token)
+      .then((response) => {
+        setCompanyInfo(response.data);
+        setIsLicensed(true);
+      })
+      .catch((err) => {
+        setIsLicensed(false);
+      });
   }, [isAddAccount]);
 
   return (
     <>
       <div className="company">
         <h1>Company</h1>
-        {Object.keys(companyInfo).length > 0 && (
+        {Object.keys(companyInfo).length > 0 && isLicensed && (
           <div className="company__name">
             <h3>{companyInfo.name_company}</h3>
             <br></br>
