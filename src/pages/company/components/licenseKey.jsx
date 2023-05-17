@@ -5,7 +5,7 @@ export const LicenseKey = ({ cookies }) => {
   const [licenceKey, setLicenceKey] = useState('');
   const send = () => {
     sendLicenseKey(window.location.hostname, cookies, licenceKey).then((res) => {
-      // console.log(res);
+      window.location.reload();
     });
   };
 
