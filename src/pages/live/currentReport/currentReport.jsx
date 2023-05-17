@@ -1,10 +1,12 @@
-import moment from 'moment';
 import { useState } from 'react';
+import moment from 'moment';
+
 import { Slider } from './swiper';
 import { ViolintationFalse, ViolintationTrue } from '../../../assets/svg/SVGcomponent.ts';
 import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName.js';
 import { selectCurrentReport } from '../../../store/dataSlice';
 import { useAppSelector } from '../../../store/hooks';
+
 import './current-report.scss';
 export const CurrentReport = ({ camera }) => {
   const { currentReport } = useAppSelector(selectCurrentReport);

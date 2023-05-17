@@ -1,15 +1,18 @@
 import { Fragment, useEffect, useState } from 'react';
-import moment from 'moment';
-import { getData } from '../../api/reportsRequest';
+import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import moment from 'moment';
+
+import { getData } from '../../api/reportsRequest';
 import { DataPicker } from '../dashboard/components/dataPicker';
-import './live.scss';
 import { getSelectedCameras } from '../../api/cameraRequest';
 import { TimelineHub } from './timeline/timelineHub';
 import { CurrentReport } from './currentReport/currentReport';
 import { useAppDispatch } from '../../store/hooks';
 import { addCurrentReport } from '../../store/dataSlice';
-import { useNavigate } from 'react-router-dom';
+
+import './live.scss';
+
 export const Live = () => {
   const navigate = useNavigate();
   const location = window.location.hostname;
