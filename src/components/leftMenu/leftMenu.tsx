@@ -62,7 +62,8 @@ export const LeftMenu = () => {
       .then((response) => {
         setCompanyInfo(response.data);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         navigate('/company');
       });
   }, []);

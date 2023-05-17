@@ -9,8 +9,10 @@ import { TimelineHub } from './components/timeline/timelineHub';
 import { Preloader } from '../../components/preloader';
 import { Header } from './components/header';
 import { getAveilableAlgorithms } from '../../api/algorithmRequest';
+import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
+  const navigate = useNavigate();
   const startTime = '00:00:00';
   const endTime = '24:00:00';
   const [data, setData] = useState(false);
@@ -55,6 +57,9 @@ function Dashboard() {
       .catch((error) => {
         setIsPreloader(false);
         setErrorCatch(error.message);
+        if (error.response.status === 403) {
+          navigate('/company');
+        }
       });
   };
 
