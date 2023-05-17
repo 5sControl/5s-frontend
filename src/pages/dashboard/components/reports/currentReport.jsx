@@ -5,6 +5,7 @@ import { ViolintationFalse, ViolintationTrue } from '../../../../assets/svg/SVGc
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName.js';
 import { selectCurrentReport } from '../../../../store/dataSlice';
 import { useAppSelector } from '../../../../store/hooks';
+import { ZoomOut } from '../../../../components/zoomOut';
 
 export const CurrentReport = () => {
   const { currentReport } = useAppSelector(selectCurrentReport);
@@ -50,8 +51,9 @@ export const CurrentReport = () => {
       )}
       {fullImage && (
         <>
-          <div className="dashboard__fullimage" onClick={() => setFullImage(false)}>
+          <div className="dashboard__fullimage">
             <img src={fullImage} alt="report img" className="dashboard__fullimage_image" />
+            <ZoomOut className={'dashboard__fullimage_out'} onClick={() => setFullImage(false)} />
           </div>
         </>
       )}

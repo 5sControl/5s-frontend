@@ -181,7 +181,7 @@
       transition: all 0.5s;
       cursor: pointer;
       border-radius: 4px;
-      &:hover{
+      &:hover {
         background: rgba(254, 97, 0, 0.1);
       }
       svg {
@@ -242,7 +242,7 @@
         object-fit: contain;
         object-position: center center;
       }
-      &_time{
+      &_time {
         position: absolute;
         bottom: 20px;
         left: 0;
@@ -250,7 +250,7 @@
         z-index: 500;
         display: flex;
         justify-content: center;
-        span{
+        span {
           padding: 5px 50px;
           background: #00000050;
           color: white;
@@ -291,9 +291,14 @@
     cursor: pointer;
     &_image {
       margin: 0 auto;
-      width: 80%;
-      height: 80%;
-      object-fit: contain;
+      width: 90%;
+      height: 90%;
+      // object-fit: contain;
+    }
+    &_out {
+      position: absolute;
+      bottom: calc(5% + 20px);
+      right: calc(5% + 20px);
     }
   }
   &__error {
