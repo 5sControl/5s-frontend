@@ -97,7 +97,6 @@ export const DatePicker: React.FC = () => {
       setEndDate(new Date(queryDateParam.to));
     }
   }, []);
-  console.log(selectionRange);
   return (
     <div className={styles.wrapper}>
       <div ref={refButton}>

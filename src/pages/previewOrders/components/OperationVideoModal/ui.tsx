@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Modal } from '../../../../components/modal';
 import styles from './operationVideoModal.module.scss';
 import ReactPlayer from 'react-player';
@@ -54,6 +54,22 @@ export const OperationVideoModal: React.FC<PropsType> = ({
     dispatch(setRefVideoModal(node));
   }, []);
 
+  const handleDownload = () => {
+    if (operationData) {
+      const videoUrl = `http://${window.location.hostname}/${operationData?.video_data.file_name}`; // Замените на ссылку на ваше видео
+      fetch(videoUrl)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = operationData?.video_data.file_name; // Замените на имя файла, под которым нужно сохранить видео
+          link.click();
+          URL.revokeObjectURL(url);
+        });
+    }
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -108,9 +124,7 @@ export const OperationVideoModal: React.FC<PropsType> = ({
       </div>
 
       <Button
-        download={operationData?.video_data.file_name}
-        target="_blank"
-        href={`${window.location.origin}/${operationData?.video_data.file_name}`}
+        onClick={handleDownload}
         IconLeft={Download}
         className={styles.download}
         variant="text"
