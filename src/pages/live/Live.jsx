@@ -9,8 +9,9 @@ import { TimelineHub } from './timeline/timelineHub';
 import { CurrentReport } from './currentReport/currentReport';
 import { useAppDispatch } from '../../store/hooks';
 import { addCurrentReport } from '../../store/dataSlice';
-
+import { useNavigate } from 'react-router-dom';
 export const Live = () => {
+  const navigate = useNavigate();
   const location = window.location.hostname;
   const [cookies] = useCookies(['token']);
   const [cameras, setCameras] = useState([]);
@@ -40,10 +41,16 @@ export const Live = () => {
           .join(':'),
         'algorithm',
         cameraToResponse
-      ).then((el) => {
-        // console.log(el.data);
-        setReports(el.data);
-      });
+      )
+        .then((el) => {
+          // console.log(el.data);
+          setReports(el.data);
+        })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            navigate('/company');
+          }
+        });
     }
   };
 
