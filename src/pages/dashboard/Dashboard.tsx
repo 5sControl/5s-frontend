@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import './Dashboard.scss';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
@@ -13,9 +14,9 @@ import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
   const navigate = useNavigate();
-  const startTime = '00:00:00';
-  const endTime = '24:00:00';
-  const [data, setData] = useState(false);
+  const startTime: any = '00:00:00';
+  const endTime: any = '24:00:00';
+  const [data, setData] = useState<any>(false);
   const [errorCatch, setErrorCatch] = useState(false);
   const [cookies] = useCookies(['token']);
   const [isPreloader, setIsPreloader] = useState(false);
@@ -36,11 +37,11 @@ function Dashboard() {
       selectDate,
       startTime
         .split(':')
-        .map((el, ind) => (ind === 0 && el >= timeDef ? el - timeDef : el))
+        .map((el: number, ind: number) => (ind === 0 && el >= timeDef ? el - timeDef : el))
         .join(':'),
       endTime
         .split(':')
-        .map((el, ind) => (ind === 0 && el >= timeDef ? el - timeDef : el))
+        .map((el: number, ind: number) => (ind === 0 && el >= timeDef ? el - timeDef : el))
         .join(':'),
       algorithmsURL.length > 0 ? algorithmsURL : 'algorithm',
       camerasURL.length > 0 ? camerasURL : 'camera'
@@ -48,7 +49,7 @@ function Dashboard() {
       .then((el) => {
         el.data.detail === 'Authentication credentials were not provided.' ||
         el.data.detail === 'Given token not valid for any token type'
-          ? setData(0)
+          ? setData(false)
           : el.data.length !== data.length
           ? setData(el.data)
           : setData(el.data);
@@ -73,7 +74,7 @@ function Dashboard() {
     });
     getAveilableAlgorithms(window.location.hostname, cookies.token).then((res) => {
       if (res.data.length > 0) {
-        setAlgorithms(res.data.filter((alg) => alg.is_available));
+        setAlgorithms(res.data.filter((alg: any) => alg.is_available));
       }
     });
   }, []);
@@ -83,7 +84,7 @@ function Dashboard() {
       <div className="dashboard">
         <Header
           selectDate={selectDate}
-          setSelectDate={(e) => setSelectDate(e)}
+          setSelectDate={(e: any) => setSelectDate(e)}
           cameras={cameras}
           algorithms={algorithms}
           data={data}
