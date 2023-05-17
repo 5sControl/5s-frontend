@@ -62,9 +62,25 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
         });
       }
       setTimeLine(bufdata);
+    } else {
+      setTimeLine([
+        {
+          id: 0,
+          start: moment(startDate).format(`YYYY-MM-DD ${startTime}`),
+          stop: moment(startDate).format(`YYYY-MM-DD ${startTime}`),
+          violation_found: 'grey',
+        },
+        {
+          id: 0,
+          start: moment(startDate).format(`YYYY-MM-DD ${endTime}`),
+          stop: moment(startDate).format(`YYYY-MM-DD ${endTime}`),
+          violation_found: 'yellow',
+        },
+      ]);
     }
   }, [data]);
 
+  console.log(timeLine);
   return (
     <>
       {timeLine.length > 1 && (
