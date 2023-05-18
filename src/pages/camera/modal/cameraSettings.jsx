@@ -278,37 +278,30 @@ export const CameraSettings = ({
             <section className="cameras__settings">
               <div className="cameras__settings_modal">
                 <div className="cameras__settings_header">
-                  <h1>Camera Settings</h1>
+                  <h1>Camera connection</h1>
                 </div>
-                <div className="cameras__settings_inputs">
-                  <div className="cameras__settings_inputs_connection">
-                    <h6>Connection</h6>
-                    <h5>IP: {cameraIP}</h5>
-                  </div>
-                </div>
-                <p className="cameras__settings_desc">Connect to camera and configure settings</p>
+
+                <p className="cameras__settings_desc">Camera IP adress</p>
+                <h5>{cameraIP}</h5>
                 <div className="cameras__settings_container">
                   <div className="cameras__settings_left">
                     <div className="cameras__settings_camera">
-                      <h6>Settings</h6>
-                      <div className="cameras__settings_inputs">
-                        <div>
-                          <label htmlFor="cameraName">Username</label>
-                          <Input
-                            type="text"
-                            value={userName}
-                            onChange={(e) => setUserName(e.target.value)}
-                          />
-                        </div>
-                        <div>
-                          <label htmlFor="cameraName">Password</label>
-                          <Input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            showEye={true}
-                          />
-                        </div>
+                      <div>
+                        <label htmlFor="cameraName">Username</label>
+                        <Input
+                          type="text"
+                          value={userName}
+                          onChange={(e) => setUserName(e.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="cameraName">Password</label>
+                        <Input
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          showEye={true}
+                        />
                       </div>
                     </div>
                   </div>

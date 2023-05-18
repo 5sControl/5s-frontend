@@ -4,6 +4,9 @@
 .cameras {
   width: 100%;
   height: 100%;
+  &__lil{
+    height: auto;
+  }
   .rw-widget-container {
     border: 1px solid var(--LowEmphasis) !important;
     box-shadow: none !important;
