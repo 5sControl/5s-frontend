@@ -7,7 +7,8 @@
   .rw-widget-container {
     border: 1px solid var(--LowEmphasis) !important;
     box-shadow: none !important;
-    &:focus, &:active {
+    &:focus,
+    &:active {
       border-color: #212121 !important;
       outline: none !important;
     }
@@ -23,11 +24,24 @@
     line-height: 24px;
     cursor: pointer;
     transition: all 0.5s;
-    position: absolute;
-    bottom: 5px;
-    right: 20px;
     &:hover {
       background: #833505;
+    }
+    &_cancel{
+      padding: 4px 20px;
+    text-align: center;
+    background:  #ffffff;
+    border-radius: 4px;
+    color: #fe6100;
+    border: none;
+    font-size: 14px;
+    line-height: 24px;
+    cursor: pointer;
+    transition: all 0.5s;
+    &:hover {
+      color: #ffffff;
+      background: #fe6100;
+    }
     }
   }
   &__preloader {
@@ -76,6 +90,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    &_buttons{
+      display: flex;
+      gap:15px;
+      position: absolute;
+      bottom: 8px;
+      right: 20px;
+    }
     h6 {
       font-weight: 600;
       font-size: 12px;
@@ -152,11 +173,44 @@
       @media screen and (max-height: 675px) {
         margin-bottom: 20px;
       }
+      &_connection {
+        width: 100% !important;
+        background: #f3f4f6;
+        margin-bottom: 10px;
+        padding: 6px 10px;
+        position: relative;
+        h6 {
+          color: #9e9e9e;
+          font-weight: 600;
+          font-size: 12px;
+          margin: 0;
+        }
+        h5 {
+          color: #666666;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 24px;
+        }
+        &_edit {
+          position: absolute;
+          right: 10px;
+          top: calc(50% - 12px);
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 24px;
+          color: #fe6100;
+          cursor: pointer;
+          transition: all 0.4s;
+          &:hover{
+            text-decoration:underline;
+          }
+        }
+      }
       > div {
         width: 48%;
         display: flex;
         flex-direction: column;
-        input{
+        input {
           height: 40px;
           @media screen and (max-height: 675px) {
             font-size: 14px;
@@ -393,4 +447,3 @@
     }
   }
 }
-
