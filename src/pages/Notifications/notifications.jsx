@@ -81,6 +81,7 @@ export const Notifications = () => {
       }, 2000);
     }
   }, [notificationMessage]);
+  console.log(emails);
   return (
     <>
       <section className={styles.server}>
@@ -123,12 +124,14 @@ export const Notifications = () => {
         <div className={styles.emails__container}>
           <div className={styles.emails__header}>
             <h3>Inventory</h3>
-            <span
-              className={styles.emails__header_add}
-              onClick={() => setEmails([...emails, { id: 0, email: '' }])}
-            >
-              + Add email
-            </span>
+            {emails.filter((email) => email.id === 0).length === 0 && (
+              <span
+                className={styles.emails__header_add}
+                onClick={() => setEmails([...emails, { id: 0, email: '' }])}
+              >
+                + Add email
+              </span>
+            )}
           </div>
           <p className={styles.emails__description}>
             These emails will receive notifications when items reach low stock level.
