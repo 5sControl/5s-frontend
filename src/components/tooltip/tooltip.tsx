@@ -3,6 +3,7 @@ import { Tooltip } from '../../assets/svg/SVGcomponent';
 import { useOutsideClick } from '../../functions/useOutsideClick';
 
 import styles from './tooltip.module.scss';
+
 type PropsType = {
   title?: string;
   text: string;
