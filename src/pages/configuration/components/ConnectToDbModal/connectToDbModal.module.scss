@@ -3,9 +3,8 @@
 
 .modal {
   max-width: 880px;
-  height: fit-content;
-  overflow-y: auto;
-  overflow-x: hidden;
+  max-height: 850px;
+  overflow: hidden;
   position: relative;
   background-color: #FFFFFF;
   z-index: 2;
@@ -30,11 +29,13 @@
 .form {
   display: flex;
   flex-direction: column;
+  height: 780px;
   gap: 68px;
-  margin-top: 140px;
   top:40px;
   left: 0;
   padding: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
   &_wrapper {
     display: flex;
     flex-direction: column;
@@ -44,8 +45,20 @@
     color: var(--Red);
   }
   &_submit {
+   
+  }
+  .buttons{
     display: flex;
     align-self: flex-end;
+    gap:10px;
+    .cancel {
+      background-color: #ffffff;
+      color: #fe6100;
+      &:hover {
+        background-color: #fe6100;
+        color: #ffffff;
+      }
+    }
   }
 }
 .close{
