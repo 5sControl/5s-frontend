@@ -111,10 +111,6 @@ export const Header = ({ selectDate, setSelectDate, cameras, algorithms, data, u
             rangeColors={['var(--Orange)', 'var(--Orange)']}
             maxDate={new Date()}
           />
-          <div className={'picker-dashboard_buttons'}>
-            <Button text="Cancel" variant="outlined" onClick={handleClick} />
-            <Button text="Apply" variant="contained" onClick={handleClickApply} />
-          </div>
         </div>
       )}
       {isShowFilter && (
