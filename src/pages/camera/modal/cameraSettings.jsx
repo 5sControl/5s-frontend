@@ -77,11 +77,13 @@ export const CameraSettings = ({
 
   const cameraChecking = () => {
     checkCamera(window.location.hostname, cameraIP, userName, password)
-      .then((response) => response.blob())
+      .then((response) => {
+        console.log(response);
+        return response.blob();
+      })
       .then((blob) => {
         const imageUrl = URL.createObjectURL(blob);
         setImageTest(imageUrl);
-        console.log(imageUrl);
       });
   };
   useEffect(() => {
