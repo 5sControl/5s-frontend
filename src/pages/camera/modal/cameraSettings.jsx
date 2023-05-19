@@ -244,7 +244,7 @@ export const CameraSettings = ({
                       />
                     </div>
                     <div className="cameras__settings_right">
-                      {!isCreateCamera && (
+                      {!isCreateCamera ? (
                         <img
                           src={
                             process.env.REACT_APP_ENV === 'proxy'
@@ -256,6 +256,18 @@ export const CameraSettings = ({
                           alt="Camera"
                           className="cameras__settings_img"
                         />
+                      ) : (
+                        <>
+                          {' '}
+                          <img src={imageTest} alt="Camera" className="cameras__settings_img" />
+                          <span className="cameras__settings_test" onClick={cameraChecking}>
+                            Test connection
+                          </span>
+                          <span className="cameras__settings_text">
+                            Test connection after selecting a camera and filling in its’ username
+                            and password.
+                          </span>
+                        </>
                       )}
                     </div>
                   </div>
@@ -313,20 +325,15 @@ export const CameraSettings = ({
                     </div>
                   </div>
                   <div className="cameras__settings_right">
-                    {!isCreateCamera && (
-                      <img src={imageTest} alt="Camera" className="cameras__settings_img" />
-                    )}
-                    {isModalChangePassword && (
-                      <>
-                        <span className="cameras__settings_test" onClick={cameraChecking}>
-                          Test connection
-                        </span>
-                        <span className="cameras__settings_text">
-                          Test connection after selecting a camera and filling in its’ username and
-                          password.
-                        </span>
-                      </>
-                    )}
+                    <img src={imageTest} alt="Camera" className="cameras__settings_img" />
+
+                    <span className="cameras__settings_test" onClick={cameraChecking}>
+                      Test connection
+                    </span>
+                    <span className="cameras__settings_text">
+                      Test connection after selecting a camera and filling in its’ username and
+                      password.
+                    </span>
                   </div>
                 </div>
                 <div className="cameras__settings_buttons">
