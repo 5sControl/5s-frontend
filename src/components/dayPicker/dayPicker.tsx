@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { enGB } from 'date-fns/locale';
 import { DateRangePicker } from 'react-date-range';
 import { useOutsideClick } from '../../functions/useOutsideClick';
@@ -6,7 +7,7 @@ import './dayPicker.scss';
 
 type PropsType = {
   selectDate: string;
-  handleSelect: () => void;
+  handleSelect: (ranges: any) => void;
   onClose: () => void;
 };
 

@@ -13,6 +13,7 @@ import styles from './inventoryHistory.module.scss';
 import { Preloader } from '../../../../components/preloader';
 import { Chart } from '../Chart';
 import { selectInventoryHistory, setInventoryHistoryDate } from './inventoryHistorySlice';
+import { DayPicker } from '../../../../components/dayPicker/dayPicker';
 
 export const InventoryHistory: React.FC = () => {
   const { inventoryHistoryData, isLoadingHistory } = useAppSelector(selectInventory);
@@ -25,6 +26,12 @@ export const InventoryHistory: React.FC = () => {
 
   const hangleCloseModel = () => {
     dispatch(setIsOpenStockImageModal(false));
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSelect = (ranges: any) => {
+    dispatch(setInventoryHistoryDate(moment(ranges.selection.startDate).format('YYYY-MM-DD')));
+    setVisibleModalDate(false);
   };
 
   return (
@@ -51,11 +58,16 @@ export const InventoryHistory: React.FC = () => {
               : currentDate}
           </button>
           {visibleModalDate && (
-            <DataPicker
-              setSelectDate={(e: string) => dispatch(setInventoryHistoryDate(e))}
-              setVisibleModalDate={(e: boolean) => setVisibleModalDate(e)}
-              selectDateDash={selectDate ? selectDate : currentDate}
+            <DayPicker
+              handleSelect={handleSelect}
+              selectDate={selectDate ? selectDate : currentDate}
+              onClose={() => setVisibleModalDate(false)}
             />
+            // <DataPicker
+            //   setSelectDate={(e: string) => dispatch(setInventoryHistoryDate(e))}
+            //   setVisibleModalDate={(e: boolean) => setVisibleModalDate(e)}
+            //   selectDateDash={selectDate ? selectDate : currentDate}
+            // />
           )}
         </div>
 
