@@ -78,7 +78,12 @@ export const Header = ({ selectDate, setSelectDate, cameras, algorithms, data, u
           onClick={() => setVisibleModalDate(!visibleModalDate)}
           className="dashboard__title_button"
         >
-          {`${moment(selectDate).format('ll')}`}
+          {new Date(selectDate ? selectDate : new Date().toDateString()).toDateString() ===
+          new Date().toDateString()
+            ? 'Today, ' + (selectDate ? moment(selectDate).format('ll') : moment().format('ll'))
+            : moment(selectDate).format('ll')
+            ? moment(selectDate).format('ll')
+            : moment().format('ll')}
           <ArrowBottom style={{ color: 'red', marginLeft: '10px', width: '9px' }} />
         </button>
       </div>

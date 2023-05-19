@@ -11,6 +11,8 @@ import { CurrentReport } from './currentReport/currentReport';
 import { useAppDispatch } from '../../store/hooks';
 import { addCurrentReport } from '../../store/dataSlice';
 
+import { ArrowBottom } from '../../assets/svg/SVGcomponent';
+
 import './live.scss';
 
 export const Live = () => {
@@ -92,7 +94,13 @@ export const Live = () => {
             onClick={() => setVisibleModalDate(!visibleModalDate)}
             className="live__data-button"
           >
-            {`${selectDate}`}
+            {new Date(selectDate ? selectDate : new Date().toDateString()).toDateString() ===
+            new Date().toDateString()
+              ? 'Today, ' + (selectDate ? moment(selectDate).format('ll') : moment().format('ll'))
+              : moment(selectDate).format('ll')
+              ? moment(selectDate).format('ll')
+              : moment().format('ll')}
+            <ArrowBottom style={{ color: 'red', marginLeft: '10px', width: '9px' }} />
           </button>
         </div>
         <div className="live__container">
@@ -132,7 +140,6 @@ export const Live = () => {
               <CurrentReport camera={cameraToResponse} />
             </div>
           </div>
-          {console.log(reports)}
           <div className="live__timeline">
             {reports.length > 0 && cameraToResponse !== 'camera' ? (
               <TimelineHub
