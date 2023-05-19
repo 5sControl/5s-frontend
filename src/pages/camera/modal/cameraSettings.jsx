@@ -6,7 +6,7 @@ import {
   getProcess,
   postAlgorithnDependences,
 } from '../../../api/algorithmRequest';
-import { findCamera } from '../../../api/cameraRequest';
+import { findCamera, checkCamera } from '../../../api/cameraRequest';
 import { Preloader } from '../../../components/preloader';
 import { Input } from '../../../components/input';
 import Combobox from 'react-widgets/Combobox';
@@ -34,6 +34,7 @@ export const CameraSettings = ({
   const [isNotification, setIsNotification] = useState(false);
   const [isPreloader, setIsPreloader] = useState(false);
   const [isModalChangePassword, setIsModalChangePassword] = useState(false);
+
   const applySettings = async () => {
     setIsPreloader(true);
     const response = {
@@ -74,6 +75,14 @@ export const CameraSettings = ({
       });
   };
 
+  const cameraChecking = () => {
+    checkCamera(window.location.hostname, cameraIP, userName, password)
+      .then((response) => response.blob)
+      .then((blob) => {
+        const imageUrl = URL.createObjectURL(blob);
+        console.log(imageUrl);
+      });
+  };
   useEffect(() => {
     if (!isCreateCamera) {
       setCameraName(cameraSelect.name);
@@ -318,7 +327,9 @@ export const CameraSettings = ({
                     )}
                     {isModalChangePassword && (
                       <>
-                        <span className="cameras__settings_test">Test connection</span>
+                        <span className="cameras__settings_test" onClick={cameraChecking}>
+                          Test connection
+                        </span>
                         <span className="cameras__settings_text">
                           Test connection after selecting a camera and filling in its’ username and
                           password.
