@@ -156,12 +156,6 @@ export const Live = () => {
           handleSelect={handleSelect}
           onClose={() => setVisibleModalDate(false)}
         />
-        // <DataPicker
-        //   setSelectDate={(e) => setSelectDate(e)}
-        //   update={update}
-        //   setVisibleModalDate={(e) => setVisibleModalDate(e)}
-        //   selectDateDash={selectDate}
-        // />
       )}
     </>
   );
