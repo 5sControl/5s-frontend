@@ -91,10 +91,9 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
   }, [isEdit]);
 
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
+    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal} disableClickBg={true}>
       <div className={styles.header}>
         <h2 className={styles.header_title}>Сonnection settings</h2>
-        <Cross onClick={handleClose} className={styles.close} />
       </div>
 
       <form onSubmit={onSubmit} className={styles.form}>
@@ -115,13 +114,20 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
             <div className={styles.form_error}>{errorConnectToDbResponse?.message}</div>
           )}
         </div>
-
-        <Button
-          disabled={isLoadingPostConnectionToDb}
-          type="submit"
-          text="Done"
-          className={styles.form_submit}
-        />
+        <div className={styles.buttons}>
+          <Button
+            disabled={isLoadingPostConnectionToDb}
+            onClick={handleClose}
+            text="Cancel"
+            className={styles.cancel}
+          />
+          <Button
+            disabled={isLoadingPostConnectionToDb}
+            type="submit"
+            text="Done"
+            className={styles.form_submit}
+          />
+        </div>
       </form>
     </Modal>
   );

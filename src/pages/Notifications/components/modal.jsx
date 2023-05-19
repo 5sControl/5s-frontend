@@ -83,11 +83,15 @@ export const ModalEmail = ({
   }, [isNotification]);
 
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.wrapper}>
+    <Modal
+      isOpen={isOpen}
+      handleClose={handleClose}
+      className={styles.wrapper}
+      disableClickBg={true}
+    >
       <section className={styles.modal}>
         <div className={styles.modal__header}>
           <h2>SMTP server</h2>
-          <CloseCross className={styles.modal__header_close} onClick={handleClose} />
         </div>
         <label>Server</label>
         <Input
@@ -139,7 +143,10 @@ export const ModalEmail = ({
         {isPreloader ? (
           <Preloader />
         ) : (
-          <Button text="Done" className={styles.save} onClick={save} />
+          <div className={styles.buttons}>
+            <Button text="Cancel" className={styles.cancel} onClick={handleClose} />
+            <Button text="Done" className={styles.save} onClick={save} />
+          </div>
         )}
       </section>
       {isNotification && <Notification status={false} message={'Could not safe the item'} />}
