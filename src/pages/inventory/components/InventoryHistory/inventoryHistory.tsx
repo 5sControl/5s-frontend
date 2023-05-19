@@ -62,11 +62,6 @@ export const InventoryHistory: React.FC = () => {
               selectDate={selectDate ? selectDate : currentDate}
               onClose={() => setVisibleModalDate(false)}
             />
-            // <DataPicker
-            //   setSelectDate={(e: string) => dispatch(setInventoryHistoryDate(e))}
-            //   setVisibleModalDate={(e: boolean) => setVisibleModalDate(e)}
-            //   selectDateDash={selectDate ? selectDate : currentDate}
-            // />
           )}
         </div>
 

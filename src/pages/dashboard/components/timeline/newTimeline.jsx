@@ -1,8 +1,9 @@
-import { calculateTimeCenter } from '../../../../functions/calculateTimeCenter';
 import { Fragment, useEffect, useState } from 'react';
 import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
-import { Timeline } from './timeline';
 import moment from 'moment';
+
+import { Timeline } from './timeline';
+import { calculateTimeCenter } from '../../../../functions/calculateTimeCenter';
 export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => {
   const [algorithm, setAlgorithm] = useState([]);
 

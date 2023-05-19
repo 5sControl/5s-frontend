@@ -7,7 +7,7 @@ import { Button } from '../../../components/button';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount, update, data }) => {
+export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount, update }) => {
   const [algorithmsURL, setAlgorithmsURL] = useState([]);
   const [camerasURL, setCamerasURL] = useState([]);
   const navigate = useNavigate();
