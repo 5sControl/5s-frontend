@@ -34,7 +34,7 @@ export const CameraSettings = ({
   const [isNotification, setIsNotification] = useState(false);
   const [isPreloader, setIsPreloader] = useState(false);
   const [isModalChangePassword, setIsModalChangePassword] = useState(false);
-
+  const [imageTest, setImageTest] = useState('');
   const applySettings = async () => {
     setIsPreloader(true);
     const response = {
@@ -77,9 +77,10 @@ export const CameraSettings = ({
 
   const cameraChecking = () => {
     checkCamera(window.location.hostname, cameraIP, userName, password)
-      .then((response) => response.blob)
+      .then((response) => response.blob())
       .then((blob) => {
         const imageUrl = URL.createObjectURL(blob);
+        setImageTest(imageUrl);
         console.log(imageUrl);
       });
   };
@@ -313,17 +314,7 @@ export const CameraSettings = ({
                   </div>
                   <div className="cameras__settings_right">
                     {!isCreateCamera && (
-                      <img
-                        src={
-                          process.env.REACT_APP_ENV === 'proxy'
-                            ? `${process.env.REACT_APP_NGROK}/images/${cameraSelect.id}/snapshot.jpg`
-                            : process.env.REACT_APP_ENV === 'wify'
-                            ? `${process.env.REACT_APP_IP_SERVER}images/${cameraSelect.id}/snapshot.jpg`
-                            : `http://${window.location.hostname}/images/${cameraSelect.id}/snapshot.jpg`
-                        }
-                        alt="Camera"
-                        className="cameras__settings_img"
-                      />
+                      <img src={imageTest} alt="Camera" className="cameras__settings_img" />
                     )}
                     {isModalChangePassword && (
                       <>
