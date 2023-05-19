@@ -2,7 +2,6 @@
 import moment from 'moment-timezone';
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import { DataPicker } from '../../../dashboard/components/dataPicker';
 import { selectInventory } from '../../inventorySlice';
 import { StockImageModal } from '../StockImageModal';
 import {
