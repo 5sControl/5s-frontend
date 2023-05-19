@@ -1,22 +1,20 @@
 import { useState, useRef, useEffect } from 'react';
-import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // Импортируйте стили
 import 'react-date-range/dist/theme/default.css';
 import moment from 'moment';
-import { enGB } from 'date-fns/locale';
+
 import { Button } from '../../../components/button';
-import { useOutsideClick } from '../../../functions/useOutsideClick';
 
 import './datapicker.scss';
 import { ArrowBottom, Filter, Delete } from '../../../assets/svg/SVGcomponent';
 import { FilterForm } from './filter';
 import { useNavigate } from 'react-router-dom';
+import { DayPicker } from '../../../components/dayPicker/dayPicker';
 
 export const Header = ({ selectDate, setSelectDate, cameras, algorithms, data, update }) => {
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [isShowFilter, setIsShowFilter] = useState(false);
 
-  const refPicker = useRef(null);
   const [algorithmsURL, setAlgorithmsURL] = useState([]);
   const [camerasURL, setCamerasURL] = useState([]);
   const [refresh, setRefresh] = useState(false);
@@ -39,19 +37,6 @@ export const Header = ({ selectDate, setSelectDate, cameras, algorithms, data, u
 
   const handleSelect = (ranges) => {
     setSelectDate(moment(ranges.selection.startDate).format('YYYY-MM-DD'));
-    setVisibleModalDate(false);
-  };
-
-  const selectionRange = {
-    startDate: new Date(selectDate),
-    endDate: new Date(selectDate),
-    key: 'selection',
-  };
-  useOutsideClick(refPicker, () => setVisibleModalDate(false));
-  const handleClick = () => {
-    setVisibleModalDate(false);
-  };
-  const handleClickApply = () => {
     setVisibleModalDate(false);
   };
 
@@ -99,19 +84,11 @@ export const Header = ({ selectDate, setSelectDate, cameras, algorithms, data, u
       </div>
 
       {visibleModalDate && (
-        <div className="picker-dashboard" ref={refPicker}>
-          <DateRangePicker
-            locale={enGB}
-            ranges={[selectionRange]}
-            onChange={handleSelect}
-            dateDisplayFormat="dd MMM yyyy"
-            showMonthAndYearPickers={false}
-            showDateDisplay={false}
-            inputRanges={[]}
-            rangeColors={['var(--Orange)', 'var(--Orange)']}
-            maxDate={new Date()}
-          />
-        </div>
+        <DayPicker
+          selectDate={selectDate}
+          handleSelect={handleSelect}
+          onClose={() => setVisibleModalDate(false)}
+        />
       )}
       {isShowFilter && (
         <FilterForm

@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie';
 import moment from 'moment';
 
 import { getData } from '../../api/reportsRequest';
-import { DataPicker } from '../dashboard/components/dataPicker';
+import { DayPicker } from '../../components/dayPicker/dayPicker';
 import { getSelectedCameras } from '../../api/cameraRequest';
 import { TimelineHub } from './timeline/timelineHub';
 import { CurrentReport } from './currentReport/currentReport';
@@ -78,6 +78,11 @@ export const Live = () => {
     }
   }, [visibleModalDate, cameraToResponse]);
 
+  const handleSelect = (ranges) => {
+    setSelectDate(moment(ranges.selection.startDate).format('YYYY-MM-DD'));
+    setVisibleModalDate(false);
+  };
+
   return (
     <>
       <section className="live">
@@ -146,12 +151,17 @@ export const Live = () => {
         </div>
       </section>
       {visibleModalDate && (
-        <DataPicker
-          setSelectDate={(e) => setSelectDate(e)}
-          update={update}
-          setVisibleModalDate={(e) => setVisibleModalDate(e)}
-          selectDateDash={selectDate}
+        <DayPicker
+          selectDate={selectDate}
+          handleSelect={handleSelect}
+          onClose={() => setVisibleModalDate(false)}
         />
+        // <DataPicker
+        //   setSelectDate={(e) => setSelectDate(e)}
+        //   update={update}
+        //   setVisibleModalDate={(e) => setVisibleModalDate(e)}
+        //   selectDateDash={selectDate}
+        // />
       )}
     </>
   );
