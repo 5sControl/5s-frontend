@@ -61,7 +61,9 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
                 </span>
                 {calculateTimeCenter(start, end).map((el, id, array) => (
                   <Fragment key={id}>
-                    <span>{el.split(':').slice(0, 2).join(':')}</span>
+                    <span className="timeline-clickableNew__time">
+                      {el.split(':').slice(0, 2).join(':')}
+                    </span>
                     {array.length - 1 !== id && (
                       <span
                         className="timeline-clickableNew__timezone"

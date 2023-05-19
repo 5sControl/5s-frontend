@@ -52,7 +52,6 @@
   }
   &__container {
     > span{
-      
       transition: all 0.3s;
       &:hover{
         background-color: yellow;
@@ -91,16 +90,17 @@
     padding: 7px 0 0 0 ;
     &:hover{
       color: rgb(254, 97, 0);
-      box-shadow: 0px -42px 12px 3px rgba(254, 97, 0, 0.5);
     }
   }
-
+  &__time{
+    padding: 7px 0 0 0;
+  }
   &__zoomout{
     min-width: 120px;
     width: 120px;
     text-align: center;
     cursor: pointer;
-    
+    padding: 7px 0 0 0 ;
     &:hover{
       color: #FE6100;
     }
