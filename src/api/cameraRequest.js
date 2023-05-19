@@ -5,7 +5,7 @@ const API_CAMERASELECT = 'api/camera-algorithms/camera/';
 const API_CAMERACREATE = 'api/cameras/create-camera/';
 const API_CAMERADELETE = 'api/camera-algorithms/delete-camera/';
 const API_CAMERAFIND = 'api/core/find_cameras/';
-
+const API_CAMERACHECK = 'check_camera/';
 export const getSelectedCameras = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy(process.env.REACT_APP_NGROK + API_CAMERASELECT, 'GET', {
@@ -113,4 +113,21 @@ export const findCamera = (hostname) => {
   } else {
     return axios.get(`http://${hostname}/${API_CAMERAFIND}`);
   }
+};
+
+export const checkCamera = (hostname, cameraIP, username, password) => {
+  return fetch(
+    `http://${hostname.includes('localhost') ? '192.168.1.110' : hostname}:3456/${API_CAMERACHECK}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ip: cameraIP,
+        username: username,
+        password: password,
+      }),
+    }
+  );
 };

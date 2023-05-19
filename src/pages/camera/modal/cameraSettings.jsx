@@ -6,12 +6,13 @@ import {
   getProcess,
   postAlgorithnDependences,
 } from '../../../api/algorithmRequest';
-import { findCamera } from '../../../api/cameraRequest';
+import { findCamera, checkCamera } from '../../../api/cameraRequest';
 import { Preloader } from '../../../components/preloader';
 import { Input } from '../../../components/input';
 import Combobox from 'react-widgets/Combobox';
 import 'react-widgets/styles.css';
 import { Notification } from '../../../components/notification/notification';
+
 export const CameraSettings = ({
   cameraSelect,
   token,
@@ -32,7 +33,8 @@ export const CameraSettings = ({
   const [password, setPassword] = useState('');
   const [isNotification, setIsNotification] = useState(false);
   const [isPreloader, setIsPreloader] = useState(false);
-
+  const [isModalChangePassword, setIsModalChangePassword] = useState(false);
+  const [imageTest, setImageTest] = useState('');
   const applySettings = async () => {
     setIsPreloader(true);
     const response = {
@@ -73,6 +75,15 @@ export const CameraSettings = ({
       });
   };
 
+  const cameraChecking = () => {
+    checkCamera(window.location.hostname, cameraIP, userName, password)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const imageUrl = URL.createObjectURL(blob);
+        setImageTest(imageUrl);
+        console.log(imageUrl);
+      });
+  };
   useEffect(() => {
     if (!isCreateCamera) {
       setCameraName(cameraSelect.name);
@@ -136,123 +147,209 @@ export const CameraSettings = ({
     <>
       {algorithmsActiveObject && findCameraList ? (
         <>
-          <section className="cameras__settings">
-            <div className="cameras__settings_modal">
-              <div className="cameras__settings_header">
-                <h1>Camera Settings</h1>
-                <Close onClick={() => setIsCameraSettings(false)} className="pointer" />
-              </div>
-              <p className="cameras__settings_desc">Connect to camera and configure settings</p>
-              <div className="cameras__settings_container">
-                <div className="cameras__settings_left">
-                  <div className="cameras__settings_camera">
-                    <h6>Settings</h6>
-                    {isCreateCamera ? (
-                      <>
-                        <div className="cameras__settings_inputs">
-                          <div>
-                            <label htmlFor="cameraName">Camera IP address</label>
-                            <Combobox
-                              data={findCameraList}
-                              placeholder="Select or enter"
-                              hideEmptyPopup
-                              value={cameraIP}
-                              onChange={(value) => setCameraIP(value)}
-                              onSelect={(value) => setCameraIP(value)}
-                              className="cameras__combobox"
-                              selectIcon={<ArrowDown />}
-                            />
+          {!isModalChangePassword ? (
+            <>
+              <section className="cameras__settings">
+                <div className="cameras__settings_modal">
+                  <div className="cameras__settings_header">
+                    <h1>Camera Settings</h1>
+                  </div>
+                  <p className="cameras__settings_desc">Connect to camera and configure settings</p>
+                  <div className="cameras__settings_container">
+                    <div className="cameras__settings_left">
+                      <div className="cameras__settings_camera">
+                        <h6>Settings</h6>
+                        {isCreateCamera ? (
+                          <>
+                            <div className="cameras__settings_inputs">
+                              <div>
+                                <label htmlFor="cameraName">Camera IP address</label>
+                                <Combobox
+                                  data={findCameraList}
+                                  placeholder="Select or enter"
+                                  hideEmptyPopup
+                                  value={cameraIP}
+                                  onChange={(value) => setCameraIP(value)}
+                                  onSelect={(value) => setCameraIP(value)}
+                                  className="cameras__combobox"
+                                  selectIcon={<ArrowDown />}
+                                />
+                              </div>
+                            </div>
+                            <div className="cameras__settings_inputs">
+                              <div>
+                                <label htmlFor="cameraName">Username</label>
+                                <Input
+                                  type="text"
+                                  value={userName}
+                                  onChange={(e) => setUserName(e.target.value)}
+                                />
+                              </div>
+                              <div>
+                                <label htmlFor="cameraName">Password</label>
+                                <Input
+                                  type="password"
+                                  value={password}
+                                  onChange={(e) => setPassword(e.target.value)}
+                                  showEye={true}
+                                />
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="cameras__settings_inputs">
+                            <div className="cameras__settings_inputs_connection">
+                              <h6>Connection</h6>
+                              <h5>IP: {cameraIP}</h5>
+                              <div
+                                className="cameras__settings_inputs_connection_edit"
+                                onClick={() => setIsModalChangePassword(true)}
+                              >
+                                Edit
+                              </div>
+                            </div>
                           </div>
-                        </div>
+                        )}
                         <div className="cameras__settings_inputs">
                           <div>
-                            <label htmlFor="cameraName">Username</label>
+                            <label htmlFor="cameraName">Camera Name</label>
                             <Input
                               type="text"
-                              value={userName}
-                              onChange={(e) => setUserName(e.target.value)}
+                              value={cameraName}
+                              onChange={(e) => setCameraName(e.target.value)}
                             />
                           </div>
                           <div>
-                            <label htmlFor="cameraName">Password</label>
-                            <Input
-                              type="password"
-                              value={password}
-                              onChange={(e) => setPassword(e.target.value)}
-                              showEye={true}
-                            />
+                            <label htmlFor="cameraName">Controlled workplace</label>
+                            <Input type="text" />
                           </div>
                         </div>
-                      </>
-                    ) : (
-                      <div className="cameras__settings_inputs">
-                        <div>
-                          <div style={{ marginBottom: '10px' }}>
-                            <label htmlFor="cameraName">Camera IP</label>
-                            <Input type="text" value={cameraIP} disabled={true} />
-                          </div>
-                        </div>
+                        <label>
+                          <input type="checkbox" name="isRecording" value={true} />
+                          &nbsp; Save recordings from this camera.
+                        </label>
                       </div>
-                    )}
-                    <div className="cameras__settings_inputs">
-                      <div>
-                        <label htmlFor="cameraName">Camera Name</label>
-                        <Input
-                          type="text"
-                          value={cameraName}
-                          onChange={(e) => setCameraName(e.target.value)}
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="cameraName">Controlled workplace</label>
-                        <Input type="text" />
-                      </div>
+                      <AlgorithmSelect
+                        token={token}
+                        algorithmsActive={
+                          algorithmsActiveObject[cameraSelect.id]
+                            ? algorithmsActiveObject[cameraSelect.id]
+                            : []
+                        }
+                        process={processLocal}
+                        IPCamera={cameraSelect.id}
+                        setInformationToSend={(e) => setInformationToSend(e)}
+                        operationID={operationID}
+                        setOperationID={(id) => setOperationID(id)}
+                      />
                     </div>
-                    <label>
-                      <input type="checkbox" name="isRecording" value={true} />
-                      &nbsp; Save recordings from this camera.
-                    </label>
+                    <div className="cameras__settings_right">
+                      {!isCreateCamera ? (
+                        <img
+                          src={
+                            process.env.REACT_APP_ENV === 'proxy'
+                              ? `${process.env.REACT_APP_NGROK}/images/${cameraSelect.id}/snapshot.jpg`
+                              : process.env.REACT_APP_ENV === 'wify'
+                              ? `${process.env.REACT_APP_IP_SERVER}images/${cameraSelect.id}/snapshot.jpg`
+                              : `http://${window.location.hostname}/images/${cameraSelect.id}/snapshot.jpg`
+                          }
+                          alt="Camera"
+                          className="cameras__settings_img"
+                        />
+                      ) : (
+                        <>
+                          {' '}
+                          <img src={imageTest} alt="Camera" className="cameras__settings_img" />
+                          <span className="cameras__settings_test" onClick={cameraChecking}>
+                            Test connection
+                          </span>
+                          <span className="cameras__settings_text">
+                            Test connection after selecting a camera and filling in its’ username
+                            and password.
+                          </span>
+                        </>
+                      )}
+                    </div>
                   </div>
-                  <AlgorithmSelect
-                    token={token}
-                    algorithmsActive={
-                      algorithmsActiveObject[cameraSelect.id]
-                        ? algorithmsActiveObject[cameraSelect.id]
-                        : []
-                    }
-                    process={processLocal}
-                    IPCamera={cameraSelect.id}
-                    setInformationToSend={(e) => setInformationToSend(e)}
-                    operationID={operationID}
-                    setOperationID={(id) => setOperationID(id)}
-                  />
+                  <div className="cameras__settings_buttons">
+                    <button
+                      disabled={!isEnabled}
+                      className="cameras__button_cancel"
+                      onClick={() => setIsCameraSettings(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      disabled={!isEnabled}
+                      className="cameras__button"
+                      onClick={applySettings}
+                    >
+                      Done
+                    </button>
+                  </div>
                 </div>
-                <div className="cameras__settings_right">
-                  {!isCreateCamera && (
-                    <img
-                      src={
-                        process.env.REACT_APP_ENV === 'proxy'
-                          ? `${process.env.REACT_APP_NGROK}/images/${cameraSelect.id}/snapshot.jpg`
-                          : process.env.REACT_APP_ENV === 'wify'
-                          ? `${process.env.REACT_APP_IP_SERVER}images/${cameraSelect.id}/snapshot.jpg`
-                          : `http://${window.location.hostname}/images/${cameraSelect.id}/snapshot.jpg`
-                      }
-                      alt="Camera"
-                      className="cameras__settings_img"
-                    />
-                  )}
+              </section>
+              {isNotification && <Notification status={false} message="Camera not create" />}
+              {isPreloader && (
+                <div className="cameras__preloader" onClick={() => setIsCameraSettings(false)}>
+                  <Preloader />
+                </div>
+              )}
+            </>
+          ) : (
+            <section className="cameras__settings">
+              <div className="cameras__settings_modalLIL">
+                <div className="cameras__settings_header">
+                  <h1>Camera connection</h1>
+                </div>
+
+                <p className="cameras__settings_descLIL">Camera IP adress</p>
+                <h5 className="cameras__settings_ipLIL">{cameraIP}</h5>
+                <div className="cameras__settings_containerLIL">
+                  <div className="cameras__settings_left">
+                    <div className="cameras__settings_cameraLIL">
+                      <label htmlFor="cameraName">Username</label>
+                      <Input
+                        type="text"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                      />
+
+                      <label htmlFor="cameraName">Password</label>
+                      <Input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        showEye={true}
+                      />
+                    </div>
+                  </div>
+                  <div className="cameras__settings_right">
+                    <img src={imageTest} alt="Camera" className="cameras__settings_img" />
+
+                    <span className="cameras__settings_test" onClick={cameraChecking}>
+                      Test connection
+                    </span>
+                    <span className="cameras__settings_text">
+                      Test connection after selecting a camera and filling in its’ username and
+                      password.
+                    </span>
+                  </div>
+                </div>
+                <div className="cameras__settings_buttons">
+                  <button
+                    disabled={!isEnabled}
+                    className="cameras__button_cancel"
+                    onClick={() => setIsModalChangePassword(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button disabled={!isEnabled} className="cameras__button" onClick={applySettings}>
+                    Done
+                  </button>
                 </div>
               </div>
-              <button disabled={!isEnabled} className="cameras__button" onClick={applySettings}>
-                Done
-              </button>
-            </div>
-          </section>
-          {isNotification && <Notification status={false} message="Camera not create" />}
-          {isPreloader && (
-            <div className="cameras__preloader" onClick={() => setIsCameraSettings(false)}>
-              <Preloader />
-            </div>
+            </section>
           )}
         </>
       ) : (
