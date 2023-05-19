@@ -12,7 +12,7 @@ import { Input } from '../../../components/input';
 import Combobox from 'react-widgets/Combobox';
 import 'react-widgets/styles.css';
 import { Notification } from '../../../components/notification/notification';
-import { Button } from '../../../components/button';
+
 export const CameraSettings = ({
   cameraSelect,
   token,
@@ -276,33 +276,30 @@ export const CameraSettings = ({
             </>
           ) : (
             <section className="cameras__settings">
-              <div className="cameras__settings_modal">
+              <div className="cameras__settings_modalLIL">
                 <div className="cameras__settings_header">
                   <h1>Camera connection</h1>
                 </div>
 
-                <p className="cameras__settings_desc">Camera IP adress</p>
-                <h5>{cameraIP}</h5>
-                <div className="cameras__settings_container">
+                <p className="cameras__settings_descLIL">Camera IP adress</p>
+                <h5 className="cameras__settings_ipLIL">{cameraIP}</h5>
+                <div className="cameras__settings_containerLIL">
                   <div className="cameras__settings_left">
-                    <div className="cameras__settings_camera">
-                      <div>
-                        <label htmlFor="cameraName">Username</label>
-                        <Input
-                          type="text"
-                          value={userName}
-                          onChange={(e) => setUserName(e.target.value)}
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="cameraName">Password</label>
-                        <Input
-                          type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          showEye={true}
-                        />
-                      </div>
+                    <div className="cameras__settings_cameraLIL">
+                      <label htmlFor="cameraName">Username</label>
+                      <Input
+                        type="text"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                      />
+
+                      <label htmlFor="cameraName">Password</label>
+                      <Input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        showEye={true}
+                      />
                     </div>
                   </div>
                   <div className="cameras__settings_right">
@@ -319,13 +316,22 @@ export const CameraSettings = ({
                         className="cameras__settings_img"
                       />
                     )}
+                    {isModalChangePassword && (
+                      <>
+                        <span className="cameras__settings_test">Test connection</span>
+                        <span className="cameras__settings_text">
+                          Test connection after selecting a camera and filling in its’ username and
+                          password.
+                        </span>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="cameras__settings_buttons">
                   <button
                     disabled={!isEnabled}
                     className="cameras__button_cancel"
-                    onClick={() => setIsCameraSettings(false)}
+                    onClick={() => setIsModalChangePassword(false)}
                   >
                     Cancel
                   </button>
