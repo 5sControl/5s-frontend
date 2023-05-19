@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowDown, Close } from '../../../assets/svg/SVGcomponent';
+import { ArrowDown } from '../../../assets/svg/SVGcomponent';
 import { AlgorithmSelect } from '../components/algorithmSelect';
 import {
   getOperationID,
@@ -12,7 +12,7 @@ import { Input } from '../../../components/input';
 import Combobox from 'react-widgets/Combobox';
 import 'react-widgets/styles.css';
 import { Notification } from '../../../components/notification/notification';
-import { Button } from '../../../components/button';
+import './cameraSettings.scss';
 export const CameraSettings = ({
   cameraSelect,
   token,
@@ -139,14 +139,14 @@ export const CameraSettings = ({
         <>
           {!isModalChangePassword ? (
             <>
-              <section className="cameras__settings">
-                <div className="cameras__settings_modal">
-                  <div className="cameras__settings_header">
+              <section className="settings">
+                <div className="settings_modal">
+                  <div className="settings_header">
                     <h1>Camera Settings</h1>
                   </div>
-                  <p className="cameras__settings_desc">Connect to camera and configure settings</p>
-                  <div className="cameras__settings_container">
-                    <div className="cameras__settings_left">
+                  <p className="settings_desc">Connect to camera and configure settings</p>
+                  <div className="settings_container">
+                    <div className="settings_left">
                       <div className="cameras__settings_camera">
                         <h6>Settings</h6>
                         {isCreateCamera ? (
@@ -233,7 +233,7 @@ export const CameraSettings = ({
                         setOperationID={(id) => setOperationID(id)}
                       />
                     </div>
-                    <div className="cameras__settings_right">
+                    <div className="settings_right">
                       {!isCreateCamera && (
                         <img
                           src={
@@ -249,7 +249,7 @@ export const CameraSettings = ({
                       )}
                     </div>
                   </div>
-                  <div className="cameras__settings_buttons">
+                  <div className="settings_buttons">
                     <button
                       disabled={!isEnabled}
                       className="cameras__button_cancel"
@@ -275,17 +275,17 @@ export const CameraSettings = ({
               )}
             </>
           ) : (
-            <section className="cameras__settings">
-              <div className="cameras__settings_modal">
-                <div className="cameras__settings_header">
+            <section className="settings">
+              <div className="settings_modal">
+                <div className="settings_header">
                   <h1>Camera connection</h1>
                 </div>
 
-                <p className="cameras__settings_desc">Camera IP adress</p>
+                <p className="settings_desc">Camera IP adress</p>
                 <h5>{cameraIP}</h5>
-                <div className="cameras__settings_container">
-                  <div className="cameras__settings_left">
-                    <div className="cameras__settings_camera">
+                <div className="settings_container">
+                  <div className="settings_left">
+                    <div className="settings_camera">
                       <div>
                         <label htmlFor="cameraName">Username</label>
                         <Input
@@ -305,7 +305,7 @@ export const CameraSettings = ({
                       </div>
                     </div>
                   </div>
-                  <div className="cameras__settings_right">
+                  <div className="settings_right">
                     {!isCreateCamera && (
                       <img
                         src={
@@ -316,12 +316,12 @@ export const CameraSettings = ({
                             : `http://${window.location.hostname}/images/${cameraSelect.id}/snapshot.jpg`
                         }
                         alt="Camera"
-                        className="cameras__settings_img"
+                        className="settings_img"
                       />
                     )}
                   </div>
                 </div>
-                <div className="cameras__settings_buttons">
+                <div className="settings_buttons">
                   <button
                     disabled={!isEnabled}
                     className="cameras__button_cancel"

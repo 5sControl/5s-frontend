@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { deleteCameraAPI } from '../../../api/cameraRequest';
 import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName';
+import './deleteModal.scss';
 
 export const CamerasDeleteModal = ({ cancelClick, processList, camera, token }) => {
   const [algorithms, setAlgorithms] = useState([]);
