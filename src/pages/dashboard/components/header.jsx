@@ -1,11 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import 'react-date-range/dist/styles.css'; // Импортируйте стили
 import 'react-date-range/dist/theme/default.css';
 import moment from 'moment';
 
 import { Button } from '../../../components/button';
 
-import './datapicker.scss';
 import { ArrowBottom, Filter, Delete } from '../../../assets/svg/SVGcomponent';
 import { FilterForm } from './filter';
 import { useNavigate } from 'react-router-dom';
