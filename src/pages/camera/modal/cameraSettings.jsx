@@ -79,13 +79,20 @@ export const CameraSettings = ({
 
   const cameraChecking = () => {
     checkCamera(window.location.hostname, cameraIP, userName, password)
+      .then((resp) => {
+        return resp.json();
+      })
       .then((response) => {
         console.log(response);
-        return response.blob();
+        if (response.status) {
+          const uint8Array = new Uint8Array(response.image.data);
+          const blob = new Blob([uint8Array], { type: 'image/jpeg' });
+          const imageUrl = URL.createObjectURL(blob);
+          setImageTest(imageUrl);
+        }
       })
-      .then((blob) => {
-        const imageUrl = URL.createObjectURL(blob);
-        setImageTest(imageUrl);
+      .catch((error) => {
+        console.error('Error:', error);
       });
   };
   useEffect(() => {
