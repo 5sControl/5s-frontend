@@ -45,6 +45,7 @@ import { ReactComponent as NotificationBad } from './notificationBad.svg';
 import { ReactComponent as LogoHorizontal } from './5scontrol.svg';
 import { ReactComponent as Info } from './info.svg';
 import { ReactComponent as ConfigurationNew } from './configurationNew.svg';
+import { ReactComponent as SliderArrow } from './sliderArrow.svg';
 
 export {
   Algorithm,
@@ -94,4 +95,5 @@ export {
   LogoHorizontal,
   ConfigurationNew,
   Info,
+  SliderArrow,
 };

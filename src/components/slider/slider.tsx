@@ -1,0 +1,56 @@
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
+import { SliderArrow } from '../../assets/svg/SVGcomponent';
+import styles from './slider.module.scss';
+interface ImageSliderProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  images: any[];
+  currentCount: number;
+  setCurrentCount: (cur: number) => void;
+}
+
+const ImageSlider: React.FC<ImageSliderProps> = ({ images, currentCount, setCurrentCount }) => {
+  const [currentSlide, setCurrentSlide] = useState(currentCount ? currentCount : 0);
+
+  const goToNextSlide = () => {
+    const nextSlide = (currentCount + 1) % images.length;
+    setCurrentCount(nextSlide);
+  };
+
+  const goToPreviousSlide = () => {
+    const prevSlide = (currentCount - 1 + images.length) % images.length;
+    setCurrentCount(prevSlide);
+  };
+
+  return (
+    <div className={styles.container}>
+      {!!currentCount && <SliderArrow onClick={goToPreviousSlide} className={styles.buttonLeft} />}
+      <span className={styles.counter}>{`${currentCount + 1}/${images.length}`}</span>
+      <span className={styles.datetime}>{`${moment(images[currentCount].date).format(
+        'HH:MM:ss'
+      )}`}</span>
+      <div className={styles.slider}>
+        {images.map((photo, index) => (
+          <img
+            key={index}
+            style={{ transform: `translateX(-${currentCount * 100}%)` }}
+            src={
+              process.env.REACT_APP_ENV === 'proxy'
+                ? `${process.env.REACT_APP_NGROK + photo.image}`
+                : process.env.REACT_APP_ENV === 'wify'
+                ? `${process.env.REACT_APP_IP_SERVER}${photo.image}`
+                : `http://${window.location.hostname}/${photo.image}`
+            }
+            alt={`Slide ${index + 1}`}
+            className={styles.slides}
+          />
+        ))}
+      </div>
+      {currentCount !== images.length - 1 && (
+        <SliderArrow onClick={goToNextSlide} className={styles.buttonRight} />
+      )}
+    </div>
+  );
+};
+
+export default ImageSlider;
