@@ -1,10 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { LeftMenu } from '../components/leftMenu/leftMenu';
 import { Outlet } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import './modalDisk.scss';
+import { NotificationSocket } from '../components/notificationSocket/notification';
 
 export const RoutesOutlet = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [notification, setNotification] = useState<any>(false);
+
+  const handleClose = () => {
+    setNotification(false);
+  };
 
   useEffect(() => {
     const socket = io(
@@ -18,9 +25,11 @@ export const RoutesOutlet = () => {
 
     socket.on('notification', function (msg) {
       console.log(msg, 'msg');
+      setNotification(msg);
     });
   }, []);
 
+  console.log(notification);
   return (
     <>
       <div className="window">
@@ -29,6 +38,11 @@ export const RoutesOutlet = () => {
           <Outlet />
         </section>
       </div>
+      {notification && (
+        <div>
+          <NotificationSocket message={notification.message} close={handleClose} />
+        </div>
+      )}
     </>
   );
 };
