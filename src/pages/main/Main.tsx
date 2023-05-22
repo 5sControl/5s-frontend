@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import './main.scss';
-
-import { Congratulations } from './stage/firstScreen';
 import { useNavigate } from 'react-router-dom';
+
+import { Congratulations } from './components/firstScreen';
 
 export const Main = () => {
   const navigate = useNavigate();
@@ -17,9 +16,5 @@ export const Main = () => {
     localStorage.setItem('firtEnter', 'true');
     navigate('/configuration');
   };
-  return (
-    <>
-      <Congratulations setStage={firtEnter} />
-    </>
-  );
+  return <Congratulations setStage={firtEnter} />;
 };
