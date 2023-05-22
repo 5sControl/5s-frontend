@@ -53,3 +53,17 @@
   padding: 2px 22px;
   border-radius: 21px;
 }
+
+.datetime{
+  position: absolute;
+  bottom: 10px;
+  left: calc(50% - 27px);
+  z-index: 5000;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  background: #00000050;
+  padding: 2px 22px;
+  border-radius: 21px;
+}

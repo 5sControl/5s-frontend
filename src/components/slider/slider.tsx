@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import moment from 'moment';
+import { SliderArrow } from '../../assets/svg/SVGcomponent';
 import styles from './slider.module.scss';
-import { ArrowLeft, ArrowRight, SliderArrow } from '../../assets/svg/SVGcomponent';
 interface ImageSliderProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   images: any[];
@@ -23,11 +24,14 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
     setCurrentSlide(0);
   }, [images]);
 
-  console.log(currentSlide);
+  console.log(images);
   return (
     <div className={styles.container}>
       {!!currentSlide && <SliderArrow onClick={goToPreviousSlide} className={styles.buttonLeft} />}
       <span className={styles.counter}>{`${currentSlide + 1}/${images.length}`}</span>
+      <span className={styles.datetime}>{`${moment(images[currentSlide].date).format(
+        'HH:MM:ss'
+      )}`}</span>
       <div className={styles.slider}>
         {images.map((photo, index) => (
           <img
