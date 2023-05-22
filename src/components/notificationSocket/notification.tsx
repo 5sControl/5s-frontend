@@ -3,19 +3,28 @@ import styles from './notification.module.scss';
 import { Cross, NotificationBad } from '../../assets/svg/SVGcomponent';
 
 type PropsType = {
-  message: string;
-  close: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  notifications: any[];
+  closeNotification: (id: number) => void;
 };
 
-export const NotificationSocket: React.FC<PropsType> = ({ message, close }) => {
+export const NotificationSocket: React.FC<PropsType> = ({ notifications, closeNotification }) => {
   return (
-    <div className={`${styles.container} ${styles.bad}`}>
-      <div className={styles.text}>
-        <NotificationBad />
-        <span>{message}</span>
-      </div>
+    <div className={styles.wrapper}>
+      {notifications.length > 0 &&
+        notifications.map((notification, index) => (
+          <div className={`${styles.container} ${styles.bad}`} key={index}>
+            <div className={styles.text}>
+              <NotificationBad />
+              <span>{notification.message}</span>
+            </div>
 
-      <Cross onClick={close} className={styles.cross} />
+            <Cross
+              onClick={() => closeNotification(notifications.length - 1 - index)}
+              className={styles.cross}
+            />
+          </div>
+        ))}
     </div>
   );
 };

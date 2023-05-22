@@ -1,7 +1,15 @@
-.container {
+.wrapper{
   position: fixed;
   top: 20px;
   left: calc(50% - 200px);
+  width: 400px;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+  transition: all 0.3s;
+}
+.container {
   width: 400px;
   padding: 16px;
   display: flex;

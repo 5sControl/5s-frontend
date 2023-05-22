@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import { LeftMenu } from '../components/leftMenu/leftMenu';
 import { Outlet } from 'react-router-dom';
@@ -6,11 +7,20 @@ import './modalDisk.scss';
 import { NotificationSocket } from '../components/notificationSocket/notification';
 
 export const RoutesOutlet = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [notification, setNotification] = useState<any>(false);
+  const [notification, setNotification] = useState<any[]>([]);
 
-  const handleClose = () => {
-    setNotification(false);
+  const closeNotification = (id: number) => {
+    setNotification(notification.filter((el, index) => index !== id));
+  };
+
+  const addNotification = (message: any) => {
+    setNotification((prevNotification: any[]) => {
+      if (prevNotification.length > 0) {
+        return [...prevNotification, message];
+      } else {
+        return [message];
+      }
+    });
   };
 
   useEffect(() => {
@@ -25,7 +35,7 @@ export const RoutesOutlet = () => {
 
     socket.on('notification', function (msg) {
       console.log(msg, 'msg');
-      setNotification(msg);
+      addNotification(msg);
     });
   }, []);
 
@@ -39,9 +49,10 @@ export const RoutesOutlet = () => {
         </section>
       </div>
       {notification && (
-        <div>
-          <NotificationSocket message={notification.message} close={handleClose} />
-        </div>
+        <NotificationSocket
+          notifications={notification.reverse()}
+          closeNotification={(id: number) => closeNotification(id)}
+        />
       )}
     </>
   );
