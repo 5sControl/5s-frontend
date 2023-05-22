@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './slider.scss';
+import styles from './slider.module.scss';
 interface ImageSliderProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   images: any[];
@@ -24,9 +24,11 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
 
   console.log(currentSlide);
   return (
-    <div className="slider-container">
-      <button onClick={goToPreviousSlide}>Previous</button>
-      <div className="slider">
+    <div className={styles.container}>
+      <button onClick={goToPreviousSlide} className={styles.buttonLeft}>
+        Previous
+      </button>
+      <div className={styles.slider}>
         {images.map((photo, index) => (
           <img
             key={index}
@@ -39,11 +41,13 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
                 : `http://${window.location.hostname}/${photo.image}`
             }
             alt={`Slide ${index + 1}`}
-            className={'slides-container'}
+            className={styles.slides}
           />
         ))}
       </div>
-      <button onClick={goToNextSlide}>Next</button>
+      <button onClick={goToNextSlide} className={styles.buttonRight}>
+        Next
+      </button>
     </div>
   );
 };

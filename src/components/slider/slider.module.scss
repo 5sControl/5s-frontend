@@ -1,0 +1,29 @@
+
+.container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.slider {
+  display: flex;
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.3s ease;
+  width:100%;
+}
+.buttonLeft{
+  position: absolute;
+  top:50%;
+  left: 10px;
+  z-index: 5000;
+}
+.buttonRight{
+  position: absolute;
+  top:50%;
+  right: 10px;
+  z-index: 5000;
+}
