@@ -19,10 +19,7 @@ export const NotificationSocket: React.FC<PropsType> = ({ notifications, closeNo
               <span>{notification.message}</span>
             </div>
 
-            <Cross
-              onClick={() => closeNotification(notifications.length - 1 - index)}
-              className={styles.cross}
-            />
+            <Cross onClick={() => closeNotification(index)} className={styles.cross} />
           </div>
         ))}
     </div>
