@@ -6,21 +6,18 @@ import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName
 import { selectCurrentReport } from '../../../../store/dataSlice';
 import { useAppSelector } from '../../../../store/hooks';
 import { ZoomOut } from '../../../../components/zoomOut';
+import ImageSlider from '../../../../components/slider/slider';
 
 export const CurrentReport = () => {
   const { currentReport } = useAppSelector(selectCurrentReport);
   const [fullImage, setFullImage] = useState(false);
-
-  console.log(moment().utcOffset());
   return (
     <>
       {currentReport && (
         <>
           <div className="dashboard__report">
             <div className="dashboard__report_image">
-              {currentReport && (
-                <Slider currentReport={currentReport} setFullImage={(e) => setFullImage(e)} />
-              )}
+              {currentReport && <ImageSlider images={currentReport.photos} />}
             </div>
             <div className="dashboard__report_item">
               <span className="dashboard_text">Date & Time</span>

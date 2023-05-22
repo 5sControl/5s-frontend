@@ -1,0 +1,25 @@
+
+.slider-container {
+  display: flex;
+  align-items: center;
+}
+
+.slider {
+  display: flex;
+  overflow: hidden;
+}
+
+.slides-container {
+  display: flex;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.slide {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.slide.active {
+  opacity: 1;
+}
