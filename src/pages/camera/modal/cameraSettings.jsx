@@ -12,8 +12,9 @@ import { Input } from '../../../components/input';
 import Combobox from 'react-widgets/Combobox';
 import 'react-widgets/styles.css';
 import { Notification } from '../../../components/notification/notification';
-import { CameraTest } from './cameraTest';
+import { CameraEdit } from './cameraEdit';
 import { TooltipCustom } from '../../../components/tooltip/tooltip';
+import { CameraTest } from './cameraTest';
 
 export const CameraSettings = ({
   cameraSelect,
@@ -265,18 +266,7 @@ export const CameraSettings = ({
                           className="cameras__settings_img"
                         />
                       ) : (
-                        <>
-                          {/* <CameraTest
-                            cameraIP={cameraIP}
-                            userName={userName}
-                            password={password}
-                            setUserName={(text) => setUserName(text)}
-                            setPassword={(pass) => setPassword(pass)}
-                            isEnabled={isEnabled}
-                            applySettings={applySettings}
-                            setIsModalChangePassword={() => setIsModalChangePassword(false)}
-                          /> */}
-                        </>
+                        <CameraTest cameraIP={cameraIP} userName={userName} password={password} />
                       )}
                     </div>
                   </div>
@@ -306,7 +296,7 @@ export const CameraSettings = ({
               )}
             </>
           ) : (
-            <CameraTest
+            <CameraEdit
               cameraIP={cameraIP}
               userName={userName}
               password={password}
