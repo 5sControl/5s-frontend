@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import moment from 'moment';
 
-import { Slider } from './swiper';
 import { ViolintationFalse, ViolintationTrue } from '../../../assets/svg/SVGcomponent.ts';
 import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName.js';
 import { selectCurrentReport } from '../../../store/dataSlice';
@@ -12,14 +11,20 @@ import ImageSlider from '../../../components/slider/slider';
 export const CurrentReport = ({ camera }) => {
   const { currentReport } = useAppSelector(selectCurrentReport);
   const [fullImage, setFullImage] = useState(false);
-
+  const [currentCount, setCurrentCount] = useState(0);
   return (
     <>
       {currentReport ? (
         <>
           <div className="current-report">
             <div className="current-report__image">
-              {currentReport && <ImageSlider images={currentReport.photos} />}
+              {currentReport && (
+                <ImageSlider
+                  images={currentReport.photos}
+                  setCurrentCount={(num) => setCurrentCount(num)}
+                  currentCount={currentCount}
+                />
+              )}
             </div>
             <div className="current-report__description">
               <span>
