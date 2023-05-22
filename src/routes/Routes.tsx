@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
-import { LeftMenu } from '../components/leftMenu/leftMenu';
 import { Outlet } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import './modalDisk.scss';
+
 import { NotificationSocket } from '../components/notificationSocket/notification';
+import { LeftMenu } from '../components/leftMenu/leftMenu';
 
 export const RoutesOutlet = () => {
   const [notification, setNotification] = useState<any[]>([]);
