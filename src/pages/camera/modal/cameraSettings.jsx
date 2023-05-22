@@ -6,14 +6,15 @@ import {
   getProcess,
   postAlgorithnDependences,
 } from '../../../api/algorithmRequest';
-import { findCamera, checkCamera } from '../../../api/cameraRequest';
+import { findCamera } from '../../../api/cameraRequest';
 import { Preloader } from '../../../components/preloader';
 import { Input } from '../../../components/input';
 import Combobox from 'react-widgets/Combobox';
 import 'react-widgets/styles.css';
 import { Notification } from '../../../components/notification/notification';
-import { CameraTest } from './cameraTest';
+import { CameraEdit } from './cameraEdit';
 import { TooltipCustom } from '../../../components/tooltip/tooltip';
+import { CameraTest } from './cameraTest';
 
 export const CameraSettings = ({
   cameraSelect,
@@ -36,7 +37,6 @@ export const CameraSettings = ({
   const [isNotification, setIsNotification] = useState(false);
   const [isPreloader, setIsPreloader] = useState(false);
   const [isModalChangePassword, setIsModalChangePassword] = useState(false);
-  const [imageTest, setImageTest] = useState('');
   const applySettings = async () => {
     setIsPreloader(true);
     const response = {
@@ -77,17 +77,6 @@ export const CameraSettings = ({
       });
   };
 
-  const cameraChecking = () => {
-    checkCamera(window.location.hostname, cameraIP, userName, password)
-      .then((response) => {
-        console.log(response);
-        return response.blob();
-      })
-      .then((blob) => {
-        const imageUrl = URL.createObjectURL(blob);
-        setImageTest(imageUrl);
-      });
-  };
   useEffect(() => {
     if (!isCreateCamera) {
       setCameraName(cameraSelect.name);
@@ -277,17 +266,7 @@ export const CameraSettings = ({
                           className="cameras__settings_img"
                         />
                       ) : (
-                        <>
-                          {' '}
-                          <img src={imageTest} alt="Camera" className="cameras__settings_img" />
-                          <span className="cameras__settings_test" onClick={cameraChecking}>
-                            Test connection
-                          </span>
-                          <span className="cameras__settings_text">
-                            Test connection after selecting a camera and filling in its’ username
-                            and password.
-                          </span>
-                        </>
+                        <CameraTest cameraIP={cameraIP} userName={userName} password={password} />
                       )}
                     </div>
                   </div>
@@ -317,16 +296,14 @@ export const CameraSettings = ({
               )}
             </>
           ) : (
-            <CameraTest
+            <CameraEdit
               cameraIP={cameraIP}
               userName={userName}
               password={password}
               setUserName={(text) => setUserName(text)}
-              setPassword={(pass) => setUserName(pass)}
+              setPassword={(pass) => setPassword(pass)}
               isEnabled={isEnabled}
-              cameraChecking={cameraChecking}
               applySettings={applySettings}
-              imageTest={imageTest}
               setIsModalChangePassword={() => setIsModalChangePassword(false)}
             />
           )}
