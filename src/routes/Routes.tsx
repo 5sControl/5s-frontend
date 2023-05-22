@@ -50,7 +50,7 @@ export const RoutesOutlet = () => {
       </div>
       {notification && (
         <NotificationSocket
-          notifications={notification.reverse()}
+          notifications={notification}
           closeNotification={(id: number) => closeNotification(id)}
         />
       )}
