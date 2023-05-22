@@ -2,9 +2,6 @@
 import { useEffect, useState } from 'react';
 import { Input } from '../../../components/input';
 import { TooltipCustom } from '../../../components/tooltip/tooltip';
-import { checkCamera } from '../../../api/cameraRequest';
-import { Preloader } from '../../../components/preloader';
-import { Notification } from '../../../components/notification/notification';
 import { CameraTest } from './cameraTest';
 
 type PropsType = {
@@ -30,33 +27,7 @@ export const CameraEdit: React.FC<PropsType> = ({
   applySettings,
   setIsModalChangePassword,
 }): JSX.Element => {
-  const [imageTest, setImageTest] = useState('');
-  const [isPreloader, setPreloader] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
-
-  const cameraChecking = () => {
-    setPreloader(true);
-    setImageTest('');
-    checkCamera(window.location.hostname, cameraIP, userName, password)
-      .then((resp) => {
-        return resp.json();
-      })
-      .then((response) => {
-        if (response.status) {
-          const uint8Array = new Uint8Array(response.image.data);
-          const blob = new Blob([uint8Array], { type: 'image/jpeg' });
-          const imageUrl = URL.createObjectURL(blob);
-          setImageTest(imageUrl);
-        } else {
-          setImageTest('');
-        }
-        setPreloader(false);
-        setIsNotification(true);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
 
   useEffect(() => {
     if (isNotification) {
