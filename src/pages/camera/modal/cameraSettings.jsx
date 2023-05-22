@@ -95,6 +95,7 @@ export const CameraSettings = ({
         console.error('Error:', error);
       });
   };
+
   useEffect(() => {
     if (!isCreateCamera) {
       setCameraName(cameraSelect.name);
@@ -329,7 +330,7 @@ export const CameraSettings = ({
               userName={userName}
               password={password}
               setUserName={(text) => setUserName(text)}
-              setPassword={(pass) => setUserName(pass)}
+              setPassword={(pass) => setPassword(pass)}
               isEnabled={isEnabled}
               cameraChecking={cameraChecking}
               applySettings={applySettings}
