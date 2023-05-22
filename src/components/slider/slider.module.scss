@@ -9,19 +9,22 @@
   display: flex;
   overflow: hidden;
   border-radius: 4px;
+  width: 100%;
 }
 
 .slides {
   display: flex;
   transition: transform 0.3s ease;
   width: 100%;
+  min-width: 100%;
+  max-height: 100%;
   border-radius: 4px;
 }
 .buttonLeft {
   position: absolute;
   top: 50%;
   left: 10px;
-  z-index: 5000;
+  z-index: 5;
   fill-opacity: 0.5;
   transform: rotate(180deg);
   transition: all 0.4s;
@@ -34,7 +37,7 @@
   position: absolute;
   top: 50%;
   right: 10px;
-  z-index: 5000;
+  z-index: 5;
   fill-opacity: 0.5;
   transition: all 0.4s;
   cursor: pointer;
@@ -47,7 +50,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  z-index: 5000;
+  z-index: 5;
   color: #ffffff;
   font-weight: 400;
   font-size: 14px;
@@ -61,7 +64,7 @@
   position: absolute;
   bottom: 10px;
   left: calc(50% - 27px);
-  z-index: 5000;
+  z-index: 5;
   color: #ffffff;
   font-weight: 400;
   font-size: 14px;

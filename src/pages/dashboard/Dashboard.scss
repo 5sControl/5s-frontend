@@ -226,6 +226,12 @@
   &__report {
     width: 50%;
     padding: 0px 0px 30px 30px;
+    &_scale{
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      z-index: 5;
+    }
     &_image {
       position: relative;
       width: 100%;
@@ -287,18 +293,21 @@
     left: 0;
     background-color: #00000070;
     backdrop-filter: blur(5px);
-    z-index: 4;
+    z-index: 6000;
     cursor: pointer;
-    &_image {
-      margin: 0 auto;
-      width: 90%;
-      height: 90%;
-      // object-fit: contain;
+    &__container{
+      position: relative;
+      width: 85vw;
+      height: max-content;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    &_out {
+    &__scale{
       position: absolute;
-      bottom: calc(5% + 20px);
-      right: calc(5% + 20px);
+      bottom:10px;
+      right:10px;
     }
   }
   &__error {

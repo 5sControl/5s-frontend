@@ -5,38 +5,35 @@ import styles from './slider.module.scss';
 interface ImageSliderProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   images: any[];
+  currentCount: number;
+  setCurrentCount: (cur: number) => void;
 }
 
-const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+const ImageSlider: React.FC<ImageSliderProps> = ({ images, currentCount, setCurrentCount }) => {
+  const [currentSlide, setCurrentSlide] = useState(currentCount ? currentCount : 0);
 
   const goToNextSlide = () => {
-    const nextSlide = (currentSlide + 1) % images.length;
-    setCurrentSlide(nextSlide);
+    const nextSlide = (currentCount + 1) % images.length;
+    setCurrentCount(nextSlide);
   };
 
   const goToPreviousSlide = () => {
-    const prevSlide = (currentSlide - 1 + images.length) % images.length;
-    setCurrentSlide(prevSlide);
+    const prevSlide = (currentCount - 1 + images.length) % images.length;
+    setCurrentCount(prevSlide);
   };
 
-  useEffect(() => {
-    setCurrentSlide(0);
-  }, [images]);
-
-  console.log(images);
   return (
     <div className={styles.container}>
-      {!!currentSlide && <SliderArrow onClick={goToPreviousSlide} className={styles.buttonLeft} />}
-      <span className={styles.counter}>{`${currentSlide + 1}/${images.length}`}</span>
-      <span className={styles.datetime}>{`${moment(images[currentSlide].date).format(
+      {!!currentCount && <SliderArrow onClick={goToPreviousSlide} className={styles.buttonLeft} />}
+      <span className={styles.counter}>{`${currentCount + 1}/${images.length}`}</span>
+      <span className={styles.datetime}>{`${moment(images[currentCount].date).format(
         'HH:MM:ss'
       )}`}</span>
       <div className={styles.slider}>
         {images.map((photo, index) => (
           <img
             key={index}
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            style={{ transform: `translateX(-${currentCount * 100}%)` }}
             src={
               process.env.REACT_APP_ENV === 'proxy'
                 ? `${process.env.REACT_APP_NGROK + photo.image}`
@@ -49,7 +46,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
           />
         ))}
       </div>
-      {currentSlide !== images.length - 1 && (
+      {currentCount !== images.length - 1 && (
         <SliderArrow onClick={goToNextSlide} className={styles.buttonRight} />
       )}
     </div>
