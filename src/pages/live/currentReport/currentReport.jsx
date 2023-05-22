@@ -8,6 +8,7 @@ import { selectCurrentReport } from '../../../store/dataSlice';
 import { useAppSelector } from '../../../store/hooks';
 
 import './current-report.scss';
+import ImageSlider from '../../../components/slider/slider';
 export const CurrentReport = ({ camera }) => {
   const { currentReport } = useAppSelector(selectCurrentReport);
   const [fullImage, setFullImage] = useState(false);
@@ -18,9 +19,7 @@ export const CurrentReport = ({ camera }) => {
         <>
           <div className="current-report">
             <div className="current-report__image">
-              {currentReport && (
-                <Slider currentReport={currentReport} setFullImage={(e) => setFullImage(e)} />
-              )}
+              {currentReport && <ImageSlider images={currentReport.photos} />}
             </div>
             <div className="current-report__description">
               <span>
