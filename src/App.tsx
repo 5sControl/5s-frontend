@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './index.scss';
+
 import { RoutesOutlet } from './routes/Routes';
 import { Company } from './pages/company/Company';
 import { Authorization } from './components/authorization/Authorization';
@@ -8,13 +8,13 @@ import { useCookies } from 'react-cookie';
 import { isVerifyToken } from './api/companyRequest';
 import { PreviewOrders } from './pages/previewOrders/previewOrders';
 import { Configuration } from './pages/configuration/configuration';
-// import { ConfigurationCamera } from './pages/configuration/camera/ConfigurationCamera';
 import { Main } from './pages/main/Main';
 import { Live } from './pages/live/Live';
 import Dashboard from './pages/dashboard/Dashboard';
 import { Inventory } from './pages/inventory/inventory';
 import { Info } from './pages/info/info';
 
+import './index.scss';
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
@@ -49,7 +49,6 @@ function App() {
             <Route path="/configuration/database" element={<Configuration activeTab={1} />} />
             <Route path="/configuration/camera" element={<Configuration activeTab={0} />} />
             <Route path="/configuration/notifications" element={<Configuration activeTab={2} />} />
-            {/* <Route path="/configuration/:camera" element={<ConfigurationCamera />} /> */}
             <Route path="/orders-view" element={<PreviewOrders />} />
             <Route path="/inventory" element={<Inventory />} />
           </Route>

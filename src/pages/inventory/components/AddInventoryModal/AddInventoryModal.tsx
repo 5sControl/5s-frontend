@@ -70,18 +70,22 @@ export const AddInventoryModal: React.FC<PropsType> = ({
           hostname: window.location.hostname,
           body: { ...dataForm },
         })
-      ).then((response: any) => {
-        setIsClose({ status: !!response.payload.id, loading: false });
+      )
+        .then((response: any) => {
+          setIsClose({ status: !!response.payload.id, loading: false });
 
-        if (response.payload.id) {
-          handleClose();
-          setIsNotification();
-        } else {
-          setTimeout(() => {
-            setIsClose(false);
-          }, 2000);
-        }
-      });
+          if (response.payload.id) {
+            handleClose();
+            setIsNotification();
+          } else {
+            setTimeout(() => {
+              setIsClose(false);
+            }, 2000);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       setIsClose({ status: false });
       setTimeout(() => {

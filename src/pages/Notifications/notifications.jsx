@@ -23,13 +23,19 @@ export const Notifications = () => {
 
   useEffect(() => {
     if (!isShowModal) {
-      getNotificationEmail(window.location.hostname, cookies.token).then((res) =>
-        setEmails(res.data)
-      );
-      getNotificationSettings(window.location.hostname, cookies.token).then((response) => {
-        setDefaultSettings(response.data);
-        // console.log(response.data.results);
-      });
+      getNotificationEmail(window.location.hostname, cookies.token)
+        .then((res) => setEmails(res.data))
+        .catch((err) => {
+          console.log(err);
+        });
+      getNotificationSettings(window.location.hostname, cookies.token)
+        .then((response) => {
+          setDefaultSettings(response.data);
+          // console.log(response.data.results);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [isShowModal]);
 
@@ -39,22 +45,32 @@ export const Notifications = () => {
       if (id === 0) {
         postNotificationEmail(window.location.hostname, cookies.token, {
           email: e.target.value,
-        }).then(() => {
-          getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
-            setEmails(res.data);
-            // console.log(res);
+        })
+          .then(() => {
+            getNotificationEmail(window.location.hostname, cookies.token)
+              .then((res) => {
+                setEmails(res.data);
+                // console.log(res);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
+          .catch((err) => {
+            console.log(err);
           });
-        });
       } else {
-        patchNotificationEmail(window.location.hostname, cookies.token, id, e.target.value).then(
-          (res) => {
+        patchNotificationEmail(window.location.hostname, cookies.token, id, e.target.value)
+          .then(() => {
             getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
               setEmails(res.data);
               // console.log(res);
             });
             // console.log(res);
-          }
-        );
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
       // console.log(e.target.value, id);
     }
@@ -62,13 +78,21 @@ export const Notifications = () => {
 
   const deleteEmail = (id) => {
     if (id !== 0) {
-      deleteNotificationEmail(window.location.hostname, cookies.token, id).then((res) => {
-        // console.log(res);
-        getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
-          setEmails(res.data);
+      deleteNotificationEmail(window.location.hostname, cookies.token, id)
+        .then(() => {
           // console.log(res);
+          getNotificationEmail(window.location.hostname, cookies.token)
+            .then((res) => {
+              setEmails(res.data);
+              // console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      });
     } else {
       setEmails(emails.filter((email) => email.id !== 0));
     }

@@ -16,12 +16,16 @@ export const AlgorithmSelect = ({
   );
 
   useEffect(() => {
-    getAveilableAlgorithms(window.location.hostname, token).then((res) => {
-      if (res.data.length > 0) {
-        let allAlgorithm = res.data.filter((alg) => alg.is_available);
-        setAlgorithmList(allAlgorithm);
-      }
-    });
+    getAveilableAlgorithms(window.location.hostname, token)
+      .then((res) => {
+        if (res.data.length > 0) {
+          let allAlgorithm = res.data.filter((alg) => alg.is_available);
+          setAlgorithmList(allAlgorithm);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   useEffect(() => {

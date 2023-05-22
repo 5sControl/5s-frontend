@@ -34,6 +34,7 @@ export const Company = () => {
         setIsLicensed(true);
       })
       .catch((err) => {
+        console.log(err);
         setIsLicensed(false);
       });
   }, [isAddAccount]);

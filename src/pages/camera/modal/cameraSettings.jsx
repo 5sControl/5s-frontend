@@ -65,13 +65,14 @@ export const CameraSettings = ({
       }
     }
     await postAlgorithnDependences(window.location.hostname, token, response)
-      .then((res) => {
+      .then(() => {
         setIsEnabled(false);
         setIsNotificationAfterCreate();
         setIsCameraSettings(false);
         setIsPreloader(false);
       })
-      .catch((res) => {
+      .catch((error) => {
+        console.log(error);
         setIsNotification(true);
         setIsPreloader(false);
       });
@@ -84,40 +85,44 @@ export const CameraSettings = ({
       setPassword(cameraSelect.password);
     }
 
-    getProcess(window.location.hostname, token).then((response) => {
-      let bufObject = response.data?.map((item) => {
-        return {
-          [item.algorithm.name]: item.camera.id,
-        };
-      });
-      bufObject = bufObject.reduce((acc, obj) => {
-        const key = obj[Object.keys(obj)[0]];
-        const curGroup = acc[key] ?? [];
-        return { ...acc, [key]: [...curGroup, Object.keys(obj)[0]] };
-      }, {});
-      setProcess(response.data);
-      setAlgorithmsActiveObject(bufObject);
-      getOperationID(window.location.hostname, token).then((response) => {
-        if (
-          response.data &&
-          response.data.results &&
-          response.data.results.length > 0 &&
-          bufObject[cameraSelect.id] &&
-          bufObject[cameraSelect.id].includes('operation_control')
-        ) {
-          const currentOper = response.data.results.filter(
-            (item) => item.camera === cameraSelect.id
-          );
-          if (currentOper.length > 0) {
-            setOperationID(currentOper[currentOper.length - 1].type_operation || '');
+    getProcess(window.location.hostname, token)
+      .then((response) => {
+        let bufObject = response.data?.map((item) => {
+          return {
+            [item.algorithm.name]: item.camera.id,
+          };
+        });
+        bufObject = bufObject.reduce((acc, obj) => {
+          const key = obj[Object.keys(obj)[0]];
+          const curGroup = acc[key] ?? [];
+          return { ...acc, [key]: [...curGroup, Object.keys(obj)[0]] };
+        }, {});
+        setProcess(response.data);
+        setAlgorithmsActiveObject(bufObject);
+        getOperationID(window.location.hostname, token).then((response) => {
+          if (
+            response.data &&
+            response.data.results &&
+            response.data.results.length > 0 &&
+            bufObject[cameraSelect.id] &&
+            bufObject[cameraSelect.id].includes('operation_control')
+          ) {
+            const currentOper = response.data.results.filter(
+              (item) => item.camera === cameraSelect.id
+            );
+            if (currentOper.length > 0) {
+              setOperationID(currentOper[currentOper.length - 1].type_operation || '');
+            } else {
+              setOperationID('');
+            }
           } else {
             setOperationID('');
           }
-        } else {
-          setOperationID('');
-        }
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    });
 
     findCamera(window.location.hostname)
       .then((response) => {

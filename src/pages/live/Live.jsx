@@ -60,9 +60,13 @@ export const Live = () => {
   };
 
   useEffect(() => {
-    getSelectedCameras(location, cookies.token).then((res) => {
-      setCameras(res.data ? res.data : []);
-    });
+    getSelectedCameras(location, cookies.token)
+      .then((res) => {
+        setCameras(res.data ? res.data : []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   useEffect(() => {

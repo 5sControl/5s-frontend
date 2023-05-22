@@ -39,7 +39,7 @@ export const ModalEmail = ({
 
     if (defaultSettings && defaultSettings.length > 0) {
       patchNotificationSettings(window.location.hostname, token, response)
-        .then((response) => {
+        .then(() => {
           handleClose();
           setIsPreloader(false);
           setNotificationMessage();
@@ -50,7 +50,7 @@ export const ModalEmail = ({
         });
     } else {
       postNotificationSettings(window.location.hostname, token, response)
-        .then((response) => {
+        .then(() => {
           handleClose();
           setIsPreloader(false);
           setNotificationMessage();

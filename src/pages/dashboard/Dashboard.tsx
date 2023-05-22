@@ -56,6 +56,7 @@ function Dashboard() {
         setIsPreloader(false);
       })
       .catch((error) => {
+        console.log(error);
         setIsPreloader(false);
         setErrorCatch(error.message);
         if (error.response.status === 403) {
@@ -63,20 +64,28 @@ function Dashboard() {
         }
       });
   };
-
   useEffect(() => {
     update();
   }, [selectDate]);
 
   useEffect(() => {
-    getSelectedCameras(window.location.hostname, cookies.token).then((res) => {
-      setCameras(res.data);
-    });
-    getAveilableAlgorithms(window.location.hostname, cookies.token).then((res) => {
-      if (res.data.length > 0) {
-        setAlgorithms(res.data.filter((alg: any) => alg.is_available));
-      }
-    });
+    getSelectedCameras(window.location.hostname, cookies.token)
+      .then((res) => {
+        setCameras(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    getAveilableAlgorithms(window.location.hostname, cookies.token)
+      .then((res) => {
+        if (res.data.length > 0) {
+          setAlgorithms(res.data.filter((alg: any) => alg.is_available));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (

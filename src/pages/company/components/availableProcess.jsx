@@ -7,9 +7,13 @@ export const AvailableProcess = () => {
   const [process, setProcess] = useState([]);
 
   useEffect(() => {
-    getProcess(window.location.hostname, cookies.token).then((el) => {
-      setProcess(el.data);
-    });
+    getProcess(window.location.hostname, cookies.token)
+      .then((el) => {
+        setProcess(el.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (
