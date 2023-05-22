@@ -54,7 +54,9 @@ export const CurrentReport = () => {
             </div>
             <div className="dashboard__report_item">
               <span className="dashboard_text">Camera</span>
-              <span className="dashboard_text2">{currentReport.camera.name}</span>
+              <span className="dashboard_text2">
+                {currentReport.camera ? currentReport.camera.name : 'Deleted Camera'}
+              </span>
             </div>
             <div className="dashboard__report_item">
               <span className="dashboard_text">Algorithm</span>

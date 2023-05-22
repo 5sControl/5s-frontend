@@ -45,7 +45,7 @@ export const CurrentReport = ({ camera }) => {
               </span>
 
               <div className="current-report_item">
-                <span>{currentReport.camera.name}</span>
+                <span>{currentReport.camera ? currentReport.camera.name : 'Deleted Camera'}</span>
               </div>
               <div className="current-report_item">
                 <span>{parsingAlgorithmName(currentReport.algorithm.name)}</span>
