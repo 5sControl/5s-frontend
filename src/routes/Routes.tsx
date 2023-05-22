@@ -35,7 +35,7 @@ export const RoutesOutlet = () => {
 
     socket.on('notification', function (msg) {
       console.log(msg, 'msg');
-      //  addNotification(msg);
+      addNotification(msg);
     });
   }, []);
 
