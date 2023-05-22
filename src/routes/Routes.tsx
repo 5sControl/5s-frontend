@@ -39,7 +39,6 @@ export const RoutesOutlet = () => {
     });
   }, []);
 
-  console.log(notification);
   return (
     <>
       <div className="window">
