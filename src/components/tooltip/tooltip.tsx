@@ -9,7 +9,7 @@ type PropsType = {
   text: string;
 };
 
-export const Tooltop: React.FC<PropsType> = ({ title, text }): JSX.Element => {
+export const TooltipCustom: React.FC<PropsType> = ({ title, text }): JSX.Element => {
   const refTooltip = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

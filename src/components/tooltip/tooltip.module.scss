@@ -1,7 +1,10 @@
 .tooltip {
+  display: inline-block;
   position: relative;
   width: 14px;
   height: 14px;
+  margin-left: 5px;
+  vertical-align: center;
 }
 .icon {
   fill: #666666;
@@ -20,6 +23,7 @@
   border-radius: 4px;
   padding: 10px;
   width: 390px;
+  z-index: 9999;
   .title {
     font-weight: 600;
     font-size: 12px;

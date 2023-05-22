@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowDown, Close } from '../../../assets/svg/SVGcomponent';
+import { ArrowDown } from '../../../assets/svg/SVGcomponent';
 import { AlgorithmSelect } from '../components/algorithmSelect';
 import {
   getOperationID,
@@ -13,6 +13,7 @@ import Combobox from 'react-widgets/Combobox';
 import 'react-widgets/styles.css';
 import { Notification } from '../../../components/notification/notification';
 import { CameraTest } from './cameraTest';
+import { TooltipCustom } from '../../../components/tooltip/tooltip';
 
 export const CameraSettings = ({
   cameraSelect,
@@ -181,7 +182,15 @@ export const CameraSettings = ({
                             </div>
                             <div className="cameras__settings_inputs">
                               <div>
-                                <label htmlFor="cameraName">Username</label>
+                                <label htmlFor="cameraName">
+                                  Username
+                                  <TooltipCustom
+                                    title="Username"
+                                    text={
+                                      'The IP cameras username is often a default value set by the manufacturer, such as "admin" or "root". You can usually find this information in the devices user manual or on the manufacturers website.'
+                                    }
+                                  />
+                                </label>
                                 <Input
                                   type="text"
                                   value={userName}
@@ -189,7 +198,15 @@ export const CameraSettings = ({
                                 />
                               </div>
                               <div>
-                                <label htmlFor="cameraName">Password</label>
+                                <label htmlFor="cameraName">
+                                  Password
+                                  <TooltipCustom
+                                    title="Password"
+                                    text={
+                                      'The IP cameras password is typically set by the user during the initial setup process. If you have forgotten the password, you may be able to reset it by pressing and holding the reset button on the camera for a few seconds. However, this will also reset any other settings on the camera to their default values.'
+                                    }
+                                  />
+                                </label>
                                 <Input
                                   type="password"
                                   value={password}
