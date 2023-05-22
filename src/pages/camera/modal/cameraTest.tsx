@@ -38,7 +38,7 @@ export const CameraTest: React.FC<PropsType> = ({
           <div className="cameras__settings_left">
             <div className="cameras__settings_cameraLIL">
               <label htmlFor="cameraName">
-                Username{' '}
+                Username
                 <TooltipCustom
                   title="Username"
                   text={
