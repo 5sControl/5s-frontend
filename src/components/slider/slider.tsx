@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './slider.scss';
 interface ImageSliderProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,6 +18,10 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
     setCurrentSlide(prevSlide);
   };
 
+  useEffect(() => {
+    setCurrentSlide(0);
+  }, [images]);
+
   console.log(currentSlide);
   return (
     <div className="slider-container">
@@ -35,7 +39,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
                 : `http://${window.location.hostname}/${photo.image}`
             }
             alt={`Slide ${index + 1}`}
-            className={'slide'}
+            className={'slides-container'}
           />
         ))}
       </div>
