@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './slider.module.scss';
+import { ArrowLeft, ArrowRight, SliderArrow } from '../../assets/svg/SVGcomponent';
 interface ImageSliderProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   images: any[];
@@ -25,9 +26,8 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
   console.log(currentSlide);
   return (
     <div className={styles.container}>
-      <button onClick={goToPreviousSlide} className={styles.buttonLeft}>
-        Previous
-      </button>
+      {!!currentSlide && <SliderArrow onClick={goToPreviousSlide} className={styles.buttonLeft} />}
+      <span className={styles.counter}>{`${currentSlide + 1}/${images.length}`}</span>
       <div className={styles.slider}>
         {images.map((photo, index) => (
           <img
@@ -45,9 +45,9 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
           />
         ))}
       </div>
-      <button onClick={goToNextSlide} className={styles.buttonRight}>
-        Next
-      </button>
+      {currentSlide !== images.length - 1 && (
+        <SliderArrow onClick={goToNextSlide} className={styles.buttonRight} />
+      )}
     </div>
   );
 };

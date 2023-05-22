@@ -1,4 +1,3 @@
-
 .container {
   display: flex;
   align-items: center;
@@ -13,17 +12,44 @@
 .slides {
   display: flex;
   transition: transform 0.3s ease;
-  width:100%;
+  width: 100%;
 }
-.buttonLeft{
+.buttonLeft {
   position: absolute;
-  top:50%;
+  top: 50%;
   left: 10px;
   z-index: 5000;
+  fill-opacity: 0.5;
+  transform: rotate(180deg);
+  transition: all 0.4s;
+  cursor: pointer;
+  &:hover {
+    fill-opacity: 0.9;
+  }
 }
-.buttonRight{
+.buttonRight {
   position: absolute;
-  top:50%;
+  top: 50%;
   right: 10px;
   z-index: 5000;
+  fill-opacity: 0.5;
+  transition: all 0.4s;
+  cursor: pointer;
+  &:hover {
+    fill-opacity: 0.9;
+  }
+}
+
+.counter {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5000;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  background: #00000050;
+  padding: 2px 22px;
+  border-radius: 21px;
 }
