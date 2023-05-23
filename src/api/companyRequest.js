@@ -7,6 +7,7 @@ const API_REGISTRATION = 'api/employees/create/';
 const API_AUTH = 'auth/jwt/create/';
 const API_USERLIST = 'api/employees/';
 const API_VERIFYTOKEN = 'auth/jwt/verify/';
+const API_SYSTEMMESSAGE = 'api/core/system-message/';
 
 export const authorizationRequest = (hostname, email, password) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
@@ -187,6 +188,26 @@ export const isVerifyToken = (hostname, cookies) => {
   } else {
     return axios.post(`http://${hostname}/${API_VERIFYTOKEN}`, {
       token: cookies,
+    });
+  }
+};
+
+export const getSystemMessage = (hostname, cookies, page) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(`${process.env.REACT_APP_NGROK}${API_SYSTEMMESSAGE}?page=${page}`, 'GET', {
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_SYSTEMMESSAGE}?page=${page}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_SYSTEMMESSAGE}?page=${page}`, {
+      headers: {
+        Authorization: cookies,
+      },
     });
   }
 };
