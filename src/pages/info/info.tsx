@@ -3,9 +3,12 @@ import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import { Version } from './version/version';
 import styles from './info.module.scss';
 import { Link } from 'react-router-dom';
+import { SystemMessage } from './messages/message';
 
 export const Info: React.FC = () => {
-  const [active, setActive] = useState<string>('version');
+  const [active, setActive] = useState<string>(
+    window.location.href.includes('message') ? 'message' : 'version'
+  );
   return (
     <WrapperPage title="5S Control">
       <section className={styles.wrapper}>
@@ -27,7 +30,7 @@ export const Info: React.FC = () => {
         </div>
         <main className={styles.main}>
           {active === 'version' && <Version />}
-          {active === 'message' && <Version />}
+          {active === 'message' && <SystemMessage />}
         </main>
       </section>
     </WrapperPage>
