@@ -124,9 +124,10 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 9000;
   width: 100vw;
   height: 100vh;
+  max-height: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,16 +138,20 @@
     border-radius: 5px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     position: relative;
+    max-height: calc(90vh - 60px);
+    z-index: 9001;
   }
   &__image {
-    width: 60vw;
-    min-height: 20vh;
+    position: relative;
+    width: 65vw;
+    min-height: 30vh;
   }
   &__footer {
     padding: 20px 10px;
     display: flex;
     flex-direction: column;
     gap: 5px;
+    background-color: #ffffff;
     &_up {
       display: flex;
       justify-content: space-between;

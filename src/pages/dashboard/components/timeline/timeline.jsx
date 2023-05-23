@@ -31,7 +31,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     const hours = duration.hours();
     const minutes = duration.minutes();
     const seconds = duration.seconds();
-    console.log(days, hours, minutes, seconds);
     return `${days ? days + 'days' : ''} ${hours ? hours + 'hours' : ''} ${
       minutes ? minutes + 'min' : ''
     } ${seconds ? seconds + 'sec' : ''}`;
