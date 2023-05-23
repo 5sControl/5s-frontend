@@ -45,7 +45,7 @@ export const SystemMessage = () => {
         <>
           <div className={styles.container}>
             {messages.count === 0 ? (
-              <div className={styles.empty}>Empty</div>
+              <div className={styles.empty}>Server does not have the system message</div>
             ) : (
               <>
                 {messages.results.map((element: any, index: number) => (
