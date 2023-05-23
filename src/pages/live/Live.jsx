@@ -25,10 +25,12 @@ export const Live = () => {
   const [cameraToResponse, setCameraToResponse] = useState('camera');
   const [reports, setReports] = useState([]);
   const [inputFilter, setInputFilter] = useState('');
+
   const [startTime, setStartTime] = useState('00:00:00');
   const [endTime, setEndTime] = useState('24:00:00');
-  const timeDef = moment().utcOffset() / 60;
   const dispatch = useAppDispatch();
+
+  const timeDef = moment().utcOffset() / 60;
 
   const update = () => {
     if (cameraToResponse !== 'camera') {
