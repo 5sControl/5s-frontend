@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { WrapperPage } from '../../components/wrapper/wrapperPage';
-
+import { Version } from './version/version';
 import styles from './info.module.scss';
 import { Link } from 'react-router-dom';
 
@@ -25,6 +25,10 @@ export const Info: React.FC = () => {
             System messages
           </Link>
         </div>
+        <main className={styles.main}>
+          {active === 'version' && <Version />}
+          {active === 'message' && <Version />}
+        </main>
       </section>
     </WrapperPage>
   );

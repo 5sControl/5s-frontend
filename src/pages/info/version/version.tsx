@@ -21,7 +21,7 @@ export const Version: React.FC = () => {
   }, []);
 
   return (
-    <WrapperPage title="5S Control">
+    <main>
       <div className={styles.version_app}>
         {isLoadingCompanyVersions ? (
           <span className={styles.version_row_title}>5S Control version: Loading...</span>
@@ -67,6 +67,6 @@ export const Version: React.FC = () => {
           Terms of use
         </a>
       </div>
-    </WrapperPage>
+    </main>
   );
 };

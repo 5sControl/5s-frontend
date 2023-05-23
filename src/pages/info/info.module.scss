@@ -1,6 +1,6 @@
 .wrapper {
   width: 100%;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 190px);
   .tabs {
     width: 100%;
     position: relative;
@@ -31,5 +31,12 @@
     .noActive {
       border-bottom: 1px solid #d9d9d9;
     }
+  }
+  .main{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: auto;
+    padding: 30px 5px;
   }
 }
