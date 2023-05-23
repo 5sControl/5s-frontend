@@ -133,6 +133,7 @@
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
   overflow: auto;
+  transition: all 0.4s;
   &__container {
     background: #ffffff;
     border-radius: 5px;
