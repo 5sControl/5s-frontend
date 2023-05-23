@@ -271,6 +271,7 @@
   &__report {
     width: 50%;
     padding: 0px 0px 30px 30px;
+    overflow: auto;
     &_scale {
       position: absolute;
       bottom: 10px;

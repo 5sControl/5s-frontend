@@ -9,9 +9,7 @@ interface ImageSliderProps {
   setCurrentCount: (cur: number) => void;
 }
 
-const ImageSlider: React.FC<ImageSliderProps> = ({ images, currentCount, setCurrentCount }) => {
-  const [currentSlide, setCurrentSlide] = useState(currentCount ? currentCount : 0);
-
+const ImageSlider: React.FC<ImageSliderProps> = ({ images, currentCount = 0, setCurrentCount }) => {
   const goToNextSlide = () => {
     const nextSlide = (currentCount + 1) % images.length;
     setCurrentCount(nextSlide);
@@ -26,9 +24,11 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, currentCount, setCurr
     <div className={styles.container}>
       {!!currentCount && <SliderArrow onClick={goToPreviousSlide} className={styles.buttonLeft} />}
       <span className={styles.counter}>{`${currentCount + 1}/${images.length}`}</span>
-      <span className={styles.datetime}>{`${moment(images[currentCount].date).format(
-        'HH:MM:ss'
-      )}`}</span>
+      {images[currentCount] && images[currentCount].date && (
+        <span className={styles.datetime}>{`${moment(images[currentCount].date).format(
+          'HH:MM:ss'
+        )}`}</span>
+      )}
       <div className={styles.slider}>
         {images.map((photo, index) => (
           <img

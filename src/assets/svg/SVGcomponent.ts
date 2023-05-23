@@ -47,6 +47,7 @@ import { ReactComponent as Info } from './info.svg';
 import { ReactComponent as ConfigurationNew } from './configurationNew.svg';
 import { ReactComponent as SliderArrow } from './sliderArrow.svg';
 import { ReactComponent as PaginatorRight } from './paginatorRight.svg';
+import { ReactComponent as CrossWhite } from './crossWhite.svg';
 
 export {
   Algorithm,
@@ -98,4 +99,5 @@ export {
   Info,
   SliderArrow,
   PaginatorRight,
+  CrossWhite,
 };
