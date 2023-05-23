@@ -24,6 +24,7 @@ function Dashboard() {
   const [cameras, setCameras] = useState([]);
   const [algorithms, setAlgorithms] = useState([]);
   const timeDef = moment().utcOffset() / 60;
+  const [activePage, setActivePage] = useState('timelines');
 
   const update = () => {
     setIsPreloader(true);
@@ -99,25 +100,48 @@ function Dashboard() {
           data={data}
           update={update}
         />
-        {!data || isPreloader ? (
-          <Preloader />
-        ) : data.length > 0 ? (
-          <>
-            <TimelineHub
-              startDate={moment(selectDate).format('YYYY-MM-DD')}
-              startTime={startTime}
-              endTime={endTime}
-              data={data}
-              cameras={cameras}
-            />
-            <h3>
-              Reports <span>{data.length}</span>
-            </h3>
-            <Reports data={data} />
-          </>
-        ) : (
-          <div className="dashboard__noreports">No reports found</div>
-        )}
+        <main className="dashboard__wrapper">
+          <section className="dashboard__nav">
+            <span
+              className={`dashboard__tab ${
+                activePage === 'timelines' ? 'dashboard__tab_active' : 'dashboard__tab_noActive'
+              }`}
+              onClick={() => setActivePage('timelines')}
+            >
+              Timelines
+            </span>
+            <span
+              className={`dashboard__tab ${
+                activePage === 'reports' ? 'dashboard__tab_active' : 'dashboard__tab_noActive'
+              }`}
+              onClick={() => setActivePage('reports')}
+            >
+              Reports
+            </span>
+          </section>
+          <section className="dashboard__content">
+            {!data || isPreloader ? (
+              <Preloader />
+            ) : data.length > 0 ? (
+              <>
+                {activePage === 'timelines' && (
+                  <TimelineHub
+                    startDate={moment(selectDate).format('YYYY-MM-DD')}
+                    startTime={startTime}
+                    endTime={endTime}
+                    data={data}
+                    cameras={cameras}
+                  />
+                )}
+
+                {activePage === 'reports' && <Reports data={data} />}
+              </>
+            ) : (
+              <div className="dashboard__noreports">No reports found</div>
+            )}
+          </section>
+        </main>
+
         {errorCatch && <div className="dashboard__error">{errorCatch}</div>}
       </div>
     </>
