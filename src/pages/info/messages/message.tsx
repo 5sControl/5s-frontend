@@ -68,7 +68,7 @@ export const SystemMessage = () => {
                 className={`${styles.left} ${!messages.previous && styles.disable}`}
                 onClick={prevPage}
               />
-              <span className={styles.page}>{page}</span>
+              <span className={styles.page}>{page + ' '} page</span>
               <PaginatorRight
                 className={`${styles.right} ${!messages.next && styles.disable}`}
                 onClick={nextPage}
