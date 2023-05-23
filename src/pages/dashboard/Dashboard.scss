@@ -192,8 +192,10 @@
   }
   &__container {
     width: 100%;
+    height: calc(100vh - 260px);
     padding: 24px 0;
     display: flex;
+    overflow: hidden;
   }
   &__choose {
     width: 50%;
@@ -211,6 +213,7 @@
   }
   &__reports {
     width: 100%;
+    height: calc(100vh - 270px);
     overflow: auto;
     &_item {
       display: flex;
