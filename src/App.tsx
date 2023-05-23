@@ -16,7 +16,7 @@ import { Info } from './pages/info/info';
 
 import './index.scss';
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [cookies, , removeCookie] = useCookies(['token']);
 
   useEffect(() => {
     isVerifyToken(window.location.hostname, cookies.token)
@@ -40,7 +40,7 @@ function App() {
         {cookies.token ? (
           <Route element={<RoutesOutlet />}>
             <Route path="/" element={<Main />} />
-            <Route path="/info" element={<Info />} />
+            <Route path="/info/*" element={<Info />} />
             <Route path="/company" element={<Company />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/live" element={<Live />} />

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { proxy } from '../../api/api';
+import { proxy } from '../../../api/api';
 import { VersionInfoType } from './types';
 
 export const getCompanyVersionAPI = (hostname: string, cookies: string) => {
