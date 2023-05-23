@@ -192,19 +192,19 @@ export const isVerifyToken = (hostname, cookies) => {
   }
 };
 
-export const getSystemMessage = (hostname, cookies) => {
+export const getSystemMessage = (hostname, cookies, page) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(process.env.REACT_APP_NGROK + API_SYSTEMMESSAGE, 'GET', {
+    return proxy(`${process.env.REACT_APP_NGROK}${API_SYSTEMMESSAGE}?page=${page}`, 'GET', {
       Authorization: cookies,
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_SYSTEMMESSAGE}`, {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_SYSTEMMESSAGE}?page=${page}`, {
       headers: {
         Authorization: cookies,
       },
     });
   } else {
-    return axios.get(`http://${hostname}/${API_SYSTEMMESSAGE}`, {
+    return axios.get(`http://${hostname}/${API_SYSTEMMESSAGE}?page=${page}`, {
       headers: {
         Authorization: cookies,
       },

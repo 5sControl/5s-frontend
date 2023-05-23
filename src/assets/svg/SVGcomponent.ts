@@ -46,6 +46,7 @@ import { ReactComponent as LogoHorizontal } from './5scontrol.svg';
 import { ReactComponent as Info } from './info.svg';
 import { ReactComponent as ConfigurationNew } from './configurationNew.svg';
 import { ReactComponent as SliderArrow } from './sliderArrow.svg';
+import { ReactComponent as PaginatorRight } from './paginatorRight.svg';
 
 export {
   Algorithm,
@@ -96,4 +97,5 @@ export {
   ConfigurationNew,
   Info,
   SliderArrow,
+  PaginatorRight,
 };
