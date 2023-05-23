@@ -131,6 +131,7 @@
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
+  overflow: auto;
   &__container {
     background: #ffffff;
     border-radius: 5px;
@@ -138,7 +139,7 @@
     position: relative;
   }
   &__image {
-    width: 70vw;
+    width: 60vw;
     min-height: 20vh;
   }
   &__footer {
