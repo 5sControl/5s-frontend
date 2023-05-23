@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Button } from '../../components/button';
-import styles from './notifications.module.scss';
+import { BsFillTrashFill } from 'react-icons/bs';
+import { FcCheckmark } from 'react-icons/fc';
+import { useCookies } from 'react-cookie';
+import { IoMdSettings } from 'react-icons/io';
+
 import { ModalEmail } from './components/modal';
 import {
   deleteNotificationEmail,
@@ -9,11 +12,10 @@ import {
   patchNotificationEmail,
   postNotificationEmail,
 } from '../../api/notificationRequest';
-import { BsFillTrashFill } from 'react-icons/bs';
-import { FcCheckmark } from 'react-icons/fc';
-import { useCookies } from 'react-cookie';
-import { IoMdSettings } from 'react-icons/io';
 import { Notification } from '../../components/notification/notification';
+
+import styles from './notifications.module.scss';
+
 export const Notifications = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [emails, setEmails] = useState([]);
