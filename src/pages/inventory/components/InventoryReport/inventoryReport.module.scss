@@ -197,20 +197,3 @@ tbody td {
     color: black;
   }
 }
-.glazikModal {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  top: 0;
-  left: 0;
-  z-index: 5000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  img {
-    width: 80%;
-    object-fit: contain;
-  }
-}

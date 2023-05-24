@@ -29,6 +29,7 @@ import {
 } from '../InventoryItemsList/InventoryItemsListSlice';
 import { InventoryCard } from '../InventoryCard/InventoryCard';
 import { BsEyeFill } from 'react-icons/bs';
+import { Glazik } from '../glazik/glazik';
 
 type PropsType = {
   setIsNotification: () => void;
@@ -51,9 +52,8 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
   const [filterItem, setFilterItem] = useState('');
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
   const [isOpen, setIsOpen] = useState(false);
-  const [showGlazik, setShowGlazik] = useState(false);
+  const [showGlazik, setShowGlazik] = useState<any>(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openSettings = (event: any, currentItem: InventoryItem) => {
     dispatch(setCurrentEditItem(currentItem));
     setCoordinates({ x: event.nativeEvent.layerX, y: event.nativeEvent.layerY });
@@ -103,8 +103,8 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
   };
 
   const glazik = async (activeItem: InventoryItem) => {
-    setShowGlazik(true);
-    dispatch(addActiveInventoryItem(activeItem));
+    setShowGlazik(activeItem);
+    console.log(activeItem);
   };
 
   return (
@@ -257,32 +257,9 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
             </tbody>
           </table>
         </div>
-        {showGlazik &&
-          inventoryHistoryData &&
-          inventoryHistoryData.length > 0 &&
-          activeInventoryItem &&
-          inventoryHistoryData[inventoryHistoryData.length - 1].camera.id ===
-            activeInventoryItem.camera && (
-            <section className={styles.glazikModal} onClick={() => setShowGlazik(false)}>
-              <img
-                src={
-                  process.env.REACT_APP_ENV === 'proxy'
-                    ? `${process.env.REACT_APP_NGROK}${
-                        inventoryHistoryData[inventoryHistoryData.length - 1].photos[0].image
-                      }`
-                    : process.env.REACT_APP_ENV === 'wify'
-                    ? `${process.env.REACT_APP_IP_SERVER}${
-                        inventoryHistoryData[inventoryHistoryData.length - 1].photos[0].image
-                      }`
-                    : `http://${window.location.hostname}/${
-                        inventoryHistoryData[inventoryHistoryData.length - 1].photos[0].image
-                      }`
-                }
-                // onClick={(e) => createCoord(e)}
-              />
-              {}
-            </section>
-          )}
+        {showGlazik && (
+          <Glazik showGlazik={showGlazik} setShowGlazik={() => setShowGlazik(false)} />
+        )}
       </Cover>
     </>
   );
