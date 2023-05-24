@@ -20,6 +20,21 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, currentCount = 0, set
     setCurrentCount(prevSlide);
   };
 
+  useEffect(() => {
+    const arrowKey = (e: KeyboardEvent) => {
+      if (currentCount !== 0 && e.key === 'ArrowLeft') {
+        goToPreviousSlide();
+      }
+      if (currentCount !== images.length - 1 && e.key === 'ArrowRight') {
+        goToNextSlide();
+      }
+    };
+    document.body.addEventListener('keydown', arrowKey);
+    return () => {
+      document.body.removeEventListener('keydown', arrowKey);
+    };
+  }, [currentCount]);
+
   return (
     <div className={styles.container}>
       {!!currentCount && <SliderArrow onClick={goToPreviousSlide} className={styles.buttonLeft} />}

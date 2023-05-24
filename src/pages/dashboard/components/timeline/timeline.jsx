@@ -10,6 +10,7 @@ import {
   ViolintationTrue,
 } from '../../../../assets/svg/SVGcomponent.ts';
 import './timeline.scss';
+import { Modal } from '../../../../components/modal';
 
 export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => {
   const [timeLine, setTimeLine] = useState([]);
@@ -136,7 +137,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
         </section>
       )}
       {currentReport && (
-        <section className="fullTimeline">
+        <Modal className="fullTimeline" handleClose={() => setCurrentReport(false)} isOpen={true}>
           <div className="fullTimeline__container">
             <div className="fullTimeline__image">
               <ImageSlider
@@ -184,7 +185,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
               <CrossWhite />
             </div>
           </div>
-        </section>
+        </Modal>
       )}
     </>
   );
