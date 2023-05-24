@@ -21,7 +21,6 @@ export const SystemMessage = () => {
       .then((response) => {
         serIsPreloader(false);
         setMessges(response.data);
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);

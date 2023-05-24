@@ -126,7 +126,6 @@ export const CameraSettings = ({
 
     findCamera(window.location.hostname)
       .then((response) => {
-        console.log(response);
         if (response.data && response.data.results) {
           const allCameras = response.data.results;
           const bufCreatedCameras = camerasList.length > 0 ? camerasList.map((e) => e.id) : [];
