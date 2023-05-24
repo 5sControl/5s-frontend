@@ -4,12 +4,14 @@ import { useCookies } from 'react-cookie';
 import moment from 'moment';
 
 import { getData } from '../../api/reportsRequest';
-import { DataPicker } from '../dashboard/components/dataPicker';
+import { DayPicker } from '../../components/dayPicker/dayPicker';
 import { getSelectedCameras } from '../../api/cameraRequest';
 import { TimelineHub } from './timeline/timelineHub';
 import { CurrentReport } from './currentReport/currentReport';
 import { useAppDispatch } from '../../store/hooks';
 import { addCurrentReport } from '../../store/dataSlice';
+
+import { ArrowBottom } from '../../assets/svg/SVGcomponent';
 
 import './live.scss';
 
@@ -23,10 +25,12 @@ export const Live = () => {
   const [cameraToResponse, setCameraToResponse] = useState('camera');
   const [reports, setReports] = useState([]);
   const [inputFilter, setInputFilter] = useState('');
+
   const [startTime, setStartTime] = useState('00:00:00');
   const [endTime, setEndTime] = useState('24:00:00');
-  const timeDef = moment().utcOffset() / 60;
   const dispatch = useAppDispatch();
+
+  const timeDef = moment().utcOffset() / 60;
 
   const update = () => {
     if (cameraToResponse !== 'camera') {
@@ -58,9 +62,13 @@ export const Live = () => {
   };
 
   useEffect(() => {
-    getSelectedCameras(location, cookies.token).then((res) => {
-      setCameras(res.data ? res.data : []);
-    });
+    getSelectedCameras(location, cookies.token)
+      .then((res) => {
+        setCameras(res.data ? res.data : []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   useEffect(() => {
@@ -78,6 +86,11 @@ export const Live = () => {
     }
   }, [visibleModalDate, cameraToResponse]);
 
+  const handleSelect = (ranges) => {
+    setSelectDate(moment(ranges.selection.startDate).format('YYYY-MM-DD'));
+    setVisibleModalDate(false);
+  };
+
   return (
     <>
       <section className="live">
@@ -87,7 +100,13 @@ export const Live = () => {
             onClick={() => setVisibleModalDate(!visibleModalDate)}
             className="live__data-button"
           >
-            {`${selectDate}`}
+            {new Date(selectDate ? selectDate : new Date().toDateString()).toDateString() ===
+            new Date().toDateString()
+              ? 'Today, ' + (selectDate ? moment(selectDate).format('ll') : moment().format('ll'))
+              : moment(selectDate).format('ll')
+              ? moment(selectDate).format('ll')
+              : moment().format('ll')}
+            <ArrowBottom style={{ color: 'red', marginLeft: '10px', width: '9px' }} />
           </button>
         </div>
         <div className="live__container">
@@ -127,7 +146,6 @@ export const Live = () => {
               <CurrentReport camera={cameraToResponse} />
             </div>
           </div>
-          {console.log(reports)}
           <div className="live__timeline">
             {reports.length > 0 && cameraToResponse !== 'camera' ? (
               <TimelineHub
@@ -146,11 +164,10 @@ export const Live = () => {
         </div>
       </section>
       {visibleModalDate && (
-        <DataPicker
-          setSelectDate={(e) => setSelectDate(e)}
-          update={update}
-          setVisibleModalDate={(e) => setVisibleModalDate(e)}
-          selectDateDash={selectDate}
+        <DayPicker
+          selectDate={selectDate}
+          handleSelect={handleSelect}
+          onClose={() => setVisibleModalDate(false)}
         />
       )}
     </>

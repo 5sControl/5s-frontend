@@ -1,29 +1,42 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
-import { getMemoryStatus } from '../api/companyRequest';
-import { useCookies } from 'react-cookie';
-
-import { LeftMenu } from '../components/leftMenu/leftMenu';
 import { Outlet } from 'react-router-dom';
-import { Button } from '../components/button';
-import { Warning } from '../assets/svg/SVGcomponent';
+import { io } from 'socket.io-client';
 
-import './modalDisk.scss';
+import { NotificationSocket } from '../components/notificationSocket/notification';
+import { LeftMenu } from '../components/leftMenu/leftMenu';
 
 export const RoutesOutlet = () => {
-  const [isMemory, setIsMemory] = useState<boolean>(true);
+  const [notification, setNotification] = useState<any[]>([]);
 
-  const [cookies] = useCookies(['token']);
+  const closeNotification = (id: number) => {
+    setNotification(notification.filter((el, index) => index !== id));
+  };
+
+  const addNotification = (message: any) => {
+    setNotification((prevNotification: any[]) => {
+      if (prevNotification.length > 0) {
+        return [...prevNotification, message];
+      } else {
+        return [message];
+      }
+    });
+  };
 
   useEffect(() => {
-    getMemoryStatus(window.location.hostname, cookies.token).then((response) =>
-      setIsMemory(response.data.has_enough_space)
+    const socket = io(
+      `http://${
+        window.location.hostname.includes('local') ? '192.168.1.110' : window.location.hostname
+      }:3456`
     );
-    const intervalId = setInterval(() => {
-      getMemoryStatus(window.location.hostname, cookies.token).then((response) =>
-        setIsMemory(response.data.has_enough_space)
-      );
-    }, 1800000);
-    return () => clearInterval(intervalId);
+    socket.on('connect', function () {
+      console.log('Connected to the server');
+    });
+
+    socket.on('notification', function (msg) {
+      console.log(msg, 'msg');
+      addNotification(msg);
+    });
   }, []);
 
   return (
@@ -34,20 +47,11 @@ export const RoutesOutlet = () => {
           <Outlet />
         </section>
       </div>
-      {!isMemory && (
-        <section className="modalDisk">
-          <div className="modalDisk__modal">
-            <h1>Low disk space</h1>
-            <div className="modalDisk__modal_warning">
-              <Warning className="modalDisk__modal_svg" />
-            </div>
-            <p>
-              The server is running low on memory. Free up its space to avoid losing old videos that
-              will be replaced by new ones.
-            </p>
-            <Button text="Ok" onClick={() => setIsMemory(true)} />
-          </div>
-        </section>
+      {notification && (
+        <NotificationSocket
+          notifications={notification}
+          closeNotification={(id: number) => closeNotification(id)}
+        />
       )}
     </>
   );

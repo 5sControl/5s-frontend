@@ -8,7 +8,7 @@ export const TimelineHub = ({ data, startDate, startTime, endTime, cameras }) =>
         cameras.map((el, id) => {
           return (
             <NewTimeline
-              data={data.filter((dat) => dat.camera.id === el.id)}
+              data={data.filter((dat) => dat.camera && dat.camera.id === el.id)}
               startDate={startDate}
               startTime={startTime}
               endTime={endTime}

@@ -29,6 +29,7 @@ import {
 } from '../InventoryItemsList/InventoryItemsListSlice';
 import { InventoryCard } from '../InventoryCard/InventoryCard';
 import { BsEyeFill } from 'react-icons/bs';
+import { Glazik } from '../glazik/glazik';
 
 type PropsType = {
   setIsNotification: () => void;
@@ -51,9 +52,8 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
   const [filterItem, setFilterItem] = useState('');
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
   const [isOpen, setIsOpen] = useState(false);
-  const [showGlazik, setShowGlazik] = useState(false);
+  const [showGlazik, setShowGlazik] = useState<any>(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openSettings = (event: any, currentItem: InventoryItem) => {
     dispatch(setCurrentEditItem(currentItem));
     setCoordinates({ x: event.nativeEvent.layerX, y: event.nativeEvent.layerY });
@@ -102,9 +102,9 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
     setShowGlazik(false);
   };
 
-  const glazik = async (activeItem: InventoryItem) => {
-    setShowGlazik(true);
-    dispatch(addActiveInventoryItem(activeItem));
+  const glazik = async (activeItem: InventoryItem, cameraName: any) => {
+    setShowGlazik({ activeItem: activeItem, cameraName: cameraName });
+    console.log(activeItem);
   };
 
   return (
@@ -191,7 +191,7 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
                                 {item.status}
                               </span>
 
-                              <span className={styles.multi}>{item.multi_row ? 'M' : 'O'}</span>
+                              <span className={styles.multi}>{item.multi_row ? 'M' : 'S'}</span>
                             </td>
                             <td onClick={() => onclickHandler(item)} className={styles.stock}>
                               {!item.multi_row
@@ -204,7 +204,17 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
                               {item.low_stock_level}
                             </td>
                             <td className={`${styles.camera} ${styles.cameraTD}`}>
-                              <BsEyeFill className={styles.glazik} onClick={() => glazik(item)} />
+                              <BsEyeFill
+                                className={styles.glazik}
+                                onClick={() =>
+                                  glazik(
+                                    item,
+                                    camerasData?.filter(
+                                      (camera: any) => camera?.id === item?.camera
+                                    )[0].text
+                                  )
+                                }
+                              />
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                               {camerasData !== undefined &&
                                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -257,32 +267,13 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
             </tbody>
           </table>
         </div>
-        {showGlazik &&
-          inventoryHistoryData &&
-          inventoryHistoryData.length > 0 &&
-          activeInventoryItem &&
-          inventoryHistoryData[inventoryHistoryData.length - 1].camera.id ===
-            activeInventoryItem.camera && (
-            <section className={styles.glazikModal} onClick={() => setShowGlazik(false)}>
-              <img
-                src={
-                  process.env.REACT_APP_ENV === 'proxy'
-                    ? `${process.env.REACT_APP_NGROK}${
-                        inventoryHistoryData[inventoryHistoryData.length - 1].photos[0].image
-                      }`
-                    : process.env.REACT_APP_ENV === 'wify'
-                    ? `${process.env.REACT_APP_IP_SERVER}${
-                        inventoryHistoryData[inventoryHistoryData.length - 1].photos[0].image
-                      }`
-                    : `http://${window.location.hostname}/${
-                        inventoryHistoryData[inventoryHistoryData.length - 1].photos[0].image
-                      }`
-                }
-                // onClick={(e) => createCoord(e)}
-              />
-              {}
-            </section>
-          )}
+        {showGlazik && (
+          <Glazik
+            showGlazik={showGlazik.activeItem}
+            cameraName={showGlazik.cameraName}
+            setShowGlazik={() => setShowGlazik(false)}
+          />
+        )}
       </Cover>
     </>
   );

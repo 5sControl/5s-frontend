@@ -111,7 +111,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
               )}
             </h2>
             <div className={styles.algorithm__toggle}>
-              {currentEditItem?.multi_row ? <span>Multi row</span> : <span>One row</span>}
+              {currentEditItem?.multi_row ? <span>Multi row</span> : <span>Single row</span>}
             </div>
           </div>
           <form>

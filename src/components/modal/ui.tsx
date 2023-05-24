@@ -11,6 +11,7 @@ type PropsType = {
   showCross?: boolean;
   showSubstrateCross?: boolean;
   disableClickBg?: boolean;
+  noESC?: boolean;
 };
 
 export const Modal: React.FC<PropsType> = ({
@@ -21,15 +22,17 @@ export const Modal: React.FC<PropsType> = ({
   showCross = false,
   showSubstrateCross = false,
   disableClickBg = false,
+  noESC,
 }) => {
   useEffect(() => {
-    const closeOnEscapeKey = (e: KeyboardEvent) => (e.key === 'Escape' ? handleClose() : null);
-    document.body.addEventListener('keydown', closeOnEscapeKey);
-    return () => {
-      document.body.removeEventListener('keydown', closeOnEscapeKey);
-    };
-  }, [handleClose]);
-
+    if (!noESC) {
+      const closeOnEscapeKey = (e: KeyboardEvent) => (e.key === 'Escape' ? handleClose() : null);
+      document.body.addEventListener('keydown', closeOnEscapeKey);
+      return () => {
+        document.body.removeEventListener('keydown', closeOnEscapeKey);
+      };
+    }
+  }, [handleClose, noESC]);
   if (!isOpen) return null;
 
   const handleClickToBg = (event: React.MouseEvent) => {

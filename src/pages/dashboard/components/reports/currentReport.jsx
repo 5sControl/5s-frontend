@@ -1,17 +1,23 @@
 import moment from 'moment';
-import { useState } from 'react';
-import { Slider } from './swiper';
+import { useState, useEffect } from 'react';
 import { ViolintationFalse, ViolintationTrue } from '../../../../assets/svg/SVGcomponent.ts';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName.js';
 import { selectCurrentReport } from '../../../../store/dataSlice';
 import { useAppSelector } from '../../../../store/hooks';
 import { ZoomOut } from '../../../../components/zoomOut';
+import ImageSlider from '../../../../components/slider/slider';
+import { Scale } from '../../../../components/scale';
 
 export const CurrentReport = () => {
   const { currentReport } = useAppSelector(selectCurrentReport);
   const [fullImage, setFullImage] = useState(false);
+  const [currentCount, setCurrentCount] = useState(0);
 
-  console.log(moment().utcOffset());
+  console.log(currentReport);
+  useEffect(() => {
+    setCurrentCount(0);
+  }, [currentReport]);
+
   return (
     <>
       {currentReport && (
@@ -19,8 +25,13 @@ export const CurrentReport = () => {
           <div className="dashboard__report">
             <div className="dashboard__report_image">
               {currentReport && (
-                <Slider currentReport={currentReport} setFullImage={(e) => setFullImage(e)} />
+                <ImageSlider
+                  images={currentReport.photos}
+                  setCurrentCount={(num) => setCurrentCount(num)}
+                  currentCount={currentCount}
+                />
               )}
+              <Scale onClick={() => setFullImage(true)} className="dashboard__report_scale" />
             </div>
             <div className="dashboard__report_item">
               <span className="dashboard_text">Date & Time</span>
@@ -43,7 +54,9 @@ export const CurrentReport = () => {
             </div>
             <div className="dashboard__report_item">
               <span className="dashboard_text">Camera</span>
-              <span className="dashboard_text2">{currentReport.camera.name}</span>
+              <span className="dashboard_text2">
+                {currentReport.camera ? currentReport.camera.name : 'Deleted Camera'}
+              </span>
             </div>
             <div className="dashboard__report_item">
               <span className="dashboard_text">Algorithm</span>
@@ -64,8 +77,17 @@ export const CurrentReport = () => {
       {fullImage && (
         <>
           <div className="dashboard__fullimage">
-            <img src={fullImage} alt="report img" className="dashboard__fullimage_image" />
-            <ZoomOut className={'dashboard__fullimage_out'} onClick={() => setFullImage(false)} />
+            <div className="dashboard__fullimage__container">
+              <ImageSlider
+                images={currentReport.photos}
+                setCurrentCount={(num) => setCurrentCount(num)}
+                currentCount={currentCount}
+              />
+              <ZoomOut
+                className={'dashboard__fullimage__scale'}
+                onClick={() => setFullImage(false)}
+              />
+            </div>
           </div>
         </>
       )}

@@ -10,6 +10,7 @@ import { UserList } from './components/UserList';
 import { AvailableProcess } from './components/availableProcess';
 import { Button } from '../../components/button';
 import { Plus } from '../../assets/svg/SVGcomponent';
+
 import './Company.scss';
 
 export const Company = () => {
@@ -20,7 +21,6 @@ export const Company = () => {
   const [isLicensed, setIsLicensed] = useState(false);
   useEffect(() => {
     getUserList(window.location.hostname, cookies.token).then((res) => {
-      console.log(res);
       if (
         res.data.detail !== 'Authentication credentials were not provided.' &&
         res.data.detail !== 'Given token not valid for any token type'
@@ -34,6 +34,7 @@ export const Company = () => {
         setIsLicensed(true);
       })
       .catch((err) => {
+        console.log(err);
         setIsLicensed(false);
       });
   }, [isAddAccount]);

@@ -4,9 +4,13 @@ import { sendLicenseKey } from '../../../api/companyRequest';
 export const LicenseKey = ({ cookies }) => {
   const [licenceKey, setLicenceKey] = useState('');
   const send = () => {
-    sendLicenseKey(window.location.hostname, cookies, licenceKey).then((res) => {
-      window.location.reload();
-    });
+    sendLicenseKey(window.location.hostname, cookies, licenceKey)
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

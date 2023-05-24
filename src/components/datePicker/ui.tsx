@@ -37,7 +37,6 @@ export const DatePicker: React.FC = () => {
   const refButton = useRef<HTMLDivElement>(null);
   useOutsideClick(refPicker, () => setIsOpenDatePicker(false), refButton);
   const staticRanges = staticRangesGenerator(enGB as any);
-  console.log(startDate);
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
@@ -63,7 +62,6 @@ export const DatePicker: React.FC = () => {
     if (startDate.getDate() !== endDate.getDate()) {
       startDate.setHours(startDate.getHours() + 3);
     }
-    console.log(startDate);
     const dateData = { from: startDate.toISOString(), to: endDate.toISOString() };
 
     dispatch(setFilterDateData(dateData));

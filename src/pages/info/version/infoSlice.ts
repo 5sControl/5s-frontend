@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../store';
+import { RootState } from '../../../store';
 import { getCompanyVersionAPI } from './infoAPI';
 import { VersionInfoType } from './types';
 

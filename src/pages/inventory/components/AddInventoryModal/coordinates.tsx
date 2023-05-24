@@ -79,11 +79,13 @@ export const Coordinates: React.FC<PropsType> = ({
 
   useEffect(() => {
     if (currentSelect.length > 0) {
-      getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect).then(
-        (res: any) => {
+      getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect)
+        .then((res: any) => {
           setCameraBox(res.data);
-        }
-      );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [currentSelect]);
 

@@ -33,7 +33,7 @@ export const ReportListItem = ({ item }) => {
 
             <div>{`# ${item.id}`}</div>
             <div>
-              <Camera /> {item.camera.name}
+              <Camera /> {item.camera ? item.camera.name : 'Deleted camera'}
             </div>
             <div>
               <Algorithm style={{ fill: '#666666' }} />

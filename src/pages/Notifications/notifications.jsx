@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Button } from '../../components/button';
-import styles from './notifications.module.scss';
+import { BsFillTrashFill } from 'react-icons/bs';
+import { FcCheckmark } from 'react-icons/fc';
+import { useCookies } from 'react-cookie';
+import { IoMdSettings } from 'react-icons/io';
+
 import { ModalEmail } from './components/modal';
 import {
   deleteNotificationEmail,
@@ -9,11 +12,10 @@ import {
   patchNotificationEmail,
   postNotificationEmail,
 } from '../../api/notificationRequest';
-import { BsFillTrashFill } from 'react-icons/bs';
-import { FcCheckmark } from 'react-icons/fc';
-import { useCookies } from 'react-cookie';
-import { IoMdSettings } from 'react-icons/io';
 import { Notification } from '../../components/notification/notification';
+
+import styles from './notifications.module.scss';
+
 export const Notifications = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [emails, setEmails] = useState([]);
@@ -23,13 +25,19 @@ export const Notifications = () => {
 
   useEffect(() => {
     if (!isShowModal) {
-      getNotificationEmail(window.location.hostname, cookies.token).then((res) =>
-        setEmails(res.data)
-      );
-      getNotificationSettings(window.location.hostname, cookies.token).then((response) => {
-        setDefaultSettings(response.data);
-        // console.log(response.data.results);
-      });
+      getNotificationEmail(window.location.hostname, cookies.token)
+        .then((res) => setEmails(res.data))
+        .catch((err) => {
+          console.log(err);
+        });
+      getNotificationSettings(window.location.hostname, cookies.token)
+        .then((response) => {
+          setDefaultSettings(response.data);
+          // console.log(response.data.results);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [isShowModal]);
 
@@ -39,22 +47,32 @@ export const Notifications = () => {
       if (id === 0) {
         postNotificationEmail(window.location.hostname, cookies.token, {
           email: e.target.value,
-        }).then(() => {
-          getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
-            setEmails(res.data);
-            // console.log(res);
+        })
+          .then(() => {
+            getNotificationEmail(window.location.hostname, cookies.token)
+              .then((res) => {
+                setEmails(res.data);
+                // console.log(res);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
+          .catch((err) => {
+            console.log(err);
           });
-        });
       } else {
-        patchNotificationEmail(window.location.hostname, cookies.token, id, e.target.value).then(
-          (res) => {
+        patchNotificationEmail(window.location.hostname, cookies.token, id, e.target.value)
+          .then(() => {
             getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
               setEmails(res.data);
               // console.log(res);
             });
             // console.log(res);
-          }
-        );
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
       // console.log(e.target.value, id);
     }
@@ -62,13 +80,21 @@ export const Notifications = () => {
 
   const deleteEmail = (id) => {
     if (id !== 0) {
-      deleteNotificationEmail(window.location.hostname, cookies.token, id).then((res) => {
-        // console.log(res);
-        getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
-          setEmails(res.data);
+      deleteNotificationEmail(window.location.hostname, cookies.token, id)
+        .then(() => {
           // console.log(res);
+          getNotificationEmail(window.location.hostname, cookies.token)
+            .then((res) => {
+              setEmails(res.data);
+              // console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      });
     } else {
       setEmails(emails.filter((email) => email.id !== 0));
     }
@@ -123,12 +149,14 @@ export const Notifications = () => {
         <div className={styles.emails__container}>
           <div className={styles.emails__header}>
             <h3>Inventory</h3>
-            <span
-              className={styles.emails__header_add}
-              onClick={() => setEmails([...emails, { id: 0, email: '' }])}
-            >
-              + Add email
-            </span>
+            {emails.filter((email) => email.id === 0).length === 0 && (
+              <span
+                className={styles.emails__header_add}
+                onClick={() => setEmails([...emails, { id: 0, email: '' }])}
+              >
+                + Add email
+              </span>
+            )}
           </div>
           <p className={styles.emails__description}>
             These emails will receive notifications when items reach low stock level.
