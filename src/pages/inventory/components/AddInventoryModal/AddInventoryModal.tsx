@@ -119,7 +119,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
               )}
             </h2>
             <div className={styles.algorithm__toggle}>
-              <span>One row</span>
+              <span>Single row</span>
               <div
                 className={`toggle ${isMulti ? 'toggle--on' : 'toggle--off'}`}
                 onClick={handleToggle}
