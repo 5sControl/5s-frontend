@@ -60,6 +60,29 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
     dispatch(setCurrentReportData(nextReport));
   };
 
+  useEffect(() => {
+    const arrowKey = (e: KeyboardEvent) => {
+      if (
+        inventoryHistoryData &&
+        inventoryHistoryData?.indexOf(currentReport) > 0 &&
+        e.key === 'ArrowLeft'
+      ) {
+        prevReport();
+      }
+      if (
+        inventoryHistoryData &&
+        inventoryHistoryData?.indexOf(currentReport) < inventoryHistoryData.length - 1 &&
+        e.key === 'ArrowRight'
+      ) {
+        nextReport();
+      }
+    };
+    document.body.addEventListener('keydown', arrowKey);
+    return () => {
+      document.body.removeEventListener('keydown', arrowKey);
+    };
+  }, [handleClose]);
+
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
       <div
