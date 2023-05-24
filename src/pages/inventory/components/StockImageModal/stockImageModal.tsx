@@ -44,6 +44,21 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
     setFullImage(false);
   }, [isOpen]);
 
+  const disablaFullImage = () => {
+    setFullImage(false);
+    console.log('dsdfsdf');
+  };
+  useEffect(() => {
+    if (fullImage) {
+      const closeOnEscapeKey = (e: KeyboardEvent) =>
+        e.key === 'Escape' ? disablaFullImage() : null;
+      document.body.addEventListener('keydown', closeOnEscapeKey);
+      return () => {
+        document.body.removeEventListener('keydown', closeOnEscapeKey);
+      };
+    }
+  }, [fullImage]);
+
   const prevReport = () => {
     const prevReport = inventoryHistoryData
       ? inventoryHistoryData[currentIndex - 1]
@@ -84,7 +99,7 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   }, [handleClose]);
 
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
+    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal} noESC={fullImage}>
       <div
         className={styles.imageContainer}
         style={{
