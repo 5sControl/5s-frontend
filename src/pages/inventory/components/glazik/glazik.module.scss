@@ -33,12 +33,14 @@
   height: 20px;
   cursor: pointer;
   background: rgba(33, 33, 33, 0.6);
-  color: #ffffff;
   border: 1px solid #666666;
+  color: #ffffff;
   font-weight: 400;
   font-size: 8px;
   line-height: 9px;
   overflow: hidden;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+
 }
 
 .camera {
@@ -49,6 +51,8 @@
   font-size: 32px;
   line-height: 150%;
   color: #ffffff;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+
 }
 .close{
     position: absolute;
