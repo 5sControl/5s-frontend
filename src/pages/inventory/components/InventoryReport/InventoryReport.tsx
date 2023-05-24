@@ -191,7 +191,7 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
                                 {item.status}
                               </span>
 
-                              <span className={styles.multi}>{item.multi_row ? 'M' : 'O'}</span>
+                              <span className={styles.multi}>{item.multi_row ? 'M' : 'S'}</span>
                             </td>
                             <td onClick={() => onclickHandler(item)} className={styles.stock}>
                               {!item.multi_row
