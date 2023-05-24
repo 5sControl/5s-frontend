@@ -8,10 +8,11 @@ import { Modal } from '../../../../components/modal';
 
 type PropsType = {
   showGlazik: any;
+  cameraName: string;
   setShowGlazik: () => void;
 };
 
-export const Glazik: React.FC<PropsType> = ({ showGlazik, setShowGlazik }) => {
+export const Glazik: React.FC<PropsType> = ({ showGlazik, setShowGlazik, cameraName }) => {
   const [proportionWidth, setProportionWidth] = useState(0);
   const [proportionHeight, setProportionHeight] = useState(0);
   const [cameraBox, setCameraBox] = useState([]);
@@ -40,7 +41,7 @@ export const Glazik: React.FC<PropsType> = ({ showGlazik, setShowGlazik }) => {
   return (
     <Modal isOpen={true} handleClose={setShowGlazik} className={styles.glazikModal}>
       <div className={styles.image_container}>
-        <span className={styles.camera}>{showGlazik.camera}</span>
+        <span className={styles.camera}>{cameraName}</span>
         <img
           ref={image}
           className={styles.img}
