@@ -40,6 +40,7 @@ export const Glazik: React.FC<PropsType> = ({ showGlazik, setShowGlazik }) => {
   return (
     <Modal isOpen={true} handleClose={setShowGlazik} className={styles.glazikModal}>
       <div className={styles.image_container}>
+        <span className={styles.camera}>{showGlazik.camera}</span>
         <img
           ref={image}
           className={styles.img}
