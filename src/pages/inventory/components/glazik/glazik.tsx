@@ -4,6 +4,7 @@ import { generateString } from '../../../../functions/randomizer';
 import { getInventoryItemsToCamera } from '../../inventoryAPI';
 import styles from './glazik.module.scss';
 import { useState, useRef, Fragment, useEffect } from 'react';
+import { Modal } from '../../../../components/modal';
 
 type PropsType = {
   showGlazik: any;
@@ -37,7 +38,7 @@ export const Glazik: React.FC<PropsType> = ({ showGlazik, setShowGlazik }) => {
 
   console.log(cameraBox);
   return (
-    <section className={styles.glazikModal} onClick={setShowGlazik}>
+    <Modal isOpen={true} handleClose={setShowGlazik} className={styles.glazikModal}>
       <div className={styles.image_container}>
         <img
           ref={image}
@@ -76,6 +77,6 @@ export const Glazik: React.FC<PropsType> = ({ showGlazik, setShowGlazik }) => {
             </Fragment>
           ))}
       </div>
-    </section>
+    </Modal>
   );
 };
