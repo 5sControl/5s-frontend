@@ -5,6 +5,7 @@ import { getInventoryItemsToCamera } from '../../inventoryAPI';
 import styles from './glazik.module.scss';
 import { useState, useRef, Fragment, useEffect } from 'react';
 import { Modal } from '../../../../components/modal';
+import { CrossWhite } from '../../../../assets/svg/SVGcomponent';
 
 type PropsType = {
   showGlazik: any;
@@ -41,6 +42,9 @@ export const Glazik: React.FC<PropsType> = ({ showGlazik, setShowGlazik, cameraN
   return (
     <Modal isOpen={true} handleClose={setShowGlazik} className={styles.glazikModal}>
       <div className={styles.image_container}>
+        <div className={styles.close} onClick={setShowGlazik}>
+          <CrossWhite />
+        </div>
         <span className={styles.camera}>{cameraName}</span>
         <img
           ref={image}
