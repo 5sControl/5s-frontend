@@ -3,12 +3,12 @@ import 'react-date-range/dist/styles.css'; // Импортируйте стил�
 import 'react-date-range/dist/theme/default.css';
 import moment from 'moment';
 
-import { Button } from '../../../components/button';
+import { Button } from '../../../../components/button';
 
-import { ArrowBottom, Filter, Delete } from '../../../assets/svg/SVGcomponent';
-import { FilterForm } from './filter';
+import { ArrowBottom, Filter, Delete } from '../../../../assets/svg/SVGcomponent';
+import { FilterForm } from '../filter/filter';
 import { useNavigate } from 'react-router-dom';
-import { DayPicker } from '../../../components/dayPicker/dayPicker';
+import { DayPicker } from '../../../../components/dayPicker/dayPicker';
 
 import styles from './header.module.scss';
 

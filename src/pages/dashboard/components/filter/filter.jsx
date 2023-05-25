@@ -1,9 +1,9 @@
 import styles from './filter.module.scss';
-import { ReactPortal } from '../../../components/reactPortal';
-import { Cross } from '../../../assets/svg/SVGcomponent';
-import { Checkbox } from '../../../components/checkbox';
-import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName';
-import { Button } from '../../../components/button';
+import { ReactPortal } from '../../../../components/reactPortal';
+import { Cross } from '../../../../assets/svg/SVGcomponent';
+import { Checkbox } from '../../../../components/checkbox';
+import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
+import { Button } from '../../../../components/button';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 

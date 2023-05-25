@@ -6,6 +6,7 @@ import { Timeline } from './timeline';
 import { calculateTimeCenter } from '../../../../functions/calculateTimeCenter';
 
 import styles from './timeline.module.scss';
+
 export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => {
   const [algorithm, setAlgorithm] = useState([]);
 
@@ -16,6 +17,7 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
     setStart(startTime);
     setEnd(endTime);
   };
+
   useEffect(() => {
     if (data.length > 0) {
       setAlgorithm(

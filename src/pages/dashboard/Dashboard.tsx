@@ -10,7 +10,7 @@ import { Reports } from './components/reports/Reports';
 import { getData } from '../../api/reportsRequest';
 import { TimelineHub } from './components/timeline/timelineHub';
 import { Preloader } from '../../components/preloader';
-import { Header } from './components/header';
+import { Header } from './components/header/header';
 import { getAveilableAlgorithms } from '../../api/algorithmRequest';
 
 import styles from './dashboard.module.scss';
