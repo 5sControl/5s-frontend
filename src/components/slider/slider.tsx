@@ -40,9 +40,10 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, currentCount = 0, set
       {!!currentCount && <SliderArrow onClick={goToPreviousSlide} className={styles.buttonLeft} />}
       <span className={styles.counter}>{`${currentCount + 1}/${images.length}`}</span>
       {images[currentCount] && images[currentCount].date && (
-        <span className={styles.datetime}>{`${moment(images[currentCount].date).format(
-          'HH:MM:ss'
-        )}`}</span>
+        <span className={styles.datetime}>{`${moment
+          .utc(images[currentCount].date)
+          .utcOffset(moment().utcOffset())
+          .format('HH:mm:ss')}`}</span>
       )}
       <div className={styles.slider}>
         {images.map((photo, index) => (
