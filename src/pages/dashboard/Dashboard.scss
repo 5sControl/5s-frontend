@@ -45,7 +45,6 @@
   &__content{
     width: 100%;
     height: calc(100vh - 230px);
-    overflow: auto;
   }
   &__title {
     display: flex;
@@ -152,15 +151,12 @@
     align-items: center;
     letter-spacing: 0.03em;
   }
-  > h3 {
+  &__h3 {
     margin-top: 10px;
     font-size: 24px;
-    line-height: 150%;
     letter-spacing: 0.03em;
     span {
-      font-size: 16px;
-      margin-left: 5px;
-      color: #9e9e9e;
+      color: #9E9E9E
     }
   }
   &__count {
@@ -178,7 +174,7 @@
   &__container {
     width: 100%;
     height: calc(100vh - 260px);
-    padding: 24px 0;
+    margin-top: 20px;
     display: flex;
     overflow: hidden;
   }
@@ -200,14 +196,15 @@
     width: 100%;
     height: calc(100vh - 270px);
     overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
     &_item {
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
       width: 98%;
       height: 130px;
       background-color: white;
-      margin: 20px 0 0 0px;
       transition: all 0.5s;
       cursor: pointer;
       border-radius: 4px;
@@ -224,15 +221,18 @@
         height: 100%;
         display: flex;
         &_status {
+          
           &_red {
             height: 100%;
             width: 10px;
             background-color: #e00606;
+            border-radius: 4px 0 0 4px;
           }
           &_green {
             height: 100%;
             width: 10px;
             background-color: #87bc45;
+            border-radius: 4px 0 0 4px;
           }
         }
         &_content {
@@ -272,6 +272,7 @@
   }
 }
 .active {
+  margin: 3px;
   box-shadow: rgba(254, 97, 0, 0.4) 0px 0px 0px 2px, rgba(254, 97, 0, 0.65) 0px 4px 6px -1px,
     rgba(254, 97, 0, 0.08) 0px 1px 0px inset;
 }

@@ -4,7 +4,7 @@ import { CurrentReport } from './currentReport';
 export const Reports = ({ data }) => {
   return (
     <>
-      <h3>
+      <h3 className="dashboard__h3">
         Reports <span>{data.length}</span>
       </h3>
       <div className="dashboard__container">
