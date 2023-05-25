@@ -112,9 +112,9 @@
         overflow: auto;
     }
     &__active{
-        background: #FE6100;
+        background: rgba(254, 97, 0, 0.1);
         &:hover{
-            background: #FE6100;
+            background: rgba(254, 97, 0, 0.1);
         }
     }
 }
