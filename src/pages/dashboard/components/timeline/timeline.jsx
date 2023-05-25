@@ -32,7 +32,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     const hours = duration.hours();
     const minutes = duration.minutes();
     const seconds = duration.seconds();
-    return `${days ? days + 'days' : ''} ${hours ? hours + 'hours' : ''} ${
+    return `${days ? days + 'days' : ''} ${hours ? hours + 'h' : ''} ${
       minutes ? minutes + 'min' : ''
     } ${seconds ? seconds + 'sec' : ''}`;
   };

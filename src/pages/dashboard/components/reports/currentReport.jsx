@@ -7,6 +7,7 @@ import { useAppSelector } from '../../../../store/hooks';
 import { ZoomOut } from '../../../../components/zoomOut';
 import ImageSlider from '../../../../components/slider/slider';
 import { Scale } from '../../../../components/scale';
+import { Modal } from '../../../../components/modal';
 
 export const CurrentReport = () => {
   const { currentReport } = useAppSelector(selectCurrentReport);
@@ -76,7 +77,11 @@ export const CurrentReport = () => {
       )}
       {fullImage && (
         <>
-          <div className="dashboard__fullimage">
+          <Modal
+            isOpen={true}
+            handleClose={() => setFullImage(false)}
+            className="dashboard__fullimage"
+          >
             <div className="dashboard__fullimage__container">
               <ImageSlider
                 images={currentReport.photos}
@@ -88,7 +93,7 @@ export const CurrentReport = () => {
                 onClick={() => setFullImage(false)}
               />
             </div>
-          </div>
+          </Modal>
         </>
       )}
     </>
