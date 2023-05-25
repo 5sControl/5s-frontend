@@ -87,5 +87,9 @@
     border: 1px solid #9e9e9e;
     border-radius: 4px;
     display: flex;
+    &:focus {
+      border-color: #212121;
+      outline: none;
+    }
   }
 }

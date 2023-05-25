@@ -116,6 +116,10 @@
       font-weight: 400;
       font-size: 16px;
       line-height: 24px;
+      &:focus {
+        border-color: #212121;
+        outline: none;
+      }
     }
     &_footer {
       display: flex;
