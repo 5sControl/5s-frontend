@@ -8,7 +8,7 @@ type PropsType = {
 export const Scale: React.FC<PropsType> = ({ className, onClick }) => {
   return (
     <div className={`${styles.cover} ${className}`} onClick={onClick}>
-      <MdOutlineFullscreen style={{ color: 'white', width: '25px', height: '25px' }} />
+      <MdOutlineFullscreen style={{ color: 'white', width: '23px', height: '23px' }} />
     </div>
   );
 };
