@@ -151,14 +151,6 @@
     align-items: center;
     letter-spacing: 0.03em;
   }
-  &__h3 {
-    margin-top: 10px;
-    font-size: 24px;
-    letter-spacing: 0.03em;
-    span {
-      color: #9E9E9E
-    }
-  }
   &__count {
     font-weight: 600;
     font-size: 48px;
@@ -171,18 +163,6 @@
     line-height: 24px;
     letter-spacing: 0.15px;
   }
-  &__container {
-    width: 100%;
-    height: calc(100vh - 260px);
-    margin-top: 20px;
-    display: flex;
-    overflow: hidden;
-  }
-  &__choose {
-    width: 50%;
-    padding-right: 10px;
-    border-right: 1px solid #e0e0e0;
-  }
   &__tabs {
     display: flex;
     gap: 15px;
@@ -190,67 +170,6 @@
       background: #e0e0e0;
       border-radius: 16px;
       padding: 4px 8px;
-    }
-  }
-  &__reports {
-    width: 100%;
-    height: calc(100vh - 270px);
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-    gap:20px;
-    &_item {
-      display: flex;
-      flex-direction: column;
-      width: 98%;
-      height: 130px;
-      background-color: white;
-      transition: all 0.5s;
-      cursor: pointer;
-      border-radius: 4px;
-      &:hover {
-        background: rgba(254, 97, 0, 0.1);
-      }
-      svg {
-        height: 16px;
-        width: 16px;
-        margin-right: 5px;
-      }
-      &_container {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        &_status {
-          
-          &_red {
-            height: 100%;
-            width: 10px;
-            background-color: #e00606;
-            border-radius: 4px 0 0 4px;
-          }
-          &_green {
-            height: 100%;
-            width: 10px;
-            background-color: #87bc45;
-            border-radius: 4px 0 0 4px;
-          }
-        }
-        &_content {
-          padding: 13px;
-          height: 100%;
-          width: 90%;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-around;
-        }
-      }
-
-      &_title {
-        gap: 5px;
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 24px;
-      }
     }
   }
   &__error {
@@ -271,11 +190,7 @@
     margin-top: 20px;
   }
 }
-.active {
-  margin: 3px;
-  box-shadow: rgba(254, 97, 0, 0.4) 0px 0px 0px 2px, rgba(254, 97, 0, 0.65) 0px 4px 6px -1px,
-    rgba(254, 97, 0, 0.08) 0px 1px 0px inset;
-}
+
 .scale {
   position: absolute;
   bottom: 20px;

@@ -5,6 +5,8 @@ import { addCurrentReport, selectCurrentReport } from '../../../../store/dataSli
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 import { useAppSelector, useAppDispatch } from '../../../../store/hooks';
 
+import styles from './reports.module.scss';
+
 export const ReportListItem = ({ item }) => {
   const dispatch = useAppDispatch();
   const { currentReport } = useAppSelector(selectCurrentReport);
@@ -12,18 +14,16 @@ export const ReportListItem = ({ item }) => {
   return (
     <div
       className={
-        currentReport.id === item.id ? 'dashboard__reports_item active' : 'dashboard__reports_item'
+        currentReport.id === item.id
+          ? `${styles.active} ${styles.reports_item}`
+          : styles.reports_item
       }
       onClick={() => dispatch(addCurrentReport(item))}
     >
-      <div className="dashboard__reports_item_container">
-        <div
-          className={`dashboard__reports_item_container_status_${
-            item.violation_found ? 'red' : 'green'
-          }`}
-        ></div>
-        <div className="dashboard__reports_item_container_content">
-          <div className={'dashboard__reports_item_title'}>
+      <div className={styles.reports_item_container}>
+        <div className={`${item.violation_found ? styles.red : styles.green}`}></div>
+        <div className={styles.reports_item_container_content}>
+          <div className={styles.reports_item_title}>
             {moment.utc(item.start_tracking).utcOffset(moment().utcOffset()).format('YYYY-MM-DD ')}{' '}
             | {moment.utc(item.start_tracking).utcOffset(moment().utcOffset()).format('HH:mm:ss')} -{' '}
             {moment.utc(item.stop_tracking).utcOffset(moment().utcOffset()).format('HH:mm:ss')}
