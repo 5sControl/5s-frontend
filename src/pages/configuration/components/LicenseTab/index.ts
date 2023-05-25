@@ -1,1 +1,0 @@
-export { LicenseTab } from './LicenseTab';
