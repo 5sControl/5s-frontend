@@ -12,19 +12,19 @@ import { PaginatorRight } from '../../../assets/svg/SVGcomponent';
 export const SystemMessage = () => {
   const [messages, setMessges] = useState<any>(false);
   const [cookies] = useCookies(['token']);
-  const [isPreloader, serIsPreloader] = useState<boolean>(false);
+  const [isPreloader, setIsPreloader] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    serIsPreloader(true);
+    setIsPreloader(true);
     getSystemMessage(window.location.hostname, cookies.token, page)
       .then((response) => {
-        serIsPreloader(false);
+        setIsPreloader(false);
         setMessges(response.data);
       })
       .catch((error) => {
         console.log(error);
-        serIsPreloader(false);
+        setIsPreloader(false);
       });
   }, [page]);
 
@@ -43,8 +43,11 @@ export const SystemMessage = () => {
       ) : (
         <>
           <div className={styles.container}>
-            {messages.count === 0 ? (
-              <div className={styles.empty}>Server does not have the system message</div>
+            {messages.count === 0 || messages.length === 0 ? (
+              <div className={styles.empty}>
+                <h1>No messages</h1>
+                <p>You don’t have system messages yet</p>
+              </div>
             ) : (
               <>
                 {messages.results.map((element: any, index: number) => (
