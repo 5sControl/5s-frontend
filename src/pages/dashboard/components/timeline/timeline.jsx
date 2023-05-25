@@ -9,8 +9,10 @@ import {
   ViolintationFalse,
   ViolintationTrue,
 } from '../../../../assets/svg/SVGcomponent.ts';
-import './timeline.scss';
+
 import { Modal } from '../../../../components/modal';
+
+import styles from './timeline.module.scss';
 
 export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => {
   const [timeLine, setTimeLine] = useState([]);
@@ -111,44 +113,44 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   return (
     <>
       {timeLine.length > 1 && (
-        <section className="report-page_timeline">
-          <div className="timeline-clickableNew">
-            <span className="timeline-clickableNew__text"> {parsingAlgorithmName(algorithm)}</span>
-            <div className="timeline-clickableNew__container">
-              {timeLine.map((el, index, array) => (
-                <span
-                  key={index}
-                  onClick={() =>
-                    el.id !== 0
-                      ? setCurrentReport(data.filter((item) => item.id === el.id)[0])
-                      : undefined
-                  }
-                  className={`timeline-clickableNew_${el.violation_found} timeline-clickableNew_pointer`}
-                  style={{
-                    width: `${el.violation_found !== 'yellow' ? duration(el.start, el.stop) : 0}%`,
-                    marginLeft: `${
-                      index === 0 ? '0px' : duration(array[index - 1].stop, el.start)
-                    }%`,
-                  }}
-                ></span>
-              ))}
-            </div>
+        <section className={styles.timeline}>
+          <span className={styles.timeline__text}> {parsingAlgorithmName(algorithm)}</span>
+          <div className={styles.line}>
+            {timeLine.map((el, index, array) => (
+              <span
+                key={index}
+                onClick={() =>
+                  el.id !== 0
+                    ? setCurrentReport(data.filter((item) => item.id === el.id)[0])
+                    : undefined
+                }
+                className={styles[el.violation_found]}
+                style={{
+                  width: `${el.violation_found !== 'yellow' ? duration(el.start, el.stop) : 0}%`,
+                  marginLeft: `${index === 0 ? '0px' : duration(array[index - 1].stop, el.start)}%`,
+                }}
+              ></span>
+            ))}
           </div>
         </section>
       )}
       {currentReport && (
-        <Modal className="fullTimeline" handleClose={() => setCurrentReport(false)} isOpen={true}>
-          <div className="fullTimeline__container">
-            <div className="fullTimeline__image">
+        <Modal
+          className={styles.fullscreen}
+          handleClose={() => setCurrentReport(false)}
+          isOpen={true}
+        >
+          <div className={styles.fullscreen__container}>
+            <div className={styles.fullscreen__image}>
               <ImageSlider
                 images={currentReport.photos}
                 currentCount={currentCount}
                 setCurrentCount={(e) => setCurrentCount(e)}
               />
             </div>
-            <footer className="fullTimeline__footer">
-              <div className="fullTimeline__footer_up">
-                <span className="fullTimeline__footer_time">
+            <footer className={styles.fullscreen__footer}>
+              <div className={styles.fullscreen__footer_up}>
+                <span className={styles.fullscreen__footer_time}>
                   {moment
                     .utc(currentReport.start_tracking)
                     .utcOffset(moment().utcOffset())
@@ -166,22 +168,22 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                 </span>
                 {currentReport.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
               </div>
-              <div className="fullTimeline__footer_text">
+              <div className={styles.fullscreen__footer_text}>
                 <span>
                   Duration:&nbsp;
                   {timeDuration(currentReport.start_tracking, currentReport.stop_tracking)}
                 </span>
               </div>
-              <div className="fullTimeline__footer_text">
+              <div className={styles.fullscreen__footer_text}>
                 <span>Camera:&nbsp;</span>
                 {currentReport.camera ? currentReport.camera.name : 'Deleted Camera'}
               </div>
-              <div className="fullTimeline__footer_text">
+              <div className={styles.fullscreen__footer_text}>
                 <span>Algorithm:&nbsp;</span>
                 {parsingAlgorithmName(currentReport.algorithm.name)}
               </div>
             </footer>
-            <div className="fullTimeline__close" onClick={() => setCurrentReport(false)}>
+            <div className={styles.fullscreen__close} onClick={() => setCurrentReport(false)}>
               <CrossWhite />
             </div>
           </div>

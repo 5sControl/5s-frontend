@@ -1,24 +1,25 @@
-.timeline-hubNew {
+.wrapper {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  h1 {
-    margin-bottom: 20px;
-  }
-  &__container {
+}
+.container {
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0px 0px 8px rgba(42, 98, 149, 0.25);
+  border-radius: 4px;
+  .camera {
     background-color: white;
-    padding: 20px;
-    box-shadow: 0px 0px 8px rgba(42, 98, 149, 0.25);
+    padding: 5px;
     border-radius: 4px;
   }
-  &__camera {
+  .algorithm {
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
 }
-
-.timeline-clickableNew {
+.timeline {
   display: flex;
   align-items: center;
   height: 30px;
@@ -27,43 +28,7 @@
   &__description {
     width: 100%;
   }
-  &_pointer {
-    cursor: pointer;
-  }
-  &_red {
-    height: 100%;
-    background-color: #e00606;
-    position: relative;
-    box-sizing: border-box;
-  }
-  &_green {
-    height: 100%;
-    background-color: #87bc45;
-    box-sizing: border-box;
-  }
-  &_yellow {
-    width: 5px;
-    background-color: yellow;
-  }
-  &_grey {
-    height: 100%;
-    background-color: #838383;
-  }
-  &__container {
-    > span {
-      transition: all 0.3s;
-      &:hover {
-        background-color: yellow;
-      }
-    }
 
-    height: 100%;
-    width: calc(100% - 120px);
-    background-color: #e0e0e0;
-    display: flex;
-    border-radius: 6px;
-    overflow: hidden;
-  }
   &__text {
     width: 120px;
     font-weight: 600;
@@ -104,23 +69,42 @@
     }
   }
 }
-.timeline-hub-clickableNew {
+.line {
+  height: 100%;
+  width: calc(100% - 120px);
+  background-color: #e0e0e0;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  &__container {
-    background-color: white;
-    padding: 5px;
-    border-radius: 4px;
+  border-radius: 6px;
+  overflow: hidden;
+  .red {
+    height: 100%;
+    background-color: #e00606;
+    position: relative;
+    box-sizing: border-box;
+    cursor: pointer;
   }
-  &__camera {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  .green {
+    height: 100%;
+    background-color: #87bc45;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  .yellow {
+    width: 5px;
+    background-color: yellow;
+  }
+  .grey {
+    height: 100%;
+    background-color: #838383;
+  }
+  > span {
+    transition: all 0.3s;
+    &:hover {
+      background-color: yellow;
+    }
   }
 }
-
-.fullTimeline {
+.fullscreen {
   position: fixed;
   top: 0;
   left: 0;
@@ -166,14 +150,14 @@
       font-weight: 400;
       font-size: 12px;
       line-height: 150%;
-      span{
-        color:#666666;
+      span {
+        color: #666666;
       }
     }
   }
-  &__close{
+  &__close {
     position: absolute;
-    top:-40px;
+    top: -40px;
     right: -40px;
     padding: 11px;
     display: flex;
@@ -184,7 +168,7 @@
     opacity: 0.7;
     transition: all 0.4s ease-in-out;
     cursor: pointer;
-    &:hover{
+    &:hover {
       opacity: 1;
     }
   }

@@ -4,6 +4,8 @@ import moment from 'moment';
 
 import { Timeline } from './timeline';
 import { calculateTimeCenter } from '../../../../functions/calculateTimeCenter';
+
+import styles from './timeline.module.scss';
 export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => {
   const [algorithm, setAlgorithm] = useState([]);
 
@@ -27,13 +29,13 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
   return (
     <>
       {data.length > 0 && start && end && startDate && (
-        <div className="timeline-hubNew__container">
+        <div className={styles.container}>
           <h1>{camera.name}</h1>
-          <div className="timeline-hubclickableNew-">
-            <div className="timeline-hub-clickableNew__container">
+          <div>
+            <div className={styles.camera}>
               {algorithm.map((algorithm, id) => {
                 return (
-                  <div className="timeline-hub-clickableNew__camera" key={id}>
+                  <div className={styles.algorithm} key={id}>
                     <Timeline
                       data={data.filter(
                         (cam) =>
@@ -53,21 +55,21 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
                   </div>
                 );
               })}
-              <div className="timeline-clickableNew__line">
+              <div className={styles.timeline__line}>
                 <span
-                  className="timeline-clickableNew__zoomout"
+                  className={styles.timeline__zoomout}
                   onClick={() => setTimeFunct('00:00:00', '24:00:00')}
                 >
                   <AiOutlineZoomOut />
                 </span>
                 {calculateTimeCenter(start, end).map((el, id, array) => (
                   <Fragment key={id}>
-                    <span className="timeline-clickableNew__time">
+                    <span className={styles.timeline__time}>
                       {el.split(':').slice(0, 2).join(':')}
                     </span>
                     {array.length - 1 !== id && (
                       <span
-                        className="timeline-clickableNew__timezone"
+                        className={styles.timeline__timezone}
                         onClick={() => setTimeFunct(el, array[id + 1])}
                       >
                         <AiOutlineZoomIn />
