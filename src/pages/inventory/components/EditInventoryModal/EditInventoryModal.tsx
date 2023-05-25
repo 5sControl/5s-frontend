@@ -60,17 +60,25 @@ export const EditInventoryModal: React.FC<PropsType> = ({
           hostname: window.location.hostname,
           body: { ...dataForm },
         })
-      ).then((response: any) => {
-        setIsClose({ status: !!response.payload?.id, loading: false });
-        if (response.payload.id) {
-          handleClose();
-          setIsNotification();
-        } else {
+      )
+        .then((response: any) => {
+          console.log(response);
+          setIsClose({ status: !!response.payload?.id, loading: false });
+          if (response.payload && response.payload.id) {
+            handleClose();
+            setIsNotification();
+          } else {
+            setTimeout(() => {
+              setIsClose(false);
+            }, 2000);
+          }
+        })
+        .catch(() => {
+          setIsClose({ status: false });
           setTimeout(() => {
             setIsClose(false);
           }, 2000);
-        }
-      });
+        });
     } else {
       setIsClose({ status: false });
       setTimeout(() => {
