@@ -20,9 +20,9 @@ export const ReportListItem = ({ item }) => {
       }
       onClick={() => dispatch(addCurrentReport(item))}
     >
-      <div className={styles.reports_item_container}>
+      <div className={styles.inside}>
         <div className={`${item.violation_found ? styles.red : styles.green}`}></div>
-        <div className={styles.reports_item_container_content}>
+        <div className={styles.inside_content}>
           <div className={styles.reports_item_title}>
             {moment.utc(item.start_tracking).utcOffset(moment().utcOffset()).format('YYYY-MM-DD ')}{' '}
             | {moment.utc(item.start_tracking).utcOffset(moment().utcOffset()).format('HH:mm:ss')} -{' '}

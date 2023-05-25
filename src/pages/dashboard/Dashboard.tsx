@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import './Dashboard.scss';
+
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { useCookies } from 'react-cookie';
+
 import { getSelectedCameras } from '../../api/cameraRequest';
 import { Reports } from './components/reports/Reports';
 import { getData } from '../../api/reportsRequest';
@@ -10,7 +12,8 @@ import { TimelineHub } from './components/timeline/timelineHub';
 import { Preloader } from '../../components/preloader';
 import { Header } from './components/header';
 import { getAveilableAlgorithms } from '../../api/algorithmRequest';
-import { useNavigate } from 'react-router-dom';
+
+import styles from './dashboard.module.scss';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -91,7 +94,7 @@ function Dashboard() {
 
   return (
     <>
-      <div className="dashboard">
+      <div className={styles.dashboard}>
         <Header
           selectDate={selectDate}
           setSelectDate={(e: any) => setSelectDate(e)}
@@ -100,26 +103,26 @@ function Dashboard() {
           data={data}
           update={update}
         />
-        <main className="dashboard__wrapper">
-          <section className="dashboard__nav">
+        <main className={styles.wrapper}>
+          <section className={styles.tabs}>
             <span
-              className={`dashboard__tab ${
-                activePage === 'timelines' ? 'dashboard__tab_active' : 'dashboard__tab_noActive'
+              className={`${styles.tab} ${
+                activePage === 'timelines' ? styles.active : styles.noActive
               }`}
               onClick={() => setActivePage('timelines')}
             >
               Timelines
             </span>
             <span
-              className={`dashboard__tab ${
-                activePage === 'reports' ? 'dashboard__tab_active' : 'dashboard__tab_noActive'
+              className={`${styles.tab} ${
+                activePage === 'reports' ? styles.active : styles.noActive
               }`}
               onClick={() => setActivePage('reports')}
             >
               Reports
             </span>
           </section>
-          <section className="dashboard__content">
+          <section className={styles.content}>
             {!data || isPreloader ? (
               <Preloader />
             ) : data.length > 0 ? (
@@ -133,16 +136,15 @@ function Dashboard() {
                     cameras={cameras}
                   />
                 )}
-
                 {activePage === 'reports' && <Reports data={data} />}
               </>
             ) : (
-              <div className="dashboard__noreports">No reports found</div>
+              <div className={styles.noreports}>No reports found</div>
             )}
           </section>
         </main>
 
-        {errorCatch && <div className="dashboard__error">{errorCatch}</div>}
+        {errorCatch && <div className={styles.error}>{errorCatch}</div>}
       </div>
     </>
   );

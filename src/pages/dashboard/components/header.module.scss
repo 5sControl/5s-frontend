@@ -1,0 +1,29 @@
+@import '../../../styles/media.scss';
+@import '../../../styles/fonts.scss';
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    position: relative;
+    &_h1 {
+      @include h1;
+      color: var(--HightEmphasis);
+    }
+    &__filter {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    &_button {
+      background: #e0e0e0;
+      padding: 8px 12px;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.5s;
+      &:hover {
+        background: #f3e0e0;
+      }
+    }
+  }
