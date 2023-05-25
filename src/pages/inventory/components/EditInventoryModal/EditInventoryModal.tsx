@@ -62,7 +62,6 @@ export const EditInventoryModal: React.FC<PropsType> = ({
         })
       )
         .then((response: any) => {
-          console.log(response);
           setIsClose({ status: !!response.payload?.id, loading: false });
           if (response.payload && response.payload.id) {
             handleClose();
