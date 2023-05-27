@@ -44,7 +44,6 @@ export const DatePicker: React.FC = () => {
   };
 
   const handleSelect = (date: RangeKeyDict) => {
-    // console.log('date:', date);
     setStartDate(date.selection.startDate as Date);
     setEndDate(date.selection.endDate as Date);
   };
@@ -54,7 +53,6 @@ export const DatePicker: React.FC = () => {
   };
 
   const handleClickApply = () => {
-    // this is kostil - add 3 hours for local zone
     if (startDate.getDate() === endDate.getDate()) {
       startDate.setHours(startDate.getHours() + 3);
       endDate.setHours(startDate.getHours() + 3);
