@@ -46,7 +46,6 @@ export const SelectBase: React.FC<PropsType> = ({
           {label}
         </label>
       )}
-
       <div className={styles.block}>
         <select
           name={name}
