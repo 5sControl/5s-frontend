@@ -60,8 +60,6 @@ export const SelectBase: React.FC<PropsType> = ({
             </option>
           ))}
         </select>
-
-        {/* <ArrowBottom className={styles.block__arrow} /> */}
       </div>
     </div>
   );

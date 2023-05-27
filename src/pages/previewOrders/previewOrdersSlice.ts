@@ -33,7 +33,6 @@ export const getOrderAsync = createAsyncThunk(
     const response = await getOrderData(data.hostname, data.token, data.currentOrder);
 
     if (response.data) {
-      // console.log('getOrderAsync', response.data[0]);
       return parseOrdersData(response.data[0]);
     }
     return null;
