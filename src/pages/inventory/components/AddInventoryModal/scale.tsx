@@ -74,9 +74,6 @@ export const Scaleble: React.FC<PropsType> = ({
       const target = e.target.getBoundingClientRect();
       setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
       setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
-      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
-    } else {
-      // setTarget(null);
     }
   };
 
@@ -134,7 +131,6 @@ export const Scaleble: React.FC<PropsType> = ({
         y2: bufHeight * proportionHeight + totalY * proportionHeight,
       });
     });
-    // setCoords(sendCoord);
   };
 
   const changeTarget = (currentTarget: any) => {
@@ -163,8 +159,6 @@ export const Scaleble: React.FC<PropsType> = ({
       setAllBox([...allBox, response]);
       setIsStartDraw(false);
       setMoveDraw({ x: 0, y: 0 });
-    } else {
-      // setTarget(null);
     }
   };
 
@@ -183,7 +177,6 @@ export const Scaleble: React.FC<PropsType> = ({
     if (allBox.length > 0) {
       setTarget(document.getElementById(allBox[allBox.length - 1].id));
     }
-    // onChangeSize();
   }, [allBox]);
 
   return (

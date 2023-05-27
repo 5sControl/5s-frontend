@@ -60,8 +60,6 @@ export const ModalEmail = ({
           setIsPreloader(false);
         });
     }
-
-    // console.log(response);
   };
   useEffect(() => {
     if (defaultSettings && defaultSettings.length > 0) {

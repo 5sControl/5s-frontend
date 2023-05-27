@@ -64,9 +64,6 @@ export const Coordinates: React.FC<PropsType> = ({
       const target = e.target.getBoundingClientRect();
       setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
       setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
-      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
-    } else {
-      // setTarget(null);
     }
   };
 
@@ -100,8 +97,6 @@ export const Coordinates: React.FC<PropsType> = ({
       setAllBox([...allBox, response]);
       setIsStartDraw(false);
       setMoveDraw({ x: 0, y: 0 });
-    } else {
-      // setTarget(null);
     }
   };
 
