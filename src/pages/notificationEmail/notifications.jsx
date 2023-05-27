@@ -33,7 +33,6 @@ export const Notifications = () => {
       getNotificationSettings(window.location.hostname, cookies.token)
         .then((response) => {
           setDefaultSettings(response.data);
-          // console.log(response.data.results);
         })
         .catch((err) => {
           console.log(err);
@@ -52,7 +51,6 @@ export const Notifications = () => {
             getNotificationEmail(window.location.hostname, cookies.token)
               .then((res) => {
                 setEmails(res.data);
-                // console.log(res);
               })
               .catch((err) => {
                 console.log(err);
@@ -66,15 +64,12 @@ export const Notifications = () => {
           .then(() => {
             getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
               setEmails(res.data);
-              // console.log(res);
             });
-            // console.log(res);
           })
           .catch((err) => {
             console.log(err);
           });
       }
-      // console.log(e.target.value, id);
     }
   };
 
@@ -82,11 +77,9 @@ export const Notifications = () => {
     if (id !== 0) {
       deleteNotificationEmail(window.location.hostname, cookies.token, id)
         .then(() => {
-          // console.log(res);
           getNotificationEmail(window.location.hostname, cookies.token)
             .then((res) => {
               setEmails(res.data);
-              // console.log(res);
             })
             .catch((err) => {
               console.log(err);

@@ -50,7 +50,6 @@ export const Live = () => {
         cameraToResponse
       )
         .then((el) => {
-          // console.log(el.data);
           setReports(el.data);
         })
         .catch((error) => {
