@@ -3,12 +3,14 @@ import 'react-date-range/dist/styles.css'; // Импортируйте стил�
 import 'react-date-range/dist/theme/default.css';
 import moment from 'moment';
 
-import { Button } from '../../../components/button';
+import { Button } from '../../../../components/button';
 
-import { ArrowBottom, Filter, Delete } from '../../../assets/svg/SVGcomponent';
-import { FilterForm } from './filter';
+import { ArrowBottom, Filter, Delete } from '../../../../assets/svg/SVGcomponent';
+import { FilterForm } from '../filter/filter';
 import { useNavigate } from 'react-router-dom';
-import { DayPicker } from '../../../components/dayPicker/dayPicker';
+import { DayPicker } from '../../../../components/dayPicker/dayPicker';
+
+import styles from './header.module.scss';
 
 export const Header = ({ selectDate, setSelectDate, cameras, algorithms, data, update }) => {
   const [visibleModalDate, setVisibleModalDate] = useState(false);
@@ -40,9 +42,9 @@ export const Header = ({ selectDate, setSelectDate, cameras, algorithms, data, u
   };
 
   return (
-    <div className="dashboard__title">
-      <h1 className="dashboard__title_h1">Dashboard</h1>
-      <div className="dashboard__title__filter">
+    <div className={styles.title}>
+      <h1 className={styles.title_h1}>Dashboard</h1>
+      <div className={styles.title__filter}>
         <Button
           text="Filter"
           IconLeft={Filter}
@@ -75,7 +77,7 @@ export const Header = ({ selectDate, setSelectDate, cameras, algorithms, data, u
         )}
         <button
           onClick={() => setVisibleModalDate(!visibleModalDate)}
-          className="dashboard__title_button"
+          className={styles.title_button}
         >
           {new Date(selectDate ? selectDate : new Date().toDateString()).toDateString() ===
           new Date().toDateString()

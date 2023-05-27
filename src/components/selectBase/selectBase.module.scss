@@ -35,13 +35,16 @@
       background-position: 96% center;
       background-size: 12px 30px;
       border: 1px solid var(--LowEmphasis);
+      option{
+        background: var(--White);
+      }
       &:focus {
         border-color: #212121;
         outline: none;
       }
   }
   &__option {
-    background-color: var(--Orange);
+    background: var(--White);
   }
   &__arrow {
     position: absolute;

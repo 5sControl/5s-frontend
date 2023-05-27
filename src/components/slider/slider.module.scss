@@ -22,7 +22,7 @@
 }
 .buttonLeft {
   position: absolute;
-  top: 50%;
+  top: calc(50% - 10px);
   left: 10px;
   z-index: 5;
   fill-opacity: 0.5;
@@ -35,7 +35,7 @@
 }
 .buttonRight {
   position: absolute;
-  top: 50%;
+  top: calc(50% - 10px);
   right: 10px;
   z-index: 5;
   fill-opacity: 0.5;
@@ -63,7 +63,7 @@
 .datetime{
   position: absolute;
   bottom: 10px;
-  left: calc(50% - 27px);
+  left: calc(50% - 43px);
   z-index: 5;
   color: #ffffff;
   font-weight: 400;

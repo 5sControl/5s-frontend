@@ -11,7 +11,7 @@ import { CurrentReport } from './currentReport/currentReport';
 import { useAppDispatch } from '../../store/hooks';
 import { addCurrentReport } from '../../store/dataSlice';
 
-import { ArrowBottom } from '../../assets/svg/SVGcomponent';
+import { ArrowBottom, SearchIcon } from '../../assets/svg/SVGcomponent';
 
 import './live.scss';
 
@@ -106,20 +106,22 @@ export const Live = () => {
               : moment(selectDate).format('ll')
               ? moment(selectDate).format('ll')
               : moment().format('ll')}
-            <ArrowBottom style={{ color: 'red', marginLeft: '10px', width: '9px' }} />
+            <ArrowBottom style={{ marginLeft: '10px', width: '9px' }} />
           </button>
         </div>
         <div className="live__container">
           <div className="live__reports">
             <div className="live__camera">
               <h2>Cameras</h2>
-              <input
-                type="text"
-                placeholder="Search"
-                className="live__camera_filter"
-                value={inputFilter}
-                onChange={(e) => setInputFilter(e.target.value)}
-              />
+              <div className="live__camera_filter">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  value={inputFilter}
+                  onChange={(e) => setInputFilter(e.target.value)}
+                />
+                <SearchIcon />
+              </div>
               <div className="live__camera_container">
                 {cameras.map((camera, index) => {
                   return (

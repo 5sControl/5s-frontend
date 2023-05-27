@@ -1,8 +1,10 @@
 import { NewTimeline } from './newTimeline';
 
+import styles from './timeline.module.scss';
+
 export const TimelineHub = ({ data, startDate, startTime, endTime, cameras }) => {
   return (
-    <div className="timeline-hubNew">
+    <div className={styles.wrapper}>
       {cameras &&
         cameras.length > 0 &&
         cameras.map((el, id) => {

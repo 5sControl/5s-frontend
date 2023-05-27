@@ -47,7 +47,7 @@ export const InventoryHistory: React.FC = () => {
           <h6 className={styles.history_title}>Stock history</h6>
           <button
             onClick={() => setVisibleModalDate(!visibleModalDate)}
-            className="dashboard__title_button"
+            className={styles.buttonWhite}
           >
             {new Date(selectDate ? selectDate : currentDate).toDateString() ===
             new Date().toDateString()
