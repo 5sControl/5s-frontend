@@ -90,23 +90,4 @@
     }
   }
 }
-.button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fe6100;
-  border-radius: 4px;
-  padding: 4px 10px;
-  gap: 4px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
-  color:#FFFFFF;
-  border: none;
-  cursor: pointer;
-  transition: all 0.4s;
-  &:hover {
-    background: var(--SaddleBrown);
-  }
-}
+
