@@ -62,8 +62,6 @@ export const DatabaseTab: React.FC = () => {
       dispatch(clearDatabasesOrdersView());
       dispatch(clearOrdersList());
     });
-
-    // console.log('You are disconnecting from the database');
   };
 
   useEffect(() => {
