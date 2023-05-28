@@ -19,7 +19,8 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   const [currentReport, setCurrentReport] = useState(false);
 
   const [currentCount, setCurrentCount] = useState(0);
-
+  const [hoverItem, setHoverItem] = useState(false);
+  const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const duration = (start, end) => {
     return (moment(end).diff(moment(start), 'seconds') / calculateTime(startTime, endTime)) * 100;
   };
@@ -57,6 +58,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                 .format('YYYY-MM-DD HH:mm:ss')
             : moment(startDate).format(`YYYY-MM-DD ${endTime}`),
           violation_found: dat.violation_found ? 'red' : 'green',
+          algorithm: parsingAlgorithmName(dat.algorithm.name),
         };
       });
 
@@ -110,6 +112,13 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     }
   }, [data]);
 
+  const onMove = (item, event) => {
+    setHoverItem(item);
+    setHoverPosition({
+      x: event.clientX,
+      y: event.clientY,
+    });
+  };
   return (
     <>
       {timeLine.length > 1 && (
@@ -119,6 +128,9 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
             {timeLine.map((el, index, array) => (
               <span
                 key={index}
+                onMouseOver={(e) => onMove(el, e)}
+                onMouseMove={(e) => onMove(el, e)}
+                onMouseLeave={() => setHoverItem(false)}
                 onClick={() =>
                   el.id !== 0
                     ? setCurrentReport(data.filter((item) => item.id === el.id)[0])
@@ -133,6 +145,22 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
             ))}
           </div>
         </section>
+      )}
+      {hoverItem && (
+        <div
+          className={styles.hover}
+          style={{ top: hoverPosition.y - 100, left: hoverPosition.x - 80 }}
+        >
+          <h6>{hoverItem.algorithm}</h6>
+          <div className={styles.hover__time}>
+            {`${moment(hoverItem.start).format('HH:MM')} - ${moment(hoverItem.stop).format(
+              'HH:MM'
+            )}`}
+
+            <span>{` | ${timeDuration(hoverItem.start, hoverItem.stop)}`}</span>
+          </div>
+          {hoverItem.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
+        </div>
       )}
       {currentReport && (
         <Modal
