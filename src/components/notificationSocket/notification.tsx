@@ -13,7 +13,7 @@ export const NotificationSocket: React.FC<PropsType> = ({ notifications, closeNo
     <div className={styles.wrapper}>
       {notifications.length > 0 &&
         notifications.map((notification, index) => (
-          <div className={`${styles.container} ${styles.bad}`} key={index}>
+          <div className={`${styles.container} ${index > 2 ? styles.hide : ''}`} key={index}>
             <div className={styles.text}>
               <NotificationBad />
               <span>{notification.message}</span>

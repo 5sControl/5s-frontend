@@ -21,7 +21,9 @@
   font-size: 16px;
   line-height: 175%;
   opacity: 1;
-  animation: fade-in-out 2s linear forwards;
+  background: #f6cbcb;
+  border: 2px solid #e00606;
+  color: #B00808;
   .text{
     display: flex;
     align-items: center;
@@ -30,10 +32,8 @@
     margin-left: 10px;
   }
 }
-.bad {
-  background: #f6cbcb;
-  border: 2px solid #e00606;
-  color: #B00808;
+.hide{
+  display: none;
 }
 .cross{
   cursor: pointer;
