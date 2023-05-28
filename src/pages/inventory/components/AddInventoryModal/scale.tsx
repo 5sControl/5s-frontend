@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment, useEffect, useRef, useState } from 'react';
-import styles from './addInventoryModal.module.scss';
+
 import { generateString } from '../../../../functions/randomizer';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { IoIosCloseCircle } from 'react-icons/io';
 import Moveable from 'react-moveable';
 import { ZoomOut } from '../../../../components/zoomOut';
+import styles from '../InventoryModal.module.scss';
 type PropsType = {
   image: string;
   cameraBox: any;

@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Moveable from 'react-moveable';
-import './moveable.scss';
-import styles from './addInventoryModal.module.scss';
+
 import { useRef, useState, useEffect, Fragment } from 'react';
+import Moveable from 'react-moveable';
+import { useCookies } from 'react-cookie';
 import { Button } from '../../../../components/button';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { generateString } from '../../../../functions/randomizer';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { getInventoryItemsToCamera } from '../../inventoryAPI';
-import { useCookies } from 'react-cookie';
 import { Scale } from '../../../../components/scale';
 import { Scaleble } from './scale';
 
+import './moveable.scss';
+import styles from '../InventoryModal.module.scss';
 type PropsType = {
   submitHandler: () => void;
   setCoords: (coords: Coordinat[]) => void;
