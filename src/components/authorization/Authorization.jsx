@@ -40,12 +40,10 @@ export const Authorization = () => {
             setCookie('token', `JWT ${response.data.access}`, { path: '/' });
           }
           if (!response.data.access) {
-            // console.log(response);
             setErrorResponse('Incorrect email or password. Please, try again.');
           }
         })
         .catch((error) => {
-          // console.log(error.message);
           setErrorResponse(error.message);
         });
     } else {

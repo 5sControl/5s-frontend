@@ -3,7 +3,7 @@ import { BsFillTrashFill } from 'react-icons/bs';
 import { FcCheckmark } from 'react-icons/fc';
 import { useCookies } from 'react-cookie';
 import { IoMdSettings } from 'react-icons/io';
-
+import { Button } from '../../components/button';
 import { ModalEmail } from './components/modal';
 import {
   deleteNotificationEmail,
@@ -12,6 +12,7 @@ import {
   patchNotificationEmail,
   postNotificationEmail,
 } from '../../api/notificationRequest';
+import { SettingsWhite } from '../../assets/svg/SVGcomponent';
 import { Notification } from '../../components/notification/notification';
 
 import styles from './notifications.module.scss';
@@ -106,10 +107,11 @@ export const Notifications = () => {
       <section className={styles.server}>
         <div className={styles.server__header}>
           <h2>SMTP server</h2>
-          <button onClick={() => setIsShowModal(true)} className={styles.button}>
-            <IoMdSettings style={{ color: 'white', width: '20px', height: '20px' }} />
-            Settings
-          </button>
+          <Button
+            onClick={() => setIsShowModal(true)}
+            IconLeft={SettingsWhite}
+            text="Settings"
+          ></Button>
         </div>
         <p className={styles.server__create}>Create SMTP server to send notifications.</p>
         {defaultSettings && defaultSettings.length > 0 && defaultSettings[0].server ? (

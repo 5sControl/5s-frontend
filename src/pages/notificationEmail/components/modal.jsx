@@ -147,7 +147,7 @@ export const ModalEmail = ({
           </div>
         )}
       </section>
-      {isNotification && <Notification status={false} message={'Could not safe the item'} />}
+      {isNotification && <Notification status={false} message={'Incorrect SMTP server settings'} />}
     </Modal>
   );
 };

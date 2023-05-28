@@ -124,6 +124,15 @@
       color: #9e9e9e;
       margin-bottom: 10px;
     }
+    .sysSettings{
+      border-top: 1px solid #E0E0E0;
+      width: 100%;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 150%;
+      color: #9e9e9e;
+      padding: 10px 0;
+    }
     &_modal {
       position: relative;
       width: calc(100% - 300px);
@@ -231,6 +240,9 @@
       justify-content: space-between;
       width: 100%;
       margin-bottom: 30px;
+      label{
+        margin-bottom: 6px;
+      }
       @media screen and (max-height: 675px) {
         margin-bottom: 20px;
       }
@@ -351,13 +363,10 @@
           width: 20px;
           height: 20px;
           background: white;
-          border: 1.5px solid #fe6100;
-          filter: drop-shadow(1px 2px 5px rgba(134, 117, 255, 0.25));
+          border: 1.5px solid #666666;
           border-radius: 3px;
-          box-shadow: 1px 2px 2px rgba(134, 117, 255, 0.25);
           padding: 0;
           cursor: pointer;
-
           &:before {
             content: '';
             color: white;
@@ -372,6 +381,7 @@
           }
           &:checked {
             background: #fe6100;
+            border: 1.5px solid #fe6100;
           }
         }
       }

@@ -139,12 +139,15 @@ export const PreviewOrders: React.FC = () => {
     if (!queryData['order-status']) {
       queryData['order-status'] = 'all';
     }
-    const queryDateParam = getFilterDateQueryData(searchParams);
-
+    let queryDateParam = getFilterDateQueryData(searchParams);
+    console.log(filterData);
     if (queryDateParam.from && queryDateParam.to) {
-      dispatch(setFilterDateData(queryDateParam));
+      console.log('get query date');
+    } else {
+      queryDateParam = filterDateData;
     }
 
+    dispatch(setFilterDateData(queryDateParam));
     dispatch(setFilterData(queryData));
     getOrdersList(1, 50, null, {
       ...queryData,

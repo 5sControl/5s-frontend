@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { Modal } from '../../../../components/modal';
-import styles from './editInventoryModal.module.scss';
+
 import { Input } from '../../../../components/input';
 import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { editItem, selectEditInventoryModal } from './editInventoryModalSlice';
-import { useCookies } from 'react-cookie';
 import { selectInventory } from '../../inventorySlice';
 import { Coordinat } from '../../types';
 import { Coordinates } from './Coordiantes';
@@ -14,6 +14,8 @@ import { Preloader } from '../../../../components/preloader';
 import { Tooltip } from '../../../../assets/svg/SVGcomponent';
 import tooltipImage from '../../../../assets/png/tooltipInventory.png';
 import { Notification } from '../../../../components/notification/notification';
+
+import styles from '../InventoryModal.module.scss';
 
 type PropsType = {
   isOpen: boolean;
