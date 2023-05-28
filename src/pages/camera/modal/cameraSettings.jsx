@@ -187,6 +187,7 @@ export const CameraSettings = ({
                                 <Input
                                   type="text"
                                   value={userName}
+                                  placeholder="Enter username"
                                   onChange={(e) => setUserName(e.target.value)}
                                 />
                               </div>
@@ -205,6 +206,7 @@ export const CameraSettings = ({
                                   value={password}
                                   onChange={(e) => setPassword(e.target.value)}
                                   showEye={true}
+                                  placeholder="Enter password"
                                 />
                               </div>
                             </div>
@@ -223,13 +225,15 @@ export const CameraSettings = ({
                             </div>
                           </div>
                         )}
+                        <h6 className="sysSettings">System settings</h6>
                         <div className="cameras__settings_inputs">
                           <div>
-                            <label htmlFor="cameraName">Camera Name</label>
+                            <label htmlFor="cameraName">Displayed name (optional)</label>
                             <Input
                               type="text"
                               value={cameraName}
                               onChange={(e) => setCameraName(e.target.value)}
+                              placeholder="Enter displayed name"
                             />
                           </div>
                           <div>
