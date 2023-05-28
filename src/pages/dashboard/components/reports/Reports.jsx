@@ -8,18 +8,13 @@ import styles from './reports.module.scss';
 export const Reports = ({ data }) => {
   const { currentReport } = useAppSelector(selectCurrentReport);
   const dispatch = useAppDispatch();
-  console.log(data);
-  console.log(currentReport);
-  console.log(data.indexOf(currentReport));
 
   const goToNextReport = (e) => {
     if (e === 'ArrowDown' && currentReport && data.indexOf(currentReport) !== data.length - 1) {
       dispatch(addCurrentReport(data[data.indexOf(currentReport) + 1]));
-      console.log('ArrowDown');
     }
     if (e === 'ArrowUp' && currentReport && data.indexOf(currentReport) > 0) {
       dispatch(addCurrentReport(data[data.indexOf(currentReport) - 1]));
-      console.log('ArrowUp');
     }
   };
 
