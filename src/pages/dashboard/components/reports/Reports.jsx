@@ -1,9 +1,36 @@
+import { useEffect } from 'react';
 import { ReportListItem } from './ReportListItem';
 import { CurrentReport } from './currentReport';
-
+import { addCurrentReport, selectCurrentReport } from '../../../../store/dataSlice';
+import { useAppSelector, useAppDispatch } from '../../../../store/hooks';
 import styles from './reports.module.scss';
 
 export const Reports = ({ data }) => {
+  const { currentReport } = useAppSelector(selectCurrentReport);
+  const dispatch = useAppDispatch();
+  console.log(data);
+  console.log(currentReport);
+  console.log(data.indexOf(currentReport));
+
+  const goToNextReport = (e) => {
+    if (e === 'ArrowDown' && currentReport && data.indexOf(currentReport) !== data.length - 1) {
+      dispatch(addCurrentReport(data[data.indexOf(currentReport) + 1]));
+      console.log('ArrowDown');
+    }
+    if (e === 'ArrowUp' && currentReport && data.indexOf(currentReport) > 0) {
+      dispatch(addCurrentReport(data[data.indexOf(currentReport) - 1]));
+      console.log('ArrowUp');
+    }
+  };
+
+  useEffect(() => {
+    const nextItem = (e) => (e.key ? goToNextReport(e.key) : null);
+    document.body.addEventListener('keydown', nextItem);
+    return () => {
+      document.body.removeEventListener('keydown', nextItem);
+    };
+  }, [currentReport]);
+
   return (
     <>
       <h3 className={styles.title}>

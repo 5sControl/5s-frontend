@@ -10,7 +10,6 @@ import styles from './reports.module.scss';
 export const ReportListItem = ({ item }) => {
   const dispatch = useAppDispatch();
   const { currentReport } = useAppSelector(selectCurrentReport);
-
   return (
     <div
       className={
