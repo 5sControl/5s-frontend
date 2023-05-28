@@ -363,13 +363,10 @@
           width: 20px;
           height: 20px;
           background: white;
-          border: 1.5px solid #fe6100;
-          filter: drop-shadow(1px 2px 5px rgba(134, 117, 255, 0.25));
+          border: 1.5px solid #666666;
           border-radius: 3px;
-          box-shadow: 1px 2px 2px rgba(134, 117, 255, 0.25);
           padding: 0;
           cursor: pointer;
-
           &:before {
             content: '';
             color: white;
@@ -384,6 +381,7 @@
           }
           &:checked {
             background: #fe6100;
+            border: 1.5px solid #fe6100;
           }
         }
       }
