@@ -6,6 +6,7 @@ import ImageSlider from '../../../../components/slider/slider';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 import {
   CrossWhite,
+  SliderArrow,
   ViolintationFalse,
   ViolintationTrue,
 } from '../../../../assets/svg/SVGcomponent.ts';
@@ -25,7 +26,20 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
 
   useEffect(() => {
     setCurrentCount(0);
-    console.log(data);
+    if (currentReport) {
+      const arrowKey = (e) => {
+        if (data && data?.indexOf(currentReport) > 0 && e.key === 'ArrowLeft') {
+          setCurrentReport(data[data.indexOf(currentReport) - 1]);
+        }
+        if (data && data?.indexOf(currentReport) < data.length - 1 && e.key === 'ArrowRight') {
+          setCurrentReport(data[data.indexOf(currentReport) + 1]);
+        }
+      };
+      document.body.addEventListener('keydown', arrowKey);
+      return () => {
+        document.body.removeEventListener('keydown', arrowKey);
+      };
+    }
   }, [currentReport]);
 
   const timeDuration = (start, end) => {
@@ -168,6 +182,18 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
           isOpen={true}
         >
           <div className={styles.fullscreen__container}>
+            {data && data?.indexOf(currentReport) > 0 && (
+              <SliderArrow
+                className={styles.arrowLeft}
+                onClick={() => setCurrentReport(data[data.indexOf(currentReport) - 1])}
+              />
+            )}
+            {data && data?.indexOf(currentReport) < data.length - 1 && (
+              <SliderArrow
+                className={styles.arrowRight}
+                onClick={() => setCurrentReport(data[data.indexOf(currentReport) + 1])}
+              />
+            )}
             <div className={styles.fullscreen__image}>
               <ImageSlider
                 images={currentReport.photos}
