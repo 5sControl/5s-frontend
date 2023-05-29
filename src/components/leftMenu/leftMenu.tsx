@@ -17,16 +17,11 @@ import './styles.scss';
 
 export const LeftMenu = () => {
   const navigate = useNavigate();
-  const [useless, setUseless] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo>({
     name_company: '',
     days_left: '',
   });
-
-  const send = () => {
-    setUseless(!useless);
-  };
 
   useEffect(() => {
     if (window.location.pathname.includes('dashboard')) {
@@ -53,7 +48,7 @@ export const LeftMenu = () => {
     if (window.location.pathname === '/') {
       document.title = '5s Control';
     }
-  }, [useless]);
+  });
 
   useEffect(() => {
     getCompanyInfo(window.location.hostname, cookies.token)
@@ -66,8 +61,6 @@ export const LeftMenu = () => {
           navigate('/company');
         }
       });
-    setInterval(send, 1000);
-    console.log('sfsdf');
   }, []);
 
   return (
