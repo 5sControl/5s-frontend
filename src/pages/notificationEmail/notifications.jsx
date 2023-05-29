@@ -80,6 +80,7 @@ export const Notifications = () => {
         .then(() => {
           getNotificationEmail(window.location.hostname, cookies.token)
             .then((res) => {
+              console.log(res.data);
               setEmails(res.data);
             })
             .catch((err) => {
@@ -101,6 +102,11 @@ export const Notifications = () => {
       }, 2000);
     }
   }, [notificationMessage]);
+
+  const changeHandler = (value, id) => {
+    console.log(emails);
+    console.log(value);
+  };
   return (
     <>
       <section className={styles.server}>
@@ -161,7 +167,11 @@ export const Notifications = () => {
               emails.length > 0 &&
               emails.map((email, index) => (
                 <div key={index} className={styles.emails__list_div}>
-                  <input defaultValue={email.email} onKeyUp={(e) => changeEmail(e, email.id)} />
+                  <input
+                    value={email.email}
+                    onKeyUp={(e) => changeEmail(e, email.id)}
+                    onChange={(e) => changeHandler(e.target.value, email.id)}
+                  />
                   <BsFillTrashFill onClick={() => deleteEmail(email.id)} className={styles.trash} />
                   {email.id !== 0 && <FcCheckmark className={styles.checkmark} />}
                 </div>
