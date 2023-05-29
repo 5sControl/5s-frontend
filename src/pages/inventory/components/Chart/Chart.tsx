@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../../../../store/hooks';
 import { selectInventory } from '../../inventorySlice';
@@ -11,7 +12,7 @@ export const Chart: React.FC = () => {
   const ref = useRef<any>(null);
   const [size, setSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
   const { inventoryHistoryData } = useAppSelector(selectInventory);
-
+  const [sortedData, setSortedData] = useState<any[]>([]);
   useEffect(() => {
     if (ref && ref.current) {
       const wrapper = (d3.select(ref.current).node() as Element).getBoundingClientRect();
@@ -19,10 +20,17 @@ export const Chart: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (inventoryHistoryData && inventoryHistoryData.length > 0) {
+      const buf = [...inventoryHistoryData];
+      setSortedData(buf.sort((a: any, b: any) => a.id - b.id));
+    }
+  }, [inventoryHistoryData]);
+
   return (
     <div id="chartBar" ref={ref}>
-      {size.width && inventoryHistoryData && (
-        <BarChart data={inventoryHistoryData} width={size.width} height={500} />
+      {size.width && inventoryHistoryData && sortedData.length > 0 && (
+        <BarChart data={sortedData} width={size.width} height={500} />
       )}
 
       <div className={styles.labels}>

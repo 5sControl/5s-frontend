@@ -27,7 +27,6 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
     bottom: 60,
     right: 60,
   };
-
   const getMaxOfArray = (numArray: Array<number>) => {
     return Math.max.apply(null, numArray);
   };
@@ -61,6 +60,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
           stop_tracking: moment.utc(item.stop_tracking).utcOffset(moment().utcOffset()),
         };
       });
+      console.log(update);
       const selection = svg.selectAll('rect').data(update);
       const enter = selection.enter();
 
