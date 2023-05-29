@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { SliderArrow } from '../../assets/svg/SVGcomponent';
+import { ArrowJustLeft } from '../../assets/svg/SVGcomponent';
 import styles from './slider.module.scss';
 interface ImageSliderProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,14 +43,23 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
 
   return (
     <div className={styles.container}>
-      {!!currentCount && <SliderArrow onClick={goToPreviousSlide} className={styles.buttonLeft} />}
       <span className={styles.counter}>{`${currentCount + 1}/${images.length}`}</span>
       {images[currentCount] && images[currentCount].date && (
         <div className={styles.datetime}>
+          {currentCount ? (
+            <ArrowJustLeft onClick={goToPreviousSlide} className={styles.buttonLeft} />
+          ) : (
+            <span className={styles.empty}></span>
+          )}
           <span>{`${moment
             .utc(images[currentCount].date)
             .utcOffset(moment().utcOffset())
             .format('HH:mm:ss')}`}</span>
+          {currentCount !== images.length - 1 ? (
+            <ArrowJustLeft onClick={goToNextSlide} className={styles.buttonRight} />
+          ) : (
+            <span className={styles.empty}></span>
+          )}
         </div>
       )}
       <div className={styles.slider}>
@@ -70,9 +79,6 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
           />
         ))}
       </div>
-      {currentCount !== images.length - 1 && (
-        <SliderArrow onClick={goToNextSlide} className={styles.buttonRight} />
-      )}
     </div>
   );
 };

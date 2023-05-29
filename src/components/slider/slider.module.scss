@@ -21,12 +21,10 @@
   border-radius: 4px;
 }
 .buttonLeft {
-  position: absolute;
-  top: calc(50% - 10px);
-  left: 10px;
+
+
   z-index: 5;
   fill-opacity: 0.5;
-  transform: rotate(180deg);
   transition: all 0.4s;
   cursor: pointer;
   &:hover {
@@ -34,13 +32,12 @@
   }
 }
 .buttonRight {
-  position: absolute;
-  top: calc(50% - 10px);
-  right: 10px;
+
   z-index: 5;
   fill-opacity: 0.5;
   transition: all 0.4s;
   cursor: pointer;
+  transform: rotate(180deg);
   &:hover {
     fill-opacity: 0.9;
   }
@@ -62,14 +59,21 @@
 
 .datetime{
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 190px;
   bottom: 10px;
-  left: calc(50% - 43px);
+  left: calc(50% - 95px);
   z-index: 5;
   color: #ffffff;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
   background: #00000050;
-  padding: 2px 22px;
+  padding: 2px 10px;
   border-radius: 21px;
+  .empty{
+    width: 10px;
+  }
 }
