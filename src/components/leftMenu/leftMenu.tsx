@@ -28,8 +28,6 @@ export const LeftMenu = () => {
     setUseless(!useless);
   };
 
-  setInterval(send, 1000);
-
   useEffect(() => {
     if (window.location.pathname.includes('dashboard')) {
       document.title = 'Dashboard';
@@ -68,6 +66,8 @@ export const LeftMenu = () => {
           navigate('/company');
         }
       });
+    setInterval(send, 1000);
+    console.log('sfsdf');
   }, []);
 
   return (
