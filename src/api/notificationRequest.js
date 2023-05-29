@@ -159,7 +159,7 @@ export const patchNotificationEmail = (hostname, cookies, id, email) => {
     );
   } else {
     return axios.patch(
-      `http://${hostname}/${API_EMAIL}/${id}/`,
+      `http://${hostname}/${API_EMAIL}${id}/`,
       {
         id: id,
         email: email,

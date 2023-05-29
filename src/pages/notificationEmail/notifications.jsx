@@ -101,7 +101,6 @@ export const Notifications = () => {
       }, 2000);
     }
   }, [notificationMessage]);
-  console.log(emails);
   return (
     <>
       <section className={styles.server}>
