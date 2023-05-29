@@ -11,13 +11,11 @@ import {
 } from '../../../../assets/svg/SVGcomponent.ts';
 
 import { Modal } from '../../../../components/modal';
-
 import styles from './timeline.module.scss';
 
 export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => {
   const [timeLine, setTimeLine] = useState([]);
   const [currentReport, setCurrentReport] = useState(false);
-
   const [currentCount, setCurrentCount] = useState(0);
   const [hoverItem, setHoverItem] = useState(false);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
@@ -27,6 +25,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
 
   useEffect(() => {
     setCurrentCount(0);
+    console.log(data);
   }, [currentReport]);
 
   const timeDuration = (start, end) => {
@@ -174,6 +173,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                 images={currentReport.photos}
                 currentCount={currentCount}
                 setCurrentCount={(e) => setCurrentCount(e)}
+                isKeyDisable={true}
               />
             </div>
             <footer className={styles.fullscreen__footer}>

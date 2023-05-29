@@ -7,9 +7,15 @@ interface ImageSliderProps {
   images: any[];
   currentCount: number;
   setCurrentCount: (cur: number) => void;
+  isKeyDisable?: boolean;
 }
 
-const ImageSlider: React.FC<ImageSliderProps> = ({ images, currentCount = 0, setCurrentCount }) => {
+const ImageSlider: React.FC<ImageSliderProps> = ({
+  images,
+  currentCount = 0,
+  setCurrentCount,
+  isKeyDisable = false,
+}) => {
   const goToNextSlide = () => {
     const nextSlide = (currentCount + 1) % images.length;
     setCurrentCount(nextSlide);
@@ -22,10 +28,10 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, currentCount = 0, set
 
   useEffect(() => {
     const arrowKey = (e: KeyboardEvent) => {
-      if (currentCount !== 0 && e.key === 'ArrowLeft') {
+      if (currentCount !== 0 && e.key === 'ArrowLeft' && !isKeyDisable) {
         goToPreviousSlide();
       }
-      if (currentCount !== images.length - 1 && e.key === 'ArrowRight') {
+      if (currentCount !== images.length - 1 && e.key === 'ArrowRight' && !isKeyDisable) {
         goToNextSlide();
       }
     };
