@@ -103,9 +103,18 @@ export const Notifications = () => {
     }
   }, [notificationMessage]);
 
-  const changeHandler = (value, id) => {
-    console.log(emails);
-    console.log(value);
+  const changeHandler = (value, item) => {
+    const id = emails.indexOf(item);
+    setEmails(
+      emails.map((el, index) =>
+        id === index
+          ? {
+              ...item,
+              email: value,
+            }
+          : el
+      )
+    );
   };
   return (
     <>
@@ -170,7 +179,7 @@ export const Notifications = () => {
                   <input
                     value={email.email}
                     onKeyUp={(e) => changeEmail(e, email.id)}
-                    onChange={(e) => changeHandler(e.target.value, email.id)}
+                    onChange={(e) => changeHandler(e.target.value, email)}
                   />
                   <BsFillTrashFill onClick={() => deleteEmail(email.id)} className={styles.trash} />
                   {email.id !== 0 && <FcCheckmark className={styles.checkmark} />}
