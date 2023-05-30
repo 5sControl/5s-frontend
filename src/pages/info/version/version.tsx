@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { WrapperPage } from '../../../components/wrapper/wrapperPage';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import styles from './info.module.scss';
 import { getCompanyVersionAsync, selectInfoPage } from './infoSlice';
@@ -19,7 +18,6 @@ export const Version: React.FC = () => {
       })
     );
   }, []);
-
   return (
     <section>
       <div className={styles.version_app}>
@@ -28,10 +26,13 @@ export const Version: React.FC = () => {
         ) : (
           <>
             <h3>Product version</h3>
-            <p className={styles.version_row}>
+            <div className={styles.version_row}>
               <span className={styles.version_row_title}>{version[0]?.name}: </span>
-              {version[0]?.version}
-            </p>
+              <div className={styles.version_row_text}>
+                <span>{version[0]?.version} </span>
+                <span>{version[0]?.date} </span>
+              </div>
+            </div>
           </>
         )}
       </div>
@@ -41,16 +42,18 @@ export const Version: React.FC = () => {
           <span className={styles.version_row_title}>Loading...</span>
         ) : (
           <div className={styles.version}>
-            {version.map(({ name, version }, index) => {
+            {version.map(({ name, version, date, description }, index) => {
               if (index === 0) {
                 return;
               }
-
               return (
-                <p key={index} className={styles.version_row}>
+                <div key={index} className={styles.version_row}>
                   <span className={styles.version_row_title}>{name}: </span>
-                  {version}
-                </p>
+                  <div className={styles.version_row_text}>
+                    <span>{version} </span>
+                    <span>{date} </span>
+                  </div>
+                </div>
               );
             })}
           </div>
