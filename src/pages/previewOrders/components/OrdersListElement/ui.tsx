@@ -36,7 +36,8 @@ export const OrdersListElement: React.FC<PropsType> = ({
   if (status.toLowerCase() === 'completed') {
     dateInfo = 'Completed';
   } else {
-    dateInfo = moment(orderDate, 'YYYYMMDD').fromNow();
+    // тут подсчет даты сеньерский был
+    dateInfo = orderDate.slice(0, 10);
   }
 
   return (
