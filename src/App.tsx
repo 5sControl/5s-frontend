@@ -15,6 +15,7 @@ import { Inventory } from './pages/inventory/inventory';
 import { Info } from './pages/info/info';
 
 import './index.scss';
+import { OrderJSON } from './pages/orderJSON/orderJSON';
 function App() {
   const [cookies, , removeCookie] = useCookies(['token']);
 
@@ -51,6 +52,7 @@ function App() {
             <Route path="/configuration/notifications" element={<Configuration activeTab={2} />} />
             <Route path="/orders-view" element={<PreviewOrders />} />
             <Route path="/inventory" element={<Inventory />} />
+            <Route path="/json" element={<OrderJSON />} />
           </Route>
         ) : (
           <Route path="/*" element={<Authorization />} />
