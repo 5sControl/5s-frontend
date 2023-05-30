@@ -51,6 +51,14 @@ export const OrderJSON = () => {
     }
   };
 
+  const videoCount = (scan) => {
+    if (scan.length === 0) {
+      return 0;
+    } else {
+      return scan.filter((el) => el.video_data.status).length;
+    }
+  };
+
   return (
     <section className={styles.wrapper}>
       <div className={styles.orders}>
@@ -84,6 +92,18 @@ export const OrderJSON = () => {
           className={styles.input}
         />
         <div>
+          {order && (
+            <div>
+              <p>Products ({order.products.length}):</p>
+              {order.products.map((el, ind) => (
+                <div key={ind} onClick={() => console.log(el)} className={styles.product}>
+                  <span>id:{el.indeks}</span>
+                  <span>count scan:{el.skans.length}</span>
+                  <span>Is video:{videoCount(el.skans)}</span>
+                </div>
+              ))}
+            </div>
+          )}
           {order &&
             Object.entries(order).map(([key, value]) => (
               <div key={key}>

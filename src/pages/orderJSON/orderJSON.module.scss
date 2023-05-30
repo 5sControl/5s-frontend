@@ -25,3 +25,9 @@
     overflow: auto; 
     position: relative;
 }
+.product{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border: 2px solid orange;
+}
