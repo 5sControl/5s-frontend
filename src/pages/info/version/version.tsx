@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import styles from './info.module.scss';
 import { getCompanyVersionAsync, selectInfoPage } from './infoSlice';
+import moment from 'moment';
 
 export const Version: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +31,7 @@ export const Version: React.FC = () => {
               <span className={styles.version_row_title}>{version[0]?.name}: </span>
               <div className={styles.version_row_text}>
                 <span>{version[0]?.version} </span>
-                <span>{version[0]?.date} </span>
+                <span>{moment(version[0]?.date).format('DD.MM.YYYY')} </span>
               </div>
             </div>
           </>
@@ -51,7 +52,7 @@ export const Version: React.FC = () => {
                   <span className={styles.version_row_title}>{name}: </span>
                   <div className={styles.version_row_text}>
                     <span>{version} </span>
-                    <span>{date} </span>
+                    <span>{moment(date).format('DD.MM.YYYY')} </span>
                   </div>
                 </div>
               );
