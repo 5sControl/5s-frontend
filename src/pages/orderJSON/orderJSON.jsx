@@ -5,18 +5,21 @@ import moment from 'moment';
 import { DayPicker } from '../../components/dayPicker/dayPicker';
 import { Input } from '../../components/input';
 
+import styles from './orderJSON.module.scss';
 export const OrderJSON = () => {
   const [cookies] = useCookies(['token']);
   const [start, setStart] = useState(moment().format('YYYY-MM-DD'));
   const [response, setResponse] = useState([]);
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [text, setText] = useState('');
+  const [order, setOrder] = useState(false);
 
   const serach = (id) => {
     proxy('https://0bc5-81-7-77-205.ngrok-free.app/api/order/by-order/' + text, 'GET', {
       Authorization: cookies.token,
     }).then((res) => {
       console.log(res.data[0]);
+      setOrder(res.data[0]);
     });
   };
 
@@ -49,27 +52,51 @@ export const OrderJSON = () => {
   };
 
   return (
-    <div>
-      <span onClick={() => setVisibleModalDate(true)}>{start}</span>
-      <Input onChange={(e) => handleText(e)} value={text} onKeyDown={(e) => send(e)} />
-      {visibleModalDate && (
-        <DayPicker
-          selectDate={start}
-          handleSelect={handleSelect}
-          onClose={() => setVisibleModalDate(false)}
+    <section className={styles.wrapper}>
+      <div className={styles.orders}>
+        <span onClick={() => setVisibleModalDate(true)} className={styles.date}>
+          {start}
+        </span>
+        {visibleModalDate && (
+          <DayPicker
+            selectDate={start}
+            handleSelect={handleSelect}
+            onClose={() => setVisibleModalDate(false)}
+          />
+        )}
+        {response.length > 0 &&
+          response.map((item, index) => (
+            <div key={index}>
+              {Object.entries(item).map(([key, value]) => (
+                <div key={key}>
+                  <strong>{key}:</strong> {value}
+                </div>
+              ))}
+              <br />
+            </div>
+          ))}
+      </div>
+      <div className={styles.order}>
+        <Input
+          onChange={(e) => handleText(e)}
+          value={text}
+          onKeyDown={(e) => send(e)}
+          className={styles.input}
         />
-      )}
-      {response.length > 0 &&
-        response.map((item, index) => (
-          <div key={index}>
-            {Object.entries(item).map(([key, value]) => (
+        <div>
+          {order &&
+            Object.entries(order).map(([key, value]) => (
               <div key={key}>
-                <strong>{key}:</strong> {value}
+                <strong>{key}:</strong>
+                {typeof value === 'object' ? (
+                  <pre>{JSON.stringify(value, null, 2)}</pre>
+                ) : (
+                  <span>{value}</span>
+                )}
               </div>
             ))}
-            <br />
-          </div>
-        ))}
-    </div>
+        </div>
+      </div>
+    </section>
   );
 };
