@@ -27,7 +27,6 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
       );
     }
   }, [data, start, end]);
-
   return (
     <>
       {data.length > 0 && start && end && startDate && (
@@ -62,7 +61,11 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
                   className={styles.timeline__zoomout}
                   onClick={() => setTimeFunct('00:00:00', '24:00:00')}
                 >
-                  <AiOutlineZoomOut />
+                  <AiOutlineZoomOut
+                    className={`${styles.lupa} ${
+                      start === '00:00:00' && end === '24:00:00' ? '' : styles.lupaOrange
+                    }`}
+                  />
                 </span>
                 {calculateTimeCenter(start, end).map((el, id, array) => (
                   <Fragment key={id}>
@@ -74,7 +77,7 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
                         className={styles.timeline__timezone}
                         onClick={() => setTimeFunct(el, array[id + 1])}
                       >
-                        <AiOutlineZoomIn />
+                        <AiOutlineZoomIn className={styles.lupa} />
                       </span>
                     )}
                   </Fragment>
