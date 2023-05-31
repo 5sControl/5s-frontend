@@ -60,8 +60,6 @@ export const ModalEmail = ({
           setIsPreloader(false);
         });
     }
-
-    // console.log(response);
   };
   useEffect(() => {
     if (defaultSettings && defaultSettings.length > 0) {
@@ -149,7 +147,7 @@ export const ModalEmail = ({
           </div>
         )}
       </section>
-      {isNotification && <Notification status={false} message={'Could not safe the item'} />}
+      {isNotification && <Notification status={false} message={'Incorrect SMTP server settings'} />}
     </Modal>
   );
 };

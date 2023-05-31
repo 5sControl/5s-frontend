@@ -1,16 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Moveable from 'react-moveable';
-import styles from './editInventoryModal.module.scss';
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { Button } from '../../../../components/button';
-import './moveable.scss';
-import { generateString } from '../../../../functions/randomizer';
+import Moveable from 'react-moveable';
 import { IoIosCloseCircle } from 'react-icons/io';
-import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { useCookies } from 'react-cookie';
+import { Button } from '../../../../components/button';
+
+import { generateString } from '../../../../functions/randomizer';
+import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { getInventoryItemsToCamera } from '../../inventoryAPI';
 import { Scale } from '../../../../components/scale';
 import { Scaleble } from './scale';
+
+import './moveable.scss';
+import styles from '../InventoryModal.module.scss';
 type PropsType = {
   submitHandler: () => void;
   setCoords: (coords: Coordinat[]) => void;
@@ -64,9 +66,6 @@ export const Coordinates: React.FC<PropsType> = ({
       const target = e.target.getBoundingClientRect();
       setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
       setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
-      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
-    } else {
-      // setTarget(null);
     }
   };
 
@@ -100,8 +99,6 @@ export const Coordinates: React.FC<PropsType> = ({
       setAllBox([...allBox, response]);
       setIsStartDraw(false);
       setMoveDraw({ x: 0, y: 0 });
-    } else {
-      // setTarget(null);
     }
   };
 

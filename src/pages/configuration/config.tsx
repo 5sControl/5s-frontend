@@ -1,7 +1,7 @@
 import { Camera } from '../camera/Camera';
 import { TabListProps } from '../../components/tabs';
 import { DatabaseTab } from './components/DatabaseTab/DatabaseTab';
-import { Notifications } from '../Notifications/notifications';
+import { Notifications } from '../notificationEmail/notifications';
 
 export const tabsData: TabListProps[] = [
   {

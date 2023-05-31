@@ -3,7 +3,7 @@ import { BsFillTrashFill } from 'react-icons/bs';
 import { FcCheckmark } from 'react-icons/fc';
 import { useCookies } from 'react-cookie';
 import { IoMdSettings } from 'react-icons/io';
-
+import { Button } from '../../components/button';
 import { ModalEmail } from './components/modal';
 import {
   deleteNotificationEmail,
@@ -12,6 +12,7 @@ import {
   patchNotificationEmail,
   postNotificationEmail,
 } from '../../api/notificationRequest';
+import { SettingsWhite } from '../../assets/svg/SVGcomponent';
 import { Notification } from '../../components/notification/notification';
 
 import styles from './notifications.module.scss';
@@ -33,7 +34,6 @@ export const Notifications = () => {
       getNotificationSettings(window.location.hostname, cookies.token)
         .then((response) => {
           setDefaultSettings(response.data);
-          // console.log(response.data.results);
         })
         .catch((err) => {
           console.log(err);
@@ -52,7 +52,6 @@ export const Notifications = () => {
             getNotificationEmail(window.location.hostname, cookies.token)
               .then((res) => {
                 setEmails(res.data);
-                // console.log(res);
               })
               .catch((err) => {
                 console.log(err);
@@ -66,15 +65,12 @@ export const Notifications = () => {
           .then(() => {
             getNotificationEmail(window.location.hostname, cookies.token).then((res) => {
               setEmails(res.data);
-              // console.log(res);
             });
-            // console.log(res);
           })
           .catch((err) => {
             console.log(err);
           });
       }
-      // console.log(e.target.value, id);
     }
   };
 
@@ -82,11 +78,10 @@ export const Notifications = () => {
     if (id !== 0) {
       deleteNotificationEmail(window.location.hostname, cookies.token, id)
         .then(() => {
-          // console.log(res);
           getNotificationEmail(window.location.hostname, cookies.token)
             .then((res) => {
+              console.log(res.data);
               setEmails(res.data);
-              // console.log(res);
             })
             .catch((err) => {
               console.log(err);
@@ -107,15 +102,30 @@ export const Notifications = () => {
       }, 2000);
     }
   }, [notificationMessage]);
+
+  const changeHandler = (value, item) => {
+    const id = emails.indexOf(item);
+    setEmails(
+      emails.map((el, index) =>
+        id === index
+          ? {
+              ...item,
+              email: value,
+            }
+          : el
+      )
+    );
+  };
   return (
     <>
       <section className={styles.server}>
         <div className={styles.server__header}>
           <h2>SMTP server</h2>
-          <button onClick={() => setIsShowModal(true)} className={styles.button}>
-            <IoMdSettings style={{ color: 'white', width: '20px', height: '20px' }} />
-            Settings
-          </button>
+          <Button
+            onClick={() => setIsShowModal(true)}
+            IconLeft={SettingsWhite}
+            text="Settings"
+          ></Button>
         </div>
         <p className={styles.server__create}>Create SMTP server to send notifications.</p>
         {defaultSettings && defaultSettings.length > 0 && defaultSettings[0].server ? (
@@ -166,7 +176,11 @@ export const Notifications = () => {
               emails.length > 0 &&
               emails.map((email, index) => (
                 <div key={index} className={styles.emails__list_div}>
-                  <input defaultValue={email.email} onKeyUp={(e) => changeEmail(e, email.id)} />
+                  <input
+                    value={email.email}
+                    onKeyUp={(e) => changeEmail(e, email.id)}
+                    onChange={(e) => changeHandler(e.target.value, email)}
+                  />
                   <BsFillTrashFill onClick={() => deleteEmail(email.id)} className={styles.trash} />
                   {email.id !== 0 && <FcCheckmark className={styles.checkmark} />}
                 </div>

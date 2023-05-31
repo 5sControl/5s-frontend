@@ -46,7 +46,6 @@ export const SelectBase: React.FC<PropsType> = ({
           {label}
         </label>
       )}
-
       <div className={styles.block}>
         <select
           name={name}
@@ -61,8 +60,6 @@ export const SelectBase: React.FC<PropsType> = ({
             </option>
           ))}
         </select>
-
-        {/* <ArrowBottom className={styles.block__arrow} /> */}
       </div>
     </div>
   );

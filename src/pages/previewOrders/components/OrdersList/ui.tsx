@@ -39,7 +39,6 @@ export const OrderList: React.FC<PropsType> = ({
     };
     navigateSearch('/orders-view', newQueryParams);
   };
-
   return (
     <Cover className={styles.wrapper}>
       <div className={styles.header}>

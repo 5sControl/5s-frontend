@@ -55,8 +55,6 @@ export const getCamerasAsync = createAsyncThunk(
   async (data: { token: string; hostname: string }) => {
     const response = await getSelectedCameras(data.hostname, data.token);
     if (response.data) {
-      // console.log(response.data);
-
       const cameras = response.data.map((item: Camera) => {
         return { text: item.name, id: item.id };
       });
@@ -74,7 +72,6 @@ const inventoryPage = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getInventoryItemsAsync.fulfilled, (state, action) => {
-      // console.log(action);
       state.isLoading = false;
       state.inventoryItems = action.payload;
     });

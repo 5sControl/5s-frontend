@@ -1,5 +1,6 @@
-import moment from 'moment';
 import { useState, useEffect } from 'react';
+import moment from 'moment';
+
 import { ViolintationFalse, ViolintationTrue } from '../../../../assets/svg/SVGcomponent.ts';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName.js';
 import { selectCurrentReport } from '../../../../store/dataSlice';
@@ -7,13 +8,15 @@ import { useAppSelector } from '../../../../store/hooks';
 import { ZoomOut } from '../../../../components/zoomOut';
 import ImageSlider from '../../../../components/slider/slider';
 import { Scale } from '../../../../components/scale';
+import { Modal } from '../../../../components/modal';
+
+import styles from './currentReport.module.scss';
 
 export const CurrentReport = () => {
   const { currentReport } = useAppSelector(selectCurrentReport);
   const [fullImage, setFullImage] = useState(false);
   const [currentCount, setCurrentCount] = useState(0);
 
-  console.log(currentReport);
   useEffect(() => {
     setCurrentCount(0);
   }, [currentReport]);
@@ -22,8 +25,8 @@ export const CurrentReport = () => {
     <>
       {currentReport && (
         <>
-          <div className="dashboard__report">
-            <div className="dashboard__report_image">
+          <div className={styles.report}>
+            <div className={styles.report_image}>
               {currentReport && (
                 <ImageSlider
                   images={currentReport.photos}
@@ -31,11 +34,11 @@ export const CurrentReport = () => {
                   currentCount={currentCount}
                 />
               )}
-              <Scale onClick={() => setFullImage(true)} className="dashboard__report_scale" />
+              <Scale onClick={() => setFullImage(true)} className={styles.report_scale} />
             </div>
-            <div className="dashboard__report_item">
-              <span className="dashboard_text">Date & Time</span>
-              <span className="dashboard_text2">
+            <div className={styles.report_item}>
+              <span className={styles.legend}>Date & Time</span>
+              <span className={styles.text}>
                 {moment
                   .utc(currentReport.start_tracking)
                   .utcOffset(moment().utcOffset())
@@ -52,22 +55,22 @@ export const CurrentReport = () => {
                   .format('HH:mm:ss')}
               </span>
             </div>
-            <div className="dashboard__report_item">
-              <span className="dashboard_text">Camera</span>
-              <span className="dashboard_text2">
+            <div className={styles.report_item}>
+              <span className={styles.legend}>Camera</span>
+              <span className={styles.text}>
                 {currentReport.camera ? currentReport.camera.name : 'Deleted Camera'}
               </span>
             </div>
-            <div className="dashboard__report_item">
-              <span className="dashboard_text">Algorithm</span>
+            <div className={styles.report_item}>
+              <span className={styles.legend}>Algorithm</span>
 
-              <span className="dashboard_text2">
+              <span className={styles.text}>
                 {parsingAlgorithmName(currentReport.algorithm.name)}
               </span>
             </div>
-            <div className="dashboard__report_item">
-              <span className="dashboard_text">Status</span>
-              <span className="dashboard_text2">
+            <div className={styles.report_item}>
+              <span className={styles.legend}>Status</span>
+              <span className={styles.text}>
                 {currentReport.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
               </span>
             </div>
@@ -75,21 +78,16 @@ export const CurrentReport = () => {
         </>
       )}
       {fullImage && (
-        <>
-          <div className="dashboard__fullimage">
-            <div className="dashboard__fullimage__container">
-              <ImageSlider
-                images={currentReport.photos}
-                setCurrentCount={(num) => setCurrentCount(num)}
-                currentCount={currentCount}
-              />
-              <ZoomOut
-                className={'dashboard__fullimage__scale'}
-                onClick={() => setFullImage(false)}
-              />
-            </div>
+        <Modal isOpen={true} handleClose={() => setFullImage(false)} className={styles.fullImage}>
+          <div className={styles.fullImage__container}>
+            <ImageSlider
+              images={currentReport.photos}
+              setCurrentCount={(num) => setCurrentCount(num)}
+              currentCount={currentCount}
+            />
+            <ZoomOut className={styles.fullImage__scale} onClick={() => setFullImage(false)} />
           </div>
-        </>
+        </Modal>
       )}
     </>
   );

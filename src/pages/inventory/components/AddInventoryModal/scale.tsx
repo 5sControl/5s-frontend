@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment, useEffect, useRef, useState } from 'react';
-import styles from './addInventoryModal.module.scss';
+
 import { generateString } from '../../../../functions/randomizer';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
 import { IoIosCloseCircle } from 'react-icons/io';
 import Moveable from 'react-moveable';
 import { ZoomOut } from '../../../../components/zoomOut';
+import styles from '../InventoryModal.module.scss';
 type PropsType = {
   image: string;
   cameraBox: any;
@@ -74,9 +75,6 @@ export const Scaleble: React.FC<PropsType> = ({
       const target = e.target.getBoundingClientRect();
       setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
       setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
-      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
-    } else {
-      // setTarget(null);
     }
   };
 
@@ -134,7 +132,6 @@ export const Scaleble: React.FC<PropsType> = ({
         y2: bufHeight * proportionHeight + totalY * proportionHeight,
       });
     });
-    // setCoords(sendCoord);
   };
 
   const changeTarget = (currentTarget: any) => {
@@ -163,8 +160,6 @@ export const Scaleble: React.FC<PropsType> = ({
       setAllBox([...allBox, response]);
       setIsStartDraw(false);
       setMoveDraw({ x: 0, y: 0 });
-    } else {
-      // setTarget(null);
     }
   };
 
@@ -183,7 +178,6 @@ export const Scaleble: React.FC<PropsType> = ({
     if (allBox.length > 0) {
       setTarget(document.getElementById(allBox[allBox.length - 1].id));
     }
-    // onChangeSize();
   }, [allBox]);
 
   return (

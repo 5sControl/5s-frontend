@@ -159,7 +159,7 @@ export const patchNotificationEmail = (hostname, cookies, id, email) => {
     );
   } else {
     return axios.patch(
-      `http://${hostname}/${API_EMAIL}/${id}/`,
+      `http://${hostname}/${API_EMAIL}${id}/`,
       {
         id: id,
         email: email,
@@ -175,11 +175,12 @@ export const patchNotificationEmail = (hostname, cookies, id, email) => {
 
 export const deleteNotificationEmail = (hostname, cookies, id) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(`${process.env.REACT_APP_NGROK}${API_EMAIL}${id}/`, 'DELETE', {
+    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+      url: `${process.env.REACT_APP_NGROK}${API_EMAIL}${id}/`,
+      method: 'DELETE',
       headers: {
-        Authorization: cookies,
-        Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: cookies,
       },
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {

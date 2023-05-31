@@ -11,6 +11,7 @@ import styles from './connectToDbModal.module.scss';
 import { createConnectionWithDB, selectConnectToDbModal } from './connectToDbModalSlice';
 import { ConnectionToDatabaseForm } from './types';
 import { Cross } from '../../../../assets/svg/SVGcomponent';
+import { Notification } from '../../../../components/notification/notification';
 
 type PropsType = {
   isOpen: boolean;
@@ -111,7 +112,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
           ))}
 
           {isErrorLoadingPostConnectionToDb && (
-            <div className={styles.form_error}>{errorConnectToDbResponse?.message}</div>
+            <Notification status={false} message="Could not connect to database" />
           )}
         </div>
         <div className={styles.buttons}>

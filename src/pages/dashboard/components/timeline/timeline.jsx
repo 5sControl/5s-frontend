@@ -6,24 +6,40 @@ import ImageSlider from '../../../../components/slider/slider';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 import {
   CrossWhite,
+  SliderArrow,
   ViolintationFalse,
   ViolintationTrue,
 } from '../../../../assets/svg/SVGcomponent.ts';
-import './timeline.scss';
+
 import { Modal } from '../../../../components/modal';
+import styles from './timeline.module.scss';
 
 export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => {
   const [timeLine, setTimeLine] = useState([]);
   const [currentReport, setCurrentReport] = useState(false);
-
   const [currentCount, setCurrentCount] = useState(0);
-
+  const [hoverItem, setHoverItem] = useState(false);
+  const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const duration = (start, end) => {
     return (moment(end).diff(moment(start), 'seconds') / calculateTime(startTime, endTime)) * 100;
   };
 
   useEffect(() => {
     setCurrentCount(0);
+    if (currentReport) {
+      const arrowKey = (e) => {
+        if (data && data?.indexOf(currentReport) > 0 && e.key === 'ArrowLeft') {
+          setCurrentReport(data[data.indexOf(currentReport) - 1]);
+        }
+        if (data && data?.indexOf(currentReport) < data.length - 1 && e.key === 'ArrowRight') {
+          setCurrentReport(data[data.indexOf(currentReport) + 1]);
+        }
+      };
+      document.body.addEventListener('keydown', arrowKey);
+      return () => {
+        document.body.removeEventListener('keydown', arrowKey);
+      };
+    }
   }, [currentReport]);
 
   const timeDuration = (start, end) => {
@@ -32,7 +48,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     const hours = duration.hours();
     const minutes = duration.minutes();
     const seconds = duration.seconds();
-    return `${days ? days + 'days' : ''} ${hours ? hours + 'hours' : ''} ${
+    return `${days ? days + 'days' : ''} ${hours ? hours + 'h' : ''} ${
       minutes ? minutes + 'min' : ''
     } ${seconds ? seconds + 'sec' : ''}`;
   };
@@ -55,6 +71,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                 .format('YYYY-MM-DD HH:mm:ss')
             : moment(startDate).format(`YYYY-MM-DD ${endTime}`),
           violation_found: dat.violation_found ? 'red' : 'green',
+          algorithm: parsingAlgorithmName(dat.algorithm.name),
         };
       });
 
@@ -108,47 +125,86 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     }
   }, [data]);
 
+  const onMove = (item, event) => {
+    setHoverItem(item);
+    setHoverPosition({
+      x: event.clientX,
+      y: event.clientY,
+    });
+  };
   return (
     <>
       {timeLine.length > 1 && (
-        <section className="report-page_timeline">
-          <div className="timeline-clickableNew">
-            <span className="timeline-clickableNew__text"> {parsingAlgorithmName(algorithm)}</span>
-            <div className="timeline-clickableNew__container">
-              {timeLine.map((el, index, array) => (
-                <span
-                  key={index}
-                  onClick={() =>
-                    el.id !== 0
-                      ? setCurrentReport(data.filter((item) => item.id === el.id)[0])
-                      : undefined
-                  }
-                  className={`timeline-clickableNew_${el.violation_found} timeline-clickableNew_pointer`}
-                  style={{
-                    width: `${el.violation_found !== 'yellow' ? duration(el.start, el.stop) : 0}%`,
-                    marginLeft: `${
-                      index === 0 ? '0px' : duration(array[index - 1].stop, el.start)
-                    }%`,
-                  }}
-                ></span>
-              ))}
-            </div>
+        <section className={styles.timeline}>
+          <span className={styles.timeline__text}> {parsingAlgorithmName(algorithm)}</span>
+          <div className={styles.line}>
+            {timeLine.map((el, index, array) => (
+              <span
+                key={index}
+                onMouseOver={(e) => onMove(el, e)}
+                onMouseMove={(e) => onMove(el, e)}
+                onMouseLeave={() => setHoverItem(false)}
+                onClick={() =>
+                  el.id !== 0
+                    ? setCurrentReport(data.filter((item) => item.id === el.id)[0])
+                    : undefined
+                }
+                className={styles[el.violation_found]}
+                style={{
+                  width: `${el.violation_found !== 'yellow' ? duration(el.start, el.stop) : 0}%`,
+                  marginLeft: `${index === 0 ? '0px' : duration(array[index - 1].stop, el.start)}%`,
+                }}
+              ></span>
+            ))}
           </div>
         </section>
       )}
+      {hoverItem && (
+        <div
+          className={styles.hover}
+          style={{ top: hoverPosition.y - 100, left: hoverPosition.x - 80 }}
+        >
+          <h6>{hoverItem.algorithm}</h6>
+          <div className={styles.hover__time}>
+            {`${moment(hoverItem.start).format('HH:MM')} - ${moment(hoverItem.stop).format(
+              'HH:MM'
+            )}`}
+
+            <span>{` | ${timeDuration(hoverItem.start, hoverItem.stop)}`}</span>
+          </div>
+          {hoverItem.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
+        </div>
+      )}
       {currentReport && (
-        <Modal className="fullTimeline" handleClose={() => setCurrentReport(false)} isOpen={true}>
-          <div className="fullTimeline__container">
-            <div className="fullTimeline__image">
+        <Modal
+          className={styles.fullscreen}
+          handleClose={() => setCurrentReport(false)}
+          isOpen={true}
+        >
+          <div className={styles.fullscreen__container}>
+            {data && data?.indexOf(currentReport) > 0 && (
+              <SliderArrow
+                className={styles.arrowLeft}
+                onClick={() => setCurrentReport(data[data.indexOf(currentReport) - 1])}
+              />
+            )}
+            {data && data?.indexOf(currentReport) < data.length - 1 && (
+              <SliderArrow
+                className={styles.arrowRight}
+                onClick={() => setCurrentReport(data[data.indexOf(currentReport) + 1])}
+              />
+            )}
+            <div className={styles.fullscreen__image}>
               <ImageSlider
                 images={currentReport.photos}
                 currentCount={currentCount}
                 setCurrentCount={(e) => setCurrentCount(e)}
+                isKeyDisable={true}
               />
             </div>
-            <footer className="fullTimeline__footer">
-              <div className="fullTimeline__footer_up">
-                <span className="fullTimeline__footer_time">
+            <footer className={styles.fullscreen__footer}>
+              <div className={styles.fullscreen__footer_up}>
+                <span className={styles.fullscreen__footer_time}>
                   {moment
                     .utc(currentReport.start_tracking)
                     .utcOffset(moment().utcOffset())
@@ -166,22 +222,22 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                 </span>
                 {currentReport.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
               </div>
-              <div className="fullTimeline__footer_text">
+              <div className={styles.fullscreen__footer_text}>
                 <span>
                   Duration:&nbsp;
                   {timeDuration(currentReport.start_tracking, currentReport.stop_tracking)}
                 </span>
               </div>
-              <div className="fullTimeline__footer_text">
+              <div className={styles.fullscreen__footer_text}>
                 <span>Camera:&nbsp;</span>
                 {currentReport.camera ? currentReport.camera.name : 'Deleted Camera'}
               </div>
-              <div className="fullTimeline__footer_text">
+              <div className={styles.fullscreen__footer_text}>
                 <span>Algorithm:&nbsp;</span>
                 {parsingAlgorithmName(currentReport.algorithm.name)}
               </div>
             </footer>
-            <div className="fullTimeline__close" onClick={() => setCurrentReport(false)}>
+            <div className={styles.fullscreen__close} onClick={() => setCurrentReport(false)}>
               <CrossWhite />
             </div>
           </div>

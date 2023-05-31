@@ -1,10 +1,11 @@
-import './Authorization.scss';
-
-import logo from '../../assets/svg/icon.svg';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { authorizationRequest } from '../../api/companyRequest';
 import { Input } from '../input';
+
+import logo from '../../assets/svg/icon.svg';
+
+import './Authorization.scss';
 
 export const Authorization = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +14,7 @@ export const Authorization = () => {
   const [correctPassword, setCorrectPassword] = useState(true);
   const [errorResponse, setErrorResponse] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
-  const [cookies, setCookie] = useCookies(['token']);
+  const [, setCookie] = useCookies(['token']);
 
   useEffect(() => {
     if (password.length < 20) {
@@ -39,12 +40,10 @@ export const Authorization = () => {
             setCookie('token', `JWT ${response.data.access}`, { path: '/' });
           }
           if (!response.data.access) {
-            // console.log(response);
             setErrorResponse('Incorrect email or password. Please, try again.');
           }
         })
         .catch((error) => {
-          // console.log(error.message);
           setErrorResponse(error.message);
         });
     } else {
@@ -64,7 +63,7 @@ export const Authorization = () => {
       <h2 className="authorization__title">Sign in to 5S Control</h2>
       <div className="authorization__container">
         <label>Email</label>
-        <input
+        <Input
           type="text"
           placeholder="Enter Email"
           className="authorization__input"
@@ -85,18 +84,6 @@ export const Authorization = () => {
           onKeyDown={(e) => pressEnter(e)}
           showEye={true}
         />
-        {/* <input
-          type="password"
-          className="authorization__input"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-            setErrorPassword(false);
-          }}
-          onKeyDown={(e) => pressEnter(e)}
-        /> */}
-        {/* {!correctPassword && <span className='authorization__error'>This field is required</span>} */}
         {errorResponse && (
           <span className="authorization__error_response">
             Incorrect email or password. Please, try again.
@@ -105,15 +92,7 @@ export const Authorization = () => {
         {errorPassword && (
           <span className="authorization__error_password">This field is required</span>
         )}
-        <button
-          className={
-            'authorization__button'
-            // correctEmail && correctPassword
-            //   ?
-            //   : 'authorization__button disableButton'
-          }
-          onClick={post}
-        >
+        <button className={'authorization__button'} onClick={post}>
           Log In
         </button>
       </div>

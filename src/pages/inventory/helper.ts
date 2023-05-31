@@ -8,7 +8,6 @@ export const getExtraOfActiveData = (
     (item) => item.itemId === (activeInventoryItem?.id ?? 0)
   );
   currentExtra = currentExtra && { ...currentExtra, isShow: true };
-  // console.log(currentExtra);
   return (
     currentExtra || {
       count: 0,
