@@ -107,6 +107,8 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
     console.log(activeItem);
   };
 
+  console.log(camerasData);
+  console.log(inventoryItems);
   return (
     <>
       {currentEditItem && (
@@ -216,10 +218,16 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
                                 }
                               />
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                              {camerasData !== undefined &&
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                camerasData?.filter((camera: any) => camera?.id === item?.camera)[0]
-                                  .text}
+                              {camerasData &&
+                              camerasData.length > 0 &&
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              camerasData?.filter((camera: any) => camera?.id === item?.camera)
+                                .length > 0
+                                ? camerasData?.filter(
+                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                    (camera: any) => camera?.id === item?.camera
+                                  )[0].text
+                                : 'deleted camera'}
                             </td>
                             <td
                               className={styles.settings}
