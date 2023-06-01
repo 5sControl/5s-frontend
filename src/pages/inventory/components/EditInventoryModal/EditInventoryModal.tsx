@@ -54,7 +54,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
       (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
     );
     setIsClose({ loading: true });
-    console.log(dataForm);
+
     if (coords.length > 0 && coordNegativeArray.length === 0 && itemName && itemName.length > 0) {
       dispatch(
         editItem({
@@ -151,9 +151,16 @@ export const EditInventoryModal: React.FC<PropsType> = ({
                   name="camera_type"
                   label="Select a camera"
                   listOfData={camerasData}
-                  activeSelect={camerasData.findIndex(
-                    (item: { text: string; id: string }) => item.id === currentEditItem?.camera
-                  )}
+                  activeSelect={
+                    camerasData.findIndex(
+                      (item: { text: string; id: string }) => item.id === currentEditItem?.camera
+                    ) > -1
+                      ? camerasData.findIndex(
+                          (item: { text: string; id: string }) =>
+                            item.id === currentEditItem?.camera
+                        )
+                      : 0
+                  }
                   setCurrentSelect={(select) => setCurrentSelect(select)}
                   camerasData={camerasData}
                 />

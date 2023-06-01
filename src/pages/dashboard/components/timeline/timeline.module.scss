@@ -172,30 +172,30 @@
       opacity: 1;
     }
   }
-  .arrowLeft{
+  .arrowLeft {
     width: 30px;
     height: 30px;
     position: absolute;
-    top:calc(50% - 15px);
+    top: calc(50% - 15px);
     left: -40px;
     transform: rotate(180deg);
     opacity: 0.8;
     transition: all 0.3s;
     cursor: pointer;
-    &:hover{
+    &:hover {
       opacity: 1;
     }
   }
-  .arrowRight{
+  .arrowRight {
     width: 30px;
     height: 30px;
     position: absolute;
-    top:calc(50% - 15px);
+    top: calc(50% - 15px);
     right: -40px;
     opacity: 0.8;
     transition: all 0.3s;
     cursor: pointer;
-    &:hover{
+    &:hover {
       opacity: 1;
     }
   }
@@ -223,4 +223,15 @@
       color: #9e9e9e;
     }
   }
+}
+
+.lupa {
+}
+.lupa {
+  width: 20px;
+  height: 20px;
+  color: #666666;
+}
+.lupaOrange {
+  color: #fe6100;
 }
