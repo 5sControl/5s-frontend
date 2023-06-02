@@ -168,7 +168,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
               </div>
             ) : (
               <Link to="/configuration/camera" className={styles.addCamera}>
-                Add Camera
+                Add camera
               </Link>
             )}
           </form>

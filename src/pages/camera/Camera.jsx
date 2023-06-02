@@ -69,7 +69,7 @@ export const Camera = () => {
     <section className="cameras">
       <div className="cameras__title">
         <h2>Cameras</h2>
-        <Button text="Add Camera" onClick={showAddCameras} IconLeft={Plus} />
+        <Button text="Add camera" onClick={showAddCameras} IconLeft={Plus} />
       </div>
 
       {createdCameras && (
