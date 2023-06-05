@@ -40,6 +40,7 @@ import { Button } from '../../components/button';
 import { FilterBar } from './components/FilterBar';
 import { DatePicker } from '../../components/datePicker';
 import { getFilterQueryData, getFilterDateQueryData } from './config';
+import TimelineComponent from '../OrdersViewD3/App';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -303,45 +304,48 @@ export const PreviewOrders: React.FC = () => {
             </div>
           </div>
 
-          <div className={styles.body}>
-            <OrderList
-              data={ordersList ? ordersList.results : []}
-              isLoading={isLoadingOrdersList}
-              showPaginations
-              disabled={isErrorOfOrdersList}
-              handleClearList={handleSubmitClear}
-              handleChangeSearch={handleChangeSearch}
-            />
+          <section className={styles.tabs}>
+            <TimelineComponent />
+            <div className={styles.body}>
+              <OrderList
+                data={ordersList ? ordersList.results : []}
+                isLoading={isLoadingOrdersList}
+                showPaginations
+                disabled={isErrorOfOrdersList}
+                handleClearList={handleSubmitClear}
+                handleChangeSearch={handleChangeSearch}
+              />
 
-            {activeOrder && orderData ? (
-              <OrderCard data={orderData} />
-            ) : (
-              <Cover className={styles.body_error}>
-                {isErrorOfOrdersList ? (
-                  <div className={styles.error}>
-                    <Disconnect className={styles.body_error_icon} />
-                    <p className={styles.body_error_subtitle}>
-                      To view your orders{' '}
-                      <Link
-                        to={'/configuration/database'}
-                        className={styles.body_error_subtitle_link}
-                      >
-                        connect
-                      </Link>{' '}
-                      to the database with them in Configuration tab.
-                    </p>
-                  </div>
-                ) : (
-                  <>
-                    <h4 className={styles.body_error_title}>No order</h4>
-                    <p className={styles.body_error_subtitle}>
-                      Select an order from the list on the left
-                    </p>
-                  </>
-                )}
-              </Cover>
-            )}
-          </div>
+              {activeOrder && orderData ? (
+                <OrderCard data={orderData} />
+              ) : (
+                <Cover className={styles.body_error}>
+                  {isErrorOfOrdersList ? (
+                    <div className={styles.error}>
+                      <Disconnect className={styles.body_error_icon} />
+                      <p className={styles.body_error_subtitle}>
+                        To view your orders{' '}
+                        <Link
+                          to={'/configuration/database'}
+                          className={styles.body_error_subtitle_link}
+                        >
+                          connect
+                        </Link>{' '}
+                        to the database with them in Configuration tab.
+                      </p>
+                    </div>
+                  ) : (
+                    <>
+                      <h4 className={styles.body_error_title}>No order</h4>
+                      <p className={styles.body_error_subtitle}>
+                        Select an order from the list on the left
+                      </p>
+                    </>
+                  )}
+                </Cover>
+              )}
+            </div>
+          </section>
         </div>
       </WrapperPage>
     </>
