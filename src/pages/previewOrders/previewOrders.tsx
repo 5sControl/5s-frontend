@@ -40,7 +40,7 @@ import { Button } from '../../components/button';
 import { FilterBar } from './components/FilterBar';
 import { DatePicker } from '../../components/datePicker';
 import { getFilterQueryData, getFilterDateQueryData } from './config';
-import TimelineComponent from '../OrdersViewD3/App';
+import TimelineComponent from '../OrdersViewD3/OrdersViewD3';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();

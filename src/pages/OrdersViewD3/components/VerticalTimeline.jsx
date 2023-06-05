@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import Gorilla from '../assets/gif/gorila.gif';
 import Arrow from '../assets/svg/arrow.svg';
 import { Operation } from './operation';
 import Timeline from './scale';
 import moment from 'moment';
+import { Preloader } from '../../../components/preloader';
 
 function getDuration(milli) {
   let minutes = Math.floor(milli / 60000);
@@ -134,7 +135,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
             .attr('width', fieldWidth - 70)
             .attr('height', 19)
             .on('click', () => setOperation(false))
-            .attr('fill', '#ededed')
+            .attr('fill', '#f5f5f5')
             .attr('transform', (d, i) => {
               console.log(i);
               return `translate(0, ${(ind + 1) * (400 * proportion) + ind * 18} )`;
@@ -231,7 +232,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
         <div className="wrapper">
           {update.length === 0 && (
             <div className="gorilla">
-              <img src={Gorilla} alt="" width={120} height={120} />
+              <Preloader />
             </div>
           )}
 

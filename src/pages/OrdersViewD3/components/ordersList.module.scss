@@ -1,0 +1,40 @@
+.orders {
+  width: 210px;
+  background: #ffffff;
+  box-shadow: 0px 0px 8px rgba(68, 87, 104, 0.25);
+  border-radius: 4px;
+  margin: 0 17px 0 0px;
+  padding: 10px;
+  overflow: hidden;
+  background: #ffffff;
+  h2 {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 150%;
+  }
+  &__list {
+    height: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: auto;
+    padding: 20px 0 0 0;
+  }
+  &__item {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 20px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    &:hover {
+      background: rgba(254, 97, 0, 0.1);
+    }
+  }
+}
+.listInput{
+  margin-top: 10px;
+}
+.select {
+  background: rgba(254, 97, 0, 0.1);
+}

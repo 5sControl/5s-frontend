@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import '../style.css';
+import styles from './ordersList.module.scss';
+import { SearchInput } from '../../../components/searchInput/searchInput';
 
 export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) => {
   const [data, setData] = useState([]);
@@ -26,16 +27,23 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) 
   }, [startDate, endDate]);
 
   return (
-    <div className="orders">
+    <div className={styles.orders}>
       <h2>Orders ({data.length})</h2>
-      <div className="orders__list">
+      <SearchInput
+        className={styles.listInput}
+        placeholder={'Search order number'}
+        // disabled={disabled}
+        // handleClearList={handleClearList}
+        // handleChange={handleChangeSearch}
+      />
+      <div className={styles.orders__list}>
         {data.map((item, index) => (
           <span
             key={index}
-            className={`orders__item ${selectOrder === item ? 'select' : ''}`}
+            className={`${styles.orders__item} ${selectOrder === item ? styles.select : ''}`}
             onClick={() => setSelectOrder(item)}
           >
-            {item}
+            №{item}
           </span>
         ))}
       </div>

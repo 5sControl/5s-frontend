@@ -1,4 +1,4 @@
-import '../style.css';
+import '../style.scss';
 import moment from 'moment';
 export const Operation = ({ operation, x, y }) => {
   return (
