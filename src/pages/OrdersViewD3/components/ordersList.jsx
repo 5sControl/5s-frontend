@@ -1,28 +1,16 @@
 import { useEffect, useState } from 'react';
 import styles from './ordersList.module.scss';
 import { SearchInput } from '../../../components/searchInput/searchInput';
+import { getOrderViewOrderList } from '../../../api/orderView';
 
 export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('https://5scontrol.pl/proxy_to_ngrok/', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        url: `https://0bc5-81-7-77-205.ngrok-free.app/api/new-order/orders/?from=${startDate}&to=${endDate}`,
-        method: 'GET',
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-        const uniqueOrderNames = [...new Set(data.map((item) => item.orderName))];
-        setData(uniqueOrderNames);
-      });
+    getOrderViewOrderList(window.location.hostname, '', startDate, endDate).then((response) => {
+      const uniqueOrderNames = [...new Set(response.data.map((item) => item.orderName))];
+      setData(uniqueOrderNames);
+    });
   }, [startDate, endDate]);
 
   return (

@@ -7,6 +7,7 @@ import moment from 'moment';
 import { Preloader } from '../../../components/preloader';
 
 import styles from './verticalTimeline.module.scss';
+import { getOrderViewOperation } from '../../../api/orderView';
 
 function getDuration(milli) {
   let minutes = Math.floor(milli / 60000);
@@ -57,28 +58,13 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
   };
 
   const clickHandler = (e, event) => {
-    console.log(e);
-    fetch('https://5scontrol.pl/proxy_to_ngrok/', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        url:
-          'https://0bc5-81-7-77-205.ngrok-free.app/api/new-order/order-detail/?operation=' + e.id,
-        method: 'GET',
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setOperation({
-          data: data,
-          x: event.pageX,
-          y: event.pageY,
-        });
+    getOrderViewOperation(window.location.hostname, '', e.id).then((response) => {
+      setOperation({
+        data: response.data,
+        x: event.pageX,
+        y: event.pageY,
       });
+    });
   };
 
   useEffect(() => {
