@@ -306,7 +306,7 @@ export const PreviewOrders: React.FC = () => {
 
           <section className={styles.tabs}>
             <TimelineComponent />
-            <div className={styles.body}>
+            {/* <div className={styles.body}>
               <OrderList
                 data={ordersList ? ordersList.results : []}
                 isLoading={isLoadingOrdersList}
@@ -344,7 +344,7 @@ export const PreviewOrders: React.FC = () => {
                   )}
                 </Cover>
               )}
-            </div>
+            </div> */}
           </section>
         </div>
       </WrapperPage>
