@@ -42,7 +42,8 @@ function App() {
           <Route element={<RoutesOutlet />}>
             <Route path="/" element={<Main />} />
             <Route path="/info/*" element={<Info />} />
-            <Route path="/company" element={<Company />} />
+            <Route path="/company" element={<Company activeTab={0} />} />
+            <Route path="/company/contacts" element={<Company activeTab={1} />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/live" element={<Live />} />
             <Route path="/configuration" element={<Configuration activeTab={0} />} />

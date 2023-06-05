@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import moment from 'moment';
 import { useCookies } from 'react-cookie';
 
-import { getCompanyInfo, getUserList } from '../../api/companyRequest';
+import { getCompanyInfo, getUserList } from '../../../api/companyRequest';
 
-import { AddUser } from './components/addUser';
-import { LicenseKey } from './components/licenseKey';
-import { UserList } from './components/UserList';
-import { AvailableProcess } from './components/availableProcess';
-import { Button } from '../../components/button';
-import { Plus } from '../../assets/svg/SVGcomponent';
+import { AddUser } from '../components/addUser';
+import { LicenseKey } from '../components/licenseKey';
+import { UserList } from '../components/UserList';
+import { AvailableProcess } from '../components/availableProcess';
+import { Button } from '../../../components/button';
+import { Plus } from '../../../assets/svg/SVGcomponent';
 
-import './Company.scss';
+import { CompanyInfoType } from '../types';
 
-export const Company = () => {
+export const CompanyInfo: FC = () => {
   const [cookies] = useCookies(['token']);
   const [userList, setUserList] = useState([]);
   const [isAddAccount, setIsAddAccount] = useState(false);
-  const [companyInfo, setCompanyInfo] = useState({});
+  const [companyInfo, setCompanyInfo] = useState<CompanyInfoType>();
   const [isLicensed, setIsLicensed] = useState(false);
   useEffect(() => {
     getUserList(window.location.hostname, cookies.token).then((res) => {
@@ -42,10 +42,9 @@ export const Company = () => {
   return (
     <>
       <div className="company">
-        <h1>Company</h1>
-        {Object.keys(companyInfo).length > 0 && isLicensed && (
+        {companyInfo && Object.keys(companyInfo).length > 0 && isLicensed && (
           <div className="company__name">
-            <h3>{companyInfo.name_company}</h3>
+            <h3>5S CONTROL</h3>
             <br></br>
             <h4>Date joined: {moment(companyInfo.date_joined).format('DD-MM-YYYY')}</h4>
             <h4>Days left: {companyInfo.days_left}</h4>
