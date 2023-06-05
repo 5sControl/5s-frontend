@@ -21,7 +21,6 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) 
       .then((data) => {
         setData(data);
         const uniqueOrderNames = [...new Set(data.map((item) => item.orderName))];
-        console.log(uniqueOrderNames);
         setData(uniqueOrderNames);
       });
   }, [startDate, endDate]);
