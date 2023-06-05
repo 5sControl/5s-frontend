@@ -8,7 +8,8 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) 
 
   useEffect(() => {
     getOrderViewOrderList(window.location.hostname, '', startDate, endDate).then((response) => {
-      const uniqueOrderNames = [...new Set(response.data.map((item) => item.orderName))];
+      console.log(response);
+      const uniqueOrderNames = [...new Set(response.data.map((item) => item.orderId))];
       setData(uniqueOrderNames);
     });
   }, [startDate, endDate]);
