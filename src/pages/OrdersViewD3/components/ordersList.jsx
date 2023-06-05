@@ -32,7 +32,7 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) 
             className={`${styles.orders__item} ${
               selectOrder === item.orderId ? styles.select : ''
             }`}
-            onClick={() => setSelectOrder(item)}
+            onClick={() => setSelectOrder(item.orderId)}
           >
             №{item.orderId}
           </span>
