@@ -9,11 +9,12 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) 
   useEffect(() => {
     getOrderViewOrderList(window.location.hostname, '', startDate, endDate).then((response) => {
       console.log(response);
-      const uniqueOrderNames = [...new Set(response.data.map((item) => item.orderId))];
-      setData(uniqueOrderNames);
+      // const uniqueOrderNames = [...new Set(response.data.map((item) => item.orderId))];
+      setData(response.data);
     });
   }, [startDate, endDate]);
 
+  console.log(data);
   return (
     <div className={styles.orders}>
       <h2>Orders ({data.length})</h2>
@@ -28,10 +29,12 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) 
         {data.map((item, index) => (
           <span
             key={index}
-            className={`${styles.orders__item} ${selectOrder === item ? styles.select : ''}`}
+            className={`${styles.orders__item} ${
+              selectOrder === item.orderId ? styles.select : ''
+            }`}
             onClick={() => setSelectOrder(item)}
           >
-            №{item}
+            №{item.orderId}
           </span>
         ))}
       </div>
