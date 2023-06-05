@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import VerticalTimeline from './components/VerticalTimeline';
 import { OrdersList } from './components/ordersList';
 import { data } from './base/data';
+import styles from './style.module.scss';
 export const TimelineComponent = () => {
   // const [data, setData] = useState([]);
   const [selectOrder, setSelectOrder] = useState('');
@@ -27,7 +28,7 @@ export const TimelineComponent = () => {
   // }, []);
 
   return (
-    <div className="fullScreen">
+    <div className={styles.fullScreen}>
       <OrdersList
         setSelectOrder={(order) => setSelectOrder(order)}
         selectOrder={selectOrder}

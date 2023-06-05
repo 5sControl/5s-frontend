@@ -273,7 +273,6 @@ export const PreviewOrders: React.FC = () => {
         <div className={styles.content}>
           <div className={styles.header}>
             <h2 className={styles.header_title}>Orders View</h2>
-
             <div className={styles.header_container}>
               <div className={styles.header_container_filters}>
                 <Button
@@ -298,7 +297,6 @@ export const PreviewOrders: React.FC = () => {
                     onClick={onClick}
                   />
                 ))}
-
                 <DatePicker />
               </div>
             </div>

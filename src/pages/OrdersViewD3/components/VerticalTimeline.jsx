@@ -5,7 +5,8 @@ import { Operation } from './operation';
 import Timeline from './scale';
 import moment from 'moment';
 import { Preloader } from '../../../components/preloader';
-import '../style.scss';
+
+import styles from './verticalTimeline.module.scss';
 
 function getDuration(milli) {
   let minutes = Math.floor(milli / 60000);
@@ -189,12 +190,12 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
   }, [minDate, maxDate, selectOrder, timelineRef, update, dateArray, proportion, days]);
 
   return (
-    <div className="container">
-      <div className="header">
+    <div className={styles.container}>
+      <div className={styles.header}>
         {update.map((element, index) => (
           <div
             key={index}
-            className="text tooltip"
+            className={`${styles.text} ${styles.tooltip}`}
             style={{
               position: 'absolute',
               top: '10px',
@@ -207,31 +208,31 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
             {element.operationName.slice(0, 10)}
           </div>
         ))}
-        <div className="prev">
+        <div className={styles.prev}>
           <img
             src={Arrow}
             alt=""
             width={20}
             height={20}
-            className="arrow"
+            className={styles.arrow}
             onClick={() => positionHandler(1)}
           />
         </div>
-        <div className="next">
+        <div className={styles.next}>
           <img
             src={Arrow}
             alt=""
             width={20}
             height={20}
-            className="arrow"
+            className={styles.arrow}
             onClick={() => positionHandler(-1)}
           />
         </div>
       </div>
-      <div className="timelineWrapper">
-        <div className="wrapper">
+      <div className={styles.timelineWrapper}>
+        <div className={styles.wrapper}>
           {update.length === 0 && (
-            <div className="gorilla">
+            <div className={styles.gorilla}>
               <Preloader />
             </div>
           )}
@@ -245,7 +246,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
             }}
           ></div>
         </div>
-        <div className="datetime">
+        <div className={styles.datetime}>
           <Timeline minDate={minDate} maxDate={maxDate} />
         </div>
       </div>
