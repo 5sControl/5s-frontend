@@ -75,7 +75,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
         .select(timelineRef.current)
         .append('svg')
         .attr('width', width + margin.left + margin.right)
-        .attr('height', height + days * 20)
+        .attr('height', height)
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
 
@@ -83,7 +83,10 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
         return new Date(e);
       };
 
-      const y = d3.scaleTime().domain([minDate, maxDate]).range([0, height]);
+      const y = d3
+        .scaleTime()
+        .domain([minDate, maxDate])
+        .range([0, height + days * 1.8]);
 
       // Добавление серых блоков для заполнения разницы
       update.forEach((element, index) => {
