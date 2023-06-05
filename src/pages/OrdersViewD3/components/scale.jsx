@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import moment from 'moment';
-
+import '../style.scss';
 const Timeline = ({ minDate, maxDate }) => {
   const svgRef = useRef(null);
 

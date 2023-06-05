@@ -5,6 +5,7 @@ import { Operation } from './operation';
 import Timeline from './scale';
 import moment from 'moment';
 import { Preloader } from '../../../components/preloader';
+import '../style.scss';
 
 function getDuration(milli) {
   let minutes = Math.floor(milli / 60000);
