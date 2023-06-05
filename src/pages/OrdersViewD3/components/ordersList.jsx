@@ -5,6 +5,7 @@ import { getOrderViewOrderList } from '../../../api/orderView';
 
 export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) => {
   const [data, setData] = useState([]);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     getOrderViewOrderList(window.location.hostname, '', startDate, endDate).then((response) => {
@@ -22,21 +23,24 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) 
         className={styles.listInput}
         placeholder={'Search order number'}
         // disabled={disabled}
-        // handleClearList={handleClearList}
-        // handleChange={handleChangeSearch}
+        handleClearList={() => setSearchText('')}
+        handleChange={(e) => setSearchText(e)}
       />
       <div className={styles.orders__list}>
-        {data.map((item, index) => (
-          <span
-            key={index}
-            className={`${styles.orders__item} ${
-              selectOrder === item.orderId ? styles.select : ''
-            }`}
-            onClick={() => setSelectOrder(item.orderId)}
-          >
-            №{item.orderId}
-          </span>
-        ))}
+        {data.map(
+          (item, index) =>
+            item.orderId.includes(searchText) && (
+              <span
+                key={index}
+                className={`${styles.orders__item} ${
+                  selectOrder === item.orderId ? styles.select : ''
+                }`}
+                onClick={() => setSelectOrder(item.orderId)}
+              >
+                №{item.orderId}
+              </span>
+            )
+        )}
       </div>
     </div>
   );
