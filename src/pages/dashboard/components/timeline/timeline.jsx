@@ -140,6 +140,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     }
   }, [data]);
 
+  console.log(hoverItem);
   const onMove = (item, event) => {
     setHoverItem(item);
     setHoverPosition({
@@ -187,7 +188,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
 
             <span>{` | ${timeDuration(hoverItem.start, hoverItem.stop)}`}</span>
           </div>
-          {hoverItem.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
+          {hoverItem.violation_found !== 'green' ? <ViolintationFalse /> : <ViolintationTrue />}
         </div>
       )}
       {currentReport && !operationOV && (
