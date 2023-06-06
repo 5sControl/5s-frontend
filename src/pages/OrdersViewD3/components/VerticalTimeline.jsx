@@ -131,7 +131,6 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
             .attr('y', 0)
             .attr('width', fieldWidth - 70)
             .attr('height', 19)
-            .on('click', () => setOperation(false))
             .attr('fill', '#f5f5f5')
             .attr('transform', (d, i) => {
               return `translate(0, ${(ind + 1) * (400 * proportion) + ind * 18} )`;
