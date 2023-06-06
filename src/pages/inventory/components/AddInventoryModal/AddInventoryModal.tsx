@@ -18,6 +18,8 @@ import { Notification } from '../../../../components/notification/notification';
 
 import styles from '../InventoryModal.module.scss';
 import './moveable.scss';
+import { ContactInfoType } from '../../../company/types';
+import { getSuppliers } from '../../../../api/companyRequest';
 
 type PropsType = {
   isOpen: boolean;
@@ -40,6 +42,16 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   const [currentSelect, setCurrentSelect] = useState('');
   const [isMulti, setIsMulti] = useState(false);
   const [isTooltipClicked, setIsTooltipClicked] = useState(false);
+  const [isTooltipSupplies, setIsTooltipSupplies] = useState(false);
+  const [orderAmount, setOrderAmount] = useState<number | null>(0);
+  const [selectedSupplierID, setSelectedSupplierID] = useState<number | null>(null);
+  useEffect(() => {
+    console.log('selectedSupplierID', selectedSupplierID);
+  }, [selectedSupplierID]);
+  const [suppliersData, setSuppliersData] = useState<Array<{ id: number | string; text: string }>>(
+    []
+  );
+  const [isAutomaticallyOrder, setIsAutomaticallyOrder] = useState(false);
 
   useEffect(() => {
     if (!isOpen) {
@@ -48,6 +60,19 @@ export const AddInventoryModal: React.FC<PropsType> = ({
       setItemCount(0);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    getSuppliers(window.location.hostname, cookies.token)
+      .then((response) => {
+        const dataForSelect = response.data.map((item: ContactInfoType) => {
+          return { id: item.id, text: item.name_company };
+        });
+        setSuppliersData(dataForSelect);
+      })
+      .catch((err) => {
+        console.log('setCompanyInfoError', err);
+      });
+  }, []);
 
   const submitHandler = () => {
     const dataForm = {
@@ -59,11 +84,17 @@ export const AddInventoryModal: React.FC<PropsType> = ({
         return rest;
       }),
       multi_row: isMulti,
+      order_quantity: null as number | null,
+      suppliers: null as number | null,
     };
+    if (isAutomaticallyOrder) {
+      dataForm.order_quantity = orderAmount;
+      dataForm.suppliers = selectedSupplierID;
+    }
     const coordNegativeArray = coords.filter(
       (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
     );
-    console.log(dataForm);
+    console.log('dataForm', dataForm);
     setIsClose({ loading: true });
     if (coords.length > 0 && coordNegativeArray.length === 0 && itemName && itemName.length > 0) {
       dispatch(
@@ -98,6 +129,10 @@ export const AddInventoryModal: React.FC<PropsType> = ({
 
   const handleToggle = () => {
     setIsMulti((prevState) => !prevState);
+  };
+
+  const handleAutoOrderToggle = () => {
+    setIsAutomaticallyOrder((prevState) => !prevState);
   };
 
   return (
@@ -172,6 +207,64 @@ export const AddInventoryModal: React.FC<PropsType> = ({
               </Link>
             )}
           </form>
+        </div>
+
+        <div className={styles.content}>
+          <div className={styles.algorithm}>
+            <h2>
+              Supplies <Tooltip onClick={() => setIsTooltipSupplies(true)} />
+              {isTooltipSupplies && (
+                <>
+                  <div
+                    className={styles.algorithm__container}
+                    onClick={() => setIsTooltipSupplies(false)}
+                  ></div>
+                  <p>
+                    Upon reaching low stock level the email will be send to the supplier ordering
+                    the item. Company info will be used for order details.
+                  </p>
+                </>
+              )}
+            </h2>
+
+            <div className={styles.algorithm__toggle}>
+              <span>Automatically order</span>
+              <div
+                className={`toggle ${isAutomaticallyOrder ? 'toggle--on' : 'toggle--off'}`}
+                onClick={handleAutoOrderToggle}
+              >
+                <div className="toggle__button"></div>
+              </div>
+            </div>
+          </div>
+
+          {isAutomaticallyOrder && (
+            <form className={styles.supplies_form}>
+              {suppliersData && suppliersData.length && (
+                <div className={styles.input}>
+                  <SelectBase
+                    id="supplier"
+                    name="supplier"
+                    label="Select a supplier"
+                    listOfData={suppliersData}
+                    setDefaultSelect={(select) => setSelectedSupplierID(select)}
+                  />
+                </div>
+              )}
+
+              <div className={styles.input}>
+                <Input
+                  id="orderAmount"
+                  name="orderAmount"
+                  type="number"
+                  min={0}
+                  label="Amount to order"
+                  value={orderAmount?.toString() || '0'}
+                  onChange={(e) => setOrderAmount(e.target.value)}
+                />
+              </div>
+            </form>
+          )}
         </div>
       </div>
       {currentSelect.length > 0 && (

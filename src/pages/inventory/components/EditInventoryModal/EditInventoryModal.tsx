@@ -8,7 +8,7 @@ import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { editItem, selectEditInventoryModal } from './editInventoryModalSlice';
 import { selectInventory } from '../../inventorySlice';
-import { Coordinat } from '../../types';
+import { Coordinat, InventoryItem } from '../../types';
 import { Coordinates } from './Coordiantes';
 import { Preloader } from '../../../../components/preloader';
 import { Tooltip } from '../../../../assets/svg/SVGcomponent';
@@ -16,6 +16,8 @@ import tooltipImage from '../../../../assets/png/tooltipInventory.png';
 import { Notification } from '../../../../components/notification/notification';
 
 import styles from '../InventoryModal.module.scss';
+import { getSuppliers } from '../../../../api/companyRequest';
+import { ContactInfoType } from '../../../company/types';
 
 type PropsType = {
   isOpen: boolean;
@@ -38,6 +40,17 @@ export const EditInventoryModal: React.FC<PropsType> = ({
   const [itemName, setItemName] = useState<string | undefined>('');
   const [itemCount, setItemCount] = useState<number | undefined>(0);
   const [isTooltipClicked, setIsTooltipClicked] = useState(false);
+  const [isTooltipSupplies, setIsTooltipSupplies] = useState(false);
+  const [orderAmount, setOrderAmount] = useState<number | null>(0);
+  const [selectedSupplierID, setSelectedSupplierID] = useState<number | null>(null);
+  const [suppliersData, setSuppliersData] = useState<Array<{ id: number | string; text: string }>>(
+    []
+  );
+  const [isAutomaticallyOrder, setIsAutomaticallyOrder] = useState(false);
+
+  useEffect(() => {
+    console.log('selectedSupplierID', selectedSupplierID);
+  }, [selectedSupplierID]);
 
   const submitHandler = () => {
     const dataForm = {
@@ -49,7 +62,13 @@ export const EditInventoryModal: React.FC<PropsType> = ({
         return rest;
       }),
       id: currentEditItem?.id,
+      order_quantity: orderAmount as number | null,
+      suppliers: selectedSupplierID as number | null,
     };
+    if (isAutomaticallyOrder) {
+      dataForm.order_quantity = null;
+      dataForm.suppliers = null;
+    }
     const coordNegativeArray = coords.filter(
       (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
     );
@@ -88,6 +107,10 @@ export const EditInventoryModal: React.FC<PropsType> = ({
     }
   };
 
+  const handleAutoOrderToggle = () => {
+    setIsAutomaticallyOrder((prevState) => !prevState);
+  };
+
   useEffect(() => {
     if (!isOpen) {
       setIsClose(false);
@@ -95,8 +118,23 @@ export const EditInventoryModal: React.FC<PropsType> = ({
     } else {
       setItemName(currentEditItem?.name);
       setItemCount(currentEditItem?.low_stock_level);
+      currentEditItem?.order_quantity && setOrderAmount(currentEditItem.order_quantity);
+      currentEditItem?.suppliers && setSelectedSupplierID(currentEditItem.suppliers);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    getSuppliers(window.location.hostname, cookies.token)
+      .then((response) => {
+        const dataForSelect = response.data.map((item: ContactInfoType) => {
+          return { id: item.id, text: item.name_company };
+        });
+        setSuppliersData(dataForSelect);
+      })
+      .catch((err) => {
+        console.log('setCompanyInfoError', err);
+      });
+  }, []);
 
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal} disableClickBg={true}>
@@ -167,6 +205,64 @@ export const EditInventoryModal: React.FC<PropsType> = ({
               </div>
             )}
           </form>
+        </div>
+
+        <div className={styles.content}>
+          <div className={styles.algorithm}>
+            <h2>
+              Supplies <Tooltip onClick={() => setIsTooltipSupplies(true)} />
+              {isTooltipSupplies && (
+                <>
+                  <div
+                    className={styles.algorithm__container}
+                    onClick={() => setIsTooltipSupplies(false)}
+                  ></div>
+                  <p>
+                    Upon reaching low stock level the email will be send to the supplier ordering
+                    the item. Company info will be used for order details.
+                  </p>
+                </>
+              )}
+            </h2>
+
+            <div className={styles.algorithm__toggle}>
+              <span>Automatically order</span>
+              <div
+                className={`toggle ${isAutomaticallyOrder ? 'toggle--on' : 'toggle--off'}`}
+                onClick={handleAutoOrderToggle}
+              >
+                <div className="toggle__button"></div>
+              </div>
+            </div>
+          </div>
+
+          {isAutomaticallyOrder && (
+            <form className={styles.supplies_form}>
+              {suppliersData && suppliersData.length && (
+                <div className={styles.input}>
+                  <SelectBase
+                    id="supplier"
+                    name="supplier"
+                    label="Select a supplier"
+                    listOfData={suppliersData}
+                    setDefaultSelect={(select) => setSelectedSupplierID(select)}
+                  />
+                </div>
+              )}
+
+              <div className={styles.input}>
+                <Input
+                  id="orderAmount"
+                  name="orderAmount"
+                  type="number"
+                  min={0}
+                  label="Amount to order"
+                  value={orderAmount?.toString() || '0'}
+                  onChange={(e) => setOrderAmount(e.target.value)}
+                />
+              </div>
+            </form>
+          )}
         </div>
       </div>
       <Coordinates
