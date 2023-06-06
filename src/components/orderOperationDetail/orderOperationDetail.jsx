@@ -5,16 +5,30 @@ import ReactPlayer from 'react-player';
 import { Download } from '../../assets/svg/SVGcomponent';
 import { Button } from '../button';
 
-export const OrderOperationDetail = ({ operationData }) => {
+export const OrderOperationDetail = ({ operationData, handleClose }) => {
   const playerRef = useRef(null);
 
   const handleReady = () => {
     playerRef.current.seekTo(30); // Начинаем с 30-й секунды
   };
 
+  const downloadVideo = () => {
+    const videoUrl = `https://743e-134-17-26-206.ngrok-free.app/${operationData?.video_data.file_name}`;
+    const link = document.createElement('a');
+    link.href = videoUrl;
+    link.download = 'video.mp4'; // Название файла для скачивания
+    link.click();
+  };
+
   const handleDownload = () => {
     if (operationData && operationData.video_data && operationData.video_data.status) {
-      const videoUrl = `https://743e-134-17-26-206.ngrok-free.app/${operationData?.video_data.file_name}`; // Замените на ссылку на ваше видео
+      const videoUrl = `${
+        process.env.REACT_APP_ENV === 'proxy'
+          ? `${process.env.REACT_APP_NGROK}`
+          : process.env.REACT_APP_ENV === 'wify'
+          ? `${process.env.REACT_APP_IP_SERVER}`
+          : `http://${window.location.hostname}`
+      }/${operationData?.video_data.file_name}`; // Замените на ссылку на ваше видео
       fetch(videoUrl)
         .then((response) => response.blob())
         .then((blob) => {
@@ -27,11 +41,11 @@ export const OrderOperationDetail = ({ operationData }) => {
         });
     }
   };
-  console.log(operationData);
+
   return (
     <Modal
       isOpen={true}
-      //   handleClose={handleClose}
+      handleClose={handleClose}
       className={styles.modal}
       showCross
       showSubstrateCross
@@ -44,7 +58,13 @@ export const OrderOperationDetail = ({ operationData }) => {
         volume={0.9}
         controls={true}
         preload="auto"
-        url={`https://743e-134-17-26-206.ngrok-free.app/${operationData?.video_data.file_name}`}
+        url={`${
+          process.env.REACT_APP_ENV === 'proxy'
+            ? `${process.env.REACT_APP_NGROK}`
+            : process.env.REACT_APP_ENV === 'wify'
+            ? `${process.env.REACT_APP_IP_SERVER}`
+            : `http://${window.location.hostname}`
+        }/${operationData?.video_data.file_name}`}
         // onReady={handleReady}
       />
 
@@ -72,7 +92,7 @@ export const OrderOperationDetail = ({ operationData }) => {
 
           <div className={styles.subtitle}>
             <span>{'Worker: '}</span>
-            <span className={styles.subtitle_value}>{operationData?.firstName}</span>
+            <span className={styles.subtitle_value}>{operationData?.firstName}</span>&nbsp;
             <span className={styles.subtitle_value}>{operationData?.lastName}</span>
           </div>
           <div className={styles.subtitle}>

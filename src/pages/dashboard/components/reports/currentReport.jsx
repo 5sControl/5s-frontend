@@ -106,7 +106,12 @@ export const CurrentReport = () => {
           </div>
         </Modal>
       )}
-      {operationOV && <OrderOperationDetail operationData={operationOV} />}
+      {operationOV && (
+        <OrderOperationDetail
+          operationData={operationOV}
+          handleClose={() => setOperationOV(false)}
+        />
+      )}
     </>
   );
 };
