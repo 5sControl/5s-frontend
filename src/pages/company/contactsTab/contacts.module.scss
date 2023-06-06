@@ -5,6 +5,34 @@
   display: flex;
   flex-flow: column;
   height: 95%;
+  h2{
+    @include h1;
+    color: var(--HightEmphasis);
+    padding-bottom: 20px;
+  }
+
+  .breadcrumbs {
+    gap: 8px;
+    span {
+      @include body2;
+      color: #666666;
+      cursor: pointer;
+    }
+
+    .breadcrumbs_active {
+      color: var(--LowEmphasis)
+    }
+  }
+
+  .title_box {
+    display: flex;
+    justify-content: space-between;
+
+    .control_box {
+      display: flex;
+      gap: 20px;
+    }
+  }
 
   .form_container {
     display: flex;
@@ -46,6 +74,13 @@
   }
 }
 
+.contacts_box {
+  display: flex;
+  flex-flow: row wrap;
+  row-gap: 20px;
+  column-gap: 40px;
+}
+
 .input_style {
   width: 100%;
   height: 40px;
@@ -65,7 +100,7 @@
   height: 40px;
   border: 1px solid var(--LowEmphasis);
   border-radius: 4px;
-  padding: 0 16px;
+  padding: 0 16px !important;
   @include body1;
   color: var(--HightEmphasis);
   &:focus {

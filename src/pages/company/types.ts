@@ -15,4 +15,5 @@ export type ContactInfoType = {
   name_company: string;
   contact_email: string;
   website: string;
+  city: string;
 };

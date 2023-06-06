@@ -1,22 +1,21 @@
 import { FC } from 'react';
 import style from './companyCard.module.scss';
 import City from '../../assets/png/city.png';
+import { ContactInfoType } from '../../pages/company/types';
 
 type Props = {
-  title: string;
-  city: string;
-  email: string;
-  onClick: () => void;
+  companyData: ContactInfoType;
+  onClick?: () => void;
 };
 
-export const CompanyCard: FC<Props> = ({ title, city, email, onClick }) => {
+export const CompanyCard: FC<Props> = ({ companyData, onClick }) => {
   return (
     <article className={style.container} onClick={onClick}>
       <img src={City} alt="" />
       <div className={style.infoContainer}>
-        <h5>{title}</h5>
-        <span>{city}</span>
-        <span>{email}</span>
+        <h5>{companyData.name_company}</h5>
+        <span>{companyData.city}</span>
+        <span>{companyData.contact_email}</span>
       </div>
     </article>
   );

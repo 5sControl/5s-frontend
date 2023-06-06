@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Input } from '../../../components/input';
-import style from './companyInfoForm.module.scss';
+import style from './contacts.module.scss';
 import { SelectBase } from '../../../components/selectBase';
 import { getSuppliers, setSuppliers } from '../../../api/companyRequest';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { Settings } from '../../../assets/svg/SVGcomponent';
+import { Button } from '../../../components/button';
 
 export const NewContactForm = () => {
   const navigate = useNavigate();
@@ -12,39 +14,53 @@ export const NewContactForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
+  const [city, setCity] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const goToContacts = () => {
+    navigate('/company/contacts/');
+  };
 
   const createContact = () => {
+    if (name.length < 1 || email.length < 1) {
+      return;
+    }
     const data = {
       name_company: name,
       contact_email: email,
       website: website,
+      city: city,
     };
+    setIsLoading(true);
 
     setSuppliers(window.location.hostname, cookies.token, data)
       .then((response) => {
-        console.log('setSuppliers', response.data);
+        goToContacts();
       })
       .catch((err) => {
         console.log('setSuppliersError', err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
   return (
     <div className={style.container}>
       <div className={style.breadcrumbs}>
-        <span
-          onClick={() => {
-            createContact();
-          }}
-        >
+        <span className={style.breadcrumbs_active} onClick={goToContacts}>
           Company
         </span>
         <span>{' / '}</span>
         <span>New contact</span>
       </div>
 
-      <div>
+      <div className={style.title_box}>
         <h2>New Contact</h2>
+        <div className={style.control_box}>
+          <Button IconLeft={Settings} text="Settings" variant={'text'} />
+          <Button text="Done" onClick={() => createContact()} disabled={isLoading} />
+        </div>
       </div>
 
       <div className={style.form_container}>
@@ -73,6 +89,7 @@ export const NewContactForm = () => {
               placeholder={'Enter street 1...'}
               className={style.input_style}
               label={'Address'}
+              disabled
             />
             <Input
               id={'address2'}
@@ -80,6 +97,7 @@ export const NewContactForm = () => {
               type="text"
               placeholder={'Enter street 2...'}
               className={style.input_style}
+              disabled
             />
 
             <div className={style.three_input_box}>
@@ -89,21 +107,24 @@ export const NewContactForm = () => {
                 type="text"
                 placeholder={'Enter city'}
                 className={style.input_style}
+                onChange={(e) => setCity(e.target.value)}
               />
               <SelectBase
                 id={'state'}
                 name={'state'}
                 listOfData={[{ id: 0, text: 'Enter state' }]}
                 className={style.select_style}
+                disabled
               />
-              <input type="file" />
+              <input type="file" disabled />
             </div>
 
             <SelectBase
-              id="camera_type"
-              name="camera_type"
-              listOfData={[{ id: 0, text: 'Enter city' }]}
+              id="country"
+              name="country"
+              listOfData={[{ id: 0, text: 'Enter country' }]}
               className={style.select_style}
+              disabled
             />
           </section>
 
@@ -115,6 +136,7 @@ export const NewContactForm = () => {
               placeholder={'Enter phone'}
               className={style.input_style}
               label={'Contacts'}
+              disabled
             />
             <Input
               id={'mobile'}
@@ -122,6 +144,7 @@ export const NewContactForm = () => {
               type="text"
               placeholder={'Enter mobile'}
               className={style.input_style}
+              disabled
             />
             <Input
               id={'email'}
@@ -138,6 +161,7 @@ export const NewContactForm = () => {
               type="text"
               placeholder={'Enter website'}
               className={style.input_style}
+              disabled
             />
           </section>
         </div>

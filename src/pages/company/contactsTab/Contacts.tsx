@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { getSuppliers } from '../../../api/companyRequest';
 import { useCookies } from 'react-cookie';
 import { ContactInfoType } from '../types';
+import style from './contacts.module.scss';
 
 export const Contacts: FC = () => {
   const navigate = useNavigate();
@@ -36,17 +37,9 @@ export const Contacts: FC = () => {
           />
         </div>
 
-        <section>
+        <section className={style.contacts_box}>
           {contactsInfo.map((item) => {
-            return (
-              <CompanyCard
-                key={item.id}
-                title={item.name_company}
-                city={item.website}
-                email={item.contact_email}
-                onClick={() => navigate('/company/contacts/newContact')}
-              />
-            );
+            return <CompanyCard key={item.id} companyData={item} />;
           })}
         </section>
       </div>
