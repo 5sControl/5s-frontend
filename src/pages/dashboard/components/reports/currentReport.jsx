@@ -13,6 +13,7 @@ import { Modal } from '../../../../components/modal';
 import styles from './currentReport.module.scss';
 import { getOrderViewOperation } from '../../../../api/orderView.js';
 import { OrderOperationDetail } from '../../../../components/orderOperationDetail/orderOperationDetail.jsx';
+import { Notification } from '../../../../components/notification/notification';
 
 export const CurrentReport = () => {
   const { currentReport } = useAppSelector(selectCurrentReport);
@@ -21,11 +22,23 @@ export const CurrentReport = () => {
   const [operationOV, setOperationOV] = useState(false);
 
   useEffect(() => {
+    if (operationOV) {
+      setTimeout(() => setOperationOV(false), 2000);
+    }
+  }, [operationOV]);
+
+  useEffect(() => {
     setCurrentCount(0);
   }, [currentReport]);
 
   const operationClickHandler = (id) => {
-    getOrderViewOperation(window.location.hostname, '', id).then((res) => setOperationOV(res.data));
+    getOrderViewOperation(window.location.hostname, '', id).then((res) => {
+      if (Object.keys(res.data).length) {
+        setOperationOV(res.data);
+      } else {
+        setOperationOV(`Operation #${id} was not found in the database`);
+      }
+    });
   };
   return (
     <>
@@ -106,11 +119,15 @@ export const CurrentReport = () => {
           </div>
         </Modal>
       )}
-      {operationOV && (
+      {operationOV && typeof operationOV === 'object' && (
         <OrderOperationDetail
           operationData={operationOV}
           handleClose={() => setOperationOV(false)}
         />
+      )}
+
+      {operationOV && typeof operationOV === 'string' && (
+        <Notification status={false} message={operationOV} />
       )}
     </>
   );

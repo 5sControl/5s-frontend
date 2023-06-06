@@ -12,14 +12,6 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
     playerRef.current.seekTo(30); // Начинаем с 30-й секунды
   };
 
-  const downloadVideo = () => {
-    const videoUrl = `https://743e-134-17-26-206.ngrok-free.app/${operationData?.video_data.file_name}`;
-    const link = document.createElement('a');
-    link.href = videoUrl;
-    link.download = 'video.mp4'; // Название файла для скачивания
-    link.click();
-  };
-
   const handleDownload = () => {
     if (operationData && operationData.video_data && operationData.video_data.status) {
       const videoUrl = `${
@@ -58,6 +50,11 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
         volume={0.9}
         controls={true}
         preload="auto"
+        config={{
+          file: {
+            forceVideo: true,
+          },
+        }}
         url={`${
           process.env.REACT_APP_ENV === 'proxy'
             ? `${process.env.REACT_APP_NGROK}`
