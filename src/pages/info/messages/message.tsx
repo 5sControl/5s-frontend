@@ -28,7 +28,6 @@ export const SystemMessage = () => {
       });
   }, [page]);
 
-  console.log(messages);
   const prevPage = () => {
     setPage(page - 1);
   };
