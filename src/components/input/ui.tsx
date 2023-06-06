@@ -19,6 +19,7 @@ type PropsType = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   className?: any;
   onKeyDown?: () => void;
+  min?: number;
 };
 
 export const Input: React.FC<PropsType> = ({
@@ -36,6 +37,7 @@ export const Input: React.FC<PropsType> = ({
   required,
   className,
   onKeyDown,
+  min,
 }) => {
   const [inputType, setInputType] = useState(type);
 
@@ -64,6 +66,7 @@ export const Input: React.FC<PropsType> = ({
           onChange={onChange}
           className={className ? className : styles.block__input}
           onKeyDown={onKeyDown}
+          min={min}
         />
 
         {showEye && inputType === 'text' && (
