@@ -40,7 +40,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   const [currentSelect, setCurrentSelect] = useState('');
   const [isMulti, setIsMulti] = useState(false);
   const [isTooltipClicked, setIsTooltipClicked] = useState(false);
-
+  const [isScale, setIsScale] = useState<any>(false);
   useEffect(() => {
     if (!isOpen) {
       setIsClose(false);
@@ -101,7 +101,13 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal} disableClickBg={true}>
+    <Modal
+      isOpen={isOpen}
+      handleClose={handleClose}
+      className={styles.modal}
+      disableClickBg={true}
+      noESC={isScale}
+    >
       <div className={styles.form}>
         <div className={styles.header}>
           <h3 className={styles.title}>Item settings</h3>
@@ -181,6 +187,8 @@ export const AddInventoryModal: React.FC<PropsType> = ({
           currentSelect={currentSelect}
           handleClose={handleClose}
           itemName={itemName}
+          setIsScale={(e) => setIsScale(e)}
+          isScale={isScale}
         />
       )}
       {isClose && (
