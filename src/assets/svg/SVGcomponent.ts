@@ -49,6 +49,7 @@ import { ReactComponent as SliderArrow } from './sliderArrow.svg';
 import { ReactComponent as PaginatorRight } from './paginatorRight.svg';
 import { ReactComponent as CrossWhite } from './crossWhite.svg';
 import { ReactComponent as ArrowJustLeft } from './arrowJustLeft.svg';
+import { ReactComponent as NoVideo } from './noVideo.svg';
 
 export {
   Algorithm,
@@ -102,4 +103,5 @@ export {
   PaginatorRight,
   CrossWhite,
   ArrowJustLeft,
+  NoVideo,
 };
