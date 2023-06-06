@@ -56,7 +56,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
   };
 
   const clickHandler = (e, event) => {
-    getOrderViewOperation(window.location.hostname, '', e.id).then((response) => {
+    getOrderViewOperation(window.location.hostname, '', 1231934).then((response) => {
       setOperation({
         data: response.data,
         x: event.pageX,

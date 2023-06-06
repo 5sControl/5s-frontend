@@ -15,7 +15,6 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) 
     });
   }, [startDate, endDate]);
 
-  console.log(data);
   return (
     <div className={styles.orders}>
       <h2>Orders ({data.length})</h2>
@@ -27,20 +26,21 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) 
         handleChange={(e) => setSearchText(e)}
       />
       <div className={styles.orders__list}>
-        {data.map(
-          (item, index) =>
-            item.orderId.includes(searchText) && (
-              <span
-                key={index}
-                className={`${styles.orders__item} ${
-                  selectOrder === item.orderId ? styles.select : ''
-                }`}
-                onClick={() => setSelectOrder(item.orderId)}
-              >
-                №{item.orderId}
-              </span>
-            )
-        )}
+        {data.length > 0 &&
+          data.map(
+            (item, index) =>
+              item.orderId.includes(searchText) && (
+                <span
+                  key={index}
+                  className={`${styles.orders__item} ${
+                    selectOrder === item.orderId ? styles.select : ''
+                  }`}
+                  onClick={() => setSelectOrder(item.orderId)}
+                >
+                  №{item.orderId}
+                </span>
+              )
+          )}
       </div>
     </div>
   );
