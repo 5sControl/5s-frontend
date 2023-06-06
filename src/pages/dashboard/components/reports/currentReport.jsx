@@ -21,6 +21,7 @@ export const CurrentReport = () => {
     setCurrentCount(0);
   }, [currentReport]);
 
+  console.log(currentReport);
   return (
     <>
       {currentReport && (
@@ -74,6 +75,12 @@ export const CurrentReport = () => {
                 {currentReport.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
               </span>
             </div>
+            {currentReport.extra.length > 0 && (
+              <div className={styles.report_item}>
+                <span className={styles.legend}>Additional</span>
+                <span className={styles.text}>Open order operation details</span>
+              </div>
+            )}
           </div>
         </>
       )}

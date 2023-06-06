@@ -56,7 +56,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
   };
 
   const clickHandler = (e, event) => {
-    getOrderViewOperation(window.location.hostname, '', 1231934).then((response) => {
+    getOrderViewOperation(window.location.hostname, '', e.id).then((response) => {
       setOperation({
         data: response.data,
         x: event.pageX,
@@ -86,7 +86,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
       const y = d3
         .scaleTime()
         .domain([minDate, maxDate])
-        .range([0, height + days * 1.8]);
+        .range([0, height + days * 2]);
 
       // Добавление серых блоков для заполнения разницы
       update.forEach((element, index) => {
