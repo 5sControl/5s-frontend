@@ -40,6 +40,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
   const [itemName, setItemName] = useState<string | undefined>('');
   const [itemCount, setItemCount] = useState<number | undefined>(0);
   const [isTooltipClicked, setIsTooltipClicked] = useState(false);
+  const [isScale, setIsScale] = useState<any>(false);
   const [isTooltipSupplies, setIsTooltipSupplies] = useState(false);
   const [orderAmount, setOrderAmount] = useState<number | null>(0);
   const [selectedSupplierID, setSelectedSupplierID] = useState<number | null>(null);
@@ -137,7 +138,13 @@ export const EditInventoryModal: React.FC<PropsType> = ({
   }, []);
 
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal} disableClickBg={true}>
+    <Modal
+      isOpen={isOpen}
+      handleClose={handleClose}
+      className={styles.modal}
+      disableClickBg={true}
+      noESC={isScale}
+    >
       <div className={styles.form}>
         <div className={styles.header}>
           <h3 className={styles.title}>Item settings</h3>
@@ -272,6 +279,8 @@ export const EditInventoryModal: React.FC<PropsType> = ({
         coordinates={currentEditItem?.coords}
         currentSelect={currentSelect}
         handleClose={handleClose}
+        setIsScale={(e) => setIsScale(e)}
+        isScale={isScale}
       />
       {isClose && (
         <>

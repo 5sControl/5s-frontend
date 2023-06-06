@@ -276,28 +276,32 @@ export const PreviewOrders: React.FC = () => {
             <h2 className={styles.header_title}>Orders View</h2>
             <div className={styles.header_container}>
               <div className={styles.header_container_filters}>
-                <Button
-                  text="Filter"
-                  IconLeft={Filter}
-                  type="button"
-                  variant="oval"
-                  iconColor={
-                    searchParams.get('order-status') ? 'var(--Orange)' : 'var(--HightEmphasis)'
-                  }
-                  onClick={() => handleClickFilter(true)}
-                />
+                {activeTab === 'reports' && (
+                  <>
+                    <Button
+                      text="Filter"
+                      IconLeft={Filter}
+                      type="button"
+                      variant="oval"
+                      iconColor={
+                        searchParams.get('order-status') ? 'var(--Orange)' : 'var(--HightEmphasis)'
+                      }
+                      onClick={() => handleClickFilter(true)}
+                    />
 
-                {queryProps.map(({ name, value, onClick }, index) => (
-                  <Button
-                    key={index}
-                    text={`${name} ${value}`}
-                    IconRight={Delete}
-                    type="button"
-                    variant="oval"
-                    iconColor={'var(--MediumEmphasis)'}
-                    onClick={onClick}
-                  />
-                ))}
+                    {queryProps.map(({ name, value, onClick }, index) => (
+                      <Button
+                        key={index}
+                        text={`${name} ${value}`}
+                        IconRight={Delete}
+                        type="button"
+                        variant="oval"
+                        iconColor={'var(--MediumEmphasis)'}
+                        onClick={onClick}
+                      />
+                    ))}
+                  </>
+                )}
                 <DatePicker />
               </div>
             </div>

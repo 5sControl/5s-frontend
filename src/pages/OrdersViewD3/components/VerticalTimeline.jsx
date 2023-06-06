@@ -5,7 +5,8 @@ import { Operation } from './operation';
 import Timeline from './scale';
 import moment from 'moment';
 import { Preloader } from '../../../components/preloader';
-
+import { OrderOperationDetail } from '../../../components/orderOperationDetail/orderOperationDetail';
+import { Notification } from '../../../components/notification/notification';
 import styles from './verticalTimeline.module.scss';
 import { getOrderViewOperation } from '../../../api/orderView';
 
@@ -17,6 +18,9 @@ function getDuration(milli) {
 }
 
 const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
+  const [update, setUpdate] = useState(data);
+  const [operationOV, setOperationOV] = useState(false);
+
   const days = moment(maxDate).diff(minDate, 'days');
   const proportion = 1 - Math.abs((days * 10) / ((days + 1) * 24 - 10));
   const dateArray = [];
@@ -26,8 +30,13 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
     dateArray.push(currentDate.toISOString().split('T')[0]);
     currentDate.setDate(currentDate.getDate() + 1);
   }
-  console.log(dateArray);
-  const [update, setUpdate] = useState(data);
+
+  useEffect(() => {
+    if (operationOV && typeof operationOV === 'string') {
+      setTimeout(() => setOperationOV(false), 2000);
+    }
+  }, [operationOV]);
+
   useEffect(() => {
     if (data.length > 0) {
       const first = data.filter((order) =>
@@ -122,10 +131,8 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
             .attr('y', 0)
             .attr('width', fieldWidth - 70)
             .attr('height', 19)
-            .on('click', () => setOperation(false))
             .attr('fill', '#f5f5f5')
             .attr('transform', (d, i) => {
-              console.log(i);
               return `translate(0, ${(ind + 1) * (400 * proportion) + ind * 18} )`;
             });
         });
@@ -238,7 +245,23 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
         </div>
       </div>
       {operation && (
-        <Operation operation={operation.data} x={`${operation.x}px`} y={`${operation.y}px`} />
+        <Operation
+          operation={operation.data}
+          x={`${operation.x}px`}
+          y={`${operation.y}px`}
+          onClose={() => setOperation(false)}
+          setOperationOV={(e) => setOperationOV(e)}
+        />
+      )}
+      {operationOV && typeof operationOV === 'object' && (
+        <OrderOperationDetail
+          operationData={operationOV}
+          handleClose={() => setOperationOV(false)}
+        />
+      )}
+
+      {operationOV && typeof operationOV === 'string' && (
+        <Notification status={false} message={operationOV} />
       )}
     </div>
   );
