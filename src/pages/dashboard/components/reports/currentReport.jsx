@@ -22,7 +22,7 @@ export const CurrentReport = () => {
   const [operationOV, setOperationOV] = useState(false);
 
   useEffect(() => {
-    if (operationOV) {
+    if (operationOV && typeof operationOV === 'string') {
       setTimeout(() => setOperationOV(false), 2000);
     }
   }, [operationOV]);

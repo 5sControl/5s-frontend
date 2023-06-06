@@ -190,11 +190,12 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
           {hoverItem.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
         </div>
       )}
-      {currentReport && (
+      {currentReport && !operationOV && (
         <Modal
           className={styles.fullscreen}
           handleClose={() => setCurrentReport(false)}
           isOpen={true}
+          noESC={operationOV}
         >
           <div className={styles.fullscreen__container}>
             {data && data?.indexOf(currentReport) > 0 && (
