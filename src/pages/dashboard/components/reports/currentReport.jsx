@@ -11,17 +11,22 @@ import { Scale } from '../../../../components/scale';
 import { Modal } from '../../../../components/modal';
 
 import styles from './currentReport.module.scss';
+import { getOrderViewOperation } from '../../../../api/orderView.js';
+import { OrderOperationDetail } from '../../../../components/orderOperationDetail/orderOperationDetail.jsx';
 
 export const CurrentReport = () => {
   const { currentReport } = useAppSelector(selectCurrentReport);
   const [fullImage, setFullImage] = useState(false);
   const [currentCount, setCurrentCount] = useState(0);
+  const [operationOV, setOperationOV] = useState(false);
 
   useEffect(() => {
     setCurrentCount(0);
   }, [currentReport]);
 
-  console.log(currentReport);
+  const operationClickHandler = (id) => {
+    getOrderViewOperation(window.location.hostname, '', id).then((res) => setOperationOV(res.data));
+  };
   return (
     <>
       {currentReport && (
@@ -78,7 +83,12 @@ export const CurrentReport = () => {
             {currentReport.extra.length > 0 && (
               <div className={styles.report_item}>
                 <span className={styles.legend}>Additional</span>
-                <span className={styles.text}>Open order operation details</span>
+                <span
+                  className={`${styles.text} ${styles.link}`}
+                  onClick={() => operationClickHandler(currentReport.extra[0].skany_index)}
+                >
+                  Open order operation details
+                </span>
               </div>
             )}
           </div>
@@ -96,6 +106,7 @@ export const CurrentReport = () => {
           </div>
         </Modal>
       )}
+      {operationOV && <OrderOperationDetail operationData={operationOV} />}
     </>
   );
 };

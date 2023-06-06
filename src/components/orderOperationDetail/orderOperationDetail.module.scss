@@ -1,0 +1,67 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.modal {
+  max-width: 880px;
+  max-height: 650px;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  &_title {
+    @include h6;
+    color: var(--HightEmphasis);
+    margin-bottom: 10px;
+  }
+}
+
+.infoBlock {
+  padding: 10px;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.subtitle {
+  @include caption;
+  color: var(--MediumEmphasis);
+  &_value {
+    font-weight: 500;
+    color: var(--HightEmphasis);
+    &_clipboard {
+      font-weight: 500;
+      color: var(--Orange);
+      cursor: pointer;
+    }
+  }
+}
+
+.cross {
+  position: absolute;
+  top: 26px;
+  right: 26px;
+  color: var(--HightEmphasis);
+  cursor: pointer;
+  z-index: 1;
+  &:hover {
+    color: var(--MediumEmphasis);
+  }
+}
+
+.download {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  bottom: 14px;
+  right: 14px;
+  color: var(--MediumEmphasis);
+  cursor: pointer;
+  &:hover {
+    color: var(--HightEmphasis);
+  }
+}

@@ -13,6 +13,7 @@ import {
 
 import { Modal } from '../../../../components/modal';
 import styles from './timeline.module.scss';
+import { getOrderViewOperation } from '../../../../api/orderView';
 
 export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => {
   const [timeLine, setTimeLine] = useState([]);
@@ -125,6 +126,10 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     }
   }, [data]);
 
+  const OperationClickHandler = (id) => {
+    getOrderViewOperation(window.location.hostname, '', id).then((res) => console.log(res));
+  };
+
   const onMove = (item, event) => {
     setHoverItem(item);
     setHoverPosition({
@@ -236,6 +241,18 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                 <span>Algorithm:&nbsp;</span>
                 {parsingAlgorithmName(currentReport.algorithm.name)}
               </div>
+
+              {currentReport.extra.length > 0 && (
+                <div className={styles.fullscreen__footer_text}>
+                  <span> Additional:&nbsp;</span>
+                  <span
+                    className={styles.link}
+                    onClick={() => OperationClickHandler(currentReport.extra[0].skany_index)}
+                  >
+                    Open order operation details
+                  </span>
+                </div>
+              )}
             </footer>
             <div className={styles.fullscreen__close} onClick={() => setCurrentReport(false)}>
               <CrossWhite />
