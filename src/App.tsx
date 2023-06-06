@@ -16,6 +16,7 @@ import { Info } from './pages/info/info';
 
 import './index.scss';
 import { OrderJSON } from './pages/orderJSON/orderJSON';
+import { NewContactForm } from './pages/company/contactsTab/NewContactForm';
 function App() {
   const [cookies, , removeCookie] = useCookies(['token']);
 
@@ -44,6 +45,7 @@ function App() {
             <Route path="/info/*" element={<Info />} />
             <Route path="/company" element={<Company activeTab={0} />} />
             <Route path="/company/contacts" element={<Company activeTab={1} />} />
+            <Route path="/company/contacts/newContact" element={<NewContactForm />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/live" element={<Live />} />
             <Route path="/configuration" element={<Configuration activeTab={0} />} />

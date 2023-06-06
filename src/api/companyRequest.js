@@ -9,6 +9,7 @@ const API_AUTH = 'auth/jwt/create/';
 const API_USERLIST = 'api/employees/';
 const API_VERIFYTOKEN = 'auth/jwt/verify/';
 const API_SYSTEMMESSAGE = 'api/core/system-message/';
+const API_SUPPLIERS = 'api/suppliers/company/';
 
 export const authorizationRequest = (hostname, email, password) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
@@ -227,6 +228,54 @@ export const getSystemMessage = (hostname, cookies, page) => {
   } else {
     return axios.get(`http://${hostname}/${API_SYSTEMMESSAGE}?page=${page}`, {
       headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const getSuppliers = (hostname, cookies) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(`${process.env.REACT_APP_NGROK}${API_SUPPLIERS}`, 'GET', {
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_SUPPLIERS}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_SUPPLIERS}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const setSuppliers = (hostname, cookies, data) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.post(process.env.REACT_APP_PROXY, {
+      url: `${process.env.REACT_APP_NGROK + API_SUPPLIERS}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+      body: JSON.stringify(data),
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_SUPPLIERS}`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.post(`http://${hostname}/${API_SUPPLIERS}`, data, {
+      headers: {
+        'Content-Type': 'application/json',
         Authorization: cookies,
       },
     });

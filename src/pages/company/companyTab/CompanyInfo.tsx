@@ -12,7 +12,6 @@ import { Button } from '../../../components/button';
 import { Plus } from '../../../assets/svg/SVGcomponent';
 
 import { CompanyInfoType } from '../types';
-import { CompanyCard } from '../../../components/companyCard/companyCard';
 
 export const CompanyInfo: FC = () => {
   const [cookies] = useCookies(['token']);
@@ -47,13 +46,6 @@ export const CompanyInfo: FC = () => {
   return (
     <>
       <div className="company">
-        <CompanyCard
-          title={'6s control'}
-          city={'Minsk'}
-          email={'email@.com'}
-          onClick={() => console.log('go')}
-        />
-
         {companyInfo && Object.keys(companyInfo).length > 0 && isLicensed && (
           <div className="company__name">
             <h3>5S CONTROL</h3>
