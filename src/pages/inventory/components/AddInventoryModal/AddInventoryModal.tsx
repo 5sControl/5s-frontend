@@ -219,10 +219,13 @@ export const AddInventoryModal: React.FC<PropsType> = ({
                     className={styles.algorithm__container}
                     onClick={() => setIsTooltipSupplies(false)}
                   ></div>
-                  <p>
-                    Upon reaching low stock level the email will be send to the supplier ordering
-                    the item. Company info will be used for order details.
-                  </p>
+                  <div className={styles.supplies_tooltip}>
+                    <h6>Supplies</h6>
+                    <p>
+                      Upon reaching low stock level the email will be send to the supplier ordering
+                      the item. Company info will be used for order details.
+                    </p>
+                  </div>
                 </>
               )}
             </h2>
