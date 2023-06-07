@@ -13,21 +13,21 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
   };
 
   const handleDownload = () => {
-    if (operationData && operationData.video_data && operationData.video_data.status) {
+    if (operationData && operationData.video && operationData.video.status) {
       const videoUrl = `${
         process.env.REACT_APP_ENV === 'proxy'
           ? `${process.env.REACT_APP_NGROK}`
           : process.env.REACT_APP_ENV === 'wify'
           ? `${process.env.REACT_APP_IP_SERVER}`
           : `http://${window.location.hostname}`
-      }/${operationData?.video_data.file_name}`; // Замените на ссылку на ваше видео
+      }/${operationData?.video.file_name}`; // Замените на ссылку на ваше видео
       fetch(videoUrl)
         .then((response) => response.blob())
         .then((blob) => {
           const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = url;
-          link.download = operationData?.video_data.file_name; // Замените на имя файла, под которым нужно сохранить видео
+          link.download = operationData?.video.file_name; // Замените на имя файла, под которым нужно сохранить видео
           link.click();
           URL.revokeObjectURL(url);
         });
@@ -61,7 +61,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
             : process.env.REACT_APP_ENV === 'wify'
             ? `${process.env.REACT_APP_IP_SERVER}`
             : `http://${window.location.hostname}`
-        }/${operationData?.video_data.file_name}`}
+        }/${operationData?.video.file_name}`}
         // onReady={handleReady}
       />
 
@@ -74,27 +74,27 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           <div className={styles.subtitle}>
             <span>{'Operation start: '}</span>
             <span className={styles.subtitle_value}>
-              {operationData && new Date(operationData.startTime).toLocaleDateString()}
+              {operationData && new Date(operationData.sTime).toLocaleDateString()}
             </span>
             <span className={styles.subtitle_value}>{' | '}</span>
             <span className={styles.subtitle_value}>
-              {operationData && new Date(operationData.startTime).toLocaleTimeString()}
+              {operationData && new Date(operationData.eTime).toLocaleTimeString()}
             </span>
           </div>
 
           <div className={styles.subtitle}>
             <span>{'Order: '}</span>
-            <span className={styles.subtitle_value}>{operationData?.orderId}</span>
+            <span className={styles.subtitle_value}>{operationData?.orId}</span>
           </div>
 
           <div className={styles.subtitle}>
             <span>{'Worker: '}</span>
-            <span className={styles.subtitle_value}>{operationData?.firstName}</span>&nbsp;
-            <span className={styles.subtitle_value}>{operationData?.lastName}</span>
+            <span className={styles.subtitle_value}>{operationData?.frtName}</span>&nbsp;
+            <span className={styles.subtitle_value}>{operationData?.lstName}</span>
           </div>
           <div className={styles.subtitle}>
             <span>{'Product: '}</span>
-            <span className={styles.subtitle_value}>{operationData?.orderId}</span>
+            <span className={styles.subtitle_value}>{operationData?.orId}</span>
           </div>
 
           <div className={styles.subtitle}>

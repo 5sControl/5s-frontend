@@ -39,12 +39,8 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
 
   useEffect(() => {
     if (data.length > 0) {
-      const first = data.filter((order) =>
-        JSON.stringify(order.operations).includes(`"${selectOrder}"`)
-      );
-      const end = data.filter(
-        (order) => !JSON.stringify(order.operations).includes(`"${selectOrder}"`)
-      );
+      const first = data.filter((order) => JSON.stringify(order.oprs).includes(`"${selectOrder}"`));
+      const end = data.filter((order) => !JSON.stringify(order.oprs).includes(`"${selectOrder}"`));
       setUpdate([...first, ...end]);
     }
   }, [data, selectOrder]);
@@ -141,7 +137,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
       update.forEach((element, index) => {
         const bars = svg
           .selectAll('.timeline-bar' + index)
-          .data(() => element.operations)
+          .data(() => element.oprs)
           .enter()
           .append('g')
           .attr('class', 'timeline-bar' + index)
@@ -162,7 +158,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
           .on('mouseout', function (event, d) {
             d3.select(this)
               .select('rect')
-              .attr('opacity', d.orderId === selectOrder ? 1 : 0.6);
+              .attr('opacity', d.orId === selectOrder ? 1 : 0.6);
           });
 
         bars
@@ -171,10 +167,10 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
           .attr('y', 0)
           .attr('width', fieldWidth - 70)
           .attr('height', (d, i) => {
-            return y(parseDate(d.endTime, d)) - y(parseDate(d.startTime, d));
+            return y(parseDate(d.eTime, d)) - y(parseDate(d.sTime, d));
           })
           .attr('fill', '#87BC45')
-          .attr('opacity', (d, i) => (d.orderId === selectOrder ? 1 : 0.6))
+          .attr('opacity', (d, i) => (d.orId === selectOrder ? 1 : 0.6))
           .attr('z-index', 2);
       });
     }
@@ -197,9 +193,9 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
               width: `${fieldWidth - 60}px`,
               transform: `translateX(${position * fieldWidth}px)`,
             }}
-            title={element.operationName}
+            title={element.oprName}
           >
-            {element.operationName.slice(0, 10)}
+            {element.oprName.slice(0, 10)}
           </div>
         ))}
         <div className={styles.prev}>

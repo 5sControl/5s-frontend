@@ -31,7 +31,7 @@ export const Operation = ({ operation, x, y, onClose, setOperationOV }) => {
   return (
     <>
       <div className={styles.operation} style={{ top: y, left: x }} ref={refOperation}>
-        <span className={styles.name}>{operation.operationName}</span>
+        <span className={styles.name}>{operation.oprName}</span>
         <div>
           {operation.video_data && operation.video_data.status ? (
             <span onClick={() => operationClickHandler(operation.id)} className={styles.video}>

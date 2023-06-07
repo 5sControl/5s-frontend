@@ -10,7 +10,7 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) 
   useEffect(() => {
     getOrderViewOrderList(window.location.hostname, '', startDate, endDate).then((response) => {
       console.log(response);
-      // const uniqueOrderNames = [...new Set(response.data.map((item) => item.orderId))];
+      // const uniqueOrderNames = [...new Set(response.data.map((item) => item.orId))];
       setData(response.data);
     });
   }, [startDate, endDate]);
@@ -29,15 +29,15 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) 
         {data.length > 0 &&
           data.map(
             (item, index) =>
-              item.orderId.toLowerCase().includes(searchText.toLowerCase()) && (
+              item.orId.toLowerCase().includes(searchText.toLowerCase()) && (
                 <span
                   key={index}
                   className={`${styles.orders__item} ${
-                    selectOrder === item.orderId ? styles.select : ''
+                    selectOrder === item.orId ? styles.select : ''
                   }`}
-                  onClick={() => setSelectOrder(item.orderId)}
+                  onClick={() => setSelectOrder(item.orId)}
                 >
-                  №{item.orderId}
+                  №{item.orId}
                 </span>
               )
           )}
