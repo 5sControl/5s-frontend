@@ -19,6 +19,8 @@ type PropsType = {
   currentSelect: string;
   handleClose: () => void;
   itemName: string;
+  isScale: any;
+  setIsScale: (coords: any) => void;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -27,6 +29,8 @@ export const Coordinates: React.FC<PropsType> = ({
   currentSelect,
   handleClose,
   itemName,
+  isScale,
+  setIsScale,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
@@ -37,7 +41,7 @@ export const Coordinates: React.FC<PropsType> = ({
   const [cookie] = useCookies(['token']);
   const [proportionWidth, setProportionWidth] = useState(0);
   const [proportionHeight, setProportionHeight] = useState(0);
-  const [isScale, setIsScale] = useState<any>(false);
+
   const [coordToScale, setCoordToScale] = useState<any[]>([]);
 
   const createCoord = (e: any) => {

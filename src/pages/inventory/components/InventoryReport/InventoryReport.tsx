@@ -206,17 +206,23 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
                               {item.low_stock_level}
                             </td>
                             <td className={`${styles.camera} ${styles.cameraTD}`}>
-                              <BsEyeFill
-                                className={styles.glazik}
-                                onClick={() =>
-                                  glazik(
-                                    item,
-                                    camerasData?.filter(
-                                      (camera: any) => camera?.id === item?.camera
-                                    )[0].text
-                                  )
-                                }
-                              />
+                              {camerasData &&
+                                camerasData.length > 0 &&
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                camerasData?.filter((camera: any) => camera?.id === item?.camera)
+                                  .length > 0 && (
+                                  <BsEyeFill
+                                    className={styles.glazik}
+                                    onClick={() =>
+                                      glazik(
+                                        item,
+                                        camerasData?.filter(
+                                          (camera: any) => camera?.id === item?.camera
+                                        )[0].text
+                                      )
+                                    }
+                                  />
+                                )}
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                               {camerasData &&
                               camerasData.length > 0 &&

@@ -181,6 +181,14 @@ export const Scaleble: React.FC<PropsType> = ({
     }
   }, [allBox]);
 
+  useEffect(() => {
+    const closeOnEscapeKey = (e: KeyboardEvent) => (e.key === 'Escape' ? handlerClose() : null);
+    document.body.addEventListener('keydown', closeOnEscapeKey);
+    return () => {
+      document.body.removeEventListener('keydown', closeOnEscapeKey);
+    };
+  }, [image]);
+
   return (
     <section className={styles.scaleble}>
       <div className={styles.scaleble__area}>

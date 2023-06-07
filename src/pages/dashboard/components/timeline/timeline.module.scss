@@ -146,6 +146,7 @@
       font-size: 14px;
       line-height: 150%;
     }
+
     &_text {
       font-weight: 400;
       font-size: 12px;
@@ -153,6 +154,17 @@
       span {
         color: #666666;
       }
+      .link {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 150%;
+        color: #fe6100;
+        cursor: pointer;
+        transition: all 0.4s;
+        &:hover{
+          color:#E55700;
+        }
+    }
     }
   }
   &__close {

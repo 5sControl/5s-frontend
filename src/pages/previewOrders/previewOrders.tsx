@@ -40,6 +40,7 @@ import { Button } from '../../components/button';
 import { FilterBar } from './components/FilterBar';
 import { DatePicker } from '../../components/datePicker';
 import { getFilterQueryData, getFilterDateQueryData } from './config';
+import TimelineComponent from '../OrdersViewD3/OrdersViewD3';
 
 export const PreviewOrders: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -133,6 +134,7 @@ export const PreviewOrders: React.FC = () => {
   const [queryProps, setQueryProps] = useState<
     { name: string; value: string; onClick: () => void }[]
   >([]);
+  const [activeTab, setActiveTab] = useState<string>('timelines');
 
   useEffect(() => {
     const queryData = getFilterQueryData(searchParams);
@@ -272,76 +274,99 @@ export const PreviewOrders: React.FC = () => {
         <div className={styles.content}>
           <div className={styles.header}>
             <h2 className={styles.header_title}>Orders View</h2>
-
             <div className={styles.header_container}>
               <div className={styles.header_container_filters}>
-                <Button
-                  text="Filter"
-                  IconLeft={Filter}
-                  type="button"
-                  variant="oval"
-                  iconColor={
-                    searchParams.get('order-status') ? 'var(--Orange)' : 'var(--HightEmphasis)'
-                  }
-                  onClick={() => handleClickFilter(true)}
-                />
+                {activeTab === 'reports' && (
+                  <>
+                    <Button
+                      text="Filter"
+                      IconLeft={Filter}
+                      type="button"
+                      variant="oval"
+                      iconColor={
+                        searchParams.get('order-status') ? 'var(--Orange)' : 'var(--HightEmphasis)'
+                      }
+                      onClick={() => handleClickFilter(true)}
+                    />
 
-                {queryProps.map(({ name, value, onClick }, index) => (
-                  <Button
-                    key={index}
-                    text={`${name} ${value}`}
-                    IconRight={Delete}
-                    type="button"
-                    variant="oval"
-                    iconColor={'var(--MediumEmphasis)'}
-                    onClick={onClick}
-                  />
-                ))}
-
+                    {queryProps.map(({ name, value, onClick }, index) => (
+                      <Button
+                        key={index}
+                        text={`${name} ${value}`}
+                        IconRight={Delete}
+                        type="button"
+                        variant="oval"
+                        iconColor={'var(--MediumEmphasis)'}
+                        onClick={onClick}
+                      />
+                    ))}
+                  </>
+                )}
                 <DatePicker />
               </div>
             </div>
           </div>
 
-          <div className={styles.body}>
-            <OrderList
-              data={ordersList ? ordersList.results : []}
-              isLoading={isLoadingOrdersList}
-              showPaginations
-              disabled={isErrorOfOrdersList}
-              handleClearList={handleSubmitClear}
-              handleChangeSearch={handleChangeSearch}
-            />
+          <section className={styles.tabs}>
+            <div className={styles.tabs__header}>
+              <span
+                className={activeTab === 'timelines' ? styles.active : styles.noActive}
+                onClick={() => setActiveTab('timelines')}
+              >
+                Timelines
+              </span>
+              <span
+                className={activeTab === 'reports' ? styles.active : styles.noActive}
+                onClick={() => setActiveTab('reports')}
+              >
+                Reports
+              </span>
+            </div>
+            <div className={styles.tabs__container}>
+              {activeTab === 'timelines' && <TimelineComponent />}
+              {activeTab === 'reports' && (
+                <div className={styles.body}>
+                  <OrderList
+                    data={ordersList ? ordersList.results : []}
+                    isLoading={isLoadingOrdersList}
+                    showPaginations
+                    disabled={isErrorOfOrdersList}
+                    handleClearList={handleSubmitClear}
+                    handleChangeSearch={handleChangeSearch}
+                  />
 
-            {activeOrder && orderData ? (
-              <OrderCard data={orderData} />
-            ) : (
-              <Cover className={styles.body_error}>
-                {isErrorOfOrdersList ? (
-                  <div className={styles.error}>
-                    <Disconnect className={styles.body_error_icon} />
-                    <p className={styles.body_error_subtitle}>
-                      To view your orders{' '}
-                      <Link
-                        to={'/configuration/database'}
-                        className={styles.body_error_subtitle_link}
-                      >
-                        connect
-                      </Link>{' '}
-                      to the database with them in Configuration tab.
-                    </p>
-                  </div>
-                ) : (
-                  <>
-                    <h4 className={styles.body_error_title}>No order</h4>
-                    <p className={styles.body_error_subtitle}>
-                      Select an order from the list on the left
-                    </p>
-                  </>
-                )}
-              </Cover>
-            )}
-          </div>
+                  {activeOrder && orderData ? (
+                    <OrderCard data={orderData} />
+                  ) : (
+                    <Cover className={styles.body_error}>
+                      {isErrorOfOrdersList ? (
+                        <div className={styles.error}>
+                          <Disconnect className={styles.body_error_icon} />
+                          <p className={styles.body_error_subtitle}>
+                            To view your orders{' '}
+                            <Link
+                              to={'/configuration/database'}
+                              className={styles.body_error_subtitle_link}
+                            >
+                              connect
+                            </Link>{' '}
+                            to the database with them in Configuration tab.
+                          </p>
+                        </div>
+                      ) : (
+                        <>
+                          <h4 className={styles.body_error_title}>No order</h4>
+                          <p className={styles.body_error_subtitle}>
+                            Select an order from the list on the left
+                          </p>
+                        </>
+                      )}
+                    </Cover>
+                  )}
+                </div>
+              )}
+            </div>
+          </section>
         </div>
       </WrapperPage>
     </>

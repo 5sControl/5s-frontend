@@ -10,8 +10,11 @@ import {
   ViolintationFalse,
   ViolintationTrue,
 } from '../../../../assets/svg/SVGcomponent.ts';
-
+import { getOrderViewOperation } from '../../../../api/orderView';
+import { OrderOperationDetail } from '../../../../components/orderOperationDetail/orderOperationDetail';
 import { Modal } from '../../../../components/modal';
+import { Notification } from '../../../../components/notification/notification';
+
 import styles from './timeline.module.scss';
 
 export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => {
@@ -20,6 +23,8 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   const [currentCount, setCurrentCount] = useState(0);
   const [hoverItem, setHoverItem] = useState(false);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
+  const [operationOV, setOperationOV] = useState(false);
+
   const duration = (start, end) => {
     return (moment(end).diff(moment(start), 'seconds') / calculateTime(startTime, endTime)) * 100;
   };
@@ -41,6 +46,16 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
       };
     }
   }, [currentReport]);
+
+  const operationClickHandler = (id) => {
+    getOrderViewOperation(window.location.hostname, '', id).then((res) => {
+      if (Object.keys(res.data).length) {
+        setOperationOV(res.data);
+      } else {
+        setOperationOV(`Operation #${id} was not found in the database`);
+      }
+    });
+  };
 
   const timeDuration = (start, end) => {
     const duration = moment.duration(moment(end).diff(moment(start)));
@@ -125,6 +140,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     }
   }, [data]);
 
+  console.log(hoverItem);
   const onMove = (item, event) => {
     setHoverItem(item);
     setHoverPosition({
@@ -162,7 +178,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
       {hoverItem && (
         <div
           className={styles.hover}
-          style={{ top: hoverPosition.y - 100, left: hoverPosition.x - 80 }}
+          style={{ top: hoverPosition.y - 120, left: hoverPosition.x - 90 }}
         >
           <h6>{hoverItem.algorithm}</h6>
           <div className={styles.hover__time}>
@@ -172,14 +188,15 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
 
             <span>{` | ${timeDuration(hoverItem.start, hoverItem.stop)}`}</span>
           </div>
-          {hoverItem.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
+          {hoverItem.violation_found !== 'green' ? <ViolintationFalse /> : <ViolintationTrue />}
         </div>
       )}
-      {currentReport && (
+      {currentReport && !operationOV && (
         <Modal
           className={styles.fullscreen}
           handleClose={() => setCurrentReport(false)}
           isOpen={true}
+          noESC={operationOV}
         >
           <div className={styles.fullscreen__container}>
             {data && data?.indexOf(currentReport) > 0 && (
@@ -236,12 +253,33 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                 <span>Algorithm:&nbsp;</span>
                 {parsingAlgorithmName(currentReport.algorithm.name)}
               </div>
+
+              {currentReport.extra && currentReport.extra.length > 0 && (
+                <div className={styles.fullscreen__footer_text}>
+                  <span> Additional:&nbsp;</span>
+                  <span
+                    className={styles.link}
+                    onClick={() => operationClickHandler(currentReport.extra[0].skany_index)}
+                  >
+                    Open order operation details
+                  </span>
+                </div>
+              )}
             </footer>
             <div className={styles.fullscreen__close} onClick={() => setCurrentReport(false)}>
               <CrossWhite />
             </div>
           </div>
         </Modal>
+      )}
+      {operationOV && typeof operationOV === 'object' && (
+        <OrderOperationDetail
+          operationData={operationOV}
+          handleClose={() => setOperationOV(false)}
+        />
+      )}
+      {operationOV && typeof operationOV === 'string' && (
+        <Notification status={false} message={operationOV} />
       )}
     </>
   );

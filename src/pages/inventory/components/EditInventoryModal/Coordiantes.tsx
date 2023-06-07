@@ -20,6 +20,8 @@ type PropsType = {
   currentSelect: string;
   itemName: any;
   handleClose: () => void;
+  isScale: any;
+  setIsScale: (coords: any) => void;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -29,6 +31,8 @@ export const Coordinates: React.FC<PropsType> = ({
   currentSelect,
   itemName,
   handleClose,
+  isScale,
+  setIsScale,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>('');
@@ -40,7 +44,6 @@ export const Coordinates: React.FC<PropsType> = ({
   const [isStartDraw, setIsStartDraw] = useState<any>(false);
   const [moveDraw, setMoveDraw] = useState<DrawingCoordinates>({ x: 0, y: 0 });
   const [cameraBox, setCameraBox] = useState<any>([]);
-  const [isScale, setIsScale] = useState<any>(false);
   const [coordToScale, setCoordToScale] = useState<any[]>([]);
 
   const changeTarget = (currentTarget: any) => {

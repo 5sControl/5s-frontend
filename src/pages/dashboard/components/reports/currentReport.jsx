@@ -11,16 +11,35 @@ import { Scale } from '../../../../components/scale';
 import { Modal } from '../../../../components/modal';
 
 import styles from './currentReport.module.scss';
+import { getOrderViewOperation } from '../../../../api/orderView.js';
+import { OrderOperationDetail } from '../../../../components/orderOperationDetail/orderOperationDetail.jsx';
+import { Notification } from '../../../../components/notification/notification';
 
 export const CurrentReport = () => {
   const { currentReport } = useAppSelector(selectCurrentReport);
   const [fullImage, setFullImage] = useState(false);
   const [currentCount, setCurrentCount] = useState(0);
+  const [operationOV, setOperationOV] = useState(false);
+
+  useEffect(() => {
+    if (operationOV && typeof operationOV === 'string') {
+      setTimeout(() => setOperationOV(false), 2000);
+    }
+  }, [operationOV]);
 
   useEffect(() => {
     setCurrentCount(0);
   }, [currentReport]);
 
+  const operationClickHandler = (id) => {
+    getOrderViewOperation(window.location.hostname, '', id).then((res) => {
+      if (Object.keys(res.data).length) {
+        setOperationOV(res.data);
+      } else {
+        setOperationOV(`Operation #${id} was not found in the database`);
+      }
+    });
+  };
   return (
     <>
       {currentReport && (
@@ -74,6 +93,17 @@ export const CurrentReport = () => {
                 {currentReport.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
               </span>
             </div>
+            {currentReport.extra && currentReport.extra.length > 0 && (
+              <div className={styles.report_item}>
+                <span className={styles.legend}>Additional</span>
+                <span
+                  className={`${styles.text} ${styles.link}`}
+                  onClick={() => operationClickHandler(currentReport.extra[0].skany_index)}
+                >
+                  Open order operation details
+                </span>
+              </div>
+            )}
           </div>
         </>
       )}
@@ -88,6 +118,16 @@ export const CurrentReport = () => {
             <ZoomOut className={styles.fullImage__scale} onClick={() => setFullImage(false)} />
           </div>
         </Modal>
+      )}
+      {operationOV && typeof operationOV === 'object' && (
+        <OrderOperationDetail
+          operationData={operationOV}
+          handleClose={() => setOperationOV(false)}
+        />
+      )}
+
+      {operationOV && typeof operationOV === 'string' && (
+        <Notification status={false} message={operationOV} />
       )}
     </>
   );
