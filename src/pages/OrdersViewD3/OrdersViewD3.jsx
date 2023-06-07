@@ -34,25 +34,25 @@ export const TimelineComponent = () => {
   }, [endDate, startDate]);
 
   return (
-    filterDateData &&
-    endDate &&
-    endDate && (
-      <div className={styles.fullScreen}>
-        <OrdersList
-          setSelectOrder={(order) => setSelectOrder(order)}
-          selectOrder={selectOrder}
-          startDate={startDate}
-          endDate={endDate}
-        />
-        <VerticalTimeline
-          data={data}
-          minDate={new Date(`${startDate}T03:00:00.000Z`)}
-          maxDate={new Date(`${endDate}T17:00:00.000Z`)}
-          selectOrder={selectOrder}
-          preloader={preloader}
-        />
-      </div>
-    )
+    <>
+      {filterDateData && endDate && startDate && (
+        <div className={styles.fullScreen}>
+          <OrdersList
+            setSelectOrder={(order) => setSelectOrder(order)}
+            selectOrder={selectOrder}
+            startDate={startDate}
+            endDate={endDate}
+          />
+          <VerticalTimeline
+            data={data}
+            minDate={new Date(`${startDate}T03:00:00.000Z`)}
+            maxDate={new Date(`${endDate}T17:00:00.000Z`)}
+            selectOrder={selectOrder}
+            preloader={preloader}
+          />
+        </div>
+      )}
+    </>
   );
 };
 
