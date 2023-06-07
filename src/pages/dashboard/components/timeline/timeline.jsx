@@ -254,7 +254,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                 {parsingAlgorithmName(currentReport.algorithm.name)}
               </div>
 
-              {currentReport.extra.length > 0 && (
+              {currentReport.extra && currentReport.extra.length > 0 && (
                 <div className={styles.fullscreen__footer_text}>
                   <span> Additional:&nbsp;</span>
                   <span

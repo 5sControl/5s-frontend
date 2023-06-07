@@ -93,7 +93,7 @@ export const CurrentReport = () => {
                 {currentReport.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
               </span>
             </div>
-            {currentReport.extra.length > 0 && (
+            {currentReport.extra && currentReport.extra.length > 0 && (
               <div className={styles.report_item}>
                 <span className={styles.legend}>Additional</span>
                 <span
