@@ -7,6 +7,7 @@ import { selectOrdersList } from '../../pages/previewOrders/components/OrdersLis
 import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
 import { getOrderViewOperations } from '../../api/orderView';
+
 export const TimelineComponent = () => {
   const { filterDateData } = useAppSelector(selectOrdersList);
   const [selectOrder, setSelectOrder] = useState('');
@@ -33,7 +34,9 @@ export const TimelineComponent = () => {
   }, [endDate, startDate]);
 
   return (
-    filterDateData && (
+    filterDateData &&
+    endDate &&
+    endDate && (
       <div className={styles.fullScreen}>
         <OrdersList
           setSelectOrder={(order) => setSelectOrder(order)}
