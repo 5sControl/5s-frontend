@@ -45,7 +45,7 @@ export const Operation = ({ operation, x, y, onClose, setOperationOV }) => {
             </span>
           )}
         </div>
-        <span className={styles.name}>{`${operation.firstName} ${operation.lastName}`}</span>
+        <span className={styles.name}>{`${operation.frsName} ${operation.lstName}`}</span>
         <span className={styles.respTime}>{`${moment(operation.startTime).format(
           'HH:mm:ss'
         )} - ${moment(operation.endTime).format('HH:mm:ss')}`}</span>
