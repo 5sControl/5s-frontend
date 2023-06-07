@@ -24,7 +24,7 @@ export const TimelineComponent = () => {
       console.log(response.data);
       setData(response.data);
     });
-  }, []);
+  }, [endDate, startDate]);
 
   return (
     filterDateData && (

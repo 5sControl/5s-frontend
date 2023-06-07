@@ -236,9 +236,11 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
             }}
           ></div>
         </div>
-        <div className={styles.datetime}>
-          <Timeline minDate={minDate} maxDate={maxDate} />
-        </div>
+        {update.length > 0 && (
+          <div className={styles.datetime}>
+            <Timeline minDate={minDate} maxDate={maxDate} />
+          </div>
+        )}
       </div>
       {operation && (
         <Operation

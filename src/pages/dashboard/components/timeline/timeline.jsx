@@ -24,6 +24,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   const [hoverItem, setHoverItem] = useState(false);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [operationOV, setOperationOV] = useState(false);
+
   const duration = (start, end) => {
     return (moment(end).diff(moment(start), 'seconds') / calculateTime(startTime, endTime)) * 100;
   };
@@ -68,7 +69,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   };
 
   useEffect(() => {
-    console.log(data);
     if (data && data.length > 0) {
       let bufdata = data.reverse().map((dat) => {
         return {
