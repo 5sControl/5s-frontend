@@ -150,7 +150,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
                     className={styles.algorithm__container}
                     onClick={() => setIsTooltipClicked(false)}
                   ></div>
-                  <img src={tooltipImage} className={styles.algorithm__image} />
+                  <img src={tooltipImage} className={styles.algorithm__image} alt={'tooltip'} />
                 </>
               )}
             </h2>
@@ -206,7 +206,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
 
         <div className={styles.content}>
           <div className={styles.algorithm}>
-            <h2>
+            <h2 className={styles.tooltipTitle}>
               Supplies <Tooltip onClick={() => setIsTooltipSupplies(true)} />
               {isTooltipSupplies && (
                 <>
@@ -214,10 +214,13 @@ export const EditInventoryModal: React.FC<PropsType> = ({
                     className={styles.algorithm__container}
                     onClick={() => setIsTooltipSupplies(false)}
                   ></div>
-                  <p>
-                    Upon reaching low stock level the email will be send to the supplier ordering
-                    the item. Company info will be used for order details.
-                  </p>
+                  <div className={styles.supplies_tooltip}>
+                    <h6>Supplies</h6>
+                    <p>
+                      Upon reaching low stock level the email will be send to the supplier ordering
+                      the item. Company info will be used for order details.
+                    </p>
+                  </div>
                 </>
               )}
             </h2>
