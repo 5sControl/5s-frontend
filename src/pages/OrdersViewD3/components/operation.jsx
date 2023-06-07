@@ -46,9 +46,9 @@ export const Operation = ({ operation, x, y, onClose, setOperationOV }) => {
           )}
         </div>
         <span className={styles.name}>{`${operation.frsName} ${operation.lstName}`}</span>
-        <span className={styles.respTime}>{`${moment(operation.startTime).format(
+        <span className={styles.respTime}>{`${moment(operation.sTime).format(
           'HH:mm:ss'
-        )} - ${moment(operation.endTime).format('HH:mm:ss')}`}</span>
+        )} - ${moment(operation.eTime).format('HH:mm:ss')}`}</span>
         <span className={styles.status}>
           {' '}
           {operation.status === null && <QuestionSquere color={'var(--LowEmphasis)'} />}

@@ -45,6 +45,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
     }
   }, [data, selectOrder]);
 
+  console.log(update);
   const timelineRef = useRef(null);
   const [position, setPosition] = useState(0);
   const [operation, setOperation] = useState(false);
@@ -142,8 +143,8 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
           .append('g')
           .attr('class', 'timeline-bar' + index)
           .attr('transform', (d, i) => {
-            const diff = moment(d.startTime).diff(minDate, 'days');
-            const newDate = moment(d.startTime)
+            const diff = moment(d.sTime).diff(minDate, 'days');
+            const newDate = moment(d.sTime)
               .subtract(9 * diff, 'hours')
               .format('YYYY-MM-DD HH:mm:ss.SSSSSS');
             return `translate(0, ${y(parseDate(newDate))})`;
