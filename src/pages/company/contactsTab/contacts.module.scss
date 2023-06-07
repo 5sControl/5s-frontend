@@ -31,6 +31,10 @@
     .control_box {
       display: flex;
       gap: 20px;
+
+      .settings_icon g path {
+        fill: #FE6100;
+      }
     }
   }
 

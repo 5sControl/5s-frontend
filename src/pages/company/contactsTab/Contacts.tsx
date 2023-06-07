@@ -25,6 +25,10 @@ export const Contacts: FC = () => {
       });
   }, []);
 
+  const goToSettings = (id: number) => {
+    navigate(`/company/contacts/${id}`);
+  };
+
   return (
     <>
       <div className="contacts">
@@ -39,7 +43,9 @@ export const Contacts: FC = () => {
 
         <section className={style.contacts_box}>
           {contactsInfo.map((item) => {
-            return <CompanyCard key={item.id} companyData={item} />;
+            return (
+              <CompanyCard key={item.id} companyData={item} onClick={() => goToSettings(item.id)} />
+            );
           })}
         </section>
       </div>

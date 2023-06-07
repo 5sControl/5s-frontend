@@ -243,17 +243,17 @@ export const AddInventoryModal: React.FC<PropsType> = ({
 
           {isAutomaticallyOrder && (
             <form className={styles.supplies_form}>
-              {suppliersData && suppliersData.length && (
-                <div className={styles.input}>
-                  <SelectBase
-                    id="supplier"
-                    name="supplier"
-                    label="Select a supplier"
-                    listOfData={suppliersData}
-                    setDefaultSelect={(select) => setSelectedSupplierID(select)}
-                  />
-                </div>
-              )}
+              <div className={styles.input}>
+                <SelectBase
+                  id="supplier"
+                  name="supplier"
+                  label="Select a supplier"
+                  listOfData={suppliersData}
+                  setDefaultSelect={(select) => setSelectedSupplierID(select)}
+                  disabled={!suppliersData.length}
+                />
+                {!suppliersData.length && <span>Add suppliers to select</span>}
+              </div>
 
               <div className={styles.input}>
                 <Input

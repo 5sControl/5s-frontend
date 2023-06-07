@@ -2,26 +2,54 @@ import React, { useEffect, useState } from 'react';
 import { Input } from '../../../components/input';
 import style from './contacts.module.scss';
 import { SelectBase } from '../../../components/selectBase';
-import { createSuppliers } from '../../../api/companyRequest';
-import { useNavigate } from 'react-router-dom';
+import { createSuppliers, editSuppliers, getSuppliers } from '../../../api/companyRequest';
+import { useNavigate, useParams, useRoutes } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { Settings } from '../../../assets/svg/SVGcomponent';
 import { Button } from '../../../components/button';
+import { ContactInfoType } from '../types';
 
-export const NewContactForm = () => {
+export const EditContactForm = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [cookies] = useCookies(['token']);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
   const [city, setCity] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [contactsInfo, setContactsInfo] = useState<ContactInfoType[]>([]);
+  const [contact, setContact] = useState<ContactInfoType>();
+
+  useEffect(() => {
+    getSuppliers(window.location.hostname, cookies.token)
+      .then((response) => {
+        console.log('contactsInfo', response.data);
+        setContactsInfo(response.data);
+      })
+      .catch((err) => {
+        console.log('setCompanyInfoError', err);
+      });
+  }, []);
+
+  useEffect(() => {
+    setContact(contactsInfo.filter((item) => item.id === Number(id))[0]);
+  }, [contactsInfo]);
+
+  useEffect(() => {
+    if (contact) {
+      setName(contact.name_company);
+      setEmail(contact.contact_email);
+      setCity(contact.city);
+      setWebsite(contact.website);
+    }
+  }, [contact]);
 
   const goToContacts = () => {
     navigate('/company/contacts/');
   };
 
-  const createContact = () => {
+  const editContact = () => {
     if (name.length < 1 || email.length < 1) {
       return;
     }
@@ -33,7 +61,7 @@ export const NewContactForm = () => {
     };
     setIsLoading(true);
 
-    createSuppliers(window.location.hostname, cookies.token, data)
+    editSuppliers(window.location.hostname, cookies.token, id, data)
       .then((response) => {
         goToContacts();
       })
@@ -52,13 +80,19 @@ export const NewContactForm = () => {
           Company
         </span>
         <span>{' / '}</span>
-        <span>New contact</span>
+        <span>{contact?.name_company}</span>
       </div>
 
       <div className={style.title_box}>
-        <h2>New Contact</h2>
+        <h2>Edit Contact</h2>
         <div className={style.control_box}>
-          <Button text="Done" onClick={() => createContact()} disabled={isLoading} />
+          <Button
+            className={style.settings_icon}
+            IconLeft={Settings}
+            text="Action"
+            variant={'text'}
+          />
+          <Button text="Done" onClick={() => editContact()} disabled={isLoading} />
         </div>
       </div>
 
@@ -106,6 +140,7 @@ export const NewContactForm = () => {
                 type="text"
                 placeholder={'Enter city'}
                 className={style.input_style}
+                value={city}
                 onChange={(e) => setCity(e.target.value)}
               />
               <SelectBase

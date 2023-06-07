@@ -254,7 +254,7 @@ export const getSuppliers = (hostname, cookies) => {
   }
 };
 
-export const setSuppliers = (hostname, cookies, data) => {
+export const createSuppliers = (hostname, cookies, data) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post(process.env.REACT_APP_PROXY, {
       url: `${process.env.REACT_APP_NGROK + API_SUPPLIERS}`,
@@ -274,6 +274,34 @@ export const setSuppliers = (hostname, cookies, data) => {
     });
   } else {
     return axios.post(`http://${hostname}/${API_SUPPLIERS}`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const editSuppliers = (hostname, cookies, id, data) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.put(process.env.REACT_APP_PROXY, {
+      url: `${process.env.REACT_APP_NGROK + API_SUPPLIERS}${id}/`,
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+      body: JSON.stringify(data),
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.put(`${process.env.REACT_APP_IP_SERVER}${API_SUPPLIERS}${id}/`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.put(`http://${hostname}/${API_SUPPLIERS}${id}/`, data, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,
