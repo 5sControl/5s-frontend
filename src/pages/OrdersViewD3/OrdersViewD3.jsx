@@ -11,8 +11,9 @@ export const TimelineComponent = () => {
   const { filterDateData } = useAppSelector(selectOrdersList);
   const [selectOrder, setSelectOrder] = useState('');
   const [data, setData] = useState([]);
-  const [startDate, setStartDate] = useState(moment(filterDateData.from).format('YYYY-MM-DD'));
-  const [endDate, setEndDate] = useState(moment(filterDateData.to).format('YYYY-MM-DD'));
+  const [startDate, setStartDate] = useState(false);
+  const [endDate, setEndDate] = useState(false);
+  const [preloader, setPreloader] = useState(false);
 
   useEffect(() => {
     setStartDate(moment(filterDateData.from).format('YYYY-MM-DD'));
@@ -20,10 +21,15 @@ export const TimelineComponent = () => {
   }, [filterDateData]);
 
   useEffect(() => {
-    getOrderViewOperations(window.location.hostname, '', startDate, endDate).then((response) => {
-      console.log(response.data);
-      setData(response.data);
-    });
+    if (startDate && endDate) {
+      setPreloader(true);
+      getOrderViewOperations(window.location.hostname, '', startDate, endDate)
+        .then((response) => {
+          setPreloader(false);
+          setData(response.data);
+        })
+        .catch((error) => console.log(error));
+    }
   }, [endDate, startDate]);
 
   return (
@@ -40,6 +46,7 @@ export const TimelineComponent = () => {
           minDate={new Date(`${startDate}T03:00:00.000Z`)}
           maxDate={new Date(`${endDate}T17:00:00.000Z`)}
           selectOrder={selectOrder}
+          preloader={preloader}
         />
       </div>
     )

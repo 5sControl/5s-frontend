@@ -17,7 +17,7 @@ function getDuration(milli) {
   return days * 400;
 }
 
-const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
+const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) => {
   const [update, setUpdate] = useState(data);
   const [operationOV, setOperationOV] = useState(false);
 
@@ -221,22 +221,32 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder }) => {
       </div>
       <div className={styles.timelineWrapper}>
         <div className={styles.wrapper}>
-          {update.length === 0 && (
+          {preloader ? (
             <div className={styles.gorilla}>
               <Preloader />
             </div>
+          ) : (
+            <>
+              {update.length > 0 ? (
+                <div
+                  ref={timelineRef}
+                  style={{
+                    width: `${update.length * fieldWidth}px`,
+                    height: `${getDuration(maxDate - minDate) * proportion + (days + 1) * 20}px`,
+                    transform: `translateX(${position * fieldWidth}px)`,
+                  }}
+                ></div>
+              ) : (
+                <div
+                  className={styles.noData}
+                >{`No operations were found in the range from ${moment(minDate).format(
+                  'DD.MM.YYYY'
+                )} to ${moment(maxDate).format('DD.MM.YYYY')}`}</div>
+              )}
+            </>
           )}
-
-          <div
-            ref={timelineRef}
-            style={{
-              width: `${update.length * fieldWidth}px`,
-              height: `${getDuration(maxDate - minDate) * proportion + (days + 1) * 20}px`,
-              transform: `translateX(${position * fieldWidth}px)`,
-            }}
-          ></div>
         </div>
-        {update.length > 0 && (
+        {!preloader && (
           <div className={styles.datetime}>
             <Timeline minDate={minDate} maxDate={maxDate} />
           </div>
