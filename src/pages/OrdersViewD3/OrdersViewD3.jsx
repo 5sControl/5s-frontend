@@ -33,6 +33,7 @@ export const TimelineComponent = () => {
     }
   }, [endDate, startDate]);
 
+  console.log(preloader);
   return (
     <>
       {filterDateData && endDate && startDate && (
