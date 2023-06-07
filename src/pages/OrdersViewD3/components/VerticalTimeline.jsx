@@ -180,7 +180,10 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
     };
   }, [minDate, maxDate, selectOrder, timelineRef, update, dateArray, proportion, days, preloader]);
 
-  console.log('preloader', preloader);
+  useEffect(() => {
+    setPosition(0);
+  }, [selectOrder, update]);
+
   return (
     <div className={styles.container}>
       {!preloader && (
