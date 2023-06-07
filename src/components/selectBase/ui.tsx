@@ -35,6 +35,10 @@ export const SelectBase: React.FC<PropsType> = ({
   };
 
   useEffect(() => {
+    if (!listOfData.length) {
+      setDataSelect('');
+      return;
+    }
     if (activeSelect) {
       const activeSelectItem: any = listOfData.filter((item) => item.id === activeSelect);
       setDataSelect(activeSelectItem[0]?.text);

@@ -18,6 +18,7 @@ import { Notification } from '../../../../components/notification/notification';
 import styles from '../InventoryModal.module.scss';
 import { getSuppliers } from '../../../../api/companyRequest';
 import { ContactInfoType } from '../../../company/types';
+import { useNavigate } from 'react-router-dom';
 
 type PropsType = {
   isOpen: boolean;
@@ -31,6 +32,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
   setIsNotification,
 }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { currentEditItem } = useAppSelector(selectEditInventoryModal);
   const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
@@ -245,18 +247,28 @@ export const EditInventoryModal: React.FC<PropsType> = ({
 
           {isAutomaticallyOrder && (
             <form className={styles.supplies_form}>
-              {suppliersData && suppliersData.length && (
-                <div className={styles.input}>
-                  <SelectBase
-                    id="supplier"
-                    name="supplier"
-                    label="Select a supplier"
-                    activeSelect={selectedSupplierID}
-                    listOfData={suppliersData}
-                    setDefaultSelect={(select) => setSelectedSupplierID(select)}
-                  />
-                </div>
-              )}
+              <div className={styles.input}>
+                <SelectBase
+                  id="supplier"
+                  name="supplier"
+                  label="Select a supplier"
+                  activeSelect={selectedSupplierID}
+                  listOfData={suppliersData}
+                  setDefaultSelect={(select) => setSelectedSupplierID(select)}
+                  disabled={!suppliersData.length}
+                />
+                {!suppliersData.length && (
+                  <div className={styles.input_add_suppliers}>
+                    <span
+                      onClick={() => navigate('/company/contacts/newContact')}
+                      className={styles.add_suppliers_link}
+                    >
+                      Add{' '}
+                    </span>
+                    <span>suppliers to select</span>
+                  </div>
+                )}
+              </div>
 
               <div className={styles.input}>
                 <Input

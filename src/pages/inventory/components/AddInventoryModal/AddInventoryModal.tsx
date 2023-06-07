@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 import { Modal } from '../../../../components/modal';
@@ -33,6 +33,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   setIsNotification,
 }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { camerasData } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
   const [coords, setCoords] = useState<Coordinat[]>([]);
@@ -46,9 +47,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   const [isTooltipSupplies, setIsTooltipSupplies] = useState(false);
   const [orderAmount, setOrderAmount] = useState<number | null>(0);
   const [selectedSupplierID, setSelectedSupplierID] = useState<number | null>(null);
-  useEffect(() => {
-    console.log('selectedSupplierID', selectedSupplierID);
-  }, [selectedSupplierID]);
   const [suppliersData, setSuppliersData] = useState<Array<{ id: number | string; text: string }>>(
     []
   );
@@ -258,7 +256,17 @@ export const AddInventoryModal: React.FC<PropsType> = ({
                   setDefaultSelect={(select) => setSelectedSupplierID(select)}
                   disabled={!suppliersData.length}
                 />
-                {!suppliersData.length && <span>Add suppliers to select</span>}
+                {!suppliersData.length && (
+                  <div className={styles.input_add_suppliers}>
+                    <span
+                      onClick={() => navigate('/company/contacts/newContact')}
+                      className={styles.add_suppliers_link}
+                    >
+                      Add{' '}
+                    </span>
+                    <span>suppliers to select</span>
+                  </div>
+                )}
               </div>
 
               <div className={styles.input}>

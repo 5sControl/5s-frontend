@@ -17,7 +17,6 @@ export const Contacts: FC = () => {
   useEffect(() => {
     getSuppliers(window.location.hostname, cookies.token)
       .then((response) => {
-        console.log('contactsInfo', response.data);
         setContactsInfo(response.data);
       })
       .catch((err) => {

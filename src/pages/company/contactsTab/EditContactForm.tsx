@@ -26,7 +26,6 @@ export const EditContactForm = () => {
   useEffect(() => {
     getSuppliers(window.location.hostname, cookies.token)
       .then((response) => {
-        console.log('contactsInfo', response.data);
         setContactsInfo(response.data);
       })
       .catch((err) => {
@@ -64,7 +63,7 @@ export const EditContactForm = () => {
     setIsLoading(true);
 
     editSuppliers(window.location.hostname, cookies.token, id, data)
-      .then((response) => {
+      .then(() => {
         goToContacts();
       })
       .catch((err) => {
@@ -79,7 +78,7 @@ export const EditContactForm = () => {
     setIsLoading(true);
 
     deleteSuppliers(window.location.hostname, cookies.token, id)
-      .then((response) => {
+      .then(() => {
         goToContacts();
       })
       .catch((err) => {
