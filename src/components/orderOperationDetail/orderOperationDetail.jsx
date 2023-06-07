@@ -94,7 +94,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           </div>
           <div className={styles.subtitle}>
             <span>{'Product: '}</span>
-            <span className={styles.subtitle_value}>{operationData?.orId}</span>
+            <span className={styles.subtitle_value}>{operationData?.elType}</span>
           </div>
 
           <div className={styles.subtitle}>
