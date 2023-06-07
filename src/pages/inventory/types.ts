@@ -52,6 +52,8 @@ export interface InventoryItem {
   camera: string;
   date_created: string;
   coords: Coordinat[];
+  order_quantity: number | null;
+  suppliers: number | null;
 }
 export interface Coordinat {
   x1: number;

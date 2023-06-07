@@ -10,7 +10,7 @@ import {
   Info,
 } from '../../assets/svg/SVGcomponent';
 import { useEffect, useState } from 'react';
-import { getCompanyInfo } from '../../api/companyRequest';
+import { getCompanyInfo, getCompanySubsInfo } from '../../api/companyRequest';
 import { useCookies } from 'react-cookie';
 import { CompanyInfo } from './types';
 import './styles.scss';
@@ -20,7 +20,7 @@ export const LeftMenu = () => {
   const [cookies] = useCookies(['token']);
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo>({
     name_company: '',
-    days_left: '',
+    count_days: '',
   });
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export const LeftMenu = () => {
   });
 
   useEffect(() => {
-    getCompanyInfo(window.location.hostname, cookies.token)
+    getCompanySubsInfo(window.location.hostname, cookies.token)
       .then((response) => {
         setCompanyInfo(response.data);
       })
@@ -129,7 +129,7 @@ export const LeftMenu = () => {
       </ul>
       <div className={'leftMenu__company'}>
         <h2>{companyInfo.name_company}</h2>
-        <h3>{companyInfo.days_left}</h3>
+        <h3>{companyInfo.count_days}</h3>
       </div>
     </aside>
   );

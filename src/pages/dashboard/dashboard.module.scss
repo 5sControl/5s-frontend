@@ -8,13 +8,13 @@
 }
 .wrapper {
   width: 100%;
-  height: calc(100vh - 135px);
+  height: calc(100vh - 130px);
 }
 .tabs {
   width: 100%;
   position: relative;
   display: flex;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   &::after {
     content: '';
     position: absolute;
@@ -47,6 +47,7 @@
 .content {
   width: 100%;
   height: calc(100vh - 230px);
+  overflow: auto;
 }
 
 .error {

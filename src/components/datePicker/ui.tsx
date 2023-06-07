@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { DateRangePicker, RangeKeyDict } from 'react-date-range';
-import { addDays } from 'date-fns';
 import { Button } from '../button';
 import moment from 'moment';
 import styles from './datePicker.module.scss';
@@ -24,7 +23,7 @@ import staticRangesGenerator from './staticRangesGenerator';
 
 export const DatePicker: React.FC = () => {
   const startDateDefault = new Date();
-  startDateDefault.setMonth(startDateDefault.getMonth() - 4);
+  startDateDefault.setDate(startDateDefault.getDay() - 7);
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const navigateSearch = useNavigateSearch();

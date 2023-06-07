@@ -1,0 +1,149 @@
+@import '../../../styles/colors';
+@import '../../../styles/fonts';
+
+.container {
+  display: flex;
+  flex-flow: column;
+  height: 95%;
+  h2{
+    @include h1;
+    color: var(--HightEmphasis);
+    padding-bottom: 20px;
+  }
+
+  .breadcrumbs {
+    gap: 8px;
+    span {
+      @include body2;
+      color: #666666;
+      cursor: pointer;
+    }
+
+    .breadcrumbs_active {
+      color: var(--LowEmphasis)
+    }
+  }
+
+  .title_box {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    .control_box {
+      display: flex;
+      gap: 20px;
+
+      .settings_icon g path {
+        fill: #FE6100;
+      }
+    }
+  }
+
+  .form_container {
+    display: flex;
+    flex-flow: row wrap;
+    align-content: flex-start;
+    padding: 10px;
+    background-color: var(--White);
+    box-shadow: 0 0 8px rgba(68, 87, 104, 0.25);
+    border-radius: 4px;
+    height: 100%;
+
+    .name_section {
+      flex-basis: 100%;
+      padding-bottom: 30px;
+      height: fit-content;
+
+      .name_input_wrap {
+        width: 490px;
+      }
+    }
+
+    .second_Line {
+      display: flex;
+      width: 100%;
+      gap: 80px;
+
+      section {
+        display: flex;
+        flex-flow: column;
+        gap: 30px;
+        width: 100%;
+
+        .three_input_box {
+          display: flex;
+          gap: 35px;
+        }
+      }
+    }
+  }
+}
+
+.contacts_box {
+  display: flex;
+  flex-flow: row wrap;
+  row-gap: 20px;
+  column-gap: 40px;
+}
+
+.input_style {
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--LowEmphasis);
+  border-radius: 4px;
+  @include body1;
+  color: var(--HightEmphasis);
+  padding: 13px 16px;
+  &:focus {
+    border-color: var(--HightEmphasis);
+    outline: none;
+  }
+}
+
+.select_style {
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--LowEmphasis);
+  border-radius: 4px;
+  padding: 0 16px !important;
+  @include body1;
+  color: var(--HightEmphasis);
+  &:focus {
+    border-color: var(--HightEmphasis);
+    outline: none;
+  }
+}
+
+.settingsContainer {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  right: 50px;
+  background-color: transparent;
+  width: 150px;
+  height: 150px;
+  padding-top: 40px;
+
+  svg {
+    cursor: pointer;
+  }
+  .settingsMenu {
+    position: absolute;
+    background: #ffffff;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.14);
+    border-radius: 4px;
+    z-index: 1001;
+    &_item {
+      display: flex;
+      align-items: center;
+      width: 118px;
+      padding: 6px 10px;
+      cursor: pointer;
+      .settingsText {
+        color: var(--LightBlack);
+        @include body2;
+        margin-left: 10px;
+      }
+    }
+  }
+}

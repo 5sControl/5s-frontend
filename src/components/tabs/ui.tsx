@@ -38,6 +38,7 @@ export const Tabs: React.FC<PropsType> = ({ children, activeTabDefault = 0, tabL
 
           return (
             <li
+              key={index}
               onClick={() => handleTabClick(index)}
               className={`${styles.tab} ${
                 activeTab === index ? styles.tab_active : styles.tab_nonActive
@@ -47,6 +48,7 @@ export const Tabs: React.FC<PropsType> = ({ children, activeTabDefault = 0, tabL
             </li>
           );
         })}
+        <li className={styles.container_underline}></li>
       </ul>
       {React.Children.toArray(children)[activeTab]}
     </div>
