@@ -2,9 +2,13 @@
 @import 'src/styles/fonts.scss';
 
 .modal {
-  max-width: 880px;
-  max-height: 650px;
+  max-width: 63vw;
+  max-height: 80vh;
   position: relative;
+  img, video{
+    max-width: 63vw;
+    max-height: calc(80vh - 170px);
+  }
 }
 
 .header {

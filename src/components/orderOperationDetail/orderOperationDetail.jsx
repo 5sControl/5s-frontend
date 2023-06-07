@@ -4,7 +4,7 @@ import styles from './orderOperationDetail.module.scss';
 import ReactPlayer from 'react-player';
 import { Download } from '../../assets/svg/SVGcomponent';
 import { Button } from '../button';
-
+import noVideo from '../../assets/png/novideo.png';
 export const OrderOperationDetail = ({ operationData, handleClose }) => {
   const playerRef = useRef(null);
 
@@ -42,28 +42,32 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
       showCross
       showSubstrateCross
     >
-      <ReactPlayer
-        ref={playerRef}
-        width="100%"
-        height="100%"
-        playing={true}
-        volume={0.9}
-        controls={true}
-        preload="auto"
-        config={{
-          file: {
-            forceVideo: true,
-          },
-        }}
-        url={`${
-          process.env.REACT_APP_ENV === 'proxy'
-            ? `${process.env.REACT_APP_NGROK}`
-            : process.env.REACT_APP_ENV === 'wify'
-            ? `${process.env.REACT_APP_IP_SERVER}`
-            : `http://${window.location.hostname}`
-        }/${operationData?.video.file_name}`}
-        // onReady={handleReady}
-      />
+      {operationData.status && operationData?.video.file_name ? (
+        <ReactPlayer
+          ref={playerRef}
+          width="100%"
+          height="100%"
+          playing={true}
+          volume={0.9}
+          controls={true}
+          preload="auto"
+          config={{
+            file: {
+              forceVideo: true,
+            },
+          }}
+          url={`${
+            process.env.REACT_APP_ENV === 'proxy'
+              ? `${process.env.REACT_APP_NGROK}`
+              : process.env.REACT_APP_ENV === 'wify'
+              ? `${process.env.REACT_APP_IP_SERVER}`
+              : `http://${window.location.hostname}`
+          }/${operationData?.video.file_name}`}
+          // onReady={handleReady}
+        />
+      ) : (
+        <img alt="no video" src={noVideo} />
+      )}
 
       <div className={styles.infoBlock}>
         <div className={styles.header}>
