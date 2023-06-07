@@ -94,7 +94,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({
     const coordNegativeArray = coords.filter(
       (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
     );
-    console.log('dataForm', dataForm);
     setIsClose({ loading: true });
     if (coords.length > 0 && coordNegativeArray.length === 0 && itemName && itemName.length > 0) {
       dispatch(
@@ -151,7 +150,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
                     className={styles.algorithm__container}
                     onClick={() => setIsTooltipClicked(false)}
                   ></div>
-                  <img src={tooltipImage} className={styles.algorithm__image} />
+                  <img src={tooltipImage} className={styles.algorithm__image} alt={'tooltip'} />
                 </>
               )}
             </h2>

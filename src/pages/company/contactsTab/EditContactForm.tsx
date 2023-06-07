@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Input } from '../../../components/input';
 import style from './contacts.module.scss';
 import { SelectBase } from '../../../components/selectBase';
-import { createSuppliers, editSuppliers, getSuppliers } from '../../../api/companyRequest';
-import { useNavigate, useParams, useRoutes } from 'react-router-dom';
+import { deleteSuppliers, editSuppliers, getSuppliers } from '../../../api/companyRequest';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { Settings } from '../../../assets/svg/SVGcomponent';
 import { Button } from '../../../components/button';
 import { ContactInfoType } from '../types';
+import { ActionList } from './ActionList';
 
 export const EditContactForm = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export const EditContactForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [contactsInfo, setContactsInfo] = useState<ContactInfoType[]>([]);
   const [contact, setContact] = useState<ContactInfoType>();
+  const [isShowActions, setIsShowActions] = useState<boolean>(false);
 
   useEffect(() => {
     getSuppliers(window.location.hostname, cookies.token)
@@ -73,6 +75,21 @@ export const EditContactForm = () => {
       });
   };
 
+  const deleteContact = () => {
+    setIsLoading(true);
+
+    deleteSuppliers(window.location.hostname, cookies.token, id)
+      .then((response) => {
+        goToContacts();
+      })
+      .catch((err) => {
+        console.log('setSuppliersError', err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
   return (
     <div className={style.container}>
       <div className={style.breadcrumbs}>
@@ -91,9 +108,15 @@ export const EditContactForm = () => {
             IconLeft={Settings}
             text="Action"
             variant={'text'}
+            onClick={() => {
+              setIsShowActions(true);
+            }}
           />
           <Button text="Done" onClick={() => editContact()} disabled={isLoading} />
         </div>
+        {isShowActions && (
+          <ActionList deleteAction={deleteContact} hideList={() => setIsShowActions(false)} />
+        )}
       </div>
 
       <div className={style.form_container}>

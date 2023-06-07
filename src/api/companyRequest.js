@@ -309,3 +309,30 @@ export const editSuppliers = (hostname, cookies, id, data) => {
     });
   }
 };
+
+export const deleteSuppliers = (hostname, cookies, id) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.delete(process.env.REACT_APP_PROXY, {
+      url: `${process.env.REACT_APP_NGROK + API_SUPPLIERS}${id}/`,
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.delete(`${process.env.REACT_APP_IP_SERVER}${API_SUPPLIERS}${id}/`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.delete(`http://${hostname}/${API_SUPPLIERS}${id}/`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  }
+};
