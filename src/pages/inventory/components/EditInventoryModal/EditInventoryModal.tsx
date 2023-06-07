@@ -8,7 +8,7 @@ import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { editItem, selectEditInventoryModal } from './editInventoryModalSlice';
 import { selectInventory } from '../../inventorySlice';
-import { Coordinat, InventoryItem } from '../../types';
+import { Coordinat } from '../../types';
 import { Coordinates } from './Coordiantes';
 import { Preloader } from '../../../../components/preloader';
 import { Tooltip } from '../../../../assets/svg/SVGcomponent';
@@ -49,10 +49,6 @@ export const EditInventoryModal: React.FC<PropsType> = ({
   );
   const [isAutomaticallyOrder, setIsAutomaticallyOrder] = useState(false);
 
-  useEffect(() => {
-    console.log('selectedSupplierID', selectedSupplierID);
-  }, [selectedSupplierID]);
-
   const submitHandler = () => {
     const dataForm = {
       name: itemName,
@@ -66,7 +62,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
       order_quantity: orderAmount as number | null,
       suppliers: selectedSupplierID as number | null,
     };
-    if (isAutomaticallyOrder) {
+    if (!isAutomaticallyOrder) {
       dataForm.order_quantity = null;
       dataForm.suppliers = null;
     }
@@ -121,6 +117,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
       setItemCount(currentEditItem?.low_stock_level);
       currentEditItem?.order_quantity && setOrderAmount(currentEditItem.order_quantity);
       currentEditItem?.suppliers && setSelectedSupplierID(currentEditItem.suppliers);
+      currentEditItem?.suppliers && setIsAutomaticallyOrder(true);
     }
   }, [isOpen]);
 
@@ -160,7 +157,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
                     className={styles.algorithm__container}
                     onClick={() => setIsTooltipClicked(false)}
                   ></div>
-                  <img src={tooltipImage} className={styles.algorithm__image} />
+                  <img src={tooltipImage} className={styles.algorithm__image} alt={'tooltip'} />
                 </>
               )}
             </h2>
@@ -216,7 +213,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
 
         <div className={styles.content}>
           <div className={styles.algorithm}>
-            <h2>
+            <h2 className={styles.tooltipTitle}>
               Supplies <Tooltip onClick={() => setIsTooltipSupplies(true)} />
               {isTooltipSupplies && (
                 <>
@@ -224,10 +221,13 @@ export const EditInventoryModal: React.FC<PropsType> = ({
                     className={styles.algorithm__container}
                     onClick={() => setIsTooltipSupplies(false)}
                   ></div>
-                  <p>
-                    Upon reaching low stock level the email will be send to the supplier ordering
-                    the item. Company info will be used for order details.
-                  </p>
+                  <div className={styles.supplies_tooltip}>
+                    <h6>Supplies</h6>
+                    <p>
+                      Upon reaching low stock level the email will be send to the supplier ordering
+                      the item. Company info will be used for order details.
+                    </p>
+                  </div>
                 </>
               )}
             </h2>
@@ -251,6 +251,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
                     id="supplier"
                     name="supplier"
                     label="Select a supplier"
+                    activeSelect={selectedSupplierID}
                     listOfData={suppliersData}
                     setDefaultSelect={(select) => setSelectedSupplierID(select)}
                   />

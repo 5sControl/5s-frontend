@@ -95,7 +95,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({
     const coordNegativeArray = coords.filter(
       (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
     );
-    console.log('dataForm', dataForm);
     setIsClose({ loading: true });
     if (coords.length > 0 && coordNegativeArray.length === 0 && itemName && itemName.length > 0) {
       dispatch(
@@ -158,7 +157,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
                     className={styles.algorithm__container}
                     onClick={() => setIsTooltipClicked(false)}
                   ></div>
-                  <img src={tooltipImage} className={styles.algorithm__image} />
+                  <img src={tooltipImage} className={styles.algorithm__image} alt={'tooltip'} />
                 </>
               )}
             </h2>
@@ -226,10 +225,13 @@ export const AddInventoryModal: React.FC<PropsType> = ({
                     className={styles.algorithm__container}
                     onClick={() => setIsTooltipSupplies(false)}
                   ></div>
-                  <p>
-                    Upon reaching low stock level the email will be send to the supplier ordering
-                    the item. Company info will be used for order details.
-                  </p>
+                  <div className={styles.supplies_tooltip}>
+                    <h6>Supplies</h6>
+                    <p>
+                      Upon reaching low stock level the email will be send to the supplier ordering
+                      the item. Company info will be used for order details.
+                    </p>
+                  </div>
                 </>
               )}
             </h2>
@@ -247,17 +249,17 @@ export const AddInventoryModal: React.FC<PropsType> = ({
 
           {isAutomaticallyOrder && (
             <form className={styles.supplies_form}>
-              {suppliersData && suppliersData.length && (
-                <div className={styles.input}>
-                  <SelectBase
-                    id="supplier"
-                    name="supplier"
-                    label="Select a supplier"
-                    listOfData={suppliersData}
-                    setDefaultSelect={(select) => setSelectedSupplierID(select)}
-                  />
-                </div>
-              )}
+              <div className={styles.input}>
+                <SelectBase
+                  id="supplier"
+                  name="supplier"
+                  label="Select a supplier"
+                  listOfData={suppliersData}
+                  setDefaultSelect={(select) => setSelectedSupplierID(select)}
+                  disabled={!suppliersData.length}
+                />
+                {!suppliersData.length && <span>Add suppliers to select</span>}
+              </div>
 
               <div className={styles.input}>
                 <Input

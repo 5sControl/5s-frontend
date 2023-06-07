@@ -5,7 +5,7 @@ import { ContactInfoType } from '../../pages/company/types';
 
 type Props = {
   companyData: ContactInfoType;
-  onClick?: () => void;
+  onClick: () => void;
 };
 
 export const CompanyCard: FC<Props> = ({ companyData, onClick }) => {

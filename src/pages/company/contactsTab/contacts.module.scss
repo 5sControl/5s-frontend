@@ -27,10 +27,15 @@
   .title_box {
     display: flex;
     justify-content: space-between;
+    position: relative;
 
     .control_box {
       display: flex;
       gap: 20px;
+
+      .settings_icon g path {
+        fill: #FE6100;
+      }
     }
   }
 
@@ -106,5 +111,39 @@
   &:focus {
     border-color: var(--HightEmphasis);
     outline: none;
+  }
+}
+
+.settingsContainer {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  right: 50px;
+  background-color: transparent;
+  width: 150px;
+  height: 150px;
+  padding-top: 40px;
+
+  svg {
+    cursor: pointer;
+  }
+  .settingsMenu {
+    position: absolute;
+    background: #ffffff;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.14);
+    border-radius: 4px;
+    z-index: 1001;
+    &_item {
+      display: flex;
+      align-items: center;
+      width: 118px;
+      padding: 6px 10px;
+      cursor: pointer;
+      .settingsText {
+        color: var(--LightBlack);
+        @include body2;
+        margin-left: 10px;
+      }
+    }
   }
 }
