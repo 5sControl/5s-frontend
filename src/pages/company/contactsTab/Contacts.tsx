@@ -43,7 +43,13 @@ export const Contacts: FC = () => {
         <section className={style.contacts_box}>
           {contactsInfo.map((item) => {
             return (
-              <CompanyCard key={item.id} companyData={item} onClick={() => goToSettings(item.id)} />
+              <CompanyCard
+                key={item.id}
+                companyData={item}
+                onClick={() => {
+                  item.id && goToSettings(item.id);
+                }}
+              />
             );
           })}
         </section>

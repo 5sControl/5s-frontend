@@ -16,6 +16,10 @@ export const EditContactForm = () => {
   const [cookies] = useCookies(['token']);
   const [name, setName] = useState('');
   const [nameError, setNameError] = useState<string | null>(null);
+  const [address1, setAddress1] = useState('');
+  const [address2, setAddress2] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
   const [city, setCity] = useState('');
@@ -42,8 +46,10 @@ export const EditContactForm = () => {
     if (contact) {
       setName(contact.name_company);
       setEmail(contact.contact_email);
-      setCity(contact.city);
       setWebsite(contact.website);
+      contact.city && setCity(contact.city);
+      contact.contact_mobile_phone && setMobile(contact.contact_mobile_phone);
+      contact.contact_phone && setPhone(contact.contact_phone);
     }
   }, [contact]);
 
@@ -61,6 +67,8 @@ export const EditContactForm = () => {
       contact_email: email,
       website: website,
       city: city,
+      contact_phone: phone,
+      contact_mobile_phone: mobile,
     };
     setIsLoading(true);
 
@@ -149,18 +157,20 @@ export const EditContactForm = () => {
               id={'address1'}
               name={'address1'}
               type="text"
+              value={address1}
+              onChange={(e) => setAddress1(e.target.value)}
               placeholder={'Enter street 1...'}
               className={style.input_style}
               label={'Address'}
-              disabled
             />
             <Input
               id={'address2'}
               name={'address2'}
               type="text"
+              value={address2}
+              onChange={(e) => setAddress2(e.target.value)}
               placeholder={'Enter street 2...'}
               className={style.input_style}
-              disabled
             />
 
             <div className={style.three_input_box}>
@@ -197,18 +207,20 @@ export const EditContactForm = () => {
               id={'phone'}
               name={'phone'}
               type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               placeholder={'Enter phone'}
               className={style.input_style}
               label={'Contacts'}
-              disabled
             />
             <Input
               id={'mobile'}
               name={'mobile'}
               type="text"
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
               placeholder={'Enter mobile'}
               className={style.input_style}
-              disabled
             />
             <Input
               id={'email'}
@@ -223,9 +235,10 @@ export const EditContactForm = () => {
               id={'website'}
               name={'website'}
               type="text"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
               placeholder={'Enter website'}
               className={style.input_style}
-              disabled
             />
           </section>
         </div>
