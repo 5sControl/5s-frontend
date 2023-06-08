@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 import { Modal } from '../../../../components/modal';
@@ -20,6 +20,7 @@ import styles from '../InventoryModal.module.scss';
 import './moveable.scss';
 import { ContactInfoType } from '../../../company/types';
 import { getSuppliers } from '../../../../api/companyRequest';
+import { SelectCustom } from '../../../../components/selectCustom';
 
 type PropsType = {
   isOpen: boolean;
@@ -33,7 +34,8 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   setIsNotification,
 }) => {
   const dispatch = useAppDispatch();
-  const { camerasData } = useAppSelector(selectInventory);
+  const navigate = useNavigate();
+  const { camerasData, isSMTPServerConnect } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
   const [coords, setCoords] = useState<Coordinat[]>([]);
   const [isClose, setIsClose] = useState<any>(false);
@@ -46,9 +48,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   const [isTooltipSupplies, setIsTooltipSupplies] = useState(false);
   const [orderAmount, setOrderAmount] = useState<number | null>(0);
   const [selectedSupplierID, setSelectedSupplierID] = useState<number | null>(null);
-  useEffect(() => {
-    console.log('selectedSupplierID', selectedSupplierID);
-  }, [selectedSupplierID]);
   const [suppliersData, setSuppliersData] = useState<Array<{ id: number | string; text: string }>>(
     []
   );
@@ -236,21 +235,35 @@ export const AddInventoryModal: React.FC<PropsType> = ({
               )}
             </h2>
 
-            <div className={styles.algorithm__toggle}>
-              <span>Automatically order</span>
-              <div
-                className={`toggle ${isAutomaticallyOrder ? 'toggle--on' : 'toggle--off'}`}
-                onClick={handleAutoOrderToggle}
-              >
-                <div className="toggle__button"></div>
+            {isSMTPServerConnect && (
+              <div className={styles.algorithm__toggle}>
+                <span>Automatically order</span>
+                <div
+                  className={`toggle ${isAutomaticallyOrder ? 'toggle--on' : 'toggle--off'}`}
+                  onClick={handleAutoOrderToggle}
+                >
+                  <div className="toggle__button"></div>
+                </div>
               </div>
-            </div>
+            )}
+
+            {!isSMTPServerConnect && (
+              <div className={styles.no_info_for_suppliers}>
+                <span
+                  className={styles.no_info_link}
+                  onClick={() => navigate('/configuration/notifications')}
+                >
+                  Set up{' '}
+                </span>
+                <span>SMTP server.</span>
+              </div>
+            )}
           </div>
 
           {isAutomaticallyOrder && (
             <form className={styles.supplies_form}>
               <div className={styles.input}>
-                <SelectBase
+                <SelectCustom
                   id="supplier"
                   name="supplier"
                   label="Select a supplier"
@@ -258,7 +271,17 @@ export const AddInventoryModal: React.FC<PropsType> = ({
                   setDefaultSelect={(select) => setSelectedSupplierID(select)}
                   disabled={!suppliersData.length}
                 />
-                {!suppliersData.length && <span>Add suppliers to select</span>}
+                {!suppliersData.length && (
+                  <div className={styles.input_add_suppliers}>
+                    <span
+                      onClick={() => navigate('/company/contacts/newContact')}
+                      className={styles.add_suppliers_link}
+                    >
+                      Add{' '}
+                    </span>
+                    <span>suppliers to select</span>
+                  </div>
+                )}
               </div>
 
               <div className={styles.input}>

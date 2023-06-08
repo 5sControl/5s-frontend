@@ -3,6 +3,7 @@ import { RootState } from '../../store';
 import { getInventoryItemHistory, getInventoryItems } from './inventoryAPI';
 import { getSelectedCameras } from '../../api/cameraRequest';
 import { Camera, InventoryHistory, InventoryItem } from './types';
+import { getNotificationSettings } from '../../api/notificationRequest';
 
 interface Inventory {
   isLoading: boolean;
@@ -14,6 +15,7 @@ interface Inventory {
   isLoadingCameras: boolean;
   camerasData: Array<{ id: string; text: string }> | null;
   errorOfgetCameras: boolean;
+  isSMTPServerConnect: boolean;
 }
 
 const initialState: Inventory = {
@@ -26,6 +28,7 @@ const initialState: Inventory = {
   isLoadingCameras: false,
   camerasData: null,
   errorOfgetCameras: false,
+  isSMTPServerConnect: false,
 };
 
 export const getInventoryItemsAsync = createAsyncThunk(
@@ -64,6 +67,15 @@ export const getCamerasAsync = createAsyncThunk(
     return null;
   }
 );
+
+export const getSMTPConnect = createAsyncThunk(
+  'getSMTPConnect',
+  async (data: { token: string; hostname: string }) => {
+    const response = await getNotificationSettings(data.hostname, data.token);
+    return !!(response.data && response.data.length > 0 && response.data[0].server);
+  }
+);
+
 const inventoryPage = createSlice({
   name: 'inventory',
   initialState,
@@ -101,6 +113,9 @@ const inventoryPage = createSlice({
     builder.addCase(getCamerasAsync.rejected, (state) => {
       state.isLoadingCameras = false;
       state.errorOfgetCameras = true;
+    });
+    builder.addCase(getSMTPConnect.fulfilled, (state, action) => {
+      state.isSMTPServerConnect = action.payload;
     });
   },
 });

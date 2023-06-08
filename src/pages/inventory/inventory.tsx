@@ -5,7 +5,12 @@ import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { AddInventoryModal } from './components/AddInventoryModal';
 import { InventoryReport } from './components/InventoryReport';
-import { getCamerasAsync, getInventoryItemHistoryAsync, selectInventory } from './inventorySlice';
+import {
+  getCamerasAsync,
+  getInventoryItemHistoryAsync,
+  getSMTPConnect,
+  selectInventory,
+} from './inventorySlice';
 import styles from './inventory.module.scss';
 import { selectActiveInventoryItem } from './components/InventoryItemsList/InventoryItemsListSlice';
 import moment from 'moment';
@@ -33,6 +38,7 @@ export const Inventory: React.FC = () => {
 
   useEffect(() => {
     dispatch(getCamerasAsync({ token: cookies.token, hostname: window.location.hostname }));
+    dispatch(getSMTPConnect({ token: cookies.token, hostname: window.location.hostname }));
   }, []);
 
   useEffect(() => {
