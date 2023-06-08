@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Input } from '../../../components/input';
 import style from './contacts.module.scss';
 import { SelectBase } from '../../../components/selectBase';
@@ -15,6 +15,7 @@ export const EditContactForm = () => {
   const { id } = useParams();
   const [cookies] = useCookies(['token']);
   const [name, setName] = useState('');
+  const [nameError, setNameError] = useState<string | null>(null);
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
   const [city, setCity] = useState('');
@@ -51,7 +52,8 @@ export const EditContactForm = () => {
   };
 
   const editContact = () => {
-    if (name.length < 1 || email.length < 1) {
+    if (name.length < 1) {
+      setNameError('Name field is required');
       return;
     }
     const data = {
@@ -72,6 +74,11 @@ export const EditContactForm = () => {
       .finally(() => {
         setIsLoading(false);
       });
+  };
+
+  const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+    setNameError(null);
   };
 
   const deleteContact = () => {
@@ -126,11 +133,12 @@ export const EditContactForm = () => {
               name={'name'}
               type="text"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={changeNameHandler}
               placeholder={'Enter name'}
               className={style.input_style}
               label={'Name'}
               required
+              errorMessage={nameError}
             />
           </div>
         </section>

@@ -6,6 +6,11 @@
   flex-direction: column;
   width: 100%;
   position: relative;
+
+  .required_label {
+    content: '*';
+    color: var(--Orange);
+  }
 }
 
 .label {
@@ -44,5 +49,18 @@
   &__search {
     position: absolute;
     right: 0px;
+  }
+  &__error {
+    border: 1px solid var(--Red);
+  }
+  &__error::placeholder {
+    color: var(--Red);
+  }
+  &__error_message {
+    position: absolute;
+    bottom: -24px;
+    left: 0;
+    @include caption;
+    color: var(--Red);
   }
 }
