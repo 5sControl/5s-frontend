@@ -177,6 +177,11 @@ export const SettingsHub = ({
                     setInformationToSend={(e) => setInformationToSend(e)}
                     operationID={operationID}
                     setOperationID={(id) => setOperationID(id)}
+                    isCreateCamera={isCreateCamera}
+                    cameraSelect={cameraSelect}
+                    cameraIP={cameraIP}
+                    userName={userName}
+                    password={password}
                   />
                 )}
                 <div className="cameras__settings_buttons">

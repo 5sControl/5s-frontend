@@ -6,6 +6,7 @@ import { CameraTest } from '../cameraTest';
 import { ArrowDown } from '../../../../assets/svg/SVGcomponent';
 import 'react-widgets/styles.css';
 import { CameraEdit } from './cameraEdit';
+import { RightSection } from '../rightSection/right';
 export const Camera = ({
   cameraIP,
   isCreateCamera,
@@ -111,23 +112,13 @@ export const Camera = ({
             </div>
           </div>
         </div>
-        <div className="cameras__settings_right">
-          {!isCreateCamera ? (
-            <img
-              src={
-                process.env.REACT_APP_ENV === 'proxy'
-                  ? `${process.env.REACT_APP_NGROK}/images/${cameraSelect.id}/snapshot.jpg`
-                  : process.env.REACT_APP_ENV === 'wify'
-                  ? `${process.env.REACT_APP_IP_SERVER}images/${cameraSelect.id}/snapshot.jpg`
-                  : `http://${window.location.hostname}/images/${cameraSelect.id}/snapshot.jpg`
-              }
-              alt="Camera"
-              className="cameras__settings_img"
-            />
-          ) : (
-            <CameraTest cameraIP={cameraIP} userName={userName} password={password} />
-          )}
-        </div>
+        <RightSection
+          isCreateCamera={isCreateCamera}
+          cameraSelect={cameraSelect}
+          cameraIP={cameraIP}
+          userName={userName}
+          password={password}
+        />
       </div>
       {isModalChangePassword && (
         <CameraEdit
