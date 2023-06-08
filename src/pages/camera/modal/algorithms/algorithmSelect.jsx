@@ -39,6 +39,7 @@ export const AlgorithmSelect = ({
       setCheckboxAlgo([...checkboxAlgo, state]);
     }
   };
+
   return (
     <div className={styles.algorithms}>
       <h1 className={styles.algorithms_title}>

@@ -15,6 +15,7 @@ import { Notification } from '../../../components/notification/notification';
 import { CameraEdit } from './cameraEdit';
 import { TooltipCustom } from '../../../components/tooltip/tooltip';
 import { CameraTest } from './cameraTest';
+import { Tabs } from './tabs/tabs';
 
 export const SettingsHub = ({
   cameraSelect,
@@ -37,6 +38,7 @@ export const SettingsHub = ({
   const [isNotification, setIsNotification] = useState(false);
   const [isPreloader, setIsPreloader] = useState(false);
   const [isModalChangePassword, setIsModalChangePassword] = useState(false);
+  const [activeTab, setActiveTab] = useState('Camera');
 
   const applySettings = async () => {
     setIsPreloader(true);
@@ -151,8 +153,8 @@ export const SettingsHub = ({
                 <div className="cameras__settings_modal">
                   <div className="cameras__settings_header">
                     <h1>Camera Settings</h1>
+                    <Tabs activeTab={activeTab} setActiveTab={(tab) => setActiveTab(tab)} />
                   </div>
-                  <p className="cameras__settings_desc">Connect to camera and configure settings</p>
                   <div className="cameras__settings_container">
                     <div className="cameras__settings_left">
                       <div className="cameras__settings_camera">
