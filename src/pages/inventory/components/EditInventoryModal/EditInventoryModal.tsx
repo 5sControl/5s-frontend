@@ -134,6 +134,17 @@ export const EditInventoryModal: React.FC<PropsType> = ({
       });
   }, []);
 
+  console.log(
+    currentEditItem &&
+      camerasData &&
+      camerasData.findIndex(
+        (item: { text: string; id: string }) => item.id === currentEditItem?.camera
+      ) > -1
+      ? camerasData.findIndex(
+          (item: { text: string; id: string }) => item.id === currentEditItem?.camera
+        )
+      : 0
+  );
   return (
     <Modal
       isOpen={isOpen}

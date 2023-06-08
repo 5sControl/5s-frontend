@@ -35,8 +35,9 @@ export const SelectBase: React.FC<PropsType> = ({
   };
 
   useEffect(() => {
+    console.log(activeSelect, listOfData);
     if (activeSelect) {
-      const activeSelectItem: any = listOfData.filter((item) => item.id === activeSelect);
+      const activeSelectItem: any = listOfData.filter((item, index) => index === activeSelect);
       setDataSelect(activeSelectItem[0]?.text);
     } else {
       setDataSelect(listOfData[0].text);
@@ -47,9 +48,6 @@ export const SelectBase: React.FC<PropsType> = ({
     if (dataSelect && setCurrentSelect && camerasData) {
       setCurrentSelect(camerasData.filter((el: any) => el.text === dataSelect)[0].id);
     }
-  }, [dataSelect]);
-
-  useEffect(() => {
     if (setDefaultSelect && dataSelect) {
       setDefaultSelect(
         listOfData.filter((el: { id: number | string; text: string }) => el.text === dataSelect)[0]
