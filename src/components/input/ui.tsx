@@ -20,6 +20,7 @@ type PropsType = {
   className?: any;
   onKeyDown?: () => void;
   min?: number;
+  errorMessage?: string | null;
 };
 
 export const Input: React.FC<PropsType> = ({
@@ -38,6 +39,7 @@ export const Input: React.FC<PropsType> = ({
   className,
   onKeyDown,
   min,
+  errorMessage,
 }) => {
   const [inputType, setInputType] = useState(type);
 
@@ -49,7 +51,8 @@ export const Input: React.FC<PropsType> = ({
     <div className={styles.container}>
       {label && (
         <label htmlFor={id} className={styles.label}>
-          {label}
+          <span>{label}</span>
+          {required && <span className={styles.required_label}>{' *'}</span>}
         </label>
       )}
 
@@ -64,11 +67,14 @@ export const Input: React.FC<PropsType> = ({
           placeholder={placeholder}
           required={required}
           onChange={onChange}
-          className={className ? className : styles.block__input}
+          className={`${className ? className : styles.block__input} ${
+            errorMessage && styles.block__error
+          }`}
           onKeyDown={onKeyDown}
           min={min}
         />
 
+        {errorMessage && <span className={styles.block__error_message}>{errorMessage}</span>}
         {showEye && inputType === 'text' && (
           <AiFillEyeInvisible className={styles.block__eye} onClick={handleClickToEye} />
         )}

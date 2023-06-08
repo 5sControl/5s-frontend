@@ -284,14 +284,11 @@ export const createSuppliers = (hostname, cookies, data) => {
 
 export const editSuppliers = (hostname, cookies, id, data) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.put(process.env.REACT_APP_PROXY, {
-      url: `${process.env.REACT_APP_NGROK + API_SUPPLIERS}${id}/`,
-      method: 'PUT',
+    return axios.put(`${process.env.REACT_APP_NGROK + API_SUPPLIERS}${id}/`, data, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,
       },
-      body: JSON.stringify(data),
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.put(`${process.env.REACT_APP_IP_SERVER}${API_SUPPLIERS}${id}/`, data, {
@@ -312,9 +309,7 @@ export const editSuppliers = (hostname, cookies, id, data) => {
 
 export const deleteSuppliers = (hostname, cookies, id) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.delete(process.env.REACT_APP_PROXY, {
-      url: `${process.env.REACT_APP_NGROK + API_SUPPLIERS}${id}/`,
-      method: 'DELETE',
+    return axios.delete(`${process.env.REACT_APP_NGROK + API_SUPPLIERS}${id}/`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,

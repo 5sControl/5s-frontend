@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Input } from '../../../components/input';
 import style from './contacts.module.scss';
 import { SelectBase } from '../../../components/selectBase';
 import { createSuppliers } from '../../../api/companyRequest';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { Settings } from '../../../assets/svg/SVGcomponent';
 import { Button } from '../../../components/button';
+import { ContactInfoType } from '../types';
 
 export const NewContactForm = () => {
   const navigate = useNavigate();
   const [cookies] = useCookies(['token']);
   const [name, setName] = useState('');
+  const [nameError, setNameError] = useState<string | null>(null);
+  const [address1, setAddress1] = useState('');
+  const [address2, setAddress2] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
   const [city, setCity] = useState('');
@@ -22,19 +27,22 @@ export const NewContactForm = () => {
   };
 
   const createContact = () => {
-    if (name.length < 1 || email.length < 1) {
+    if (name.length < 1) {
+      setNameError('Name field is required');
       return;
     }
-    const data = {
+    const data: ContactInfoType = {
       name_company: name,
       contact_email: email,
       website: website,
       city: city,
+      contact_phone: phone,
+      contact_mobile_phone: mobile,
     };
     setIsLoading(true);
 
     createSuppliers(window.location.hostname, cookies.token, data)
-      .then((response) => {
+      .then(() => {
         goToContacts();
       })
       .catch((err) => {
@@ -43,6 +51,11 @@ export const NewContactForm = () => {
       .finally(() => {
         setIsLoading(false);
       });
+  };
+
+  const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+    setNameError(null);
   };
 
   return (
@@ -70,11 +83,12 @@ export const NewContactForm = () => {
               name={'name'}
               type="text"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={changeNameHandler}
               placeholder={'Enter name'}
               className={style.input_style}
               label={'Name'}
               required
+              errorMessage={nameError}
             />
           </div>
         </section>
@@ -85,18 +99,20 @@ export const NewContactForm = () => {
               id={'address1'}
               name={'address1'}
               type="text"
+              value={address1}
+              onChange={(e) => setAddress1(e.target.value)}
               placeholder={'Enter street 1...'}
               className={style.input_style}
               label={'Address'}
-              disabled
             />
             <Input
               id={'address2'}
               name={'address2'}
               type="text"
+              value={address2}
+              onChange={(e) => setAddress2(e.target.value)}
               placeholder={'Enter street 2...'}
               className={style.input_style}
-              disabled
             />
 
             <div className={style.three_input_box}>
@@ -106,6 +122,7 @@ export const NewContactForm = () => {
                 type="text"
                 placeholder={'Enter city'}
                 className={style.input_style}
+                value={city}
                 onChange={(e) => setCity(e.target.value)}
               />
               <SelectBase
@@ -132,18 +149,20 @@ export const NewContactForm = () => {
               id={'phone'}
               name={'phone'}
               type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               placeholder={'Enter phone'}
               className={style.input_style}
               label={'Contacts'}
-              disabled
             />
             <Input
               id={'mobile'}
               name={'mobile'}
               type="text"
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
               placeholder={'Enter mobile'}
               className={style.input_style}
-              disabled
             />
             <Input
               id={'email'}
@@ -158,9 +177,10 @@ export const NewContactForm = () => {
               id={'website'}
               name={'website'}
               type="text"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
               placeholder={'Enter website'}
               className={style.input_style}
-              disabled
             />
           </section>
         </div>

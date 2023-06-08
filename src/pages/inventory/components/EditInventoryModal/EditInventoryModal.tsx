@@ -18,6 +18,8 @@ import { Notification } from '../../../../components/notification/notification';
 import styles from '../InventoryModal.module.scss';
 import { getSuppliers } from '../../../../api/companyRequest';
 import { ContactInfoType } from '../../../company/types';
+import { useNavigate } from 'react-router-dom';
+import { SelectCustom } from '../../../../components/selectCustom';
 
 type PropsType = {
   isOpen: boolean;
@@ -31,8 +33,9 @@ export const EditInventoryModal: React.FC<PropsType> = ({
   setIsNotification,
 }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { currentEditItem } = useAppSelector(selectEditInventoryModal);
-  const { camerasData } = useAppSelector(selectInventory);
+  const { camerasData, isSMTPServerConnect } = useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
   const [currentSelect, setCurrentSelect] = useState('');
   const [coords, setCoords] = useState<Coordinat[]>([]);
@@ -243,31 +246,55 @@ export const EditInventoryModal: React.FC<PropsType> = ({
               )}
             </h2>
 
-            <div className={styles.algorithm__toggle}>
-              <span>Automatically order</span>
-              <div
-                className={`toggle ${isAutomaticallyOrder ? 'toggle--on' : 'toggle--off'}`}
-                onClick={handleAutoOrderToggle}
-              >
-                <div className="toggle__button"></div>
+            {isSMTPServerConnect && (
+              <div className={styles.algorithm__toggle}>
+                <span>Automatically order</span>
+                <div
+                  className={`toggle ${isAutomaticallyOrder ? 'toggle--on' : 'toggle--off'}`}
+                  onClick={handleAutoOrderToggle}
+                >
+                  <div className="toggle__button"></div>
+                </div>
               </div>
-            </div>
+            )}
+
+            {!isSMTPServerConnect && (
+              <div className={styles.no_info_for_suppliers}>
+                <span
+                  className={styles.no_info_link}
+                  onClick={() => navigate('/configuration/notifications')}
+                >
+                  Set up{' '}
+                </span>
+                <span>SMTP server.</span>
+              </div>
+            )}
           </div>
 
           {isAutomaticallyOrder && (
             <form className={styles.supplies_form}>
-              {suppliersData && suppliersData.length && (
-                <div className={styles.input}>
-                  <SelectBase
-                    id="supplier"
-                    name="supplier"
-                    label="Select a supplier"
-                    activeSelect={selectedSupplierID}
-                    listOfData={suppliersData}
-                    setDefaultSelect={(select) => setSelectedSupplierID(select)}
-                  />
-                </div>
-              )}
+              <div className={styles.input}>
+                <SelectCustom
+                  id="supplier"
+                  name="supplier"
+                  label="Select a supplier"
+                  activeSelect={selectedSupplierID}
+                  listOfData={suppliersData}
+                  setDefaultSelect={(select) => setSelectedSupplierID(select)}
+                  disabled={!suppliersData.length}
+                />
+                {!suppliersData.length && (
+                  <div className={styles.input_add_suppliers}>
+                    <span
+                      onClick={() => navigate('/company/contacts/newContact')}
+                      className={styles.add_suppliers_link}
+                    >
+                      Add{' '}
+                    </span>
+                    <span>suppliers to select</span>
+                  </div>
+                )}
+              </div>
 
               <div className={styles.input}>
                 <Input
