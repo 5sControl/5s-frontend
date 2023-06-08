@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { getAveilableAlgorithms } from '../../../api/algorithmRequest';
-import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName';
-import { Input } from '../../../components/input';
-
+import { getAveilableAlgorithms } from '../../../../api/algorithmRequest';
+import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
+import { Input } from '../../../../components/input';
+import styles from './algorithms.module.scss';
 export const AlgorithmSelect = ({
   token,
   algorithmsActive,
@@ -40,33 +40,31 @@ export const AlgorithmSelect = ({
     }
   };
   return (
-    <div className="cameras__settings_algorithms">
-      <h1 className="cameras__settings_algorithms_title">
+    <div className={styles.algorithms}>
+      <h1 className={styles.algorithms_title}>
         {algorithmsActive ? algorithmsActive.length : 0}/{algorithmList ? algorithmList.length : 0}{' '}
         <span>algorithms used</span>
       </h1>
-      <div className="cameras__settings_algorithms_list">
+      <div className={styles.algorithms_list}>
         {algorithmList &&
           algorithmList.length > 0 &&
           algorithmList.map((algorithm, index) => (
-            <div className="cameras__settings_algorithms_container" key={index}>
-              <label className="cameras__settings_algorithms_list_item">
+            <div className={styles.algorithms_container} key={index}>
+              <label className={styles.algorithms_list_item}>
                 {parsingAlgorithmName(algorithm.name)}
                 <input
                   type="checkbox"
                   defaultChecked={algorithmsActive && algorithmsActive.includes(algorithm.name)}
                   onChange={() => checkboxHandler(algorithm.name)}
-                  className={'checkbox'}
+                  className={styles.checkbox}
                 />
               </label>
-              <span className="cameras__settings_algorithms_list_item_desc">
-                {algorithm.description}
-              </span>
+              <span className={styles.algorithms_list_item_desc}>{algorithm.description}</span>
               {parsingAlgorithmName(algorithm.name) === 'Operation control' && (
                 <>
                   <h2>Controlled operation</h2>
                   <Input
-                    className={'cameras__settings_algorithms_container_input'}
+                    className={styles.algorithms_container_input}
                     placeholder={'Enter ID'}
                     value={operationID}
                     onChange={(e) => setOperationID(e.target.value.replace(/[^\d]/g, ''))}

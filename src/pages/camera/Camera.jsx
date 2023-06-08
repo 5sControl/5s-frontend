@@ -3,14 +3,16 @@ import { useCookies } from 'react-cookie';
 
 import { getSelectedCameras } from '../../api/cameraRequest';
 import { Button } from '../../components/button';
-import { CamerasDeleteModal } from './modal/camerasDeleteModal';
+import { CamerasDeleteModal } from './modal/delete/camerasDeleteModal';
 import { getProcess } from '../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
-import { CameraSettings } from './modal/cameraSettings';
+import { SettingsHub } from './modal/settingsHub';
 import { DeleteClear, Plus } from '../../assets/svg/SVGcomponent';
 import { Notification } from '../../components/notification/notification';
 
 import styles from './camera.module.scss';
+import './cameras.scss';
+
 export const Camera = () => {
   const [cookies] = useCookies(['token']);
   const [createdCameras, setCreatedCameras] = useState(false);
@@ -125,7 +127,7 @@ export const Camera = () => {
       )}
 
       {cameraSelect && (
-        <CameraSettings
+        <SettingsHub
           cameraSelect={cameraSelect}
           token={cookies.token}
           setIsCameraSettings={(bool) => setCameraSelect(bool)}

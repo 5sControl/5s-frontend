@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ArrowDown } from '../../../assets/svg/SVGcomponent';
-import { AlgorithmSelect } from '../components/algorithmSelect';
+import { AlgorithmSelect } from './algorithms/algorithmSelect';
 import {
   getOperationID,
   getProcess,
@@ -16,7 +16,7 @@ import { CameraEdit } from './cameraEdit';
 import { TooltipCustom } from '../../../components/tooltip/tooltip';
 import { CameraTest } from './cameraTest';
 
-export const CameraSettings = ({
+export const SettingsHub = ({
   cameraSelect,
   token,
   setIsCameraSettings,
@@ -237,15 +237,7 @@ export const CameraSettings = ({
                               placeholder="Enter displayed name"
                             />
                           </div>
-                          <div>
-                            <label htmlFor="cameraName">Controlled workplace</label>
-                            <Input type="text" />
-                          </div>
                         </div>
-                        <label>
-                          <input type="checkbox" name="isRecording" value={true} />
-                          &nbsp; Save recordings from this camera.
-                        </label>
                       </div>
                       <AlgorithmSelect
                         token={token}
