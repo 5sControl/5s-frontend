@@ -11,9 +11,16 @@ export type CompanyInfoType = {
 };
 
 export type ContactInfoType = {
-  id: number;
+  id?: number;
   name_company: string;
   contact_email: string;
   website: string;
-  city: string;
+  city?: string | null;
+  contact_mobile_phone?: string | null;
+  contact_phone?: string | null;
+  date_edited?: string;
+  date_joined?: string;
+  file?: File | null;
+  logo?: string | null;
+  state?: string | null;
 };

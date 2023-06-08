@@ -1,0 +1,54 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.container {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  @include body1;
+  color: var(--HightEmphasis);
+  margin-bottom: 6px;
+}
+
+.block {
+  position: relative;
+  &__select {
+    width: 100%;
+    max-height: 50px;
+    background: var(--White);
+    border: 1px solid var(--LowEmphasis);
+    border-radius: 4px;
+    @include body1;
+    color: var(--HightEmphasis);
+    padding: 13px 16px;
+    cursor: pointer;
+    transition: all 0.5s;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%23666666' d='M1.41 0.589844L6 5.16984L10.59 0.589844L12 1.99984L6 7.99984L0 1.99984L1.41 0.589844Z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 96% center;
+      background-size: 12px 30px;
+      border: 1px solid var(--LowEmphasis);
+      option{
+        background: var(--White);
+      }
+      &:focus {
+        border-color: #212121;
+        outline: none;
+      }
+  }
+  &__option {
+    background: var(--White);
+  }
+  &__arrow {
+    position: absolute;
+    top: 40%;
+    right: 20px;
+  }
+}

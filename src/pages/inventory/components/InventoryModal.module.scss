@@ -46,6 +46,21 @@
       border: 0;
       padding-top: 0;
       padding-bottom: 0;
+      position: relative;
+      
+      .input_add_suppliers {
+        position: absolute;
+
+        .add_suppliers_link {
+          color: var(--Orange);
+          cursor: pointer;
+        }
+
+        span {
+          @include caption;
+          color: var(--LowEmphasis)
+        }
+      }
     }
 
     .levels {
@@ -367,6 +382,16 @@
       font-size: 16px;
       line-height: 24px;
       
+    }
+  }
+  .no_info_for_suppliers {
+    span {
+      @include body1
+    }
+
+    .no_info_link {
+      color: var(--Orange);
+      cursor: pointer;
     }
   }
 }
