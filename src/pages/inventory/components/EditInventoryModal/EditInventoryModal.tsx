@@ -137,6 +137,10 @@ export const EditInventoryModal: React.FC<PropsType> = ({
       });
   }, []);
 
+  useEffect(() => {
+    !isSMTPServerConnect && setIsAutomaticallyOrder(false);
+  }, [isSMTPServerConnect]);
+
   console.log(
     currentEditItem &&
       camerasData &&

@@ -74,6 +74,10 @@ export const AddInventoryModal: React.FC<PropsType> = ({
       });
   }, []);
 
+  useEffect(() => {
+    !isSMTPServerConnect && setIsAutomaticallyOrder(false);
+  }, [isSMTPServerConnect]);
+
   const submitHandler = () => {
     const dataForm = {
       name: itemName,
