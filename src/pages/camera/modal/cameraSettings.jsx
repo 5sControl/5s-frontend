@@ -37,6 +37,7 @@ export const CameraSettings = ({
   const [isNotification, setIsNotification] = useState(false);
   const [isPreloader, setIsPreloader] = useState(false);
   const [isModalChangePassword, setIsModalChangePassword] = useState(false);
+
   const applySettings = async () => {
     setIsPreloader(true);
     const response = {
