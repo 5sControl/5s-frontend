@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
-import { Input } from '../../../components/input';
-import { TooltipCustom } from '../../../components/tooltip/tooltip';
-import { CameraTest } from './cameraTest';
+import { Input } from '../../../../components/input';
+import { TooltipCustom } from '../../../../components/tooltip/tooltip';
+import { CameraTest } from '../cameraTest';
 
 type PropsType = {
   cameraIP: string;
@@ -38,7 +38,7 @@ export const CameraEdit: React.FC<PropsType> = ({
   }, [isNotification]);
 
   return (
-    <section className="cameras__settings">
+    <section className="cameras__settingsLil">
       <div className="cameras__settings_modalLIL">
         <div className="cameras__settings_header">
           <h1>Camera connection</h1>

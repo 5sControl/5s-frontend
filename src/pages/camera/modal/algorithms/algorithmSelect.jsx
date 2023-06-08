@@ -41,39 +41,41 @@ export const AlgorithmSelect = ({
   };
 
   return (
-    <div className={styles.algorithms}>
-      <h1 className={styles.algorithms_title}>
-        {algorithmsActive ? algorithmsActive.length : 0}/{algorithmList ? algorithmList.length : 0}{' '}
-        <span>algorithms used</span>
-      </h1>
-      <div className={styles.algorithms_list}>
-        {algorithmList &&
-          algorithmList.length > 0 &&
-          algorithmList.map((algorithm, index) => (
-            <div className={styles.algorithms_container} key={index}>
-              <label className={styles.algorithms_list_item}>
-                {parsingAlgorithmName(algorithm.name)}
-                <input
-                  type="checkbox"
-                  defaultChecked={algorithmsActive && algorithmsActive.includes(algorithm.name)}
-                  onChange={() => checkboxHandler(algorithm.name)}
-                  className={styles.checkbox}
-                />
-              </label>
-              <span className={styles.algorithms_list_item_desc}>{algorithm.description}</span>
-              {parsingAlgorithmName(algorithm.name) === 'Operation control' && (
-                <>
-                  <h2>Controlled operation</h2>
-                  <Input
-                    className={styles.algorithms_container_input}
-                    placeholder={'Enter ID'}
-                    value={operationID}
-                    onChange={(e) => setOperationID(e.target.value.replace(/[^\d]/g, ''))}
+    <div className={styles.wrapper}>
+      <div className={styles.algorithms}>
+        <h1 className={styles.algorithms_title}>
+          {algorithmsActive ? algorithmsActive.length : 0}/
+          {algorithmList ? algorithmList.length : 0} <span>algorithms used</span>
+        </h1>
+        <div className={styles.algorithms_list}>
+          {algorithmList &&
+            algorithmList.length > 0 &&
+            algorithmList.map((algorithm, index) => (
+              <div className={styles.algorithms_container} key={index}>
+                <label className={styles.algorithms_list_item}>
+                  {parsingAlgorithmName(algorithm.name)}
+                  <input
+                    type="checkbox"
+                    defaultChecked={algorithmsActive && algorithmsActive.includes(algorithm.name)}
+                    onChange={() => checkboxHandler(algorithm.name)}
+                    className={styles.checkbox}
                   />
-                </>
-              )}
-            </div>
-          ))}
+                </label>
+                <span className={styles.algorithms_list_item_desc}>{algorithm.description}</span>
+                {parsingAlgorithmName(algorithm.name) === 'Operation control' && (
+                  <>
+                    <h2>Controlled operation</h2>
+                    <Input
+                      className={styles.algorithms_container_input}
+                      placeholder={'Enter ID'}
+                      value={operationID}
+                      onChange={(e) => setOperationID(e.target.value.replace(/[^\d]/g, ''))}
+                    />
+                  </>
+                )}
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );

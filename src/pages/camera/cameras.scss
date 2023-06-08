@@ -56,7 +56,19 @@
     background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
   }
-
+&__settingsLil{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: #00000070;
+  backdrop-filter: blur(2px);
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
   &__settings {
     position: absolute;
     width: 100vw;
