@@ -16,6 +16,7 @@ export const TimelineComponent = () => {
   const [endDate, setEndDate] = useState(false);
   const [preloader, setPreloader] = useState(false);
 
+  console.log(moment(1686041363822).format('YYYY-MM-DD HH:mm:ss'));
   useEffect(() => {
     setStartDate(moment(filterDateData.from).format('YYYY-MM-DD'));
     setEndDate(moment(filterDateData.to).format('YYYY-MM-DD'));
@@ -45,8 +46,8 @@ export const TimelineComponent = () => {
           />
           <VerticalTimeline
             data={data}
-            minDate={new Date(`${startDate}T03:00:00.000Z`)}
-            maxDate={new Date(`${endDate}T17:00:00.000Z`)}
+            minDate={new Date(`${startDate}T06:00:00.000`)}
+            maxDate={new Date(`${endDate}T20:00:00.000`)}
             selectOrder={selectOrder}
             preloader={preloader}
           />
