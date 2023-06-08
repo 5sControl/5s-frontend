@@ -384,6 +384,16 @@
       
     }
   }
+  .no_info_for_suppliers {
+    span {
+      @include body1
+    }
+
+    .no_info_link {
+      color: var(--Orange);
+      cursor: pointer;
+    }
+  }
 }
 
 .supplies_tooltip {
