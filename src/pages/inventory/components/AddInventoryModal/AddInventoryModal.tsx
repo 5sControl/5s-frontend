@@ -20,6 +20,7 @@ import styles from '../InventoryModal.module.scss';
 import './moveable.scss';
 import { ContactInfoType } from '../../../company/types';
 import { getSuppliers } from '../../../../api/companyRequest';
+import { SelectCustom } from '../../../../components/selectCustom';
 
 type PropsType = {
   isOpen: boolean;
@@ -262,7 +263,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
           {isAutomaticallyOrder && (
             <form className={styles.supplies_form}>
               <div className={styles.input}>
-                <SelectBase
+                <SelectCustom
                   id="supplier"
                   name="supplier"
                   label="Select a supplier"
