@@ -182,8 +182,8 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
         >
           <h6>{hoverItem.algorithm}</h6>
           <div className={styles.hover__time}>
-            {`${moment(hoverItem.start).format('HH:MM')} - ${moment(hoverItem.stop).format(
-              'HH:MM'
+            {`${moment(hoverItem.start).format('HH:mm')} - ${moment(hoverItem.stop).format(
+              'HH:mm'
             )}`}
 
             <span>{` | ${timeDuration(hoverItem.start, hoverItem.stop)}`}</span>
