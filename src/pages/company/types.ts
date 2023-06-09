@@ -23,4 +23,12 @@ export type ContactInfoType = {
   file?: File | null;
   logo?: string | null;
   state?: string | null;
+  country?: string | null;
+  first_address?: string | null;
+  second_address?: string | null;
+};
+
+export type CountryType = {
+  name: string;
+  code: string;
 };

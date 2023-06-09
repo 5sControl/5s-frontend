@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Input } from '../../../components/input';
 import style from './contacts.module.scss';
 import { SelectBase } from '../../../components/selectBase';
@@ -7,10 +7,16 @@ import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { Button } from '../../../components/button';
 import { ContactInfoType } from '../types';
+import { ArrowDown } from '../../../assets/svg/SVGcomponent';
+import Combobox from 'react-widgets/Combobox';
+import { useAppSelector } from '../../../store/hooks';
+import { companyState } from '../companySlice';
 
 export const NewContactForm = () => {
   const navigate = useNavigate();
   const [cookies] = useCookies(['token']);
+  const { countryData } = useAppSelector(companyState);
+
   const [name, setName] = useState('');
   const [nameError, setNameError] = useState<string | null>(null);
   const [address1, setAddress1] = useState('');
@@ -20,8 +26,9 @@ export const NewContactForm = () => {
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
   const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
+  const [countryList, setCountryList] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
   const goToContacts = () => {
     navigate('/company/contacts/');
   };
@@ -38,7 +45,11 @@ export const NewContactForm = () => {
       city: city,
       contact_phone: phone,
       contact_mobile_phone: mobile,
+      first_address: address1,
+      second_address: address2,
     };
+    data.country = country === '' ? null : country;
+
     setIsLoading(true);
 
     createSuppliers(window.location.hostname, cookies.token, data)
@@ -57,6 +68,11 @@ export const NewContactForm = () => {
     setName(e.target.value);
     setNameError(null);
   };
+
+  useEffect(() => {
+    const countries = countryData.map((item) => item.name);
+    setCountryList(countries);
+  }, []);
 
   return (
     <div className={style.container}>
@@ -135,12 +151,15 @@ export const NewContactForm = () => {
               <input type="file" disabled />
             </div>
 
-            <SelectBase
-              id="country"
-              name="country"
-              listOfData={[{ id: 0, text: 'Enter country' }]}
-              className={style.select_style}
-              disabled
+            <Combobox
+              data={countryList}
+              placeholder="Enter country"
+              hideEmptyPopup
+              value={country}
+              onChange={(value) => setCountry(value)}
+              onSelect={(value) => setCountry(value)}
+              className={style.combobox_style}
+              selectIcon={<ArrowDown />}
             />
           </section>
 

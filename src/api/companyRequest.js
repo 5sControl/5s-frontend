@@ -10,6 +10,7 @@ const API_USERLIST = 'api/employees/';
 const API_VERIFYTOKEN = 'auth/jwt/verify/';
 const API_SYSTEMMESSAGE = 'api/core/system-message/';
 const API_SUPPLIERS = 'api/suppliers/company/';
+const API_COUNTRIES = 'api/suppliers/countries/';
 
 export const authorizationRequest = (hostname, email, password) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
@@ -324,6 +325,31 @@ export const deleteSuppliers = (hostname, cookies, id) => {
     });
   } else {
     return axios.delete(`http://${hostname}/${API_SUPPLIERS}${id}/`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const getCountriesList = (hostname, cookies) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.get(`${process.env.REACT_APP_NGROK + API_COUNTRIES}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_COUNTRIES}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_COUNTRIES}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,

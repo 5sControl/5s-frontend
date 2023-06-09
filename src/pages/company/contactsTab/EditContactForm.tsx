@@ -5,15 +5,20 @@ import { SelectBase } from '../../../components/selectBase';
 import { deleteSuppliers, editSuppliers, getSuppliers } from '../../../api/companyRequest';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { Settings } from '../../../assets/svg/SVGcomponent';
+import { ArrowDown, Settings } from '../../../assets/svg/SVGcomponent';
 import { Button } from '../../../components/button';
 import { ContactInfoType } from '../types';
 import { ActionList } from './ActionList';
+import Combobox from 'react-widgets/Combobox';
+import { useAppSelector } from '../../../store/hooks';
+import { companyState } from '../companySlice';
 
 export const EditContactForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [cookies] = useCookies(['token']);
+  const { countryData } = useAppSelector(companyState);
+
   const [name, setName] = useState('');
   const [nameError, setNameError] = useState<string | null>(null);
   const [address1, setAddress1] = useState('');
@@ -23,12 +28,17 @@ export const EditContactForm = () => {
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
   const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
+  const [countryList, setCountryList] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [contactsInfo, setContactsInfo] = useState<ContactInfoType[]>([]);
   const [contact, setContact] = useState<ContactInfoType>();
   const [isShowActions, setIsShowActions] = useState<boolean>(false);
 
   useEffect(() => {
+    const countries = countryData.map((item) => item.name);
+    setCountryList(countries);
+
     getSuppliers(window.location.hostname, cookies.token)
       .then((response) => {
         setContactsInfo(response.data);
@@ -44,12 +54,17 @@ export const EditContactForm = () => {
 
   useEffect(() => {
     if (contact) {
+      const previousCountry = countryData.find((item) => item.code === contact.country);
+
       setName(contact.name_company);
       setEmail(contact.contact_email);
       setWebsite(contact.website);
       contact.city && setCity(contact.city);
       contact.contact_mobile_phone && setMobile(contact.contact_mobile_phone);
       contact.contact_phone && setPhone(contact.contact_phone);
+      contact.first_address && setAddress1(contact.first_address);
+      contact.second_address && setAddress2(contact.second_address);
+      previousCountry && setCountry(previousCountry.name);
     }
   }, [contact]);
 
@@ -62,14 +77,18 @@ export const EditContactForm = () => {
       setNameError('Name field is required');
       return;
     }
-    const data = {
+    const data: ContactInfoType = {
       name_company: name,
       contact_email: email,
       website: website,
       city: city,
       contact_phone: phone,
       contact_mobile_phone: mobile,
+      first_address: address1,
+      second_address: address2,
     };
+    data.country = country === '' ? null : country;
+
     setIsLoading(true);
 
     editSuppliers(window.location.hostname, cookies.token, id, data)
@@ -193,12 +212,15 @@ export const EditContactForm = () => {
               <input type="file" disabled />
             </div>
 
-            <SelectBase
-              id="country"
-              name="country"
-              listOfData={[{ id: 0, text: 'Enter country' }]}
-              className={style.select_style}
-              disabled
+            <Combobox
+              data={countryList}
+              placeholder="Enter country"
+              hideEmptyPopup
+              value={country}
+              onChange={(value) => setCountry(value)}
+              onSelect={(value) => setCountry(value)}
+              className={style.combobox_style}
+              selectIcon={<ArrowDown />}
             />
           </section>
 
