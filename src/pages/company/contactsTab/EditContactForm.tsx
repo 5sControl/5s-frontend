@@ -36,9 +36,6 @@ export const EditContactForm = () => {
   const [isShowActions, setIsShowActions] = useState<boolean>(false);
 
   useEffect(() => {
-    const countries = countryData.map((item) => item.name);
-    setCountryList(countries);
-
     getSuppliers(window.location.hostname, cookies.token)
       .then((response) => {
         setContactsInfo(response.data);
@@ -51,6 +48,12 @@ export const EditContactForm = () => {
   useEffect(() => {
     setContact(contactsInfo.filter((item) => item.id === Number(id))[0]);
   }, [contactsInfo]);
+
+  useEffect(() => {
+    const countries = countryData.map((item) => item.name);
+    setCountryList(countries);
+    console.log(countryData);
+  }, [countryData]);
 
   useEffect(() => {
     if (contact) {

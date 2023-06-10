@@ -72,7 +72,8 @@ export const NewContactForm = () => {
   useEffect(() => {
     const countries = countryData.map((item) => item.name);
     setCountryList(countries);
-  }, []);
+    console.log(countryData);
+  }, [countryData]);
 
   return (
     <div className={style.container}>

@@ -149,10 +149,14 @@
 }
 
 .combobox_style {
+  border: 0 !important;
   & > div:nth-child(1) {
     height: 40px;
     border: 1px solid var(--LowEmphasis);
     @include body1;
     color: var(--HightEmphasis);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
   }
 }

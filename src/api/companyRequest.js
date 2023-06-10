@@ -335,23 +335,18 @@ export const deleteSuppliers = (hostname, cookies, id) => {
 
 export const getCountriesList = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.get(`${process.env.REACT_APP_NGROK + API_COUNTRIES}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookies,
-      },
+    return proxy(process.env.REACT_APP_NGROK + API_COUNTRIES, 'GET', {
+      Authorization: cookies,
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_COUNTRIES}`, {
       headers: {
-        'Content-Type': 'application/json',
         Authorization: cookies,
       },
     });
   } else {
     return axios.get(`http://${hostname}/${API_COUNTRIES}`, {
       headers: {
-        'Content-Type': 'application/json',
         Authorization: cookies,
       },
     });
