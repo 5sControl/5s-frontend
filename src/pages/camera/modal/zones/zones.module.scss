@@ -1,20 +1,13 @@
-.zones{
-    width: 100%;
-    height: calc(100% - 160px);
+.zones {
+  width: 100%;
+  height: calc(100% - 160px);
+  border: 1px solid red;
+  display: flex;
+  &__right {
+    height: 100%;
+    width: 380px;
+    min-width: 380px;
+    max-width: 380px;
     border: 1px solid red;
-    display: flex;
-    &__left{
-        height: 100%;
-        width: calc(100% - 380px);
-        min-width: calc(100% - 380px);
-        max-width: calc(100% - 380px);
-        border: 1px solid red;
-    }
-    &__right{
-        height: 100%;
-        width: 380px;
-        min-width: 380px;
-        max-width: 380px;
-        border: 1px solid red;
-    }
+  }
 }

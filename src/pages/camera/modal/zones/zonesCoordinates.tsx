@@ -3,7 +3,6 @@
 import { useRef, useState, useEffect, Fragment } from 'react';
 import Moveable from 'react-moveable';
 import { useCookies } from 'react-cookie';
-import { Button } from '../../../../components/button';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { generateString } from '../../../../functions/randomizer';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
@@ -209,7 +208,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
     setIsScale(img);
   };
   return (
-    <div className={styles.modalCoordContainer}>
+    <div className={styles.zones__left}>
       <div className={styles.area}>
         <div className={styles.image_container}>
           <img
@@ -341,19 +340,6 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
         <h2 className={styles.footer__text}>
           Select the area to track <span>*</span>
         </h2>
-        <Button
-          text="Cancel"
-          className={styles.button_cancel}
-          type="button"
-          onClick={handleClose}
-        />
-        <Button
-          text="Done"
-          className={styles.button}
-          type="button"
-          onClick={submitHandler}
-          disabled={allBox.length === 0}
-        />
       </div>
     </div>
   );
