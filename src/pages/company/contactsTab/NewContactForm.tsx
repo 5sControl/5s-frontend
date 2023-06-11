@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { Button } from '../../../components/button';
 import { ContactInfoType } from '../types';
-import { ArrowDown } from '../../../assets/svg/SVGcomponent';
+import { ArrowDown, GoBack } from '../../../assets/svg/SVGcomponent';
 import Combobox from 'react-widgets/Combobox';
 import { useAppSelector } from '../../../store/hooks';
 import { companyState } from '../companySlice';
@@ -86,7 +86,10 @@ export const NewContactForm = () => {
       </div>
 
       <div className={style.title_box}>
-        <h2>New Contact</h2>
+        <div className={style.title_go_back}>
+          <h2>New Contact</h2>
+          <GoBack className={style.arrow_go_back} onClick={goToContacts} />
+        </div>
         <div className={style.control_box}>
           <Button text="Done" onClick={() => createContact()} disabled={isLoading} />
         </div>

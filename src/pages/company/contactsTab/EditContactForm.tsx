@@ -5,7 +5,7 @@ import { SelectBase } from '../../../components/selectBase';
 import { deleteSuppliers, editSuppliers, getSuppliers } from '../../../api/companyRequest';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { ArrowDown, Settings } from '../../../assets/svg/SVGcomponent';
+import { ArrowDown, GoBack, Settings } from '../../../assets/svg/SVGcomponent';
 import { Button } from '../../../components/button';
 import { ContactInfoType } from '../types';
 import { ActionList } from './ActionList';
@@ -137,7 +137,11 @@ export const EditContactForm = () => {
       </div>
 
       <div className={style.title_box}>
-        <h2>Edit Contact</h2>
+        <div className={style.title_go_back}>
+          <h2>Edit Contact</h2>
+          <GoBack className={style.arrow_go_back} onClick={goToContacts} />
+        </div>
+
         <div className={style.control_box}>
           <Button
             className={style.settings_icon}
@@ -148,7 +152,7 @@ export const EditContactForm = () => {
               setIsShowActions(true);
             }}
           />
-          <Button text="Done" onClick={() => editContact()} disabled={isLoading} />
+          <Button text="Save" onClick={() => editContact()} disabled={isLoading} />
         </div>
         {isShowActions && (
           <ActionList deleteAction={deleteContact} hideList={() => setIsShowActions(false)} />

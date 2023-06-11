@@ -50,6 +50,7 @@ import { ReactComponent as PaginatorRight } from './paginatorRight.svg';
 import { ReactComponent as CrossWhite } from './crossWhite.svg';
 import { ReactComponent as ArrowJustLeft } from './arrowJustLeft.svg';
 import { ReactComponent as NoVideo } from './noVideo.svg';
+import { ReactComponent as GoBack } from './goBack.svg';
 
 export {
   Algorithm,
@@ -104,4 +105,5 @@ export {
   CrossWhite,
   ArrowJustLeft,
   NoVideo,
+  GoBack,
 };
