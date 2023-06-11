@@ -10,6 +10,7 @@ import { Preloader } from '../../../components/preloader';
 import { Notification } from '../../../components/notification/notification';
 import { Tabs } from './tabs/tabs';
 import { Camera } from './camera/camera';
+import { Zones } from './zones/zones';
 
 export const SettingsHub = ({
   cameraSelect,
@@ -164,6 +165,7 @@ export const SettingsHub = ({
                     setCameraName={(name) => setUserName(name)}
                   />
                 )}
+                {activeTab === 'Zones' && <Zones cameraSelect={cameraSelect} />}
                 {activeTab === 'Algorithms' && (
                   <AlgorithmSelect
                     token={token}

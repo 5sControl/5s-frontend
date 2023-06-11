@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Input } from '../../../../components/input';
 import { TooltipCustom } from '../../../../components/tooltip/tooltip';
-import { CameraTest } from '../cameraTest';
+import { CameraTest } from '../testConection/cameraTest';
 
 type PropsType = {
   cameraIP: string;

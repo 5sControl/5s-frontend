@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Input } from '../../../../components/input';
 import Combobox from 'react-widgets/Combobox';
 import { TooltipCustom } from '../../../../components/tooltip/tooltip';
-import { CameraTest } from '../cameraTest';
+import { CameraTest } from '../testConection/cameraTest';
 import { ArrowDown } from '../../../../assets/svg/SVGcomponent';
 import 'react-widgets/styles.css';
 import { CameraEdit } from './cameraEdit';

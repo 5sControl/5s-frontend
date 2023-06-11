@@ -1,4 +1,4 @@
-import { CameraTest } from '../cameraTest';
+import { CameraTest } from '../testConection/cameraTest';
 
 export const RightSection = ({ isCreateCamera, cameraSelect, cameraIP, userName, password }) => {
   return (
