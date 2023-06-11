@@ -251,7 +251,7 @@ export const Coordinates: React.FC<PropsType> = ({
                 ? `${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`
                 : process.env.REACT_APP_ENV === 'wify'
                 ? `${process.env.REACT_APP_IP_SERVER}images/${currentSelect}/snapshot.jpg`
-                : `http://${window.location.hostname}images/${currentSelect}/snapshot.jpg`
+                : `http://${window.location.hostname}/images/${currentSelect}/snapshot.jpg`
             }
             onClick={(e) => createCoord(e)}
           />
