@@ -14,8 +14,13 @@ const initialState: CompanyState = {
 export const getCountries = createAsyncThunk(
   'getCountries',
   async (data: { token: string; hostname: string }) => {
-    const response = await getCountriesList(data.hostname, data.token);
-    return response.data;
+    try {
+      const response = await getCountriesList(data.hostname, data.token);
+      console.log('getCountries', response);
+      return response.data;
+    } catch (e) {
+      console.log('getCountriesE', e);
+    }
   }
 );
 

@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Input } from '../../../components/input';
 import style from './contacts.module.scss';
-import { SelectBase } from '../../../components/selectBase';
 import { createSuppliers } from '../../../api/companyRequest';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -27,6 +26,8 @@ export const NewContactForm = () => {
   const [website, setWebsite] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
+  const [zipIndex, setZipIndex] = useState<number | null>(null);
+  const [state, setState] = useState('');
   const [countryList, setCountryList] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const goToContacts = () => {
@@ -47,6 +48,8 @@ export const NewContactForm = () => {
       contact_mobile_phone: mobile,
       first_address: address1,
       second_address: address2,
+      state: state,
+      index: Number(zipIndex),
     };
     data.country = country === '' ? null : country;
 
@@ -72,7 +75,6 @@ export const NewContactForm = () => {
   useEffect(() => {
     const countries = countryData.map((item) => item.name);
     setCountryList(countries);
-    console.log(countryData);
   }, [countryData]);
 
   return (
@@ -145,14 +147,24 @@ export const NewContactForm = () => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
               />
-              <SelectBase
+              <Input
                 id={'state'}
                 name={'state'}
-                listOfData={[{ id: 0, text: 'Enter state' }]}
-                className={style.select_style}
-                disabled
+                type="text"
+                placeholder={'Enter state'}
+                className={style.input_style}
+                value={state}
+                onChange={(e) => setState(e.target.value)}
               />
-              <input type="file" disabled />
+              <Input
+                id={'zipIndex'}
+                name={'zipIndex'}
+                type="text"
+                placeholder={'Enter ZIP'}
+                className={style.input_style}
+                value={zipIndex?.toString()}
+                onChange={(e) => setZipIndex(e.target.value)}
+              />
             </div>
 
             <Combobox

@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Input } from '../../../components/input';
 import style from './contacts.module.scss';
-import { SelectBase } from '../../../components/selectBase';
 import { deleteSuppliers, editSuppliers, getSuppliers } from '../../../api/companyRequest';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -29,6 +28,8 @@ export const EditContactForm = () => {
   const [website, setWebsite] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
+  const [zipIndex, setZipIndex] = useState<number | null>(null);
+  const [state, setState] = useState('');
   const [countryList, setCountryList] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [contactsInfo, setContactsInfo] = useState<ContactInfoType[]>([]);
@@ -38,6 +39,7 @@ export const EditContactForm = () => {
   useEffect(() => {
     getSuppliers(window.location.hostname, cookies.token)
       .then((response) => {
+        console.log('setContactsInfo', response.data);
         setContactsInfo(response.data);
       })
       .catch((err) => {
@@ -52,7 +54,6 @@ export const EditContactForm = () => {
   useEffect(() => {
     const countries = countryData.map((item) => item.name);
     setCountryList(countries);
-    console.log(countryData);
   }, [countryData]);
 
   useEffect(() => {
@@ -67,6 +68,8 @@ export const EditContactForm = () => {
       contact.contact_phone && setPhone(contact.contact_phone);
       contact.first_address && setAddress1(contact.first_address);
       contact.second_address && setAddress2(contact.second_address);
+      contact.state && setState(contact.state);
+      contact.index && setZipIndex(contact.index);
       previousCountry && setCountry(previousCountry.name);
     }
   }, [contact]);
@@ -89,6 +92,8 @@ export const EditContactForm = () => {
       contact_mobile_phone: mobile,
       first_address: address1,
       second_address: address2,
+      state: state,
+      index: Number(zipIndex),
     };
     data.country = country === '' ? null : country;
 
@@ -209,14 +214,24 @@ export const EditContactForm = () => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
               />
-              <SelectBase
+              <Input
                 id={'state'}
                 name={'state'}
-                listOfData={[{ id: 0, text: 'Enter state' }]}
-                className={style.select_style}
-                disabled
+                type="text"
+                placeholder={'Enter state'}
+                className={style.input_style}
+                value={state}
+                onChange={(e) => setState(e.target.value)}
               />
-              <input type="file" disabled />
+              <Input
+                id={'zipIndex'}
+                name={'zipIndex'}
+                type="text"
+                placeholder={'Enter ZIP'}
+                className={style.input_style}
+                value={zipIndex?.toString()}
+                onChange={(e) => setZipIndex(e.target.value)}
+              />
             </div>
 
             <Combobox

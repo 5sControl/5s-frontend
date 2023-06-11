@@ -26,6 +26,7 @@ export type ContactInfoType = {
   country?: string | null;
   first_address?: string | null;
   second_address?: string | null;
+  index?: number | null;
 };
 
 export type CountryType = {
