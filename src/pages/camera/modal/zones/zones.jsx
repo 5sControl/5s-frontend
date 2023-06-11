@@ -1,11 +1,11 @@
 import styles from './zones.module.scss';
-import { ZonseCoordinates } from './zonesCoordinates';
+import { ZonesCoordinates } from './zonesCoordinates';
 
 export const Zones = ({ cameraSelect }) => {
   console.log(cameraSelect);
   return (
     <div className={styles.zones}>
-      <ZonseCoordinates />
+      <ZonesCoordinates currentSelect={cameraSelect.id} />
       <div className={styles.zones__right}></div>
     </div>
   );
