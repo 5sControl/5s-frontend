@@ -4,29 +4,25 @@ import { useRef, useState, useEffect, Fragment } from 'react';
 import Moveable from 'react-moveable';
 import { useCookies } from 'react-cookie';
 import { IoIosCloseCircle } from 'react-icons/io';
-import { generateString } from '../../../../functions/randomizer';
-import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
-import { Scale } from '../../../../components/scale';
+import { generateString } from '../../../../../functions/randomizer';
+import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../../types';
+import { Scale } from '../../../../../components/scale';
+import { getCameraZones } from '../../../../../api/cameraRequest';
 
 import './moveable.scss';
 import styles from './zonesCoordinat.module.scss';
-import { getCameraZones } from '../../../../api/cameraRequest';
 
 type PropsType = {
-  submitHandler: () => void;
   setCoords: (coords: Coordinat[]) => void;
   currentSelect: string;
-  handleClose: () => void;
   itemName: string;
   isScale: any;
   setIsScale: (coords: any) => void;
 };
 
 export const ZonesCoordinates: React.FC<PropsType> = ({
-  submitHandler,
   setCoords,
   currentSelect,
-  handleClose,
   itemName,
   isScale,
   setIsScale,
@@ -81,19 +77,19 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
     setProportionHeight(image.current.naturalHeight / image.current.height);
   };
 
-  useEffect(() => {
-    if (currentSelect.length > 0) {
-      getCameraZones(window.location.hostname, cookie.token, currentSelect)
-        .then((res: any) => {
-          // console.log(res);
-          setCameraBox(res.data);
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [currentSelect]);
+  // useEffect(() => {
+  //   if (currentSelect.length > 0) {
+  //     getCameraZones(window.location.hostname, cookie.token, currentSelect)
+  //       .then((res: any) => {
+  //         // console.log(res);
+  //         setCameraBox(res.data);
+  //         console.log(res);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }, [currentSelect]);
 
   const movePosition = (e: any) => {
     if (e && !target && isStartDraw) {
@@ -177,7 +173,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
         y2: bufHeight * proportionHeight + totalY * proportionHeight,
       });
     });
-    // setCoords(sendCoord);
+    setCoords(sendCoord);
   };
   const scaleHandler = (img: string) => {
     const coordinatesLayout: any = document.querySelectorAll('.coordinates');

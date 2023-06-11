@@ -1,13 +1,46 @@
 .zones {
   width: 100%;
   height: calc(100% - 160px);
-  border: 1px solid red;
   display: flex;
   &__right {
     height: 100%;
     width: 380px;
     min-width: 380px;
     max-width: 380px;
-    border: 1px solid red;
+    border-bottom: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
   }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    color: #9e9e9e;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 150%;
+    .add {
+      color: #fe6100;
+      cursor: pointer;
+      transition: all 0.4s;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 24px;
+      &:hover {
+        color: #e55700;
+      }
+    }
+    .added {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 24px;
+      pointer-events: none;
+      color: #9e9e9e;
+    }
+  }
+}
+.list{
+  height: 100%;
+  overflow: auto;
 }

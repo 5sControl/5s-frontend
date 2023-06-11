@@ -155,3 +155,31 @@ export const getCameraZones = (hostname, cookies, camera) => {
     });
   }
 };
+
+export const postCameraZones = (hostname, cookies, body) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.post(process.env.REACT_APP_PROXY, {
+      url: `${process.env.REACT_APP_NGROK + API_CAMERAZONES}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+      body: JSON.stringify({
+        body,
+      }),
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_CAMERAZONES}`, body, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.post(`http://${hostname}/${API_CAMERAZONES}`, body, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
