@@ -35,7 +35,8 @@ export const EditInventoryModal: React.FC<PropsType> = ({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { currentEditItem } = useAppSelector(selectEditInventoryModal);
-  const { camerasData, isSMTPServerConnect } = useAppSelector(selectInventory);
+  const { camerasData, isSMTPServerConnect, isFullOwnCompanyInfo } =
+    useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
   const [currentSelect, setCurrentSelect] = useState('');
   const [coords, setCoords] = useState<Coordinat[]>([]);
@@ -139,7 +140,8 @@ export const EditInventoryModal: React.FC<PropsType> = ({
 
   useEffect(() => {
     !isSMTPServerConnect && setIsAutomaticallyOrder(false);
-  }, [isSMTPServerConnect]);
+    !isFullOwnCompanyInfo && setIsAutomaticallyOrder(false);
+  }, [isFullOwnCompanyInfo]);
 
   console.log(
     currentEditItem &&
@@ -250,7 +252,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
               )}
             </h2>
 
-            {isSMTPServerConnect && (
+            {isSMTPServerConnect && isFullOwnCompanyInfo && (
               <div className={styles.algorithm__toggle}>
                 <span>Automatically order</span>
                 <div
@@ -271,6 +273,15 @@ export const EditInventoryModal: React.FC<PropsType> = ({
                   Set up{' '}
                 </span>
                 <span>SMTP server.</span>
+              </div>
+            )}
+
+            {!isFullOwnCompanyInfo && (
+              <div className={styles.no_info_for_suppliers}>
+                <span className={styles.no_info_link} onClick={() => navigate('/company')}>
+                  Fill in{' '}
+                </span>
+                <span>info about your company (Address, Phone and Email are required).</span>
               </div>
             )}
           </div>

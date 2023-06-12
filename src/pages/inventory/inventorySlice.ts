@@ -4,6 +4,9 @@ import { getInventoryItemHistory, getInventoryItems } from './inventoryAPI';
 import { getSelectedCameras } from '../../api/cameraRequest';
 import { Camera, InventoryHistory, InventoryItem } from './types';
 import { getNotificationSettings } from '../../api/notificationRequest';
+import { getCompanyInfo } from '../../api/companyRequest';
+import { AxiosResponse } from 'axios';
+import { ContactInfoType } from '../company/types';
 
 interface Inventory {
   isLoading: boolean;
@@ -16,6 +19,7 @@ interface Inventory {
   camerasData: Array<{ id: string; text: string }> | null;
   errorOfgetCameras: boolean;
   isSMTPServerConnect: boolean;
+  isFullOwnCompanyInfo: boolean;
 }
 
 const initialState: Inventory = {
@@ -29,6 +33,7 @@ const initialState: Inventory = {
   camerasData: null,
   errorOfgetCameras: false,
   isSMTPServerConnect: false,
+  isFullOwnCompanyInfo: false,
 };
 
 export const getInventoryItemsAsync = createAsyncThunk(
@@ -76,6 +81,18 @@ export const getSMTPConnect = createAsyncThunk(
   }
 );
 
+export const getIsFullOwnCompanyInfo = createAsyncThunk(
+  'getIsFullOwnCompanyInfo',
+  async (data: { token: string; hostname: string }) => {
+    const response: AxiosResponse<ContactInfoType> = await getCompanyInfo(
+      data.hostname,
+      data.token
+    );
+    console.log('getIsFullOwnCompanyInfo', response.data);
+    return !!response.data.first_address && !!response.data.contact_phone;
+  }
+);
+
 const inventoryPage = createSlice({
   name: 'inventory',
   initialState,
@@ -116,6 +133,9 @@ const inventoryPage = createSlice({
     });
     builder.addCase(getSMTPConnect.fulfilled, (state, action) => {
       state.isSMTPServerConnect = action.payload;
+    });
+    builder.addCase(getIsFullOwnCompanyInfo.fulfilled, (state, action) => {
+      state.isFullOwnCompanyInfo = action.payload;
     });
   },
 });

@@ -39,14 +39,12 @@ export const EditContactForm = () => {
   const [isShowActions, setIsShowActions] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!companies.length) {
-      dispatch(
-        getCompanies({
-          token: cookies.token,
-          hostname: window.location.hostname,
-        })
-      );
-    }
+    dispatch(
+      getCompanies({
+        token: cookies.token,
+        hostname: window.location.hostname,
+      })
+    );
   }, []);
 
   useEffect(() => {
