@@ -3,8 +3,10 @@ import { getAveilableAlgorithms } from '../../../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 import { Input } from '../../../../components/input';
 import { RightSection } from '../rightSection/right';
+import { getCameraZones } from '../../../../api/cameraRequest';
 
 import styles from './algorithms.module.scss';
+import { useCookies } from 'react-cookie';
 export const AlgorithmSelect = ({
   token,
   algorithmsActive,
@@ -21,7 +23,8 @@ export const AlgorithmSelect = ({
   const [checkboxAlgo, setCheckboxAlgo] = useState(
     algorithmsActive ? Object.assign([], algorithmsActive) : []
   );
-
+  const [cookie] = useCookies(['token']);
+  const [workplace, setWorkplace] = useState([]);
   useEffect(() => {
     getAveilableAlgorithms(window.location.hostname, token)
       .then((res) => {
@@ -32,6 +35,14 @@ export const AlgorithmSelect = ({
       })
       .catch((error) => {
         console.log(error);
+      });
+
+    getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
+      .then((res) => {
+        setWorkplace(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
 
@@ -81,6 +92,15 @@ export const AlgorithmSelect = ({
                       />
                     </>
                   )}
+                  <div className={styles.workplace}>
+                    <span className={styles.select}> Camera</span>
+                    {workplace.length > 0 &&
+                      workplace.map((el) => (
+                        <span key={el.id} className={styles.noSelect}>
+                          {el.name}
+                        </span>
+                      ))}
+                  </div>
                 </div>
               ))}
           </div>
