@@ -13,7 +13,18 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [cookie] = useCookies(['token']);
   const [cameraZones, setCameraZones] = useState([]);
   const [currentZoneId, setCurrentZoneId] = useState();
-  const [workplace, setWorkplace] = useState({});
+  const [workplaceToSend, setWorkplaceToSend] = useState(false);
+
+  const getZone = () => {
+    getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
+      .then((res) => {
+        setCameraZones(res.data);
+        setCurrentZoneId(-2);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const saveZone = () => {
     const body = {
@@ -26,10 +37,12 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
     if (currentZoneId === -1) {
       postCameraZones(window.location.hostname, cookie.token, body).then(() => {
         console.log('created zone');
+        getZone();
       });
     } else {
       patchCameraZones(window.location.hostname, cookie.token, body, currentZoneId).then(() => {
         console.log('updated zone');
+        getZone();
       });
     }
   };
@@ -43,14 +56,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   }, [currentZoneId]);
 
   useEffect(() => {
-    getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
-      .then((res) => {
-        setCameraZones(res.data);
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    getZone();
   }, [cameraSelect]);
 
   return (
@@ -79,6 +85,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
               setItemName={(name) => setItemName(name)}
               itemName={itemName}
               setCurrentZoneId={(id) => setCurrentZoneId(id)}
+              currentZoneId={currentZoneId}
             />
           </div>
         </div>

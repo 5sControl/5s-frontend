@@ -33,7 +33,7 @@ export const Operation = ({ operation, x, y, onClose, setOperationOV }) => {
       <div className={styles.operation} style={{ top: y, left: x }} ref={refOperation}>
         <span className={styles.name}>{operation.oprName}</span>
         <div>
-          {operation.video_data && operation.video_data.status ? (
+          {operation.video && operation.video.status ? (
             <span onClick={() => operationClickHandler(operation.id)} className={styles.video}>
               <VideoCamera width="16px" color="#fe6100" />
               &nbsp; Open Video
