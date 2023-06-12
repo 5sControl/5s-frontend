@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from '../zones.module.scss';
-import { getWorkplaceList } from '../../../../../api/orderView';
-import { useCookies } from 'react-cookie';
 import { Item } from './zoneItem';
 
 export const ZoneList = ({
@@ -11,24 +9,11 @@ export const ZoneList = ({
   itemName,
   setCurrentZoneId,
   currentZoneId,
+  setWorkplaceToSend,
+  workplaceList,
 }) => {
-  const [cookie] = useCookies(['token']);
-  const [workplaceList, setWorkplaceList] = useState([]);
   const [isNewZone, setIsNewZone] = useState(false);
   const [isBlockAdd, setIsBlockAdd] = useState(false);
-
-  useEffect(() => {
-    getWorkplaceList(window.location.hostname, cookie.token).then((res) => {
-      setWorkplaceList(
-        res.data.map((place) => {
-          return {
-            ...place,
-            comboBoxName: `${place.operationName} (id:${place.id})`,
-          };
-        })
-      );
-    });
-  }, []);
 
   const addZoneHandler = () => {
     setIsBlockAdd(true);
@@ -61,6 +46,7 @@ export const ZoneList = ({
             setCurrentZoneId={(id) => setCurrentZoneId(id)}
             zona={zona}
             currentZoneId={currentZoneId}
+            setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
           />
         ))}
         {isNewZone && currentZoneId === -1 && (
@@ -75,6 +61,7 @@ export const ZoneList = ({
             setCurrentZoneId={(id) => setCurrentZoneId(id)}
             zona={{ id: -1 }}
             currentZoneId={currentZoneId}
+            setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
           />
         )}
       </div>

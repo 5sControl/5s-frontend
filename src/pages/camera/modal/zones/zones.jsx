@@ -5,6 +5,7 @@ import { ZoneList } from './zoneList/zoneList';
 import { getCameraZones, patchCameraZones, postCameraZones } from '../../../../api/cameraRequest';
 import { useCookies } from 'react-cookie';
 import { NoVideoBig } from '../../../../assets/svg/SVGcomponent';
+import { getWorkplaceList } from '../../../../api/orderView';
 
 export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [coords, setCoords] = useState([]);
@@ -13,6 +14,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [cookie] = useCookies(['token']);
   const [cameraZones, setCameraZones] = useState([]);
   const [currentZoneId, setCurrentZoneId] = useState();
+  const [workplaceList, setWorkplaceList] = useState([]);
   const [workplaceToSend, setWorkplaceToSend] = useState(false);
 
   const getZone = () => {
@@ -31,8 +33,8 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
       coords: coords,
       camera: cameraSelect.id,
       name: itemName,
-      index_workplace: 1,
-      workplace: 'Okucia',
+      index_workplace: workplaceToSend.id,
+      workplace: workplaceToSend.name,
     };
     if (currentZoneId === -1) {
       postCameraZones(window.location.hostname, cookie.token, body).then(() => {
@@ -48,11 +50,41 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   };
 
   useEffect(() => {
+    getWorkplaceList(window.location.hostname, cookie.token).then((res) => {
+      setWorkplaceList(
+        res.data.map((place) => {
+          return {
+            ...place,
+            comboBoxName: `${place.operationName} (id:${place.id})`,
+          };
+        })
+      );
+    });
+  }, []);
+
+  useEffect(() => {
     const buf = cameraZones.filter((el) => el.id === currentZoneId);
-    console.log(buf);
     if (buf.length > 0) {
       setItemName(buf[0].name);
+      if (currentZoneId > 0) {
+        // setWorkplaceToSend({
+        //   name: '',
+        //   id: '',
+        // })
+
+        const sendWork = workplaceList.filter((el) => el.id === buf[0].index_workplace)[0];
+        setWorkplaceToSend({
+          name: sendWork.operationName,
+          id: sendWork.id,
+        });
+      } else {
+        setWorkplaceToSend({
+          name: '',
+          id: '',
+        });
+      }
     }
+    console.log(buf[0]);
   }, [currentZoneId]);
 
   useEffect(() => {
@@ -86,6 +118,8 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
               itemName={itemName}
               setCurrentZoneId={(id) => setCurrentZoneId(id)}
               currentZoneId={currentZoneId}
+              setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
+              workplaceList={workplaceList}
             />
           </div>
         </div>

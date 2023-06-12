@@ -3,8 +3,10 @@ import { getAveilableAlgorithms } from '../../../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 import { Input } from '../../../../components/input';
 import { RightSection } from '../rightSection/right';
+import { getCameraZones } from '../../../../api/cameraRequest';
 
 import styles from './algorithms.module.scss';
+import { useCookies } from 'react-cookie';
 export const AlgorithmSelect = ({
   token,
   algorithmsActive,
@@ -18,20 +20,35 @@ export const AlgorithmSelect = ({
   password,
 }) => {
   const [algorithmList, setAlgorithmList] = useState(false);
+  const [algoWorkzone, setAlgoWorkzone] = useState({});
   const [checkboxAlgo, setCheckboxAlgo] = useState(
     algorithmsActive ? Object.assign([], algorithmsActive) : []
   );
-
+  const [cookie] = useCookies(['token']);
+  const [workplace, setWorkplace] = useState([]);
   useEffect(() => {
     getAveilableAlgorithms(window.location.hostname, token)
       .then((res) => {
         if (res.data.length > 0) {
           let allAlgorithm = res.data.filter((alg) => alg.is_available);
           setAlgorithmList(allAlgorithm);
+          const obj = allAlgorithm.reduce((newObj, item) => {
+            newObj[item.name] = [];
+            return newObj;
+          }, {});
+          setAlgoWorkzone(obj);
         }
       })
       .catch((error) => {
         console.log(error);
+      });
+
+    getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
+      .then((res) => {
+        setWorkplace(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
 
@@ -47,6 +64,21 @@ export const AlgorithmSelect = ({
     }
   };
 
+  const workPlaceHandler = (id, algorithm) => {
+    const sendList = algoWorkzone;
+    if (id < 0) {
+      sendList[algorithm] = [];
+    } else {
+      if (sendList[algorithm].includes(id)) {
+        const index = sendList[algorithm].indexOf(id);
+        sendList[algorithm] = sendList[algorithm].splice(index, 1);
+      } else {
+        sendList[algorithm].push(id);
+      }
+    }
+    setAlgoWorkzone({ ...sendList });
+  };
+  console.log(algoWorkzone);
   return (
     <div className="cameras__settings_container">
       <div className={styles.wrapper}>
@@ -81,6 +113,30 @@ export const AlgorithmSelect = ({
                       />
                     </>
                   )}
+                  <div className={styles.workplace}>
+                    <span
+                      className={
+                        algoWorkzone[algorithm.name].length > 0 ? styles.noSelect : styles.select
+                      }
+                      onClick={() => workPlaceHandler(-1, algorithm.name)}
+                    >
+                      Camera
+                    </span>
+                    {workplace.length > 0 &&
+                      workplace.map((el) => (
+                        <span
+                          key={el.id}
+                          className={
+                            algoWorkzone[algorithm.name].includes(el.id)
+                              ? styles.select
+                              : styles.noSelect
+                          }
+                          onClick={() => workPlaceHandler(el.id, algorithm.name)}
+                        >
+                          {el.name}
+                        </span>
+                      ))}
+                  </div>
                 </div>
               ))}
           </div>

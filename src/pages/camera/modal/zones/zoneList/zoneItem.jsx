@@ -16,6 +16,7 @@ export const Item = ({
   setCurrentZoneId,
   zona,
   currentZoneId,
+  setWorkplaceToSend,
 }) => {
   const [isShow, setIsShow] = useState(isOpen);
 
@@ -29,6 +30,7 @@ export const Item = ({
       setCurrentZoneId(-1);
     }
   }, [isOpen]);
+
   useEffect(() => {
     if (!isShow && !isOpen) {
       setCurrentZoneId(-1);
@@ -36,9 +38,9 @@ export const Item = ({
   }, [isShow]);
 
   const comboboxHandler = (value) => {
-    workplaceList.filter((item) => item.comboBoxName === value);
+    setWorkplaceToSend(workplaceList.filter((item) => item.comboBoxName === value)[0]);
   };
-  console.log(workplace);
+
   return (
     <div className={styles.item}>
       <div className={styles.zona}>
@@ -47,7 +49,7 @@ export const Item = ({
           <span className={styles.zona__workplace}>Workplace: {workplace.operationName}</span>
         </div>
         <span className={styles.zona__right} onClick={showHandler}>
-          <ArrowDown className={isShow ? styles.rotate : ''} />
+          <ArrowDown className={isShow && currentZoneId === zona.id ? styles.rotate : ''} />
         </span>
       </div>
 

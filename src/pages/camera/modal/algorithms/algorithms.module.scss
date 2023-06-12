@@ -100,3 +100,36 @@
     }
   }
 }
+.workplace {
+  width: 100%;
+  display: flex;
+  gap: 5px;
+  overflow: auto;
+  margin-top: 14px;
+  .select {
+    padding: 4px 12px;
+    background: #fe6100;
+    border-radius: 16px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.1px;
+    color: #ffffff;
+    cursor: pointer;
+  }
+  .noSelect{
+    padding: 4px 12px;
+    background: rgba(33, 33, 33, 0.08);
+    border-radius: 16px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.1px;
+    color: #212121;
+    cursor: pointer;
+  }
+}
