@@ -161,7 +161,7 @@ export const SettingsHub = ({
                     isEnabled={isEnabled}
                     cameraName={cameraName}
                     setUserName={(name) => setUserName(name)}
-                    setPassword={(password) => setUserName(password)}
+                    setPassword={(password) => setPassword(password)}
                     setCameraName={(name) => setUserName(name)}
                   />
                 )}

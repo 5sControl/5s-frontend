@@ -12,8 +12,10 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [isScale, setIsScale] = useState(false);
   const [cookie] = useCookies(['token']);
   const [cameraZones, setCameraZones] = useState([]);
+  const [currentZoneId, setCurrentZoneId] = useState();
   const [workplace, setWorkplace] = useState({});
 
+  console.log(currentZoneId);
   const saveZone = () => {
     const body = {
       coords: coords,
