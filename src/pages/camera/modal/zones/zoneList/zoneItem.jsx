@@ -13,13 +13,21 @@ export const Item = ({
   setItemName,
   itemName,
   isOpen,
+  setCurrentZoneId,
+  zona,
 }) => {
   const [isShow, setIsShow] = useState(isOpen);
 
   const showHandler = () => {
+    setCurrentZoneId(zona.id);
     setIsShow(!isShow);
   };
 
+  useEffect(() => {
+    if (isOpen) {
+      setCurrentZoneId(-1);
+    }
+  }, [isOpen]);
   useEffect(() => {
     setItemName(name);
   }, [name]);

@@ -46,7 +46,6 @@ export const SettingsHub = ({
       algorithms: [],
     };
 
-    console.log(informationToSend);
     for (const algorithm of informationToSend) {
       if (algorithm === 'operation_control') {
         response.algorithms = [

@@ -185,3 +185,32 @@ export const postCameraZones = (hostname, cookies, body) => {
     });
   }
 };
+
+export const patchCameraZones = (hostname, cookies, response, id) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(
+      process.env.REACT_APP_NGROK + API_ZONES + id + '/',
+      'PATCH',
+      {
+        Authorization: cookies,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      JSON.stringify({
+        response,
+      })
+    );
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.patch(`${process.env.REACT_APP_IP_SERVER}${API_ZONES}${id}/`, response, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.patch(`http://${hostname}/${API_ZONES}${id}/`, response, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './zones.module.scss';
 import { ZonesCoordinates } from './coordinates/zonesCoordinates';
 import { ZoneList } from './zoneList/zoneList';
-import { getCameraZones, postCameraZones } from '../../../../api/cameraRequest';
+import { getCameraZones, patchCameraZones, postCameraZones } from '../../../../api/cameraRequest';
 import { useCookies } from 'react-cookie';
 import { NoVideoBig } from '../../../../assets/svg/SVGcomponent';
 
@@ -15,7 +15,6 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [currentZoneId, setCurrentZoneId] = useState();
   const [workplace, setWorkplace] = useState({});
 
-  console.log(currentZoneId);
   const saveZone = () => {
     const body = {
       coords: coords,
@@ -24,10 +23,24 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
       index_workplace: 1,
       workplace: 'Okucia',
     };
-    postCameraZones(window.location.hostname, cookie.token, body).then(() => {
-      console.log('created zone');
-    });
+    if (currentZoneId === -1) {
+      postCameraZones(window.location.hostname, cookie.token, body).then(() => {
+        console.log('created zone');
+      });
+    } else {
+      patchCameraZones(window.location.hostname, cookie.token, body, currentZoneId).then(() => {
+        console.log('updated zone');
+      });
+    }
   };
+
+  useEffect(() => {
+    const buf = cameraZones.filter((el) => el.id === currentZoneId);
+    console.log(buf);
+    if (buf.length > 0) {
+      setItemName(buf[0].name);
+    }
+  }, [currentZoneId]);
 
   useEffect(() => {
     getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
@@ -38,7 +51,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [cameraSelect]);
 
   return (
     <>
@@ -55,7 +68,9 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
             itemName={itemName}
             isScale={isScale}
             setIsScale={(e) => setIsScale(e)}
-            cameraBox={cameraZones}
+            cameraBox={cameraZones.filter((box) => box.id !== currentZoneId)}
+            oldBox={cameraZones.filter((box) => box.id === currentZoneId)}
+            currentZoneId={currentZoneId}
           />
           <div className={styles.zones__right}>
             <ZoneList
@@ -63,6 +78,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
               cameraZones={cameraZones}
               setItemName={(name) => setItemName(name)}
               itemName={itemName}
+              setCurrentZoneId={(id) => setCurrentZoneId(id)}
             />
           </div>
         </div>
