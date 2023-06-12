@@ -38,7 +38,7 @@ export const ZoneList = ({ saveZone, cameraZones }) => {
       </div>
 
       <div className={styles.list}>
-        {updateZone.map((zona, index) => (
+        {cameraZones.map((zona, index) => (
           <Item
             key={index}
             workplaceList={workplaceList}

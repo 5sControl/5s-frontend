@@ -18,6 +18,7 @@ type PropsType = {
   itemName: string;
   isScale: any;
   setIsScale: (coords: any) => void;
+  cameraBox: any;
 };
 
 export const ZonesCoordinates: React.FC<PropsType> = ({
@@ -26,19 +27,19 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   itemName,
   isScale,
   setIsScale,
+  cameraBox,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
   const [allBox, setAllBox] = useState<NewCoordinates[]>([]);
-  const [cameraBox, setCameraBox] = useState<any>([]);
   const [isStartDraw, setIsStartDraw] = useState<any>(false);
   const [moveDraw, setMoveDraw] = useState<DrawingCoordinates>({ x: 0, y: 0 });
-  const [cookie] = useCookies(['token']);
   const [proportionWidth, setProportionWidth] = useState(0);
   const [proportionHeight, setProportionHeight] = useState(0);
 
   const [coordToScale, setCoordToScale] = useState<any[]>([]);
 
+  console.log(cameraBox);
   const createCoord = (e: any) => {
     if (e && !target) {
       // const target = e.target.getBoundingClientRect();
@@ -76,20 +77,6 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
     setProportionWidth(image.current.naturalWidth / image.current.width);
     setProportionHeight(image.current.naturalHeight / image.current.height);
   };
-
-  // useEffect(() => {
-  //   if (currentSelect.length > 0) {
-  //     getCameraZones(window.location.hostname, cookie.token, currentSelect)
-  //       .then((res: any) => {
-  //         // console.log(res);
-  //         setCameraBox(res.data);
-  //         console.log(res);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // }, [currentSelect]);
 
   const movePosition = (e: any) => {
     if (e && !target && isStartDraw) {

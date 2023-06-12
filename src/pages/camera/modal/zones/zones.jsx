@@ -13,6 +13,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [isScale, setIsScale] = useState(false);
   const [cookie] = useCookies(['token']);
   const [cameraZones, setCameraZones] = useState([]);
+  const [cameraBox, setCameraBox] = useState([]);
 
   const saveZone = () => {
     const body = {
@@ -21,7 +22,9 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
       name: 'zone1',
     };
     console.log(coords);
-    postCameraZones(window.location.hostname, cookie.token, body);
+    postCameraZones(window.location.hostname, cookie.token, body).then(() => {
+      console.log('created zone');
+    });
   };
 
   useEffect(() => {
@@ -50,6 +53,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
             itemName={itemName}
             isScale={isScale}
             setIsScale={(e) => setIsScale(e)}
+            cameraBox={cameraZones}
           />
           <div className={styles.zones__right}>
             <ZoneList saveZone={saveZone} cameraZones={cameraZones} />

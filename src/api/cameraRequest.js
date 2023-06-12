@@ -6,7 +6,9 @@ const API_CAMERACREATE = 'api/cameras/create-camera/';
 const API_CAMERADELETE = 'api/camera-algorithms/delete-camera/';
 const API_CAMERAFIND = 'api/core/find_cameras/';
 const API_CAMERACHECK = 'check_camera/';
-const API_CAMERAZONES = 'api/camera-algorithms/zone/';
+const API_CAMERAZONES = 'api/camera-algorithms/zone-cameras/';
+const API_ZONES = 'api/camera-algorithms/zone/';
+
 export const getSelectedCameras = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy(process.env.REACT_APP_NGROK + API_CAMERASELECT, 'GET', {
@@ -159,7 +161,7 @@ export const getCameraZones = (hostname, cookies, camera) => {
 export const postCameraZones = (hostname, cookies, body) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post(process.env.REACT_APP_PROXY, {
-      url: `${process.env.REACT_APP_NGROK + API_CAMERAZONES}`,
+      url: `${process.env.REACT_APP_NGROK + API_ZONES}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -170,13 +172,13 @@ export const postCameraZones = (hostname, cookies, body) => {
       }),
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_CAMERAZONES}`, body, {
+    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_ZONES}`, body, {
       headers: {
         Authorization: cookies,
       },
     });
   } else {
-    return axios.post(`http://${hostname}/${API_CAMERAZONES}`, body, {
+    return axios.post(`http://${hostname}/${API_ZONES}`, body, {
       headers: {
         Authorization: cookies,
       },
