@@ -23,7 +23,7 @@ export const SettingsHub = ({
   const [cameraName, setCameraName] = useState(cameraSelect.name ? cameraSelect.name : '');
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
   const [processLocal, setProcess] = useState([]);
-  const [informationToSend, setInformationToSend] = useState({});
+  const [informationToSend, setInformationToSend] = useState([]);
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
   const [findCameraList, setFindCameraList] = useState(false);
@@ -61,6 +61,7 @@ export const SettingsHub = ({
         response.algorithms = [...response.algorithms, { name: algorithm }];
       }
     }
+    console.log(response);
     await postAlgorithnDependences(window.location.hostname, token, response)
       .then(() => {
         setIsEnabled(false);
@@ -161,8 +162,8 @@ export const SettingsHub = ({
                     isEnabled={isEnabled}
                     cameraName={cameraName}
                     setUserName={(name) => setUserName(name)}
-                    setPassword={(password) => setUserName(password)}
-                    setCameraName={(name) => setUserName(name)}
+                    setPassword={(password) => setPassword(password)}
+                    setCameraName={(name) => setCameraName(name)}
                   />
                 )}
                 {activeTab === 'Zones' && (

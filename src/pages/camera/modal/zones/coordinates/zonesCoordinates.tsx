@@ -2,12 +2,10 @@
 
 import { useRef, useState, useEffect, Fragment } from 'react';
 import Moveable from 'react-moveable';
-import { useCookies } from 'react-cookie';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { generateString } from '../../../../../functions/randomizer';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../../types';
 import { Scale } from '../../../../../components/scale';
-import { getCameraZones } from '../../../../../api/cameraRequest';
 
 import './moveable.scss';
 import styles from './zonesCoordinat.module.scss';
@@ -19,6 +17,8 @@ type PropsType = {
   isScale: any;
   setIsScale: (coords: any) => void;
   cameraBox: any;
+  oldBox: any;
+  currentZoneId: number;
 };
 
 export const ZonesCoordinates: React.FC<PropsType> = ({
@@ -28,6 +28,8 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   isScale,
   setIsScale,
   cameraBox,
+  oldBox,
+  currentZoneId,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
@@ -36,10 +38,27 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   const [moveDraw, setMoveDraw] = useState<DrawingCoordinates>({ x: 0, y: 0 });
   const [proportionWidth, setProportionWidth] = useState(0);
   const [proportionHeight, setProportionHeight] = useState(0);
-
   const [coordToScale, setCoordToScale] = useState<any[]>([]);
 
-  console.log(cameraBox);
+  useEffect(() => {
+    if (oldBox.length > 0) {
+      const old = JSON.parse(JSON.stringify(oldBox))
+        .map((el: any) => el.coords)[0]
+        .map((coord: any) => {
+          return {
+            x: coord.x1 / proportionWidth,
+            y: coord.y1 / proportionHeight,
+            width: (coord.x2 - coord.x1) / proportionWidth,
+            height: (coord.y2 - coord.y1) / proportionHeight,
+            id: generateString(11),
+          };
+        });
+      setAllBox(old);
+    } else {
+      setAllBox([]);
+    }
+  }, [currentZoneId]);
+
   const createCoord = (e: any) => {
     if (e && !target) {
       // const target = e.target.getBoundingClientRect();
@@ -162,6 +181,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
     });
     setCoords(sendCoord);
   };
+
   const scaleHandler = (img: string) => {
     const coordinatesLayout: any = document.querySelectorAll('.coordinates');
 

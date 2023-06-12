@@ -4,7 +4,7 @@ import { getWorkplaceList } from '../../../../../api/orderView';
 import { useCookies } from 'react-cookie';
 import { Item } from './zoneItem';
 
-export const ZoneList = ({ saveZone, cameraZones, setItemName, itemName }) => {
+export const ZoneList = ({ saveZone, cameraZones, setItemName, itemName, setCurrentZoneId }) => {
   const [cookie] = useCookies(['token']);
   const [workplaceList, setWorkplaceList] = useState([]);
   const [isNewZone, setIsNewZone] = useState(false);
@@ -13,7 +13,6 @@ export const ZoneList = ({ saveZone, cameraZones, setItemName, itemName }) => {
   useEffect(() => {
     getWorkplaceList(window.location.hostname, cookie.token).then((res) => {
       setWorkplaceList(res.data.map((place) => `${place.operationName} (id:${place.id})`));
-      console.log(res.data);
     });
   }, []);
 
@@ -40,6 +39,8 @@ export const ZoneList = ({ saveZone, cameraZones, setItemName, itemName }) => {
             workplace={zona.workplace}
             setItemName={(name) => setItemName(name)}
             itemName={itemName}
+            setCurrentZoneId={(id) => setCurrentZoneId(id)}
+            zona={zona}
           />
         ))}
         {isNewZone && (
@@ -51,6 +52,8 @@ export const ZoneList = ({ saveZone, cameraZones, setItemName, itemName }) => {
             setItemName={(name) => setItemName(name)}
             itemName={itemName}
             isOpen={true}
+            setCurrentZoneId={(id) => setCurrentZoneId(id)}
+            zona={{ id: -1 }}
           />
         )}
       </div>

@@ -13,16 +13,25 @@ export const Item = ({
   setItemName,
   itemName,
   isOpen,
+  setCurrentZoneId,
+  zona,
 }) => {
   const [isShow, setIsShow] = useState(isOpen);
+
   const showHandler = () => {
+    setCurrentZoneId(zona.id);
     setIsShow(!isShow);
   };
 
   useEffect(() => {
+    if (isOpen) {
+      setCurrentZoneId(-1);
+    }
+  }, [isOpen]);
+  useEffect(() => {
     setItemName(name);
   }, [name]);
-  console.log(name);
+
   return (
     <div className={styles.item}>
       <div className={styles.zona}>
