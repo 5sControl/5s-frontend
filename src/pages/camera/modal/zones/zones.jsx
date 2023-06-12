@@ -16,10 +16,16 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [currentZoneId, setCurrentZoneId] = useState();
   const [workplaceList, setWorkplaceList] = useState([]);
   const [workplaceToSend, setWorkplaceToSend] = useState(false);
+  const [updating, setUpdating] = useState(false);
+
+  const updatingHandler = () => {
+    setUpdating(!updating);
+  };
 
   const getZone = () => {
     getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
       .then((res) => {
+        console.log(res);
         setCameraZones(res.data);
         setCurrentZoneId(-2);
       })
@@ -33,23 +39,24 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
       coords: coords,
       camera: cameraSelect.id,
       name: itemName,
-      index_workplace: workplaceToSend.id,
-      workplace: workplaceToSend.name,
     };
+    if (workplaceToSend) {
+      body.index_workplace = workplaceToSend.id;
+      body.workplace = workplaceToSend.operationName;
+    }
     if (currentZoneId === -1) {
       postCameraZones(window.location.hostname, cookie.token, body).then(() => {
-        console.log('created zone');
         getZone();
       });
     } else {
       patchCameraZones(window.location.hostname, cookie.token, body, currentZoneId).then(() => {
-        console.log('updated zone');
         getZone();
       });
     }
   };
 
   useEffect(() => {
+    getZone();
     getWorkplaceList(window.location.hostname, cookie.token).then((res) => {
       setWorkplaceList(
         res.data.map((place) => {
@@ -60,32 +67,27 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
         })
       );
     });
-  }, []);
+  }, [updating]);
 
   useEffect(() => {
     const buf = cameraZones.filter((el) => el.id === currentZoneId);
+    console.log(buf);
+    console.log(cameraZones, currentZoneId);
     if (buf.length > 0) {
+      const sendWork = workplaceList.filter((el) => el.id === buf[0].index_workplace)[0];
       setItemName(buf[0].name);
-      if (currentZoneId > 0) {
-        const sendWork = workplaceList.filter((el) => el.id === buf[0].index_workplace)[0];
+      if (currentZoneId > 0 && sendWork && sendWork.length > 0) {
         setWorkplaceToSend({
-          name: sendWork.operationName,
-          id: sendWork.id,
+          name: sendWork[0].operationName,
+          id: sendWork[0].id,
         });
       } else {
-        setWorkplaceToSend({
-          name: '',
-          id: '',
-        });
+        setWorkplaceToSend(false);
       }
     }
-    console.log(buf[0]);
   }, [currentZoneId]);
 
-  useEffect(() => {
-    getZone();
-  }, [cameraSelect]);
-
+  console.log(workplaceToSend);
   return (
     <>
       {isCreateCamera ? (
@@ -115,6 +117,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
               currentZoneId={currentZoneId}
               setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
               workplaceList={workplaceList}
+              updatingHandler={updatingHandler}
             />
           </div>
         </div>

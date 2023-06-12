@@ -19,6 +19,7 @@ export const Item = ({
   zona,
   currentZoneId,
   setWorkplaceToSend,
+  updatingHandler,
 }) => {
   const [isShow, setIsShow] = useState(isOpen);
   const [cookies] = useCookies(['token']);
@@ -46,7 +47,7 @@ export const Item = ({
 
   const onDelete = (id) => {
     deleteCameraZones(window.location.hostname, cookies.token, id).then((res) => {
-      console.log(res);
+      updatingHandler();
     });
   };
 
