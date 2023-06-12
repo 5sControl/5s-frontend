@@ -71,8 +71,9 @@ export const AlgorithmSelect = ({
       sendList[algorithm] = [];
     } else {
       if (sendList[algorithm].includes(id)) {
+        console.log(id);
         const index = sendList[algorithm].indexOf(id);
-        sendList[algorithm] = sendList[algorithm].splice(index, 1);
+        sendList[algorithm].splice(index, 1);
       } else {
         sendList[algorithm].push(id);
       }

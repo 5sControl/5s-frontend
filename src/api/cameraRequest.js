@@ -214,3 +214,28 @@ export const patchCameraZones = (hostname, cookies, response, id) => {
     });
   }
 };
+
+export const deleteCameraZones = (hostname, cookies, id) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.post(process.env.REACT_APP_PROXY, {
+      url: `${process.env.REACT_APP_NGROK + API_ZONES + id}/`,
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.delete(`${process.env.REACT_APP_IP_SERVER}${API_ZONES}${id}/`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.delete(`http://${hostname}/${API_ZONES}${id}/`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
