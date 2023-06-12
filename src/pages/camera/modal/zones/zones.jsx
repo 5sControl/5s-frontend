@@ -4,8 +4,10 @@ import { ZonesCoordinates } from './coordinates/zonesCoordinates';
 import { ZoneList } from './zoneList/zoneList';
 import { getCameraZones, postCameraZones } from '../../../../api/cameraRequest';
 import { useCookies } from 'react-cookie';
+import { NoVideoBig } from '../../../../assets/svg/SVGcomponent';
 
-export const Zones = ({ cameraSelect }) => {
+export const Zones = ({ cameraSelect, isCreateCamera }) => {
+  console.log(isCreateCamera);
   const [coords, setCoords] = useState([]);
   const [itemName, setItemName] = useState('');
   const [isScale, setIsScale] = useState(false);
@@ -34,17 +36,26 @@ export const Zones = ({ cameraSelect }) => {
   }, []);
 
   return (
-    <div className={styles.zones}>
-      <ZonesCoordinates
-        currentSelect={cameraSelect.id}
-        setCoords={(coords) => setCoords(coords)}
-        itemName={itemName}
-        isScale={isScale}
-        setIsScale={(e) => setIsScale(e)}
-      />
-      <div className={styles.zones__right}>
-        <ZoneList saveZone={saveZone} cameraZones={cameraZones} />
-      </div>
-    </div>
+    <>
+      {isCreateCamera ? (
+        <section className={styles.creating}>
+          <NoVideoBig />
+          <p>Not connected to the camera. Check your connection in ‘Camera’ tab.</p>
+        </section>
+      ) : (
+        <div className={styles.zones}>
+          <ZonesCoordinates
+            currentSelect={cameraSelect.id}
+            setCoords={(coords) => setCoords(coords)}
+            itemName={itemName}
+            isScale={isScale}
+            setIsScale={(e) => setIsScale(e)}
+          />
+          <div className={styles.zones__right}>
+            <ZoneList saveZone={saveZone} cameraZones={cameraZones} />
+          </div>
+        </div>
+      )}
+    </>
   );
 };

@@ -165,7 +165,9 @@ export const SettingsHub = ({
                     setCameraName={(name) => setUserName(name)}
                   />
                 )}
-                {activeTab === 'Zones' && <Zones cameraSelect={cameraSelect} />}
+                {activeTab === 'Zones' && (
+                  <Zones cameraSelect={cameraSelect} isCreateCamera={isCreateCamera} />
+                )}
                 {activeTab === 'Algorithms' && (
                   <AlgorithmSelect
                     token={token}
