@@ -18,6 +18,7 @@ export const AlgorithmSelect = ({
   cameraIP,
   userName,
   password,
+  setConfigAlgo,
 }) => {
   const [algorithmList, setAlgorithmList] = useState(false);
   const [algoWorkzone, setAlgoWorkzone] = useState({});
@@ -78,7 +79,10 @@ export const AlgorithmSelect = ({
     }
     setAlgoWorkzone({ ...sendList });
   };
-  console.log(algoWorkzone);
+  useEffect(() => {
+    setConfigAlgo(algoWorkzone);
+  }, [algoWorkzone]);
+
   return (
     <div className="cameras__settings_container">
       <div className={styles.wrapper}>
