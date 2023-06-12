@@ -20,6 +20,7 @@ export const AlgorithmSelect = ({
   password,
 }) => {
   const [algorithmList, setAlgorithmList] = useState(false);
+  const [algoWorkzone, setAlgoWorkzone] = useState({});
   const [checkboxAlgo, setCheckboxAlgo] = useState(
     algorithmsActive ? Object.assign([], algorithmsActive) : []
   );
@@ -31,6 +32,11 @@ export const AlgorithmSelect = ({
         if (res.data.length > 0) {
           let allAlgorithm = res.data.filter((alg) => alg.is_available);
           setAlgorithmList(allAlgorithm);
+          const obj = allAlgorithm.reduce((newObj, item) => {
+            newObj[item.name] = [];
+            return newObj;
+          }, {});
+          setAlgoWorkzone(obj);
         }
       })
       .catch((error) => {
@@ -58,6 +64,21 @@ export const AlgorithmSelect = ({
     }
   };
 
+  const workPlaceHandler = (id, algorithm) => {
+    const sendList = algoWorkzone;
+    if (id < 0) {
+      sendList[algorithm] = [];
+    } else {
+      if (sendList[algorithm].includes(id)) {
+        const index = sendList[algorithm].indexOf(id);
+        sendList[algorithm] = sendList[algorithm].splice(index, 1);
+      } else {
+        sendList[algorithm].push(id);
+      }
+    }
+    setAlgoWorkzone({ ...sendList });
+  };
+  console.log(algoWorkzone);
   return (
     <div className="cameras__settings_container">
       <div className={styles.wrapper}>
@@ -93,10 +114,25 @@ export const AlgorithmSelect = ({
                     </>
                   )}
                   <div className={styles.workplace}>
-                    <span className={styles.select}> Camera</span>
+                    <span
+                      className={
+                        algoWorkzone[algorithm.name].length > 0 ? styles.noSelect : styles.select
+                      }
+                      onClick={() => workPlaceHandler(-1, algorithm.name)}
+                    >
+                      Camera
+                    </span>
                     {workplace.length > 0 &&
                       workplace.map((el) => (
-                        <span key={el.id} className={styles.noSelect}>
+                        <span
+                          key={el.id}
+                          className={
+                            algoWorkzone[algorithm.name].includes(el.id)
+                              ? styles.select
+                              : styles.noSelect
+                          }
+                          onClick={() => workPlaceHandler(el.id, algorithm.name)}
+                        >
                           {el.name}
                         </span>
                       ))}
