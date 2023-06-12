@@ -43,10 +43,6 @@ export const Zones = ({ cameraSelect }) => {
         setIsScale={(e) => setIsScale(e)}
       />
       <div className={styles.zones__right}>
-        <div className={styles.zones__header}>
-          <span> Zones</span>
-          <span className={styles.add}> + Add Zone</span>
-        </div>
         <ZoneList saveZone={saveZone} cameraZones={cameraZones} />
       </div>
     </div>
