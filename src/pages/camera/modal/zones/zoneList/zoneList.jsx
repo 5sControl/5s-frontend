@@ -4,7 +4,14 @@ import { getWorkplaceList } from '../../../../../api/orderView';
 import { useCookies } from 'react-cookie';
 import { Item } from './zoneItem';
 
-export const ZoneList = ({ saveZone, cameraZones, setItemName, itemName, setCurrentZoneId }) => {
+export const ZoneList = ({
+  saveZone,
+  cameraZones,
+  setItemName,
+  itemName,
+  setCurrentZoneId,
+  currentZoneId,
+}) => {
   const [cookie] = useCookies(['token']);
   const [workplaceList, setWorkplaceList] = useState([]);
   const [isNewZone, setIsNewZone] = useState(false);
@@ -12,7 +19,14 @@ export const ZoneList = ({ saveZone, cameraZones, setItemName, itemName, setCurr
 
   useEffect(() => {
     getWorkplaceList(window.location.hostname, cookie.token).then((res) => {
-      setWorkplaceList(res.data.map((place) => `${place.operationName} (id:${place.id})`));
+      setWorkplaceList(
+        res.data.map((place) => {
+          return {
+            ...place,
+            comboBoxName: `${place.operationName} (id:${place.id})`,
+          };
+        })
+      );
     });
   }, []);
 
@@ -20,6 +34,7 @@ export const ZoneList = ({ saveZone, cameraZones, setItemName, itemName, setCurr
     setIsBlockAdd(true);
     setIsNewZone(true);
   };
+
   return (
     <>
       <div className={styles.zones__header}>
@@ -36,14 +51,19 @@ export const ZoneList = ({ saveZone, cameraZones, setItemName, itemName, setCurr
             workplaceList={workplaceList}
             saveZone={saveZone}
             name={zona.name}
-            workplace={zona.workplace}
+            workplace={
+              zona.workplace && workplaceList.length > 0
+                ? workplaceList.filter((item) => item.operationName === zona.workplace)[0]
+                : ''
+            }
             setItemName={(name) => setItemName(name)}
             itemName={itemName}
             setCurrentZoneId={(id) => setCurrentZoneId(id)}
             zona={zona}
+            currentZoneId={currentZoneId}
           />
         ))}
-        {isNewZone && (
+        {isNewZone && currentZoneId === -1 && (
           <Item
             workplaceList={workplaceList}
             saveZone={saveZone}
@@ -54,6 +74,7 @@ export const ZoneList = ({ saveZone, cameraZones, setItemName, itemName, setCurr
             isOpen={true}
             setCurrentZoneId={(id) => setCurrentZoneId(id)}
             zona={{ id: -1 }}
+            currentZoneId={currentZoneId}
           />
         )}
       </div>

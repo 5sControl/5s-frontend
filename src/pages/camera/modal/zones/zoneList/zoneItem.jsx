@@ -15,6 +15,7 @@ export const Item = ({
   isOpen,
   setCurrentZoneId,
   zona,
+  currentZoneId,
 }) => {
   const [isShow, setIsShow] = useState(isOpen);
 
@@ -29,23 +30,28 @@ export const Item = ({
     }
   }, [isOpen]);
   useEffect(() => {
-    if (!isShow) {
-      setCurrentZoneId(-2);
+    if (!isShow && !isOpen) {
+      setCurrentZoneId(-1);
     }
   }, [isShow]);
+
+  const comboboxHandler = (value) => {
+    workplaceList.filter((item) => item.comboBoxName === value);
+  };
+  console.log(workplace);
   return (
     <div className={styles.item}>
       <div className={styles.zona}>
         <div className={styles.zona__left}>
           <span className={styles.zona__name}>Name: {name}</span>
-          <span className={styles.zona__workplace}>Workplace: {workplace}</span>
+          <span className={styles.zona__workplace}>Workplace: {workplace.operationName}</span>
         </div>
         <span className={styles.zona__right} onClick={showHandler}>
           <ArrowDown className={isShow ? styles.rotate : ''} />
         </span>
       </div>
 
-      {isShow && (
+      {isShow && currentZoneId === zona.id && (
         <div className={styles.item__edit}>
           <label>
             Name
@@ -58,12 +64,12 @@ export const Item = ({
           <label>
             Controlled workplace
             <Combobox
-              data={workplaceList}
+              data={workplaceList.map((e) => e.comboBoxName)}
               placeholder="Select or enter"
               hideEmptyPopup
-              value={workplace}
-              // onChange={(value) => setCameraIP(value)}
-              // onSelect={(value) => setCameraIP(value)}
+              value={workplace.comboBoxName}
+              onChange={(value) => comboboxHandler(value)}
+              onSelect={(value) => comboboxHandler(value)}
               className={styles.item__combobox}
               selectIcon={<ArrowDown />}
             />
