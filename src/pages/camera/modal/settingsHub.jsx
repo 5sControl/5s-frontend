@@ -33,7 +33,9 @@ export const SettingsHub = ({
   const [isNotification, setIsNotification] = useState(false);
   const [isPreloader, setIsPreloader] = useState(false);
   const [activeTab, setActiveTab] = useState('Camera');
+  const [configAlgo, setConfigAlgo] = useState({});
 
+  console.log(configAlgo);
   const applySettings = async () => {
     setIsPreloader(true);
     const response = {
@@ -58,7 +60,15 @@ export const SettingsHub = ({
           },
         ];
       } else {
-        response.algorithms = [...response.algorithms, { name: algorithm }];
+        response.algorithms = [
+          ...response.algorithms,
+          {
+            name: algorithm,
+            config: {
+              zonesID: [configAlgo[algorithm].map((e) => ({ id: e }))],
+            },
+          },
+        ];
       }
     }
     console.log(response);
@@ -187,6 +197,7 @@ export const SettingsHub = ({
                     cameraIP={cameraIP}
                     userName={userName}
                     password={password}
+                    setConfigAlgo={(e) => setConfigAlgo(e)}
                   />
                 )}
                 <div className="cameras__settings_buttons">
