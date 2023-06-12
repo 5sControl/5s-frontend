@@ -4,35 +4,28 @@ import { getWorkplaceList } from '../../../../../api/orderView';
 import { useCookies } from 'react-cookie';
 import { Item } from './zoneItem';
 
-export const ZoneList = ({ saveZone, cameraZones }) => {
+export const ZoneList = ({ saveZone, cameraZones, setItemName, itemName }) => {
   const [cookie] = useCookies(['token']);
   const [workplaceList, setWorkplaceList] = useState([]);
-  const [updateZone, setUpdateZone] = useState([]);
-  const [isBlickAdd, setIsBlockAdd] = useState(false);
+  const [isNewZone, setIsNewZone] = useState(false);
+  const [isBlockAdd, setIsBlockAdd] = useState(false);
+
   useEffect(() => {
-    setUpdateZone([...cameraZones]);
     getWorkplaceList(window.location.hostname, cookie.token).then((res) => {
-      setWorkplaceList(res.data.map((place) => place.operationName));
+      setWorkplaceList(res.data.map((place) => `${place.operationName} (id:${place.id})`));
       console.log(res.data);
     });
   }, []);
 
   const addZoneHandler = () => {
     setIsBlockAdd(true);
-    setUpdateZone([
-      ...updateZone,
-      {
-        id: -1,
-        name: '',
-        workplace: '',
-      },
-    ]);
+    setIsNewZone(true);
   };
   return (
     <>
       <div className={styles.zones__header}>
         <span> Zones</span>
-        <span className={`${isBlickAdd ? styles.added : styles.add}`} onClick={addZoneHandler}>
+        <span className={`${isBlockAdd ? styles.added : styles.add}`} onClick={addZoneHandler}>
           + Add Zone
         </span>
       </div>
@@ -45,8 +38,21 @@ export const ZoneList = ({ saveZone, cameraZones }) => {
             saveZone={saveZone}
             name={zona.name}
             workplace={zona.workplace}
+            setItemName={(name) => setItemName(name)}
+            itemName={itemName}
           />
         ))}
+        {isNewZone && (
+          <Item
+            workplaceList={workplaceList}
+            saveZone={saveZone}
+            name={''}
+            workplace={''}
+            setItemName={(name) => setItemName(name)}
+            itemName={itemName}
+            isOpen={true}
+          />
+        )}
       </div>
     </>
   );

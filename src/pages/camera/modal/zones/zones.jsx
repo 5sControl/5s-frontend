@@ -7,21 +7,21 @@ import { useCookies } from 'react-cookie';
 import { NoVideoBig } from '../../../../assets/svg/SVGcomponent';
 
 export const Zones = ({ cameraSelect, isCreateCamera }) => {
-  console.log(isCreateCamera);
   const [coords, setCoords] = useState([]);
   const [itemName, setItemName] = useState('');
   const [isScale, setIsScale] = useState(false);
   const [cookie] = useCookies(['token']);
   const [cameraZones, setCameraZones] = useState([]);
-  const [cameraBox, setCameraBox] = useState([]);
+  const [workplace, setWorkplace] = useState({});
 
   const saveZone = () => {
     const body = {
       coords: coords,
       camera: cameraSelect.id,
-      name: 'zone1',
+      name: itemName,
+      index_workplace: 1,
+      workplace: 'Okucia',
     };
-    console.log(coords);
     postCameraZones(window.location.hostname, cookie.token, body).then(() => {
       console.log('created zone');
     });
@@ -56,7 +56,12 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
             cameraBox={cameraZones}
           />
           <div className={styles.zones__right}>
-            <ZoneList saveZone={saveZone} cameraZones={cameraZones} />
+            <ZoneList
+              saveZone={saveZone}
+              cameraZones={cameraZones}
+              setItemName={(name) => setItemName(name)}
+              itemName={itemName}
+            />
           </div>
         </div>
       )}

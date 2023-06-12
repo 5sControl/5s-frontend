@@ -3,12 +3,26 @@ import { ArrowDown, DeleteWhite } from '../../../../../assets/svg/SVGcomponent';
 import { Input } from '../../../../../components/input';
 import { Button } from '../../../../../components/button';
 import styles from '../zones.module.scss';
-import { useState } from 'react';
-export const Item = ({ workplaceList, saveZone, name, workplace }) => {
-  const [isShow, setIsShow] = useState(false);
+import { useEffect, useState } from 'react';
+
+export const Item = ({
+  workplaceList,
+  saveZone,
+  name,
+  workplace,
+  setItemName,
+  itemName,
+  isOpen,
+}) => {
+  const [isShow, setIsShow] = useState(isOpen);
   const showHandler = () => {
     setIsShow(!isShow);
   };
+
+  useEffect(() => {
+    setItemName(name);
+  }, [name]);
+  console.log(name);
   return (
     <div className={styles.item}>
       <div className={styles.zona}>
@@ -17,7 +31,7 @@ export const Item = ({ workplaceList, saveZone, name, workplace }) => {
           <span className={styles.zona__workplace}>Workplace: {workplace}</span>
         </div>
         <span className={styles.zona__right} onClick={showHandler}>
-          <ArrowDown className={isShow && styles.rotate} />
+          <ArrowDown className={isShow ? styles.rotate : ''} />
         </span>
       </div>
 
@@ -25,7 +39,11 @@ export const Item = ({ workplaceList, saveZone, name, workplace }) => {
         <div className={styles.item__edit}>
           <label>
             Name
-            <Input className={styles.item__input} />
+            <Input
+              className={styles.item__input}
+              value={itemName}
+              onChange={(e) => setItemName(e.target.value)}
+            />
           </label>
           <label>
             Controlled workplace
@@ -33,7 +51,7 @@ export const Item = ({ workplaceList, saveZone, name, workplace }) => {
               data={workplaceList}
               placeholder="Select or enter"
               hideEmptyPopup
-              // value={cameraIP}
+              value={workplace}
               // onChange={(value) => setCameraIP(value)}
               // onSelect={(value) => setCameraIP(value)}
               className={styles.item__combobox}
