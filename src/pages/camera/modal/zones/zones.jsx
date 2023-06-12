@@ -67,11 +67,6 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
     if (buf.length > 0) {
       setItemName(buf[0].name);
       if (currentZoneId > 0) {
-        // setWorkplaceToSend({
-        //   name: '',
-        //   id: '',
-        // })
-
         const sendWork = workplaceList.filter((el) => el.id === buf[0].index_workplace)[0];
         setWorkplaceToSend({
           name: sendWork.operationName,

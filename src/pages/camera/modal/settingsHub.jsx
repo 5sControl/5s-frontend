@@ -35,7 +35,6 @@ export const SettingsHub = ({
   const [activeTab, setActiveTab] = useState('Camera');
   const [configAlgo, setConfigAlgo] = useState({});
 
-  console.log(configAlgo);
   const applySettings = async () => {
     setIsPreloader(true);
     const response = {
