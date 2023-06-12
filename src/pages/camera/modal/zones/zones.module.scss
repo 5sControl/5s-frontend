@@ -1,3 +1,5 @@
+@import '../../../../styles/media.scss';
+@import '../../../../styles/fonts.scss';
 .zones {
   width: 100%;
   height: calc(100% - 160px);
@@ -20,6 +22,8 @@
     font-weight: 600;
     font-size: 12px;
     line-height: 150%;
+    padding: 0 0 8px 0;
+    background-color: #ffffff;
     .add {
       color: #fe6100;
       cursor: pointer;
@@ -40,7 +44,75 @@
     }
   }
 }
-.list{
+.list {
   height: 100%;
   overflow: auto;
+}
+.item {
+  &__edit {
+    padding: 18px 10px;
+    background: #f5f5f5;
+  }
+  &__footer{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    &_control{
+      display: flex;
+      gap:20px;
+    }
+  }
+  &__input{
+    height: 40px;
+    width: 100%;
+    border: 1px solid var(--LowEmphasis);
+    border-radius: 4px;
+    padding: 8px 16px;
+    margin-bottom: 30px;
+    &:focus {
+      border-color: #212121;
+      outline: none;
+    }
+  }
+  &__combobox{
+    margin-bottom: 30px;
+    width: 100%;
+  }
+  &__label {
+    margin-bottom: 30px;
+  }
+  &__delete {
+    background: #e00606;
+    transition: all 0.4s;
+    &:hover {
+      background: #fe6100;
+    }
+  }
+  &__description {
+    color: #666666;
+  }
+}
+.zona {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  &__left {
+    display: flex;
+    flex-direction: column;
+  }
+  &__name {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  &__workplace {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    color: #666666;
+  }
+  &__right {
+    cursor: pointer;
+  }
 }
