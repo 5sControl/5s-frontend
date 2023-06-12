@@ -12,9 +12,9 @@ export type CompanyInfoType = {
 
 export type ContactInfoType = {
   id?: number;
-  name_company: string;
-  contact_email: string;
-  website: string;
+  name_company: string | null;
+  contact_email: string | null;
+  website: string | null;
   city?: string | null;
   contact_mobile_phone?: string | null;
   contact_phone?: string | null;
