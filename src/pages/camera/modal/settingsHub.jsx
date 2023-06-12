@@ -162,7 +162,7 @@ export const SettingsHub = ({
                     cameraName={cameraName}
                     setUserName={(name) => setUserName(name)}
                     setPassword={(password) => setPassword(password)}
-                    setCameraName={(name) => setUserName(name)}
+                    setCameraName={(name) => setCameraName(name)}
                   />
                 )}
                 {activeTab === 'Zones' && (
