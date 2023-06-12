@@ -1,22 +1,23 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import style from './contacts.module.scss';
-import { deleteSuppliers, editSuppliers, getSuppliers } from '../../../api/companyRequest';
+import { deleteSuppliers, editSuppliers } from '../../../api/companyRequest';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { GoBack, Settings } from '../../../assets/svg/SVGcomponent';
 import { Button } from '../../../components/button';
 import { ContactInfoType } from '../types';
 import { ActionList } from './ActionList';
-import { useAppSelector } from '../../../store/hooks';
-import { companyState } from '../companySlice';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { companyState, getCompanies } from '../companySlice';
 import ContactForm from '../components/ContactForm';
 import { EMAIL_REGEXP } from '../config';
 
 export const EditContactForm = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const [cookies] = useCookies(['token']);
-  const { countryData } = useAppSelector(companyState);
+  const { countryData, companies } = useAppSelector(companyState);
 
   const [name, setName] = useState<string | null>(null);
   const [nameError, setNameError] = useState<string | null>(null);
@@ -38,15 +39,19 @@ export const EditContactForm = () => {
   const [isShowActions, setIsShowActions] = useState<boolean>(false);
 
   useEffect(() => {
-    getSuppliers(window.location.hostname, cookies.token)
-      .then((response) => {
-        console.log('setContactsInfo', response.data);
-        setContactsInfo(response.data);
-      })
-      .catch((err) => {
-        console.log('setCompanyInfoError', err);
-      });
+    if (!companies.length) {
+      dispatch(
+        getCompanies({
+          token: cookies.token,
+          hostname: window.location.hostname,
+        })
+      );
+    }
   }, []);
+
+  useEffect(() => {
+    setContactsInfo(companies);
+  }, [companies]);
 
   useEffect(() => {
     setContact(contactsInfo.filter((item) => item.id === Number(id))[0]);

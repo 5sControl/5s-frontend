@@ -3,26 +3,20 @@ import { Button } from '../../../components/button';
 import { Plus } from '../../../assets/svg/SVGcomponent';
 import { CompanyCard } from '../../../components/companyCard/companyCard';
 import { useNavigate } from 'react-router-dom';
-import { getSuppliers } from '../../../api/companyRequest';
-import { useCookies } from 'react-cookie';
 import { ContactInfoType } from '../types';
 import style from './contacts.module.scss';
+import { useAppSelector } from '../../../store/hooks';
+import { companyState } from '../companySlice';
 
 export const Contacts: FC = () => {
   const navigate = useNavigate();
-  const [cookies] = useCookies(['token']);
+  const { companies } = useAppSelector(companyState);
 
   const [contactsInfo, setContactsInfo] = useState<ContactInfoType[]>([]);
 
   useEffect(() => {
-    getSuppliers(window.location.hostname, cookies.token)
-      .then((response) => {
-        setContactsInfo(response.data);
-      })
-      .catch((err) => {
-        console.log('setCompanyInfoError', err);
-      });
-  }, []);
+    setContactsInfo(companies);
+  }, [companies]);
 
   const goToSettings = (id: number) => {
     navigate(`/company/contacts/${id}`);

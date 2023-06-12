@@ -7,7 +7,6 @@ import { Button } from '../../../components/button';
 import { ContactInfoType } from '../types';
 import { GoBack } from '../../../assets/svg/SVGcomponent';
 import ContactForm from '../components/ContactForm';
-import { Notification } from '../../../components/notification/notification';
 import { EMAIL_REGEXP } from '../config';
 
 export const NewContactForm = () => {
@@ -113,8 +112,6 @@ export const NewContactForm = () => {
           <Button text="Done" onClick={() => createContact()} disabled={isLoading} />
         </div>
       </div>
-
-      <Notification message={'ddd'} status={false} />
 
       <ContactForm
         name={name}

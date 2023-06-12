@@ -3,8 +3,9 @@ import style from '../contactsTab/contacts.module.scss';
 import { Input } from '../../../components/input';
 import Combobox from 'react-widgets/Combobox';
 import { ArrowDown } from '../../../assets/svg/SVGcomponent';
-import { useAppSelector } from '../../../store/hooks';
-import { companyState } from '../companySlice';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { companyState, getCountries } from '../companySlice';
+import { useCookies } from 'react-cookie';
 
 type PropsType = {
   name: string | null;
@@ -62,8 +63,21 @@ export const ContactForm: React.FC<PropsType> = ({
   changeEmailHandler,
   changeZipIndexHandler,
 }) => {
+  const dispatch = useAppDispatch();
+  const [cookies] = useCookies(['token']);
   const { countryData } = useAppSelector(companyState);
   const [countryList, setCountryList] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!countryData.length) {
+      dispatch(
+        getCountries({
+          token: cookies.token,
+          hostname: window.location.hostname,
+        })
+      );
+    }
+  }, []);
 
   useEffect(() => {
     const countries = countryData.map((item) => item.name);
