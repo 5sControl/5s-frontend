@@ -136,6 +136,8 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
     if (proportionWidth) {
       if (allBox.length > 0) {
         setTarget(document.getElementById(allBox[allBox.length - 1].id));
+      } else {
+        setTarget(null);
       }
       onChangeSize();
     }

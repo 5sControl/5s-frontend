@@ -29,9 +29,10 @@ export const Item = ({
     }
   }, [isOpen]);
   useEffect(() => {
-    setItemName(name);
-  }, [name]);
-
+    if (!isShow) {
+      setCurrentZoneId(-2);
+    }
+  }, [isShow]);
   return (
     <div className={styles.item}>
       <div className={styles.zona}>
