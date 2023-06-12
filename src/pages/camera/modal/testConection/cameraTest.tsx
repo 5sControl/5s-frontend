@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
-import { checkCamera } from '../../../api/cameraRequest';
-import { Preloader } from '../../../components/preloader';
-import { Notification } from '../../../components/notification/notification';
+import { checkCamera } from '../../../../api/cameraRequest';
+import { Preloader } from '../../../../components/preloader';
+import { Notification } from '../../../../components/notification/notification';
 
 type PropsType = {
   cameraIP: string;
