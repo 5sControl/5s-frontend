@@ -23,7 +23,7 @@ export const SettingsHub = ({
   const [cameraName, setCameraName] = useState(cameraSelect.name ? cameraSelect.name : '');
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
   const [processLocal, setProcess] = useState([]);
-  const [informationToSend, setInformationToSend] = useState({});
+  const [informationToSend, setInformationToSend] = useState([]);
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
   const [findCameraList, setFindCameraList] = useState(false);
@@ -46,6 +46,7 @@ export const SettingsHub = ({
       algorithms: [],
     };
 
+    console.log(informationToSend);
     for (const algorithm of informationToSend) {
       if (algorithm === 'operation_control') {
         response.algorithms = [
@@ -61,6 +62,7 @@ export const SettingsHub = ({
         response.algorithms = [...response.algorithms, { name: algorithm }];
       }
     }
+    console.log(response);
     await postAlgorithnDependences(window.location.hostname, token, response)
       .then(() => {
         setIsEnabled(false);
