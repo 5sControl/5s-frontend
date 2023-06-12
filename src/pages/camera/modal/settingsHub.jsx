@@ -64,7 +64,7 @@ export const SettingsHub = ({
           {
             name: algorithm,
             config: {
-              zonesID: [configAlgo[algorithm].map((e) => ({ id: e }))],
+              zonesID: configAlgo[algorithm].map((e) => ({ id: e })),
             },
           },
         ];

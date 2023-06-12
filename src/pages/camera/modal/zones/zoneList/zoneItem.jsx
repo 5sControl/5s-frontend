@@ -4,6 +4,8 @@ import { Input } from '../../../../../components/input';
 import { Button } from '../../../../../components/button';
 import styles from '../zones.module.scss';
 import { useEffect, useState } from 'react';
+import { deleteCameraZones } from '../../../../../api/cameraRequest';
+import { useCookies } from 'react-cookie';
 
 export const Item = ({
   workplaceList,
@@ -19,6 +21,7 @@ export const Item = ({
   setWorkplaceToSend,
 }) => {
   const [isShow, setIsShow] = useState(isOpen);
+  const [cookies] = useCookies(['token']);
 
   const showHandler = () => {
     setCurrentZoneId(zona.id);
@@ -39,6 +42,12 @@ export const Item = ({
 
   const comboboxHandler = (value) => {
     setWorkplaceToSend(workplaceList.filter((item) => item.comboBoxName === value)[0]);
+  };
+
+  const onDelete = (id) => {
+    deleteCameraZones(window.location.hostname, cookies.token, id).then((res) => {
+      console.log(res);
+    });
   };
 
   return (
@@ -83,7 +92,7 @@ export const Item = ({
               IconLeft={DeleteWhite}
               type="button"
               className={styles.item__delete}
-              //   onClick={() => onDelete('algorithm')}
+              onClick={() => onDelete(currentZoneId)}
             />
             <div className={styles.item__footer_control}>
               <Button text="Cancel" variant="text" />
