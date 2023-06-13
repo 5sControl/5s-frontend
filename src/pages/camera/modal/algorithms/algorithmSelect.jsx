@@ -172,7 +172,6 @@ export const AlgorithmSelect = ({
       <RightSection
         isCreateCamera={isCreateCamera}
         cameraSelect={cameraSelect}
-        cameraIP={cameraIP}
         userName={userName}
         password={password}
         zoneId={algoWorkzone[currentAlgorithm]}

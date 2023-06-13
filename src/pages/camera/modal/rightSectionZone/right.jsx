@@ -6,7 +6,6 @@ import styles from './right.module.scss';
 export const RightSection = ({
   isCreateCamera,
   cameraSelect,
-  cameraIP,
   userName,
   password,
   workplace,
@@ -66,7 +65,7 @@ export const RightSection = ({
             ))}
         </div>
       ) : (
-        <CameraTest cameraIP={cameraIP} userName={userName} password={password} />
+        <CameraTest cameraIP={cameraSelect.id} userName={userName} password={password} />
       )}
     </div>
   );
