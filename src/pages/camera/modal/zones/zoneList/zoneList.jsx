@@ -11,6 +11,8 @@ export const ZoneList = ({
   currentZoneId,
   setWorkplaceToSend,
   workplaceList,
+  updatingHandler,
+  workplace,
 }) => {
   const [isNewZone, setIsNewZone] = useState(false);
   const [isBlockAdd, setIsBlockAdd] = useState(false);
@@ -47,6 +49,8 @@ export const ZoneList = ({
             zona={zona}
             currentZoneId={currentZoneId}
             setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
+            updatingHandler={updatingHandler}
+            workplaceComboBox={workplace}
           />
         ))}
         {isNewZone && currentZoneId === -1 && (
@@ -62,6 +66,7 @@ export const ZoneList = ({
             zona={{ id: -1 }}
             currentZoneId={currentZoneId}
             setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
+            updatingHandler={updatingHandler}
           />
         )}
       </div>
