@@ -119,9 +119,9 @@ export const EditInventoryModal: React.FC<PropsType> = ({
     } else {
       setItemName(currentEditItem?.name);
       setItemCount(currentEditItem?.low_stock_level);
-      currentEditItem?.order_quantity && setOrderAmount(currentEditItem.order_quantity);
-      currentEditItem?.suppliers && setSelectedSupplierID(currentEditItem.suppliers);
-      currentEditItem?.suppliers && setIsAutomaticallyOrder(true);
+      setOrderAmount(currentEditItem ? currentEditItem.order_quantity : null);
+      setSelectedSupplierID(currentEditItem ? currentEditItem.suppliers : null);
+      setIsAutomaticallyOrder(!!currentEditItem?.suppliers);
     }
   }, [isOpen]);
 
@@ -141,7 +141,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
   useEffect(() => {
     !isSMTPServerConnect && setIsAutomaticallyOrder(false);
     !isFullOwnCompanyInfo && setIsAutomaticallyOrder(false);
-  }, [isFullOwnCompanyInfo]);
+  }, [isFullOwnCompanyInfo, isSMTPServerConnect, currentEditItem, isOpen]);
 
   console.log(
     currentEditItem &&

@@ -40,7 +40,6 @@ export const getInventoryItemsAsync = createAsyncThunk(
   'getInventoryItems',
   async (data: { token: string; hostname: string; isSort: boolean }) => {
     const response: any = await getInventoryItems(data.hostname, data.token, data.isSort);
-    console.log(response);
     if (response.data) {
       return response.data;
     }
@@ -64,10 +63,9 @@ export const getCamerasAsync = createAsyncThunk(
   async (data: { token: string; hostname: string }) => {
     const response = await getSelectedCameras(data.hostname, data.token);
     if (response.data) {
-      const cameras = response.data.map((item: Camera) => {
+      return response.data.map((item: Camera) => {
         return { text: item.name, id: item.id };
       });
-      return cameras;
     }
     return null;
   }
@@ -88,7 +86,6 @@ export const getIsFullOwnCompanyInfo = createAsyncThunk(
       data.hostname,
       data.token
     );
-    console.log('getIsFullOwnCompanyInfo', response.data);
     return !!response.data.first_address && !!response.data.contact_phone;
   }
 );
