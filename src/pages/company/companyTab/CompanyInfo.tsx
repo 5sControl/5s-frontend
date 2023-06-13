@@ -53,14 +53,12 @@ export const CompanyInfo: FC = () => {
   return (
     <>
       <div className="company">
-        {companyInfo && (
-          <CompanyCard
-            companyData={companyInfoForm[0]}
-            onClick={() => {
-              navigate('/company/edit');
-            }}
-          />
-        )}
+        <CompanyCard
+          companyData={companyInfoForm[0]}
+          onClick={() => {
+            navigate('/company/edit');
+          }}
+        />
 
         {companyInfo && Object.keys(companyInfo).length > 0 && isLicensed && (
           <div className="company__name">

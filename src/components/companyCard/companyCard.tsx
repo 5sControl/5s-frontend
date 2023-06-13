@@ -12,11 +12,13 @@ export const CompanyCard: FC<Props> = ({ companyData, onClick }) => {
   return (
     <article className={style.container} onClick={onClick}>
       <img src={City} alt="" />
-      <div className={style.infoContainer}>
-        <h5>{companyData.name_company}</h5>
-        <span>{companyData.city}</span>
-        <span>{companyData.contact_email}</span>
-      </div>
+      {companyData && (
+        <div className={style.infoContainer}>
+          <h5>{companyData.name_company}</h5>
+          <span>{companyData.city}</span>
+          <span>{companyData.contact_email}</span>
+        </div>
+      )}
     </article>
   );
 };

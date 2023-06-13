@@ -4,7 +4,7 @@ import { getInventoryItemHistory, getInventoryItems } from './inventoryAPI';
 import { getSelectedCameras } from '../../api/cameraRequest';
 import { Camera, InventoryHistory, InventoryItem } from './types';
 import { getNotificationSettings } from '../../api/notificationRequest';
-import { getCompanyInfo } from '../../api/companyRequest';
+import { getCompanyInfoForm } from '../../api/companyRequest';
 import { AxiosResponse } from 'axios';
 import { ContactInfoType } from '../company/types';
 
@@ -82,11 +82,21 @@ export const getSMTPConnect = createAsyncThunk(
 export const getIsFullOwnCompanyInfo = createAsyncThunk(
   'getIsFullOwnCompanyInfo',
   async (data: { token: string; hostname: string }) => {
-    const response: AxiosResponse<ContactInfoType> = await getCompanyInfo(
+    const response: AxiosResponse<ContactInfoType[]> = await getCompanyInfoForm(
       data.hostname,
       data.token
     );
-    return !!response.data.first_address && !!response.data.contact_phone;
+    const info = response.data[0];
+
+    return (
+      !!info.name_company &&
+      !!info.first_address &&
+      !!info.city &&
+      !!info.state &&
+      !!info.country &&
+      !!info.contact_phone &&
+      !!info.contact_email
+    );
   }
 );
 
