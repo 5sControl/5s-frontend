@@ -27,7 +27,8 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
     getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
       .then((res) => {
         setCameraZones(res.data);
-        setCurrentZoneId(-1);
+        setCurrentZoneId(-2);
+        setCoords([]);
       })
       .catch((err) => {
         console.log(err);
