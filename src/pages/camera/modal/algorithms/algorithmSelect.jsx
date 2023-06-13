@@ -28,6 +28,7 @@ export const AlgorithmSelect = ({
   const [cookie] = useCookies(['token']);
   const [workplace, setWorkplace] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [currentAlgorithm, setCurrentAlgorithm] = useState('');
 
   useEffect(() => {
     getAveilableAlgorithms(window.location.hostname, token)
@@ -61,7 +62,6 @@ export const AlgorithmSelect = ({
       const algoObj = algoWorkzone;
 
       getAlgorithmZones(window.location.hostname, cookie.token, cameraSelect.id).then((res) => {
-        console.log(res.data);
         const result = res.data.algorithms;
         if (Object.keys(result).length > 0) {
           Object.keys(result).forEach((el) => {
@@ -86,6 +86,7 @@ export const AlgorithmSelect = ({
   };
 
   const workPlaceHandler = (id, algorithm) => {
+    setCurrentAlgorithm(algorithm);
     const sendList = algoWorkzone;
     if (id < 0) {
       sendList[algorithm] = [];
@@ -174,6 +175,7 @@ export const AlgorithmSelect = ({
         cameraIP={cameraIP}
         userName={userName}
         password={password}
+        zoneId={algoWorkzone[currentAlgorithm]}
         workplace={workplace}
       />
     </div>

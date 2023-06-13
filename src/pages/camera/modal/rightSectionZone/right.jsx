@@ -10,8 +10,8 @@ export const RightSection = ({
   userName,
   password,
   workplace,
+  zoneId,
 }) => {
-  console.log(workplace);
   const image = useRef(null);
   const [proportionWidth, setProportionWidth] = useState(0);
   const [proportionHeight, setProportionHeight] = useState(0);
@@ -53,6 +53,10 @@ export const RightSection = ({
                       width: `${(element?.x2 - element?.x1) / proportionHeight}px`,
                       height: `${(element?.y2 - element?.y1) / proportionWidth}px`,
                       zIndex: 1,
+                      background:
+                        zoneId && zoneId.includes(el.id)
+                          ? 'rgb(254, 97, 0, 0.6)'
+                          : 'rgba(33, 33, 33, 0.6)',
                     }}
                   >
                     {el.name}
