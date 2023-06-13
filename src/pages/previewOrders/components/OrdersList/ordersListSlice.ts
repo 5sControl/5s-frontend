@@ -37,7 +37,8 @@ interface ReportState {
 }
 
 const currentDate = new Date();
-currentDate.setDate(currentDate.getDay() - 7);
+currentDate.setDate(5);
+console.log(currentDate);
 const startDateDefault = currentDate.toISOString();
 
 const initialState: ReportState = {
