@@ -4,7 +4,7 @@ import { tabsData } from './config';
 import { FC, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useAppDispatch } from '../../store/hooks';
-import { getCompanies, getCountries } from './companySlice';
+import { getCompanies, getCompanyInfoForForm, getCountries } from './companySlice';
 
 export const Company: FC<{ activeTab: number }> = ({ activeTab }) => {
   const [cookies] = useCookies(['token']);
@@ -19,6 +19,12 @@ export const Company: FC<{ activeTab: number }> = ({ activeTab }) => {
     );
     dispatch(
       getCompanies({
+        token: cookies.token,
+        hostname: window.location.hostname,
+      })
+    );
+    dispatch(
+      getCompanyInfoForForm({
         token: cookies.token,
         hostname: window.location.hostname,
       })
