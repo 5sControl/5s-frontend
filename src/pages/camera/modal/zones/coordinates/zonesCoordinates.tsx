@@ -1,58 +1,63 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Fragment, useEffect, useRef, useState } from 'react';
+
+import { useRef, useState, useEffect, Fragment } from 'react';
 import Moveable from 'react-moveable';
 import { IoIosCloseCircle } from 'react-icons/io';
-import { useCookies } from 'react-cookie';
-import { Button } from '../../../../components/button';
-
-import { generateString } from '../../../../functions/randomizer';
-import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
-import { getInventoryItemsToCamera } from '../../inventoryAPI';
-import { Scale } from '../../../../components/scale';
-import { Scaleble } from './scale';
+import { generateString } from '../../../../../functions/randomizer';
+import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../../types';
+import { Scale } from '../../../../../components/scale';
 
 import './moveable.scss';
-import styles from '../InventoryModal.module.scss';
+import styles from './zonesCoordinat.module.scss';
+
 type PropsType = {
-  submitHandler: () => void;
   setCoords: (coords: Coordinat[]) => void;
-  coordinates: Coordinat[] | undefined;
   currentSelect: string;
-  itemName: any;
-  handleClose: () => void;
+  itemName: string;
   isScale: any;
   setIsScale: (coords: any) => void;
+  cameraBox: any;
+  oldBox: any;
+  currentZoneId: number;
 };
 
-export const Coordinates: React.FC<PropsType> = ({
-  submitHandler,
+export const ZonesCoordinates: React.FC<PropsType> = ({
   setCoords,
-  coordinates,
   currentSelect,
   itemName,
-  handleClose,
   isScale,
   setIsScale,
+  cameraBox,
+  oldBox,
+  currentZoneId,
 }) => {
   const image = useRef<any>();
-  const [target, setTarget] = useState<any>('');
-  const [proportionWidth, setProportionWidth] = useState(0);
-  const [proportionHeight, setProportionHeight] = useState(0);
+  const [target, setTarget] = useState<any>(null);
   const [allBox, setAllBox] = useState<NewCoordinates[]>([]);
-  const [oldBox, setOldBox] = useState<Coordinat[]>([]);
-  const [cookie] = useCookies(['token']);
   const [isStartDraw, setIsStartDraw] = useState<any>(false);
   const [moveDraw, setMoveDraw] = useState<DrawingCoordinates>({ x: 0, y: 0 });
-  const [cameraBox, setCameraBox] = useState<any>([]);
+  const [proportionWidth, setProportionWidth] = useState(0);
+  const [proportionHeight, setProportionHeight] = useState(0);
   const [coordToScale, setCoordToScale] = useState<any[]>([]);
 
-  const changeTarget = (currentTarget: any) => {
-    if (target !== '') {
-      setTarget('');
+  useEffect(() => {
+    if (oldBox.length > 0) {
+      const old = JSON.parse(JSON.stringify(oldBox))
+        .map((el: any) => el.coords)[0]
+        .map((coord: any) => {
+          return {
+            x: coord.x1 / proportionWidth,
+            y: coord.y1 / proportionHeight,
+            width: (coord.x2 - coord.x1) / proportionWidth,
+            height: (coord.y2 - coord.y1) / proportionHeight,
+            id: generateString(11),
+          };
+        });
+      setAllBox(old);
     } else {
-      setTarget(currentTarget);
+      setAllBox([]);
     }
-  };
+  }, [currentZoneId]);
 
   const createCoord = (e: any) => {
     if (e && !target) {
@@ -63,6 +68,22 @@ export const Coordinates: React.FC<PropsType> = ({
       setTarget(null);
     }
   };
+  useEffect(() => {
+    if (coordToScale.length > 0 && !isScale) {
+      const proportionWidth = image.current.naturalWidth / image.current.width;
+      const proportionHeight = image.current.naturalHeight / image.current.height;
+      const bufCoord = coordToScale.map((element: any) => {
+        return {
+          y: element?.y1 / proportionHeight,
+          x: element?.x1 / proportionWidth,
+          width: (element?.x2 - element?.x1) / proportionHeight,
+          height: (element?.y2 - element?.y1) / proportionWidth,
+          id: generateString(10),
+        };
+      });
+      setAllBox(bufCoord);
+    }
+  }, [isScale]);
 
   const startPosition = (e: any) => {
     if (e && !target) {
@@ -70,6 +91,10 @@ export const Coordinates: React.FC<PropsType> = ({
       setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
       setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
     }
+  };
+  const handleImageLoad = () => {
+    setProportionWidth(image.current.naturalWidth / image.current.width);
+    setProportionHeight(image.current.naturalHeight / image.current.height);
   };
 
   const movePosition = (e: any) => {
@@ -102,58 +127,63 @@ export const Coordinates: React.FC<PropsType> = ({
       setAllBox([...allBox, response]);
       setIsStartDraw(false);
       setMoveDraw({ x: 0, y: 0 });
+    } else {
+      // setTarget(null);
     }
   };
 
   useEffect(() => {
-    if (allBox.length > 0) {
-      setTarget(document.getElementById(allBox[allBox.length - 1].id));
+    if (proportionWidth) {
+      if (allBox.length > 0) {
+        setTarget(document.getElementById(allBox[allBox.length - 1].id));
+      } else {
+        setTarget(null);
+      }
+      onChangeSize();
     }
-    onChangeSize();
-  }, [allBox]);
-
-  useEffect(() => {
-    if (coordToScale.length > 0 && !isScale) {
-      const proportionWidth = image.current.naturalWidth / image.current.width;
-      const proportionHeight = image.current.naturalHeight / image.current.height;
-      const bufCoord = coordToScale.map((element: any) => {
-        return {
-          y: element?.y1 / proportionHeight,
-          x: element?.x1 / proportionWidth,
-          width: (element?.x2 - element?.x1) / proportionHeight,
-          height: (element?.y2 - element?.y1) / proportionWidth,
-          id: generateString(10),
-        };
-      });
-      setAllBox(bufCoord);
-      setOldBox([]);
-    }
-  }, [isScale]);
-
-  useEffect(() => {
-    if (currentSelect.length > 0) {
-      getInventoryItemsToCamera(window.location.hostname, cookie.token, currentSelect)
-        .then((res: any) => {
-          setCameraBox(res.data.filter((el: any) => el.name !== itemName));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [currentSelect]);
+  }, [allBox, proportionWidth]);
 
   const removeCoord = () => {
-    if (target.id.length > 10) {
-      setOldBox(oldBox.filter((el: Coordinat) => el.id !== target.id));
-    } else {
-      setAllBox(allBox.filter((el: NewCoordinates) => el.id !== target.id));
-    }
+    setAllBox(allBox.filter((el: NewCoordinates) => el.id !== target.id));
     setTarget('');
   };
-  const handleImageLoad = () => {
-    setProportionWidth(image.current.naturalWidth / image.current.width);
-    setProportionHeight(image.current.naturalHeight / image.current.height);
+
+  const changeTarget = (currentTarget: any) => {
+    if (target) {
+      setTarget(null);
+    } else {
+      setTarget(currentTarget);
+    }
   };
+
+  const onChangeSize = () => {
+    const coordinatesLayout: any = document.querySelectorAll('.coordinates');
+
+    const proportionWidth = image.current.naturalWidth / image.current.width;
+    const proportionHeight = image.current.naturalHeight / image.current.height;
+
+    const sendCoord: Coordinat[] = [];
+    coordinatesLayout.forEach((element: any) => {
+      const bufLeft = Number(element.style.left.replace(/px/gi, ''));
+      const bufTop = Number(element.style.top.replace(/px/gi, ''));
+      const bufWidth = Number(element.style.width.replace(/px/gi, ''));
+      const bufHeight = Number(element.style.height.replace(/px/gi, ''));
+      const bufTrans = element.style.transform.replace(/[^\d,-]/g, '').split(',');
+      const bufTransWidth = Number(bufTrans[0]) || 0;
+      const bufTransHeight = Number(bufTrans[1]) || 0;
+      const totalX = bufTransWidth + bufLeft;
+      const totalY = bufTransHeight + bufTop;
+
+      sendCoord.push({
+        x1: totalX * proportionWidth,
+        y1: totalY * proportionHeight,
+        x2: bufWidth * proportionWidth + totalX * proportionWidth,
+        y2: bufHeight * proportionHeight + totalY * proportionHeight,
+      });
+    });
+    setCoords(sendCoord);
+  };
+
   const scaleHandler = (img: string) => {
     const coordinatesLayout: any = document.querySelectorAll('.coordinates');
 
@@ -182,64 +212,8 @@ export const Coordinates: React.FC<PropsType> = ({
     setCoordToScale(sendCoord);
     setIsScale(img);
   };
-
-  useEffect(() => {
-    if (coordinates) {
-      setOldBox(
-        coordinates.map((el: Coordinat) => {
-          return {
-            ...el,
-            id: generateString(11),
-          };
-        })
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    if (proportionWidth) {
-      if (allBox.length > 0) {
-        setTarget(document.getElementById(allBox[allBox.length - 1].id));
-      }
-    }
-  }, [allBox, proportionWidth]);
-
-  useEffect(() => {
-    if (proportionWidth) {
-      if (oldBox.length > 0) {
-        setCoords(oldBox);
-      }
-    }
-  }, [oldBox, proportionWidth]);
-
-  const onChangeSize = () => {
-    const coordinatesLayout: any = document.querySelectorAll('.coordinates');
-    const proportionWidth = image.current.naturalWidth / image.current.width;
-    const proportionHeight = image.current.naturalHeight / image.current.height;
-
-    const sendCoord: Coordinat[] = [];
-    coordinatesLayout.forEach((element: any) => {
-      const bufLeft = Number(element.style.left.replace(/px/gi, ''));
-      const bufTop = Number(element.style.top.replace(/px/gi, ''));
-      const bufWidth = Number(element.style.width.replace(/px/gi, ''));
-      const bufHeight = Number(element.style.height.replace(/px/gi, ''));
-      const bufTrans = element.style.transform.replace(/[^\d,-]/g, '').split(',');
-      const bufTransWidth = Number(bufTrans[0]) || 0;
-      const bufTransHeight = Number(bufTrans[1]) || 0;
-      const totalX = bufTransWidth + bufLeft;
-      const totalY = bufTransHeight + bufTop;
-
-      sendCoord.push({
-        x1: totalX * proportionWidth,
-        y1: totalY * proportionHeight,
-        x2: bufWidth * proportionWidth + totalX * proportionWidth,
-        y2: bufHeight * proportionHeight + totalY * proportionHeight,
-      });
-    });
-    setCoords(sendCoord);
-  };
   return (
-    <div className={styles.modalCoordContainer}>
+    <div className={styles.zones__left}>
       <div className={styles.area}>
         <div className={styles.image_container}>
           <img
@@ -253,33 +227,7 @@ export const Coordinates: React.FC<PropsType> = ({
                 ? `${process.env.REACT_APP_IP_SERVER}images/${currentSelect}/snapshot.jpg`
                 : `http://${window.location.hostname}/images/${currentSelect}/snapshot.jpg`
             }
-            onClick={(e) => createCoord(e)}
           />
-          {oldBox.length > 0 &&
-            !!proportionWidth &&
-            oldBox.map((element: Coordinat) => (
-              <div
-                key={element.id}
-                className={
-                  target && target.id === element.id ? 'coordinates coordSelected' : 'coordinates '
-                }
-                id={element.id}
-                style={{
-                  top: `${element?.y1 / proportionHeight}px`,
-                  left: `${element?.x1 / proportionWidth}px`,
-                  width: `${(element?.x2 - element?.x1) / proportionHeight}px`,
-                  height: `${(element?.y2 - element?.y1) / proportionWidth}px`,
-                  zIndex: isStartDraw ? 1 : 1001,
-                }}
-                onClick={(e) => changeTarget(e.target)}
-              >
-                {' '}
-                {itemName}
-                {target && target.id === element.id && (
-                  <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
-                )}
-              </div>
-            ))}
           {allBox.map((el: NewCoordinates) => (
             <div
               id={el.id}
@@ -303,8 +251,9 @@ export const Coordinates: React.FC<PropsType> = ({
             </div>
           ))}
           {!!cameraBox &&
-            cameraBox.length > 0 &&
             !!proportionWidth &&
+            !!proportionHeight &&
+            cameraBox.length > 0 &&
             cameraBox.map((el: any) => (
               <Fragment key={el.id}>
                 {el.coords.map((element: any) => (
@@ -334,7 +283,7 @@ export const Coordinates: React.FC<PropsType> = ({
               target ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
             }
           ></div>
-          {!!proportionWidth && (
+          {!!proportionHeight && (
             <div className={styles.scale} style={{ zIndex: isStartDraw ? 1 : 2001 }}>
               <Scale
                 onClick={() =>
@@ -350,17 +299,7 @@ export const Coordinates: React.FC<PropsType> = ({
             </div>
           )}
 
-          {!!isScale && (
-            <Scaleble
-              image={isScale}
-              cameraBox={cameraBox}
-              coords={coordToScale}
-              itemName={itemName}
-              setIsScale={() => setIsScale(false)}
-              setCoordToScale={(coord) => setCoordToScale(coord)}
-            />
-          )}
-          {!!isStartDraw && (
+          {isStartDraw && (
             <div
               className={styles.newCoordinates}
               style={{
@@ -379,7 +318,6 @@ export const Coordinates: React.FC<PropsType> = ({
             ></div>
           )}
         </div>
-
         <Moveable
           target={target}
           draggable={true}
@@ -407,19 +345,6 @@ export const Coordinates: React.FC<PropsType> = ({
         <h2 className={styles.footer__text}>
           Select the area to track <span>*</span>
         </h2>
-        <Button
-          text="Cancel"
-          className={styles.button_cancel}
-          type="button"
-          onClick={handleClose}
-        />
-        <Button
-          text="Done"
-          className={styles.button}
-          type="button"
-          onClick={submitHandler}
-          disabled={allBox.length + oldBox.length === 0}
-        />
       </div>
     </div>
   );

@@ -6,6 +6,9 @@ const API_CAMERACREATE = 'api/cameras/create-camera/';
 const API_CAMERADELETE = 'api/camera-algorithms/delete-camera/';
 const API_CAMERAFIND = 'api/core/find_cameras/';
 const API_CAMERACHECK = 'check_camera/';
+const API_CAMERAZONES = 'api/camera-algorithms/zone-cameras/';
+const API_ZONES = 'api/camera-algorithms/zone/';
+
 export const getSelectedCameras = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy(process.env.REACT_APP_NGROK + API_CAMERASELECT, 'GET', {
@@ -130,4 +133,109 @@ export const checkCamera = (hostname, cameraIP, username, password) => {
       }),
     }
   );
+};
+
+export const getCameraZones = (hostname, cookies, camera) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(`${process.env.REACT_APP_NGROK}${API_CAMERAZONES}?camera=${camera}`, 'GET', {
+      'Content-Type': 'application/json',
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_CAMERAZONES}?camera=${camera}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_CAMERAZONES}?camera=${camera}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const postCameraZones = (hostname, cookies, body) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.post(process.env.REACT_APP_PROXY, {
+      url: `${process.env.REACT_APP_NGROK + API_ZONES}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+      body: JSON.stringify({
+        body,
+      }),
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_ZONES}`, body, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.post(`http://${hostname}/${API_ZONES}`, body, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const patchCameraZones = (hostname, cookies, response, id) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(
+      process.env.REACT_APP_NGROK + API_ZONES + id + '/',
+      'PATCH',
+      {
+        Authorization: cookies,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      JSON.stringify({
+        response,
+      })
+    );
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.patch(`${process.env.REACT_APP_IP_SERVER}${API_ZONES}${id}/`, response, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.patch(`http://${hostname}/${API_ZONES}${id}/`, response, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const deleteCameraZones = (hostname, cookies, id) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.post(process.env.REACT_APP_PROXY, {
+      url: `${process.env.REACT_APP_NGROK + API_ZONES + id}/`,
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.delete(`${process.env.REACT_APP_IP_SERVER}${API_ZONES}${id}/`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.delete(`http://${hostname}/${API_ZONES}${id}/`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
 };
