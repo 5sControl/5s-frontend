@@ -149,7 +149,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
             return `translate(0, ${y(parseDate(newDate))})`;
           })
           .on('mouseover', function () {
-            d3.select(this).select('rect').attr('opacity', 1).attr('fill', '#446A14');
+            d3.select(this).select('rect').attr('opacity', 1).attr('fill', '#518722');
           })
           .on('click', function (event, d) {
             d3.select(this).select('rect').attr('opacity', 1);
