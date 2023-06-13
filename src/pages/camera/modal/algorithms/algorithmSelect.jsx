@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { getAveilableAlgorithms } from '../../../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 import { Input } from '../../../../components/input';
-import { RightSection } from '../rightSection/right';
-import { getCameraZones } from '../../../../api/cameraRequest';
+import { RightSection } from '../rightSectionZone/right';
+import { getAlgorithmZones, getCameraZones } from '../../../../api/cameraRequest';
 
 import styles from './algorithms.module.scss';
 import { useCookies } from 'react-cookie';
@@ -27,6 +27,9 @@ export const AlgorithmSelect = ({
   );
   const [cookie] = useCookies(['token']);
   const [workplace, setWorkplace] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [currentAlgorithm, setCurrentAlgorithm] = useState('');
+
   useEffect(() => {
     getAveilableAlgorithms(window.location.hostname, token)
       .then((res) => {
@@ -37,7 +40,8 @@ export const AlgorithmSelect = ({
             newObj[item.name] = [];
             return newObj;
           }, {});
-          setAlgoWorkzone(obj);
+          setLoaded(!loaded);
+          setAlgoWorkzone({ ...obj });
         }
       })
       .catch((error) => {
@@ -54,6 +58,22 @@ export const AlgorithmSelect = ({
   }, []);
 
   useEffect(() => {
+    if (loaded) {
+      const algoObj = algoWorkzone;
+
+      getAlgorithmZones(window.location.hostname, cookie.token, cameraSelect.id).then((res) => {
+        const result = res.data.algorithms;
+        if (Object.keys(result).length > 0) {
+          Object.keys(result).forEach((el) => {
+            algoObj[el] = result[el];
+          });
+          setAlgoWorkzone({ ...algoObj });
+        }
+      });
+    }
+  }, [loaded]);
+
+  useEffect(() => {
     setInformationToSend(checkboxAlgo);
   }, [checkboxAlgo]);
 
@@ -66,6 +86,7 @@ export const AlgorithmSelect = ({
   };
 
   const workPlaceHandler = (id, algorithm) => {
+    setCurrentAlgorithm(algorithm);
     const sendList = algoWorkzone;
     if (id < 0) {
       sendList[algorithm] = [];
@@ -128,6 +149,7 @@ export const AlgorithmSelect = ({
                       Camera
                     </span>
                     {workplace.length > 0 &&
+                      algoWorkzone &&
                       workplace.map((el) => (
                         <span
                           key={el.id}
@@ -153,6 +175,8 @@ export const AlgorithmSelect = ({
         cameraIP={cameraIP}
         userName={userName}
         password={password}
+        zoneId={algoWorkzone[currentAlgorithm]}
+        workplace={workplace}
       />
     </div>
   );
