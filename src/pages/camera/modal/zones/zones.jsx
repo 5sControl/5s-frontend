@@ -27,7 +27,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
       .then((res) => {
         console.log(res);
         setCameraZones(res.data);
-        setCurrentZoneId(-2);
+        setCurrentZoneId(-1);
       })
       .catch((err) => {
         console.log(err);
@@ -74,7 +74,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
     console.log(buf);
     console.log(cameraZones, currentZoneId);
     if (buf.length > 0) {
-      const sendWork = workplaceList.filter((el) => el.id === buf[0].index_workplace)[0];
+      const sendWork = workplaceList.filter((el) => el.id === buf[0].index_workplace);
       setItemName(buf[0].name);
       if (currentZoneId > 0 && sendWork && sendWork.length > 0) {
         setWorkplaceToSend({
@@ -118,6 +118,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
               setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
               workplaceList={workplaceList}
               updatingHandler={updatingHandler}
+              workplace={workplaceToSend ? workplaceToSend.comboBoxName : ''}
             />
           </div>
         </div>

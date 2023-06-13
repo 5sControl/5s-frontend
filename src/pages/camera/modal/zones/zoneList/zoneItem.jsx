@@ -20,6 +20,7 @@ export const Item = ({
   currentZoneId,
   setWorkplaceToSend,
   updatingHandler,
+  workplaceComboBox,
 }) => {
   const [isShow, setIsShow] = useState(isOpen);
   const [cookies] = useCookies(['token']);
@@ -79,7 +80,7 @@ export const Item = ({
               data={workplaceList.map((e) => e.comboBoxName)}
               placeholder="Select or enter"
               hideEmptyPopup
-              value={workplace.comboBoxName}
+              value={workplaceComboBox}
               onChange={(value) => comboboxHandler(value)}
               onSelect={(value) => comboboxHandler(value)}
               className={styles.item__combobox}
