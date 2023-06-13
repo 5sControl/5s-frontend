@@ -37,9 +37,9 @@ interface ReportState {
 }
 
 const currentDate = new Date();
-currentDate.setDate(5);
-console.log(currentDate);
-const startDateDefault = currentDate.toISOString();
+const lastWeek = new Date();
+lastWeek.setDate(currentDate.getDate() - 7);
+const startDateDefault = lastWeek.toISOString();
 
 const initialState: ReportState = {
   activeOrder: null,
