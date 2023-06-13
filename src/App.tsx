@@ -32,7 +32,7 @@ function App() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         removeCookie('token');
       });
   }, [cookies]);

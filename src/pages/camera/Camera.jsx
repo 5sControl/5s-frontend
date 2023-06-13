@@ -3,14 +3,16 @@ import { useCookies } from 'react-cookie';
 
 import { getSelectedCameras } from '../../api/cameraRequest';
 import { Button } from '../../components/button';
-import { CamerasDeleteModal } from './modal/camerasDeleteModal';
+import { CamerasDeleteModal } from './modal/delete/camerasDeleteModal';
 import { getProcess } from '../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
-import { CameraSettings } from './modal/cameraSettings';
+import { SettingsHub } from './modal/settingsHub';
 import { DeleteClear, Plus } from '../../assets/svg/SVGcomponent';
 import { Notification } from '../../components/notification/notification';
 
+import styles from './camera.module.scss';
 import './cameras.scss';
+
 export const Camera = () => {
   const [cookies] = useCookies(['token']);
   const [createdCameras, setCreatedCameras] = useState(false);
@@ -66,20 +68,20 @@ export const Camera = () => {
   }, [isNotificationAfterCreate]);
 
   return (
-    <section className="cameras">
-      <div className="cameras__title">
+    <section className={styles.cameras}>
+      <div className={styles.cameras__title}>
         <h2>Cameras</h2>
         <Button text="Add camera" onClick={showAddCameras} IconLeft={Plus} />
       </div>
 
       {createdCameras && (
-        <div className="cameras__list">
+        <div className={styles.cameras__list}>
           {createdCameras.map((el, ind) => {
             return (
-              <div key={ind} className="cameras__list_item">
+              <div key={ind} className={styles.cameras__list_item}>
                 <div onClick={() => handleClickCamera(el)}>
                   <img
-                    className="cameras__list_image"
+                    className={styles.cameras__list_image}
                     src={
                       process.env.REACT_APP_ENV === 'proxy'
                         ? `${process.env.REACT_APP_NGROK}/images/${el.id}/snapshot.jpg`
@@ -90,8 +92,8 @@ export const Camera = () => {
                     alt="Camera"
                   />
                   <div>
-                    <div className="cameras__name">Name: {el.name}</div>
-                    <div className="cameras__desciption">
+                    <div className={styles.cameras__name}>Name: {el.name}</div>
+                    <div className={styles.cameras__desciption}>
                       Algorithms:{' '}
                       {processList
                         .filter((element) => element.camera.id === el.id)
@@ -101,10 +103,13 @@ export const Camera = () => {
                           </span>
                         ))}
                     </div>
-                    <div className="cameras__desciption">IP: {el.id}</div>
+                    <div className={styles.cameras__desciption}>IP: {el.id}</div>
                   </div>
                 </div>
-                <DeleteClear className="cameras__list_delete" onClick={() => deleteCamera(el.id)} />
+                <DeleteClear
+                  className={styles.cameras__list_delete}
+                  onClick={() => deleteCamera(el.id)}
+                />
               </div>
             );
           })}
@@ -122,7 +127,7 @@ export const Camera = () => {
       )}
 
       {cameraSelect && (
-        <CameraSettings
+        <SettingsHub
           cameraSelect={cameraSelect}
           token={cookies.token}
           setIsCameraSettings={(bool) => setCameraSelect(bool)}
