@@ -22,6 +22,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
     setUpdating(!updating);
   };
 
+  console.log(workplaceToSend);
   const getZone = () => {
     getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
       .then((res) => {
@@ -78,8 +79,9 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
       setItemName(buf[0].name);
       if (currentZoneId > 0 && sendWork && sendWork.length > 0) {
         setWorkplaceToSend({
-          name: sendWork[0].operationName,
+          operationName: sendWork[0].operationName,
           id: sendWork[0].id,
+          comboBoxName: `${sendWork[0].operationName} (${sendWork[0].id})`,
         });
       } else {
         setWorkplaceToSend(false);

@@ -46,6 +46,7 @@ export const AlgorithmSelect = ({
       .catch((error) => {
         console.log(error);
       });
+
     getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
       .then((res) => {
         setWorkplace(res.data);
@@ -54,7 +55,7 @@ export const AlgorithmSelect = ({
         console.log(err);
       });
   }, []);
-  console.log(algoWorkzone);
+
   useEffect(() => {
     if (loaded) {
       const algoObj = algoWorkzone;
