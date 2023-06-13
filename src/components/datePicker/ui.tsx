@@ -23,7 +23,7 @@ import staticRangesGenerator from './staticRangesGenerator';
 
 export const DatePicker: React.FC = () => {
   const startDateDefault = new Date();
-  startDateDefault.setDate(startDateDefault.getDay() - 7);
+  startDateDefault.setDate(startDateDefault.getDate() - 7);
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const navigateSearch = useNavigateSearch();
