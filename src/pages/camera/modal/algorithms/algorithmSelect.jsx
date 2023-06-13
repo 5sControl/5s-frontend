@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAveilableAlgorithms } from '../../../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 import { Input } from '../../../../components/input';
-import { RightSection } from '../rightSection/right';
+import { RightSection } from '../rightSectionZone/right';
 import { getAlgorithmZones, getCameraZones } from '../../../../api/cameraRequest';
 
 import styles from './algorithms.module.scss';
@@ -174,6 +174,7 @@ export const AlgorithmSelect = ({
         cameraIP={cameraIP}
         userName={userName}
         password={password}
+        workplace={workplace}
       />
     </div>
   );

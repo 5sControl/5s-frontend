@@ -1,0 +1,60 @@
+
+.image_container {
+  position: relative;
+  max-width: max-content;
+  width: 100%;
+  max-height: 90vh;
+  .img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    object-position: top left;
+  }
+}
+
+.oldCoord {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background: rgba(33, 33, 33, 0.6);
+  border: 1px solid #666666;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 8px;
+  line-height: 9px;
+  overflow: hidden;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+
+}
+
+.camera {
+  position: absolute;
+  left: 20px;
+  bottom: 15px;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 150%;
+  color: #ffffff;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+
+}
+.close{
+    position: absolute;
+    top:10px;
+    right: 10px;
+    padding: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(33, 33, 33, 0.87);
+    border-radius: 50%;
+    opacity: 0.7;
+    transition: all 0.4s ease-in-out;
+    cursor: pointer;
+    &:hover{
+      opacity: 1;
+    }
+  }
