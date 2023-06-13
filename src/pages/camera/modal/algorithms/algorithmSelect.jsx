@@ -3,7 +3,7 @@ import { getAveilableAlgorithms } from '../../../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 import { Input } from '../../../../components/input';
 import { RightSection } from '../rightSection/right';
-import { getCameraZones } from '../../../../api/cameraRequest';
+import { getAlgorithmZones, getCameraZones } from '../../../../api/cameraRequest';
 
 import styles from './algorithms.module.scss';
 import { useCookies } from 'react-cookie';
@@ -27,6 +27,8 @@ export const AlgorithmSelect = ({
   );
   const [cookie] = useCookies(['token']);
   const [workplace, setWorkplace] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+
   useEffect(() => {
     getAveilableAlgorithms(window.location.hostname, token)
       .then((res) => {
@@ -37,13 +39,13 @@ export const AlgorithmSelect = ({
             newObj[item.name] = [];
             return newObj;
           }, {});
-          setAlgoWorkzone(obj);
+          setLoaded(!loaded);
+          setAlgoWorkzone({ ...obj });
         }
       })
       .catch((error) => {
         console.log(error);
       });
-
     getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
       .then((res) => {
         setWorkplace(res.data);
@@ -52,6 +54,23 @@ export const AlgorithmSelect = ({
         console.log(err);
       });
   }, []);
+  console.log(algoWorkzone);
+  useEffect(() => {
+    if (loaded) {
+      const algoObj = algoWorkzone;
+
+      getAlgorithmZones(window.location.hostname, cookie.token, cameraSelect.id).then((res) => {
+        console.log(res.data);
+        const result = res.data.algorithms;
+        if (Object.keys(result).length > 0) {
+          Object.keys(result).forEach((el) => {
+            algoObj[el] = result[el];
+          });
+          setAlgoWorkzone({ ...algoObj });
+        }
+      });
+    }
+  }, [loaded]);
 
   useEffect(() => {
     setInformationToSend(checkboxAlgo);
@@ -128,6 +147,7 @@ export const AlgorithmSelect = ({
                       Camera
                     </span>
                     {workplace.length > 0 &&
+                      algoWorkzone &&
                       workplace.map((el) => (
                         <span
                           key={el.id}

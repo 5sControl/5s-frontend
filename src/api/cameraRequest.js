@@ -8,6 +8,7 @@ const API_CAMERAFIND = 'api/core/find_cameras/';
 const API_CAMERACHECK = 'check_camera/';
 const API_CAMERAZONES = 'api/camera-algorithms/zone-cameras/';
 const API_ZONES = 'api/camera-algorithms/zone/';
+const API_ALGORITHMZONES = 'api/camera-algorithms/zones-algorithms/';
 
 export const getSelectedCameras = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
@@ -190,24 +191,24 @@ export const patchCameraZones = (hostname, cookies, response, id) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy(
       process.env.REACT_APP_NGROK + API_ZONES + id + '/',
-      'PATCH',
+      'PUT',
       {
         Authorization: cookies,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       JSON.stringify({
-        response,
+        ...response,
       })
     );
   } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.patch(`${process.env.REACT_APP_IP_SERVER}${API_ZONES}${id}/`, response, {
+    return axios.put(`${process.env.REACT_APP_IP_SERVER}${API_ZONES}${id}/`, response, {
       headers: {
         Authorization: cookies,
       },
     });
   } else {
-    return axios.patch(`http://${hostname}/${API_ZONES}${id}/`, response, {
+    return axios.put(`http://${hostname}/${API_ZONES}${id}/`, response, {
       headers: {
         Authorization: cookies,
       },
@@ -234,6 +235,29 @@ export const deleteCameraZones = (hostname, cookies, id) => {
   } else {
     return axios.delete(`http://${hostname}/${API_ZONES}${id}/`, {
       headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const getAlgorithmZones = (hostname, cookies, camera) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(`${process.env.REACT_APP_NGROK}${API_ALGORITHMZONES}?camera=${camera}`, 'GET', {
+      'Content-Type': 'application/json',
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_ALGORITHMZONES}?camera=${camera}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_ALGORITHMZONES}?camera=${camera}`, {
+      headers: {
+        'Content-Type': 'application/json',
         Authorization: cookies,
       },
     });
