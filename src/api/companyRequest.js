@@ -79,23 +79,23 @@ export const getCompanyInfoForm = (hostname, cookies) => {
   }
 };
 
-export const editCompanyInfoForm = (hostname, cookies, data) => {
+export const editCompanyInfoForm = (hostname, cookies, data, id) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post(`${process.env.REACT_APP_NGROK + API_COMPANYINFO_FORM}`, data, {
+    return axios.put(`${process.env.REACT_APP_NGROK + API_COMPANYINFO_FORM}${id}/`, data, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,
       },
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_COMPANYINFO_FORM}`, data, {
+    return axios.put(`${process.env.REACT_APP_IP_SERVER}${API_COMPANYINFO_FORM}${id}/`, data, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,
       },
     });
   } else {
-    return axios.post(`http://${hostname}/${API_COMPANYINFO_FORM}`, data, {
+    return axios.put(`http://${hostname}/${API_COMPANYINFO_FORM}${id}/`, data, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,

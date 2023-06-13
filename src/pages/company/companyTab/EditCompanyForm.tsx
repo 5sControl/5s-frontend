@@ -79,7 +79,7 @@ export const EditCompanyForm = () => {
 
     setIsLoading(true);
 
-    editCompanyInfoForm(window.location.hostname, cookies.token, data)
+    editCompanyInfoForm(window.location.hostname, cookies.token, data, contact.id)
       .then(() => {
         goToCompany();
       })
