@@ -168,9 +168,7 @@ export const postCameraZones = (hostname, cookies, body) => {
         'Content-Type': 'application/json',
         Authorization: cookies,
       },
-      body: JSON.stringify({
-        body,
-      }),
+      body: JSON.stringify(body),
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_ZONES}`, body, {

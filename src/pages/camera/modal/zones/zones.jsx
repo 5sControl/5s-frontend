@@ -26,7 +26,6 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const getZone = () => {
     getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
       .then((res) => {
-        console.log(res);
         setCameraZones(res.data);
         setCurrentZoneId(-1);
       })
@@ -72,8 +71,6 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
 
   useEffect(() => {
     const buf = cameraZones.filter((el) => el.id === currentZoneId);
-    console.log(buf);
-    console.log(cameraZones, currentZoneId);
     if (buf.length > 0) {
       const sendWork = workplaceList.filter((el) => el.id === buf[0].index_workplace);
       setItemName(buf[0].name);
