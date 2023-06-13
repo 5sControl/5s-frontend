@@ -45,7 +45,6 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
     }
   }, [data, selectOrder]);
 
-  console.log(update);
   const timelineRef = useRef(null);
   const [position, setPosition] = useState(0);
   const [operation, setOperation] = useState(false);
@@ -186,46 +185,6 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
 
   return (
     <div className={styles.container}>
-      {!preloader && (
-        <div className={styles.header}>
-          {update.map((element, index) => (
-            <div
-              key={index}
-              className={`${styles.text} ${styles.tooltip}`}
-              style={{
-                position: 'absolute',
-                top: '10px',
-                left: `${fieldWidth * index + 30}px`,
-                width: `${fieldWidth - 60}px`,
-                transform: `translateX(${position * fieldWidth}px)`,
-              }}
-              title={element.oprName}
-            >
-              {element.oprName.slice(0, 10)}
-            </div>
-          ))}
-          <div className={styles.prev}>
-            <img
-              src={Arrow}
-              alt=""
-              width={20}
-              height={20}
-              className={styles.arrow}
-              onClick={() => positionHandler(1)}
-            />
-          </div>
-          <div className={styles.next}>
-            <img
-              src={Arrow}
-              alt=""
-              width={20}
-              height={20}
-              className={styles.arrow}
-              onClick={() => positionHandler(-1)}
-            />
-          </div>
-        </div>
-      )}
       <div className={styles.timelineWrapper}>
         <div className={styles.wrapper}>
           {preloader && (
@@ -236,14 +195,54 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
 
           <>
             {!preloader && update.length > 0 && data.length > 0 && (
-              <div
-                ref={timelineRef}
-                style={{
-                  width: `${update.length * fieldWidth}px`,
-                  height: `${getDuration(maxDate - minDate) * proportion + (days + 1) * 20}px`,
-                  transform: `translateX(${position * fieldWidth}px)`,
-                }}
-              ></div>
+              <div className={styles.content}>
+                <div className={styles.header}>
+                  {update.map((element, index) => (
+                    <div
+                      key={index}
+                      className={`${styles.text} ${styles.tooltip}`}
+                      style={{
+                        position: 'absolute',
+                        top: '10px',
+                        left: `${fieldWidth * index + 30}px`,
+                        width: `${fieldWidth - 60}px`,
+                        transform: `translateX(${position * fieldWidth}px)`,
+                      }}
+                      title={element.oprName}
+                    >
+                      {element.oprName.slice(0, 10)}
+                    </div>
+                  ))}
+                  {/* <div className={styles.prev}>
+                    <img
+                      src={Arrow}
+                      alt=""
+                      width={20}
+                      height={20}
+                      className={styles.arrow}
+                      onClick={() => positionHandler(1)}
+                    />
+                  </div>
+                  <div className={styles.next}>
+                    <img
+                      src={Arrow}
+                      alt=""
+                      width={20}
+                      height={20}
+                      className={styles.arrow}
+                      onClick={() => positionHandler(-1)}
+                    />
+                  </div> */}
+                </div>
+                <div
+                  ref={timelineRef}
+                  style={{
+                    width: `${update.length * fieldWidth}px`,
+                    height: `${getDuration(maxDate - minDate) * proportion + (days + 1) * 20}px`,
+                    transform: `translateX(${position * fieldWidth}px)`,
+                  }}
+                ></div>
+              </div>
             )}
             {!preloader && data.length === 0 && (
               <div className={styles.noData}>{`No operations were found in the range from ${moment(
