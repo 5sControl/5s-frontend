@@ -45,7 +45,6 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
     }
   }, [data, selectOrder]);
 
-  console.log(update);
   const timelineRef = useRef(null);
   const [position, setPosition] = useState(0);
   const [operation, setOperation] = useState(false);
@@ -92,7 +91,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
       const y = d3
         .scaleTime()
         .domain([minDate, maxDate])
-        .range([0, height + days * 2]);
+        .range([0, height + days * 1.8]);
 
       // Добавление серых блоков для заполнения разницы
       update.forEach((element, index) => {
@@ -150,7 +149,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
             return `translate(0, ${y(parseDate(newDate))})`;
           })
           .on('mouseover', function () {
-            d3.select(this).select('rect').attr('opacity', 1);
+            d3.select(this).select('rect').attr('opacity', 1).attr('fill', '#446A14');
           })
           .on('click', function (event, d) {
             d3.select(this).select('rect').attr('opacity', 1);
@@ -159,7 +158,8 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
           .on('mouseout', function (event, d) {
             d3.select(this)
               .select('rect')
-              .attr('opacity', d.orId === selectOrder ? 1 : 0.6);
+              .attr('opacity', selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4)
+              .attr('fill', '#87BC45');
           });
 
         bars
@@ -171,7 +171,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
             return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d));
           })
           .attr('fill', '#87BC45')
-          .attr('opacity', (d, i) => (d.orId === selectOrder ? 1 : 0.6))
+          .attr('opacity', (d, i) => (selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4))
           .attr('z-index', 2);
       });
     }
