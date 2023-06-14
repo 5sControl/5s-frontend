@@ -48,7 +48,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   }, [currentReport]);
 
   const operationClickHandler = (element) => {
-    console.log(element);
     const body = {
       camera_ip: element.camera.id,
       time: new Date(element.start_tracking).valueOf(),
@@ -61,6 +60,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
             frsName: res.data.frsName,
             lstName: res.data.lstName,
             elType: res.data.elType,
+            cameraIP: element.camera.id,
           };
 
           getVideo(window.location.hostname, body).then((res) => {

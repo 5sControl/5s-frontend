@@ -21,6 +21,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           ? `${process.env.REACT_APP_IP_SERVER}`
           : `http://${window.location.hostname}`
       }/${operationData?.video.file_name}`; // Замените на ссылку на ваше видео
+
       fetch(videoUrl)
         .then((response) => response.blob())
         .then((blob) => {
@@ -43,28 +44,30 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
       showSubstrateCross
     >
       {operationData.video && operationData.video.status && operationData?.video.file_name ? (
-        <ReactPlayer
-          ref={playerRef}
-          width="100%"
-          height="100%"
-          playing={true}
-          volume={0.9}
-          controls={true}
-          preload="auto"
-          config={{
-            file: {
-              forceVideo: true,
-            },
-          }}
-          url={`${
+        <video
+          id="videoPlayer"
+          src={`${
             process.env.REACT_APP_ENV === 'proxy'
-              ? `${process.env.REACT_APP_NGROK}`
+              ? `http://192.168.1.110:3456/video?time=${new Date(
+                  operationData.sTime
+                ).valueOf()}&camera_ip=${operationData.cameraIP}#t=${
+                  operationData.video.video_start_from / 1000
+                }`
               : process.env.REACT_APP_ENV === 'wify'
-              ? `${process.env.REACT_APP_IP_SERVER}`
-              : `http://${window.location.hostname}`
-          }/${operationData?.video.file_name}`}
-          // onReady={handleReady}
-        />
+              ? `http://192.168.1.110:3456/video?time=${new Date(
+                  operationData.sTime
+                ).valueOf()}&camera_ip=${operationData.cameraIP}#t=${
+                  operationData.video.video_start_from / 1000
+                }`
+              : `http://${window.location.hostname}/video?time=${new Date(
+                  operationData.sTime
+                ).valueOf()}&camera_ip=${operationData.cameraIP}#t=${
+                  operationData.video.video_start_from / 1000
+                }`
+          }`}
+          controls
+          autoPlay
+        ></video>
       ) : (
         <img alt="no video" src={noVideo} />
       )}
