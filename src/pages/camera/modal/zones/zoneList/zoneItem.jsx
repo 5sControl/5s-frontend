@@ -97,7 +97,7 @@ export const Item = ({
               onClick={() => onDelete(currentZoneId)}
             />
             <div className={styles.item__footer_control}>
-              <Button text="Cancel" variant="text" />
+              <Button text="Cancel" variant="text" onClick={() => setCurrentZoneId(-2)} />
               <Button text="Save" onClick={saveZone} />
             </div>
           </div>
