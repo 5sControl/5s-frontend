@@ -168,7 +168,9 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
           .attr('y', 0)
           .attr('width', fieldWidth - 70)
           .attr('height', (d, i) => {
-            return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d));
+            return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d)) < 1
+              ? 1
+              : y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d));
           })
           .attr('fill', '#87BC45')
           .attr('opacity', (d, i) => (selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4))
