@@ -83,6 +83,28 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     );
   };
 
+  const videoClickHandler = (element) => {
+    const body = {
+      camera_ip: element.camera.id,
+      time: new Date(element.start_tracking).valueOf() - 10800000,
+    };
+    console.log(body);
+    getVideo(window.location.hostname, body).then((res) => {
+      if (Object.keys(res.data).length) {
+        const value = {
+          cameraIP: element.camera.id,
+          sTime: element.start_tracking,
+          eTime: element.stop_tracking,
+          video: res.data,
+        };
+        console.log(value);
+        setOperationOV(value);
+      } else {
+        setOperationOV(`Operation #${element.id} was not found in the database`);
+      }
+    });
+  };
+
   const timeDuration = (start, end) => {
     const duration = moment.duration(moment(end).diff(moment(start)));
     const days = duration.days();
@@ -279,7 +301,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                 {parsingAlgorithmName(currentReport.algorithm.name)}
               </div>
 
-              {currentReport.extra && currentReport.extra.length > 0 && (
+              {currentReport.extra && currentReport.extra.length > 0 ? (
                 <div className={styles.fullscreen__footer_text}>
                   <span> Additional:&nbsp;</span>
                   <span
@@ -287,6 +309,13 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                     onClick={() => operationClickHandler(currentReport)}
                   >
                     Open order operation details
+                  </span>
+                </div>
+              ) : (
+                <div className={styles.fullscreen__footer_text}>
+                  <span> Additional:&nbsp;</span>
+                  <span className={styles.link} onClick={() => videoClickHandler(currentReport)}>
+                    Check video
                   </span>
                 </div>
               )}
