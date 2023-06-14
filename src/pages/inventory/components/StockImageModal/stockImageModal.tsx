@@ -99,7 +99,13 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   }, [handleClose]);
 
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal} noESC={fullImage}>
+    <Modal
+      isOpen={isOpen}
+      handleClose={handleClose}
+      className={styles.modal}
+      showSubstrateCross={true}
+      noESC={fullImage}
+    >
       <div
         className={styles.imageContainer}
         style={{

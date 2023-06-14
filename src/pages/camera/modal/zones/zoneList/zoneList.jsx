@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../zones.module.scss';
 import { Item } from './zoneItem';
 
@@ -18,10 +18,18 @@ export const ZoneList = ({
   const [isBlockAdd, setIsBlockAdd] = useState(false);
 
   const addZoneHandler = () => {
+    setCurrentZoneId(-1);
     setIsBlockAdd(true);
     setIsNewZone(true);
   };
 
+  console.log(isNewZone, currentZoneId);
+  useEffect(() => {
+    if (currentZoneId !== -1) {
+      setIsNewZone(false);
+      setIsBlockAdd(false);
+    }
+  }, [currentZoneId]);
   return (
     <>
       <div className={styles.zones__header}>

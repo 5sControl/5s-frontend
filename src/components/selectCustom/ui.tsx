@@ -10,10 +10,8 @@ type PropsType = {
   className?: string;
   activeSelect?: number | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setCurrentSelect?: (select: any) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   camerasData?: any;
-  setDefaultSelect?: (select: any) => void;
+  setDefaultSelect: (select: any) => void;
   disabled?: boolean;
 };
 
@@ -24,43 +22,34 @@ export const SelectCustom: React.FC<PropsType> = ({
   name,
   className,
   activeSelect,
-  setCurrentSelect,
-  camerasData,
   setDefaultSelect,
   disabled,
 }) => {
-  const [dataSelect, setDataSelect] = useState<string>();
+  const [dataSelect, setDataSelect] = useState<string | null>(null);
+
   const handleOnChangeSelection = (e: ChangeEvent<HTMLSelectElement>) => {
-    setDataSelect(e.target.value);
+    setDefaultSelect(
+      listOfData.filter(
+        (el: { id: number | string; text: string }) => el.text === e.target.value
+      )[0].id
+    );
   };
 
   useEffect(() => {
-    if (!listOfData.length) {
-      setDataSelect('');
-      return;
-    }
     if (activeSelect) {
       const activeSelectItem: any = listOfData.filter((item) => item.id === activeSelect);
       setDataSelect(activeSelectItem[0]?.text);
     } else {
-      setDataSelect(listOfData[0].text);
+      setDefaultSelect(listOfData[0].id);
+    }
+  }, [activeSelect]);
+
+  useEffect(() => {
+    if (!listOfData.length) {
+      setDataSelect(null);
+      return;
     }
   }, []);
-
-  useEffect(() => {
-    if (dataSelect && setCurrentSelect && camerasData) {
-      setCurrentSelect(camerasData.filter((el: any) => el.text === dataSelect)[0].id);
-    }
-  }, [dataSelect]);
-
-  useEffect(() => {
-    if (setDefaultSelect && dataSelect) {
-      setDefaultSelect(
-        listOfData.filter((el: { id: number | string; text: string }) => el.text === dataSelect)[0]
-          .id
-      );
-    }
-  }, [dataSelect]);
 
   return (
     <div className={styles.container}>
@@ -73,7 +62,7 @@ export const SelectCustom: React.FC<PropsType> = ({
         <select
           name={name}
           id={id}
-          value={dataSelect}
+          value={dataSelect || undefined}
           onChange={handleOnChangeSelection}
           className={`${styles.block__select} ${className}`}
           disabled={disabled}

@@ -16,3 +16,6 @@ export const tabsData: TabListProps[] = [
     component: <Contacts />,
   },
 ];
+
+export const EMAIL_REGEXP =
+  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;

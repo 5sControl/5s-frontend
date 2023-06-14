@@ -17,6 +17,7 @@ import editInventoryModalSlice from '../pages/inventory/components/EditInventory
 import inventoryHistorySlice from '../pages/inventory/components/InventoryHistory/inventoryHistorySlice';
 import inventoryReportSlice from '../pages/inventory/components/InventoryReport/InventoryReportSlice';
 import NightModeSlice from '../pages/inventory/components/NightModeModal/NightModeSlice';
+import companySlice from '../pages/company/companySlice';
 
 export const store = configureStore({
   reducer: {
@@ -38,6 +39,7 @@ export const store = configureStore({
     NightModeSlice: NightModeSlice,
     inventoryHistory: inventoryHistorySlice,
     inventoryReportState: inventoryReportSlice,
+    companyState: companySlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([]),
 });

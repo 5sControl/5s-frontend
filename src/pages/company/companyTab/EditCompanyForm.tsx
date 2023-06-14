@@ -1,23 +1,22 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import style from './contacts.module.scss';
-import { deleteSuppliers, editSuppliers } from '../../../api/companyRequest';
-import { useNavigate, useParams } from 'react-router-dom';
+import style from '../contactsTab/contacts.module.scss';
+import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { GoBack, Settings } from '../../../assets/svg/SVGcomponent';
+import { GoBack } from '../../../assets/svg/SVGcomponent';
 import { Button } from '../../../components/button';
 import { ContactInfoType } from '../types';
-import { ActionList } from './ActionList';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { companyState, getCompanies } from '../companySlice';
+import { companyState, getCompanies, getCompanyInfoForForm } from '../companySlice';
 import ContactForm from '../components/ContactForm';
 import { EMAIL_REGEXP } from '../config';
+import { AxiosError } from 'axios';
+import { createCompanyInfoForm, editCompanyInfoForm } from '../../../api/companyRequest';
 
-export const EditContactForm = () => {
+export const EditCompanyForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { id } = useParams();
   const [cookies] = useCookies(['token']);
-  const { countryData, companies } = useAppSelector(companyState);
+  const { countryData, companyInfoForm } = useAppSelector(companyState);
 
   const [name, setName] = useState<string | null>(null);
   const [nameError, setNameError] = useState<string | null>(null);
@@ -30,51 +29,15 @@ export const EditContactForm = () => {
   const [website, setWebsite] = useState<string | null>(null);
   const [city, setCity] = useState<string | null>(null);
   const [country, setCountry] = useState<string | null>(null);
+  const [countryError, setCountryError] = useState<string | null>(null);
   const [zipIndex, setZipIndex] = useState<string | null>(null);
   const [zipIndexError, setZipIndexError] = useState<string | null>(null);
   const [state, setState] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [contactsInfo, setContactsInfo] = useState<ContactInfoType[]>([]);
-  const [contact, setContact] = useState<ContactInfoType>();
-  const [isShowActions, setIsShowActions] = useState<boolean>(false);
+  const [contact, setContact] = useState<ContactInfoType>(companyInfoForm[0]);
 
-  useEffect(() => {
-    dispatch(
-      getCompanies({
-        token: cookies.token,
-        hostname: window.location.hostname,
-      })
-    );
-  }, []);
-
-  useEffect(() => {
-    setContactsInfo(companies);
-  }, [companies]);
-
-  useEffect(() => {
-    setContact(contactsInfo.filter((item) => item.id === Number(id))[0]);
-  }, [contactsInfo]);
-
-  useEffect(() => {
-    if (contact) {
-      const previousCountry = countryData.find((item) => item.code === contact.country);
-
-      contact.name_company && setName(contact.name_company);
-      contact.contact_email && setEmail(contact.contact_email);
-      contact.website && setWebsite(contact.website);
-      contact.city && setCity(contact.city);
-      contact.contact_mobile_phone && setMobile(contact.contact_mobile_phone);
-      contact.contact_phone && setPhone(contact.contact_phone);
-      contact.first_address && setAddress1(contact.first_address);
-      contact.second_address && setAddress2(contact.second_address);
-      contact.state && setState(contact.state);
-      contact.index && setZipIndex(contact.index.toString());
-      previousCountry && setCountry(previousCountry.name);
-    }
-  }, [contact]);
-
-  const goToContacts = () => {
-    navigate('/company/contacts/');
+  const goToCompany = () => {
+    navigate('/company/');
   };
 
   const editContact = () => {
@@ -86,6 +49,10 @@ export const EditContactForm = () => {
       setEmailError('Name field is required');
       return;
     }
+    if (!country || country.length < 1) {
+      setCountryError('Country field is required');
+      return;
+    }
     if (!EMAIL_REGEXP.test(email)) {
       setEmailError('Email is not correct');
       return;
@@ -93,6 +60,13 @@ export const EditContactForm = () => {
     if (zipIndex && (!/^[\d]*$/.test(zipIndex) || zipIndex.length > 9)) {
       setZipIndexError('ZIP index is not correct');
       return;
+    }
+
+    let currentCountry: string | undefined | null = countryData.find(
+      (item) => item.name === country
+    )?.code;
+    if (!currentCountry) {
+      currentCountry = null;
     }
     const data: ContactInfoType = {
       name_company: name,
@@ -104,22 +78,33 @@ export const EditContactForm = () => {
       first_address: address1,
       second_address: address2,
       state: state,
+      country: currentCountry,
       index: Number(zipIndex),
     };
-    data.country = country === '' ? null : country;
 
     setIsLoading(true);
 
-    editSuppliers(window.location.hostname, cookies.token, id, data)
-      .then(() => {
-        goToContacts();
-      })
-      .catch((err) => {
-        console.log('setSuppliersError', err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    contact
+      ? editCompanyInfoForm(window.location.hostname, cookies.token, data, contact.id)
+          .then(() => {
+            goToCompany();
+          })
+          .catch((err: AxiosError) => {
+            console.log('setSuppliersError', err);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          })
+      : createCompanyInfoForm(window.location.hostname, cookies.token, data)
+          .then(() => {
+            goToCompany();
+          })
+          .catch((err: AxiosError) => {
+            console.log('setSuppliersError', err);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
   };
 
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -137,25 +122,54 @@ export const EditContactForm = () => {
     setZipIndexError(null);
   };
 
-  const deleteContact = () => {
-    setIsLoading(true);
-
-    deleteSuppliers(window.location.hostname, cookies.token, id)
-      .then(() => {
-        goToContacts();
-      })
-      .catch((err) => {
-        console.log('setSuppliersError', err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+  const changeCountryHandler = (country: string | null) => {
+    setCountry(country);
+    setCountryError(null);
   };
+
+  useEffect(() => {
+    dispatch(
+      getCompanies({
+        token: cookies.token,
+        hostname: window.location.hostname,
+      })
+    );
+    dispatch(
+      getCompanyInfoForForm({
+        token: cookies.token,
+        hostname: window.location.hostname,
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    console.log('companyInfoForm', companyInfoForm);
+    setContact(companyInfoForm[0]);
+  }, [companyInfoForm]);
+
+  useEffect(() => {
+    console.log('contact', contact);
+    if (contact) {
+      const previousCountry = countryData.find((item) => item.code === contact.country);
+
+      contact.name_company && setName(contact.name_company);
+      contact.contact_email && setEmail(contact.contact_email);
+      contact.website && setWebsite(contact.website);
+      contact.city && setCity(contact.city);
+      contact.contact_mobile_phone && setMobile(contact.contact_mobile_phone);
+      contact.contact_phone && setPhone(contact.contact_phone);
+      contact.first_address && setAddress1(contact.first_address);
+      contact.second_address && setAddress2(contact.second_address);
+      contact.state && setState(contact.state);
+      contact.index && setZipIndex(contact.index.toString());
+      previousCountry && setCountry(previousCountry.name);
+    }
+  }, [contact]);
 
   return (
     <div className={style.container}>
       <div className={style.breadcrumbs}>
-        <span className={style.breadcrumbs_active} onClick={goToContacts}>
+        <span className={style.breadcrumbs_active} onClick={goToCompany}>
           Company
         </span>
         <span>{' / '}</span>
@@ -164,32 +178,20 @@ export const EditContactForm = () => {
 
       <div className={style.title_box}>
         <div className={style.title_go_back}>
-          <h2>Edit Contact</h2>
-          <GoBack className={style.arrow_go_back} onClick={goToContacts} />
+          <h2>Edit Company</h2>
+          <GoBack className={style.arrow_go_back} onClick={goToCompany} />
         </div>
 
         <div className={style.control_box}>
-          <Button
-            className={style.settings_icon}
-            IconLeft={Settings}
-            text="Action"
-            variant={'text'}
-            onClick={() => {
-              setIsShowActions(true);
-            }}
-          />
           <Button text="Save" onClick={() => editContact()} disabled={isLoading} />
         </div>
-        {isShowActions && (
-          <ActionList deleteAction={deleteContact} hideList={() => setIsShowActions(false)} />
-        )}
       </div>
 
       <ContactForm
         name={name}
         email={email}
         city={city}
-        setCountry={setCountry}
+        changeCountryHandler={changeCountryHandler}
         setWebsite={setWebsite}
         changeZipIndexHandler={changeZipIndexHandler}
         address1={address1}
@@ -211,6 +213,7 @@ export const EditContactForm = () => {
         website={website}
         zipIndex={zipIndex}
         zipIndexError={zipIndexError}
+        countryError={countryError}
       />
     </div>
   );

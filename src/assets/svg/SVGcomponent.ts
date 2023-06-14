@@ -52,6 +52,7 @@ import { ReactComponent as ArrowJustLeft } from './arrowJustLeft.svg';
 import { ReactComponent as NoVideo } from './noVideo.svg';
 import { ReactComponent as DeleteWhite } from './deleteWhite.svg';
 import { ReactComponent as NoVideoBig } from './noVideoBig.svg';
+import { ReactComponent as GoBack } from './goBack.svg';
 
 export {
   Algorithm,
@@ -106,6 +107,7 @@ export {
   CrossWhite,
   ArrowJustLeft,
   NoVideo,
+  GoBack,
   DeleteWhite,
   NoVideoBig,
 };

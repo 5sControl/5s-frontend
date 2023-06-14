@@ -6,7 +6,8 @@ import { getCameraZones, patchCameraZones, postCameraZones } from '../../../../a
 import { useCookies } from 'react-cookie';
 import { NoVideoBig } from '../../../../assets/svg/SVGcomponent';
 import { getWorkplaceList } from '../../../../api/orderView';
-
+import { Preloader } from '../../../../components/preloader';
+import { Notification } from '../../../../components/notification/notification';
 export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [coords, setCoords] = useState([]);
   const [itemName, setItemName] = useState('');
@@ -17,6 +18,8 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [workplaceList, setWorkplaceList] = useState([]);
   const [workplaceToSend, setWorkplaceToSend] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [preloader, setPreloader] = useState(false);
+  const [message, setMessage] = useState(false);
 
   const updatingHandler = () => {
     setUpdating(!updating);
@@ -25,9 +28,9 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const getZone = () => {
     getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
       .then((res) => {
-        console.log(res);
         setCameraZones(res.data);
-        setCurrentZoneId(-1);
+        setCurrentZoneId(-2);
+        setCoords([]);
       })
       .catch((err) => {
         console.log(err);
@@ -45,13 +48,29 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
       body.workplace = workplaceToSend.operationName;
     }
     if (currentZoneId === -1) {
-      postCameraZones(window.location.hostname, cookie.token, body).then(() => {
-        getZone();
-      });
+      setPreloader(true);
+      postCameraZones(window.location.hostname, cookie.token, body)
+        .then(() => {
+          getZone();
+          setPreloader(false);
+          setMessage({ status: 'true', message: 'Zone is save' });
+        })
+        .catch((error) => {
+          console.log(error);
+          setMessage({ status: 'false', message: 'Zone not save' });
+        });
     } else {
-      patchCameraZones(window.location.hostname, cookie.token, body, currentZoneId).then(() => {
-        getZone();
-      });
+      setPreloader(true);
+      patchCameraZones(window.location.hostname, cookie.token, body, currentZoneId)
+        .then(() => {
+          getZone();
+          setPreloader(false);
+          setMessage({ status: 'true', message: 'Zone is save' });
+        })
+        .catch((error) => {
+          console.log(error);
+          setMessage({ status: 'false', message: 'Zone not save' });
+        });
     }
   };
 
@@ -70,16 +89,23 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   }, [updating]);
 
   useEffect(() => {
+    if (message) {
+      setTimeout(() => {
+        setMessage(false);
+      }, 2000);
+    }
+  }, [message]);
+
+  useEffect(() => {
     const buf = cameraZones.filter((el) => el.id === currentZoneId);
-    console.log(buf);
-    console.log(cameraZones, currentZoneId);
     if (buf.length > 0) {
       const sendWork = workplaceList.filter((el) => el.id === buf[0].index_workplace);
       setItemName(buf[0].name);
       if (currentZoneId > 0 && sendWork && sendWork.length > 0) {
         setWorkplaceToSend({
-          name: sendWork[0].operationName,
+          operationName: sendWork[0].operationName,
           id: sendWork[0].id,
+          comboBoxName: `${sendWork[0].operationName} (${sendWork[0].id})`,
         });
       } else {
         setWorkplaceToSend(false);
@@ -87,7 +113,6 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
     }
   }, [currentZoneId]);
 
-  console.log(workplaceToSend);
   return (
     <>
       {isCreateCamera ? (
@@ -123,6 +148,12 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
           </div>
         </div>
       )}
+      {preloader && (
+        <div className={styles.preloader}>
+          <Preloader />
+        </div>
+      )}
+      {message && <Notification status={message.status} message={message.message} />}
     </>
   );
 };

@@ -8,6 +8,7 @@ import { InventoryReport } from './components/InventoryReport';
 import {
   getCamerasAsync,
   getInventoryItemHistoryAsync,
+  getIsFullOwnCompanyInfo,
   getSMTPConnect,
   selectInventory,
 } from './inventorySlice';
@@ -39,6 +40,7 @@ export const Inventory: React.FC = () => {
   useEffect(() => {
     dispatch(getCamerasAsync({ token: cookies.token, hostname: window.location.hostname }));
     dispatch(getSMTPConnect({ token: cookies.token, hostname: window.location.hostname }));
+    dispatch(getIsFullOwnCompanyInfo({ token: cookies.token, hostname: window.location.hostname }));
   }, []);
 
   useEffect(() => {

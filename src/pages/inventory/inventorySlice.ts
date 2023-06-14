@@ -4,6 +4,9 @@ import { getInventoryItemHistory, getInventoryItems } from './inventoryAPI';
 import { getSelectedCameras } from '../../api/cameraRequest';
 import { Camera, InventoryHistory, InventoryItem } from './types';
 import { getNotificationSettings } from '../../api/notificationRequest';
+import { getCompanyInfoForm } from '../../api/companyRequest';
+import { AxiosResponse } from 'axios';
+import { ContactInfoType } from '../company/types';
 
 interface Inventory {
   isLoading: boolean;
@@ -16,6 +19,7 @@ interface Inventory {
   camerasData: Array<{ id: string; text: string }> | null;
   errorOfgetCameras: boolean;
   isSMTPServerConnect: boolean;
+  isFullOwnCompanyInfo: boolean;
 }
 
 const initialState: Inventory = {
@@ -29,13 +33,13 @@ const initialState: Inventory = {
   camerasData: null,
   errorOfgetCameras: false,
   isSMTPServerConnect: false,
+  isFullOwnCompanyInfo: false,
 };
 
 export const getInventoryItemsAsync = createAsyncThunk(
   'getInventoryItems',
   async (data: { token: string; hostname: string; isSort: boolean }) => {
     const response: any = await getInventoryItems(data.hostname, data.token, data.isSort);
-    console.log(response);
     if (response.data) {
       return response.data;
     }
@@ -59,10 +63,9 @@ export const getCamerasAsync = createAsyncThunk(
   async (data: { token: string; hostname: string }) => {
     const response = await getSelectedCameras(data.hostname, data.token);
     if (response.data) {
-      const cameras = response.data.map((item: Camera) => {
+      return response.data.map((item: Camera) => {
         return { text: item.name, id: item.id };
       });
-      return cameras;
     }
     return null;
   }
@@ -73,6 +76,27 @@ export const getSMTPConnect = createAsyncThunk(
   async (data: { token: string; hostname: string }) => {
     const response = await getNotificationSettings(data.hostname, data.token);
     return !!(response.data && response.data.length > 0 && response.data[0].server);
+  }
+);
+
+export const getIsFullOwnCompanyInfo = createAsyncThunk(
+  'getIsFullOwnCompanyInfo',
+  async (data: { token: string; hostname: string }) => {
+    const response: AxiosResponse<ContactInfoType[]> = await getCompanyInfoForm(
+      data.hostname,
+      data.token
+    );
+    const info = response.data[0];
+
+    return (
+      !!info.name_company &&
+      !!info.first_address &&
+      !!info.city &&
+      !!info.state &&
+      !!info.country &&
+      !!info.contact_phone &&
+      !!info.contact_email
+    );
   }
 );
 
@@ -116,6 +140,9 @@ const inventoryPage = createSlice({
     });
     builder.addCase(getSMTPConnect.fulfilled, (state, action) => {
       state.isSMTPServerConnect = action.payload;
+    });
+    builder.addCase(getIsFullOwnCompanyInfo.fulfilled, (state, action) => {
+      state.isFullOwnCompanyInfo = action.payload;
     });
   },
 });

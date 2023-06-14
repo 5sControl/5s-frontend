@@ -42,7 +42,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
       showCross
       showSubstrateCross
     >
-      {operationData.status && operationData?.video.file_name ? (
+      {operationData.video && operationData.video.status && operationData?.video.file_name ? (
         <ReactPlayer
           ref={playerRef}
           width="100%"
