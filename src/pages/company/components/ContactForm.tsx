@@ -6,6 +6,7 @@ import { ArrowDown } from '../../../assets/svg/SVGcomponent';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { companyState, getCountries } from '../companySlice';
 import { useCookies } from 'react-cookie';
+import { SelectCover } from './cover/SelectCover';
 
 type PropsType = {
   name: string | null;
@@ -105,6 +106,8 @@ export const ContactForm: React.FC<PropsType> = ({
             errorMessage={nameError}
           />
         </div>
+
+        <SelectCover />
       </section>
 
       <div className={style.second_Line}>
