@@ -14,7 +14,8 @@ function getDuration(milli) {
   let minutes = Math.floor(milli / 60000);
   let hours = Math.round(minutes / 60);
   let days = Math.round(hours / 24);
-  return days * 400;
+  let size = days > 1 ? 400 : window.innerHeight - 300;
+  return days * size;
 }
 
 const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) => {
@@ -195,7 +196,6 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
               <Preloader />
             </div>
           )}
-
           <>
             {!preloader && update.length > 0 && data.length > 0 && (
               <div className={styles.content}>
