@@ -38,7 +38,7 @@ interface ReportState {
 
 const currentDate = new Date();
 const lastWeek = new Date();
-lastWeek.setDate(currentDate.getDate() - 7);
+lastWeek.setDate(currentDate.getDate());
 const startDateDefault = lastWeek.toISOString();
 
 const initialState: ReportState = {
