@@ -2,6 +2,7 @@ import axios from 'axios';
 import { proxy } from './api';
 
 const API_COMPANYINFO = 'api/company/info/';
+const API_COMPANYINFO_FORM = 'api/company/company/';
 const API_COMPANY_SUBS_INFO = 'api/company/get_info/';
 const API_CREATELICENSE = 'api/company/create_license/';
 const API_REGISTRATION = 'api/employees/create/';
@@ -10,6 +11,7 @@ const API_USERLIST = 'api/employees/';
 const API_VERIFYTOKEN = 'auth/jwt/verify/';
 const API_SYSTEMMESSAGE = 'api/core/system-message/';
 const API_SUPPLIERS = 'api/suppliers/company/';
+const API_COUNTRIES = 'api/suppliers/countries/';
 
 export const authorizationRequest = (hostname, email, password) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
@@ -51,6 +53,74 @@ export const getCompanyInfo = (hostname, cookies) => {
   } else {
     return axios.get(`http://${hostname}/${API_COMPANYINFO}`, {
       headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const getCompanyInfoForm = (hostname, cookies) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(process.env.REACT_APP_NGROK + API_COMPANYINFO_FORM, 'GET', {
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_COMPANYINFO_FORM}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_COMPANYINFO_FORM}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const createCompanyInfoForm = (hostname, cookies, data) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.post(process.env.REACT_APP_NGROK + API_COMPANYINFO_FORM, 'POST', data, {
+      'Content-Type': 'application/json',
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_COMPANYINFO_FORM}`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.post(`http://${hostname}/${API_COMPANYINFO_FORM}`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const editCompanyInfoForm = (hostname, cookies, data, id) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.put(`${process.env.REACT_APP_NGROK + API_COMPANYINFO_FORM}${id}/`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.put(`${process.env.REACT_APP_IP_SERVER}${API_COMPANYINFO_FORM}${id}/`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.put(`http://${hostname}/${API_COMPANYINFO_FORM}${id}/`, data, {
+      headers: {
+        'Content-Type': 'application/json',
         Authorization: cookies,
       },
     });
@@ -326,6 +396,26 @@ export const deleteSuppliers = (hostname, cookies, id) => {
     return axios.delete(`http://${hostname}/${API_SUPPLIERS}${id}/`, {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const getCountriesList = (hostname, cookies) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(process.env.REACT_APP_NGROK + API_COUNTRIES, 'GET', {
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_COUNTRIES}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_COUNTRIES}`, {
+      headers: {
         Authorization: cookies,
       },
     });

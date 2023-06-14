@@ -1,9 +1,36 @@
 import './Company.scss';
 import { Tab, Tabs } from '../../components/tabs';
 import { tabsData } from './config';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import { useAppDispatch } from '../../store/hooks';
+import { getCompanies, getCompanyInfoForForm, getCountries } from './companySlice';
 
 export const Company: FC<{ activeTab: number }> = ({ activeTab }) => {
+  const [cookies] = useCookies(['token']);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(
+      getCountries({
+        token: cookies.token,
+        hostname: window.location.hostname,
+      })
+    );
+    dispatch(
+      getCompanies({
+        token: cookies.token,
+        hostname: window.location.hostname,
+      })
+    );
+    dispatch(
+      getCompanyInfoForForm({
+        token: cookies.token,
+        hostname: window.location.hostname,
+      })
+    );
+  }, []);
+
   return (
     <>
       <div className="company">

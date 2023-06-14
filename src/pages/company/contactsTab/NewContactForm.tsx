@@ -1,25 +1,32 @@
 import React, { ChangeEvent, useState } from 'react';
-import { Input } from '../../../components/input';
 import style from './contacts.module.scss';
-import { SelectBase } from '../../../components/selectBase';
 import { createSuppliers } from '../../../api/companyRequest';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { Button } from '../../../components/button';
 import { ContactInfoType } from '../types';
+import { GoBack } from '../../../assets/svg/SVGcomponent';
+import ContactForm from '../components/ContactForm';
+import { EMAIL_REGEXP } from '../config';
 
 export const NewContactForm = () => {
   const navigate = useNavigate();
   const [cookies] = useCookies(['token']);
-  const [name, setName] = useState('');
+
+  const [name, setName] = useState<string | null>(null);
   const [nameError, setNameError] = useState<string | null>(null);
-  const [address1, setAddress1] = useState('');
-  const [address2, setAddress2] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [website, setWebsite] = useState('');
-  const [city, setCity] = useState('');
+  const [address1, setAddress1] = useState<string | null>(null);
+  const [address2, setAddress2] = useState<string | null>(null);
+  const [mobile, setMobile] = useState<string | null>(null);
+  const [phone, setPhone] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [website, setWebsite] = useState<string | null>(null);
+  const [city, setCity] = useState<string | null>(null);
+  const [country, setCountry] = useState<string | null>(null);
+  const [zipIndex, setZipIndex] = useState<string | null>(null);
+  const [zipIndexError, setZipIndexError] = useState<string | null>(null);
+  const [state, setState] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const goToContacts = () => {
@@ -27,8 +34,20 @@ export const NewContactForm = () => {
   };
 
   const createContact = () => {
-    if (name.length < 1) {
+    if (!name || name.length < 1) {
       setNameError('Name field is required');
+      return;
+    }
+    if (!email || email.length < 1) {
+      setEmailError('Name field is required');
+      return;
+    }
+    if (!EMAIL_REGEXP.test(email)) {
+      setEmailError('Email is not correct');
+      return;
+    }
+    if (zipIndex && (!/^[\d]*$/.test(zipIndex) || zipIndex.length > 9)) {
+      setZipIndexError('ZIP index is not correct');
       return;
     }
     const data: ContactInfoType = {
@@ -38,7 +57,13 @@ export const NewContactForm = () => {
       city: city,
       contact_phone: phone,
       contact_mobile_phone: mobile,
+      first_address: address1,
+      second_address: address2,
+      state: state,
+      index: Number(zipIndex),
     };
+    data.country = country === '' ? null : country;
+
     setIsLoading(true);
 
     createSuppliers(window.location.hostname, cookies.token, data)
@@ -58,6 +83,16 @@ export const NewContactForm = () => {
     setNameError(null);
   };
 
+  const changeEmailHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    setEmailError(null);
+  };
+
+  const changeZipIndexHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setZipIndex(e.target.value);
+    setZipIndexError(null);
+  };
+
   return (
     <div className={style.container}>
       <div className={style.breadcrumbs}>
@@ -69,122 +104,42 @@ export const NewContactForm = () => {
       </div>
 
       <div className={style.title_box}>
-        <h2>New Contact</h2>
+        <div className={style.title_go_back}>
+          <h2>New Contact</h2>
+          <GoBack className={style.arrow_go_back} onClick={goToContacts} />
+        </div>
         <div className={style.control_box}>
           <Button text="Done" onClick={() => createContact()} disabled={isLoading} />
         </div>
       </div>
 
-      <div className={style.form_container}>
-        <section className={style.name_section}>
-          <div className={style.name_input_wrap}>
-            <Input
-              id={'name'}
-              name={'name'}
-              type="text"
-              value={name}
-              onChange={changeNameHandler}
-              placeholder={'Enter name'}
-              className={style.input_style}
-              label={'Name'}
-              required
-              errorMessage={nameError}
-            />
-          </div>
-        </section>
-
-        <div className={style.second_Line}>
-          <section className={style.address_section}>
-            <Input
-              id={'address1'}
-              name={'address1'}
-              type="text"
-              value={address1}
-              onChange={(e) => setAddress1(e.target.value)}
-              placeholder={'Enter street 1...'}
-              className={style.input_style}
-              label={'Address'}
-            />
-            <Input
-              id={'address2'}
-              name={'address2'}
-              type="text"
-              value={address2}
-              onChange={(e) => setAddress2(e.target.value)}
-              placeholder={'Enter street 2...'}
-              className={style.input_style}
-            />
-
-            <div className={style.three_input_box}>
-              <Input
-                id={'city'}
-                name={'city'}
-                type="text"
-                placeholder={'Enter city'}
-                className={style.input_style}
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-              />
-              <SelectBase
-                id={'state'}
-                name={'state'}
-                listOfData={[{ id: 0, text: 'Enter state' }]}
-                className={style.select_style}
-                disabled
-              />
-              <input type="file" disabled />
-            </div>
-
-            <SelectBase
-              id="country"
-              name="country"
-              listOfData={[{ id: 0, text: 'Enter country' }]}
-              className={style.select_style}
-              disabled
-            />
-          </section>
-
-          <section className={style.contacts_section}>
-            <Input
-              id={'phone'}
-              name={'phone'}
-              type="text"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder={'Enter phone'}
-              className={style.input_style}
-              label={'Contacts'}
-            />
-            <Input
-              id={'mobile'}
-              name={'mobile'}
-              type="text"
-              value={mobile}
-              onChange={(e) => setMobile(e.target.value)}
-              placeholder={'Enter mobile'}
-              className={style.input_style}
-            />
-            <Input
-              id={'email'}
-              name={'email'}
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={'Enter email'}
-              className={style.input_style}
-            />
-            <Input
-              id={'website'}
-              name={'website'}
-              type="text"
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-              placeholder={'Enter website'}
-              className={style.input_style}
-            />
-          </section>
-        </div>
-      </div>
+      <ContactForm
+        name={name}
+        email={email}
+        city={city}
+        setCountry={setCountry}
+        setWebsite={setWebsite}
+        changeEmailHandler={changeEmailHandler}
+        address1={address1}
+        address2={address2}
+        changeNameHandler={changeNameHandler}
+        country={country}
+        mobile={mobile}
+        nameError={nameError}
+        emailError={emailError}
+        phone={phone}
+        setAddress1={setAddress1}
+        setAddress2={setAddress2}
+        setCity={setCity}
+        changeZipIndexHandler={changeZipIndexHandler}
+        setMobile={setMobile}
+        setPhone={setPhone}
+        setState={setState}
+        state={state}
+        website={website}
+        zipIndex={zipIndex}
+        zipIndexError={zipIndexError}
+      />
     </div>
   );
 };

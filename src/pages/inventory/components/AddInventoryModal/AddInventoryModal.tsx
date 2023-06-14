@@ -35,7 +35,8 @@ export const AddInventoryModal: React.FC<PropsType> = ({
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { camerasData, isSMTPServerConnect } = useAppSelector(selectInventory);
+  const { camerasData, isSMTPServerConnect, isFullOwnCompanyInfo } =
+    useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
   const [coords, setCoords] = useState<Coordinat[]>([]);
   const [isClose, setIsClose] = useState<any>(false);
@@ -73,6 +74,11 @@ export const AddInventoryModal: React.FC<PropsType> = ({
         console.log('setCompanyInfoError', err);
       });
   }, []);
+
+  useEffect(() => {
+    !isSMTPServerConnect && setIsAutomaticallyOrder(false);
+    !isFullOwnCompanyInfo && setIsAutomaticallyOrder(false);
+  }, [isSMTPServerConnect, isFullOwnCompanyInfo]);
 
   const submitHandler = () => {
     const dataForm = {
@@ -235,7 +241,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
               )}
             </h2>
 
-            {isSMTPServerConnect && (
+            {isSMTPServerConnect && isFullOwnCompanyInfo && (
               <div className={styles.algorithm__toggle}>
                 <span>Automatically order</span>
                 <div
@@ -256,6 +262,15 @@ export const AddInventoryModal: React.FC<PropsType> = ({
                   Set up{' '}
                 </span>
                 <span>SMTP server.</span>
+              </div>
+            )}
+
+            {!isFullOwnCompanyInfo && (
+              <div className={styles.no_info_for_suppliers}>
+                <span className={styles.no_info_link} onClick={() => navigate('/company')}>
+                  Fill in{' '}
+                </span>
+                <span>info about your company (Address, Phone and Email are required).</span>
               </div>
             )}
           </div>
