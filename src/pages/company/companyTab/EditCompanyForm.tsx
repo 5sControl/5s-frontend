@@ -10,7 +10,7 @@ import { companyState, getCompanies, getCompanyInfoForForm } from '../companySli
 import ContactForm from '../components/ContactForm';
 import { EMAIL_REGEXP } from '../config';
 import { AxiosError } from 'axios';
-import { editCompanyInfoForm } from '../../../api/companyRequest';
+import { createCompanyInfoForm, editCompanyInfoForm } from '../../../api/companyRequest';
 
 export const EditCompanyForm = () => {
   const navigate = useNavigate();
@@ -29,6 +29,7 @@ export const EditCompanyForm = () => {
   const [website, setWebsite] = useState<string | null>(null);
   const [city, setCity] = useState<string | null>(null);
   const [country, setCountry] = useState<string | null>(null);
+  const [countryError, setCountryError] = useState<string | null>(null);
   const [zipIndex, setZipIndex] = useState<string | null>(null);
   const [zipIndexError, setZipIndexError] = useState<string | null>(null);
   const [state, setState] = useState<string | null>(null);
@@ -46,6 +47,10 @@ export const EditCompanyForm = () => {
     }
     if (!email || email.length < 1) {
       setEmailError('Name field is required');
+      return;
+    }
+    if (!country || country.length < 1) {
+      setCountryError('Country field is required');
       return;
     }
     if (!EMAIL_REGEXP.test(email)) {
@@ -79,16 +84,27 @@ export const EditCompanyForm = () => {
 
     setIsLoading(true);
 
-    editCompanyInfoForm(window.location.hostname, cookies.token, data, contact.id)
-      .then(() => {
-        goToCompany();
-      })
-      .catch((err: AxiosError) => {
-        console.log('setSuppliersError', err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    contact
+      ? editCompanyInfoForm(window.location.hostname, cookies.token, data, contact.id)
+          .then(() => {
+            goToCompany();
+          })
+          .catch((err: AxiosError) => {
+            console.log('setSuppliersError', err);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          })
+      : createCompanyInfoForm(window.location.hostname, cookies.token, data)
+          .then(() => {
+            goToCompany();
+          })
+          .catch((err: AxiosError) => {
+            console.log('setSuppliersError', err);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
   };
 
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -104,6 +120,11 @@ export const EditCompanyForm = () => {
   const changeZipIndexHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setZipIndex(e.target.value);
     setZipIndexError(null);
+  };
+
+  const changeCountryHandler = (country: string | null) => {
+    setCountry(country);
+    setCountryError(null);
   };
 
   useEffect(() => {
@@ -170,7 +191,7 @@ export const EditCompanyForm = () => {
         name={name}
         email={email}
         city={city}
-        setCountry={setCountry}
+        changeCountryHandler={changeCountryHandler}
         setWebsite={setWebsite}
         changeZipIndexHandler={changeZipIndexHandler}
         address1={address1}
@@ -192,6 +213,7 @@ export const EditCompanyForm = () => {
         website={website}
         zipIndex={zipIndex}
         zipIndexError={zipIndexError}
+        countryError={countryError}
       />
     </div>
   );

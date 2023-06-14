@@ -95,6 +95,18 @@
   }
 }
 
+.title_contacts_box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  h2 {
+    padding: 0;
+    @include h2;
+    color: var(--HightEmphasis);
+  }
+}
+
 .contacts_box {
   display: flex;
   flex-flow: row wrap;
@@ -174,5 +186,27 @@
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
+  }
+}
+
+.combobox_style_error {
+  & > div:nth-child(1) {
+    color: var(--Red) !important;
+    border: 1px solid var(--Red) !important;
+    ::placeholder {
+      color: var(--Red) !important;
+    }
+  }
+}
+
+.combobox_container {
+  position: relative;
+
+  .combobox_error_message {
+    position: absolute;
+    bottom: -24px;
+    left: 0;
+    @include caption;
+    color: var(--Red);
   }
 }

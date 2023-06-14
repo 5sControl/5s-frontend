@@ -25,7 +25,7 @@ export const Contacts: FC = () => {
   return (
     <>
       <div className="contacts">
-        <div className="cameras__title">
+        <div className={style.title_contacts_box}>
           <h2>Contacts</h2>
           <Button
             text="Add Contact"

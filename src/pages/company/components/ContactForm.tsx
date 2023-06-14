@@ -22,6 +22,7 @@ type PropsType = {
   emailError: string | null;
   website: string | null;
   zipIndexError: string | null;
+  countryError?: string | null;
 
   changeNameHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   changeEmailHandler: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -33,7 +34,8 @@ type PropsType = {
   setPhone: (data: string | null) => void;
   setMobile: (data: string | null) => void;
   setWebsite: (data: string | null) => void;
-  setCountry: (country: string | null) => void;
+  changeCountryHandler?: (country: string | null) => void;
+  setCountry?: (country: string | null) => void;
 };
 
 export const ContactForm: React.FC<PropsType> = ({
@@ -62,6 +64,8 @@ export const ContactForm: React.FC<PropsType> = ({
   zipIndexError,
   changeEmailHandler,
   changeZipIndexHandler,
+  changeCountryHandler,
+  countryError,
 }) => {
   const dispatch = useAppDispatch();
   const [cookies] = useCookies(['token']);
@@ -155,17 +159,25 @@ export const ContactForm: React.FC<PropsType> = ({
               errorMessage={zipIndexError}
             />
           </div>
-
-          <Combobox
-            data={countryList}
-            placeholder="Enter country"
-            hideEmptyPopup
-            value={country}
-            onChange={(value) => setCountry(value)}
-            onSelect={(value) => setCountry(value)}
-            className={style.combobox_style}
-            selectIcon={<ArrowDown />}
-          />
+          <div className={style.combobox_container}>
+            <Combobox
+              data={countryList}
+              placeholder="Enter country"
+              hideEmptyPopup
+              value={country}
+              onChange={(value) => {
+                setCountry && setCountry(value);
+                changeCountryHandler && changeCountryHandler(value);
+              }}
+              onSelect={(value) => {
+                setCountry && setCountry(value);
+                changeCountryHandler && changeCountryHandler(value);
+              }}
+              className={`${style.combobox_style} ${countryError && style.combobox_style_error}`}
+              selectIcon={<ArrowDown />}
+            />
+            {countryError && <span className={style.combobox_error_message}>{countryError}</span>}
+          </div>
         </section>
 
         <section className={style.contacts_section}>
