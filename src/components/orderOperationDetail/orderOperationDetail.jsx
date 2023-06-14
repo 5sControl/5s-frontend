@@ -59,7 +59,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
                 ).valueOf()}&camera_ip=${operationData.cameraIP}#t=${
                   operationData.video.video_start_from / 1000
                 }`
-              : `http://${window.location.hostname}/video?time=${new Date(
+              : `http://${window.location.hostname}:3456/video?time=${new Date(
                   operationData.sTime
                 ).valueOf()}&camera_ip=${operationData.cameraIP}#t=${
                   operationData.video.video_start_from / 1000
