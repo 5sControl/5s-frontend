@@ -19,7 +19,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [workplaceToSend, setWorkplaceToSend] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [preloader, setPreloader] = useState(false);
-  const [message, setMessage] = useState(true);
+  const [message, setMessage] = useState(false);
 
   const updatingHandler = () => {
     setUpdating(!updating);
