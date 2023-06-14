@@ -9,6 +9,7 @@ const API_CAMERACHECK = 'check_camera/';
 const API_CAMERAZONES = 'api/camera-algorithms/zone-cameras/';
 const API_ZONES = 'api/camera-algorithms/zone/';
 const API_ALGORITHMZONES = 'api/camera-algorithms/zones-algorithms/';
+const API_VIDEO = 'is_video_available/';
 
 export const getSelectedCameras = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
@@ -259,5 +260,22 @@ export const getAlgorithmZones = (hostname, cookies, camera) => {
         Authorization: cookies,
       },
     });
+  }
+};
+
+export const getVideo = (hostname, body) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.post(process.env.REACT_APP_PROXY, {
+      url: `${process.env.REACT_APP_NGROK + API_VIDEO}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(`http://192.168.1.110:3456/${API_VIDEO}`, body);
+  } else {
+    return axios.post(`http://${hostname}:3456/${API_VIDEO}`, body);
   }
 };

@@ -7,7 +7,7 @@ import { Button } from '../button';
 import noVideo from '../../assets/png/novideo.png';
 export const OrderOperationDetail = ({ operationData, handleClose }) => {
   const playerRef = useRef(null);
-
+  console.log(operationData);
   const handleReady = () => {
     playerRef.current.seekTo(30); // Начинаем с 30-й секунды
   };
@@ -93,7 +93,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
 
           <div className={styles.subtitle}>
             <span>{'Worker: '}</span>
-            <span className={styles.subtitle_value}>{operationData?.frtName}</span>&nbsp;
+            <span className={styles.subtitle_value}>{operationData?.frsName}</span>&nbsp;
             <span className={styles.subtitle_value}>{operationData?.lstName}</span>
           </div>
           <div className={styles.subtitle}>
