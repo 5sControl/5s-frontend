@@ -131,7 +131,8 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
             .attr('fill', '#f5f5f5')
             .attr('transform', (d, i) => {
               return `translate(0, ${(ind + 1) * (400 * proportion) + ind * 18} )`;
-            });
+            })
+            .attr('display', days > 0 ? 'block' : 'none');
         });
       });
 
