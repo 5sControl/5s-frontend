@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
-
+import { getOrderViewOperation } from '../../../../api/orderView';
 import { calculateTime } from '../../../../functions/calculateTimeDuration';
 import ImageSlider from '../../../../components/slider/slider';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
@@ -10,12 +10,12 @@ import {
   ViolintationFalse,
   ViolintationTrue,
 } from '../../../../assets/svg/SVGcomponent.ts';
-import { getOrderViewOperation } from '../../../../api/orderView';
 import { OrderOperationDetail } from '../../../../components/orderOperationDetail/orderOperationDetail';
 import { Modal } from '../../../../components/modal';
 import { Notification } from '../../../../components/notification/notification';
 
 import styles from './timeline.module.scss';
+import { getVideo } from '../../../../api/cameraRequest';
 
 export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => {
   const [timeLine, setTimeLine] = useState([]);
@@ -47,12 +47,60 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     }
   }, [currentReport]);
 
-  const operationClickHandler = (id) => {
-    getOrderViewOperation(window.location.hostname, '', id).then((res) => {
+  const operationClickHandler = (element) => {
+    const body = {
+      camera_ip: element.camera.id,
+      time: new Date(element.start_tracking).valueOf() + 10800000,
+    };
+    getOrderViewOperation(window.location.hostname, '', element.extra[0].skany_index).then(
+      (res) => {
+        if (Object.keys(res.data).length) {
+          let value = {
+            orId: res.data.orId,
+            frsName: res.data.frsName,
+            lstName: res.data.lstName,
+            elType: res.data.elType,
+            cameraIP: element.camera.id,
+          };
+
+          getVideo(window.location.hostname, body).then((res) => {
+            if (Object.keys(res.data).length) {
+              value = {
+                ...value,
+                sTime: new Date(element.start_tracking).valueOf() + 10800000,
+                eTime: new Date(element.stop_tracking).valueOf() + 10800000,
+                video: res.data,
+              };
+              setOperationOV(value);
+            } else {
+              setOperationOV(`Operation #${element.id} was not found in the database`);
+            }
+          });
+        } else {
+          setOperationOV(`Operation #${element.id} was not found in the database`);
+        }
+      }
+    );
+  };
+
+  const videoClickHandler = (element) => {
+    const body = {
+      camera_ip: element.camera.id,
+      time: new Date(element.start_tracking).valueOf() + 10800000,
+    };
+    console.log(body);
+    getVideo(window.location.hostname, body).then((res) => {
       if (Object.keys(res.data).length) {
-        setOperationOV(res.data);
+        const value = {
+          cameraIP: element.camera.id,
+          sTime: new Date(element.start_tracking).valueOf() + 10800000,
+          eTime: new Date(element.stop_tracking).valueOf() + 10800000,
+          video: res.data,
+        };
+        console.log(value);
+        setOperationOV(value);
       } else {
-        setOperationOV(`Operation #${id} was not found in the database`);
+        setOperationOV(`Operation #${element.id} was not found in the database`);
       }
     });
   };
@@ -140,7 +188,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     }
   }, [data]);
 
-  console.log(hoverItem);
   const onMove = (item, event) => {
     setHoverItem(item);
     setHoverPosition({
@@ -254,14 +301,21 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                 {parsingAlgorithmName(currentReport.algorithm.name)}
               </div>
 
-              {currentReport.extra && currentReport.extra.length > 0 && (
+              {currentReport.extra && currentReport.extra.length > 0 ? (
                 <div className={styles.fullscreen__footer_text}>
                   <span> Additional:&nbsp;</span>
                   <span
                     className={styles.link}
-                    onClick={() => operationClickHandler(currentReport.extra[0].skany_index)}
+                    onClick={() => operationClickHandler(currentReport)}
                   >
                     Open order operation details
+                  </span>
+                </div>
+              ) : (
+                <div className={styles.fullscreen__footer_text}>
+                  <span> Additional:&nbsp;</span>
+                  <span className={styles.link} onClick={() => videoClickHandler(currentReport)}>
+                    Check video
                   </span>
                 </div>
               )}

@@ -52,12 +52,12 @@
   line-height: 150%;
   color: #ffffff;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-
 }
+
 .close{
     position: absolute;
-    top:10px;
-    right: 10px;
+    top:0px;
+    right: -45px;
     padding: 11px;
     display: flex;
     align-items: center;

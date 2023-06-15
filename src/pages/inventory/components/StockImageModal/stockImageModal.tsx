@@ -6,13 +6,12 @@ import { selectActiveInventoryItem } from '../InventoryItemsList/InventoryItemsL
 import { setDateDot } from '../../../previewOrders/previewOrdersHelper';
 import { HistoryExtra, InventoryHistory } from '../../types';
 import { getExtraOfActiveData } from '../../helper';
-import { Сlosing } from '../../../../components/close';
 import { Scale } from '../../../../components/scale';
 import { useEffect, useState } from 'react';
 import { ZoomOut } from '../../../../components/zoomOut';
 import { selectInventory } from '../../inventorySlice';
 import { setCurrentReportData } from '../StockImageModal/stockImageModalSlice';
-import { Prev } from '../../../../assets/svg/SVGcomponent';
+import { CrossWhite, Prev } from '../../../../assets/svg/SVGcomponent';
 
 type PropsType = {
   isOpen: boolean;
@@ -99,7 +98,13 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   }, [handleClose]);
 
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal} noESC={fullImage}>
+    <Modal
+      isOpen={isOpen}
+      handleClose={handleClose}
+      className={styles.modal}
+      showSubstrateCross={true}
+      noESC={fullImage}
+    >
       <div
         className={styles.imageContainer}
         style={{
@@ -175,7 +180,6 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
           <div className={styles.subtitle}>
             <span>{'Low stock level: '}</span>
             <span className={styles.value}>
-              {' '}
               {setExtraOfActiveData(currentReport.extra).low_stock_level}
             </span>
           </div>
@@ -184,7 +188,9 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
             <span>{'Time: '}</span>
             <span className={styles.value}>{operationStart}</span>
           </div>
-          <Сlosing className={styles.close} onClick={handleClose} />
+          <div className={styles.close} onClick={handleClose}>
+            <CrossWhite />
+          </div>
         </div>
       </div>
       {fullImage && (

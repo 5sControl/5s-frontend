@@ -9,7 +9,8 @@ const Timeline = ({ minDate, maxDate }) => {
     let minutes = Math.floor(milli / 60000);
     let hours = Math.round(minutes / 60);
     let days = Math.round(hours / 24);
-    return days * 400;
+    let size = days > 1 ? 400 : window.innerHeight - 300;
+    return days * size;
   }
   const days = moment(maxDate).diff(minDate, 'days');
   const proportion = 1 - Math.abs((days * 10) / ((days + 1) * 24 - 10));
