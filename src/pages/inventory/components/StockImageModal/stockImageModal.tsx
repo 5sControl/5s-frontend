@@ -22,14 +22,13 @@ type PropsType = {
 export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, currentReport }) => {
   const dispatch = useAppDispatch();
   const operationStart =
-    currentReport.photos.length > 0 &&
-    currentReport.photos[0].date &&
-    setDateDot(moment(currentReport.photos[0].date).format('DD.MM.YYYY')) +
-      ' | ' +
-      moment.utc(currentReport.photos[0].date).utcOffset(moment().utcOffset()).format('LT');
+    setDateDot(moment(currentReport.start_tracking).format('DD.MM.YYYY')) +
+    ' | ' +
+    moment.utc(currentReport.start_tracking).utcOffset(moment().utcOffset()).format('LT');
 
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
 
+  console.log(currentReport);
   const setExtraOfActiveData = (extra: Array<HistoryExtra>) => {
     return getExtraOfActiveData(extra, activeInventoryItem);
   };
@@ -45,7 +44,6 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
 
   const disablaFullImage = () => {
     setFullImage(false);
-    console.log('dsdfsdf');
   };
   useEffect(() => {
     if (fullImage) {
@@ -97,6 +95,7 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
     };
   }, [handleClose]);
 
+  console.log(operationStart, 'sdfsdf');
   return (
     <Modal
       isOpen={isOpen}
@@ -177,12 +176,14 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
             <span className={styles.value}>{setExtraOfActiveData(currentReport.extra).count}</span>
           </div>
 
-          <div className={styles.subtitle}>
-            <span>{'Low stock level: '}</span>
-            <span className={styles.value}>
-              {setExtraOfActiveData(currentReport.extra).low_stock_level}
-            </span>
-          </div>
+          {setExtraOfActiveData(currentReport.extra).low_stock_level && (
+            <div className={styles.subtitle}>
+              <span>{'Low stock level: '}</span>
+              <span className={styles.value}>
+                {setExtraOfActiveData(currentReport.extra).low_stock_level}
+              </span>
+            </div>
+          )}
 
           <div className={styles.subtitle}>
             <span>{'Time: '}</span>
