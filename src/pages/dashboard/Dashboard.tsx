@@ -51,7 +51,6 @@ function Dashboard() {
       camerasURL.length > 0 ? camerasURL : 'camera'
     )
       .then((el) => {
-        console.log(el);
         el.data.detail === 'Authentication credentials were not provided.' ||
         el.data.detail === 'Given token not valid for any token type'
           ? setData(false)

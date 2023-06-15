@@ -8,7 +8,6 @@ import { useAppSelector, useAppDispatch } from '../../../../store/hooks';
 import styles from './reports.module.scss';
 
 export const ReportListItem = ({ item }) => {
-  console.log(item);
   const dispatch = useAppDispatch();
   const { currentReport } = useAppSelector(selectCurrentReport);
   return (

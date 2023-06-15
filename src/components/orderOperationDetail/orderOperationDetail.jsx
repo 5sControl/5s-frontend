@@ -7,7 +7,6 @@ import { Button } from '../button';
 import noVideo from '../../assets/png/novideo.png';
 export const OrderOperationDetail = ({ operationData, handleClose }) => {
   const playerRef = useRef(null);
-  console.log(operationData);
   const handleReady = () => {
     playerRef.current.seekTo(30); // Начинаем с 30-й секунды
   };

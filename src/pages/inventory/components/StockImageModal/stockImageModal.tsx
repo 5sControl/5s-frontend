@@ -44,7 +44,6 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
 
   const disablaFullImage = () => {
     setFullImage(false);
-    console.log('dsdfsdf');
   };
   useEffect(() => {
     if (fullImage) {

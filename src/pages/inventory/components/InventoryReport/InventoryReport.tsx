@@ -104,11 +104,7 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
 
   const glazik = async (activeItem: InventoryItem, cameraName: any) => {
     setShowGlazik({ activeItem: activeItem, cameraName: cameraName });
-    console.log(activeItem);
   };
-
-  console.log(camerasData);
-  console.log(inventoryItems);
   return (
     <>
       {currentEditItem && (

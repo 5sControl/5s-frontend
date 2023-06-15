@@ -20,7 +20,6 @@ export const Operation = ({ operation, x, y, onClose, setOperationOV }) => {
   const operationClickHandler = (id) => {
     getOrderViewOperation(window.location.hostname, '', id).then((res) => {
       if (Object.keys(res.data).length) {
-        console.log(res.data);
         setOperationOV(res.data);
       } else {
         setOperationOV(`Operation #${id} was not found in the database`);

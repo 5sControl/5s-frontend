@@ -80,7 +80,6 @@ export const Notifications = () => {
         .then(() => {
           getNotificationEmail(window.location.hostname, cookies.token)
             .then((res) => {
-              console.log(res.data);
               setEmails(res.data);
             })
             .catch((err) => {
