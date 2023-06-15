@@ -77,7 +77,13 @@ export const CurrentReport = () => {
             <div className={styles.report_item}>
               <span className={styles.legend}>Camera</span>
               <span className={styles.text}>
-                {currentReport.camera ? currentReport.camera.name : 'Deleted Camera'}
+                {currentReport.camera
+                  ? `${
+                      currentReport.extra && currentReport.extra.zoneName
+                        ? `${currentReport.camera.name} | ${currentReport.extra.zoneName}`
+                        : currentReport.camera.name
+                    }`
+                  : 'Deleted camera'}
               </span>
             </div>
             <div className={styles.report_item}>

@@ -62,13 +62,17 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
   };
 
   const clickHandler = (e, event) => {
-    getOrderViewOperation(window.location.hostname, '', e.id).then((response) => {
-      setOperation({
-        data: response.data,
-        x: event.pageX,
-        y: event.pageY,
+    if (e.cameraId) {
+      console.log(e);
+    } else {
+      getOrderViewOperation(window.location.hostname, '', e.id).then((response) => {
+        setOperation({
+          data: response.data,
+          x: event.pageX,
+          y: event.pageY,
+        });
       });
-    });
+    }
   };
 
   useEffect(() => {
@@ -118,7 +122,6 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
           .attr('y', 0)
           .attr('width', fieldWidth - 70)
           .attr('height', height)
-          .on('click', () => setOperation(false))
           .attr('fill', '#CCCCCC');
 
         dateArray.forEach((date, ind) => {
