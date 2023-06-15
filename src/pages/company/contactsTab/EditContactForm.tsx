@@ -37,7 +37,7 @@ export const EditContactForm = () => {
   const [contactsInfo, setContactsInfo] = useState<ContactInfoType[]>([]);
   const [contact, setContact] = useState<ContactInfoType>();
   const [isShowActions, setIsShowActions] = useState<boolean>(false);
-
+  const [logo, setLogo] = useState<File | string | null>(null);
   useEffect(() => {
     dispatch(
       getCompanies({
@@ -69,6 +69,7 @@ export const EditContactForm = () => {
       contact.second_address && setAddress2(contact.second_address);
       contact.state && setState(contact.state);
       contact.index && setZipIndex(contact.index.toString());
+      contact.logo && setLogo(contact.logo);
       previousCountry && setCountry(previousCountry.name);
     }
   }, [contact]);
@@ -107,6 +108,9 @@ export const EditContactForm = () => {
       index: Number(zipIndex),
     };
     data.country = country === '' ? null : country;
+    if (!(typeof logo === 'string')) {
+      data.logo = logo;
+    }
 
     setIsLoading(true);
 
@@ -211,6 +215,8 @@ export const EditContactForm = () => {
         website={website}
         zipIndex={zipIndex}
         zipIndexError={zipIndexError}
+        logo={logo}
+        setLogo={setLogo}
       />
     </div>
   );

@@ -28,6 +28,7 @@ export const NewContactForm = () => {
   const [zipIndexError, setZipIndexError] = useState<string | null>(null);
   const [state, setState] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [logo, setLogo] = useState<File | string | null>(null);
 
   const goToContacts = () => {
     navigate('/company/contacts/');
@@ -60,6 +61,7 @@ export const NewContactForm = () => {
       first_address: address1,
       second_address: address2,
       state: state,
+      logo: logo,
       index: Number(zipIndex),
     };
     data.country = country === '' ? null : country;
@@ -139,6 +141,8 @@ export const NewContactForm = () => {
         website={website}
         zipIndex={zipIndex}
         zipIndexError={zipIndexError}
+        logo={logo}
+        setLogo={setLogo}
       />
     </div>
   );
