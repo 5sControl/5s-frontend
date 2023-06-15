@@ -8,6 +8,7 @@ import { useAppSelector, useAppDispatch } from '../../../../store/hooks';
 import styles from './reports.module.scss';
 
 export const ReportListItem = ({ item }) => {
+  console.log(item);
   const dispatch = useAppDispatch();
   const { currentReport } = useAppSelector(selectCurrentReport);
   return (
@@ -30,7 +31,14 @@ export const ReportListItem = ({ item }) => {
 
           <div>{`# ${item.id}`}</div>
           <div>
-            <Camera /> {item.camera ? item.camera.name : 'Deleted camera'}
+            <Camera />{' '}
+            {item.camera
+              ? `${
+                  item.extra && item.extra.zoneName
+                    ? `${item.camera.name} | ${item.extra.zoneName}`
+                    : item.camera.name
+                }`
+              : 'Deleted camera'}
           </div>
           <div>
             <Algorithm style={{ fill: '#666666' }} />

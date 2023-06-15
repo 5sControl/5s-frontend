@@ -21,7 +21,7 @@ export type ContactInfoType = {
   date_edited?: string;
   date_joined?: string;
   file?: File | null;
-  logo?: string | null;
+  logo?: File | string | null;
   state?: string | null;
   country?: string | null;
   first_address?: string | null;

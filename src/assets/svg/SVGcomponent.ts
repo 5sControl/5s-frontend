@@ -53,6 +53,9 @@ import { ReactComponent as NoVideo } from './noVideo.svg';
 import { ReactComponent as DeleteWhite } from './deleteWhite.svg';
 import { ReactComponent as NoVideoBig } from './noVideoBig.svg';
 import { ReactComponent as GoBack } from './goBack.svg';
+import { ReactComponent as EditCover } from './addCompanyCover/editCover.svg';
+import { ReactComponent as AddCover } from './addCompanyCover/addCover.svg';
+import { ReactComponent as DeleteCover } from './addCompanyCover/deleteCover.svg';
 
 export {
   Algorithm,
@@ -110,4 +113,7 @@ export {
   GoBack,
   DeleteWhite,
   NoVideoBig,
+  EditCover,
+  AddCover,
+  DeleteCover,
 };

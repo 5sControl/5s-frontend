@@ -13,9 +13,16 @@
   cursor: pointer;
   align-items: center;
 
-  img {
+  .logo_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 58px;
     width: 64px;
+    .logo {
+      max-width: 100%;
+      max-height: 58px;
+    }
   }
 
   .infoContainer {

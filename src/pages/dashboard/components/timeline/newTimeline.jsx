@@ -9,7 +9,7 @@ import styles from './timeline.module.scss';
 
 export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => {
   const [algorithm, setAlgorithm] = useState([]);
-
+  const [zoneList, setZoneList] = useState([]);
   const [start, setStart] = useState(startTime);
   const [end, setEnd] = useState(endTime);
 
@@ -25,37 +25,57 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
           return [...new Set([...prev, curr.algorithm.name])];
         }, [])
       );
+      const zone = data.reduce((prev, curr) => {
+        return [...new Set([...prev, curr.extra?.zoneName])];
+      }, []);
+      // setZoneList(filteredArray);
+      setZoneList(['Camera', ...zone.filter((el) => el)]);
     }
   }, [data, start, end]);
+
+  console.log(zoneList);
   return (
     <>
-      {data.length > 0 && start && end && startDate && (
+      {data.length > 0 && start && end && startDate && zoneList && (
         <div className={styles.container}>
           <h1>{camera.name}</h1>
           <div>
             <div className={styles.camera}>
-              {algorithm.map((algorithm, id) => {
+              {zoneList.map((zona, index) => {
                 return (
-                  <div className={styles.algorithm} key={id}>
-                    <Timeline
-                      data={data.filter(
-                        (cam) =>
-                          cam.algorithm.name === algorithm &&
-                          new Date(`${startDate + ' ' + start}`) <
-                            new Date(
-                              moment.utc(cam.stop_tracking).utcOffset(moment().utcOffset())
-                            ) &&
-                          new Date(`${startDate + ' ' + end}`) >
-                            new Date(moment.utc(cam.start_tracking).utcOffset(moment().utcOffset()))
-                      )}
-                      startDate={startDate}
-                      algorithm={algorithm}
-                      startTime={start}
-                      endTime={end}
-                    />
-                  </div>
+                  <Fragment key={index}>
+                    <h1 className={styles.zoneName}>{zona}</h1>
+                    {algorithm.map((algorithm, id) => {
+                      return (
+                        <div className={styles.algorithm} key={id}>
+                          <Timeline
+                            data={data.filter(
+                              (cam) =>
+                                cam.algorithm.name === algorithm &&
+                                new Date(`${startDate + ' ' + start}`) <
+                                  new Date(
+                                    moment.utc(cam.stop_tracking).utcOffset(moment().utcOffset())
+                                  ) &&
+                                new Date(`${startDate + ' ' + end}`) >
+                                  new Date(
+                                    moment.utc(cam.start_tracking).utcOffset(moment().utcOffset())
+                                  ) &&
+                                ((zona === 'Camera' && !zoneList.includes(cam?.extra?.zoneName)) ||
+                                  zona === cam?.extra?.zoneName)
+                            )}
+                            startDate={startDate}
+                            algorithm={algorithm}
+                            startTime={start}
+                            endTime={end}
+                            zone={zona}
+                          />
+                        </div>
+                      );
+                    })}
+                  </Fragment>
                 );
               })}
+
               <div className={styles.timeline__line}>
                 <span
                   className={styles.timeline__zoomout}

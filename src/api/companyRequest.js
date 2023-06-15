@@ -82,20 +82,20 @@ export const getCompanyInfoForm = (hostname, cookies) => {
 export const createCompanyInfoForm = (hostname, cookies, data) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post(process.env.REACT_APP_NGROK + API_COMPANYINFO_FORM, 'POST', data, {
-      'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
       Authorization: cookies,
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_COMPANYINFO_FORM}`, data, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         Authorization: cookies,
       },
     });
   } else {
     return axios.post(`http://${hostname}/${API_COMPANYINFO_FORM}`, data, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         Authorization: cookies,
       },
     });
@@ -104,23 +104,23 @@ export const createCompanyInfoForm = (hostname, cookies, data) => {
 
 export const editCompanyInfoForm = (hostname, cookies, data, id) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.put(`${process.env.REACT_APP_NGROK + API_COMPANYINFO_FORM}${id}/`, data, {
+    return axios.patch(`${process.env.REACT_APP_NGROK + API_COMPANYINFO_FORM}${id}/`, data, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
         Authorization: cookies,
       },
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.put(`${process.env.REACT_APP_IP_SERVER}${API_COMPANYINFO_FORM}${id}/`, data, {
+    return axios.patch(`${process.env.REACT_APP_IP_SERVER}${API_COMPANYINFO_FORM}${id}/`, data, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
         Authorization: cookies,
       },
     });
   } else {
-    return axios.put(`http://${hostname}/${API_COMPANYINFO_FORM}${id}/`, data, {
+    return axios.patch(`http://${hostname}/${API_COMPANYINFO_FORM}${id}/`, data, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
         Authorization: cookies,
       },
     });
@@ -330,7 +330,7 @@ export const createSuppliers = (hostname, cookies, data) => {
       url: `${process.env.REACT_APP_NGROK + API_SUPPLIERS}`,
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         Authorization: cookies,
       },
       body: JSON.stringify(data),
@@ -338,14 +338,14 @@ export const createSuppliers = (hostname, cookies, data) => {
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_SUPPLIERS}`, data, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         Authorization: cookies,
       },
     });
   } else {
     return axios.post(`http://${hostname}/${API_SUPPLIERS}`, data, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         Authorization: cookies,
       },
     });
@@ -354,23 +354,23 @@ export const createSuppliers = (hostname, cookies, data) => {
 
 export const editSuppliers = (hostname, cookies, id, data) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.put(`${process.env.REACT_APP_NGROK + API_SUPPLIERS}${id}/`, data, {
+    return axios.patch(`${process.env.REACT_APP_NGROK + API_SUPPLIERS}${id}/`, data, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
         Authorization: cookies,
       },
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.put(`${process.env.REACT_APP_IP_SERVER}${API_SUPPLIERS}${id}/`, data, {
+    return axios.patch(`${process.env.REACT_APP_IP_SERVER}${API_SUPPLIERS}${id}/`, data, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
         Authorization: cookies,
       },
     });
   } else {
-    return axios.put(`http://${hostname}/${API_SUPPLIERS}${id}/`, data, {
+    return axios.patch(`http://${hostname}/${API_SUPPLIERS}${id}/`, data, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
         Authorization: cookies,
       },
     });
