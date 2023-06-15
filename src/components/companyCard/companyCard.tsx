@@ -14,7 +14,7 @@ export const CompanyCard: FC<Props> = ({ companyData, onClick }) => {
       <div className={style.logo_box}>
         <img
           className={style.logo}
-          src={typeof companyData.logo === 'string' ? companyData.logo : City}
+          src={typeof companyData?.logo === 'string' ? companyData.logo : City}
           alt="supplier logo"
         />
       </div>
