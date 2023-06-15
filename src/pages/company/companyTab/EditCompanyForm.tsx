@@ -35,6 +35,7 @@ export const EditCompanyForm = () => {
   const [state, setState] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [contact, setContact] = useState<ContactInfoType>(companyInfoForm[0]);
+  const [logo, setLogo] = useState<File | string | null>(null);
 
   const goToCompany = () => {
     navigate('/company/');
@@ -81,6 +82,9 @@ export const EditCompanyForm = () => {
       country: currentCountry,
       index: Number(zipIndex),
     };
+    if (!(typeof logo === 'string')) {
+      data.logo = logo;
+    }
 
     setIsLoading(true);
 
@@ -162,6 +166,7 @@ export const EditCompanyForm = () => {
       contact.second_address && setAddress2(contact.second_address);
       contact.state && setState(contact.state);
       contact.index && setZipIndex(contact.index.toString());
+      contact.logo && setLogo(contact.logo);
       previousCountry && setCountry(previousCountry.name);
     }
   }, [contact]);
@@ -214,6 +219,8 @@ export const EditCompanyForm = () => {
         zipIndex={zipIndex}
         zipIndexError={zipIndexError}
         countryError={countryError}
+        logo={logo}
+        setLogo={setLogo}
       />
     </div>
   );

@@ -3,8 +3,12 @@ import { AddCover, DeleteCover } from '../../../../assets/svg/SVGcomponent';
 import { SelectImage } from './SelectImage';
 import style from './cover.module.scss';
 
-export const SelectCover: FC = () => {
-  const [cover, setCover] = useState<File>();
+type Props = {
+  logo: File | string | null;
+  setLogo: (logo: File | string | null) => void;
+};
+
+export const SelectCover: FC<Props> = ({ logo, setLogo }) => {
   const [isHover, setIsHover] = useState<boolean>(false);
 
   return (
@@ -14,8 +18,12 @@ export const SelectCover: FC = () => {
       onMouseLeave={() => setIsHover(false)}
     >
       <div className={style.cover}>
-        {cover ? (
-          <img className={style.cover} src={URL.createObjectURL(cover)} alt="pack cover" />
+        {logo ? (
+          <img
+            className={style.cover}
+            src={typeof logo === 'string' ? logo : URL.createObjectURL(logo)}
+            alt="pack cover"
+          />
         ) : (
           <AddCover />
         )}
@@ -23,12 +31,10 @@ export const SelectCover: FC = () => {
 
       {isHover && (
         <>
-          {cover && (
-            <DeleteCover className={style.deleteCover} onClick={() => setCover(undefined)} />
-          )}
+          {logo && <DeleteCover className={style.deleteCover} onClick={() => setLogo(null)} />}
 
           <div className={style.editCover}>
-            <SelectImage setCover={setCover} />
+            <SelectImage setLogo={setLogo} />
           </div>
         </>
       )}

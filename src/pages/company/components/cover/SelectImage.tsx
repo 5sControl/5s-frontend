@@ -3,10 +3,10 @@ import { EditCover } from '../../../../assets/svg/SVGcomponent';
 import style from './cover.module.scss';
 
 export type SelectImagePropsType = {
-  setCover: (coverImg: File) => void;
+  setLogo: (logo: File | string | null) => void;
 };
 
-export const SelectImage: React.FC<SelectImagePropsType> = ({ setCover }) => {
+export const SelectImage: React.FC<SelectImagePropsType> = ({ setLogo }) => {
   const inpFile = useRef<HTMLInputElement | null>(null);
 
   const clearInputContent = () => {
@@ -18,10 +18,8 @@ export const SelectImage: React.FC<SelectImagePropsType> = ({ setCover }) => {
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       const file = e.target.files[0];
-
-      if (file.size < 5000000) {
-        setCover(file);
-      }
+      setLogo(file);
+      clearInputContent();
     }
   };
 

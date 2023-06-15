@@ -24,6 +24,7 @@ type PropsType = {
   website: string | null;
   zipIndexError: string | null;
   countryError?: string | null;
+  logo: File | string | null;
 
   changeNameHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   changeEmailHandler: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -37,6 +38,7 @@ type PropsType = {
   setWebsite: (data: string | null) => void;
   changeCountryHandler?: (country: string | null) => void;
   setCountry?: (country: string | null) => void;
+  setLogo: (logo: File | string | null) => void;
 };
 
 export const ContactForm: React.FC<PropsType> = ({
@@ -67,6 +69,8 @@ export const ContactForm: React.FC<PropsType> = ({
   changeZipIndexHandler,
   changeCountryHandler,
   countryError,
+  logo,
+  setLogo,
 }) => {
   const dispatch = useAppDispatch();
   const [cookies] = useCookies(['token']);
@@ -107,7 +111,7 @@ export const ContactForm: React.FC<PropsType> = ({
           />
         </div>
 
-        <SelectCover />
+        <SelectCover logo={logo} setLogo={setLogo} />
       </section>
 
       <div className={style.second_Line}>
