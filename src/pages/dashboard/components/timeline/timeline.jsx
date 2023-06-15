@@ -17,7 +17,7 @@ import { Notification } from '../../../../components/notification/notification';
 import styles from './timeline.module.scss';
 import { getVideo } from '../../../../api/cameraRequest';
 
-export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => {
+export const Timeline = ({ data, startDate, algorithm, startTime, endTime, zone }) => {
   const [timeLine, setTimeLine] = useState([]);
   const [currentReport, setCurrentReport] = useState(false);
   const [currentCount, setCurrentCount] = useState(0);
@@ -197,7 +197,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   };
   return (
     <>
-      {timeLine.length > 1 && (
+      {timeLine.length > 1 && (zone === 'Camera' || data.length > 0) && (
         <section className={styles.timeline}>
           <span className={styles.timeline__text}> {parsingAlgorithmName(algorithm)}</span>
           <div className={styles.line}>

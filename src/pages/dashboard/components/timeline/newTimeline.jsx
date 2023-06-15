@@ -44,8 +44,7 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
               {zoneList.map((zona, index) => {
                 return (
                   <Fragment key={index}>
-                    <hr></hr>
-                    <h1>{zona}</h1>
+                    <h1 className={styles.zoneName}>{zona}</h1>
                     {algorithm.map((algorithm, id) => {
                       return (
                         <div className={styles.algorithm} key={id}>
@@ -68,6 +67,7 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
                             algorithm={algorithm}
                             startTime={start}
                             endTime={end}
+                            zone={zona}
                           />
                         </div>
                       );
