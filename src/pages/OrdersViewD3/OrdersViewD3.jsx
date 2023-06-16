@@ -6,7 +6,7 @@ import styles from './style.module.scss';
 import { selectOrdersList } from '../../pages/previewOrders/components/OrdersList/ordersListSlice';
 import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
-import { getOrderViewOperations } from '../../api/orderView';
+import { getOrderViewOperations, getWorkplaceList } from '../../api/orderView';
 import { getData } from '../../api/reportsRequest';
 import { useCookies } from 'react-cookie';
 import { Algorithm } from '../../assets/svg/SVGcomponent';
@@ -28,45 +28,103 @@ export const TimelineComponent = () => {
   useEffect(() => {
     if (startDate && endDate) {
       setPreloader(true);
-      getData(
-        window.location.hostname,
-        cookies.token,
-        endDate,
-        '06:00:00',
-        '20:00:00',
-        'machine_control'
-      ).then((res) => {
-        const data = res.data
-          .filter((e) => e.extra.zoneId)
-          .map((el) => {
-            return {
-              zoneId: el.extra.zoneId,
-              zoneName: el.extra.zoneName,
-              sTime: el.start_tracking,
-              eTime: el.stop_tracking,
-            };
-          });
-
-        const grouped = {};
-
-        // Проходим по каждому элементу массива
-        data.forEach((obj) => {
-          const zoneName = obj.zoneName.trim(); // Удаляем лишние пробелы в начале и конце строки
-          if (grouped[zoneName]) {
-            // Если группа уже существует, добавляем текущий объект в нее
-            grouped[zoneName].push(obj);
-          } else {
-            // Если группы нет, создаем новую и добавляем текущий объект
-            grouped[zoneName] = [obj];
-          }
-        });
-        console.log(grouped);
-      });
 
       getOrderViewOperations(window.location.hostname, '', startDate, endDate)
         .then((response) => {
-          setPreloader(false);
-          setData(response.data);
+          const dataToD3 = response.data;
+          // const newData = [];
+          // console.log(data);
+          // data.forEach((zone) => {
+          //   const oper = zone.oprs.map((oper, index, array) => {
+          //     return {
+          //       zoneId: oper.zoneId,
+          //       orId: oper.orId,
+          //       camera: oper.camera,
+          //       sTime: oper.eTime,
+          //       eTime: index < array.length - 1 ? zone.oprs[index + 1].sTime : oper.eTime + 100,
+          //     };
+          //   });
+          //   newData.push({
+          //     inverse: false,
+          //     oprName: zone.oprName,
+          //     oprTypeID: zone.oprTypeID,
+          //     oprs: oper,
+          //   });
+          // });
+          getData(
+            window.location.hostname,
+            cookies.token,
+            startDate,
+            '06:00:00',
+            '20:00:00',
+            'machine_control'
+          ).then((res) => {
+            getWorkplaceList(window.location.hostname, cookies.token).then((workplace) => {
+              console.log(res);
+              const data = res.data
+
+                .filter((e) => e.extra.zoneId)
+                .map((el) => {
+                  return {
+                    id: el.extra.zoneId,
+                    zoneId: el.extra.zoneId,
+                    zoneName: el.extra.zoneName,
+                    sTime: el.start_tracking,
+                    eTime: el.stop_tracking,
+                    camera: el.camera.id,
+                  };
+                });
+              console.log(data);
+              const grouped = {};
+
+              // Проходим по каждому элементу массива
+              data.forEach((obj) => {
+                const zoneName = obj.zoneName.trim(); // Удаляем лишние пробелы в начале и конце строки
+                if (grouped[zoneName]) {
+                  // Если группа уже существует, добавляем текущий объект в нее
+                  grouped[zoneName].push(obj);
+                } else {
+                  // Если группы нет, создаем новую и добавляем текущий объект
+                  grouped[zoneName] = [obj];
+                }
+              });
+              console.log(Object.entries(grouped));
+              const answer = Object.entries(grouped).map((el) => {
+                return {
+                  inverse: true,
+                  oprName: el[0],
+                  oprs: el[1],
+                  oprTypeID: el[1][0].zoneId,
+                };
+              });
+
+              const newData = [];
+              answer.forEach((zone) => {
+                const oper = zone.oprs.reverse().map((operation, index, array) => {
+                  return {
+                    zoneId: operation.zoneId,
+                    orId: operation.orId,
+                    camera: operation.camera,
+                    sTime: new Date(operation.eTime).valueOf(),
+                    eTime:
+                      index < array.length - 1
+                        ? new Date(array[index + 1].sTime).valueOf()
+                        : operation.eTime,
+                  };
+                });
+                newData.push({
+                  inverse: false,
+                  oprName: zone.oprName,
+                  oprTypeID: zone.oprTypeID,
+                  oprs: oper,
+                });
+              });
+              console.log(newData);
+              setPreloader(false);
+              setData([...newData, ...dataToD3]);
+            });
+          });
+          // setData([...response.data]);
         })
         .catch((error) => console.log(error));
     }
