@@ -173,7 +173,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
             d3.select(this)
               .select('rect')
               .attr('opacity', selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4)
-              .attr('fill', '#87BC45');
+              .attr('fill', element.inverse ? '8E8E8E' : '#87BC45');
           });
 
         bars
@@ -186,7 +186,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
               ? 1
               : y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d));
           })
-          .attr('fill', '#87BC45')
+          .attr('fill', element.inverse ? '8E8E8E' : '#87BC45')
           .attr('opacity', (d, i) => (selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4))
           .attr('z-index', 2);
       });
