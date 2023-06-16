@@ -40,7 +40,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
       showCross
       showSubstrateCross
     >
-      {operationData.video && operationData.video.status && operationData?.video.file_name ? (
+      {operationData.video && operationData.video.status && operationData.cameraIP ? (
         <video
           id="videoPlayer"
           src={`${
@@ -126,13 +126,15 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
         </div>
       </div>
 
-      <Button
-        onClick={handleDownload}
-        IconLeft={Download}
-        className={styles.download}
-        variant="text"
-        iconColor="var(--MediumEmphasis)"
-      />
+      {operationData?.video && operationData?.video.file_name && (
+        <Button
+          onClick={handleDownload}
+          IconLeft={Download}
+          className={styles.download}
+          variant="text"
+          iconColor="var(--MediumEmphasis)"
+        />
+      )}
     </Modal>
   );
 };

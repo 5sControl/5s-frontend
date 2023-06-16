@@ -69,7 +69,6 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
         cameraIP: e.camera,
         video: {
           status: true,
-          file_name: e.camera,
         },
       };
       setOperationOV(buf);
@@ -186,6 +185,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
           })
           .attr('fill', '#87BC45')
           .attr('opacity', (d, i) => (selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4))
+          .attr('cursor', 'pointer')
           .attr('z-index', 2);
       });
     }
