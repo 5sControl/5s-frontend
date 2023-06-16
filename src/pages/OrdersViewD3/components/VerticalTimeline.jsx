@@ -21,7 +21,7 @@ function getDuration(milli) {
 const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) => {
   const [update, setUpdate] = useState(data);
   const [operationOV, setOperationOV] = useState(false);
-
+  const [machineVideo, setMachineVideo] = useState(false);
   const days = moment(maxDate).diff(minDate, 'days');
   const proportion = 1 - Math.abs((days * 10) / ((days + 1) * 24 - 10));
   const dateArray = [];
@@ -62,8 +62,18 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
   };
 
   const clickHandler = (e, event) => {
-    if (e.cameraId) {
+    if (e.zoneId) {
       console.log(e);
+      const buf = {
+        sTime: e.sTime,
+        eTime: e.eTime,
+        cameraIP: '192.168.1.168',
+        video: {
+          status: true,
+          file_name: 'sdfsfds',
+        },
+      };
+      setMachineVideo(buf);
     } else {
       getOrderViewOperation(window.location.hostname, '', e.id).then((response) => {
         setOperation({
@@ -282,6 +292,12 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
 
       {operationOV && typeof operationOV === 'string' && (
         <Notification status={false} message={operationOV} />
+      )}
+      {machineVideo && (
+        <OrderOperationDetail
+          operationData={machineVideo}
+          handleClose={() => setMachineVideo(false)}
+        />
       )}
     </div>
   );

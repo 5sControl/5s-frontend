@@ -1,15 +1,13 @@
 import { useRef } from 'react';
 import { Modal } from '../modal';
 import styles from './orderOperationDetail.module.scss';
-import ReactPlayer from 'react-player';
 import { Download } from '../../assets/svg/SVGcomponent';
 import { Button } from '../button';
 import noVideo from '../../assets/png/novideo.png';
+import ReactPlayer from 'react-player';
+
 export const OrderOperationDetail = ({ operationData, handleClose }) => {
   const playerRef = useRef(null);
-  const handleReady = () => {
-    playerRef.current.seekTo(30); // Начинаем с 30-й секунды
-  };
 
   const handleDownload = () => {
     if (operationData && operationData.video && operationData.video.status) {
@@ -63,6 +61,28 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           controls
           autoPlay
         ></video>
+      ) : operationData.video && operationData.video.status && operationData?.video.file_name ? (
+        <ReactPlayer
+          ref={playerRef}
+          width="100%"
+          height="100%"
+          playing={true}
+          volume={0.9}
+          controls={true}
+          preload="auto"
+          config={{
+            file: {
+              forceVideo: true,
+            },
+          }}
+          url={`${
+            process.env.REACT_APP_ENV === 'proxy'
+              ? `${process.env.REACT_APP_NGROK}`
+              : process.env.REACT_APP_ENV === 'wify'
+              ? `${process.env.REACT_APP_IP_SERVER}`
+              : `http://${window.location.hostname}`
+          }/${operationData?.video.file_name}`}
+        />
       ) : (
         <img alt="no video" src={noVideo} />
       )}
