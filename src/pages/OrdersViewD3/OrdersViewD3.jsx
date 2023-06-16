@@ -62,13 +62,12 @@ export const TimelineComponent = () => {
             getWorkplaceList(window.location.hostname, cookies.token).then((workplace) => {
               console.log(res);
               const data = res.data
-
-                .filter((e) => e.extra.zoneId)
+                .filter((e) => e.extra?.zoneId)
                 .map((el) => {
                   return {
                     id: el.extra.zoneId,
                     zoneId: el.extra.zoneId,
-                    zoneName: el.extra.zoneName,
+                    zoneName: el.extra.zoneName.slice(5),
                     sTime: el.start_tracking,
                     eTime: el.stop_tracking,
                     camera: el.camera.id,
@@ -113,7 +112,7 @@ export const TimelineComponent = () => {
                   };
                 });
                 newData.push({
-                  inverse: false,
+                  inverse: true,
                   oprName: zone.oprName,
                   oprTypeID: zone.oprTypeID,
                   oprs: oper,
