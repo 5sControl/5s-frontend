@@ -7,6 +7,9 @@ import { selectOrdersList } from '../../pages/previewOrders/components/OrdersLis
 import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
 import { getOrderViewOperations } from '../../api/orderView';
+import { getData } from '../../api/reportsRequest';
+import { useCookies } from 'react-cookie';
+import { Algorithm } from '../../assets/svg/SVGcomponent';
 
 export const TimelineComponent = () => {
   const { filterDateData } = useAppSelector(selectOrdersList);
@@ -15,7 +18,7 @@ export const TimelineComponent = () => {
   const [startDate, setStartDate] = useState(false);
   const [endDate, setEndDate] = useState(false);
   const [preloader, setPreloader] = useState(false);
-
+  const [cookies] = useCookies(['token']);
   console.log(moment(1686041363822).format('YYYY-MM-DD HH:mm:ss'));
   useEffect(() => {
     setStartDate(moment(filterDateData.from).format('YYYY-MM-DD'));
@@ -25,6 +28,41 @@ export const TimelineComponent = () => {
   useEffect(() => {
     if (startDate && endDate) {
       setPreloader(true);
+      getData(
+        window.location.hostname,
+        cookies.token,
+        endDate,
+        '06:00:00',
+        '20:00:00',
+        'machine_control'
+      ).then((res) => {
+        const data = res.data
+          .filter((e) => e.extra.zoneId)
+          .map((el) => {
+            return {
+              zoneId: el.extra.zoneId,
+              zoneName: el.extra.zoneName,
+              sTime: el.start_tracking,
+              eTime: el.stop_tracking,
+            };
+          });
+
+        const grouped = {};
+
+        // Проходим по каждому элементу массива
+        data.forEach((obj) => {
+          const zoneName = obj.zoneName.trim(); // Удаляем лишние пробелы в начале и конце строки
+          if (grouped[zoneName]) {
+            // Если группа уже существует, добавляем текущий объект в нее
+            grouped[zoneName].push(obj);
+          } else {
+            // Если группы нет, создаем новую и добавляем текущий объект
+            grouped[zoneName] = [obj];
+          }
+        });
+        console.log(grouped);
+      });
+
       getOrderViewOperations(window.location.hostname, '', startDate, endDate)
         .then((response) => {
           setPreloader(false);

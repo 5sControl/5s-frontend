@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { proxy } from './api';
 
-const API_OPERATIONS = 'api/new-order/operations/';
+const API_OPERATIONS = 'api/new-order/machine/';
 const API_ORDERLIST = 'api/new-order/orders/';
 const API_OPERATION = 'api/new-order/order-detail/';
 const API_WORKPLACE = 'api/new-order/whnet-operations/';
+
+// /api/new-order/machine/?from=2022-06-14&to=2023-06-17
 
 export const getOrderViewOperations = (hostname, cookies, startDate, endDate) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
