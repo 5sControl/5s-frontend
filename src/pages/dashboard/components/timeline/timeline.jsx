@@ -61,6 +61,8 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime, zone 
             lstName: res.data.lstName,
             elType: res.data.elType,
             cameraIP: element.camera.id,
+            cameraName: element.camera.name,
+            algorithm: element.algorithm.name,
           };
 
           getVideo(window.location.hostname, body).then((res) => {
