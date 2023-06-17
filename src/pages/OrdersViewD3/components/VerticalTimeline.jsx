@@ -224,7 +224,8 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
                         transform: `translateX(${position * fieldWidth}px)`,
                         color: `${element.inverse ? '#666666' : '#26272B'}`,
                       }}
-                      title={element.oprName}
+                      // eslint-disable-next-line react/no-unknown-property
+                      titles={element.oprName}
                     >
                       {element.oprName.slice(0, 10)}
                     </div>
