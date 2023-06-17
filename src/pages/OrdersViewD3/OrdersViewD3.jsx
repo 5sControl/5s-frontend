@@ -96,7 +96,7 @@ export const TimelineComponent = () => {
               eTime:
                 index < array.length - 1
                   ? new Date(array[index + 1].sTime).valueOf()
-                  : operation.eTime,
+                  : new Date(operation.eTime).valueOf(),
             }));
             return {
               inverse: true,
@@ -112,7 +112,6 @@ export const TimelineComponent = () => {
           console.log(error);
         }
       };
-
       fetchData();
     }
   }, [endDate, startDate]);
