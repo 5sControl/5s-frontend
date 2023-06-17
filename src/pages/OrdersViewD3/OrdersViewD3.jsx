@@ -87,7 +87,7 @@ export const TimelineComponent = () => {
             inverse: true,
             oprName: zoneName,
             oprs: zoneData,
-            oprTypeID: zoneData[0].zoneId,
+            zoneId: zoneData[0].zoneId,
           }));
 
           const newData = answer.map((zone) => {
@@ -111,6 +111,7 @@ export const TimelineComponent = () => {
             };
           });
 
+          console.log(newData);
           getSelectedZone(window.location.hostname, cookies.token, 24).then((res) => {
             console.log(res);
           });
