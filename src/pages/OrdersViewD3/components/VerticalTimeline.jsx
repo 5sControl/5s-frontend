@@ -21,7 +21,6 @@ function getDuration(milli) {
 const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) => {
   const [update, setUpdate] = useState(data);
   const [operationOV, setOperationOV] = useState(false);
-
   const days = moment(maxDate).diff(minDate, 'days');
   const proportion = 1 - Math.abs((days * 10) / ((days + 1) * 24 - 10));
   const dateArray = [];
@@ -62,8 +61,18 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
   };
 
   const clickHandler = (e, event) => {
-    if (e.cameraId) {
-      console.log(e);
+    if (e.zoneId) {
+      const buf = {
+        sTime: e.sTime,
+        eTime: e.eTime,
+        cameraIP: e.camera,
+        cameraName: e.cameraName,
+        algorithm: e.algorithm,
+        video: {
+          status: true,
+        },
+      };
+      setOperationOV(buf);
     } else {
       getOrderViewOperation(window.location.hostname, '', e.id).then((response) => {
         setOperation({
@@ -173,12 +182,11 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
           .attr('y', 0)
           .attr('width', fieldWidth - 70)
           .attr('height', (d, i) => {
-            return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d)) < 1
-              ? 1
-              : y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d));
+            return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d));
           })
           .attr('fill', '#87BC45')
           .attr('opacity', (d, i) => (selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4))
+          .attr('cursor', 'pointer')
           .attr('z-index', 2);
       });
     }
@@ -214,6 +222,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
                         left: `${fieldWidth * index + 30}px`,
                         width: `${fieldWidth - 60}px`,
                         transform: `translateX(${position * fieldWidth}px)`,
+                        color: `${element.inverse ? '#666666' : '#26272B'}`,
                       }}
                       title={element.oprName}
                     >

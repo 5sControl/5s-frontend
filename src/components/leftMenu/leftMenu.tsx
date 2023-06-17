@@ -31,7 +31,7 @@ export const LeftMenu = () => {
       document.title = 'Live';
     }
     if (window.location.pathname.includes('orders-view')) {
-      document.title = 'Orders view';
+      document.title = 'Orders View';
     }
     if (window.location.pathname.includes('inventory')) {
       document.title = 'Inventory';

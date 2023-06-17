@@ -1,16 +1,15 @@
 import { useRef } from 'react';
 import { Modal } from '../modal';
 import styles from './orderOperationDetail.module.scss';
-import ReactPlayer from 'react-player';
 import { Download } from '../../assets/svg/SVGcomponent';
 import { Button } from '../button';
 import noVideo from '../../assets/png/novideo.png';
+import ReactPlayer from 'react-player';
+import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
+
 export const OrderOperationDetail = ({ operationData, handleClose }) => {
   const playerRef = useRef(null);
-  const handleReady = () => {
-    playerRef.current.seekTo(30); // Начинаем с 30-й секунды
-  };
-
+  console.log(operationData);
   const handleDownload = () => {
     if (operationData && operationData.video && operationData.video.status) {
       const videoUrl = `${
@@ -42,7 +41,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
       showCross
       showSubstrateCross
     >
-      {operationData.video && operationData.video.status && operationData?.video.file_name ? (
+      {operationData.video && operationData.video.status && operationData.cameraIP ? (
         <video
           id="videoPlayer"
           src={`${
@@ -63,15 +62,38 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           controls
           autoPlay
         ></video>
+      ) : operationData.video && operationData.video.status && operationData?.video.file_name ? (
+        <ReactPlayer
+          ref={playerRef}
+          width="100%"
+          height="100%"
+          playing={true}
+          volume={0.9}
+          controls={true}
+          preload="auto"
+          config={{
+            file: {
+              forceVideo: true,
+            },
+          }}
+          url={`${
+            process.env.REACT_APP_ENV === 'proxy'
+              ? `${process.env.REACT_APP_NGROK}`
+              : process.env.REACT_APP_ENV === 'wify'
+              ? `${process.env.REACT_APP_IP_SERVER}`
+              : `http://${window.location.hostname}`
+          }/${operationData?.video.file_name}`}
+        />
       ) : (
         <img alt="no video" src={noVideo} />
       )}
 
       <div className={styles.infoBlock}>
-        <div className={styles.header}>
-          <p className={styles.header_title}>{operationData?.operationName}</p>
-        </div>
-
+        {operationData?.operationName && (
+          <div className={styles.header}>
+            <p className={styles.header_title}>{operationData?.operationName}</p>
+          </div>
+        )}
         <div className={styles.wrapper}>
           <div className={styles.subtitle}>
             <span>{'Operation start: '}</span>
@@ -83,36 +105,58 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
               {operationData && new Date(operationData.eTime).toLocaleTimeString()}
             </span>
           </div>
+          {operationData?.cameraName && (
+            <div className={styles.subtitle}>
+              <span>{'Camera: '}</span>
+              <span className={styles.subtitle_value}>{operationData?.cameraName}</span>
+            </div>
+          )}
+          {operationData?.algorithm && (
+            <div className={styles.subtitle}>
+              <span>{'Algorihm: '}</span>
+              <span className={styles.subtitle_value}>
+                {parsingAlgorithmName(operationData?.algorithm)}
+              </span>
+            </div>
+          )}
+          {operationData?.orId && (
+            <div className={styles.subtitle}>
+              <span>{'Order: '}</span>
+              <span className={styles.subtitle_value}>{operationData?.orId}</span>
+            </div>
+          )}
 
-          <div className={styles.subtitle}>
-            <span>{'Order: '}</span>
-            <span className={styles.subtitle_value}>{operationData?.orId}</span>
-          </div>
+          {(operationData?.frsName || operationData?.lstName) && (
+            <div className={styles.subtitle}>
+              <span>{'Worker: '}</span>
+              <span className={styles.subtitle_value}>{operationData?.frsName}</span>&nbsp;
+              <span className={styles.subtitle_value}>{operationData?.lstName}</span>
+            </div>
+          )}
 
-          <div className={styles.subtitle}>
-            <span>{'Worker: '}</span>
-            <span className={styles.subtitle_value}>{operationData?.frsName}</span>&nbsp;
-            <span className={styles.subtitle_value}>{operationData?.lstName}</span>
-          </div>
-          <div className={styles.subtitle}>
-            <span>{'Product: '}</span>
-            <span className={styles.subtitle_value}>{operationData?.elType}</span>
-          </div>
+          {operationData?.elType && (
+            <div className={styles.subtitle}>
+              <span>{'Product: '}</span>
+              <span className={styles.subtitle_value}>{operationData?.elType}</span>
+            </div>
+          )}
 
-          <div className={styles.subtitle}>
+          {/* <div className={styles.subtitle}>
             <span>{'Frame: '}</span>
             <span className={styles.subtitle_value}>{'Frame name'}</span>
-          </div>
+          </div> */}
         </div>
       </div>
 
-      <Button
-        onClick={handleDownload}
-        IconLeft={Download}
-        className={styles.download}
-        variant="text"
-        iconColor="var(--MediumEmphasis)"
-      />
+      {operationData?.video && operationData?.video.file_name && (
+        <Button
+          onClick={handleDownload}
+          IconLeft={Download}
+          className={styles.download}
+          variant="text"
+          iconColor="var(--MediumEmphasis)"
+        />
+      )}
     </Modal>
   );
 };

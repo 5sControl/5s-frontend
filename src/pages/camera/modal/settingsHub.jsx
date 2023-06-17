@@ -70,7 +70,7 @@ export const SettingsHub = ({
         ];
       }
     }
-    console.log(response);
+    // console.log(response);
     await postAlgorithnDependences(window.location.hostname, token, response)
       .then(() => {
         setIsEnabled(false);

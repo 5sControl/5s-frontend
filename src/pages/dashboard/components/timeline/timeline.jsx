@@ -61,6 +61,8 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime, zone 
             lstName: res.data.lstName,
             elType: res.data.elType,
             cameraIP: element.camera.id,
+            cameraName: element.camera.name,
+            algorithm: element.algorithm.name,
           };
 
           getVideo(window.location.hostname, body).then((res) => {
@@ -88,7 +90,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime, zone 
       camera_ip: element.camera.id,
       time: new Date(element.start_tracking).valueOf() + 10800000,
     };
-    console.log(body);
+    // console.log(body);
     getVideo(window.location.hostname, body).then((res) => {
       if (Object.keys(res.data).length) {
         const value = {
@@ -97,7 +99,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime, zone 
           eTime: new Date(element.stop_tracking).valueOf() + 10800000,
           video: res.data,
         };
-        console.log(value);
+        // console.log(value);
         setOperationOV(value);
       } else {
         setOperationOV(`Operation #${element.id} was not found in the database`);

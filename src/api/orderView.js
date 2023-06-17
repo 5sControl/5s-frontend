@@ -2,6 +2,7 @@ import axios from 'axios';
 import { proxy } from './api';
 
 const API_OPERATIONS = 'api/new-order/operations/';
+// const API_OPERATIONS = 'api/new-order/machine/';
 const API_ORDERLIST = 'api/new-order/orders/';
 const API_OPERATION = 'api/new-order/order-detail/';
 const API_WORKPLACE = 'api/new-order/whnet-operations/';

@@ -30,7 +30,7 @@ export const Chart: React.FC = () => {
   return (
     <div id="chartBar" ref={ref}>
       {size.width && inventoryHistoryData && sortedData.length > 0 && (
-        <BarChart data={sortedData} width={size.width} height={500} />
+        <BarChart data={sortedData} width={size.width} height={300} />
       )}
 
       <div className={styles.labels}>

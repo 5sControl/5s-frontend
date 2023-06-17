@@ -46,19 +46,17 @@ export const CompanyInfo: FC = () => {
       });
   }, [isAddAccount]);
 
-  useEffect(() => {
-    console.log('companyInfo', companyInfo);
-  }, [companyInfo]);
-
   return (
     <>
       <div className="company">
-        <CompanyCard
-          companyData={companyInfoForm[0]}
-          onClick={() => {
-            navigate('/company/edit');
-          }}
-        />
+        {companyInfoForm && (
+          <CompanyCard
+            companyData={companyInfoForm[0]}
+            onClick={() => {
+              navigate('/company/edit');
+            }}
+          />
+        )}
 
         {companyInfo && Object.keys(companyInfo).length > 0 && isLicensed && (
           <div className="company__name">

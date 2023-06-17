@@ -28,7 +28,7 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
 
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
 
-  console.log(currentReport);
+  // console.log(currentReport);
   const setExtraOfActiveData = (extra: Array<HistoryExtra>) => {
     return getExtraOfActiveData(extra, activeInventoryItem);
   };
@@ -95,7 +95,7 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
     };
   }, [handleClose]);
 
-  console.log(operationStart, 'sdfsdf');
+  // console.log(operationStart, 'sdfsdf');
   return (
     <Modal
       isOpen={isOpen}

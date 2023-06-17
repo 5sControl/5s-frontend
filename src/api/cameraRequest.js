@@ -279,3 +279,26 @@ export const getVideo = (hostname, body) => {
     return axios.post(`http://${hostname}:3456/${API_VIDEO}`, body);
   }
 };
+
+export const getSelectedZone = (hostname, cookies, id) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(process.env.REACT_APP_NGROK + API_ZONES + id + '/', 'GET', {
+      'Content-Type': 'application/json',
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}$${API_ZONES}${id}/`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_ZONES}${id}/`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  }
+};
