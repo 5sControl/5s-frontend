@@ -22,7 +22,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
   const dispatch = useAppDispatch();
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
   const dimensions = {
-    top: 80,
+    top: 20,
     left: 60,
     bottom: 60,
     right: 60,
@@ -73,7 +73,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
       const yScale = d3
         .scaleLinear()
         .domain([
-          getMaxOfArray(update.map((item) => setExtraOfActiveData(item.extra).count)) + 10,
+          getMaxOfArray(update.map((item) => setExtraOfActiveData(item.extra).count)) + 1,
           0,
         ])
         .range([0, height - dimensions.top - dimensions.bottom]);
@@ -83,6 +83,7 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
         .call(d3.axisLeft(yScale))
         .call((g) => g.select('.domain').remove())
         .attr('transform', `translate(${dimensions.left}, ${dimensions.top} )`)
+
         .call((g) =>
           g
             .selectAll('.tick line')
@@ -90,6 +91,13 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
             .attr('x2', width - dimensions.left - dimensions.right)
             .attr('stroke-opacity', 0.1)
             .attr('class', 'line-clone')
+            .attr('opacity', function (d: any) {
+              if (d % 1 === 0) {
+                return 1;
+              } else {
+                return 0;
+              }
+            })
         )
         .call((g) =>
           (g.selectAll('.tick > line') as any)._groups[0].forEach((item: any) => {
@@ -99,7 +107,18 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
           })
         )
         .call((g) =>
-          g.selectAll('.tick text').attr('font-size', 12).attr('fill', '#9E9E9E').attr('dy', '0em')
+          g
+            .selectAll('.tick text')
+            .attr('font-size', 12)
+            .attr('fill', '#9E9E9E')
+            .attr('dy', '0em')
+            .attr('opacity', function (d: any) {
+              if (d % 1 === 0) {
+                return 1;
+              } else {
+                return 0;
+              }
+            })
         );
 
       svg
@@ -115,7 +134,18 @@ export const BarChart: React.FC<PropsType> = ({ data, width, height }) => {
           })
         )
         .call((g) =>
-          g.selectAll('.tick text').attr('font-size', 12).attr('fill', '#9E9E9E').attr('dy', '0em')
+          g
+            .selectAll('.tick text')
+            .attr('font-size', 12)
+            .attr('fill', '#9E9E9E')
+            .attr('dy', '0em')
+            .attr('opacity', function (d: any) {
+              if (d % 1 === 0) {
+                return 1;
+              } else {
+                return 0;
+              }
+            })
         );
 
       svg
