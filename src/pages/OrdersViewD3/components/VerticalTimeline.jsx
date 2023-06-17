@@ -66,6 +66,8 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
         sTime: e.sTime,
         eTime: e.eTime,
         cameraIP: e.camera,
+        cameraName: e.cameraName,
+        algorithm: e.algorithm,
         video: {
           status: true,
         },

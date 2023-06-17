@@ -68,6 +68,8 @@ export const TimelineComponent = () => {
                 sTime: el.start_tracking,
                 eTime: el.stop_tracking,
                 camera: el.camera.id,
+                cameraName: el.camera.name,
+                algorithm: el.algorithm.name,
               }))
           );
 
@@ -93,6 +95,8 @@ export const TimelineComponent = () => {
               zoneId: operation.zoneId,
               orId: operation.orId,
               camera: operation.camera,
+              cameraName: operation.cameraName,
+              algorithm: operation.algorithm,
               sTime: new Date(operation.eTime).valueOf(),
               eTime:
                 index < array.length - 1
