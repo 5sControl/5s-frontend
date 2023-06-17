@@ -90,13 +90,17 @@ export const TimelineComponent = () => {
             zoneId: zoneData[0].zoneId,
           }));
 
-          const newData = answer.map((zone) => {
+          const newDataPromises = answer.map(async (zone) => {
+            console.log(zone);
+            const res = await getSelectedZone(window.location.hostname, cookies.token, zone.zoneId);
+            console.log(res);
             const oper = zone.oprs.reverse().map((operation, index, array) => ({
               zoneId: operation.zoneId,
               orId: operation.orId,
               camera: operation.camera,
               cameraName: operation.cameraName,
               algorithm: operation.algorithm,
+
               sTime: new Date(operation.eTime).valueOf(),
               eTime:
                 index < array.length - 1
@@ -107,16 +111,17 @@ export const TimelineComponent = () => {
               inverse: true,
               oprName: zone.oprName,
               oprTypeID: zone.oprTypeID,
+              workplaceID: res.data.index_workplace,
+              workplaceName: res.data.workplace,
               oprs: oper,
             };
           });
 
+          await setPreloader(true);
+          const newData = await Promise.all(newDataPromises);
           console.log(newData);
-          getSelectedZone(window.location.hostname, cookies.token, 24).then((res) => {
-            console.log(res);
-          });
-          setPreloader(false);
-          setData([...newData, ...dataToD3]);
+          await setPreloader(false);
+          await setData([...newData, ...dataToD3]);
         } catch (error) {
           console.log(error);
         }
