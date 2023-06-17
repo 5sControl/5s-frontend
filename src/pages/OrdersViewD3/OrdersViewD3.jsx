@@ -5,10 +5,11 @@ import styles from './style.module.scss';
 import { selectOrdersList } from '../../pages/previewOrders/components/OrdersList/ordersListSlice';
 import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
-import { getOrderViewOperations, getWorkplaceList } from '../../api/orderView';
+import { getOrderViewOperations } from '../../api/orderView';
 import { getData } from '../../api/reportsRequest';
 import { useCookies } from 'react-cookie';
 import { Algorithm } from '../../assets/svg/SVGcomponent';
+import { getSelectedZone } from '../../api/cameraRequest';
 
 export const TimelineComponent = () => {
   const { filterDateData } = useAppSelector(selectOrdersList);
@@ -106,6 +107,9 @@ export const TimelineComponent = () => {
             };
           });
 
+          getSelectedZone(window.location.hostname, cookies.token, 24).then((res) => {
+            console.log(res);
+          });
           setPreloader(false);
           setData([...newData, ...dataToD3]);
         } catch (error) {

@@ -62,7 +62,6 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
 
   const clickHandler = (e, event) => {
     if (e.zoneId) {
-      console.log(e);
       const buf = {
         sTime: e.sTime,
         eTime: e.eTime,
