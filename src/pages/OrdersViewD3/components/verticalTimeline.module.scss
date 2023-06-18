@@ -108,10 +108,10 @@
 }
 
 .tooltip::before {
-  content: attr(title);
+  content: attr(titles);
   position: absolute;
-  top: 20px;
-  left: 0;
+  top: 25px;
+  left: 15px;
   padding: 5px 8px;
   background: #ffffff;
   font-family: 'Inter';
@@ -127,6 +127,7 @@
   pointer-events: none;
   transition: opacity 0.5s;
   border-radius: 6px;
+  z-index: 100;
   z-index: 100;
 }
 
