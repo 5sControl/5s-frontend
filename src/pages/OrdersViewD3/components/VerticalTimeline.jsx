@@ -227,7 +227,8 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
                       // eslint-disable-next-line react/no-unknown-property
                       titles={element.oprName}
                     >
-                      {element.oprName.slice(0, 10)}
+                      {element.oprName.slice(0, 7)}
+                      {element.oprName.length < 7 ? '' : '...'}
                     </div>
                   ))}
                   {/* <div className={styles.prev}>
