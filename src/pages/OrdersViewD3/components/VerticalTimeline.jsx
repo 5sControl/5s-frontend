@@ -9,6 +9,7 @@ import { OrderOperationDetail } from '../../../components/orderOperationDetail/o
 import { Notification } from '../../../components/notification/notification';
 import styles from './verticalTimeline.module.scss';
 import { getOrderViewOperation } from '../../../api/orderView';
+import { getVideo } from '../../../api/cameraRequest';
 
 function getDuration(milli) {
   let minutes = Math.floor(milli / 60000);
@@ -72,15 +73,36 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
           status: true,
         },
       };
-      setOperationOV(buf);
-    } else {
-      getOrderViewOperation(window.location.hostname, '', e.id).then((response) => {
-        setOperation({
-          data: response.data,
-          x: event.pageX,
-          y: event.pageY,
+      console.log(buf);
+      getVideo(window.location.hostname, {
+        camera_ip: e.camera,
+        time: e.sTime,
+      })
+        .then((res) => {
+          setOperation({
+            data: {
+              ...buf,
+              video: res.data,
+            },
+            x: event.pageX,
+            y: event.pageY,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      });
+    } else {
+      getOrderViewOperation(window.location.hostname, '', e.id)
+        .then((response) => {
+          setOperation({
+            data: response.data,
+            x: event.pageX,
+            y: event.pageY,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
@@ -182,7 +204,9 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
           .attr('y', 0)
           .attr('width', fieldWidth - 70)
           .attr('height', (d, i) => {
-            return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d));
+            return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d)) < 0
+              ? 0
+              : y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d));
           })
           .attr('fill', '#87BC45')
           .attr('opacity', (d, i) => (selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4))
