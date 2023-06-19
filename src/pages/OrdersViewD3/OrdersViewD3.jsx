@@ -102,11 +102,11 @@ export const TimelineComponent = () => {
                 camera: operation.camera,
                 cameraName: operation.cameraName,
                 algorithm: operation.algorithm,
-                sTime: new Date(operation.eTime).valueOf(),
+                sTime: new Date(operation.eTime).valueOf() + 10800000,
                 eTime:
                   index < array.length - 1
-                    ? new Date(array[index + 1].sTime).valueOf()
-                    : new Date(operation.eTime).valueOf(),
+                    ? new Date(array[index + 1].sTime).valueOf() + 10800000
+                    : new Date(operation.eTime).valueOf() + 10800000,
               }));
               return {
                 inverse: true,
