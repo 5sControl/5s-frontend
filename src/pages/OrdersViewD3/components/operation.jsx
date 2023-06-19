@@ -18,13 +18,21 @@ export const Operation = ({ operation, x, y, onClose, setOperationOV }) => {
   useOutsideClick(refOperation, () => onClose());
 
   const operationClickHandler = (id) => {
-    getOrderViewOperation(window.location.hostname, '', id).then((res) => {
-      if (Object.keys(res.data).length) {
-        setOperationOV(res.data);
-      } else {
-        setOperationOV(`Operation #${id} was not found in the database`);
-      }
-    });
+    if (id) {
+      getOrderViewOperation(window.location.hostname, '', id)
+        .then((res) => {
+          if (Object.keys(res.data).length) {
+            setOperationOV(res.data);
+          } else {
+            setOperationOV(`Operation #${id} was not found in the database`);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setOperationOV(operation);
+    }
   };
 
   return (

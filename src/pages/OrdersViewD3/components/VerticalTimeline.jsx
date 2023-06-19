@@ -9,6 +9,7 @@ import { OrderOperationDetail } from '../../../components/orderOperationDetail/o
 import { Notification } from '../../../components/notification/notification';
 import styles from './verticalTimeline.module.scss';
 import { getOrderViewOperation } from '../../../api/orderView';
+import { getVideo } from '../../../api/cameraRequest';
 
 function getDuration(milli) {
   let minutes = Math.floor(milli / 60000);
@@ -72,15 +73,36 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
           status: true,
         },
       };
-      setOperationOV(buf);
-    } else {
-      getOrderViewOperation(window.location.hostname, '', e.id).then((response) => {
-        setOperation({
-          data: response.data,
-          x: event.pageX,
-          y: event.pageY,
+      console.log(buf);
+      getVideo(window.location.hostname, {
+        camera_ip: e.camera,
+        time: e.sTime,
+      })
+        .then((res) => {
+          setOperation({
+            data: {
+              ...buf,
+              video: res.data,
+            },
+            x: event.pageX,
+            y: event.pageY,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      });
+    } else {
+      getOrderViewOperation(window.location.hostname, '', e.id)
+        .then((response) => {
+          setOperation({
+            data: response.data,
+            x: event.pageX,
+            y: event.pageY,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
