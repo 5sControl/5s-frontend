@@ -15,10 +15,12 @@ export const TimelineComponent = () => {
   const { filterDateData } = useAppSelector(selectOrdersList);
   const [selectOrder, setSelectOrder] = useState('');
   const [data, setData] = useState([]);
+  const [machineData, setMachineData] = useState([]);
   const [startDate, setStartDate] = useState(false);
   const [endDate, setEndDate] = useState(false);
   const [preloader, setPreloader] = useState(false);
   const [cookies] = useCookies(['token']);
+
   console.log(moment(1686041363822).format('YYYY-MM-DD HH:mm:ss'));
 
   useEffect(() => {
@@ -62,14 +64,14 @@ export const TimelineComponent = () => {
             response.data
               .filter((e) => e.extra?.zoneId)
               .map((el) => ({
-                id: el.extra.zoneId,
-                zoneId: el.extra.zoneId,
+                id: el.extra?.zoneId,
+                zoneId: el.extra?.zoneId,
                 zoneName: el.extra.zoneName.slice(5),
                 sTime: el.start_tracking,
                 eTime: el.stop_tracking,
-                camera: el.camera.id,
-                cameraName: el.camera.name,
-                algorithm: el.algorithm.name,
+                camera: el.camera?.id,
+                cameraName: el.camera?.name,
+                algorithm: el.algorithm?.name,
               }))
           );
 
@@ -154,7 +156,8 @@ export const TimelineComponent = () => {
 
           console.log(newData);
           setPreloader(false);
-          await setData([...newData, ...dataToD3]);
+          await setData(dataToD3);
+          await setMachineData(newData);
         } catch (error) {
           console.log(error);
         }
@@ -181,6 +184,7 @@ export const TimelineComponent = () => {
             maxDate={new Date(`${endDate}T20:00:00.000`)}
             selectOrder={selectOrder}
             preloader={preloader}
+            machineData={machineData}
           />
         </div>
       )}

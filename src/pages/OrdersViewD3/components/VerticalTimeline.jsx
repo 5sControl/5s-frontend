@@ -19,7 +19,8 @@ function getDuration(milli) {
   return days * size;
 }
 
-const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) => {
+const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, machineData }) => {
+  console.log(machineData);
   const [update, setUpdate] = useState(data);
   const [operationOV, setOperationOV] = useState(false);
   const days = moment(maxDate).diff(minDate, 'days');
