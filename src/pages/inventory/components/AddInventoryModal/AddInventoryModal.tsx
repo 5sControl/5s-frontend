@@ -21,6 +21,7 @@ import './moveable.scss';
 import { ContactInfoType } from '../../../company/types';
 import { getSuppliers } from '../../../../api/companyRequest';
 import { SelectCustom } from '../../../../components/selectCustom';
+import { Button } from '../../../../components/button';
 
 type PropsType = {
   isOpen: boolean;
@@ -222,36 +223,14 @@ export const AddInventoryModal: React.FC<PropsType> = ({
 
         <div className={styles.content}>
           <div className={styles.algorithm}>
-            <h2>
-              Supplies <Tooltip onClick={() => setIsTooltipSupplies(true)} />
-              {isTooltipSupplies && (
-                <>
-                  <div
-                    className={styles.algorithm__container}
-                    onClick={() => setIsTooltipSupplies(false)}
-                  ></div>
-                  <div className={styles.supplies_tooltip}>
-                    <h6>Supplies</h6>
-                    <p>
-                      Upon reaching low stock level the email will be send to the supplier ordering
-                      the item. Company info will be used for order details.
-                    </p>
-                  </div>
-                </>
-              )}
-            </h2>
-
-            {isSMTPServerConnect && isFullOwnCompanyInfo && (
-              <div className={styles.algorithm__toggle}>
-                <span>Automatically order</span>
-                <div
-                  className={`toggle ${isAutomaticallyOrder ? 'toggle--on' : 'toggle--off'}`}
-                  onClick={handleAutoOrderToggle}
-                >
-                  <div className="toggle__button"></div>
-                </div>
+            <div className={styles.email_settings}>
+              <div>
+                <h6>Notification about low stock level</h6>
+                <span className={styles.email_settings_list}>Send to:</span>
               </div>
-            )}
+
+              <Button text="Edit" type="button" variant={'text'} />
+            </div>
 
             {!isSMTPServerConnect && (
               <div className={styles.no_info_for_suppliers}>
@@ -262,15 +241,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({
                   Set up{' '}
                 </span>
                 <span>SMTP server.</span>
-              </div>
-            )}
-
-            {!isFullOwnCompanyInfo && (
-              <div className={styles.no_info_for_suppliers}>
-                <span className={styles.no_info_link} onClick={() => navigate('/company')}>
-                  Fill in{' '}
-                </span>
-                <span>info about your company (Address, Phone and Email are required).</span>
               </div>
             )}
           </div>
