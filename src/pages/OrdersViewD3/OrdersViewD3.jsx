@@ -15,10 +15,12 @@ export const TimelineComponent = () => {
   const { filterDateData } = useAppSelector(selectOrdersList);
   const [selectOrder, setSelectOrder] = useState('');
   const [data, setData] = useState([]);
+  const [machineData, setMachineData] = useState([]);
   const [startDate, setStartDate] = useState(false);
   const [endDate, setEndDate] = useState(false);
   const [preloader, setPreloader] = useState(false);
   const [cookies] = useCookies(['token']);
+
   console.log(moment(1686041363822).format('YYYY-MM-DD HH:mm:ss'));
 
   useEffect(() => {
@@ -62,14 +64,14 @@ export const TimelineComponent = () => {
             response.data
               .filter((e) => e.extra?.zoneId)
               .map((el) => ({
-                id: el.extra.zoneId,
-                zoneId: el.extra.zoneId,
+                id: el.extra?.zoneId,
+                zoneId: el.extra?.zoneId,
                 zoneName: el.extra.zoneName.slice(5),
                 sTime: el.start_tracking,
                 eTime: el.stop_tracking,
-                camera: el.camera.id,
-                cameraName: el.camera.name,
-                algorithm: el.algorithm.name,
+                camera: el.camera?.id,
+                cameraName: el.camera?.name,
+                algorithm: el.algorithm?.name,
               }))
           );
 
@@ -93,15 +95,18 @@ export const TimelineComponent = () => {
           const newDataPromises = answer.map(async (zone) => {
             console.log(zone);
             try {
-              const res =
-                (await getSelectedZone(window.location.hostname, cookies.token, zone.zoneId)) || 0;
-              console.log(res);
+              const res = await getSelectedZone(
+                window.location.hostname,
+                cookies.token,
+                zone.zoneId
+              );
               const oper = zone.oprs.reverse().map((operation, index, array) => ({
                 zoneId: operation.zoneId,
                 orId: operation.orId,
                 camera: operation.camera,
                 cameraName: operation.cameraName,
                 algorithm: operation.algorithm,
+                workplaceName: res?.data?.workplace ? res.data.workplace : '',
                 sTime: new Date(operation.eTime).valueOf() + 10800000,
                 eTime:
                   index < array.length - 1
@@ -111,22 +116,33 @@ export const TimelineComponent = () => {
               return {
                 inverse: true,
                 oprName: zone.oprName,
-                oprTypeID: zone.oprTypeID,
+                oprTypeID: res?.data?.index_workplace ? res.data.index_workplace : '',
                 workplaceID: res?.data?.index_workplace ? res.data.index_workplace : '',
                 workplaceName: res?.data?.workplace ? res.data.workplace : '',
                 oprs: oper,
               };
             } catch (error) {
-              if (error.response && error.response.status === 404) {
-                console.log('Ошибка 404: Ресурс не найден');
-                // Продолжить выполнение кода с нужными значениями
+              if (error) {
+                const oper = zone.oprs.reverse().map((operation, index, array) => ({
+                  zoneId: operation.zoneId,
+                  orId: operation.orId,
+                  camera: operation.camera,
+                  cameraName: operation.cameraName,
+                  algorithm: operation.algorithm,
+                  workplaceName: '',
+                  sTime: new Date(operation.eTime).valueOf() + 10800000,
+                  eTime:
+                    index < array.length - 1
+                      ? new Date(array[index + 1].sTime).valueOf() + 10800000
+                      : new Date(operation.eTime).valueOf() + 10800000,
+                }));
                 return {
                   inverse: true,
                   oprName: zone.oprName,
                   oprTypeID: zone.oprTypeID,
                   workplaceID: '',
                   workplaceName: '',
-                  oprs: [],
+                  oprs: oper,
                 };
               } else {
                 console.error(error);
@@ -140,7 +156,8 @@ export const TimelineComponent = () => {
 
           console.log(newData);
           setPreloader(false);
-          await setData([...newData, ...dataToD3]);
+          await setData(dataToD3);
+          await setMachineData(newData);
         } catch (error) {
           console.log(error);
         }
@@ -167,6 +184,7 @@ export const TimelineComponent = () => {
             maxDate={new Date(`${endDate}T20:00:00.000`)}
             selectOrder={selectOrder}
             preloader={preloader}
+            machineData={machineData}
           />
         </div>
       )}

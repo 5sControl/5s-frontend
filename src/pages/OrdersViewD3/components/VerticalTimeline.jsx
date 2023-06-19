@@ -19,7 +19,7 @@ function getDuration(milli) {
   return days * size;
 }
 
-const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) => {
+const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, machineData }) => {
   const [update, setUpdate] = useState(data);
   const [operationOV, setOperationOV] = useState(false);
   const days = moment(maxDate).diff(minDate, 'days');
@@ -40,8 +40,23 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
 
   useEffect(() => {
     if (data.length > 0) {
-      const first = data.filter((order) => JSON.stringify(order.oprs).includes(`"${selectOrder}"`));
-      const end = data.filter((order) => !JSON.stringify(order.oprs).includes(`"${selectOrder}"`));
+      let first = data.filter((order) => JSON.stringify(order.oprs).includes(`"${selectOrder}"`));
+      let end = data.filter((order) => !JSON.stringify(order.oprs).includes(`"${selectOrder}"`));
+      machineData.forEach((machineItem) => {
+        console.log(machineItem);
+        if (first.some((item) => item.oprTypeID === machineItem.oprTypeID)) {
+          first.unshift(machineItem);
+        } else {
+          end.push(machineItem);
+        }
+      });
+      machineData = machineData.filter((machineItem) => {
+        const foundInFirst = first.some((item) => item.oprTypeID === machineItem.oprTypeID);
+        const foundInEnd = end.some((item) => item.oprTypeID === machineItem.oprTypeID);
+        return !foundInFirst && !foundInEnd;
+      });
+      first = first.sort((a, b) => a.oprTypeID - b.operTypeID);
+      end = end.sort((a, b) => a.oprTypeID - b.operTypeID);
       setUpdate([...first, ...end]);
     }
   }, [data, selectOrder]);
@@ -69,6 +84,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
         cameraIP: e.camera,
         cameraName: e.cameraName,
         algorithm: e.algorithm,
+        workplace: e.workplaceName,
         video: {
           status: true,
         },
@@ -249,10 +265,14 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader }) =>
                         color: `${element.inverse ? '#666666' : '#26272B'}`,
                       }}
                       // eslint-disable-next-line react/no-unknown-property
-                      titles={element.oprName}
+                      titles={`${element.workplaceName ? element.workplaceName : ''} ${
+                        element.oprName
+                      }`}
                     >
-                      {element.oprName.slice(0, 7)}
-                      {element.oprName.length < 7 ? '' : '...'}
+                      {element.workplaceName
+                        ? `${element.workplaceName.slice(0, 2)}. ${element.oprName.slice(0, 4)}`
+                        : `${element.oprName.slice(0, 7)}`}
+                      {element.oprName.length < 5 ? '' : '...'}
                     </div>
                   ))}
                   {/* <div className={styles.prev}>
