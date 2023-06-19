@@ -55,8 +55,8 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
         const foundInEnd = end.some((item) => item.oprTypeID === machineItem.oprTypeID);
         return !foundInFirst && !foundInEnd;
       });
-      first = first.sort((a, b) => a.oprTypeID - b.operTypeID);
-      end = end.sort((a, b) => a.oprTypeID - b.operTypeID);
+      first = first.sort((a, b) => b.operTypeID - a.oprTypeID);
+      end = end.sort((a, b) => b.operTypeID - a.oprTypeID);
       setUpdate([...first, ...end]);
     }
   }, [data, selectOrder]);
