@@ -116,7 +116,7 @@ export const TimelineComponent = () => {
               return {
                 inverse: true,
                 oprName: zone.oprName,
-                oprTypeID: zone.oprTypeID,
+                oprTypeID: res?.data?.index_workplace ? res.data.index_workplace : '',
                 workplaceID: res?.data?.index_workplace ? res.data.index_workplace : '',
                 workplaceName: res?.data?.workplace ? res.data.workplace : '',
                 oprs: oper,

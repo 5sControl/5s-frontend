@@ -20,7 +20,6 @@ function getDuration(milli) {
 }
 
 const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, machineData }) => {
-  console.log(machineData);
   const [update, setUpdate] = useState(data);
   const [operationOV, setOperationOV] = useState(false);
   const days = moment(maxDate).diff(minDate, 'days');
@@ -41,8 +40,23 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
 
   useEffect(() => {
     if (data.length > 0) {
-      const first = data.filter((order) => JSON.stringify(order.oprs).includes(`"${selectOrder}"`));
-      const end = data.filter((order) => !JSON.stringify(order.oprs).includes(`"${selectOrder}"`));
+      let first = data.filter((order) => JSON.stringify(order.oprs).includes(`"${selectOrder}"`));
+      let end = data.filter((order) => !JSON.stringify(order.oprs).includes(`"${selectOrder}"`));
+      machineData.forEach((machineItem) => {
+        console.log(machineItem);
+        if (first.some((item) => item.oprTypeID === machineItem.oprTypeID)) {
+          first.unshift(machineItem);
+        } else {
+          end.push(machineItem);
+        }
+      });
+      machineData = machineData.filter((machineItem) => {
+        const foundInFirst = first.some((item) => item.oprTypeID === machineItem.oprTypeID);
+        const foundInEnd = end.some((item) => item.oprTypeID === machineItem.oprTypeID);
+        return !foundInFirst && !foundInEnd;
+      });
+      first = first.sort((a, b) => a.oprTypeID - b.operTypeID);
+      end = end.sort((a, b) => a.oprTypeID - b.operTypeID);
       setUpdate([...first, ...end]);
     }
   }, [data, selectOrder]);
