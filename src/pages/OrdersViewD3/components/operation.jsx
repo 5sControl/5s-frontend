@@ -12,6 +12,7 @@ import {
   QuestionSquere,
   VideoCamera,
 } from '../../../assets/svg/SVGcomponent';
+import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName';
 
 export const Operation = ({ operation, x, y, onClose, setOperationOV }) => {
   const refOperation = useRef(null);
@@ -38,7 +39,10 @@ export const Operation = ({ operation, x, y, onClose, setOperationOV }) => {
   return (
     <>
       <div className={styles.operation} style={{ top: y, left: x }} ref={refOperation}>
-        <span className={styles.name}>{operation.oprName}</span>
+        {operation.algorithm && (
+          <span className={styles.name}>{parsingAlgorithmName(operation.algorithm)}</span>
+        )}
+        {operation.oprName && <span className={styles.name}>{operation.oprName}</span>}
         <div>
           {operation.video && operation.video.status ? (
             <span onClick={() => operationClickHandler(operation.id)} className={styles.video}>
@@ -52,7 +56,13 @@ export const Operation = ({ operation, x, y, onClose, setOperationOV }) => {
             </span>
           )}
         </div>
-        <span className={styles.name}>{`${operation.frsName} ${operation.lstName}`}</span>
+        {operation.cameraName && (
+          <span className={styles.name}>{parsingAlgorithmName(operation.cameraName)}</span>
+        )}
+        {operation.frsName && operation.lstName && (
+          <span className={styles.name}>{`${operation.frsName} ${operation.lstName}`}</span>
+        )}
+
         <span className={styles.respTime}>{`${moment(operation.sTime).format(
           'HH:mm:ss'
         )} - ${moment(operation.eTime).format('HH:mm:ss')}`}</span>

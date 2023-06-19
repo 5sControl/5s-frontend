@@ -93,15 +93,18 @@ export const TimelineComponent = () => {
           const newDataPromises = answer.map(async (zone) => {
             console.log(zone);
             try {
-              const res =
-                (await getSelectedZone(window.location.hostname, cookies.token, zone.zoneId)) || 0;
-              console.log(res);
+              const res = await getSelectedZone(
+                window.location.hostname,
+                cookies.token,
+                zone.zoneId
+              );
               const oper = zone.oprs.reverse().map((operation, index, array) => ({
                 zoneId: operation.zoneId,
                 orId: operation.orId,
                 camera: operation.camera,
                 cameraName: operation.cameraName,
                 algorithm: operation.algorithm,
+                workplaceName: res?.data?.workplace ? res.data.workplace : '',
                 sTime: new Date(operation.eTime).valueOf() + 10800000,
                 eTime:
                   index < array.length - 1
@@ -117,16 +120,27 @@ export const TimelineComponent = () => {
                 oprs: oper,
               };
             } catch (error) {
-              if (error.response && error.response.status === 404) {
-                console.log('Ошибка 404: Ресурс не найден');
-                // Продолжить выполнение кода с нужными значениями
+              if (error) {
+                const oper = zone.oprs.reverse().map((operation, index, array) => ({
+                  zoneId: operation.zoneId,
+                  orId: operation.orId,
+                  camera: operation.camera,
+                  cameraName: operation.cameraName,
+                  algorithm: operation.algorithm,
+                  workplaceName: '',
+                  sTime: new Date(operation.eTime).valueOf() + 10800000,
+                  eTime:
+                    index < array.length - 1
+                      ? new Date(array[index + 1].sTime).valueOf() + 10800000
+                      : new Date(operation.eTime).valueOf() + 10800000,
+                }));
                 return {
                   inverse: true,
                   oprName: zone.oprName,
                   oprTypeID: zone.oprTypeID,
                   workplaceID: '',
                   workplaceName: '',
-                  oprs: [],
+                  oprs: oper,
                 };
               } else {
                 console.error(error);
