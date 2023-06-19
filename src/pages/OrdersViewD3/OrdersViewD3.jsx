@@ -92,40 +92,61 @@ export const TimelineComponent = () => {
 
           const newDataPromises = answer.map(async (zone) => {
             console.log(zone);
-            const res = await getSelectedZone(window.location.hostname, cookies.token, zone.zoneId);
-            console.log(res);
-            const oper = zone.oprs.reverse().map((operation, index, array) => ({
-              zoneId: operation.zoneId,
-              orId: operation.orId,
-              camera: operation.camera,
-              cameraName: operation.cameraName,
-              algorithm: operation.algorithm,
-
-              sTime: new Date(operation.eTime).valueOf(),
-              eTime:
-                index < array.length - 1
-                  ? new Date(array[index + 1].sTime).valueOf()
-                  : new Date(operation.eTime).valueOf(),
-            }));
-            return {
-              inverse: true,
-              oprName: zone.oprName,
-              oprTypeID: zone.oprTypeID,
-              workplaceID: res.data.index_workplace,
-              workplaceName: res.data.workplace,
-              oprs: oper,
-            };
+            try {
+              const res =
+                (await getSelectedZone(window.location.hostname, cookies.token, zone.zoneId)) || 0;
+              console.log(res);
+              const oper = zone.oprs.reverse().map((operation, index, array) => ({
+                zoneId: operation.zoneId,
+                orId: operation.orId,
+                camera: operation.camera,
+                cameraName: operation.cameraName,
+                algorithm: operation.algorithm,
+                sTime: new Date(operation.eTime).valueOf(),
+                eTime:
+                  index < array.length - 1
+                    ? new Date(array[index + 1].sTime).valueOf()
+                    : new Date(operation.eTime).valueOf(),
+              }));
+              return {
+                inverse: true,
+                oprName: zone.oprName,
+                oprTypeID: zone.oprTypeID,
+                workplaceID: res?.data?.index_workplace ? res.data.index_workplace : '',
+                workplaceName: res?.data?.workplace ? res.data.workplace : '',
+                oprs: oper,
+              };
+            } catch (error) {
+              if (error.response && error.response.status === 404) {
+                console.log('Ошибка 404: Ресурс не найден');
+                // Продолжить выполнение кода с нужными значениями
+                return {
+                  inverse: true,
+                  oprName: zone.oprName,
+                  oprTypeID: zone.oprTypeID,
+                  workplaceID: '',
+                  workplaceName: '',
+                  oprs: [],
+                };
+              } else {
+                console.error(error);
+                // Обработка других ошибок
+                throw error; // Перебросить ошибку для дальнейшей обработки
+              }
+            }
           });
 
-          await setPreloader(true);
           const newData = await Promise.all(newDataPromises);
+
           console.log(newData);
-          await setPreloader(false);
+          setPreloader(false);
           await setData([...newData, ...dataToD3]);
         } catch (error) {
           console.log(error);
         }
       };
+
+      // Вызов функции fetchData
       fetchData();
     }
   }, [endDate, startDate]);

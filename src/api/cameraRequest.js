@@ -287,7 +287,7 @@ export const getSelectedZone = (hostname, cookies, id) => {
       Authorization: cookies,
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.get(`${process.env.REACT_APP_IP_SERVER}$${API_ZONES}${id}/`, {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_ZONES}${id}/`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,
