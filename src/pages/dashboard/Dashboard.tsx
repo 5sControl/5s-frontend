@@ -14,6 +14,7 @@ import { Header } from './components/header/header';
 import { getAveilableAlgorithms } from '../../api/algorithmRequest';
 
 import styles from './dashboard.module.scss';
+import { HeaderMain } from '../../components/header';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -95,15 +96,7 @@ function Dashboard() {
   return (
     <>
       <div className={styles.dashboard}>
-        <Header
-          selectDate={selectDate}
-          setSelectDate={(e: any) => setSelectDate(e)}
-          cameras={cameras}
-          algorithms={algorithms}
-          data={data}
-          update={update}
-        />
-        <main className={styles.wrapper}>
+        <HeaderMain title={'Dashboard'} isTabs={true}>
           <section className={styles.tabs}>
             <span
               className={`${styles.tab} ${
@@ -122,6 +115,17 @@ function Dashboard() {
               Reports
             </span>
           </section>
+          <Header
+            selectDate={selectDate}
+            setSelectDate={(e: any) => setSelectDate(e)}
+            cameras={cameras}
+            algorithms={algorithms}
+            data={data}
+            update={update}
+          />
+        </HeaderMain>
+
+        <main className={styles.wrapper}>
           <section className={styles.content}>
             {!data || isPreloader ? (
               <Preloader />
