@@ -17,7 +17,7 @@ import { Notification } from '../../../../components/notification/notification';
 import styles from './timeline.module.scss';
 import { getVideo } from '../../../../api/cameraRequest';
 
-export const Timeline = ({ data, startDate, algorithm, startTime, endTime, zone }) => {
+export const Timeline = ({ data, startDate, algorithm, startTime, endTime, zona }) => {
   const [timeLine, setTimeLine] = useState([]);
   const [currentReport, setCurrentReport] = useState(false);
   const [currentCount, setCurrentCount] = useState(0);
@@ -199,30 +199,39 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime, zone 
   };
   return (
     <>
-      {timeLine.length > 1 && (zone === 'Camera' || data.length > 0) && (
-        <section className={styles.timeline}>
-          <span className={styles.timeline__text}> {parsingAlgorithmName(algorithm)}</span>
-          <div className={styles.line}>
-            {timeLine.map((el, index, array) => (
-              <span
-                key={index}
-                onMouseOver={(e) => onMove(el, e)}
-                onMouseMove={(e) => onMove(el, e)}
-                onMouseLeave={() => setHoverItem(false)}
-                onClick={() =>
-                  el.id !== 0
-                    ? setCurrentReport(data.filter((item) => item.id === el.id)[0])
-                    : undefined
-                }
-                className={styles[el.violation_found]}
-                style={{
-                  width: `${el.violation_found !== 'yellow' ? duration(el.start, el.stop) : 0}%`,
-                  marginLeft: `${index === 0 ? '0px' : duration(array[index - 1].stop, el.start)}%`,
-                }}
-              ></span>
-            ))}
+      {data.length > 0 && (
+        <>
+          <h1 className={styles.zoneName}>{zona}</h1>
+          <div className={styles.algorithm}>
+            <section className={styles.timeline}>
+              <span className={styles.timeline__text}> {parsingAlgorithmName(algorithm)}</span>
+              <div className={styles.line}>
+                {timeLine.map((el, index, array) => (
+                  <span
+                    key={index}
+                    onMouseOver={(e) => onMove(el, e)}
+                    onMouseMove={(e) => onMove(el, e)}
+                    onMouseLeave={() => setHoverItem(false)}
+                    onClick={() =>
+                      el.id !== 0
+                        ? setCurrentReport(data.filter((item) => item.id === el.id)[0])
+                        : undefined
+                    }
+                    className={styles[el.violation_found]}
+                    style={{
+                      width: `${
+                        el.violation_found !== 'yellow' ? duration(el.start, el.stop) : 0
+                      }%`,
+                      marginLeft: `${
+                        index === 0 ? '0px' : duration(array[index - 1].stop, el.start)
+                      }%`,
+                    }}
+                  ></span>
+                ))}
+              </div>
+            </section>
           </div>
-        </section>
+        </>
       )}
       {hoverItem && (
         <div

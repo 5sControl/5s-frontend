@@ -21,8 +21,6 @@ export const TimelineComponent = () => {
   const [preloader, setPreloader] = useState(false);
   const [cookies] = useCookies(['token']);
 
-  console.log(moment(1686041363822).format('YYYY-MM-DD HH:mm:ss'));
-
   useEffect(() => {
     setStartDate(moment(filterDateData.from).format('YYYY-MM-DD'));
     setEndDate(moment(filterDateData.to).format('YYYY-MM-DD'));
