@@ -56,7 +56,9 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
               : `http://${window.location.hostname}:3456/video?time=${
                   operationData.sTime
                 }&camera_ip=${operationData.cameraIP}#t=${
-                  operationData.video.video_start_from / 1000
+                  operationData.video.video_start_from
+                    ? operationData.video.video_start_from / 1000
+                    : 0
                 }`
           }`}
           controls

@@ -9,6 +9,7 @@ type PropsType = {
   closeNotification: (id: number) => void;
 };
 
+// error, warning, info, success
 export const NotificationSocket: React.FC<PropsType> = ({ notifications, closeNotification }) => {
   return (
     <div className={styles.wrapper}>
