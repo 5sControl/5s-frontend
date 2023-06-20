@@ -37,15 +37,16 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) 
               data.map(
                 (item, index) =>
                   item.orId.toLowerCase().includes(searchText.toLowerCase()) && (
-                    <span
+                    <div
                       key={index}
                       className={`${styles.orders__item} ${
                         selectOrder === item.orId ? styles.select : ''
                       }`}
                       onClick={() => setSelectOrder(item.orId)}
                     >
-                      {`№${item.orId} (${convertMillisecondsToTime(item.duration)})`}
-                    </span>
+                      {`№${item.orId}`}
+                      &npsb;<span>{` (${convertMillisecondsToTime(item.duration)})`}</span>
+                    </div>
                   )
               )}
           </div>

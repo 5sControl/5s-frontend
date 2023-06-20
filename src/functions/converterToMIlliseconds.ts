@@ -5,13 +5,14 @@ export const convertMillisecondsToTime = (milliseconds: number): string => {
 
   let timeString = '';
   if (hours > 0) {
-    timeString += `${hours}h `;
+    timeString += `${hours}:`;
   }
   if (minutes > 0) {
-    timeString += `${minutes}m `;
+    timeString += `${minutes}:`;
+  } else {
+    timeString += '0:';
   }
-  timeString += `${seconds}s`;
+  timeString += `${seconds}`;
 
-  return timeString;
   return timeString;
 };
