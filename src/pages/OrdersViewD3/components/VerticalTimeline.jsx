@@ -15,7 +15,7 @@ function getDuration(milli) {
   let minutes = Math.floor(milli / 60000);
   let hours = Math.round(minutes / 60);
   let days = Math.round(hours / 24);
-  let size = days > 1 ? 400 : window.innerHeight - 300;
+  let size = days > 1 ? 400 : window.innerHeight - 188;
   return days * size;
 }
 

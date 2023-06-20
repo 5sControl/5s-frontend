@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../store/hooks';
 import { tabsData } from './config';
 import styles from './configuration.module.scss';
 import { getConnectionsToDB } from './connectionSlice';
+import { HeaderMain } from '../../components/header';
 
 export const Configuration: React.FC<{ activeTab: number }> = ({ activeTab }) => {
   const [cookies] = useCookies(['token']);
@@ -21,8 +22,8 @@ export const Configuration: React.FC<{ activeTab: number }> = ({ activeTab }) =>
   }, []);
 
   return (
-    <WrapperPage>
-      <h2 className={styles.title}>Configuration</h2>
+    <>
+      <HeaderMain title={'Configuration'}></HeaderMain>
       <Tabs activeTabDefault={activeTab} tabList={tabsData}>
         {tabsData.map((tab) => (
           <Tab key={tab.id} label={tab.title}>
@@ -30,6 +31,6 @@ export const Configuration: React.FC<{ activeTab: number }> = ({ activeTab }) =>
           </Tab>
         ))}
       </Tabs>
-    </WrapperPage>
+    </>
   );
 };
