@@ -10,7 +10,7 @@ import {
   Info,
 } from '../../assets/svg/SVGcomponent';
 import { useEffect, useState } from 'react';
-import { getCompanyInfo, getCompanySubsInfo } from '../../api/companyRequest';
+import { getCompanySubsInfo } from '../../api/companyRequest';
 import { useCookies } from 'react-cookie';
 import { CompanyInfo } from './types';
 import './styles.scss';

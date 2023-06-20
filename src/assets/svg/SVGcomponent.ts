@@ -42,6 +42,8 @@ import { ReactComponent as Prev } from './prev.svg';
 import { ReactComponent as SettingsWhite } from './settingsWhite.svg';
 import { ReactComponent as NotificationGood } from './notificationGood.svg';
 import { ReactComponent as NotificationBad } from './notificationBad.svg';
+import { ReactComponent as NotificationWarning } from './notificationWarning.svg';
+import { ReactComponent as NotificationInfo } from './notificationInfo.svg';
 import { ReactComponent as LogoHorizontal } from './5scontrol.svg';
 import { ReactComponent as Info } from './info.svg';
 import { ReactComponent as ConfigurationNew } from './configurationNew.svg';
@@ -102,6 +104,8 @@ export {
   SettingsWhite,
   NotificationGood,
   NotificationBad,
+  NotificationWarning,
+  NotificationInfo,
   LogoHorizontal,
   ConfigurationNew,
   Info,
