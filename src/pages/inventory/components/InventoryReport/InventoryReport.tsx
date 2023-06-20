@@ -4,7 +4,11 @@ import { Cover } from '../../../../components/cover';
 import { ArrowDown, Dots, SortSVG } from '../../../../assets/svg/SVGcomponent';
 import styles from './inventoryReport.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import { getInventoryItemsAsync, selectInventory } from '../../inventorySlice';
+import {
+  getInventoryItemsAsync,
+  selectInventory,
+  setIsOpenNotificationModal,
+} from '../../inventorySlice';
 import { EditInventoryModal } from '../EditInventoryModal';
 import {
   selectEditInventoryModal,
@@ -30,13 +34,14 @@ import {
 import { InventoryCard } from '../InventoryCard/InventoryCard';
 import { BsEyeFill } from 'react-icons/bs';
 import { Glazik } from '../glazik/glazik';
+import { EmailNotificationModal } from '../EmailNotificationModal/EmailNotificationModal';
 
 type PropsType = {
   setIsNotification: () => void;
 };
 
 export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
-  const { inventoryItems, isLoading, camerasData, inventoryHistoryData } =
+  const { inventoryItems, isLoading, camerasData, isOpenNotificationModal } =
     useAppSelector(selectInventory);
   const { isOpenEditModal, currentEditItem } = useAppSelector(selectEditInventoryModal);
   const { isOpenDeleteModal, currentDeleteItemId } = useAppSelector(selectDeleteInventoryModal);
@@ -66,6 +71,14 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
 
   const handleCloseEditModal = () => {
     dispatch(setIsOpenEditModal(false));
+  };
+
+  const handleOpenEditNotificationModal = () => {
+    dispatch(setIsOpenNotificationModal(true));
+  };
+
+  const handleCloseNotificationModal = () => {
+    dispatch(setIsOpenNotificationModal(false));
   };
 
   const handleCloseDeleteModal = () => {
@@ -107,11 +120,19 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
   };
   return (
     <>
-      {currentEditItem && (
+      {currentEditItem && isOpenEditModal && (
         <EditInventoryModal
           isOpen={isOpenEditModal}
+          isHide={isOpenNotificationModal}
           handleClose={handleCloseEditModal}
           setIsNotification={setIsNotification}
+          handleOpenEditNotificationModal={handleOpenEditNotificationModal}
+        />
+      )}
+      {currentEditItem && isOpenNotificationModal && (
+        <EmailNotificationModal
+          isOpen={isOpenNotificationModal}
+          handleClose={handleCloseNotificationModal}
         />
       )}
       {currentDeleteItemId && (

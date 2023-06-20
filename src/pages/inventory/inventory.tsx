@@ -7,10 +7,11 @@ import { AddInventoryModal } from './components/AddInventoryModal';
 import { InventoryReport } from './components/InventoryReport';
 import {
   getCamerasAsync,
+  getEmailListForNotification,
   getInventoryItemHistoryAsync,
-  getIsFullOwnCompanyInfo,
   getSMTPConnect,
   selectInventory,
+  setNotificationInfo,
 } from './inventorySlice';
 import styles from './inventory.module.scss';
 import { selectActiveInventoryItem } from './components/InventoryItemsList/InventoryItemsListSlice';
@@ -18,13 +19,14 @@ import moment from 'moment';
 import { selectInventoryHistory } from './components/InventoryHistory/inventoryHistorySlice';
 import { Plus } from '../../assets/svg/SVGcomponent';
 import {
-  setIsOpenNightModal,
   selectNightInventoryModal,
+  setIsOpenNightModal,
 } from './components/NightModeModal/NightModeSlice';
 
 import { IoMdSettings } from 'react-icons/io';
 import { NightModeModal } from './components/NightModeModal';
 import { Notification } from '../../components/notification/notification';
+import { EmailNotificationModal } from './components/EmailNotificationModal/EmailNotificationModal';
 
 export const Inventory: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -34,13 +36,16 @@ export const Inventory: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
   const [isNotification, setIsNotification] = useState<boolean>(false);
+  const [isOpenEmailNotification, setIsOpenEmailNotification] = useState<boolean>(false);
 
   const { isOpenNightModal } = useAppSelector(selectNightInventoryModal);
 
   useEffect(() => {
     dispatch(getCamerasAsync({ token: cookies.token, hostname: window.location.hostname }));
     dispatch(getSMTPConnect({ token: cookies.token, hostname: window.location.hostname }));
-    dispatch(getIsFullOwnCompanyInfo({ token: cookies.token, hostname: window.location.hostname }));
+    dispatch(
+      getEmailListForNotification({ token: cookies.token, hostname: window.location.hostname })
+    );
   }, []);
 
   useEffect(() => {
@@ -60,10 +65,21 @@ export const Inventory: React.FC = () => {
 
   const addInventoryButton = () => {
     setIsOpen(true);
+    dispatch(
+      setNotificationInfo({
+        to_emails: null,
+        copy_emails: null,
+        subject: null,
+      })
+    );
   };
 
   const closeInventoryButton = () => {
     setIsOpen(false);
+  };
+
+  const openEmailNotificationOpen = () => {
+    setIsOpenEmailNotification(true);
   };
 
   useEffect(() => {
@@ -78,9 +94,18 @@ export const Inventory: React.FC = () => {
     <>
       <AddInventoryModal
         isOpen={isOpen}
+        isHide={isOpenEmailNotification}
         handleClose={closeInventoryButton}
         setIsNotification={() => setIsNotification(true)}
+        handleOpenEditNotificationModal={openEmailNotificationOpen}
       />
+      {isOpenEmailNotification && (
+        <EmailNotificationModal
+          isOpen={isOpenEmailNotification}
+          isAddItemModal={true}
+          handleClose={() => setIsOpenEmailNotification(false)}
+        />
+      )}
       <WrapperPage>
         <div className={styles.content}>
           <div className={styles.header}>

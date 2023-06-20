@@ -54,7 +54,11 @@ export interface InventoryItem {
   coords: Coordinat[];
   order_quantity: number | null;
   suppliers: number | null;
+  to_emails: string[] | null;
+  copy_emails: string[] | null;
+  subject: string | null;
 }
+
 export interface Coordinat {
   x1: number;
   x2: number;

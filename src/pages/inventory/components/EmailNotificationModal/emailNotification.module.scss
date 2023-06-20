@@ -1,0 +1,59 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  width: 560px;
+  height: fit-content;
+  padding: 20px;
+
+  .title {
+    padding-bottom: 30px;
+    @include h2;
+    letter-spacing: 0.03em;
+    color: var(--HightEmphasis);
+  }
+
+  .form_container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding-bottom: 30px;
+
+    .input {
+      width: 100%;
+      max-height: 40px;
+      border: 1px solid var(--LowEmphasis);
+      border-radius: 4px;
+      @include body1;
+      color: var(--HightEmphasis);
+      padding: 13px 16px;
+      &:focus {
+        border-color: #212121;
+        outline: none;
+      }
+    }
+  }
+
+  .mail_body {
+    padding-bottom: 22px;
+
+    h6 {
+      @include h6;
+      color: var(--LowEmphasis)
+    }
+
+    p {
+      @include body3;
+      line-height: 18px;
+      color: var(--HightEmphasis)
+    }
+  }
+
+  .button_container{
+    display: flex;
+    gap: 20px;
+    align-self: end;
+  }
+}

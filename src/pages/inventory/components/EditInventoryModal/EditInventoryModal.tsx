@@ -7,7 +7,7 @@ import { Input } from '../../../../components/input';
 import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { editItem, selectEditInventoryModal } from './editInventoryModalSlice';
-import { selectInventory } from '../../inventorySlice';
+import { selectInventory, setNotificationInfo } from '../../inventorySlice';
 import { Coordinat } from '../../types';
 import { Coordinates } from './Coordiantes';
 import { Preloader } from '../../../../components/preloader';
@@ -16,26 +16,28 @@ import tooltipImage from '../../../../assets/png/tooltipInventory.png';
 import { Notification } from '../../../../components/notification/notification';
 
 import styles from '../InventoryModal.module.scss';
-import { getSuppliers } from '../../../../api/companyRequest';
-import { ContactInfoType } from '../../../company/types';
 import { useNavigate } from 'react-router-dom';
-import { SelectCustom } from '../../../../components/selectCustom';
+import { Button } from '../../../../components/button';
 
 type PropsType = {
   isOpen: boolean;
+  isHide?: boolean;
   handleClose: () => void;
   setIsNotification: () => void;
+  handleOpenEditNotificationModal: () => void;
 };
 
 export const EditInventoryModal: React.FC<PropsType> = ({
   isOpen,
+  isHide,
   handleClose,
   setIsNotification,
+  handleOpenEditNotificationModal,
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { currentEditItem } = useAppSelector(selectEditInventoryModal);
-  const { camerasData, isSMTPServerConnect, isFullOwnCompanyInfo } =
+  const { camerasData, isSMTPServerConnect, isFullOwnCompanyInfo, emailNotificationInfo } =
     useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
   const [currentSelect, setCurrentSelect] = useState('');
@@ -45,12 +47,8 @@ export const EditInventoryModal: React.FC<PropsType> = ({
   const [itemCount, setItemCount] = useState<number | undefined>(0);
   const [isTooltipClicked, setIsTooltipClicked] = useState(false);
   const [isScale, setIsScale] = useState<any>(false);
-  const [isTooltipSupplies, setIsTooltipSupplies] = useState(false);
   const [orderAmount, setOrderAmount] = useState<number | null>(0);
   const [selectedSupplierID, setSelectedSupplierID] = useState<number | null>(null);
-  const [suppliersData, setSuppliersData] = useState<Array<{ id: number | string; text: string }>>(
-    []
-  );
   const [isAutomaticallyOrder, setIsAutomaticallyOrder] = useState(false);
 
   const submitHandler = () => {
@@ -65,11 +63,14 @@ export const EditInventoryModal: React.FC<PropsType> = ({
       id: currentEditItem?.id,
       order_quantity: orderAmount as number | null,
       suppliers: selectedSupplierID as number | null,
+      ...emailNotificationInfo,
     };
+
     if (!isAutomaticallyOrder) {
       dataForm.order_quantity = null;
       dataForm.suppliers = null;
     }
+
     const coordNegativeArray = coords.filter(
       (coord) => coord.x1 < 0 || coord.x2 < 0 || coord.y1 < 0 || coord.y2 < 0
     );
@@ -126,16 +127,13 @@ export const EditInventoryModal: React.FC<PropsType> = ({
   }, [isOpen]);
 
   useEffect(() => {
-    getSuppliers(window.location.hostname, cookies.token)
-      .then((response) => {
-        const dataForSelect = response.data.map((item: ContactInfoType) => {
-          return { id: item.id, text: item.name_company };
-        });
-        setSuppliersData(dataForSelect);
+    dispatch(
+      setNotificationInfo({
+        to_emails: currentEditItem?.to_emails || null,
+        copy_emails: currentEditItem?.copy_emails || null,
+        subject: currentEditItem?.subject || null,
       })
-      .catch((err) => {
-        console.log('setCompanyInfoError', err);
-      });
+    );
   }, []);
 
   useEffect(() => {
@@ -158,7 +156,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
     <Modal
       isOpen={isOpen}
       handleClose={handleClose}
-      className={styles.modal}
+      className={`${styles.modal} ${isHide && styles.hide_modal}`}
       disableClickBg={true}
       noESC={isScale}
     >
@@ -233,36 +231,22 @@ export const EditInventoryModal: React.FC<PropsType> = ({
 
         <div className={styles.content}>
           <div className={styles.algorithm}>
-            <h2 className={styles.tooltipTitle}>
-              Supplies <Tooltip onClick={() => setIsTooltipSupplies(true)} />
-              {isTooltipSupplies && (
-                <>
-                  <div
-                    className={styles.algorithm__container}
-                    onClick={() => setIsTooltipSupplies(false)}
-                  ></div>
-                  <div className={styles.supplies_tooltip}>
-                    <h6>Supplies</h6>
-                    <p>
-                      Upon reaching low stock level the email will be send to the supplier ordering
-                      the item. Company info will be used for order details.
-                    </p>
-                  </div>
-                </>
-              )}
-            </h2>
-
-            {isSMTPServerConnect && isFullOwnCompanyInfo && (
-              <div className={styles.algorithm__toggle}>
-                <span>Automatically order</span>
-                <div
-                  className={`toggle ${isAutomaticallyOrder ? 'toggle--on' : 'toggle--off'}`}
-                  onClick={handleAutoOrderToggle}
-                >
-                  <div className="toggle__button"></div>
-                </div>
+            <div className={styles.email_settings}>
+              <div className={styles.send_to_box}>
+                <h6>Notification about low stock level</h6>
+                <span className={styles.email_settings_list}>Send to:</span>
+                <span className={styles.email_settings_list}>
+                  {` ${emailNotificationInfo.to_emails?.join(', ') || '-'}`}
+                </span>
               </div>
-            )}
+
+              <Button
+                text="Edit"
+                type="button"
+                variant={'text'}
+                onClick={handleOpenEditNotificationModal}
+              />
+            </div>
 
             {!isSMTPServerConnect && (
               <div className={styles.no_info_for_suppliers}>
@@ -275,55 +259,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
                 <span>SMTP server.</span>
               </div>
             )}
-
-            {!isFullOwnCompanyInfo && (
-              <div className={styles.no_info_for_suppliers}>
-                <span className={styles.no_info_link} onClick={() => navigate('/company')}>
-                  Fill in{' '}
-                </span>
-                <span>info about your company (Address, Phone and Email are required).</span>
-              </div>
-            )}
           </div>
-
-          {isAutomaticallyOrder && (
-            <form className={styles.supplies_form}>
-              <div className={styles.input}>
-                <SelectCustom
-                  id="supplier"
-                  name="supplier"
-                  label="Select a supplier"
-                  activeSelect={selectedSupplierID}
-                  listOfData={suppliersData}
-                  setDefaultSelect={(select) => setSelectedSupplierID(select)}
-                  disabled={!suppliersData.length}
-                />
-                {!suppliersData.length && (
-                  <div className={styles.input_add_suppliers}>
-                    <span
-                      onClick={() => navigate('/company/contacts/newContact')}
-                      className={styles.add_suppliers_link}
-                    >
-                      Add{' '}
-                    </span>
-                    <span>suppliers to select</span>
-                  </div>
-                )}
-              </div>
-
-              <div className={styles.input}>
-                <Input
-                  id="orderAmount"
-                  name="orderAmount"
-                  type="number"
-                  min={0}
-                  label="Amount to order"
-                  value={orderAmount?.toString() || '0'}
-                  onChange={(e) => setOrderAmount(e.target.value)}
-                />
-              </div>
-            </form>
-          )}
         </div>
       </div>
       <Coordinates

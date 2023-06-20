@@ -1,6 +1,10 @@
 @import '../../../styles/media.scss';
 @import '../../../styles/fonts.scss';
 
+.hide_modal {
+  visibility: hidden;
+}
+
 .modal {
   width: 90vw;
   height: 90vh;
@@ -410,6 +414,13 @@
   h6 {
     @include h6;
     color: var(--LowEmphasis)
+  }
+
+  .send_to_box {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 210px;
   }
 
   .email_settings_list {
