@@ -93,22 +93,20 @@ export const Inventory: React.FC = () => {
         handleClose={closeInventoryButton}
         setIsNotification={() => setIsNotification(true)}
       />
-      <WrapperPage>
-        <div className={styles.content}>
-          <>
-            <InventoryReport setIsNotification={() => setIsNotification(true)} />
-          </>
-        </div>
-        {isOpenNightModal && (
-          <NightModeModal
-            isOpen={true}
-            handleClose={() => {
-              dispatch(setIsOpenNightModal(false));
-            }}
-          />
-        )}
-        {isNotification && <Notification status={true} message={'Item saved'} />}
-      </WrapperPage>
+      <div className={styles.content}>
+        <>
+          <InventoryReport setIsNotification={() => setIsNotification(true)} />
+        </>
+      </div>
+      {isOpenNightModal && (
+        <NightModeModal
+          isOpen={true}
+          handleClose={() => {
+            dispatch(setIsOpenNightModal(false));
+          }}
+        />
+      )}
+      {isNotification && <Notification status={true} message={'Item saved'} />}
     </>
   );
 };
