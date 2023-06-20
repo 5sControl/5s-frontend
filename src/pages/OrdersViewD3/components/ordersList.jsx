@@ -45,7 +45,7 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) 
                       onClick={() => setSelectOrder(item.orId)}
                     >
                       {`№${item.orId}`}
-                      &npsb;<span>{` (${convertMillisecondsToTime(item.duration)})`}</span>
+                      &nbsp;<span>{` (${convertMillisecondsToTime(item.duration)})`}</span>
                     </div>
                   )
               )}
