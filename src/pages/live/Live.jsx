@@ -93,7 +93,7 @@ export const Live = () => {
 
   return (
     <>
-      <HeaderMain title={'Live'}>
+      <HeaderMain title={'Live'} noTabs={true}>
         <button
           onClick={() => setVisibleModalDate(!visibleModalDate)}
           className="live__data-button"

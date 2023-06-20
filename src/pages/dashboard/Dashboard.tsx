@@ -96,7 +96,7 @@ function Dashboard() {
   return (
     <>
       <div className={styles.dashboard}>
-        <HeaderMain title={'Dashboard'} isTabs={true}>
+        <HeaderMain title={'Dashboard'}>
           <section className={styles.tabs}>
             <span
               className={`${styles.tab} ${

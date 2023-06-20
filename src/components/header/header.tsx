@@ -4,10 +4,10 @@ import styles from './header.module.scss';
 type PropsType = {
   children: React.ReactNode;
   title: string;
-  isTabs?: boolean;
+  noTabs?: boolean;
 };
 
-export const HeaderMain: React.FC<PropsType> = ({ children, title, isTabs }) => {
+export const HeaderMain: React.FC<PropsType> = ({ children, title, noTabs }) => {
   return (
     <section className={styles.header}>
       <div className={styles.logo}>
@@ -15,7 +15,7 @@ export const HeaderMain: React.FC<PropsType> = ({ children, title, isTabs }) => 
       </div>
       <div className={styles.content}>
         <h1>{title}</h1>
-        <div className={`${styles.container} ${isTabs ? styles.isTabs : ''}`}>{children}</div>
+        <div className={`${styles.container} ${noTabs ? styles.noTabs : ''}`}>{children}</div>
       </div>
     </section>
   );

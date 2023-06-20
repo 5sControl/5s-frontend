@@ -38,8 +38,9 @@
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: flex-end;
-}
-.isTabs{
   justify-content: space-between;
+  
+}
+.noTabs{
+  justify-content: flex-end;
 }
