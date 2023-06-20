@@ -2,7 +2,7 @@ import { LogoHorizontal } from '../../assets/svg/SVGcomponent';
 import styles from './header.module.scss';
 
 type PropsType = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   title: string;
   noTabs?: boolean;
 };
