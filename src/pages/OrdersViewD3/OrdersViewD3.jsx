@@ -8,7 +8,6 @@ import moment from 'moment';
 import { getOrderViewOperations } from '../../api/orderView';
 import { getData } from '../../api/reportsRequest';
 import { useCookies } from 'react-cookie';
-import { Algorithm } from '../../assets/svg/SVGcomponent';
 import { getSelectedZone } from '../../api/cameraRequest';
 
 export const TimelineComponent = () => {
@@ -34,7 +33,7 @@ export const TimelineComponent = () => {
         try {
           const response = await getOrderViewOperations(
             window.location.hostname,
-            '',
+            cookies.token,
             startDate,
             endDate
           );

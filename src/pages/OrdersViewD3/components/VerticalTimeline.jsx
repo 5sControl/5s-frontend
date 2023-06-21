@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
-import Arrow from '../assets/svg/arrow.svg';
 import { Operation } from './operation';
 import Timeline from './scale';
 import moment from 'moment';

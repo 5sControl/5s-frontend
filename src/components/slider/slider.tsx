@@ -43,7 +43,6 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
 
   return (
     <div className={styles.container}>
-      <span className={styles.counter}>{`${currentCount + 1}/${images.length}`}</span>
       {images[currentCount] && images[currentCount].date && (
         <div className={styles.datetime}>
           {currentCount ? (
@@ -51,10 +50,15 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
           ) : (
             <span className={styles.empty}></span>
           )}
-          <span>{`${moment
-            .utc(images[currentCount].date)
-            .utcOffset(moment().utcOffset())
-            .format('HH:mm:ss')}`}</span>
+          <div className={styles.dateCount}>
+            {' '}
+            <span className={styles.counter}>{`${currentCount + 1}/${images.length}`}</span>{' '}
+            <span>{`${moment
+              .utc(images[currentCount].date)
+              .utcOffset(moment().utcOffset())
+              .format('HH:mm:ss')}`}</span>
+          </div>
+
           {currentCount !== images.length - 1 ? (
             <ArrowJustLeft onClick={goToNextSlide} className={styles.buttonRight} />
           ) : (
