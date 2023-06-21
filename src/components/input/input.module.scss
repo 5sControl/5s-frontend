@@ -51,7 +51,7 @@
     right: 0px;
   }
   &__error {
-    border: 1px solid var(--Red);
+    border: 1px solid var(--Red) !important;
   }
   &__error::placeholder {
     color: var(--Red);

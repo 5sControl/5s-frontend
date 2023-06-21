@@ -245,6 +245,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
                 type="button"
                 variant={'text'}
                 onClick={handleOpenEditNotificationModal}
+                disabled={!isSMTPServerConnect}
               />
             </div>
 
