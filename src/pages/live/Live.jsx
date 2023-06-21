@@ -14,6 +14,7 @@ import { addCurrentReport } from '../../store/dataSlice';
 import { ArrowBottom, SearchIcon } from '../../assets/svg/SVGcomponent';
 
 import './live.scss';
+import { HeaderMain } from '../../components/header';
 
 export const Live = () => {
   const navigate = useNavigate();
@@ -92,22 +93,21 @@ export const Live = () => {
 
   return (
     <>
+      <HeaderMain title={'Live'} noTabs={true}>
+        <button
+          onClick={() => setVisibleModalDate(!visibleModalDate)}
+          className="live__data-button"
+        >
+          {new Date(selectDate ? selectDate : new Date().toDateString()).toDateString() ===
+          new Date().toDateString()
+            ? 'Today, ' + (selectDate ? moment(selectDate).format('ll') : moment().format('ll'))
+            : moment(selectDate).format('ll')
+            ? moment(selectDate).format('ll')
+            : moment().format('ll')}
+          <ArrowBottom style={{ marginLeft: '10px', width: '9px' }} />
+        </button>
+      </HeaderMain>
       <section className="live">
-        <div className="live__title">
-          <h1>Live</h1>
-          <button
-            onClick={() => setVisibleModalDate(!visibleModalDate)}
-            className="live__data-button"
-          >
-            {new Date(selectDate ? selectDate : new Date().toDateString()).toDateString() ===
-            new Date().toDateString()
-              ? 'Today, ' + (selectDate ? moment(selectDate).format('ll') : moment().format('ll'))
-              : moment(selectDate).format('ll')
-              ? moment(selectDate).format('ll')
-              : moment().format('ll')}
-            <ArrowBottom style={{ marginLeft: '10px', width: '9px' }} />
-          </button>
-        </div>
         <div className="live__container">
           <div className="live__reports">
             <div className="live__camera">

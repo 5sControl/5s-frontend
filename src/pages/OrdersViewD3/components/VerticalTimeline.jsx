@@ -15,7 +15,7 @@ function getDuration(milli) {
   let minutes = Math.floor(milli / 60000);
   let hours = Math.round(minutes / 60);
   let days = Math.round(hours / 24);
-  let size = days > 1 ? 400 : window.innerHeight - 300;
+  let size = days > 1 ? 400 : window.innerHeight - 188;
   return days * size;
 }
 
@@ -55,8 +55,10 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
         const foundInEnd = end.some((item) => item.oprTypeID === machineItem.oprTypeID);
         return !foundInFirst && !foundInEnd;
       });
-      first = first.sort((a, b) => b.operTypeID - a.oprTypeID);
-      end = end.sort((a, b) => b.operTypeID - a.oprTypeID);
+      first = first.sort((a, b) => b.oprTypeID - a.oprTypeID);
+      end = end.sort((a, b) => b.oprTypeID - a.oprTypeID);
+      console.log(first);
+      console.log(end);
       setUpdate([...first, ...end]);
     }
   }, [data, selectOrder]);
@@ -193,7 +195,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
           .enter()
           .append('g')
           .attr('class', 'timeline-bar' + index)
-          .attr('transform', (d, i) => {
+          .attr('transform', (d) => {
             const diff = moment(d.sTime).diff(minDate, 'days');
             const newDate = moment(d.sTime)
               .subtract(9 * diff, 'hours')
@@ -219,13 +221,13 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
           .attr('x', index * fieldWidth + 35)
           .attr('y', 0)
           .attr('width', fieldWidth - 70)
-          .attr('height', (d, i) => {
+          .attr('height', (d) => {
             return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d)) < 0
               ? 0
               : y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d));
           })
           .attr('fill', '#87BC45')
-          .attr('opacity', (d, i) => (selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4))
+          .attr('opacity', (d) => (selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4))
           .attr('cursor', 'pointer')
           .attr('z-index', 2);
       });

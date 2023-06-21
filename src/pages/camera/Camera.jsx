@@ -10,6 +10,7 @@ import { SettingsHub } from './modal/settingsHub';
 import { DeleteClear, Plus } from '../../assets/svg/SVGcomponent';
 import { Notification } from '../../components/notification/notification';
 
+import s from '../configuration/configuration.module.scss';
 import styles from './camera.module.scss';
 import './cameras.scss';
 
@@ -69,10 +70,12 @@ export const Camera = () => {
 
   return (
     <section className={styles.cameras}>
-      <div className={styles.cameras__title}>
-        <h2>Cameras</h2>
-        <Button text="Add camera" onClick={showAddCameras} IconLeft={Plus} />
-      </div>
+      <Button
+        text="Add camera"
+        className={s.buttonPosition}
+        onClick={showAddCameras}
+        IconLeft={Plus}
+      />
 
       {createdCameras && (
         <div className={styles.cameras__list}>

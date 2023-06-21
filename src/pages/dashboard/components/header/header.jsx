@@ -43,7 +43,6 @@ export const Header = ({ selectDate, setSelectDate, cameras, algorithms, data, u
 
   return (
     <div className={styles.title}>
-      <h1 className={styles.title_h1}>Dashboard</h1>
       <div className={styles.title__filter}>
         <Button
           text="Filter"

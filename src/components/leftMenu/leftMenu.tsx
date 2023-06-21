@@ -10,7 +10,7 @@ import {
   Info,
 } from '../../assets/svg/SVGcomponent';
 import { useEffect, useState } from 'react';
-import { getCompanyInfo, getCompanySubsInfo } from '../../api/companyRequest';
+import { getCompanySubsInfo } from '../../api/companyRequest';
 import { useCookies } from 'react-cookie';
 import { CompanyInfo } from './types';
 import './styles.scss';
@@ -65,9 +65,6 @@ export const LeftMenu = () => {
 
   return (
     <aside className="leftMenu">
-      <div className="leftMenu__logo">
-        <LogoHorizontal className="leftMenu__logo_svg" />
-      </div>
       <ul>
         <li
           className={window.location.pathname.includes('dashboard') ? 'activeMenu' : 'noActiveMenu'}
