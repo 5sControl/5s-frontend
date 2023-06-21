@@ -48,11 +48,19 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
             process.env.REACT_APP_ENV === 'proxy'
               ? `http://192.168.1.110:3456/video?time=${operationData.sTime}&camera_ip=${
                   operationData.cameraIP
-                }#t=${operationData.video.video_start_from / 1000}`
+                }#t=${
+                  operationData.video.video_start_from
+                    ? operationData.video.video_start_from / 1000
+                    : 0
+                }`
               : process.env.REACT_APP_ENV === 'wify'
               ? `http://192.168.1.110:3456/video?time=${operationData.sTime}&camera_ip=${
                   operationData.cameraIP
-                }#t=${operationData.video.video_start_from / 1000}`
+                }#t=${
+                  operationData.video.video_start_from
+                    ? operationData.video.video_start_from / 1000
+                    : 0
+                }`
               : `http://${window.location.hostname}:3456/video?time=${
                   operationData.sTime
                 }&camera_ip=${operationData.cameraIP}#t=${

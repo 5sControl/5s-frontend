@@ -32,6 +32,7 @@ export const Operation = ({ operation, x, y, onClose, setOperationOV }) => {
           console.log(err);
         });
     } else {
+      console.log(operation);
       setOperationOV(operation);
     }
   };

@@ -97,7 +97,6 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
           status: true,
         },
       };
-      console.log(buf);
       getVideo(window.location.hostname, {
         camera_ip: e.camera,
         time: e.sTime,
