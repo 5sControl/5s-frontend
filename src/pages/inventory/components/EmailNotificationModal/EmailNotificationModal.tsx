@@ -11,6 +11,7 @@ import { selectInventory, setNotificationInfo } from '../../inventorySlice';
 import { companyState } from '../../../company/companySlice';
 import { AddPerson } from '../../../../assets/svg/SVGcomponent';
 import { SuppliersPopup } from './SuppliersPopup';
+import { EMAIL_REGEXP } from '../../../company/config';
 
 type PropsType = {
   isOpen: boolean;
@@ -32,6 +33,10 @@ export const EmailNotificationModal: React.FC<PropsType> = ({
   const [subject, setSubject] = useState<string | null>(null);
   const [isShowSuppliersTo, setIsShowSuppliersTo] = useState<boolean>(false);
   const [isShowSuppliersCopy, setIsShowSuppliersCopy] = useState<boolean>(false);
+
+  const [subjectError, setSubjectError] = useState<string | null>(null);
+  const [toEmailsError, setToEmailsError] = useState<string | null>(null);
+  const [copyEmailsError, setCopyEmailsError] = useState<string | null>(null);
 
   const addSuppliersToEmail = (item: string) => {
     if (toEmails) {
@@ -66,8 +71,27 @@ export const EmailNotificationModal: React.FC<PropsType> = ({
   };
 
   const onSubmit = () => {
-    const toEmailsData = toEmails?.split(',').map((item) => item.trim());
-    const copyEmailsData = copyEmails?.split(',').map((item) => item.trim());
+    if (!subject || !subject.length) {
+      setSubjectError('Required field');
+    }
+
+    const toEmailsData = toEmails?.split(',').map((item) => {
+      if (!EMAIL_REGEXP.test(item)) {
+        setToEmailsError('Some email is invalid');
+      }
+      return item.trim();
+    });
+    const copyEmailsData = copyEmails?.split(',').map((item) => {
+      if (!EMAIL_REGEXP.test(item)) {
+        setCopyEmailsError('Some email is invalid');
+      }
+      return item.trim();
+    });
+
+    if (subjectError || toEmailsError || copyEmailsError) {
+      return;
+    }
+
     const info = {
       to_emails: null as string[] | null,
       copy_emails: null as string[] | null,
@@ -117,7 +141,7 @@ export const EmailNotificationModal: React.FC<PropsType> = ({
       <h2 className={styles.title}>Email notification</h2>
 
       <form className={styles.form_container}>
-        <div className={styles.input_box}>
+        <div className={styles.input_box} onFocus={() => setToEmailsError(null)}>
           <Input
             id="main"
             name="main"
@@ -127,6 +151,7 @@ export const EmailNotificationModal: React.FC<PropsType> = ({
             onChange={(e) => setToEmails(e.target.value)}
             className={styles.input}
             placeholder={'Enter recipients divided by comma'}
+            errorMessage={toEmailsError}
           />
           <div className={styles.add_supplier} onClick={showSuppliersTo}>
             <AddPerson />
@@ -140,7 +165,7 @@ export const EmailNotificationModal: React.FC<PropsType> = ({
           )}
         </div>
 
-        <div className={styles.input_box}>
+        <div className={styles.input_box} onFocus={() => setCopyEmailsError(null)}>
           <Input
             id="copy"
             name="copy"
@@ -150,6 +175,7 @@ export const EmailNotificationModal: React.FC<PropsType> = ({
             onChange={(e) => setCopyEmails(e.target.value)}
             className={styles.input}
             placeholder={'Enter recipients divided by comma'}
+            errorMessage={copyEmailsError}
           />
           <div className={styles.add_supplier} onClick={showSuppliersCopy}>
             <AddPerson />
@@ -163,7 +189,7 @@ export const EmailNotificationModal: React.FC<PropsType> = ({
           )}
         </div>
 
-        <div className={styles.input_box}>
+        <div className={styles.input_box} onFocus={() => setSubjectError(null)}>
           <Input
             id="subject"
             name="subject"
@@ -172,6 +198,7 @@ export const EmailNotificationModal: React.FC<PropsType> = ({
             value={subject || undefined}
             onChange={(e) => setSubject(e.target.value)}
             className={styles.input}
+            errorMessage={subjectError}
           />
         </div>
       </form>
