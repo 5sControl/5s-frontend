@@ -199,7 +199,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime, zone 
   };
   return (
     <>
-      {timeLine.length > 1 && (zone === 'Camera' || data.length > 0) && (
+      {
         <section className={styles.timeline}>
           <span className={styles.timeline__text}> {parsingAlgorithmName(algorithm)}</span>
           <div className={styles.line}>
@@ -223,7 +223,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime, zone 
             ))}
           </div>
         </section>
-      )}
+      }
       {hoverItem && (
         <div
           className={styles.hover}
