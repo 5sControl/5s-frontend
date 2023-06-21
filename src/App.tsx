@@ -41,7 +41,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/authorization" element={<Authorization />} />
-        {!cookies.token ? (
+        {cookies.token ? (
           <Route element={<RoutesOutlet />}>
             <Route path="/" element={<Main />} />
             <Route path="/info/*" element={<Info />} />
