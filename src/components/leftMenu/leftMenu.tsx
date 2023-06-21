@@ -65,9 +65,6 @@ export const LeftMenu = () => {
 
   return (
     <aside className="leftMenu">
-      <div className="leftMenu__logo">
-        <LogoHorizontal className="leftMenu__logo_svg" />
-      </div>
       <ul>
         <li
           className={window.location.pathname.includes('dashboard') ? 'activeMenu' : 'noActiveMenu'}

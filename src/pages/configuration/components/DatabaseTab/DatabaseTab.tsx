@@ -17,6 +17,7 @@ import {
 } from '../DisconnectDbModal/disconnectDbModalSlice';
 import styles from './databaseTab.module.scss';
 import { SettingsWhite } from '../../../../assets/svg/SVGcomponent';
+import s from '../../configuration.module.scss';
 export const DatabaseTab: React.FC = () => {
   const [isEditConnectToDbModal, setIsEditConnectToDbModal] = useState(false);
   const [cookies] = useCookies(['token']);
@@ -104,7 +105,7 @@ export const DatabaseTab: React.FC = () => {
           <h3 className={styles.header_title}>Orders View database</h3>
 
           {databases && databases?.count > 0 ? (
-            <div className={styles.header_buttons}>
+            <div className={`${styles.header_buttons} ${s.buttonPosition}`}>
               <Button
                 onClick={handleOpenModalDisconnect}
                 disabled={isLoadingGetConnectionsToDB}
@@ -120,6 +121,7 @@ export const DatabaseTab: React.FC = () => {
             </div>
           ) : (
             <Button
+              className={s.buttonPosition}
               onClick={handleOpenModalConnect}
               disabled={isLoadingGetConnectionsToDB}
               text="Connect to Database"

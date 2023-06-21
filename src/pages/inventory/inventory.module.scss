@@ -8,24 +8,9 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 40px;
-    .title {
-      display: flex;
-      align-items: center;
-      @include h1;
-      color: var(--HightEmphasis);
-      &__settings {
-        margin-left: 7px;
-        color: #666666;
-        cursor: pointer;
-        transition: all 0.4s linear;
-        &:hover{
-          color:black;
-        }
-      }
-    }
   }
   .body {
-    height: calc(100vh - 208px);
+    height: calc(100vh - 110px);
     display: flex;
     gap: 10px;
     margin-top: 20px;
@@ -46,6 +31,22 @@
         @include body1;
         color: var(--MediumEmphasis);
       }
+    }
+  }
+}
+.title {
+  display: flex;
+  align-items: center;
+  @include h1;
+  color: var(--HightEmphasis);
+  gap:30px;
+  &__settings {
+    margin-left: 7px;
+    color: #666666;
+    cursor: pointer;
+    transition: all 0.4s linear;
+    &:hover{
+      color:black;
     }
   }
 }
