@@ -41,7 +41,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/authorization" element={<Authorization />} />
-        {cookies.token ? (
+        {!cookies.token ? (
           <Route element={<RoutesOutlet />}>
             <Route path="/" element={<Main />} />
             <Route path="/info/*" element={<Info />} />
@@ -53,7 +53,6 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/live" element={<Live />} />
             <Route path="/configuration" element={<Configuration activeTab={0} />} />
-            {/* <Route path="/configuration/license" element={<Configuration activeTab={0} />} /> */}
             <Route path="/configuration/database" element={<Configuration activeTab={1} />} />
             <Route path="/configuration/camera" element={<Configuration activeTab={0} />} />
             <Route path="/configuration/notifications" element={<Configuration activeTab={2} />} />

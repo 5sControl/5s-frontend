@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { Tabs, Tab } from '../../components/tabs';
-import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import { useAppDispatch } from '../../store/hooks';
-import { tabsData } from './config';
-import styles from './configuration.module.scss';
 import { getConnectionsToDB } from './connectionSlice';
 import { HeaderMain } from '../../components/header';
+import { Camera } from '../camera/Camera';
+import { DatabaseTab } from './components/DatabaseTab/DatabaseTab';
+import { Notifications } from '../notificationEmail/notifications';
+import styles from './configuration.module.scss';
+import { Link } from 'react-router-dom';
 
 export const Configuration: React.FC<{ activeTab: number }> = ({ activeTab }) => {
   const [cookies] = useCookies(['token']);
@@ -23,14 +24,31 @@ export const Configuration: React.FC<{ activeTab: number }> = ({ activeTab }) =>
 
   return (
     <>
-      <HeaderMain title={'Configuration'}></HeaderMain>
-      <Tabs activeTabDefault={activeTab} tabList={tabsData}>
-        {tabsData.map((tab) => (
-          <Tab key={tab.id} label={tab.title}>
-            {tab.component}
-          </Tab>
-        ))}
-      </Tabs>
+      <HeaderMain title={'Configuration'}>
+        <div className={styles.tabs}>
+          <Link
+            to="/configuration/camera"
+            className={`${styles.tab} ${activeTab === 0 ? styles.active : styles.noActive}`}
+          >
+            Camera
+          </Link>
+          <Link
+            to="/configuration/database"
+            className={`${styles.tab} ${activeTab === 1 ? styles.active : styles.noActive}`}
+          >
+            Database
+          </Link>
+          <Link
+            to="/configuration/notifications"
+            className={`${styles.tab} ${activeTab === 2 ? styles.active : styles.noActive}`}
+          >
+            Notifications
+          </Link>
+        </div>
+      </HeaderMain>
+      {activeTab === 0 && <Camera />}
+      {activeTab === 1 && <DatabaseTab />}
+      {activeTab === 2 && <Notifications />}
     </>
   );
 };

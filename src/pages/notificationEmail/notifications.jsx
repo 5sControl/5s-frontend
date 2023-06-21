@@ -16,7 +16,7 @@ import { SettingsWhite } from '../../assets/svg/SVGcomponent';
 import { Notification } from '../../components/notification/notification';
 
 import styles from './notifications.module.scss';
-
+import s from '../configuration/configuration.module.scss';
 export const Notifications = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [emails, setEmails] = useState([]);
@@ -124,6 +124,7 @@ export const Notifications = () => {
             onClick={() => setIsShowModal(true)}
             IconLeft={SettingsWhite}
             text="Settings"
+            className={s.buttonPosition}
           ></Button>
         </div>
         <p className={styles.server__create}>Create SMTP server to send notifications.</p>
