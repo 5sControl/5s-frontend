@@ -48,11 +48,19 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
             process.env.REACT_APP_ENV === 'proxy'
               ? `http://192.168.1.110:3456/video?time=${operationData.sTime}&camera_ip=${
                   operationData.cameraIP
-                }#t=${operationData.video.video_start_from / 1000}`
+                }#t=${
+                  operationData.video.video_start_from
+                    ? operationData.video.video_start_from / 1000
+                    : 0
+                }`
               : process.env.REACT_APP_ENV === 'wify'
               ? `http://192.168.1.110:3456/video?time=${operationData.sTime}&camera_ip=${
                   operationData.cameraIP
-                }#t=${operationData.video.video_start_from / 1000}`
+                }#t=${
+                  operationData.video.video_start_from
+                    ? operationData.video.video_start_from / 1000
+                    : 0
+                }`
               : `http://${window.location.hostname}:3456/video?time=${
                   operationData.sTime
                 }&camera_ip=${operationData.cameraIP}#t=${
@@ -100,11 +108,11 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           <div className={styles.subtitle}>
             <span>{'Operation start: '}</span>
             <span className={styles.subtitle_value}>
-              {operationData && new Date(operationData.sTime).toLocaleDateString()}
+              {operationData && new Date(operationData?.sTime).toLocaleDateString()}
             </span>
             <span className={styles.subtitle_value}>{' | '}</span>
             <span className={styles.subtitle_value}>
-              {operationData && new Date(operationData.eTime).toLocaleTimeString()}
+              {operationData && new Date(operationData?.sTime).toLocaleTimeString()}
             </span>
           </div>
           {operationData?.cameraName && (

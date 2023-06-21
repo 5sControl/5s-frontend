@@ -223,3 +223,25 @@ export const getNightTime = (hostname: string, cookies: string) => {
     });
   }
 };
+
+export const getEmailListForNotificationAPI = (hostname: string, cookies: string) => {
+  const API_MAILER = 'api/mailer/emails-list/';
+
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(`${process.env.REACT_APP_NGROK}${API_MAILER}`, 'GET', {
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_MAILER}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_MAILER}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};

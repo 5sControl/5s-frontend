@@ -23,21 +23,21 @@ export const NotificationSocket: React.FC<PropsType> = ({ notifications, closeNo
         notifications.map((notification, index) => (
           <div
             className={`${styles.container} ${index > 2 ? styles.hide : ''} ${
-              notification.status === 'error'
+              notification.type === 'error'
                 ? styles.error
-                : notification.status === 'success'
+                : notification.type === 'success'
                 ? styles.success
-                : notification.status === 'warning'
+                : notification.type === 'warning'
                 ? styles.warning
                 : styles.info
             }`}
             key={index}
           >
             <Link to="/info/message" className={styles.text}>
-              {notification.status === 'error' && <NotificationBad />}
-              {notification.status === 'success' && <NotificationGood />}
-              {notification.status === 'warning' && <NotificationWarning />}
-              {notification.status === 'info' && <NotificationInfo />}
+              {notification.type === 'error' && <NotificationBad />}
+              {notification.type === 'success' && <NotificationGood />}
+              {notification.type === 'warning' && <NotificationWarning />}
+              {notification.type === 'info' && <NotificationInfo />}
               <span>{notification.message}</span>
             </Link>
             <Cross onClick={() => closeNotification(index)} className={styles.cross} />

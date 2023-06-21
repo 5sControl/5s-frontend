@@ -12,7 +12,7 @@ export const convertMillisecondsToTime = (milliseconds: number): string => {
   } else {
     timeString += '0:';
   }
-  timeString += `${seconds}`;
+  timeString += seconds < 10 ? `0${seconds}` : `${seconds}`;
 
   return timeString;
 };

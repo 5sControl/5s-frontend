@@ -326,26 +326,23 @@ export const getSuppliers = (hostname, cookies) => {
 
 export const createSuppliers = (hostname, cookies, data) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post(process.env.REACT_APP_PROXY, {
-      url: `${process.env.REACT_APP_NGROK + API_SUPPLIERS}`,
-      method: 'POST',
+    return axios.post(`${process.env.REACT_APP_NGROK + API_SUPPLIERS}`, data, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
         Authorization: cookies,
       },
-      body: JSON.stringify(data),
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_SUPPLIERS}`, data, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
         Authorization: cookies,
       },
     });
   } else {
     return axios.post(`http://${hostname}/${API_SUPPLIERS}`, data, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
         Authorization: cookies,
       },
     });

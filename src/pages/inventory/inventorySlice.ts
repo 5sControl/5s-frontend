@@ -1,12 +1,22 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { getInventoryItemHistory, getInventoryItems } from './inventoryAPI';
+import {
+  getEmailListForNotificationAPI,
+  getInventoryItemHistory,
+  getInventoryItems,
+} from './inventoryAPI';
 import { getSelectedCameras } from '../../api/cameraRequest';
 import { Camera, InventoryHistory, InventoryItem } from './types';
 import { getNotificationSettings } from '../../api/notificationRequest';
 import { getCompanyInfoForm } from '../../api/companyRequest';
 import { AxiosResponse } from 'axios';
 import { ContactInfoType } from '../company/types';
+
+interface NotificationInfoType {
+  to_emails: string[] | null;
+  copy_emails: string[] | null;
+  subject: string | null;
+}
 
 interface Inventory {
   isLoading: boolean;
@@ -20,6 +30,10 @@ interface Inventory {
   errorOfgetCameras: boolean;
   isSMTPServerConnect: boolean;
   isFullOwnCompanyInfo: boolean;
+  emailsListHelper: string[] | null;
+  isOpenNotificationModal: boolean;
+  emailNotificationInfo: NotificationInfoType;
+  currentName: string;
 }
 
 const initialState: Inventory = {
@@ -34,6 +48,14 @@ const initialState: Inventory = {
   errorOfgetCameras: false,
   isSMTPServerConnect: false,
   isFullOwnCompanyInfo: false,
+  emailsListHelper: null,
+  isOpenNotificationModal: false,
+  emailNotificationInfo: {
+    to_emails: null,
+    copy_emails: null,
+    subject: null,
+  },
+  currentName: '',
 };
 
 export const getInventoryItemsAsync = createAsyncThunk(
@@ -79,6 +101,14 @@ export const getSMTPConnect = createAsyncThunk(
   }
 );
 
+export const getEmailListForNotification = createAsyncThunk(
+  'getEmailListForNotification',
+  async (data: { token: string; hostname: string }) => {
+    const response = await getEmailListForNotificationAPI(data.hostname, data.token);
+    return response.data;
+  }
+);
+
 export const getIsFullOwnCompanyInfo = createAsyncThunk(
   'getIsFullOwnCompanyInfo',
   async (data: { token: string; hostname: string }) => {
@@ -103,7 +133,17 @@ export const getIsFullOwnCompanyInfo = createAsyncThunk(
 const inventoryPage = createSlice({
   name: 'inventory',
   initialState,
-  reducers: {},
+  reducers: {
+    setIsOpenNotificationModal(state, action: PayloadAction<boolean>) {
+      state.isOpenNotificationModal = action.payload;
+    },
+    setNotificationInfo(state, action: PayloadAction<NotificationInfoType>) {
+      state.emailNotificationInfo = action.payload;
+    },
+    setCurrentItemName(state, action: PayloadAction<string>) {
+      state.currentName = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getInventoryItemsAsync.pending, (state) => {
       state.isLoading = true;
@@ -144,8 +184,13 @@ const inventoryPage = createSlice({
     builder.addCase(getIsFullOwnCompanyInfo.fulfilled, (state, action) => {
       state.isFullOwnCompanyInfo = action.payload;
     });
+    builder.addCase(getEmailListForNotification.fulfilled, (state, action) => {
+      state.emailsListHelper = action.payload;
+    });
   },
 });
 
+export const { setIsOpenNotificationModal, setNotificationInfo, setCurrentItemName } =
+  inventoryPage.actions;
 export const selectInventory = (state: RootState) => state.inventory;
 export default inventoryPage.reducer;

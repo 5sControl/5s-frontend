@@ -39,9 +39,15 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
   }, [operationOV]);
 
   useEffect(() => {
-    if (data.length > 0) {
-      let first = data.filter((order) => JSON.stringify(order.oprs).includes(`"${selectOrder}"`));
-      let end = data.filter((order) => !JSON.stringify(order.oprs).includes(`"${selectOrder}"`));
+    if (data.length > 0 || machineData.length > 0) {
+      let first =
+        data.length > 0
+          ? data.filter((order) => JSON.stringify(order.oprs).includes(`"${selectOrder}"`))
+          : [];
+      let end =
+        data.length > 0
+          ? data.filter((order) => !JSON.stringify(order.oprs).includes(`"${selectOrder}"`))
+          : [];
       machineData.forEach((machineItem) => {
         console.log(machineItem);
         if (first.some((item) => item.oprTypeID === machineItem.oprTypeID)) {
@@ -91,7 +97,6 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
           status: true,
         },
       };
-      console.log(buf);
       getVideo(window.location.hostname, {
         camera_ip: e.camera,
         time: e.sTime,
@@ -251,7 +256,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
             </div>
           )}
           <>
-            {!preloader && update.length > 0 && data.length > 0 && (
+            {!preloader && update.length > 0 && (
               <div className={styles.content}>
                 <div className={styles.header}>
                   {update.map((element, index) => (
@@ -308,14 +313,14 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
                 ></div>
               </div>
             )}
-            {!preloader && data.length === 0 && (
+            {!preloader && update.length === 0 && (
               <div className={styles.noData}>{`No operations were found in the range from ${moment(
                 minDate
               ).format('DD.MM.YYYY')} to ${moment(maxDate).format('DD.MM.YYYY')}`}</div>
             )}
           </>
         </div>
-        {!preloader && update.length > 0 && data.length > 0 && (
+        {!preloader && update.length > 0 && update.length > 0 && (
           <div className={styles.datetime}>
             <Timeline minDate={minDate} maxDate={maxDate} />
           </div>
