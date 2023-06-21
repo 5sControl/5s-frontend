@@ -7,7 +7,7 @@ import { Input } from '../../../../components/input';
 import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { editItem, selectEditInventoryModal } from './editInventoryModalSlice';
-import { selectInventory, setNotificationInfo } from '../../inventorySlice';
+import { selectInventory, setCurrentItemName, setNotificationInfo } from '../../inventorySlice';
 import { Coordinat } from '../../types';
 import { Coordinates } from './Coordiantes';
 import { Preloader } from '../../../../components/preloader';
@@ -109,10 +109,6 @@ export const EditInventoryModal: React.FC<PropsType> = ({
     }
   };
 
-  const handleAutoOrderToggle = () => {
-    setIsAutomaticallyOrder((prevState) => !prevState);
-  };
-
   useEffect(() => {
     if (!isOpen) {
       setIsClose(false);
@@ -140,6 +136,10 @@ export const EditInventoryModal: React.FC<PropsType> = ({
     !isSMTPServerConnect && setIsAutomaticallyOrder(false);
     !isFullOwnCompanyInfo && setIsAutomaticallyOrder(false);
   }, [isFullOwnCompanyInfo, isSMTPServerConnect, currentEditItem, isOpen]);
+
+  useEffect(() => {
+    dispatch(setCurrentItemName(itemName || ''));
+  }, [itemName]);
 
   console.log(
     currentEditItem &&

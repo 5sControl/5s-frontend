@@ -8,6 +8,9 @@ import { Input } from '../../../../components/input';
 import { Button } from '../../../../components/button';
 import { selectEditInventoryModal } from '../EditInventoryModal/editInventoryModalSlice';
 import { selectInventory, setNotificationInfo } from '../../inventorySlice';
+import { companyState } from '../../../company/companySlice';
+import { AddPerson } from '../../../../assets/svg/SVGcomponent';
+import { SuppliersPopup } from './SuppliersPopup';
 
 type PropsType = {
   isOpen: boolean;
@@ -22,22 +25,70 @@ export const EmailNotificationModal: React.FC<PropsType> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { currentEditItem } = useAppSelector(selectEditInventoryModal);
-  const { emailsListHelper, emailNotificationInfo } = useAppSelector(selectInventory);
-
+  const { emailsListHelper, emailNotificationInfo, currentName } = useAppSelector(selectInventory);
+  const { companies } = useAppSelector(companyState);
   const [toEmails, setToEmails] = useState<string | null>(emailsListHelper?.join(', ') || null);
   const [copyEmails, setCopyEmails] = useState<string | null>(null);
   const [subject, setSubject] = useState<string | null>(null);
+  const [isShowSuppliersTo, setIsShowSuppliersTo] = useState<boolean>(false);
+  const [isShowSuppliersCopy, setIsShowSuppliersCopy] = useState<boolean>(false);
+
+  const addSuppliersToEmail = (item: string) => {
+    if (toEmails) {
+      setToEmails(toEmails + ', ' + item);
+    } else {
+      setToEmails(item);
+    }
+  };
+
+  const addSuppliersCopy = (item: string) => {
+    if (copyEmails) {
+      setCopyEmails(copyEmails + ', ' + item);
+    } else {
+      setCopyEmails(item);
+    }
+  };
+
+  const showSuppliersTo = () => {
+    setIsShowSuppliersTo(true);
+  };
+
+  const hideSuppliersTo = () => {
+    setIsShowSuppliersTo(false);
+  };
+
+  const showSuppliersCopy = () => {
+    setIsShowSuppliersCopy(true);
+  };
+
+  const hideSuppliersCopy = () => {
+    setIsShowSuppliersCopy(false);
+  };
 
   const onSubmit = () => {
     const toEmailsData = toEmails?.split(',').map((item) => item.trim());
     const copyEmailsData = copyEmails?.split(',').map((item) => item.trim());
-    dispatch(
-      setNotificationInfo({
-        to_emails: toEmailsData || null,
-        copy_emails: copyEmailsData || null,
-        subject: subject || null,
-      })
-    );
+    const info = {
+      to_emails: null as string[] | null,
+      copy_emails: null as string[] | null,
+      subject: null as string | null,
+    };
+
+    if (toEmailsData && toEmailsData[0]) {
+      info.to_emails = toEmailsData;
+    } else {
+      info.to_emails = null;
+    }
+
+    if (copyEmailsData && copyEmailsData[0]) {
+      info.copy_emails = copyEmailsData;
+    } else {
+      info.copy_emails = null;
+    }
+
+    info.subject = subject || null;
+
+    dispatch(setNotificationInfo(info));
 
     handleClose();
   };
@@ -48,11 +99,16 @@ export const EmailNotificationModal: React.FC<PropsType> = ({
       setCopyEmails(emailNotificationInfo.copy_emails.join(', '));
 
     if (isAddItemModal) {
-      setSubject('5S Control Low Stock Alert: [Item name]');
+      setSubject(`5S Control Low Stock Alert: ${currentName || '[Item name]'}`);
     } else {
-      setSubject(
-        emailNotificationInfo.subject || `5S Control Low Stock Alert: ${currentEditItem?.name}`
-      );
+      if (
+        emailNotificationInfo.subject?.includes('[Item name]') ||
+        !emailNotificationInfo.subject
+      ) {
+        setSubject(`5S Control Low Stock Alert: ${currentName || currentEditItem?.name}`);
+      } else {
+        setSubject(emailNotificationInfo.subject);
+      }
     }
   }, []);
 
@@ -72,6 +128,16 @@ export const EmailNotificationModal: React.FC<PropsType> = ({
             className={styles.input}
             placeholder={'Enter recipients divided by comma'}
           />
+          <div className={styles.add_supplier} onClick={showSuppliersTo}>
+            <AddPerson />
+          </div>
+          {isShowSuppliersTo && (
+            <SuppliersPopup
+              companies={companies}
+              addSuppliersToEmail={addSuppliersToEmail}
+              hideSuppliers={hideSuppliersTo}
+            />
+          )}
         </div>
 
         <div className={styles.input_box}>
@@ -85,6 +151,16 @@ export const EmailNotificationModal: React.FC<PropsType> = ({
             className={styles.input}
             placeholder={'Enter recipients divided by comma'}
           />
+          <div className={styles.add_supplier} onClick={showSuppliersCopy}>
+            <AddPerson />
+          </div>
+          {isShowSuppliersCopy && (
+            <SuppliersPopup
+              companies={companies}
+              addSuppliersToEmail={addSuppliersCopy}
+              hideSuppliers={hideSuppliersCopy}
+            />
+          )}
         </div>
 
         <div className={styles.input_box}>

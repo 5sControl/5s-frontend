@@ -27,6 +27,7 @@ import { IoMdSettings } from 'react-icons/io';
 import { NightModeModal } from './components/NightModeModal';
 import { Notification } from '../../components/notification/notification';
 import { EmailNotificationModal } from './components/EmailNotificationModal/EmailNotificationModal';
+import { getCompanies } from '../company/companySlice';
 
 export const Inventory: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -89,6 +90,15 @@ export const Inventory: React.FC = () => {
       }, 2000);
     }
   }, [isNotification]);
+
+  useEffect(() => {
+    dispatch(
+      getCompanies({
+        token: cookies.token,
+        hostname: window.location.hostname,
+      })
+    );
+  }, []);
 
   return (
     <>

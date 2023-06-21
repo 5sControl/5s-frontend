@@ -8,7 +8,7 @@ import { Input } from '../../../../components/input';
 import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { addItem } from './addInventoryModalSlice';
-import { selectInventory } from '../../inventorySlice';
+import { selectInventory, setCurrentItemName } from '../../inventorySlice';
 import { Coordinates } from './coordinates';
 import { Coordinat } from '../../types';
 import { Preloader } from '../../../../components/preloader';
@@ -18,8 +18,6 @@ import { Notification } from '../../../../components/notification/notification';
 
 import styles from '../InventoryModal.module.scss';
 import './moveable.scss';
-import { ContactInfoType } from '../../../company/types';
-import { getSuppliers } from '../../../../api/companyRequest';
 import { Button } from '../../../../components/button';
 
 type PropsType = {
@@ -50,13 +48,13 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   const [isMulti, setIsMulti] = useState(false);
   const [isTooltipClicked, setIsTooltipClicked] = useState(false);
   const [isScale, setIsScale] = useState<any>(false);
-  const [isTooltipSupplies, setIsTooltipSupplies] = useState(false);
   const [orderAmount, setOrderAmount] = useState<number | null>(0);
   const [selectedSupplierID, setSelectedSupplierID] = useState<number | null>(null);
-  const [suppliersData, setSuppliersData] = useState<Array<{ id: number | string; text: string }>>(
-    []
-  );
   const [isAutomaticallyOrder, setIsAutomaticallyOrder] = useState(false);
+
+  useEffect(() => {
+    dispatch(setCurrentItemName(itemName));
+  }, [itemName]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -65,19 +63,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({
       setItemCount(0);
     }
   }, [isOpen]);
-
-  useEffect(() => {
-    getSuppliers(window.location.hostname, cookies.token)
-      .then((response) => {
-        const dataForSelect = response.data.map((item: ContactInfoType) => {
-          return { id: item.id, text: item.name_company };
-        });
-        setSuppliersData(dataForSelect);
-      })
-      .catch((err) => {
-        console.log('setCompanyInfoError', err);
-      });
-  }, []);
 
   useEffect(() => {
     !isSMTPServerConnect && setIsAutomaticallyOrder(false);
@@ -139,10 +124,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({
 
   const handleToggle = () => {
     setIsMulti((prevState) => !prevState);
-  };
-
-  const handleAutoOrderToggle = () => {
-    setIsAutomaticallyOrder((prevState) => !prevState);
   };
 
   return (

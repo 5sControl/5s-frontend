@@ -16,6 +16,7 @@ import { ReactComponent as CloseCross } from './closeCross.svg';
 import { ReactComponent as VideoCamera } from './videoCamera.svg';
 import { ReactComponent as Inventory } from './inventory.svg';
 import { ReactComponent as Plus } from './plus.svg';
+import { ReactComponent as PlusPrimary } from './plusPrimary.svg';
 import { ReactComponent as Settings } from './settings.svg';
 import { ReactComponent as Eye } from './eye.svg';
 import { ReactComponent as Disconnect } from './disconnect.svg';
@@ -56,6 +57,7 @@ import { ReactComponent as GoBack } from './goBack.svg';
 import { ReactComponent as EditCover } from './addCompanyCover/editCover.svg';
 import { ReactComponent as AddCover } from './addCompanyCover/addCover.svg';
 import { ReactComponent as DeleteCover } from './addCompanyCover/deleteCover.svg';
+import { ReactComponent as AddPerson } from './addPerson.svg';
 
 export {
   Algorithm,
@@ -116,4 +118,6 @@ export {
   EditCover,
   AddCover,
   DeleteCover,
+  AddPerson,
+  PlusPrimary,
 };

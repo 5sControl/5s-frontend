@@ -33,6 +33,7 @@ interface Inventory {
   emailsListHelper: string[] | null;
   isOpenNotificationModal: boolean;
   emailNotificationInfo: NotificationInfoType;
+  currentName: string;
 }
 
 const initialState: Inventory = {
@@ -54,6 +55,7 @@ const initialState: Inventory = {
     copy_emails: null,
     subject: null,
   },
+  currentName: '',
 };
 
 export const getInventoryItemsAsync = createAsyncThunk(
@@ -138,6 +140,9 @@ const inventoryPage = createSlice({
     setNotificationInfo(state, action: PayloadAction<NotificationInfoType>) {
       state.emailNotificationInfo = action.payload;
     },
+    setCurrentItemName(state, action: PayloadAction<string>) {
+      state.currentName = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getInventoryItemsAsync.pending, (state) => {
@@ -185,6 +190,7 @@ const inventoryPage = createSlice({
   },
 });
 
-export const { setIsOpenNotificationModal, setNotificationInfo } = inventoryPage.actions;
+export const { setIsOpenNotificationModal, setNotificationInfo, setCurrentItemName } =
+  inventoryPage.actions;
 export const selectInventory = (state: RootState) => state.inventory;
 export default inventoryPage.reducer;
