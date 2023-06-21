@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { companyState, getCompanies } from '../companySlice';
 import ContactForm from '../components/ContactForm';
 import { EMAIL_REGEXP } from '../config';
+import { HeaderMain } from '../../../components/header';
 
 export const EditContactForm = () => {
   const navigate = useNavigate();
@@ -158,6 +159,7 @@ export const EditContactForm = () => {
 
   return (
     <div className={style.container}>
+      <HeaderMain title="Contacts"></HeaderMain>
       <div className={style.breadcrumbs}>
         <span className={style.breadcrumbs_active} onClick={goToContacts}>
           Company
