@@ -95,6 +95,8 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime, zone 
       if (Object.keys(res.data).length) {
         const value = {
           cameraIP: element.camera.id,
+          cameraName: element.camera.name,
+          algorithm: element.algorithm.name,
           sTime: new Date(element.start_tracking).valueOf() + 10800000,
           eTime: new Date(element.stop_tracking).valueOf() + 10800000,
           video: res.data,
