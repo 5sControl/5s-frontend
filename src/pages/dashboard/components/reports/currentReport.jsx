@@ -15,11 +15,37 @@ import { getOrderViewOperation } from '../../../../api/orderView.js';
 import { OrderOperationDetail } from '../../../../components/orderOperationDetail/orderOperationDetail.jsx';
 import { Notification } from '../../../../components/notification/notification';
 
+import { getVideo } from '../../../../api/cameraRequest.js';
+
 export const CurrentReport = () => {
   const { currentReport } = useAppSelector(selectCurrentReport);
   const [fullImage, setFullImage] = useState(false);
   const [currentCount, setCurrentCount] = useState(0);
   const [operationOV, setOperationOV] = useState(false);
+  console.log(currentReport);
+  const videoClickHandler = (element) => {
+    const body = {
+      camera_ip: element.camera.id,
+      time: new Date(element.start_tracking).valueOf() + 10800000,
+    };
+    // console.log(body);
+    getVideo(window.location.hostname, body).then((res) => {
+      if (Object.keys(res.data).length) {
+        const value = {
+          cameraIP: element.camera.id,
+          cameraName: element.camera.name,
+          algorithm: element.algorithm.name,
+          sTime: new Date(element.start_tracking).valueOf() + 10800000,
+          eTime: new Date(element.stop_tracking).valueOf() + 10800000,
+          video: res.data,
+        };
+        // console.log(value);
+        setOperationOV(value);
+      } else {
+        setOperationOV(`Operation #${element.id} was not found in the database`);
+      }
+    });
+  };
 
   useEffect(() => {
     if (operationOV && typeof operationOV === 'string') {
@@ -99,14 +125,14 @@ export const CurrentReport = () => {
                 {currentReport.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
               </span>
             </div>
-            {currentReport.extra && currentReport.extra.length > 0 && (
+            {currentReport.extra && (
               <div className={styles.report_item}>
                 <span className={styles.legend}>Additional</span>
                 <span
                   className={`${styles.text} ${styles.link}`}
-                  onClick={() => operationClickHandler(currentReport.extra[0].skany_index)}
+                  onClick={() => videoClickHandler(currentReport)}
                 >
-                  Open order operation details
+                  Check video
                 </span>
               </div>
             )}
