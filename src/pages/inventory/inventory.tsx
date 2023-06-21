@@ -25,6 +25,7 @@ import {
 import { IoMdSettings } from 'react-icons/io';
 import { NightModeModal } from './components/NightModeModal';
 import { Notification } from '../../components/notification/notification';
+import { HeaderMain } from '../../components/header';
 
 export const Inventory: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -76,39 +77,36 @@ export const Inventory: React.FC = () => {
 
   return (
     <>
+      <HeaderMain title={'Inventory'} noTabs={true}>
+        <h2 className={styles.title}>
+          <IoMdSettings
+            className={styles.title__settings}
+            onClick={() => {
+              dispatch(setIsOpenNightModal(true));
+            }}
+          />
+          {camerasData && <Button text="Add item" IconLeft={Plus} onClick={addInventoryButton} />}
+        </h2>
+      </HeaderMain>
       <AddInventoryModal
         isOpen={isOpen}
         handleClose={closeInventoryButton}
         setIsNotification={() => setIsNotification(true)}
       />
-      <WrapperPage>
-        <div className={styles.content}>
-          <div className={styles.header}>
-            <h2 className={styles.title}>
-              Inventory{' '}
-              <IoMdSettings
-                className={styles.title__settings}
-                onClick={() => {
-                  dispatch(setIsOpenNightModal(true));
-                }}
-              />
-            </h2>
-            {camerasData && <Button text="Add item" IconLeft={Plus} onClick={addInventoryButton} />}
-          </div>
-          <>
-            <InventoryReport setIsNotification={() => setIsNotification(true)} />
-          </>
-        </div>
-        {isOpenNightModal && (
-          <NightModeModal
-            isOpen={true}
-            handleClose={() => {
-              dispatch(setIsOpenNightModal(false));
-            }}
-          />
-        )}
-        {isNotification && <Notification status={true} message={'Item saved'} />}
-      </WrapperPage>
+      <div className={styles.content}>
+        <>
+          <InventoryReport setIsNotification={() => setIsNotification(true)} />
+        </>
+      </div>
+      {isOpenNightModal && (
+        <NightModeModal
+          isOpen={true}
+          handleClose={() => {
+            dispatch(setIsOpenNightModal(false));
+          }}
+        />
+      )}
+      {isNotification && <Notification status={true} message={'Item saved'} />}
     </>
   );
 };

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { WrapperPage } from '../../components/wrapper/wrapperPage';
 import { Version } from './version/version';
 import styles from './info.module.scss';
 import { Link } from 'react-router-dom';
 import { SystemMessage } from './messages/message';
+import { HeaderMain } from '../../components/header';
 
 export const Info: React.FC = () => {
   const [active, setActive] = useState<string>(
     window.location.href.includes('message') ? 'message' : 'version'
   );
   return (
-    <WrapperPage title="5S Control">
-      <section className={styles.wrapper}>
+    <>
+      <HeaderMain title="5s Control">
         <div className={styles.tabs}>
           <Link
             to="/info/version"
@@ -28,11 +28,13 @@ export const Info: React.FC = () => {
             System messages
           </Link>
         </div>
+      </HeaderMain>
+      <section className={styles.wrapper}>
         <main className={styles.main}>
           {active === 'version' && <Version />}
           {active === 'message' && <SystemMessage />}
         </main>
       </section>
-    </WrapperPage>
+    </>
   );
 };

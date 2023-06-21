@@ -5,6 +5,7 @@ import { FC, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useAppDispatch } from '../../store/hooks';
 import { getCompanies, getCompanyInfoForForm, getCountries } from './companySlice';
+import { HeaderMain } from '../../components/header';
 
 export const Company: FC<{ activeTab: number }> = ({ activeTab }) => {
   const [cookies] = useCookies(['token']);
@@ -33,8 +34,8 @@ export const Company: FC<{ activeTab: number }> = ({ activeTab }) => {
 
   return (
     <>
+      <HeaderMain title={'Company'}></HeaderMain>
       <div className="company">
-        <h2>Company</h2>
         <Tabs activeTabDefault={activeTab} tabList={tabsData}>
           {tabsData.map((tab) => (
             <Tab key={tab.id} label={tab.title}>
