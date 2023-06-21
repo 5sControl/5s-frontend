@@ -1,0 +1,125 @@
+@import 'src/styles/media.scss';
+@import 'src/styles/fonts.scss';
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  width: 560px;
+  height: fit-content;
+  padding: 20px;
+
+  .suppliers {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: -320px;
+    background-color: white;
+    width: 360px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(73, 72, 55, 0.5);
+    border-radius: 4px;
+    z-index: 5;
+
+    .suppliers_title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      height: 34px;
+
+      h4 {
+        @include h4;
+        color: var(--HightEmphasis);
+      }
+
+      .close {
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+      }
+    }
+
+    .suppliers_container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+
+      .name_company {
+        @include body2;
+        color: var(--HightEmphasis);
+      }
+
+      .contact_email {
+        @include body3;
+        color: #666666;
+      }
+    }
+  }
+
+  .title {
+    padding-bottom: 30px;
+    @include h2;
+    letter-spacing: 0.03em;
+    color: var(--HightEmphasis);
+  }
+
+  .form_container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding-bottom: 30px;
+
+    .input_box {
+      position: relative;
+
+      .add_supplier {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        right: 0;
+        top: 30px;
+        height: 40px;
+        width: 40px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    }
+
+    .input {
+      width: 100%;
+      max-height: 40px;
+      border: 1px solid var(--LowEmphasis);
+      border-radius: 4px;
+      @include body1;
+      color: var(--HightEmphasis);
+      padding: 13px 40px 13px 16px;
+      &:focus {
+        border-color: #212121;
+        outline: none;
+      }
+    }
+  }
+
+  .mail_body {
+    padding-bottom: 22px;
+
+    h6 {
+      @include h6;
+      color: var(--LowEmphasis)
+    }
+
+    p {
+      @include body3;
+      line-height: 18px;
+      color: var(--HightEmphasis)
+    }
+  }
+
+  .button_container{
+    display: flex;
+    gap: 20px;
+    align-self: end;
+  }
+}
