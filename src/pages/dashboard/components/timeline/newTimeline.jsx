@@ -44,30 +44,32 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
               {zoneList.map((zona, index) => {
                 return (
                   <Fragment key={index}>
+                    <h1 className={styles.zoneName}>{zona}</h1>
                     {algorithm.map((algorithm, id) => {
                       return (
-                        <Timeline
-                          key={id}
-                          data={data.filter(
-                            (cam) =>
-                              cam.algorithm.name === algorithm &&
-                              new Date(`${startDate + ' ' + start}`) <
-                                new Date(
-                                  moment.utc(cam.stop_tracking).utcOffset(moment().utcOffset())
-                                ) &&
-                              new Date(`${startDate + ' ' + end}`) >
-                                new Date(
-                                  moment.utc(cam.start_tracking).utcOffset(moment().utcOffset())
-                                ) &&
-                              ((zona === 'Camera' && !zoneList.includes(cam?.extra?.zoneName)) ||
-                                zona === cam?.extra?.zoneName)
-                          )}
-                          startDate={startDate}
-                          algorithm={algorithm}
-                          startTime={start}
-                          endTime={end}
-                          zona={zona}
-                        />
+                        <div className={styles.algorithm} key={id}>
+                          <Timeline
+                            data={data.filter(
+                              (cam) =>
+                                cam.algorithm.name === algorithm &&
+                                new Date(`${startDate + ' ' + start}`) <
+                                  new Date(
+                                    moment.utc(cam.stop_tracking).utcOffset(moment().utcOffset())
+                                  ) &&
+                                new Date(`${startDate + ' ' + end}`) >
+                                  new Date(
+                                    moment.utc(cam.start_tracking).utcOffset(moment().utcOffset())
+                                  ) &&
+                                ((zona === 'Camera' && !zoneList.includes(cam?.extra?.zoneName)) ||
+                                  zona === cam?.extra?.zoneName)
+                            )}
+                            startDate={startDate}
+                            algorithm={algorithm}
+                            startTime={start}
+                            endTime={end}
+                            zone={zona}
+                          />
+                        </div>
                       );
                     })}
                   </Fragment>
