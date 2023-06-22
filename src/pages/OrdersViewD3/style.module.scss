@@ -5,3 +5,50 @@
   background-color: #f5f5f5;
   transition: all 0.4s;
 }
+.modal {
+  width: 50vw;
+  height: 70vh;
+}
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  h2 {
+    font-family: Inter;
+    font-weight: 600;
+    line-height: 150%;
+  }
+}
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  padding-top: 10px;
+  border-top: 1px solid var(--product-on-surface-divider, #e0e0e0);
+  background: var(--website-white, #fff);
+}
+.content {
+  display: flex;
+  height: calc(100% - 120px);
+  margin-bottom: 10px;
+
+  flex-direction: column;
+  &__name {
+    font-weight: 600;
+    line-height: 24px;
+    padding: 10px;
+    background: #ffffff;
+  }
+  &__list {
+    height: 100%;
+    overflow: auto;
+  }
+}
