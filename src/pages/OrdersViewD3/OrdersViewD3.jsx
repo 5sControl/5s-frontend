@@ -5,12 +5,20 @@ import styles from './style.module.scss';
 import { selectOrdersList } from '../../pages/previewOrders/components/OrdersList/ordersListSlice';
 import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
-import { getOrderViewOperations } from '../../api/orderView';
+import {
+  getFiltrationData,
+  getOrderViewOperations,
+  patchFiltrationData,
+} from '../../api/orderView';
 import { getData } from '../../api/reportsRequest';
 import { useCookies } from 'react-cookie';
 import { getSelectedZone } from '../../api/cameraRequest';
+import { Modal } from '../../components/modal';
+import { Cross } from '../../assets/svg/SVGcomponent';
+import { Button } from '../../components/button';
+import { Checkbox } from '../../components/checkbox';
 
-export const TimelineComponent = () => {
+export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const { filterDateData } = useAppSelector(selectOrdersList);
   const [selectOrder, setSelectOrder] = useState('');
   const [data, setData] = useState([]);
@@ -19,6 +27,35 @@ export const TimelineComponent = () => {
   const [endDate, setEndDate] = useState(false);
   const [preloader, setPreloader] = useState(false);
   const [cookies] = useCookies(['token']);
+  const [workPlaceList, setWorkPlaceList] = useState([]);
+
+  const changeHandler = (index) => {
+    const workplaces = workPlaceList;
+    workplaces[index] = {
+      ...workplaces[index],
+      is_active: !workplaces[index].is_active,
+    };
+    setWorkPlaceList([...workplaces]);
+  };
+
+  const resetHandler = () => {
+    const workplaces = workPlaceList.map((el) => {
+      return {
+        ...el,
+        is_active: false,
+      };
+    });
+    setWorkPlaceList([...workplaces]);
+  };
+
+  const submitHandler = () => {
+    patchFiltrationData(window.location.hostname, cookies.token, workPlaceList)
+      .then((response) => {
+        setIsOpenFilter();
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
 
   useEffect(() => {
     setStartDate(moment(filterDateData.from).format('YYYY-MM-DD'));
@@ -26,9 +63,17 @@ export const TimelineComponent = () => {
   }, [filterDateData]);
 
   useEffect(() => {
-    if (startDate && endDate) {
-      setPreloader(true);
+    getFiltrationData(window.location.hostname, cookies.token)
+      .then((res) => {
+        const response = res.data;
+        setWorkPlaceList(response.sort((a, b) => a.operation_type_id - b.operation_type_id));
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
+  useEffect(() => {
+    if (startDate && endDate && !isOpenFilter) {
+      setPreloader(true);
       const fetchData = async () => {
         try {
           const response = await getOrderViewOperations(
@@ -163,7 +208,7 @@ export const TimelineComponent = () => {
       // Вызов функции fetchData
       fetchData();
     }
-  }, [endDate, startDate]);
+  }, [endDate, startDate, isOpenFilter]);
 
   return (
     <>
@@ -184,6 +229,38 @@ export const TimelineComponent = () => {
             machineData={machineData}
           />
         </div>
+      )}
+      {isOpenFilter && (
+        <Modal handleClose={setIsOpenFilter} className={styles.modal} isOpen={true}>
+          <section className={styles.container}>
+            <header className={styles.header}>
+              <h2>Orders View settings</h2>
+              <Cross onClick={setIsOpenFilter} />
+            </header>
+            <main className={styles.content}>
+              <span className={styles.content__name}>Displayed operations</span>
+              <ul className={styles.content__list}>
+                {workPlaceList.map((place, index) => {
+                  return (
+                    <li key={index}>
+                      <Checkbox
+                        id={place.operation_type_id}
+                        name={`${place.name} (${place.operation_type_id})`}
+                        label={`${place.name} (${place.operation_type_id})`}
+                        isChecked={place.is_active}
+                        onChange={() => changeHandler(index)}
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
+            </main>
+            <footer className={styles.footer}>
+              <Button text="Reset" variant="text" onClick={resetHandler} />
+              <Button text="Done" onClick={submitHandler} />
+            </footer>
+          </section>
+        </Modal>
       )}
     </>
   );

@@ -32,7 +32,7 @@ import {
   setIsOpenOperationVideoModal,
   setTimeOperationVideoModal,
 } from './components/OperationVideoModal/operationVideoModalSlice';
-import { Delete, Disconnect, Filter } from '../../assets/svg/SVGcomponent';
+import { Delete, Disconnect, Filter, Settings } from '../../assets/svg/SVGcomponent';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useNavigateSearch } from '../../functions/useNavigateSearch';
 import { OperationItem, OrderItem } from '../../storage/orderView';
@@ -135,6 +135,8 @@ export const PreviewOrders: React.FC = () => {
   const [queryProps, setQueryProps] = useState<
     { name: string; value: string; onClick: () => void }[]
   >([]);
+  const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
+
   const [activeTab, setActiveTab] = useState<string>('timelines');
 
   useEffect(() => {
@@ -297,6 +299,9 @@ export const PreviewOrders: React.FC = () => {
                   ))}
                 </>
               )}
+              {activeTab === 'timelines' && (
+                <Settings onClick={() => setIsOpenFilter(!isOpenFilter)} />
+              )}
               <DatePicker />
             </div>
           </div>
@@ -322,7 +327,12 @@ export const PreviewOrders: React.FC = () => {
       <div className={styles.content}>
         <section className={styles.tabs}>
           <div className={styles.tabs__container}>
-            {activeTab === 'timelines' && <TimelineComponent />}
+            {activeTab === 'timelines' && (
+              <TimelineComponent
+                setIsOpenFilter={() => setIsOpenFilter(false)}
+                isOpenFilter={isOpenFilter}
+              />
+            )}
             {activeTab === 'reports' && (
               <div className={styles.body}>
                 <OrderList
