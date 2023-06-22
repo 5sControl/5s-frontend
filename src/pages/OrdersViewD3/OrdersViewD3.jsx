@@ -5,7 +5,11 @@ import styles from './style.module.scss';
 import { selectOrdersList } from '../../pages/previewOrders/components/OrdersList/ordersListSlice';
 import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
-import { getFiltrationData, getOrderViewOperations, getWorkplaceList } from '../../api/orderView';
+import {
+  getFiltrationData,
+  getOrderViewOperations,
+  patchFiltrationData,
+} from '../../api/orderView';
 import { getData } from '../../api/reportsRequest';
 import { useCookies } from 'react-cookie';
 import { getSelectedZone } from '../../api/cameraRequest';
@@ -24,22 +28,35 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const [preloader, setPreloader] = useState(false);
   const [cookies] = useCookies(['token']);
   const [workPlaceList, setWorkPlaceList] = useState([]);
+
+  const changeHandler = (index) => {
+    const workplaces = workPlaceList;
+    workplaces[index] = {
+      ...workplaces[index],
+      is_active: !workplaces[index].is_active,
+    };
+    setWorkPlaceList([...workplaces]);
+  };
+
+  const submitHandler = () => {
+    patchFiltrationData(window.location.hostname, cookies.token, workPlaceList)
+      .then((response) => {
+        isOpenFilter();
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
+
   useEffect(() => {
     setStartDate(moment(filterDateData.from).format('YYYY-MM-DD'));
     setEndDate(moment(filterDateData.to).format('YYYY-MM-DD'));
   }, [filterDateData]);
 
   useEffect(() => {
-    getWorkplaceList(window.location.hostname, cookies.token)
-      .then((res) => {
-        console.log(res.data);
-        setWorkPlaceList(res.data);
-      })
-      .catch((err) => console.log(err));
     getFiltrationData(window.location.hostname, cookies.token)
       .then((res) => {
         console.log(res.data);
-        // setWorkPlaceList(res.data);
+        setWorkPlaceList(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -208,20 +225,20 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
           <section className={styles.container}>
             <header className={styles.header}>
               <h2>Orders View settings</h2>
-              <Cross />
+              <Cross onClick={setIsOpenFilter} />
             </header>
             <main className={styles.content}>
               <span className={styles.content__name}>Displayed operations</span>
               <ul className={styles.content__list}>
-                {workPlaceList.map((place, id) => {
+                {workPlaceList.map((place, index) => {
                   return (
-                    <li key={id}>
+                    <li key={index}>
                       <Checkbox
-                        id={place.id}
-                        name={`${place.operationName} (${place.id})`}
-                        label={`${place.operationName} (${place.id})`}
-                        isChecked={true}
-                        onChange={() => console.log(place.id)}
+                        id={place.operation_type_id}
+                        name={`${place.name} (${place.operation_type_id})`}
+                        label={`${place.name} (${place.operation_type_id})`}
+                        isChecked={place.is_active}
+                        onChange={() => changeHandler(index)}
                       />
                     </li>
                   );
@@ -230,7 +247,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
             </main>
             <footer className={styles.footer}>
               <Button text="Reset" variant="text" />
-              <Button text="Done" />
+              <Button text="Done" onClick={submitHandler} />
             </footer>
           </section>
         </Modal>

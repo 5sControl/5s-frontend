@@ -51,7 +51,6 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
             <span className={styles.empty}></span>
           )}
           <div className={styles.dateCount}>
-            {' '}
             <span className={styles.counter}>{`${currentCount + 1}/${images.length}`}</span>{' '}
             <span>{`${moment
               .utc(images[currentCount].date)
