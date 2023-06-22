@@ -51,7 +51,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const submitHandler = () => {
     patchFiltrationData(window.location.hostname, cookies.token, workPlaceList)
       .then((response) => {
-        isOpenFilter();
+        setIsOpenFilter();
         console.log(response);
       })
       .catch((error) => console.log(error));
@@ -65,16 +65,15 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   useEffect(() => {
     getFiltrationData(window.location.hostname, cookies.token)
       .then((res) => {
-        console.log(res.data);
-        setWorkPlaceList(res.data);
+        const response = res.data;
+        setWorkPlaceList(response.sort((a, b) => a.operation_type_id - b.operation_type_id));
       })
       .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
-    if (startDate && endDate) {
+    if (startDate && endDate && !isOpenFilter) {
       setPreloader(true);
-
       const fetchData = async () => {
         try {
           const response = await getOrderViewOperations(
@@ -209,7 +208,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
       // Вызов функции fetchData
       fetchData();
     }
-  }, [endDate, startDate]);
+  }, [endDate, startDate, isOpenFilter]);
 
   return (
     <>

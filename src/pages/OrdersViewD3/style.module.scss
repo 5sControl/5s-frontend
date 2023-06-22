@@ -20,7 +20,7 @@
 .header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   h2 {
     font-family: Inter;
     font-weight: 600;
@@ -37,7 +37,7 @@
 }
 .content {
   display: flex;
-  height: calc(100% - 120px);
+  height: calc(100% - 105px);
   margin-bottom: 10px;
 
   flex-direction: column;
