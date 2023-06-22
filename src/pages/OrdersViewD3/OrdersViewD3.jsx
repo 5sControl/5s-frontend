@@ -38,6 +38,16 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     setWorkPlaceList([...workplaces]);
   };
 
+  const resetHandler = () => {
+    const workplaces = workPlaceList.map((el) => {
+      return {
+        ...el,
+        is_active: false,
+      };
+    });
+    setWorkPlaceList([...workplaces]);
+  };
+
   const submitHandler = () => {
     patchFiltrationData(window.location.hostname, cookies.token, workPlaceList)
       .then((response) => {
@@ -60,6 +70,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
       })
       .catch((err) => console.log(err));
   }, []);
+
   useEffect(() => {
     if (startDate && endDate) {
       setPreloader(true);
@@ -246,7 +257,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               </ul>
             </main>
             <footer className={styles.footer}>
-              <Button text="Reset" variant="text" />
+              <Button text="Reset" variant="text" onClick={resetHandler} />
               <Button text="Done" onClick={submitHandler} />
             </footer>
           </section>
