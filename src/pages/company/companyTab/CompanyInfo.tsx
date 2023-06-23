@@ -60,7 +60,7 @@ export const CompanyInfo: FC = () => {
 
         {companyInfo && Object.keys(companyInfo).length > 0 && isLicensed && (
           <div className="company__name">
-            <h3>5S CONTROL</h3>
+            <h3>5ControlS</h3>
             <br></br>
             <h4>Date joined: {moment(companyInfo.date_joined).format('DD-MM-YYYY')}</h4>
             <h4>company_active_count_cameras: {companyInfo.company_active_count_cameras}</h4>

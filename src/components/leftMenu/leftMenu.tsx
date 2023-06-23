@@ -46,7 +46,7 @@ export const LeftMenu = () => {
       document.title = 'Info';
     }
     if (window.location.pathname === '/') {
-      document.title = '5s Control';
+      document.title = '5ControlS';
     }
   });
 

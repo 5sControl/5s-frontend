@@ -17,14 +17,14 @@ import { Notification } from '../../../../components/notification/notification';
 import styles from './timeline.module.scss';
 import { getVideo } from '../../../../api/cameraRequest';
 
-export const Timeline = ({ data, startDate, algorithm, startTime, endTime, zone }) => {
+export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => {
   const [timeLine, setTimeLine] = useState([]);
   const [currentReport, setCurrentReport] = useState(false);
   const [currentCount, setCurrentCount] = useState(0);
   const [hoverItem, setHoverItem] = useState(false);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [operationOV, setOperationOV] = useState(false);
-
+  console.log(currentReport);
   const duration = (start, end) => {
     return (moment(end).diff(moment(start), 'seconds') / calculateTime(startTime, endTime)) * 100;
   };
