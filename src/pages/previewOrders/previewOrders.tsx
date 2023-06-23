@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { WrapperPage } from '../../components/wrapper/wrapperPage';
+import { IoMdSettings } from 'react-icons/io';
 import styles from './previewOrders.module.scss';
 import { OrderCard } from './components/OrderCard';
 import { OrderList } from './components/OrdersList';
@@ -300,7 +300,11 @@ export const PreviewOrders: React.FC = () => {
                 </>
               )}
               {activeTab === 'timelines' && (
-                <Settings onClick={() => setIsOpenFilter(!isOpenFilter)} />
+                <IoMdSettings
+                  onClick={() => setIsOpenFilter(!isOpenFilter)}
+                  className={styles.header__settings}
+                />
+                // <Settings />
               )}
               <DatePicker />
             </div>
