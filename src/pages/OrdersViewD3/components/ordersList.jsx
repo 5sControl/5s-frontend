@@ -5,24 +5,29 @@ import { getOrderViewOrderList } from '../../../api/orderView';
 import { Preloader } from '../../../components/preloader';
 import { convertMillisecondsToTime } from '../../../functions/converterToMIlliseconds';
 
-export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate }) => {
+export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate, reload }) => {
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [preloader, setPreloader] = useState(false);
   useEffect(() => {
-    setPreloader(true);
-    getOrderViewOrderList(window.location.hostname, '', startDate, endDate).then((response) => {
-      // const uniqueOrderNames = [...new Set(response.data.map((item) => item.orId))];
-      setData(response.data);
-      setPreloader(false);
-    });
-  }, [startDate, endDate]);
+    if (!reload) {
+      setPreloader(true);
+      getOrderViewOrderList(window.location.hostname, '', startDate, endDate)
+        .then((response) => {
+          // const uniqueOrderNames = [...new Set(response.data.map((item) => item.orId))];
+          setData(response.data);
+          setPreloader(false);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [startDate, endDate, reload]);
 
   return (
     <div className={styles.orders}>
       <h2>Orders ({data.length})</h2>
       {preloader ? (
-        <Preloader />
+        // <Preloader />
+        <div>Loading...</div>
       ) : (
         <>
           <SearchInput
