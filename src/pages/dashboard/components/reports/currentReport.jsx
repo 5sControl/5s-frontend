@@ -132,7 +132,7 @@ export const CurrentReport = () => {
                   className={`${styles.text} ${styles.link}`}
                   onClick={() => videoClickHandler(currentReport)}
                 >
-                  Check video
+                  Open video
                 </span>
               </div>
             )}

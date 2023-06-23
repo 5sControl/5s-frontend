@@ -319,7 +319,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                 <div className={styles.fullscreen__footer_text}>
                   <span> Additional:&nbsp;</span>
                   <span className={styles.link} onClick={() => videoClickHandler(currentReport)}>
-                    Check video
+                    Open video
                   </span>
                 </div>
               )}
