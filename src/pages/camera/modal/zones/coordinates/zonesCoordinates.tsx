@@ -285,7 +285,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
           ></div>
           {!!proportionHeight && (
             <div className={styles.scale} style={{ zIndex: isStartDraw ? 1 : 2001 }}>
-              <Scale
+              {/* <Scale
                 onClick={() =>
                   scaleHandler(
                     process.env.REACT_APP_ENV === 'proxy'
@@ -295,7 +295,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
                       : `http://${window.location.hostname}/images/${currentSelect}/snapshot.jpg`
                   )
                 }
-              />
+              /> */}
             </div>
           )}
 
