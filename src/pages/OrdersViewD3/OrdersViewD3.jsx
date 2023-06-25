@@ -135,7 +135,6 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
           }));
 
           const newDataPromises = answer.map(async (zone) => {
-            console.log(zone);
             try {
               const res = await getSelectedZone(
                 window.location.hostname,
@@ -195,8 +194,6 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
           });
 
           const newData = await Promise.all(newDataPromises);
-
-          console.log(newData);
           setPreloader(false);
           await setData(dataToD3);
           await setMachineData(newData);

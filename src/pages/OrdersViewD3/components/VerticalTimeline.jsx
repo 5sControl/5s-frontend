@@ -48,7 +48,6 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
           ? data.filter((order) => !JSON.stringify(order.oprs).includes(`"${selectOrder}"`))
           : [];
       machineData.forEach((machineItem) => {
-        console.log(machineItem);
         if (first.some((item) => item.oprTypeID === machineItem.oprTypeID)) {
           first.unshift(machineItem);
         } else {
@@ -62,8 +61,6 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
       });
       first = first.sort((a, b) => b.oprTypeID - a.oprTypeID);
       end = end.sort((a, b) => b.oprTypeID - a.oprTypeID);
-      console.log(first);
-      console.log(end);
       setUpdate([...first, ...end]);
     }
   }, [data, selectOrder]);

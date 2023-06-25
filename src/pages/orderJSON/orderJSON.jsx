@@ -31,7 +31,6 @@ export const OrderJSON = () => {
         Authorization: cookies.token,
       }
     ).then((res) => {
-      console.log(res.data.results);
       setResponse(res.data.results);
     });
   }, [start]);
