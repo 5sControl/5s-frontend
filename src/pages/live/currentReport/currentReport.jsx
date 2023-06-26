@@ -113,6 +113,7 @@ export const CurrentReport = ({ camera }) => {
                       }`}
                       controls
                       autoPlay
+                      onEnded={() => arrowHandler('next')}
                     ></video>
                     <div className={styles.time}>
                       <ArrowLeft className={styles.svg} onClick={() => arrowHandler('prev')} />
@@ -133,7 +134,7 @@ export const CurrentReport = ({ camera }) => {
               </>
             )}
           </div>
-          <div className={styles.report__description}>
+          {/* <div className={styles.report__description}>
             <span>
               {moment
                 .utc(currentReport.start_tracking)
@@ -162,7 +163,7 @@ export const CurrentReport = ({ camera }) => {
                 {currentReport.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
       ) : (
         <>
