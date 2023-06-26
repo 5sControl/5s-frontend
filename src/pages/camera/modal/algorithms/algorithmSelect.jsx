@@ -145,7 +145,7 @@ export const AlgorithmSelect = ({
                       }
                       onClick={() => workPlaceHandler(-1, algorithm.name)}
                     >
-                      Camera
+                      Full camera
                     </span>
                     {workplace.length > 0 &&
                       algoWorkzone &&
