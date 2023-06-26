@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 
-import { ViolintationFalse, ViolintationTrue } from '../../../assets/svg/SVGcomponent.ts';
+import {
+  ViolintationFalse,
+  ViolintationTrue,
+  ArrowLeft,
+  ArrowRight,
+} from '../../../assets/svg/SVGcomponent.ts';
 import { parsingAlgorithmName } from '../../../functions/parsingAlgorithmName.js';
 import ImageSlider from '../../../components/slider/slider';
 
@@ -16,6 +21,32 @@ export const CurrentReport = ({ camera }) => {
   const [fullImage, setFullImage] = useState(false);
   const [currentCount, setCurrentCount] = useState(0);
   const [operationDataNew, setOperationDataNew] = useState(false);
+
+  const arrowHandler = (text) => {
+    let body = {};
+
+    if (text === 'prev') {
+      body = {
+        camera_ip: operationDataNew.cameraIP,
+        time: operationDataNew.video.date_start - 120000,
+      };
+    } else {
+      body = {
+        camera_ip: operationDataNew.cameraIP,
+        time: operationDataNew.video.date_end + 1000,
+      };
+    }
+    getVideo(window.location.hostname, body).then((res) => {
+      const resp = {
+        ...operationDataNew,
+        sTime: body.time,
+        video: res.data,
+      };
+      setOperationDataNew(() => {
+        return { ...resp };
+      });
+    });
+  };
 
   useEffect(() => {
     console.log(currentReport);
@@ -52,36 +83,46 @@ export const CurrentReport = ({ camera }) => {
             {currentReport && (
               <>
                 {operationDataNew ? (
-                  <video
-                    id="videoPlayer"
-                    src={`${
-                      process.env.REACT_APP_ENV === 'proxy'
-                        ? `http://192.168.1.110:3456/video?time=${
-                            operationDataNew.sTime
-                          }&camera_ip=${operationDataNew.cameraIP}#t=${
-                            operationDataNew.video.video_start_from
-                              ? operationDataNew.video.video_start_from / 1000
-                              : 0
-                          }`
-                        : process.env.REACT_APP_ENV === 'wify'
-                        ? `http://192.168.1.110:3456/video?time=${
-                            operationDataNew.sTime
-                          }&camera_ip=${operationDataNew.cameraIP}#t=${
-                            operationDataNew.video.video_start_from
-                              ? operationDataNew.video.video_start_from / 1000
-                              : 0
-                          }`
-                        : `http://${window.location.hostname}:3456/video?time=${
-                            operationDataNew.sTime
-                          }&camera_ip=${operationDataNew.cameraIP}#t=${
-                            operationDataNew.video.video_start_from
-                              ? operationDataNew.video.video_start_from / 1000
-                              : 0
-                          }`
-                    }`}
-                    controls
-                    autoPlay
-                  ></video>
+                  <>
+                    <video
+                      id="videoPlayer"
+                      src={`${
+                        process.env.REACT_APP_ENV === 'proxy'
+                          ? `http://192.168.1.110:3456/video?time=${
+                              operationDataNew.sTime
+                            }&camera_ip=${operationDataNew.cameraIP}#t=${
+                              operationDataNew.video.video_start_from
+                                ? operationDataNew.video.video_start_from / 1000
+                                : 0
+                            }`
+                          : process.env.REACT_APP_ENV === 'wify'
+                          ? `http://192.168.1.110:3456/video?time=${
+                              operationDataNew.sTime
+                            }&camera_ip=${operationDataNew.cameraIP}#t=${
+                              operationDataNew.video.video_start_from
+                                ? operationDataNew.video.video_start_from / 1000
+                                : 0
+                            }`
+                          : `http://${window.location.hostname}:3456/video?time=${
+                              operationDataNew.sTime
+                            }&camera_ip=${operationDataNew.cameraIP}#t=${
+                              operationDataNew.video.video_start_from
+                                ? operationDataNew.video.video_start_from / 1000
+                                : 0
+                            }`
+                      }`}
+                      controls
+                      autoPlay
+                    ></video>
+                    <div className={styles.time}>
+                      <ArrowLeft className={styles.svg} onClick={() => arrowHandler('prev')} />
+                      <div className={styles.time__container}>
+                        <span>{moment(operationDataNew.sTime).format('HH:mm:ss')} -</span>
+                        <span>{moment(operationDataNew.eTime).format('HH:mm:ss')}</span>
+                      </div>
+                      <ArrowRight className={styles.svg} onClick={() => arrowHandler('next')} />
+                    </div>
+                  </>
                 ) : (
                   <ImageSlider
                     images={currentReport.photos}

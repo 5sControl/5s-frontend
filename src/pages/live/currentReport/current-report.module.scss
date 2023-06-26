@@ -56,3 +56,34 @@
         object-fit: cover;
     }
 }
+
+.time {
+    position: absolute;
+    left: calc(50% - 100px);
+    bottom: 140px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    border-radius: 31px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 15px;
+    .svg{
+      opacity: 0.7;
+      cursor: pointer;
+      transition: all 0.4s;
+      &:hover{
+        opacity: 1;
+      }
+    }
+    &__container {
+      display: flex;
+      flex-direction: column;
+      color: #fff;
+      text-align: center;
+      font-size: 14px;
+      font-family: Inter;
+      line-height: 120%;
+      letter-spacing: 0.1px;
+    }
+  }
