@@ -42,7 +42,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     const workplaces = workPlaceList.map((el) => {
       return {
         ...el,
-        is_active: false,
+        is_active: true,
       };
     });
     setWorkPlaceList([...workplaces]);
