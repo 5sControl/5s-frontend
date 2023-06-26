@@ -52,6 +52,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
       const resp = {
         ...operationDataNew,
         sTime: body.time,
+        eTime: body.time + 120000,
         video: res.data,
       };
       setOperationDataNew(() => {
