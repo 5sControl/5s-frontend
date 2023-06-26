@@ -22,7 +22,6 @@ export const CurrentReport = () => {
   const [fullImage, setFullImage] = useState(false);
   const [currentCount, setCurrentCount] = useState(0);
   const [operationOV, setOperationOV] = useState(false);
-  console.log(currentReport);
   const videoClickHandler = (element) => {
     const body = {
       camera_ip: element.camera.id,

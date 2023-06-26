@@ -24,7 +24,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   const [hoverItem, setHoverItem] = useState(false);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [operationOV, setOperationOV] = useState(false);
-  console.log(currentReport);
   const duration = (start, end) => {
     return (moment(end).diff(moment(start), 'seconds') / calculateTime(startTime, endTime)) * 100;
   };
