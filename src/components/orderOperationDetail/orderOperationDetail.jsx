@@ -154,11 +154,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           <div className={styles.subtitle}>
             <span>{'Operation start: '}</span>
             <span className={styles.subtitle_value}>
-              {operationData && new Date(operationData?.sTime).toLocaleDateString()}
-            </span>
-            <span className={styles.subtitle_value}>{' | '}</span>
-            <span className={styles.subtitle_value}>
-              {operationData && new Date(operationData?.sTime).toLocaleTimeString()}
+              {operationData && moment(operationData?.sTime).format('YYYY-MM-DD | HH:mm:ss')}
             </span>
           </div>
           {operationData?.cameraName && (
