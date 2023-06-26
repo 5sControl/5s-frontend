@@ -70,7 +70,7 @@ export const CompanyInfo: FC = () => {
             <h4>days_left: {companyInfo.days_left}</h4>
             <h4>valid_until: {companyInfo.valid_until}</h4>
             <h4>company_active_count_neurons: {companyInfo.company_active_count_neurons}</h4>
-            <h4>name_company: {companyInfo.name_company}</h4>
+            {/* <h4>name_company: {companyInfo.name_company}</h4> */}
           </div>
         )}
 
