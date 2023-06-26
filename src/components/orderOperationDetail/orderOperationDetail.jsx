@@ -1,24 +1,26 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Modal } from '../modal';
 import styles from './orderOperationDetail.module.scss';
-import { Download } from '../../assets/svg/SVGcomponent';
+import { ArrowLeft, ArrowRight, Download } from '../../assets/svg/SVGcomponent';
 import { Button } from '../button';
 import noVideo from '../../assets/png/novideo.png';
 import ReactPlayer from 'react-player';
 import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
+import moment from 'moment';
+import { getVideo } from '../../api/cameraRequest';
 
 export const OrderOperationDetail = ({ operationData, handleClose }) => {
+  const [operationDataNew, setOperationDataNew] = useState(operationData);
   const playerRef = useRef(null);
-  console.log(operationData);
   const handleDownload = () => {
-    if (operationData && operationData.video && operationData.video.status) {
+    if (operationDataNew && operationDataNew.video && operationDataNew.video.status) {
       const videoUrl = `${
         process.env.REACT_APP_ENV === 'proxy'
           ? `${process.env.REACT_APP_NGROK}`
           : process.env.REACT_APP_ENV === 'wify'
           ? `${process.env.REACT_APP_IP_SERVER}`
           : `http://${window.location.hostname}`
-      }/${operationData?.video.file_name}`; // Замените на ссылку на ваше видео
+      }/${operationDataNew?.video.file_name}`; // Замените на ссылку на ваше видео
 
       fetch(videoUrl)
         .then((response) => response.blob())
@@ -26,12 +28,42 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = url;
-          link.download = operationData?.video.file_name; // Замените на имя файла, под которым нужно сохранить видео
+          link.download = operationDataNew?.video.file_name; // Замените на имя файла, под которым нужно сохранить видео
           link.click();
           URL.revokeObjectURL(url);
         });
     }
   };
+  const arrowHandler = (text) => {
+    let body = {};
+
+    if (text === 'prev') {
+      body = {
+        camera_ip: operationDataNew.cameraIP,
+        time: operationDataNew.video.date_start - 120000,
+      };
+    } else {
+      body = {
+        camera_ip: operationDataNew.cameraIP,
+        time: operationDataNew.video.date_end + 1000,
+      };
+    }
+    getVideo(window.location.hostname, body).then((res) => {
+      const resp = {
+        ...operationDataNew,
+        sTime: body.time,
+        eTime: body.time + 120000,
+        video: res.data,
+      };
+      setOperationDataNew(() => {
+        return { ...resp };
+      });
+    });
+  };
+
+  useEffect(() => {
+    console.log(operationDataNew);
+  }, [operationDataNew]);
 
   return (
     <Modal
@@ -41,38 +73,53 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
       showCross
       showSubstrateCross
     >
-      {operationData.video && operationData.video.status && operationData.cameraIP ? (
-        <video
-          id="videoPlayer"
-          src={`${
-            process.env.REACT_APP_ENV === 'proxy'
-              ? `http://192.168.1.110:3456/video?time=${operationData.sTime}&camera_ip=${
-                  operationData.cameraIP
-                }#t=${
-                  operationData.video.video_start_from
-                    ? operationData.video.video_start_from / 1000
-                    : 0
-                }`
-              : process.env.REACT_APP_ENV === 'wify'
-              ? `http://192.168.1.110:3456/video?time=${operationData.sTime}&camera_ip=${
-                  operationData.cameraIP
-                }#t=${
-                  operationData.video.video_start_from
-                    ? operationData.video.video_start_from / 1000
-                    : 0
-                }`
-              : `http://${window.location.hostname}:3456/video?time=${
-                  operationData.sTime
-                }&camera_ip=${operationData.cameraIP}#t=${
-                  operationData.video.video_start_from
-                    ? operationData.video.video_start_from / 1000
-                    : 0
-                }`
-          }`}
-          controls
-          autoPlay
-        ></video>
-      ) : operationData.video && operationData.video.status && operationData?.video.file_name ? (
+      {operationDataNew.video && operationDataNew.video.status && operationDataNew.cameraIP ? (
+        <>
+          {operationDataNew && (
+            <video
+              id="videoPlayer"
+              src={`${
+                process.env.REACT_APP_ENV === 'proxy'
+                  ? `http://192.168.1.110:3456/video?time=${operationDataNew.sTime}&camera_ip=${
+                      operationDataNew.cameraIP
+                    }#t=${
+                      operationDataNew.video.video_start_from
+                        ? operationDataNew.video.video_start_from / 1000
+                        : 0
+                    }`
+                  : process.env.REACT_APP_ENV === 'wify'
+                  ? `http://192.168.1.110:3456/video?time=${operationDataNew.sTime}&camera_ip=${
+                      operationDataNew.cameraIP
+                    }#t=${
+                      operationDataNew.video.video_start_from
+                        ? operationDataNew.video.video_start_from / 1000
+                        : 0
+                    }`
+                  : `http://${window.location.hostname}:3456/video?time=${
+                      operationDataNew.sTime
+                    }&camera_ip=${operationDataNew.cameraIP}#t=${
+                      operationDataNew.video.video_start_from
+                        ? operationDataNew.video.video_start_from / 1000
+                        : 0
+                    }`
+              }`}
+              controls
+              autoPlay
+            ></video>
+          )}
+
+          <div className={styles.time}>
+            <ArrowLeft className={styles.svg} onClick={() => arrowHandler('prev')} />
+            <div className={styles.time__container}>
+              <span>{moment(operationDataNew.sTime).format('HH:mm:ss')} -</span>
+              <span>{moment(operationDataNew.eTime).format('HH:mm:ss')}</span>
+            </div>
+            <ArrowRight className={styles.svg} onClick={() => arrowHandler('next')} />
+          </div>
+        </>
+      ) : operationDataNew.video &&
+        operationDataNew.video.status &&
+        operationDataNew?.video.file_name ? (
         <ReactPlayer
           ref={playerRef}
           width="100%"
@@ -92,7 +139,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
               : process.env.REACT_APP_ENV === 'wify'
               ? `${process.env.REACT_APP_IP_SERVER}`
               : `http://${window.location.hostname}`
-          }/${operationData?.video.file_name}`}
+          }/${operationDataNew?.video.file_name}`}
         />
       ) : (
         <img alt="no video" src={noVideo} />
@@ -108,11 +155,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           <div className={styles.subtitle}>
             <span>{'Operation start: '}</span>
             <span className={styles.subtitle_value}>
-              {operationData && new Date(operationData?.sTime).toLocaleDateString()}
-            </span>
-            <span className={styles.subtitle_value}>{' | '}</span>
-            <span className={styles.subtitle_value}>
-              {operationData && new Date(operationData?.sTime).toLocaleTimeString()}
+              {operationData && moment(operationData?.sTime).format('YYYY-MM-DD | HH:mm:ss')}
             </span>
           </div>
           {operationData?.cameraName && (
@@ -158,7 +201,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
         </div>
       </div>
 
-      {operationData?.video && operationData?.video.file_name && (
+      {operationDataNew?.video && operationDataNew?.video.file_name && (
         <Button
           onClick={handleDownload}
           IconLeft={Download}

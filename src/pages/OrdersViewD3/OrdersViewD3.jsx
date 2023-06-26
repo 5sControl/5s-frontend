@@ -42,7 +42,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     const workplaces = workPlaceList.map((el) => {
       return {
         ...el,
-        is_active: false,
+        is_active: true,
       };
     });
     setWorkPlaceList([...workplaces]);
@@ -135,7 +135,6 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
           }));
 
           const newDataPromises = answer.map(async (zone) => {
-            console.log(zone);
             try {
               const res = await getSelectedZone(
                 window.location.hostname,
@@ -195,8 +194,6 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
           });
 
           const newData = await Promise.all(newDataPromises);
-
-          console.log(newData);
           setPreloader(false);
           await setData(dataToD3);
           await setMachineData(newData);
@@ -219,6 +216,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
             selectOrder={selectOrder}
             startDate={startDate}
             endDate={endDate}
+            reloadr={isOpenFilter}
           />
           <VerticalTimeline
             data={data}
@@ -235,7 +233,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
           <section className={styles.container}>
             <header className={styles.header}>
               <h2>Orders View settings</h2>
-              <Cross onClick={setIsOpenFilter} />
+              <Cross onClick={setIsOpenFilter} className={styles.cross} />
             </header>
             <main className={styles.content}>
               <span className={styles.content__name}>Displayed operations</span>

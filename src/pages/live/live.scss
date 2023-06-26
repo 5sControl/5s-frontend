@@ -27,9 +27,13 @@
   &__container {
     width: 100%;
     height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   &__reports {
-    height: calc(100% - 110px);
+    max-height: calc(100% - 110px);
+    height: max-content;
     width: 100%;
     display: flex;
     gap: 14px;
@@ -38,7 +42,7 @@
   &__camera {
     display: flex;
     flex-direction: column;
-    width: 33%;
+    width: 25%;
     height: 100%;
     background: #ffffff;
     box-shadow: 0px 0px 8px rgba(42, 98, 149, 0.25);
@@ -85,7 +89,7 @@
     }
   }
   &__report-info {
-    width: 67%;
+    width: 75%;
     height: 100%;
     background-color: #ffffff;
     box-shadow: 0px 0px 8px rgba(42, 98, 149, 0.25);

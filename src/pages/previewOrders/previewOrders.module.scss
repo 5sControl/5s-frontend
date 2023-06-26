@@ -5,6 +5,17 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  &__settings{
+    margin-left: 7px;
+    color: #666666;
+    cursor: pointer;
+    transition: all 0.4s linear;
+    width: 25px;
+    height: 25px;
+    &:hover{
+      color:black;
+    }
+  }
   &_title {
     @include h1;
     color: var(--HightEmphasis);

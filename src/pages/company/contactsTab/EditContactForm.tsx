@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import style from './contacts.module.scss';
 import { deleteSuppliers, editSuppliers } from '../../../api/companyRequest';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { GoBack, Settings } from '../../../assets/svg/SVGcomponent';
 import { Button } from '../../../components/button';
@@ -159,7 +159,14 @@ export const EditContactForm = () => {
 
   return (
     <div className={style.container}>
-      <HeaderMain title="Contacts"></HeaderMain>
+      <HeaderMain title={'Contacts'}>
+        <div className="company__header">
+          <Link to="/company">Company</Link>
+          <Link to="/company/contacts" className={'company__header_active'}>
+            Contacts
+          </Link>
+        </div>
+      </HeaderMain>
       <div className={style.breadcrumbs}>
         <span className={style.breadcrumbs_active} onClick={goToContacts}>
           Company

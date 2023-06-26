@@ -22,7 +22,6 @@ export const CurrentReport = () => {
   const [fullImage, setFullImage] = useState(false);
   const [currentCount, setCurrentCount] = useState(0);
   const [operationOV, setOperationOV] = useState(false);
-  console.log(currentReport);
   const videoClickHandler = (element) => {
     const body = {
       camera_ip: element.camera.id,
@@ -132,7 +131,7 @@ export const CurrentReport = () => {
                   className={`${styles.text} ${styles.link}`}
                   onClick={() => videoClickHandler(currentReport)}
                 >
-                  Check video
+                  Open video
                 </span>
               </div>
             )}

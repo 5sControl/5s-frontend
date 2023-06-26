@@ -60,7 +60,7 @@ export const Authorization = () => {
   return (
     <div className="authorization">
       <img src={logo} alt="logo" className="authorization__logo" />
-      <h2 className="authorization__title">Sign in to 5S Control</h2>
+      <h2 className="authorization__title">Sign in to 5ControlS</h2>
       <div className="authorization__container">
         <label>Email</label>
         <Input

@@ -28,7 +28,6 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
 
   const { activeInventoryItem } = useAppSelector(selectActiveInventoryItem);
 
-  // console.log(currentReport);
   const setExtraOfActiveData = (extra: Array<HistoryExtra>) => {
     return getExtraOfActiveData(extra, activeInventoryItem);
   };
@@ -36,7 +35,7 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   const [fullImage, setFullImage] = useState<any>(false);
   const { inventoryHistoryData } = useAppSelector(selectInventory);
 
-  const currentIndex = inventoryHistoryData?.indexOf(currentReport) || 1;
+  const currentIndex = inventoryHistoryData?.indexOf(currentReport) || 0;
 
   useEffect(() => {
     setFullImage(false);
@@ -57,6 +56,7 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   }, [fullImage]);
 
   const prevReport = () => {
+    console.log(currentIndex);
     const prevReport = inventoryHistoryData
       ? inventoryHistoryData[currentIndex - 1]
       : currentReport;
@@ -65,6 +65,8 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   };
 
   const nextReport = () => {
+    console.log(currentIndex);
+    console.log(inventoryHistoryData);
     const nextReport = inventoryHistoryData
       ? inventoryHistoryData[currentIndex + 1]
       : currentReport;

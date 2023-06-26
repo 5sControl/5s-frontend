@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import style from '../contactsTab/contacts.module.scss';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { GoBack } from '../../../assets/svg/SVGcomponent';
 import { Button } from '../../../components/button';
@@ -11,6 +11,7 @@ import ContactForm from '../components/ContactForm';
 import { EMAIL_REGEXP } from '../config';
 import { AxiosError } from 'axios';
 import { createCompanyInfoForm, editCompanyInfoForm } from '../../../api/companyRequest';
+import { HeaderMain } from '../../../components/header';
 
 export const EditCompanyForm = () => {
   const navigate = useNavigate();
@@ -172,56 +173,66 @@ export const EditCompanyForm = () => {
   }, [contact]);
 
   return (
-    <div className={style.container}>
-      <div className={style.breadcrumbs}>
-        <span className={style.breadcrumbs_active} onClick={goToCompany}>
-          Company
-        </span>
-        <span>{' / '}</span>
-        <span>{contact?.name_company}</span>
-      </div>
-
-      <div className={style.title_box}>
-        <div className={style.title_go_back}>
-          <h2>Edit Company</h2>
-          <GoBack className={style.arrow_go_back} onClick={goToCompany} />
+    <>
+      <HeaderMain title={'Contacts'}>
+        <div className="company__header">
+          <Link to="/company">Company</Link>
+          <Link to="/company/contacts" className={'company__header_active'}>
+            Contacts
+          </Link>
+        </div>
+      </HeaderMain>
+      <div className={style.container}>
+        <div className={style.breadcrumbs}>
+          <span className={style.breadcrumbs_active} onClick={goToCompany}>
+            Company
+          </span>
+          <span>{' / '}</span>
+          <span>{contact?.name_company}</span>
         </div>
 
-        <div className={style.control_box}>
-          <Button text="Save" onClick={() => editContact()} disabled={isLoading} />
-        </div>
-      </div>
+        <div className={style.title_box}>
+          <div className={style.title_go_back}>
+            <h2>Edit Company</h2>
+            <GoBack className={style.arrow_go_back} onClick={goToCompany} />
+          </div>
 
-      <ContactForm
-        name={name}
-        email={email}
-        city={city}
-        changeCountryHandler={changeCountryHandler}
-        setWebsite={setWebsite}
-        changeZipIndexHandler={changeZipIndexHandler}
-        address1={address1}
-        address2={address2}
-        changeNameHandler={changeNameHandler}
-        country={country}
-        mobile={mobile}
-        nameError={nameError}
-        emailError={emailError}
-        phone={phone}
-        setAddress1={setAddress1}
-        setAddress2={setAddress2}
-        setCity={setCity}
-        changeEmailHandler={changeEmailHandler}
-        setMobile={setMobile}
-        setPhone={setPhone}
-        setState={setState}
-        state={state}
-        website={website}
-        zipIndex={zipIndex}
-        zipIndexError={zipIndexError}
-        countryError={countryError}
-        logo={logo}
-        setLogo={setLogo}
-      />
-    </div>
+          <div className={style.control_box}>
+            <Button text="Save" onClick={() => editContact()} disabled={isLoading} />
+          </div>
+        </div>
+
+        <ContactForm
+          name={name}
+          email={email}
+          city={city}
+          changeCountryHandler={changeCountryHandler}
+          setWebsite={setWebsite}
+          changeZipIndexHandler={changeZipIndexHandler}
+          address1={address1}
+          address2={address2}
+          changeNameHandler={changeNameHandler}
+          country={country}
+          mobile={mobile}
+          nameError={nameError}
+          emailError={emailError}
+          phone={phone}
+          setAddress1={setAddress1}
+          setAddress2={setAddress2}
+          setCity={setCity}
+          changeEmailHandler={changeEmailHandler}
+          setMobile={setMobile}
+          setPhone={setPhone}
+          setState={setState}
+          state={state}
+          website={website}
+          zipIndex={zipIndex}
+          zipIndexError={zipIndexError}
+          countryError={countryError}
+          logo={logo}
+          setLogo={setLogo}
+        />
+      </div>
+    </>
   );
 };

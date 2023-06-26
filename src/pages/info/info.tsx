@@ -11,7 +11,7 @@ export const Info: React.FC = () => {
   );
   return (
     <>
-      <HeaderMain title="5s Control">
+      <HeaderMain title="5ControlS">
         <div className={styles.tabs}>
           <Link
             to="/info/version"
