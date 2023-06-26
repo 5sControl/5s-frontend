@@ -36,6 +36,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
   };
   const arrowHandler = (text) => {
     let body = {};
+
     if (text === 'prev') {
       body = {
         camera_ip: operationDataNew.cameraIP,
