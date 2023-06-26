@@ -29,7 +29,8 @@
     height: calc(100vh - 120px);
   }
   &__reports {
-    height: calc(100% - 110px);
+    max-height: calc(100% - 110px);
+    height: max-content;
     width: 100%;
     display: flex;
     gap: 14px;
