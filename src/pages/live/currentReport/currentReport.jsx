@@ -50,14 +50,13 @@ export const CurrentReport = ({ camera }) => {
   };
 
   useEffect(() => {
-    console.log(currentReport);
     if (currentReport) {
       const body = {
         camera_ip: currentReport.camera.id,
         time: new Date(currentReport.start_tracking).valueOf() + 10800000,
       };
       getVideo(window.location.hostname, body).then((res) => {
-        if (Object.keys(res.data).length && res.data.status) {
+        if (Object.keys(res.data).length && !!res.data.status) {
           const value = {
             cameraIP: currentReport.camera.id,
             cameraName: currentReport.camera.name,

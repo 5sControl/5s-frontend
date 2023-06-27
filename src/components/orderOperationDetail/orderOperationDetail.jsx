@@ -61,10 +61,6 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
     });
   };
 
-  useEffect(() => {
-    console.log(operationDataNew);
-  }, [operationDataNew]);
-
   return (
     <Modal
       isOpen={true}
