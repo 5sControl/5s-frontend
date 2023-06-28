@@ -4,8 +4,9 @@ import { CurrentReport } from './currentReport';
 import { addCurrentReport, selectCurrentReport } from '../../../../store/dataSlice';
 import { useAppSelector, useAppDispatch } from '../../../../store/hooks';
 import styles from './reports.module.scss';
+import moment from 'moment-timezone';
 
-export const Reports = ({ data }) => {
+export const Reports = ({ data, selectDate }) => {
   const { currentReport } = useAppSelector(selectCurrentReport);
   const dispatch = useAppDispatch();
 
@@ -18,6 +19,7 @@ export const Reports = ({ data }) => {
     }
   };
 
+  console.log(data);
   useEffect(() => {
     const nextItem = (e) => (e.key ? goToNextReport(e.key) : null);
     document.body.addEventListener('keydown', nextItem);
@@ -29,7 +31,7 @@ export const Reports = ({ data }) => {
   return (
     <>
       <h3 className={styles.title}>
-        Reports <span>{data.length}</span>
+        {moment(selectDate).format('MMM DD')} <span>{` (${data.length}) reports`}</span>
       </h3>
       <div className={styles.container}>
         <div className={styles.choose}>

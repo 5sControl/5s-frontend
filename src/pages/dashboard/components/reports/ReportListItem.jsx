@@ -10,6 +10,23 @@ import styles from './reports.module.scss';
 export const ReportListItem = ({ item }) => {
   const dispatch = useAppDispatch();
   const { currentReport } = useAppSelector(selectCurrentReport);
+  const startTracking = moment.utc(item.start_tracking).utcOffset(moment().utcOffset());
+  const stopTracking = moment.utc(item.stop_tracking).utcOffset(moment().utcOffset());
+  const duration = moment.duration(stopTracking.diff(startTracking));
+  const hours = duration.hours();
+  const minutes = duration.minutes();
+  const seconds = duration.seconds();
+
+  let formattedDuration = '';
+
+  if (hours > 0) {
+    formattedDuration += `${hours}:`;
+  }
+  if (minutes > 0) {
+    formattedDuration += `${minutes}min `;
+  }
+  formattedDuration += seconds < 10 ? `${seconds}s` : `${seconds}s`;
+
   return (
     <div
       className={
@@ -23,9 +40,8 @@ export const ReportListItem = ({ item }) => {
         <div className={`${item.violation_found ? styles.red : styles.green}`}></div>
         <div className={styles.inside_content}>
           <div className={styles.reports_item_title}>
-            {moment.utc(item.start_tracking).utcOffset(moment().utcOffset()).format('YYYY-MM-DD ')}{' '}
-            | {moment.utc(item.start_tracking).utcOffset(moment().utcOffset()).format('HH:mm:ss')} -{' '}
-            {moment.utc(item.stop_tracking).utcOffset(moment().utcOffset()).format('HH:mm:ss')}
+            {startTracking.format('HH:mm:ss')} - {stopTracking.format('HH:mm:ss ')}
+            <span>| {formattedDuration}</span>
           </div>
 
           <div>{`# ${item.id}`}</div>
