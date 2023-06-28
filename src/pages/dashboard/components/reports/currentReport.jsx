@@ -86,7 +86,7 @@ export const CurrentReport = () => {
                 {moment
                   .utc(currentReport.start_tracking)
                   .utcOffset(moment().utcOffset())
-                  .format('YYYY-MM-DD ')}
+                  .format('MMM DD ')}
                 |
                 {moment
                   .utc(currentReport.start_tracking)

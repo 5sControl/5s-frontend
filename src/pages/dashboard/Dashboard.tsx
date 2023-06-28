@@ -140,7 +140,7 @@ function Dashboard() {
                     cameras={cameras}
                   />
                 )}
-                {activePage === 'reports' && <Reports data={data} />}
+                {activePage === 'reports' && <Reports data={data} selectDate={selectDate} />}
               </>
             ) : (
               <div className={styles.noreports}>No reports found</div>
