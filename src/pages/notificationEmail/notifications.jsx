@@ -115,6 +115,7 @@ export const Notifications = () => {
       )
     );
   };
+  console.log(defaultSettings);
   return (
     <>
       <section className={styles.server}>
@@ -128,21 +129,21 @@ export const Notifications = () => {
           ></Button>
         </div>
         <p className={styles.server__create}>Create SMTP server to send notifications.</p>
-        {defaultSettings && defaultSettings.length > 0 && defaultSettings[0].server ? (
+        {defaultSettings && defaultSettings.server ? (
           <>
             <div className={styles.server__status}>
               <span className={styles.server__status_type}>Server:</span>
-              <span className={styles.server__status_date}>{defaultSettings[0].server}</span>
+              <span className={styles.server__status_date}>{defaultSettings.server}</span>
             </div>
             <div className={styles.server__status}>
               <span className={styles.server__status_type}>Username:</span>
-              <span className={styles.server__status_date}>{defaultSettings[0].username}</span>
+              <span className={styles.server__status_date}>{defaultSettings.username}</span>
             </div>
             <div className={styles.server__status}>
               <span className={styles.server__status_type}>Uses:</span>
               <span className={styles.server__status_date}>{`${
-                defaultSettings[0].email_use_tls ? 'tsl' : ''
-              } ${defaultSettings[0].email_use_ssl ? 'ssl' : ''}`}</span>
+                defaultSettings.email_use_tls ? 'tsl' : ''
+              } ${defaultSettings.email_use_ssl ? 'ssl' : ''}`}</span>
             </div>
           </>
         ) : (
