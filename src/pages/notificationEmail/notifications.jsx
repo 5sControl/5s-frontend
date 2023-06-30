@@ -115,7 +115,7 @@ export const Notifications = () => {
       )
     );
   };
-  console.log(defaultSettings);
+
   return (
     <>
       <section className={styles.server}>
