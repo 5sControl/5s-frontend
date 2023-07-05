@@ -12,7 +12,8 @@ import { TimelineHub } from './components/timeline/timelineHub';
 import { Preloader } from '../../components/preloader';
 import { Header } from './components/header/header';
 import { getAveilableAlgorithms } from '../../api/algorithmRequest';
-
+import { useAppDispatch } from '../../store/hooks';
+import { addCurrentReport } from '../../store/dataSlice';
 import styles from './dashboard.module.scss';
 import { HeaderMain } from '../../components/header';
 
@@ -29,7 +30,7 @@ function Dashboard() {
   const [algorithms, setAlgorithms] = useState([]);
   const timeDef = moment().utcOffset() / 60;
   const [activePage, setActivePage] = useState('timelines');
-
+  const dispatch = useAppDispatch();
   const update = () => {
     setIsPreloader(true);
     const searchParams = new URLSearchParams(window.location.search);
@@ -71,6 +72,7 @@ function Dashboard() {
   };
   useEffect(() => {
     update();
+    dispatch(addCurrentReport(false));
   }, [selectDate]);
 
   useEffect(() => {
