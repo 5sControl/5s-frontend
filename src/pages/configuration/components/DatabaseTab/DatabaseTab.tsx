@@ -79,6 +79,7 @@ export const DatabaseTab: React.FC = () => {
     }
   }, [databases]);
 
+  console.log(databases);
   return (
     <>
       <ConnectToDbModal
@@ -120,12 +121,13 @@ export const DatabaseTab: React.FC = () => {
               ></Button>
             </div>
           ) : (
-            <Button
-              className={s.buttonPosition}
-              onClick={handleOpenModalConnect}
-              disabled={isLoadingGetConnectionsToDB}
-              text="Connect to Database"
-            ></Button>
+            <div className={`${styles.header_buttons} ${s.buttonPosition}`}>
+              <Button
+                onClick={handleOpenModalConnect}
+                disabled={isLoadingGetConnectionsToDB}
+                text="Connect to Database"
+              />
+            </div>
           )}
         </div>
 
