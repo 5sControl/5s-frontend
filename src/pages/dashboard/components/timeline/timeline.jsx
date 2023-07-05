@@ -275,8 +275,8 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                   {moment
                     .utc(currentReport.start_tracking)
                     .utcOffset(moment().utcOffset())
-                    .format('YYYY-MM-DD ')}
-                  |
+                    .format('MMM DD')}
+                  ,
                   {moment
                     .utc(currentReport.start_tracking)
                     .utcOffset(moment().utcOffset())

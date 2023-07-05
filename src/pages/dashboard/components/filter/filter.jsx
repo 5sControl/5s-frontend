@@ -5,7 +5,7 @@ import { Checkbox } from '../../../../components/checkbox';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 import { Button } from '../../../../components/button';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount, update }) => {
   const [algorithmsURL, setAlgorithmsURL] = useState([]);
@@ -53,6 +53,7 @@ export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount, up
     }
   };
 
+  console.log(algorithms);
   return (
     <ReactPortal wrapperId="filter-container">
       <div id="filter" className={styles.wrapper}>
@@ -66,15 +67,18 @@ export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount, up
               <div className={styles.block}>
                 <legend className={styles.block_title}>Algorithm</legend>
                 {algorithms.map((element, index) => (
-                  <Checkbox
-                    key={index}
-                    id={element.name}
-                    name={'algorithm'}
-                    value={element.name}
-                    label={parsingAlgorithmName(element.name)}
-                    isChecked={algorithmsURL.includes(element.name)}
-                    onChange={onChangeAlgo}
-                  />
+                  <Fragment key={index}>
+                    {element.name !== 'min_max_control' && (
+                      <Checkbox
+                        id={element.name}
+                        name={'algorithm'}
+                        value={element.name}
+                        label={parsingAlgorithmName(element.name)}
+                        isChecked={algorithmsURL.includes(element.name)}
+                        onChange={onChangeAlgo}
+                      />
+                    )}
+                  </Fragment>
                 ))}
               </div>
 

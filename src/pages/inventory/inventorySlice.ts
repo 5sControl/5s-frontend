@@ -97,7 +97,7 @@ export const getSMTPConnect = createAsyncThunk(
   'getSMTPConnect',
   async (data: { token: string; hostname: string }) => {
     const response = await getNotificationSettings(data.hostname, data.token);
-    return !!(response.data && response.data.length > 0 && response.data[0].server);
+    return !!(response.data && response.data.server);
   }
 );
 
