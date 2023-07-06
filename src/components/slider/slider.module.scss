@@ -17,12 +17,11 @@
   transition: transform 0.3s ease;
   width: 100%;
   min-width: 100%;
-  max-height: 100%;
+  max-height: calc(80vh - 170px);
   border-radius: 4px;
+  object-fit: contain;
 }
 .buttonLeft {
-
-
   z-index: 5;
   fill-opacity: 0.5;
   transition: all 0.4s;

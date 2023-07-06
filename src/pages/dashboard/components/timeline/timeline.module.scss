@@ -123,18 +123,19 @@
   background: rgba(0, 0, 0, 0.5);
   overflow: auto;
   transition: all 0.4s;
+
   &__container {
+    max-width: 800px;
+    max-height: calc(80vh - 1px);
     background: #ffffff;
     border-radius: 5px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     position: relative;
-    max-height: calc(90vh - 60px);
     z-index: 9001;
   }
   &__image {
     position: relative;
-    width: 65vw;
-    min-height: 30vh;
+    max-width: 800px;
   }
   &__footer {
     padding: 20px 10px;
