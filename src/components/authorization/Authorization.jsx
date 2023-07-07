@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 import { authorizationRequest } from '../../api/companyRequest';
 import { Input } from '../input';
 
+import { FiveS } from '../../assets/svg/SVGcomponent';
 import logo from '../../assets/svg/icon.svg';
 
 import './Authorization.scss';
@@ -59,7 +60,8 @@ export const Authorization = () => {
 
   return (
     <div className="authorization">
-      <img src={logo} alt="logo" className="authorization__logo" />
+      <FiveS className="authorization__logo" />
+      {/* <img src={logo} alt="logo" className="authorization__logo" /> */}
       <h2 className="authorization__title">Sign in to 5ControlS</h2>
       <div className="authorization__container">
         <label>Email</label>

@@ -60,6 +60,7 @@ import { ReactComponent as EditCover } from './addCompanyCover/editCover.svg';
 import { ReactComponent as AddCover } from './addCompanyCover/addCover.svg';
 import { ReactComponent as DeleteCover } from './addCompanyCover/deleteCover.svg';
 import { ReactComponent as AddPerson } from './addPerson.svg';
+import { ReactComponent as FiveS } from './5S.svg';
 
 export {
   Algorithm,
@@ -124,4 +125,5 @@ export {
   DeleteCover,
   AddPerson,
   PlusPrimary,
+  FiveS,
 };
