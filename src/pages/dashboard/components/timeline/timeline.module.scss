@@ -125,7 +125,7 @@
   transition: all 0.4s;
 
   &__container {
-    max-width: 800px;
+    width: 800px;
     max-height: calc(80vh - 1px);
     background: #ffffff;
     border-radius: 5px;
@@ -136,6 +136,7 @@
   &__image {
     position: relative;
     max-width: 800px;
+    height: calc(80vh - 170px);
   }
   &__footer {
     padding: 20px 10px;
@@ -243,8 +244,6 @@
   }
 }
 
-.lupa {
-}
 .lupa {
   width: 20px;
   height: 20px;

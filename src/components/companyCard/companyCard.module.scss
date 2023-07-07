@@ -5,6 +5,7 @@
   display: flex;
   gap: 22px;
   width: 380px;
+  max-width: calc(33% - 67px);
   height: 90px;
   padding: 10px 14px;
   background-color: var(--White);
