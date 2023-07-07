@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import moment from 'moment-timezone';
+import moment from 'moment';
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { selectInventory } from '../../inventorySlice';
@@ -51,10 +51,10 @@ export const InventoryHistory: React.FC = () => {
           >
             {new Date(selectDate ? selectDate : currentDate).toDateString() ===
             new Date().toDateString()
-              ? 'Today, ' + (selectDate ? selectDate : currentDate)
-              : selectDate
-              ? selectDate
-              : currentDate}
+              ? moment(selectDate ? selectDate : currentDate).format('MMM, DD')
+              : moment(selectDate).format('MMM, DD')
+              ? moment(selectDate).format('MMM, DD')
+              : moment(currentDate).format('MMM, DD')}
           </button>
           {visibleModalDate && (
             <DayPicker
