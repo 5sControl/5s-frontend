@@ -123,18 +123,20 @@
   background: rgba(0, 0, 0, 0.5);
   overflow: auto;
   transition: all 0.4s;
+
   &__container {
+    width: 800px;
+    max-height: calc(80vh - 1px);
     background: #ffffff;
     border-radius: 5px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     position: relative;
-    max-height: calc(90vh - 60px);
     z-index: 9001;
   }
   &__image {
     position: relative;
-    width: 65vw;
-    min-height: 30vh;
+    max-width: 800px;
+    height: calc(80vh - 170px);
   }
   &__footer {
     padding: 20px 10px;
@@ -243,8 +245,6 @@
 }
 
 .lupa {
-}
-.lupa {
   width: 20px;
   height: 20px;
   color: #666666;
@@ -257,4 +257,38 @@
   border-top: 1px solid #e0e0e0;
   margin-top: 15px;
   padding: 10px 0;
+}
+
+.fullImage {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  background-color: #00000070;
+  backdrop-filter: blur(5px);
+  z-index: 9000;
+  cursor: pointer;
+  &__container {
+    position: relative;
+    width: 85vw;
+    height: max-content;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__scale {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+}
+.scale {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
 }

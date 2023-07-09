@@ -3,6 +3,7 @@ import moment from 'moment';
 import { getOrderViewOperation } from '../../../../api/orderView';
 import { calculateTime } from '../../../../functions/calculateTimeDuration';
 import ImageSlider from '../../../../components/slider/slider';
+import { ZoomOut } from '../../../../components/zoomOut';
 import { parsingAlgorithmName } from '../../../../functions/parsingAlgorithmName';
 import {
   CrossWhite,
@@ -13,7 +14,7 @@ import {
 import { OrderOperationDetail } from '../../../../components/orderOperationDetail/orderOperationDetail';
 import { Modal } from '../../../../components/modal';
 import { Notification } from '../../../../components/notification/notification';
-
+import { Scale } from '../../../../components/scale';
 import styles from './timeline.module.scss';
 import { getVideo } from '../../../../api/cameraRequest';
 
@@ -24,6 +25,8 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   const [hoverItem, setHoverItem] = useState(false);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [operationOV, setOperationOV] = useState(false);
+  const [fullImage, setFullImage] = useState(false);
+
   const duration = (start, end) => {
     return (moment(end).diff(moment(start), 'seconds') / calculateTime(startTime, endTime)) * 100;
   };
@@ -246,7 +249,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
           className={styles.fullscreen}
           handleClose={() => setCurrentReport(false)}
           isOpen={true}
-          noESC={operationOV}
+          noESC={operationOV || fullImage}
         >
           <div className={styles.fullscreen__container}>
             {data && data?.indexOf(currentReport) > 0 && (
@@ -268,6 +271,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
                 setCurrentCount={(e) => setCurrentCount(e)}
                 isKeyDisable={true}
               />
+              <Scale onClick={() => setFullImage(true)} className={styles.scale} />
             </div>
             <footer className={styles.fullscreen__footer}>
               <div className={styles.fullscreen__footer_up}>
@@ -337,6 +341,18 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
       )}
       {operationOV && typeof operationOV === 'string' && (
         <Notification status={false} message={operationOV} />
+      )}
+      {fullImage && (
+        <Modal isOpen={true} handleClose={() => setFullImage(false)} className={styles.fullImage}>
+          <div className={styles.fullImage__container}>
+            <ImageSlider
+              images={currentReport.photos}
+              setCurrentCount={(num) => setCurrentCount(num)}
+              currentCount={currentCount}
+            />
+            <ZoomOut className={styles.fullImage__scale} onClick={() => setFullImage(false)} />
+          </div>
+        </Modal>
       )}
     </>
   );

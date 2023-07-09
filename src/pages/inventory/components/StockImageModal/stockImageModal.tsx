@@ -134,6 +134,7 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
           inventoryHistoryData?.indexOf(currentReport) < inventoryHistoryData.length - 1 && (
             <Prev className={styles.next} onClick={nextReport} />
           )}
+
         <Scale
           className={styles.scale}
           onClick={() =>
