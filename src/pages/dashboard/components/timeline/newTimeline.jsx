@@ -12,7 +12,7 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
   const [zoneList, setZoneList] = useState([]);
   const [start, setStart] = useState(startTime);
   const [end, setEnd] = useState(endTime);
-
+  const [zoneDependence, setZoneDependence] = useState([]);
   const setTimeFunct = (startTime, endTime) => {
     setStart(startTime);
     setEnd(endTime);
@@ -28,12 +28,24 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
       const zone = data.reduce((prev, curr) => {
         return [...new Set([...prev, curr.extra?.zoneName])];
       }, []);
-      // setZoneList(filteredArray);
-      setZoneList(['Camera', ...zone.filter((el) => el)]);
+
+      const zone1 = data.reduce((prev, curr) => {
+        return [
+          ...new Set([
+            ...prev,
+            JSON.stringify({
+              [curr.extra?.zoneName || 'All camera']: curr.algorithm.name,
+            }),
+          ]),
+        ];
+      }, []);
+      const mergedObject1 = Object.assign({}, ...zone1.map((el) => JSON.parse(el)));
+      setZoneDependence(mergedObject1);
+      console.log(mergedObject1);
+      setZoneList(['All camera', ...zone.filter((el) => el)]);
     }
   }, [data, start, end]);
 
-  console.log(zoneList);
   return (
     <>
       {data.length > 0 && start && end && startDate && zoneList && (
@@ -44,33 +56,42 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
               {zoneList.map((zona, index) => {
                 return (
                   <Fragment key={index}>
-                    <h1 className={styles.zoneName}>{zona}</h1>
                     {algorithm.map((algorithm, id) => {
-                      return (
-                        <div className={styles.algorithm} key={id}>
-                          <Timeline
-                            data={data.filter(
-                              (cam) =>
-                                cam.algorithm.name === algorithm &&
-                                new Date(`${startDate + ' ' + start}`) <
-                                  new Date(
-                                    moment.utc(cam.stop_tracking).utcOffset(moment().utcOffset())
-                                  ) &&
-                                new Date(`${startDate + ' ' + end}`) >
-                                  new Date(
-                                    moment.utc(cam.start_tracking).utcOffset(moment().utcOffset())
-                                  ) &&
-                                ((zona === 'Camera' && !zoneList.includes(cam?.extra?.zoneName)) ||
-                                  zona === cam?.extra?.zoneName)
-                            )}
-                            startDate={startDate}
-                            algorithm={algorithm}
-                            startTime={start}
-                            endTime={end}
-                            zone={zona}
-                          />
-                        </div>
-                      );
+                      if (zoneDependence[zona] === algorithm) {
+                        return (
+                          <Fragment key={id}>
+                            <h1 className={styles.zoneName}>{zona}</h1>
+                            <div className={styles.algorithm}>
+                              <Timeline
+                                data={data.filter(
+                                  (cam) =>
+                                    cam.algorithm.name === algorithm &&
+                                    new Date(`${startDate + ' ' + start}`) <
+                                      new Date(
+                                        moment
+                                          .utc(cam.stop_tracking)
+                                          .utcOffset(moment().utcOffset())
+                                      ) &&
+                                    new Date(`${startDate + ' ' + end}`) >
+                                      new Date(
+                                        moment
+                                          .utc(cam.start_tracking)
+                                          .utcOffset(moment().utcOffset())
+                                      ) &&
+                                    ((zona === 'All camera' &&
+                                      !zoneList.includes(cam?.extra?.zoneName)) ||
+                                      zona === cam?.extra?.zoneName)
+                                )}
+                                startDate={startDate}
+                                algorithm={algorithm}
+                                startTime={start}
+                                endTime={end}
+                                zone={zona}
+                              />
+                            </div>
+                          </Fragment>
+                        );
+                      }
                     })}
                   </Fragment>
                 );
