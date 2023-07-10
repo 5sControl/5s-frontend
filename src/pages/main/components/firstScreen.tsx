@@ -1,4 +1,5 @@
 import logo from '../../../assets/svg/icon.svg';
+import { HeaderMain } from '../../../components/header';
 
 import styles from '../main.module.scss';
 type PropsType = {
@@ -8,6 +9,7 @@ type PropsType = {
 export const Congratulations: React.FC<PropsType> = ({ setStage }) => {
   return (
     <div className={styles.main}>
+      <HeaderMain title=""></HeaderMain>
       <img src={logo} alt="logo" className={styles.main__logo} />
       <span className={styles.main__span}>
         Congratulations! <br />
