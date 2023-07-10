@@ -45,26 +45,6 @@ export const Configuration: React.FC<{ activeTab: number }> = ({ activeTab }) =>
             <span>Notifications</span>
           </Link>
         </section>
-        <div className={styles.tabs}>
-          <Link
-            to="/configuration/camera"
-            className={`${styles.tab} ${activeTab === 0 ? styles.active : styles.noActive}`}
-          >
-            Camera
-          </Link>
-          <Link
-            to="/configuration/database"
-            className={`${styles.tab} ${activeTab === 1 ? styles.active : styles.noActive}`}
-          >
-            Database
-          </Link>
-          <Link
-            to="/configuration/notifications"
-            className={`${styles.tab} ${activeTab === 2 ? styles.active : styles.noActive}`}
-          >
-            Notifications
-          </Link>
-        </div>
       </HeaderMain>
       {activeTab === 0 && <Camera />}
       {activeTab === 1 && <DatabaseTab />}
