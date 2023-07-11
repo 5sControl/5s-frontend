@@ -25,26 +25,26 @@ export const Configuration: React.FC<{ activeTab: number }> = ({ activeTab }) =>
   return (
     <>
       <HeaderMain title={'Configuration'}>
-        <div className={styles.tabs}>
+        <section className={styles.tabs}>
           <Link
             to="/configuration/camera"
             className={`${styles.tab} ${activeTab === 0 ? styles.active : styles.noActive}`}
           >
-            Camera
+            <span>Camera</span>
           </Link>
           <Link
             to="/configuration/database"
             className={`${styles.tab} ${activeTab === 1 ? styles.active : styles.noActive}`}
           >
-            Database
+            <span>Database</span>
           </Link>
           <Link
             to="/configuration/notifications"
             className={`${styles.tab} ${activeTab === 2 ? styles.active : styles.noActive}`}
           >
-            Notifications
+            <span>Notifications</span>
           </Link>
-        </div>
+        </section>
       </HeaderMain>
       {activeTab === 0 && <Camera />}
       {activeTab === 1 && <DatabaseTab />}

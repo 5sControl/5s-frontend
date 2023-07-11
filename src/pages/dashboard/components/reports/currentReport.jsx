@@ -124,17 +124,15 @@ export const CurrentReport = () => {
                 {currentReport.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
               </span>
             </div>
-            {currentReport.extra && (
-              <div className={styles.report_item}>
-                <span className={styles.legend}>Additional</span>
-                <span
-                  className={`${styles.text} ${styles.link}`}
-                  onClick={() => videoClickHandler(currentReport)}
-                >
-                  Open video
-                </span>
-              </div>
-            )}
+            <div className={styles.report_item}>
+              <span className={styles.legend}>Additional</span>
+              <span
+                className={`${styles.text} ${styles.link}`}
+                onClick={() => videoClickHandler(currentReport)}
+              >
+                Open video
+              </span>
+            </div>
           </div>
         </>
       )}

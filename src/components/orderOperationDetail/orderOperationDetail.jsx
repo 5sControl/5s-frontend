@@ -31,7 +31,8 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           link.download = operationDataNew?.video.file_name; // Замените на имя файла, под которым нужно сохранить видео
           link.click();
           URL.revokeObjectURL(url);
-        });
+        })
+        .catch((error) => console.log(error));
     }
   };
   const arrowHandler = (text) => {

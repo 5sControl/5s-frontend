@@ -12,22 +12,22 @@ export const Info: React.FC = () => {
   return (
     <>
       <HeaderMain title="5ControlS">
-        <div className={styles.tabs}>
+        <section className={styles.tabs}>
           <Link
             to="/info/version"
             className={`${styles.tab} ${active === 'version' ? styles.active : styles.noActive}`}
             onClick={() => setActive('version')}
           >
-            Info
+            <span>Info</span>
           </Link>
           <Link
             to="/info/message"
             className={`${styles.tab} ${active === 'message' ? styles.active : styles.noActive}`}
             onClick={() => setActive('message')}
           >
-            System messages
+            <span>System messages</span>
           </Link>
-        </div>
+        </section>
       </HeaderMain>
       <section className={styles.wrapper}>
         <main className={styles.main}>

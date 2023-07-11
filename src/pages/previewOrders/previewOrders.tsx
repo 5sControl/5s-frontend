@@ -256,20 +256,22 @@ export const PreviewOrders: React.FC = () => {
   return (
     <>
       <HeaderMain title={'Orders View'}>
-        <div className={styles.tab}>
-          <span
-            className={activeTab === 'timelines' ? styles.active : styles.noActive}
+        <section className={styles.tabs1}>
+          <div
+            className={`${styles.tab} ${
+              activeTab === 'timelines' ? styles.active : styles.noActive
+            }`}
             onClick={() => setActiveTab('timelines')}
           >
-            Timelines
-          </span>
-          <span
-            className={activeTab === 'reports' ? styles.active : styles.noActive}
+            <span>Timelines</span>
+          </div>
+          <div
+            className={`${styles.tab} ${activeTab === 'reports' ? styles.active : styles.noActive}`}
             onClick={() => setActiveTab('reports')}
           >
-            Reports
-          </span>
-        </div>
+            <span>Reports</span>
+          </div>
+        </section>
         <div className={styles.header}>
           <div className={styles.header_container}>
             <div className={styles.header_container_filters}>

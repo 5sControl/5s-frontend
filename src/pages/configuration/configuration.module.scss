@@ -9,21 +9,40 @@
 .tabs {
   position: relative;
   display: flex;
+  gap: 20px;
 }
 
 .tab {
-  padding: 0px 20px 0 0;
+  padding: 15px 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
   line-height: 150%;
   text-decoration: none;
+  transition: all 0.4s;
+  span{
+    transition: all 0.4s;
+  }
 }
 .active {
   color: #fe6100;
+  border-bottom: 3px solid #FE6100;
 }
 .noActive {
   color: #212121;
+  border-bottom: 3px solid #FFFFFF;
+  &:active {
+    span {
+      color: #b62f00;
+    }
+  }
+  &:hover {
+    background: rgba(254, 97, 0, 0.1);
+    border-bottom: 3px solid rgba(254, 97, 0, 0.1);
+    span {
+      color: #fe6100;
+    }
+  }
 }
 .buttonPosition{
   position: fixed;

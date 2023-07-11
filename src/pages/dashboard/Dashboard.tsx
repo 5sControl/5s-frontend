@@ -100,22 +100,22 @@ function Dashboard() {
       <div className={styles.dashboard}>
         <HeaderMain title={'Dashboard'}>
           <section className={styles.tabs}>
-            <span
+            <div
               className={`${styles.tab} ${
                 activePage === 'timelines' ? styles.active : styles.noActive
               }`}
               onClick={() => setActivePage('timelines')}
             >
-              Timelines
-            </span>
-            <span
+              <span>Timelines</span>
+            </div>
+            <div
               className={`${styles.tab} ${
                 activePage === 'reports' ? styles.active : styles.noActive
               }`}
               onClick={() => setActivePage('reports')}
             >
-              Reports
-            </span>
+              <span>Reports</span>
+            </div>
           </section>
           <Header
             selectDate={selectDate}

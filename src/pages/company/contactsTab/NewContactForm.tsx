@@ -1,13 +1,14 @@
 import React, { ChangeEvent, useState } from 'react';
 import style from './contacts.module.scss';
 import { createSuppliers } from '../../../api/companyRequest';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { Button } from '../../../components/button';
 import { ContactInfoType } from '../types';
 import { GoBack } from '../../../assets/svg/SVGcomponent';
 import ContactForm from '../components/ContactForm';
 import { EMAIL_REGEXP } from '../config';
+import { HeaderMain } from '../../../components/header';
 
 export const NewContactForm = () => {
   const navigate = useNavigate();
@@ -97,6 +98,20 @@ export const NewContactForm = () => {
 
   return (
     <div className={style.container}>
+      <HeaderMain title={'Contacts'}>
+        <section className="company__header">
+          <Link className={`company__tab ${'company__header_noActive'}`} to="/company">
+            <span>Company</span>
+          </Link>
+          <Link
+            className={`company__tab ${'company__header_active'}
+            }`}
+            to="/company/contacts"
+          >
+            <span>Contacts</span>
+          </Link>
+        </section>
+      </HeaderMain>
       <div className={style.breadcrumbs}>
         <span className={style.breadcrumbs_active} onClick={goToContacts}>
           Company

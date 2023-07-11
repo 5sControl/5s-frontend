@@ -38,14 +38,25 @@ export const Company: FC<{ activeTab: number }> = ({ activeTab }) => {
   return (
     <>
       <HeaderMain title={'Company'}>
-        <div className="company__header">
-          <Link to="/company" className={activeTab === 0 ? 'company__header_active' : ''}>
-            Company
+        <section className="company__header">
+          <Link
+            className={`company__tab ${
+              activeTab === 0 ? 'company__header_active' : 'company__header_noActive'
+            }`}
+            to="/company"
+          >
+            <span>Company</span>
           </Link>
-          <Link to="/company/contacts" className={activeTab === 1 ? 'company__header_active' : ''}>
-            Contacts
+          <Link
+            className={`company__tab ${
+              activeTab === 1 ? 'company__header_active' : 'company__header_noActive'
+            }
+            }`}
+            to="/company/contacts"
+          >
+            <span>Contacts</span>
           </Link>
-        </div>
+        </section>
       </HeaderMain>
       <div className="company">
         {/* <Tabs activeTabDefault={activeTab} tabList={tabsData}>

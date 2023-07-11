@@ -160,12 +160,18 @@ export const EditContactForm = () => {
   return (
     <div className={style.container}>
       <HeaderMain title={'Contacts'}>
-        <div className="company__header">
-          <Link to="/company">Company</Link>
-          <Link to="/company/contacts" className={'company__header_active'}>
-            Contacts
+        <section className="company__header">
+          <Link className={`company__tab ${'company__header_noActive'}`} to="/company">
+            <span>Company</span>
           </Link>
-        </div>
+          <Link
+            className={`company__tab ${'company__header_active'}
+            }`}
+            to="/company/contacts"
+          >
+            <span>Contacts</span>
+          </Link>
+        </section>
       </HeaderMain>
       <div className={style.breadcrumbs}>
         <span className={style.breadcrumbs_active} onClick={goToContacts}>
