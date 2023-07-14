@@ -272,7 +272,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
                 onClick={() => setIsMulti('boxes')}
               >
                 <div className={styles.typeModal__select_img}>
-                  <InvBox />
+                  <InvBottle />
                 </div>
                 <h3>Box</h3>
                 <p>Precisely counts the number of boxes stacked in one row.</p>
@@ -284,7 +284,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
                 onClick={() => setIsMulti('bottles')}
               >
                 <div className={styles.typeModal__select_img}>
-                  <InvBottle />
+                  <InvRedLine />
                 </div>
                 <h3>Bottle</h3>
                 <p>
@@ -294,14 +294,14 @@ export const AddInventoryModal: React.FC<PropsType> = ({
               </div>
               <div
                 className={`${styles.typeModal__select_item} ${
-                  isMulti === 'red line' ? styles.typeModal__select_active : ''
+                  isMulti === 'red lines' ? styles.typeModal__select_active : ''
                 }`}
-                onClick={() => setIsMulti('red line')}
+                onClick={() => setIsMulti('red lines')}
               >
                 <div className={styles.typeModal__select_img}>
-                  <InvRedLine />
+                  <InvBox />
                 </div>
-                <h3>Red Line</h3>
+                <h3>Red Lines</h3>
                 <p>
                   Looks for a line marked with the tape that indicates low stock level. Suits any
                   type of item but doesn’t provide precise count of it.
