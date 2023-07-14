@@ -14,6 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Cache Ansible
+        uses: actions/cache@v2
+        with:
+          path: ~/.ansible
+          key: ansible-${{ runner.os }}-${{ hashFiles('requirements.yml') }}
+
       - name: Install Ansible
         run: |
           sudo apt update
