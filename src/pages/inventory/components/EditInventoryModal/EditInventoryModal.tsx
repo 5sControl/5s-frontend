@@ -167,7 +167,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
 
         <div className={styles.content}>
           <div className={styles.algorithm}>
-            <h2>
+            {/* <h2>
               Algorithm <Tooltip onClick={() => setIsTooltipClicked(true)} />
               {isTooltipClicked && (
                 <>
@@ -181,6 +181,15 @@ export const EditInventoryModal: React.FC<PropsType> = ({
             </h2>
             <div className={styles.algorithm__toggle}>
               {currentEditItem?.multi_row ? <span>Multi row</span> : <span>Single row</span>}
+            </div> */}
+            <div className={styles.algorithm__toggle}>
+              <div className={styles.algorithm__toggle_container}>
+                <span className={styles.algorithm__toggle_title}>Detected object</span>
+                <span className={styles.algorithm__toggle_type}>
+                  {currentEditItem?.object_type}
+                </span>
+              </div>
+              {/* <Button text="Select" variant="text" onClick={() => setIsTypeModal(true)} /> */}
             </div>
           </div>
           <form>
