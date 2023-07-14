@@ -138,7 +138,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
         </div>
         <div className={styles.content}>
           <div className={styles.algorithm}>
-            <h2>
+            {/* <h2>
               Algorithm <Tooltip onClick={() => setIsTooltipClicked(true)} />
               {isTooltipClicked && (
                 <>
@@ -149,17 +149,13 @@ export const AddInventoryModal: React.FC<PropsType> = ({
                   <img src={tooltipImage} className={styles.algorithm__image} alt={'tooltip'} />
                 </>
               )}
-            </h2>
+            </h2> */}
             <div className={styles.algorithm__toggle}>
-              <Button text="Select" variant="text" onClick={() => setIsTypeModal(true)} />
-              {/* <span>Single row</span>
-              <div
-                className={`toggle ${isMulti ? 'toggle--on' : 'toggle--off'}`}
-                onClick={handleToggle}
-              >
-                <div className="toggle__button"></div>
+              <div className={styles.algorithm__toggle_container}>
+                <span className={styles.algorithm__toggle_title}>Detected object</span>
+                <span className={styles.algorithm__toggle_type}>{isMulti}</span>
               </div>
-              <span>Multi row</span> */}
+              <Button text="Select" variant="text" onClick={() => setIsTypeModal(true)} />
             </div>
           </div>
 
@@ -248,6 +244,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
           itemName={itemName}
           setIsScale={(e) => setIsScale(e)}
           isScale={isScale}
+          isMulti={!!isMulti.length}
         />
       )}
       {isClose && (

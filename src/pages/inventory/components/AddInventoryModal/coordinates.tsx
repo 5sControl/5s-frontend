@@ -21,6 +21,7 @@ type PropsType = {
   itemName: string;
   isScale: any;
   setIsScale: (coords: any) => void;
+  isMulti: boolean;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -31,6 +32,7 @@ export const Coordinates: React.FC<PropsType> = ({
   itemName,
   isScale,
   setIsScale,
+  isMulti,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
@@ -43,7 +45,7 @@ export const Coordinates: React.FC<PropsType> = ({
   const [proportionHeight, setProportionHeight] = useState(0);
 
   const [coordToScale, setCoordToScale] = useState<any[]>([]);
-
+  console.log(isMulti);
   const createCoord = (e: any) => {
     if (e && !target) {
       // const target = e.target.getBoundingClientRect();
@@ -360,7 +362,7 @@ export const Coordinates: React.FC<PropsType> = ({
           className={styles.button}
           type="button"
           onClick={submitHandler}
-          disabled={allBox.length === 0}
+          disabled={allBox.length === 0 || !isMulti}
         />
       </div>
     </div>
