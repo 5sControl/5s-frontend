@@ -39,13 +39,28 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
           ]),
         ];
       }, []);
-      const mergedObject1 = Object.assign({}, ...zone1.map((el) => JSON.parse(el)));
-      setZoneDependence(mergedObject1);
-      console.log(mergedObject1);
+      let bufZone = zone1.map((el) => JSON.parse(el));
+      console.log(bufZone);
+      const mergedObject = {};
+
+      for (let i = 0; i < bufZone.length; i++) {
+        const obj = bufZone[i];
+        const key = Object.keys(obj)[0];
+        const value = obj[key];
+
+        if (Object.prototype.hasOwnProperty.call(mergedObject, key)) {
+          mergedObject[key].push(value);
+        } else {
+          mergedObject[key] = [value];
+        }
+      }
+      setZoneDependence(mergedObject);
+      console.log(mergedObject);
       setZoneList(['All camera', ...zone.filter((el) => el)]);
     }
   }, [data, start, end]);
 
+  console.log(zoneDependence);
   return (
     <>
       {data.length > 0 && start && end && startDate && zoneList && (
@@ -56,11 +71,11 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
               {zoneList.map((zona, index) => {
                 return (
                   <Fragment key={index}>
+                    {zoneDependence[zona] && <h1 className={styles.zoneName}>{zona}</h1>}
                     {algorithm.map((algorithm, id) => {
-                      if (zoneDependence[zona] === algorithm) {
+                      if (zoneDependence[zona] && zoneDependence[zona].includes(algorithm)) {
                         return (
                           <Fragment key={id}>
-                            <h1 className={styles.zoneName}>{zona}</h1>
                             <div className={styles.algorithm}>
                               <Timeline
                                 data={data.filter(
