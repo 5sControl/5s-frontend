@@ -79,7 +79,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
         const { id, ...rest } = element; // Используйте деструктуризацию объекта и оператор rest
         return rest;
       }),
-      multi_row: isMulti === 'red line',
+      // multi_row: isMulti === 'red line',
       object_type: isMulti,
       order_quantity: null as number | null,
       suppliers: null as number | null,
