@@ -61,8 +61,14 @@ import { ReactComponent as AddCover } from './addCompanyCover/addCover.svg';
 import { ReactComponent as DeleteCover } from './addCompanyCover/deleteCover.svg';
 import { ReactComponent as AddPerson } from './addPerson.svg';
 import { ReactComponent as FiveS } from './5S.svg';
+import { ReactComponent as InvRedLine } from './invRedLine.svg';
+import { ReactComponent as InvBottle } from './invBottle.svg';
+import { ReactComponent as InvBox } from './invBox.svg';
 
 export {
+  InvRedLine,
+  InvBottle,
+  InvBox,
   Algorithm,
   Camera,
   Dashboard,

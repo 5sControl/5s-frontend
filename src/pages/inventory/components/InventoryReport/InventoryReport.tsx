@@ -197,7 +197,8 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
                         <Fragment key={item.id}>
                           <tr className={styles.itemLine}>
                             <td onClick={() => onclickHandler(item)} className={styles.item}>
-                              {item.name}
+                              <span>{item.name}</span>
+                              <span className={styles.multi}>{item.object_type}</span>
                             </td>
                             <td onClick={() => onclickHandler(item)}>
                               <span
@@ -209,8 +210,6 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
                               >
                                 {item.status}
                               </span>
-
-                              <span className={styles.multi}>{item.multi_row ? 'M' : 'S'}</span>
                             </td>
                             <td onClick={() => onclickHandler(item)} className={styles.stock}>
                               {!item.multi_row

@@ -57,6 +57,7 @@ export interface InventoryItem {
   to_emails: string[] | null;
   copy_emails: string[] | null;
   subject: string | null;
+  object_type: string | null;
 }
 
 export interface Coordinat {

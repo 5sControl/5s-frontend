@@ -12,7 +12,7 @@ import { selectInventory, setCurrentItemName } from '../../inventorySlice';
 import { Coordinates } from './coordinates';
 import { Coordinat } from '../../types';
 import { Preloader } from '../../../../components/preloader';
-import { Tooltip } from '../../../../assets/svg/SVGcomponent';
+import { InvBottle, InvBox, InvRedLine, Tooltip } from '../../../../assets/svg/SVGcomponent';
 import tooltipImage from '../../../../assets/png/tooltipInventory.png';
 import { Notification } from '../../../../components/notification/notification';
 
@@ -45,12 +45,13 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   const [itemName, setItemName] = useState<string>('');
   const [itemCount, setItemCount] = useState<number>(0);
   const [currentSelect, setCurrentSelect] = useState('');
-  const [isMulti, setIsMulti] = useState(false);
+  const [isMulti, setIsMulti] = useState<string>('');
   const [isTooltipClicked, setIsTooltipClicked] = useState(false);
   const [isScale, setIsScale] = useState<any>(false);
   const [orderAmount, setOrderAmount] = useState<number | null>(0);
   const [selectedSupplierID, setSelectedSupplierID] = useState<number | null>(null);
   const [isAutomaticallyOrder, setIsAutomaticallyOrder] = useState(false);
+  const [isTypeModal, setIsTypeModal] = useState(false);
 
   useEffect(() => {
     dispatch(setCurrentItemName(itemName));
@@ -78,7 +79,8 @@ export const AddInventoryModal: React.FC<PropsType> = ({
         const { id, ...rest } = element; // Используйте деструктуризацию объекта и оператор rest
         return rest;
       }),
-      multi_row: isMulti,
+      // multi_row: isMulti === 'red line',
+      object_type: isMulti,
       order_quantity: null as number | null,
       suppliers: null as number | null,
       ...emailNotificationInfo,
@@ -122,10 +124,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({
     }
   };
 
-  const handleToggle = () => {
-    setIsMulti((prevState) => !prevState);
-  };
-
   return (
     <Modal
       isOpen={isOpen}
@@ -140,7 +138,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
         </div>
         <div className={styles.content}>
           <div className={styles.algorithm}>
-            <h2>
+            {/* <h2>
               Algorithm <Tooltip onClick={() => setIsTooltipClicked(true)} />
               {isTooltipClicked && (
                 <>
@@ -151,16 +149,13 @@ export const AddInventoryModal: React.FC<PropsType> = ({
                   <img src={tooltipImage} className={styles.algorithm__image} alt={'tooltip'} />
                 </>
               )}
-            </h2>
+            </h2> */}
             <div className={styles.algorithm__toggle}>
-              <span>Single row</span>
-              <div
-                className={`toggle ${isMulti ? 'toggle--on' : 'toggle--off'}`}
-                onClick={handleToggle}
-              >
-                <div className="toggle__button"></div>
+              <div className={styles.algorithm__toggle_container}>
+                <span className={styles.algorithm__toggle_title}>Detected object</span>
+                <span className={styles.algorithm__toggle_type}>{isMulti}</span>
               </div>
-              <span>Multi row</span>
+              <Button text="Select" variant="text" onClick={() => setIsTypeModal(true)} />
             </div>
           </div>
 
@@ -249,6 +244,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
           itemName={itemName}
           setIsScale={(e) => setIsScale(e)}
           isScale={isScale}
+          isMulti={!!isMulti.length}
         />
       )}
       {isClose && (
@@ -263,6 +259,68 @@ export const AddInventoryModal: React.FC<PropsType> = ({
             !isClose.status && <Notification status={false} message={'Could not safe the item'} />
           )}
         </>
+      )}
+      {isTypeModal && (
+        <Modal isOpen={true} handleClose={() => setIsTypeModal(false)} className={styles.typeModal}>
+          <div className={styles.typeModal__container}>
+            <h2>Select detected object</h2>
+            <div className={styles.typeModal__select}>
+              <div
+                className={`${styles.typeModal__select_item} ${
+                  isMulti === 'boxes' ? styles.typeModal__select_active : ''
+                }`}
+                onClick={() => setIsMulti('boxes')}
+              >
+                <div className={styles.typeModal__select_img}>
+                  <InvBottle />
+                </div>
+                <h3>Box</h3>
+                <p>Precisely counts the number of boxes stacked in one row.</p>
+              </div>
+              <div
+                className={`${styles.typeModal__select_item} ${
+                  isMulti === 'bottles' ? styles.typeModal__select_active : ''
+                }`}
+                onClick={() => setIsMulti('bottles')}
+              >
+                <div className={styles.typeModal__select_img}>
+                  <InvRedLine />
+                </div>
+                <h3>Bottle</h3>
+                <p>
+                  Precisely counts the number of storage bottles stacked in one row. Count is not
+                  affected by the orientation of a bottle.
+                </p>
+              </div>
+              <div
+                className={`${styles.typeModal__select_item} ${
+                  isMulti === 'red lines' ? styles.typeModal__select_active : ''
+                }`}
+                onClick={() => setIsMulti('red lines')}
+              >
+                <div className={styles.typeModal__select_img}>
+                  <InvBox />
+                </div>
+                <h3>Red Lines</h3>
+                <p>
+                  Looks for a line marked with the tape that indicates low stock level. Suits any
+                  type of item but doesn’t provide precise count of it.
+                </p>
+              </div>
+            </div>
+            <div className={styles.typeModal__footer}>
+              <Button
+                text="Cancel"
+                variant="text"
+                onClick={() => {
+                  setIsMulti('');
+                  setIsTypeModal(false);
+                }}
+              />
+              <Button text="Done" onClick={() => setIsTypeModal(false)} />
+            </div>
+          </div>
+        </Modal>
       )}
     </Modal>
   );

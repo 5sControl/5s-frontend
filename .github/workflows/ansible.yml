@@ -1,0 +1,39 @@
+name: Ansible Deployment
+
+on:
+  push:
+    branches: [ "development" ]
+  pull_request:
+    branches: [ "development" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache Ansible
+        uses: actions/cache@v2
+        with:
+          path: ~/.ansible
+          key: ansible-${{ runner.os }}-${{ hashFiles('requirements.yml') }}
+
+      - name: Install Ansible
+        run: |
+          sudo apt update
+          sudo apt install ansible -y
+
+      - name: Copy ansible conf
+        run: |
+          cp .github/workflows/ansible/inventory.ini . 
+          cp .github/workflows/ansible/playbook.yml .
+
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Run Ansible playbook
+        run: ansible-playbook -i inventory.ini playbook.yml
