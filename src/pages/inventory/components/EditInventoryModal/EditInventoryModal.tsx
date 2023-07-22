@@ -11,8 +11,6 @@ import { selectInventory, setCurrentItemName, setNotificationInfo } from '../../
 import { Coordinat } from '../../types';
 import { Coordinates } from './Coordiantes';
 import { Preloader } from '../../../../components/preloader';
-import { Tooltip } from '../../../../assets/svg/SVGcomponent';
-import tooltipImage from '../../../../assets/png/tooltipInventory.png';
 import { Notification } from '../../../../components/notification/notification';
 
 import styles from '../InventoryModal.module.scss';
@@ -45,7 +43,6 @@ export const EditInventoryModal: React.FC<PropsType> = ({
   const [isClose, setIsClose] = useState<any>(false);
   const [itemName, setItemName] = useState<string | undefined>('');
   const [itemCount, setItemCount] = useState<number | undefined>(0);
-  const [isTooltipClicked, setIsTooltipClicked] = useState(false);
   const [isScale, setIsScale] = useState<any>(false);
   const [orderAmount, setOrderAmount] = useState<number | null>(0);
   const [selectedSupplierID, setSelectedSupplierID] = useState<number | null>(null);
@@ -61,6 +58,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
         return rest;
       }),
       id: currentEditItem?.id,
+      object_type: currentEditItem?.object_type,
       order_quantity: orderAmount as number | null,
       suppliers: selectedSupplierID as number | null,
       ...emailNotificationInfo,

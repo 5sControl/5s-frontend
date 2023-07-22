@@ -108,7 +108,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               .map((el) => ({
                 id: el.extra?.zoneId,
                 zoneId: el.extra?.zoneId,
-                zoneName: el.extra.zoneName.slice(5),
+                zoneName: el.extra.zoneName,
                 sTime: el.start_tracking,
                 eTime: el.stop_tracking,
                 camera: el.camera?.id,
