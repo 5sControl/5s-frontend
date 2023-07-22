@@ -53,7 +53,6 @@ export const FilterForm = ({ setIsShowFilter, cameras, algorithms, dataCount, up
     }
   };
 
-  console.log(algorithms);
   return (
     <ReactPortal wrapperId="filter-container">
       <div id="filter" className={styles.wrapper}>

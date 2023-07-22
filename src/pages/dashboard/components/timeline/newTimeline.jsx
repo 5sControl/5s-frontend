@@ -40,7 +40,7 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
         ];
       }, []);
       let bufZone = zone1.map((el) => JSON.parse(el));
-      console.log(bufZone);
+
       const mergedObject = {};
 
       for (let i = 0; i < bufZone.length; i++) {
@@ -55,12 +55,10 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
         }
       }
       setZoneDependence(mergedObject);
-      console.log(mergedObject);
       setZoneList(['Full camera', ...zone.filter((el) => el)]);
     }
   }, [data, start, end]);
 
-  console.log(zoneDependence);
   return (
     <>
       {data.length > 0 && start && end && startDate && zoneList && (
