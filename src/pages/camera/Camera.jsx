@@ -100,9 +100,11 @@ export const Camera = () => {
                       Algorithms:{' '}
                       {processList
                         .filter((element) => element.camera.id === el.id)
-                        .map((item, index) => (
+                        .map((item, index, array) => (
                           <span key={index}>
-                            {parsingAlgorithmName(item.algorithm.name)},&nbsp;
+                            {`${parsingAlgorithmName(item.algorithm.name)}${
+                              array.length - 1 > index ? ', ' : ''
+                            }`}
                           </span>
                         ))}
                     </div>
