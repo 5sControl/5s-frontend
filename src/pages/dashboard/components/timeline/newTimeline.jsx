@@ -13,6 +13,7 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
   const [start, setStart] = useState(startTime);
   const [end, setEnd] = useState(endTime);
   const [zoneDependence, setZoneDependence] = useState([]);
+
   const setTimeFunct = (startTime, endTime) => {
     setStart(startTime);
     setEnd(endTime);
