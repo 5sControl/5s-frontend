@@ -34,7 +34,7 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
           ...new Set([
             ...prev,
             JSON.stringify({
-              [curr.extra?.zoneName || 'All camera']: curr.algorithm.name,
+              [curr.extra?.zoneName || 'Full camera']: curr.algorithm.name,
             }),
           ]),
         ];
@@ -56,7 +56,7 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
       }
       setZoneDependence(mergedObject);
       console.log(mergedObject);
-      setZoneList(['All camera', ...zone.filter((el) => el)]);
+      setZoneList(['Full camera', ...zone.filter((el) => el)]);
     }
   }, [data, start, end]);
 
@@ -93,7 +93,7 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
                                           .utc(cam.start_tracking)
                                           .utcOffset(moment().utcOffset())
                                       ) &&
-                                    ((zona === 'All camera' &&
+                                    ((zona === 'Full camera' &&
                                       !zoneList.includes(cam?.extra?.zoneName)) ||
                                       zona === cam?.extra?.zoneName)
                                 )}
