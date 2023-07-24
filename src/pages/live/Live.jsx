@@ -21,6 +21,7 @@ export const Live = () => {
   const location = window.location.hostname;
   const [cookies] = useCookies(['token']);
   const [cameras, setCameras] = useState([]);
+  const [filterCameras, setFilterCameras] = useState([]);
   const [selectDate, setSelectDate] = useState(moment().format('YYYY-MM-DD'));
   const [visibleModalDate, setVisibleModalDate] = useState(false);
   const [cameraToResponse, setCameraToResponse] = useState('camera');
@@ -78,6 +79,12 @@ export const Live = () => {
   }, [endTime, startTime]);
 
   useEffect(() => {
+    setFilterCameras((array) =>
+      cameras.filter((el) => el.name.toLowerCase().includes(inputFilter.toLowerCase()))
+    );
+  }, [cameras, inputFilter]);
+
+  useEffect(() => {
     setStartTime('00:00:00');
     setEndTime('24:00:00');
     dispatch(addCurrentReport(false));
@@ -122,10 +129,10 @@ export const Live = () => {
                 <SearchIcon />
               </div>
               <div className="live__camera_container">
-                {cameras.map((camera, index) => {
-                  return (
-                    <Fragment key={index}>
-                      {camera.name.toLowerCase().includes(inputFilter.toLowerCase()) && (
+                {filterCameras.length > 0 ? (
+                  filterCameras.map((camera, index, array) => {
+                    return (
+                      <Fragment key={index}>
                         <span
                           className={
                             cameraToResponse === camera.id
@@ -136,10 +143,13 @@ export const Live = () => {
                         >
                           {camera.name}
                         </span>
-                      )}
-                    </Fragment>
-                  );
-                })}
+                        {array.length === 0 && <p>no camera</p>}
+                      </Fragment>
+                    );
+                  })
+                ) : (
+                  <p>Camera not found</p>
+                )}
               </div>
             </div>
             <div className="live__report-info">
