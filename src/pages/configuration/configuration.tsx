@@ -36,13 +36,13 @@ export const Configuration: React.FC<{ activeTab: number }> = ({ activeTab }) =>
             to="/configuration/database"
             className={`${styles.tab} ${activeTab === 1 ? styles.active : styles.noActive}`}
           >
-            <span>Database</span>
+            <span>Orders View connection</span>
           </Link>
           <Link
             to="/configuration/notifications"
             className={`${styles.tab} ${activeTab === 2 ? styles.active : styles.noActive}`}
           >
-            <span>Notifications</span>
+            <span>Email notifications</span>
           </Link>
         </section>
       </HeaderMain>
