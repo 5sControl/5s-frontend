@@ -33,6 +33,7 @@
   }
   &__reports {
     max-height: calc(100% - 110px);
+    min-height: 50%;
     height: max-content;
     width: 100%;
     display: flex;
