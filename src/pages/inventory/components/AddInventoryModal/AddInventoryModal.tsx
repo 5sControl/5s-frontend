@@ -267,9 +267,9 @@ export const AddInventoryModal: React.FC<PropsType> = ({
             <div className={styles.typeModal__select}>
               <div
                 className={`${styles.typeModal__select_item} ${
-                  isMulti === 'boxes' ? styles.typeModal__select_active : ''
+                  isMulti === 'box' ? styles.typeModal__select_active : ''
                 }`}
-                onClick={() => setIsMulti('boxes')}
+                onClick={() => setIsMulti('box')}
               >
                 <div className={styles.typeModal__select_img}>
                   <InvBottle />
@@ -279,9 +279,9 @@ export const AddInventoryModal: React.FC<PropsType> = ({
               </div>
               <div
                 className={`${styles.typeModal__select_item} ${
-                  isMulti === 'bottles' ? styles.typeModal__select_active : ''
+                  isMulti === 'bottle' ? styles.typeModal__select_active : ''
                 }`}
-                onClick={() => setIsMulti('bottles')}
+                onClick={() => setIsMulti('bottle')}
               >
                 <div className={styles.typeModal__select_img}>
                   <InvRedLine />
