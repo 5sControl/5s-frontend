@@ -242,6 +242,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
           currentSelect={currentSelect}
           handleClose={handleClose}
           itemName={itemName}
+          itemCount={itemCount}
           setIsScale={(e) => setIsScale(e)}
           isScale={isScale}
           isMulti={!!isMulti.length}

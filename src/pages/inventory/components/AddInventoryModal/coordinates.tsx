@@ -22,6 +22,7 @@ type PropsType = {
   isScale: any;
   setIsScale: (coords: any) => void;
   isMulti: boolean;
+  itemCount: number;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -33,6 +34,7 @@ export const Coordinates: React.FC<PropsType> = ({
   isScale,
   setIsScale,
   isMulti,
+  itemCount,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
@@ -362,7 +364,7 @@ export const Coordinates: React.FC<PropsType> = ({
           className={styles.button}
           type="button"
           onClick={submitHandler}
-          disabled={allBox.length === 0 || !isMulti}
+          disabled={allBox.length === 0 || !isMulti || !itemCount}
         />
       </div>
     </div>
