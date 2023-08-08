@@ -94,21 +94,15 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal} disableClickBg={true}>
       <div className={styles.header}>
-        <h2 className={styles.header_title}>Сonnection settings</h2>
+        <h2 className={styles.header_title}>Winkhaus connection settings</h2>
       </div>
 
       <form onSubmit={onSubmit} className={styles.form}>
         <div className={styles.form_wrapper}>
-          <SelectBase
-            id="database_type"
-            name="database_type"
-            label="Database type"
-            listOfData={listOfDataForSelect}
-            activeSelect={0}
-          />
-
           {inputs.map((props, index) => (
-            <Input key={index} {...props} />
+            <div key={index} className={index === 2 ? styles.inputContainer : ''}>
+              <Input {...props} />
+            </div>
           ))}
 
           {isErrorLoadingPostConnectionToDb && (

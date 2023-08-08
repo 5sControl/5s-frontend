@@ -4,6 +4,7 @@
 .modal {
   max-width: 880px;
   max-height: 850px;
+  height: max-content;
   overflow: hidden;
   position: relative;
   background-color: #FFFFFF;
@@ -27,29 +28,23 @@
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
-  height: 780px;
-  gap: 68px;
-  top:40px;
-  left: 0;
   padding: 20px;
   overflow-y: auto;
   overflow-x: hidden;
   &_wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, auto);
+    gap: 10px;
+    padding-bottom: 40px;
   }
   &_error {
     color: var(--Red);
   }
-  &_submit {
-   
-  }
   .buttons{
     display: flex;
-    align-self: flex-end;
+    align-items: flex-end;
+    justify-content: flex-end;
     gap:10px;
     .cancel {
       background-color: #ffffff;
@@ -69,4 +64,10 @@
   &:hover {
     color: var(--MediumEmphasis);
   }
+}
+.inputContainer{
+  grid-column: span 2;
+}
+.inputFull{
+  grid-column: 1 / span 2;
 }

@@ -79,7 +79,6 @@ export const DatabaseTab: React.FC = () => {
     }
   }, [databases]);
 
-  console.log(databases);
   return (
     <>
       <ConnectToDbModal
@@ -103,10 +102,9 @@ export const DatabaseTab: React.FC = () => {
 
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <h3 className={styles.header_title}>Orders View database</h3>
-
+          <h3 className={styles.header_title}>Winkhaus</h3>
           {databases && databases?.count > 0 ? (
-            <div className={`${styles.header_buttons} ${s.buttonPosition}`}>
+            <div className={`${styles.header_buttons}`}>
               <Button
                 onClick={handleOpenModalDisconnect}
                 disabled={isLoadingGetConnectionsToDB}
@@ -118,23 +116,71 @@ export const DatabaseTab: React.FC = () => {
                 disabled={isLoadingGetConnectionsToDB}
                 IconLeft={SettingsWhite}
                 text="Settings"
-              ></Button>
+              />
             </div>
           ) : (
-            <div className={`${styles.header_buttons} ${s.buttonPosition}`}>
+            <div className={`${styles.header_buttons}`}>
               <Button
                 onClick={handleOpenModalConnect}
                 disabled={isLoadingGetConnectionsToDB}
-                text="Connect to Database"
+                text="Settings"
               />
             </div>
           )}
         </div>
 
         <div className={styles.container}>
-          <p className={styles.desc}>
-            Connect to database with your orders to view them in Orders View tab.
-          </p>
+          <div className={styles.desc}>
+            <span className={styles.desc_title}> Status: </span>
+            <span>
+              {isLoadingGetConnectionsToDB
+                ? '...Loading'
+                : databases && databases?.count > 0
+                ? 'Connected, used for Orders View'
+                : 'Not connected'}
+            </span>
+          </div>
+          {databases && databases?.count > 0 && (
+            <>
+              <div>
+                <span className={styles.desc_title}>Database name: </span>
+                <span className={styles.desc}>{databases.results[0]?.database}</span>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+      <hr></hr>
+      <div className={styles.wrapper}>
+        <div className={styles.header}>
+          <h3 className={styles.header_title}>Odoo</h3>
+          {/* {false ? (
+            <div className={`${styles.header_buttons}`}>
+              <Button
+                onClick={handleOpenModalDisconnect}
+                disabled={isLoadingGetConnectionsToDB}
+                text="Disconnect"
+                variant="outlined"
+              />
+              <Button
+                onClick={handleOpenModalConnectionSettings}
+                disabled={isLoadingGetConnectionsToDB}
+                IconLeft={SettingsWhite}
+                text="Settings"
+              />
+            </div>
+          ) : ( */}
+          <div className={`${styles.header_buttons}`}>
+            <Button
+              onClick={handleOpenModalConnect}
+              disabled={isLoadingGetConnectionsToDB}
+              text="Settings"
+            />
+          </div>
+          {/* )} */}
+        </div>
+
+        <div className={styles.container}>
           <div className={styles.desc}>
             <span className={styles.desc_title}> Status: </span>
             <span>
@@ -145,7 +191,7 @@ export const DatabaseTab: React.FC = () => {
                 : 'Not connected'}
             </span>
           </div>
-          {databases && databases?.count > 0 && (
+          {false && (
             <>
               <div>
                 <span className={styles.desc_title}>Database name: </span>
