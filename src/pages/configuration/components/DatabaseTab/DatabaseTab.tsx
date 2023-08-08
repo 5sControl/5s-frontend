@@ -18,8 +18,7 @@ import {
 import styles from './databaseTab.module.scss';
 import { SettingsWhite } from '../../../../assets/svg/SVGcomponent';
 import { ConnectToDbModalOdoo } from '../ConnectToDbModal/ConnectToDbModalOdoo';
-import { Notification } from '../../../../components/notification/notification';
-import { Notifications } from '../../../notificationEmail/notifications';
+
 export const DatabaseTab: React.FC = () => {
   const [isEditConnectToDbModal, setIsEditConnectToDbModal] = useState(false);
   const [isModalOdoo, setIsModalOdoo] = useState<boolean>(false);
