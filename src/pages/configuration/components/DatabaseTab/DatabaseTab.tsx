@@ -17,9 +17,11 @@ import {
 } from '../DisconnectDbModal/disconnectDbModalSlice';
 import styles from './databaseTab.module.scss';
 import { SettingsWhite } from '../../../../assets/svg/SVGcomponent';
-import s from '../../configuration.module.scss';
+import { ConnectToDbModalOdoo } from '../ConnectToDbModal/ConnectToDbModalOdoo';
+
 export const DatabaseTab: React.FC = () => {
   const [isEditConnectToDbModal, setIsEditConnectToDbModal] = useState(false);
+  const [isModalOdoo, setIsModalOdoo] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
   const { databases, isLoadingGetConnectionsToDB } = useAppSelector(selectConnectionPage);
   const { isOpenConnectToDbModal } = useAppSelector(selectConnectToDbModal);
@@ -47,6 +49,9 @@ export const DatabaseTab: React.FC = () => {
     dispatch(setIsOpenDisconnectModal(false));
   };
 
+  const handleOpenModalOdoo = () => {
+    setIsModalOdoo(true);
+  };
   const handleConfirmDisconnectModal = () => {
     if (!databases) {
       console.error('You doesnt have any databases');
@@ -57,7 +62,7 @@ export const DatabaseTab: React.FC = () => {
       disconnectDb({
         token: cookies.token,
         hostname: window.location.hostname,
-        id: databases.results[0].id,
+        id: databases.db.id,
       })
     ).then(() => {
       dispatch(clearDatabasesOrdersView());
@@ -79,7 +84,6 @@ export const DatabaseTab: React.FC = () => {
     }
   }, [databases]);
 
-  console.log(databases);
   return (
     <>
       <ConnectToDbModal
@@ -87,14 +91,16 @@ export const DatabaseTab: React.FC = () => {
         isEdit={isEditConnectToDbModal}
         handleClose={handleCloseConnectModal}
       />
-
+      {isModalOdoo && (
+        <ConnectToDbModalOdoo handleClose={() => setIsModalOdoo(false)} databases={databases.api} />
+      )}
       <DisconnectDbModal
         isOpen={isOpenDisconnectModal}
         dbName={
           isLoadingGetConnectionsToDB
             ? 'null'
-            : databases && databases?.count > 0
-            ? databases?.results[0]?.database
+            : databases && databases.db
+            ? databases?.db.database
             : 'null'
         }
         handleClose={handleCloseDisconnectModal}
@@ -103,10 +109,9 @@ export const DatabaseTab: React.FC = () => {
 
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <h3 className={styles.header_title}>Orders View database</h3>
-
-          {databases && databases?.count > 0 ? (
-            <div className={`${styles.header_buttons} ${s.buttonPosition}`}>
+          <h3 className={styles.header_title}>Winkhaus</h3>
+          {databases && databases.db ? (
+            <div className={`${styles.header_buttons}`}>
               <Button
                 onClick={handleOpenModalDisconnect}
                 disabled={isLoadingGetConnectionsToDB}
@@ -118,41 +123,82 @@ export const DatabaseTab: React.FC = () => {
                 disabled={isLoadingGetConnectionsToDB}
                 IconLeft={SettingsWhite}
                 text="Settings"
-              ></Button>
+              />
             </div>
           ) : (
-            <div className={`${styles.header_buttons} ${s.buttonPosition}`}>
+            <div className={`${styles.header_buttons}`}>
               <Button
                 onClick={handleOpenModalConnect}
                 disabled={isLoadingGetConnectionsToDB}
-                text="Connect to Database"
+                IconLeft={SettingsWhite}
+                text="Settings"
               />
             </div>
           )}
         </div>
 
         <div className={styles.container}>
-          <p className={styles.desc}>
-            Connect to database with your orders to view them in Orders View tab.
-          </p>
           <div className={styles.desc}>
             <span className={styles.desc_title}> Status: </span>
             <span>
               {isLoadingGetConnectionsToDB
                 ? '...Loading'
-                : databases && databases?.count > 0
+                : databases && databases.db
+                ? 'Connected, used for Orders View'
+                : 'Not connected'}
+            </span>
+          </div>
+          {databases && databases.db && (
+            <>
+              <div>
+                <span className={styles.desc_title}>Database name: </span>
+                <span className={styles.desc}>{databases.db.database}</span>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+      <hr></hr>
+      <div className={styles.wrapper}>
+        <div className={styles.header}>
+          <h3 className={styles.header_title}>Odoo</h3>
+          {databases && databases.api ? (
+            <div className={`${styles.header_buttons}`}>
+              <Button
+                onClick={handleOpenModalDisconnect}
+                disabled={isLoadingGetConnectionsToDB}
+                text="Disconnect"
+                variant="outlined"
+              />
+              <Button
+                onClick={handleOpenModalOdoo}
+                disabled={isLoadingGetConnectionsToDB}
+                IconLeft={SettingsWhite}
+                text="Settings"
+              />
+            </div>
+          ) : (
+            <div className={`${styles.header_buttons}`}>
+              <Button
+                onClick={handleOpenModalOdoo}
+                disabled={isLoadingGetConnectionsToDB}
+                IconLeft={SettingsWhite}
+                text="Settings"
+              />
+            </div>
+          )}
+        </div>
+        <div className={styles.container}>
+          <div className={styles.desc}>
+            <span className={styles.desc_title}> Status: </span>
+            <span>
+              {isLoadingGetConnectionsToDB
+                ? '...Loading'
+                : databases && databases.api
                 ? 'Connected'
                 : 'Not connected'}
             </span>
           </div>
-          {databases && databases?.count > 0 && (
-            <>
-              <div>
-                <span className={styles.desc_title}>Database name: </span>
-                <span className={styles.desc}>{databases.results[0]?.database}</span>
-              </div>
-            </>
-          )}
         </div>
       </div>
     </>

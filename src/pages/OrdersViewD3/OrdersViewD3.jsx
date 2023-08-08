@@ -235,6 +235,10 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               <h2>Orders View settings</h2>
               <Cross onClick={setIsOpenFilter} className={styles.cross} />
             </header>
+            <div>
+              <span>Winkhaus</span>
+              <span>Odoo</span>
+            </div>
             <main className={styles.content}>
               <span className={styles.content__name}>Displayed operations</span>
               <ul className={styles.content__list}>

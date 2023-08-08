@@ -272,15 +272,13 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
                               />
                             </td>
                           </tr>
-                          <tr className={styles.history}>
-                            <td colSpan={7}>
-                              {isOpen &&
-                                activeInventoryItem &&
-                                activeInventoryItem.id === item.id && (
-                                  <InventoryCard data={activeInventoryItem} />
-                                )}
-                            </td>
-                          </tr>
+                          {isOpen && activeInventoryItem && activeInventoryItem.id === item.id && (
+                            <tr className={styles.history}>
+                              <td colSpan={7}>
+                                <InventoryCard data={activeInventoryItem} />
+                              </td>
+                            </tr>
+                          )}
                         </Fragment>
                       );
                     })}

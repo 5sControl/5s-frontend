@@ -3,14 +3,12 @@ import { useCookies } from 'react-cookie';
 import { Button } from '../../../../components/button';
 import { Input } from '../../../../components/input';
 import { Modal } from '../../../../components/modal';
-import { SelectBase } from '../../../../components/selectBase';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { selectConnectionPage, setDatabasesOrdersView } from '../../connectionSlice';
 import { inputProps, listOfDataForSelect } from './config';
 import styles from './connectToDbModal.module.scss';
 import { createConnectionWithDB, selectConnectToDbModal } from './connectToDbModalSlice';
 import { ConnectionToDatabaseForm } from './types';
-import { Cross } from '../../../../assets/svg/SVGcomponent';
 import { Notification } from '../../../../components/notification/notification';
 
 type PropsType = {
@@ -35,7 +33,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
     e.preventDefault();
 
     const target = e.target as typeof e.target & {
-      database_type: { value: string };
+      type: { value: string };
       database: { value: string };
       server: { value: string };
       port: { value: string };
@@ -44,7 +42,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
       password: { value: string };
     };
 
-    const database_type = target.database_type.value; // typechecks!
+    const type = 'database'; // typechecks!
     const database = target.database.value; // typechecks!
     const server = target?.server?.value;
     const port = target?.port?.value; // typechecks!
@@ -52,7 +50,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
     const password = target.password.value; // typechecks!
 
     const dataForm: ConnectionToDatabaseForm = {
-      database_type,
+      type,
       database,
       server,
       port,
@@ -81,7 +79,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
       const newInputsProps = inputs.map((el) => {
         return {
           ...el,
-          defaultValue: databases.results.length > 0 ? databases.results[0][el.name] : '',
+          defaultValue: databases.db ? databases.db[el.name] : '',
         };
       });
 
@@ -94,21 +92,15 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
   return (
     <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal} disableClickBg={true}>
       <div className={styles.header}>
-        <h2 className={styles.header_title}>Сonnection settings</h2>
+        <h2 className={styles.header_title}>Winkhaus connection settings</h2>
       </div>
 
       <form onSubmit={onSubmit} className={styles.form}>
         <div className={styles.form_wrapper}>
-          <SelectBase
-            id="database_type"
-            name="database_type"
-            label="Database type"
-            listOfData={listOfDataForSelect}
-            activeSelect={0}
-          />
-
           {inputs.map((props, index) => (
-            <Input key={index} {...props} />
+            <div key={index} className={index === 2 ? styles.inputContainer : ''}>
+              <Input {...props} />
+            </div>
           ))}
 
           {isErrorLoadingPostConnectionToDb && (

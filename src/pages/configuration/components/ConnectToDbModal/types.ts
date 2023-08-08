@@ -1,7 +1,7 @@
 import { DatabaseInfo } from '../../types';
 
 export type ConnectionToDatabaseForm = {
-  database_type: string;
+  type: string;
   database: string;
   server: string;
   port: string;
