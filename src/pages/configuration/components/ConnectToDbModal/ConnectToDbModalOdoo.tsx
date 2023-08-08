@@ -38,8 +38,8 @@ export const ConnectToDbModalOdoo: React.FC<PropsType> = ({ handleClose, databas
       <div className={styles.header}>
         <h2 className={styles.header_title}>Odoo connection settings</h2>
       </div>
-      <div>
-        <label>Host</label>
+      <div className={styles.container}>
+        <label className={styles.label}>Host</label>
         <Input
           id="0"
           type={'text'}
@@ -48,7 +48,7 @@ export const ConnectToDbModalOdoo: React.FC<PropsType> = ({ handleClose, databas
           value={text}
         />
       </div>
-      <div className={styles.buttons}>
+      <div className={styles.buttonsNew}>
         <Button
           disabled={false}
           onClick={handleClose}

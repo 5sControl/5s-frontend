@@ -7,7 +7,7 @@
   height: max-content;
   overflow: hidden;
   position: relative;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   z-index: 2;
 }
 
@@ -16,9 +16,9 @@
   justify-content: space-between;
   align-items: center;
   position: sticky;
-  top:0;
+  top: 0;
   left: 0;
-  background: #FFFFFF;
+  background: #ffffff;
   z-index: 2;
   padding: 20px;
   &_title {
@@ -41,11 +41,11 @@
   &_error {
     color: var(--Red);
   }
-  .buttons{
+  .buttons {
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
-    gap:10px;
+    gap: 10px;
     .cancel {
       background-color: #ffffff;
       color: #fe6100;
@@ -56,7 +56,7 @@
     }
   }
 }
-.close{
+.close {
   color: var(--HightEmphasis);
   cursor: pointer;
   z-index: 1;
@@ -65,9 +65,27 @@
     color: var(--MediumEmphasis);
   }
 }
-.inputContainer{
+.inputContainer {
   grid-column: span 2;
 }
-.inputFull{
+.inputFull {
   grid-column: 1 / span 2;
+}
+
+.container {
+  padding: 0 20px 0 20px;
+}
+.buttonsNew {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 50px;
+  padding: 20px;
+  gap: 10px;
+}
+.label {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+  margin-bottom: 5px;
 }
