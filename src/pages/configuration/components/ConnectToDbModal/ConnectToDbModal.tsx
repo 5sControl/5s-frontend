@@ -5,7 +5,7 @@ import { Input } from '../../../../components/input';
 import { Modal } from '../../../../components/modal';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { selectConnectionPage, setDatabasesOrdersView } from '../../connectionSlice';
-import { inputProps, listOfDataForSelect } from './config';
+import { inputProps } from './config';
 import styles from './connectToDbModal.module.scss';
 import { createConnectionWithDB, selectConnectToDbModal } from './connectToDbModalSlice';
 import { ConnectionToDatabaseForm } from './types';
@@ -20,12 +20,8 @@ type PropsType = {
 export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleClose }) => {
   const [inputs, setInputs] = useState(inputProps);
   const [cookies] = useCookies(['token']);
-  const {
-    isLoadingPostConnectionToDb,
-    isErrorLoadingPostConnectionToDb,
-    connectResponse,
-    errorConnectToDbResponse,
-  } = useAppSelector(selectConnectToDbModal);
+  const { isLoadingPostConnectionToDb, isErrorLoadingPostConnectionToDb, connectResponse } =
+    useAppSelector(selectConnectToDbModal);
   const { databases } = useAppSelector(selectConnectionPage);
   const dispatch = useAppDispatch();
 
