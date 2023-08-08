@@ -1,6 +1,6 @@
 export type DatabaseInfo = {
   id: number;
-  database_type: string;
+  type: string;
   database: string;
   server: string;
   username: string;
