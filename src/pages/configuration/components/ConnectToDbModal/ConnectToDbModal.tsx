@@ -81,7 +81,7 @@ export const ConnectToDbModal: React.FC<PropsType> = ({ isOpen, isEdit, handleCl
       const newInputsProps = inputs.map((el) => {
         return {
           ...el,
-          defaultValue: databases.results.length > 0 ? databases.results[0][el.name] : '',
+          defaultValue: databases.db ? databases.db[el.name] : '',
         };
       });
 

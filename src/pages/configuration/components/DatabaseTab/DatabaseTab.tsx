@@ -17,7 +17,6 @@ import {
 } from '../DisconnectDbModal/disconnectDbModalSlice';
 import styles from './databaseTab.module.scss';
 import { SettingsWhite } from '../../../../assets/svg/SVGcomponent';
-import s from '../../configuration.module.scss';
 export const DatabaseTab: React.FC = () => {
   const [isEditConnectToDbModal, setIsEditConnectToDbModal] = useState(false);
   const [cookies] = useCookies(['token']);
@@ -57,7 +56,7 @@ export const DatabaseTab: React.FC = () => {
       disconnectDb({
         token: cookies.token,
         hostname: window.location.hostname,
-        id: databases.results[0].id,
+        id: databases.db.id,
       })
     ).then(() => {
       dispatch(clearDatabasesOrdersView());
@@ -93,7 +92,7 @@ export const DatabaseTab: React.FC = () => {
           isLoadingGetConnectionsToDB
             ? 'null'
             : databases && databases?.count > 0
-            ? databases?.results[0]?.database
+            ? databases?.db.database
             : 'null'
         }
         handleClose={handleCloseDisconnectModal}
@@ -103,7 +102,7 @@ export const DatabaseTab: React.FC = () => {
       <div className={styles.wrapper}>
         <div className={styles.header}>
           <h3 className={styles.header_title}>Winkhaus</h3>
-          {databases && databases?.count > 0 ? (
+          {databases && databases.db ? (
             <div className={`${styles.header_buttons}`}>
               <Button
                 onClick={handleOpenModalDisconnect}
@@ -144,7 +143,7 @@ export const DatabaseTab: React.FC = () => {
             <>
               <div>
                 <span className={styles.desc_title}>Database name: </span>
-                <span className={styles.desc}>{databases.results[0]?.database}</span>
+                <span className={styles.desc}>{databases.db.database}</span>
               </div>
             </>
           )}
@@ -195,7 +194,7 @@ export const DatabaseTab: React.FC = () => {
             <>
               <div>
                 <span className={styles.desc_title}>Database name: </span>
-                <span className={styles.desc}>{databases.results[0]?.database}</span>
+                <span className={styles.desc}>{databases.db.database}</span>
               </div>
             </>
           )}
