@@ -44,6 +44,7 @@ const connectToDbModalSlice = createSlice({
       state.isLoadingPostConnectionToDb = false;
       state.connectResponse = action.payload;
       state.isErrorLoadingPostConnectionToDb = false;
+      state.isOpenConnectToDbModal = false;
     });
     builder.addCase(createConnectionWithDB.rejected, (state, action) => {
       state.isLoadingPostConnectionToDb = false;
