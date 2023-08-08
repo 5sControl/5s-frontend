@@ -2,12 +2,8 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { Button } from '../../../../components/button';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import { clearOrdersList } from '../../../previewOrders/components/OrdersList/ordersListSlice';
-import {
-  clearDatabasesOrdersView,
-  getConnectionsToDB,
-  selectConnectionPage,
-} from '../../connectionSlice';
+
+import { getConnectionsToDB, selectConnectionPage } from '../../connectionSlice';
 import { ConnectToDbModal } from '../ConnectToDbModal';
 import {
   selectConnectToDbModal,
@@ -79,7 +75,6 @@ export const DatabaseTab: React.FC = () => {
     });
   };
 
-  console.log(databases);
   useEffect(() => {
     if (disconnectDbResponse?.success) {
       handleCloseDisconnectModal();
@@ -99,6 +94,17 @@ export const DatabaseTab: React.FC = () => {
       handleOpenModalDisconnect();
     }
   }, [disconectType]);
+
+  useEffect(() => {
+    if (!isModalOdoo || isOpenConnectToDbModal) {
+      dispatch(
+        getConnectionsToDB({
+          token: cookies.token,
+          hostname: window.location.hostname,
+        })
+      );
+    }
+  }, [isModalOdoo, isOpenConnectToDbModal]);
   return (
     <>
       <ConnectToDbModal

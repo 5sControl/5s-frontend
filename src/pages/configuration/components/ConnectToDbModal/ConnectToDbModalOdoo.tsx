@@ -7,6 +7,8 @@ import { Button } from '../../../../components/button';
 import { useAppDispatch } from '../../../../store/hooks';
 import { createConnectionWithDB } from './connectToDbModalSlice';
 import { useCookies } from 'react-cookie';
+import { getConnectionsToDB } from '../../connectionSlice';
+
 type PropsType = {
   handleClose: () => void;
   databases: any;
@@ -19,7 +21,6 @@ export const ConnectToDbModalOdoo: React.FC<PropsType> = ({ handleClose, databas
   const onSubmit = () => {
     const type = 'api'; // typechecks!
     const host = text;
-
     const dataForm = {
       type,
       host,
@@ -31,7 +32,11 @@ export const ConnectToDbModalOdoo: React.FC<PropsType> = ({ handleClose, databas
         hostname: window.location.hostname,
         body: dataForm,
       })
-    );
+    ).then((response) => {
+      if (response.payload.status) {
+        handleClose();
+      }
+    });
   };
   return (
     <Modal isOpen={true} handleClose={handleClose} className={styles.modal} disableClickBg={true}>
