@@ -3,7 +3,11 @@ import { useCookies } from 'react-cookie';
 import { Button } from '../../../../components/button';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { clearOrdersList } from '../../../previewOrders/components/OrdersList/ordersListSlice';
-import { clearDatabasesOrdersView, selectConnectionPage } from '../../connectionSlice';
+import {
+  clearDatabasesOrdersView,
+  getConnectionsToDB,
+  selectConnectionPage,
+} from '../../connectionSlice';
 import { ConnectToDbModal } from '../ConnectToDbModal';
 import {
   selectConnectToDbModal,
@@ -26,7 +30,7 @@ export const DatabaseTab: React.FC = () => {
   const { databases, isLoadingGetConnectionsToDB } = useAppSelector(selectConnectionPage);
   const { isOpenConnectToDbModal } = useAppSelector(selectConnectToDbModal);
   const { isOpenDisconnectModal, disconnectDbResponse } = useAppSelector(selectDisconnectDBModal);
-
+  const [disconectType, setDisconectType] = useState<string>('');
   const dispatch = useAppDispatch();
 
   const handleOpenModalDisconnect = () => {
@@ -62,14 +66,20 @@ export const DatabaseTab: React.FC = () => {
       disconnectDb({
         token: cookies.token,
         hostname: window.location.hostname,
-        id: databases.db.id,
+        id: disconectType === 'db' ? databases.db.id : databases.api.id,
       })
     ).then(() => {
-      dispatch(clearDatabasesOrdersView());
-      dispatch(clearOrdersList());
+      setDisconectType('');
+      dispatch(
+        getConnectionsToDB({
+          token: cookies.token,
+          hostname: window.location.hostname,
+        })
+      );
     });
   };
 
+  console.log(databases);
   useEffect(() => {
     if (disconnectDbResponse?.success) {
       handleCloseDisconnectModal();
@@ -84,6 +94,11 @@ export const DatabaseTab: React.FC = () => {
     }
   }, [databases]);
 
+  useEffect(() => {
+    if (disconectType.length > 0) {
+      handleOpenModalDisconnect();
+    }
+  }, [disconectType]);
   return (
     <>
       <ConnectToDbModal
@@ -113,7 +128,7 @@ export const DatabaseTab: React.FC = () => {
           {databases && databases.db ? (
             <div className={`${styles.header_buttons}`}>
               <Button
-                onClick={handleOpenModalDisconnect}
+                onClick={() => setDisconectType('db')}
                 disabled={isLoadingGetConnectionsToDB}
                 text="Disconnect"
                 variant="outlined"
@@ -165,7 +180,7 @@ export const DatabaseTab: React.FC = () => {
           {databases && databases.api ? (
             <div className={`${styles.header_buttons}`}>
               <Button
-                onClick={handleOpenModalDisconnect}
+                onClick={() => setDisconectType('api')}
                 disabled={isLoadingGetConnectionsToDB}
                 text="Disconnect"
                 variant="outlined"
