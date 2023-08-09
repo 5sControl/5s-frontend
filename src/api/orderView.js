@@ -7,6 +7,7 @@ const API_ORDERLIST = 'api/new-order/orders/';
 const API_OPERATION = 'api/new-order/order-detail/';
 const API_WORKPLACE = 'api/new-order/whnet-operations/';
 const API_FILTRATIONDATA = 'api/new-order/filtration-data';
+const API_STATUSDATA = 'api/connector/status/';
 
 export const getOrderViewOperations = (hostname, cookies, startDate, endDate) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
@@ -142,6 +143,53 @@ export const patchFiltrationData = (hostname, cookies, body) => {
     });
   } else {
     return axios.put(`http://${hostname}/${API_FILTRATIONDATA}`, body, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const getStatusData = (hostname, cookies) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(`${process.env.REACT_APP_NGROK}${API_STATUSDATA}`, 'GET', {
+      Authorization: cookies,
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_STATUSDATA}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.get(`http://${hostname}/${API_STATUSDATA}`, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const patchStatusData = (hostname, cookies, body) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(
+      process.env.REACT_APP_NGROK + API_STATUSDATA,
+      'PUT',
+      {
+        Authorization: cookies,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      JSON.stringify(body)
+    );
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.put(`${process.env.REACT_APP_IP_SERVER}${API_STATUSDATA}`, body, {
+      headers: {
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.put(`http://${hostname}/${API_STATUSDATA}`, body, {
       headers: {
         Authorization: cookies,
       },

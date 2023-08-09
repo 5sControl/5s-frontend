@@ -7,8 +7,10 @@ import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
 import {
   getFiltrationData,
+  getStatusData,
   getOrderViewOperations,
   patchFiltrationData,
+  patchStatusData,
 } from '../../api/orderView';
 import { getData } from '../../api/reportsRequest';
 import { useCookies } from 'react-cookie';
@@ -28,6 +30,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const [preloader, setPreloader] = useState(false);
   const [cookies] = useCookies(['token']);
   const [workPlaceList, setWorkPlaceList] = useState([]);
+  const [defaultBaseType, setDefaultBaseType] = useState('');
 
   const changeHandler = (index) => {
     const workplaces = workPlaceList;
@@ -48,11 +51,17 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     setWorkPlaceList([...workplaces]);
   };
 
+  const changeSelectType = (type) => {
+    patchStatusData(window.location.hostname, cookies.token, { type: type }).then((response) => {
+      setDefaultBaseType(type);
+      setIsOpenFilter(false);
+    });
+  };
+
   const submitHandler = () => {
     patchFiltrationData(window.location.hostname, cookies.token, workPlaceList)
       .then((response) => {
         setIsOpenFilter();
-        console.log(response);
       })
       .catch((error) => console.log(error));
   };
@@ -63,6 +72,10 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   }, [filterDateData]);
 
   useEffect(() => {
+    getStatusData(window.location.hostname, cookies.token).then((response) => {
+      setDefaultBaseType(response.data.type);
+    });
+
     getFiltrationData(window.location.hostname, cookies.token)
       .then((res) => {
         const response = res.data;
@@ -195,14 +208,13 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
 
           const newData = await Promise.all(newDataPromises);
           setPreloader(false);
-          await setData(dataToD3);
-          await setMachineData(newData);
+          setData(dataToD3);
+          setMachineData(newData);
         } catch (error) {
           console.log(error);
         }
       };
 
-      // Вызов функции fetchData
       fetchData();
     }
   }, [endDate, startDate, isOpenFilter]);
@@ -235,9 +247,23 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               <h2>Orders View settings</h2>
               <Cross onClick={setIsOpenFilter} className={styles.cross} />
             </header>
-            <div>
-              <span>Winkhaus</span>
-              <span>Odoo</span>
+            <div className={styles.select}>
+              <span
+                className={
+                  defaultBaseType === 'database' ? styles.select__active : styles.select__noActive
+                }
+                onClick={() => changeSelectType('database')}
+              >
+                Winkhaus
+              </span>
+              <span
+                className={
+                  defaultBaseType === 'api' ? styles.select__active : styles.select__noActive
+                }
+                onClick={() => changeSelectType('api')}
+              >
+                Odoo
+              </span>
             </div>
             <main className={styles.content}>
               <span className={styles.content__name}>Displayed operations</span>
