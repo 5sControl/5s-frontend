@@ -52,10 +52,29 @@
     overflow: auto;
   }
 }
-.cross{
+.cross {
   cursor: pointer;
   transition: all 0.4s;
-  &:hover{
+  &:hover {
     transform: scale(1.1);
+  }
+}
+
+.select {
+  display: flex;
+  gap: 10px;
+  &__active {
+    padding: 4px 8px;
+    border-radius: 16px;
+    background: #fe6100;
+    color:white;
+    cursor: pointer;
+  }
+  &__noActive {
+    color:"#212121";
+    padding: 4px 8px;
+    border-radius: 16px;
+    background: rgba(33, 33, 33, 0.08);
+    cursor: pointer;
   }
 }
