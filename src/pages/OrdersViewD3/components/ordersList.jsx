@@ -41,7 +41,7 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate, re
             {data.length > 0 &&
               data.map(
                 (item, index) =>
-                  item.orId.toLowerCase().includes(searchText.toLowerCase()) && (
+                  item.orId.includes(searchText) && (
                     <div
                       key={index}
                       className={`${styles.orders__item} ${
