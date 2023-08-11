@@ -5,70 +5,7 @@
   box-shadow: 0px 0px 8px 0px rgba(68, 87, 104, 0.25);
   padding: 10px;
 }
-.tableBody  .tripleDots{
-    font-size: 24px;
-    font-weight: 900;
-    cursor: pointer;
-}
-.fullWidthTable {
-  width: 100%;
-  border-collapse: collapse;
-}
-/* Table.css */
 
-/* Заголовок таблицы */
-.tableHeader th {
-    top: 0;
-    background-color: inherit;
-  text-align: left;
-  color: #9e9e9e;
-  font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Inter;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px; /* 171.429% */
-  letter-spacing: 0.1px;
-}
-
-.tableBody td {
-  text-align: left;
-  vertical-align:top;
-  color: #212121;
-  font-family: Inter;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px; /* 171.429% */
-  letter-spacing: 0.1px;
-  padding: 10px 0 10px 0;
-}
-/* Первый столбец */
-.tableColumn1 {
-  width: 15%;
-}
-
-/* Второй столбец */
-.tableColumn2 {
-  width: 30%;
-}
-
-/* Третий столбец */
-.tableColumn3 {
-  width: 10%;
-}
-
-/* Четвертый столбец */
-.tableColumn7 {
-  width: 10%;
-}
-
-/* Пятый и последующие столбцы */
-.tableColumn5,
-.tableColumn6,
-.tableColumn4 {
-  width: 12%;
-}
 .container {
     display: flex;
     margin-bottom: 20px;
