@@ -3,7 +3,7 @@ import { proxy } from './api';
 
 const API_SETTINGS = 'api/mailer/smtp-settings/';
 const API_EMAIL = 'api/mailer/emails/';
-
+const API_TASKMANAGER = ':3333/logs?taskId=';
 export const getNotificationSettings = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy(process.env.REACT_APP_NGROK + API_SETTINGS, 'GET', {
@@ -195,5 +195,15 @@ export const deleteNotificationEmail = (hostname, cookies, id) => {
         Authorization: cookies,
       },
     });
+  }
+};
+
+export const getTaskManager = (hostname, taskId) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return proxy(process.env.REACT_APP_NGROK + API_TASKMANAGER + taskId, 'GET');
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.get(`${process.env.REACT_APP_IP_SERVER.slice(0, -1)}${API_TASKMANAGER}${taskId}`);
+  } else {
+    return axios.get(`http://${hostname}${API_TASKMANAGER}${taskId}`);
   }
 };

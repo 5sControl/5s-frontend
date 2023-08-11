@@ -21,7 +21,7 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate, re
         .catch((error) => console.log(error));
     }
   }, [startDate, endDate, reload]);
-
+  console.log(data);
   return (
     <div className={styles.orders}>
       <h2>Orders ({data.length})</h2>
@@ -38,7 +38,8 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate, re
             handleChange={(e) => setSearchText(e)}
           />
           <div className={styles.orders__list}>
-            {data.length > 0 &&
+            {data &&
+              data.length > 0 &&
               data.map(
                 (item, index) =>
                   item.orId.toLowerCase().includes(searchText.toLowerCase()) && (

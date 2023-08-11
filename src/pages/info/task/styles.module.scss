@@ -1,0 +1,47 @@
+.wrapper {
+  width: 100%;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0px 0px 8px 0px rgba(68, 87, 104, 0.25);
+  padding: 10px;
+}
+
+.container {
+    display: flex;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    position: relative;
+    border-bottom: none;
+    box-sizing: border-box;
+    width: 100%;
+    .container_underline {
+      flex-grow: 1;
+      border-bottom: 1px solid var(--Gray85);
+  
+      &::marker {
+        color: transparent;
+      }
+    }
+  }
+  
+  .tab {
+    min-width: 122px;
+    position: relative;
+    padding: 10px 20px;
+    list-style-type: none;
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    &_active {
+      border: 1px solid var(--LowEmphasis);
+      border-radius: 4px 4px 0px 0px;
+      border-bottom: none;
+      }
+  
+    &_nonActive {
+      color:#9E9E9E;
+      border-bottom: 1px solid var(--Gray85);
+    }
+  }

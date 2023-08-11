@@ -4,6 +4,7 @@ import styles from './info.module.scss';
 import { Link } from 'react-router-dom';
 import { SystemMessage } from './messages/message';
 import { HeaderMain } from '../../components/header';
+import { Task } from './task/task';
 
 export const Info: React.FC = () => {
   const [active, setActive] = useState<string>(
@@ -27,12 +28,20 @@ export const Info: React.FC = () => {
           >
             <span>System messages</span>
           </Link>
+          <Link
+            to="/info/task"
+            className={`${styles.tab} ${active === 'task' ? styles.active : styles.noActive}`}
+            onClick={() => setActive('task')}
+          >
+            <span>System messages</span>
+          </Link>
         </section>
       </HeaderMain>
       <section className={styles.wrapper}>
         <main className={styles.main}>
           {active === 'version' && <Version />}
           {active === 'message' && <SystemMessage />}
+          {active === 'task' && <Task />}
         </main>
       </section>
     </>
