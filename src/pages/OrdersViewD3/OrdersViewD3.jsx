@@ -228,7 +228,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
             selectOrder={selectOrder}
             startDate={startDate}
             endDate={endDate}
-            reloadr={isOpenFilter}
+            reload={isOpenFilter}
           />
           <VerticalTimeline
             data={data}
