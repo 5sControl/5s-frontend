@@ -87,7 +87,7 @@ export const Item = ({
               selectIcon={<ArrowDown />}
             />
           </label>
-          <p className={styles.item__description}>Select the area on the left.</p>
+          <p className={styles.item__description}>Select one or more areas on the left.</p>
           <div className={styles.item__footer}>
             <Button
               text={'Delete'}
