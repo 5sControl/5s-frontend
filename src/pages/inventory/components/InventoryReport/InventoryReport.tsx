@@ -198,7 +198,15 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
                           <tr className={styles.itemLine}>
                             <td onClick={() => onclickHandler(item)} className={styles.item}>
                               <span>{item.name}</span>
-                              <span className={styles.multi}>{item.object_type}</span>
+                              <span
+                                className={
+                                  item && item.object_type === 'bottle'
+                                    ? styles.bottle
+                                    : styles.multi
+                                }
+                              >
+                                {item.object_type}
+                              </span>
                             </td>
                             <td onClick={() => onclickHandler(item)}>
                               <span
