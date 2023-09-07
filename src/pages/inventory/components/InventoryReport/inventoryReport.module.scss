@@ -107,6 +107,20 @@
     .multi {
       padding: 2px 4px;
       align-items: center;
+      color: #296483;
+      font-weight: 600;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 600;
+      background-color: #d1e3e4;
+      margin-left: 5px;
+      border-radius: 5px;
+      line-height: 150%;
+
+    }
+    .bottle{
+      padding: 2px 4px;
+      align-items: center;
       color: #509296;
       font-size: 12px;
       font-style: normal;
@@ -116,7 +130,6 @@
       border-radius: 5px;
       line-height: 150%;
     }
-
     .statusStock {
       background: var(--Green);
     }

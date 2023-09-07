@@ -8,11 +8,11 @@ import { HeaderMain } from '../../components/header';
 import { CompanyInfo } from './companyTab/CompanyInfo';
 import { Contacts } from './contactsTab/Contacts';
 import { Link } from 'react-router-dom';
+import { Button } from '../../components/button';
 
 export const Company: FC<{ activeTab: number }> = ({ activeTab }) => {
-  const [cookies] = useCookies(['token']);
   const dispatch = useAppDispatch();
-
+  const [cookies, , removeCookie] = useCookies(['token']);
   useEffect(() => {
     dispatch(
       getCountries({
@@ -56,6 +56,7 @@ export const Company: FC<{ activeTab: number }> = ({ activeTab }) => {
             <span>Contacts</span>
           </Link>
         </section>
+        {/* <Button text="Log out" onClick={() => removeCookie('token')} /> */}
       </HeaderMain>
       <div className="company">
         {activeTab === 0 && <CompanyInfo />}
