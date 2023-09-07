@@ -64,6 +64,7 @@ import { ReactComponent as FiveS } from './5S.svg';
 import { ReactComponent as InvRedLine } from './invRedLine.svg';
 import { ReactComponent as InvBottle } from './invBottle.svg';
 import { ReactComponent as InvBox } from './invBox.svg';
+import { ReactComponent as Logout } from './logout.svg';
 
 export {
   InvRedLine,
@@ -132,4 +133,5 @@ export {
   AddPerson,
   PlusPrimary,
   FiveS,
+  Logout,
 };

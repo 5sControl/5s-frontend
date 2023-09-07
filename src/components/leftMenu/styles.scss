@@ -1,107 +1,150 @@
 .leftMenu {
-    position: relative;
-    min-width: 160px;
-    width: 160px;
-    height: 100vh;
-    max-height: 100vh;
-    background-color: white;
-    box-shadow: 0px 0px 8px rgba(42, 98, 149, 0.25);
+  position: relative;
+  min-width: 160px;
+  width: 160px;
+  height: 100vh;
+  max-height: 100vh;
+  background-color: white;
+  box-shadow: 0px 0px 8px rgba(42, 98, 149, 0.25);
+  display: flex;
+  flex-direction: column;
+  padding: 56px 0;
+  z-index: 2;
+  &__logout {
+    display: flex;
+    align-items: center;
+    background: #f3f4f6;
+    padding: 8px 5px;
+    margin: 0 15px;
+
+    &_svg {
+      width: 20px;
+      margin-right: 15px;
+      cursor: pointer;
+      transition: all 0.4s;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+    &_text {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      font-feature-settings: 'clig' off, 'liga' off;
+      text-overflow: ellipsis;
+      /* product/Headline 5 */
+      font-family: Inter;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+    }
+    &_statusOwner {
+      margin-top: 3px;
+      padding: 2px 10px;
+      border-radius: 2px;
+      background: #ffdbbe;
+      color:#FE6100
+    }
+    &_statusWorker{
+      margin-top: 3px;
+      padding: 2px 10px;
+      background: #dbd4e1;
+      border-radius: 2px;
+      color: #735b8a;
+    }
+  }
+  &__company {
+    position: absolute;
+    width: 100%;
+    height: max-content;
+    padding: 0 10px;
+    bottom: 40px;
     display: flex;
     flex-direction: column;
-    padding: 56px 0;
-    z-index: 2;
-    &__company {
-      position: absolute;
+    align-items: center;
+    text-align: center;
+    h2 {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 24px;
+      color: #666666;
+      margin-bottom: 5px;
+    }
+    h3 {
       width: 100%;
-      height: max-content;
-      padding: 0 10px;
-      bottom: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       text-align: center;
-      h2 {
-        font-weight: 600;
-        font-size: 12px;
-        line-height: 24px;
-        color: #666666;
-        margin-bottom: 5px;
-      }
-      h3 {
-        width: 100%;
-        text-align: center;
-        font-weight: 600;
-        font-size: 10px;
-        line-height: 24px;
-        color: #fe6100;
-        background: #ffd1b4;
-        padding: 2px;
-        border-radius: 2px;
-      }
+      font-weight: 600;
+      font-size: 10px;
+      line-height: 24px;
+      color: #fe6100;
+      background: #ffd1b4;
+      padding: 2px;
+      border-radius: 2px;
     }
-    ul {
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      height: calc(100% - 170px);
-      width: 100%;
-      overflow: auto;
+  }
+  ul {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 170px);
+    width: 100%;
+    overflow: auto;
+  }
+  a {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    text-decoration: none;
+    padding: 15px 0 15px 12px;
+    svg {
+      width: 15px;
+      height: 15px;
+      fill: #666666;
+      transition: all 0.4s;
+      margin-right: 12px;
     }
-    a {
-      display: flex;
-      align-items: center;
-      list-style-type: none;
-      text-decoration: none;
-      padding: 15px 0 15px 12px;
-      svg {
-        width: 15px;
-        height: 15px;
-        fill: #666666;
-        transition: all 0.4s;
-        margin-right: 12px;
-      }
-      span {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 24px;
-        letter-spacing: 0.1px;
-        transition: all 0.4s;
-      }
+    span {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 24px;
+      letter-spacing: 0.1px;
+      transition: all 0.4s;
     }
-    .noActiveMenu {
-      background: white;
-      cursor: pointer;
-      transition: all 0.5s;
-      &:hover {
-        background: rgba(254, 97, 0, 0.1);
-        span {
-          color: #fe6100;
-        }
-        svg {
-          fill: #fe6100;
-        }
-      }
-      svg {
-        fill: #666666;
-      }
-      span {
-        color: #666666;
-      }
-    }
-    .activeMenu {
+  }
+  .noActiveMenu {
+    background: white;
+    cursor: pointer;
+    transition: all 0.5s;
+    &:hover {
       background: rgba(254, 97, 0, 0.1);
+      span {
+        color: #fe6100;
+      }
       svg {
         fill: #fe6100;
       }
-      span {
-        color: #fe6100;
-      }
     }
-    hr{
-      width: calc(100% - 20px);
-      margin: 10px;
-      text-align: center;
-      color:#E0E0E0;
-      border: 0.7px solid #E0E0E0;
+    svg {
+      fill: #666666;
+    }
+    span {
+      color: #666666;
     }
   }
+  .activeMenu {
+    background: rgba(254, 97, 0, 0.1);
+    svg {
+      fill: #fe6100;
+    }
+    span {
+      color: #fe6100;
+    }
+  }
+  hr {
+    width: calc(100% - 20px);
+    margin: 10px;
+    text-align: center;
+    color: #e0e0e0;
+    border: 0.7px solid #e0e0e0;
+  }
+}

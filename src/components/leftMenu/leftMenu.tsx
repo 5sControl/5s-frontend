@@ -5,19 +5,21 @@ import {
   OrdersView,
   Inventory,
   Live,
-  LogoHorizontal,
   ConfigurationNew,
   Info,
+  Logout,
 } from '../../assets/svg/SVGcomponent';
 import { useEffect, useState } from 'react';
-import { getCompanySubsInfo } from '../../api/companyRequest';
+import { getCompanySubsInfo, getUserList } from '../../api/companyRequest';
 import { useCookies } from 'react-cookie';
 import { CompanyInfo } from './types';
 import './styles.scss';
+import jwt from 'jwt-decode';
 
 export const LeftMenu = () => {
   const navigate = useNavigate();
-  const [cookies] = useCookies(['token']);
+  const [cookies, , removeCookie] = useCookies(['token']);
+  const [user, setUser] = useState<any>(false);
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo>({
     name_company: '',
     count_days: '',
@@ -61,6 +63,15 @@ export const LeftMenu = () => {
           navigate('/company');
         }
       });
+
+    const token: any = jwt(
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0Njc3NTk4LCJqdGkiOiJhN2Q2MGY4MjgwNjc0N2M4OWMwZTY3YmQ4NDhiY2U5YSIsInVzZXJfaWQiOjF9.P0Wos8JAaoihsjoUV0KUrCdyTPcyHW4YIHeA4K6yeXw'
+    );
+    getUserList(window.location.hostname, cookies.token).then((response: any) => {
+      if (token.user_id && response.data && response.data.results) {
+        setUser(response.data.results.find((user: any) => user.id === token.user_id));
+      }
+    });
   }, []);
 
   return (
@@ -123,6 +134,26 @@ export const LeftMenu = () => {
             <span>Info</span>
           </Link>
         </li>
+        <hr></hr>
+        <div className="leftMenu__logout">
+          <div className="leftMenu__logout_svg" onClick={() => removeCookie('token')}>
+            <Logout />
+          </div>
+          {user && (
+            <div className="leftMenu__logout_text">
+              <span>{user.username}</span>
+              <span
+                className={
+                  user.status === 'owner'
+                    ? 'leftMenu__logout_statusOwner'
+                    : 'leftMenu__logout_statusWorker'
+                }
+              >
+                {user.status}
+              </span>
+            </div>
+          )}
+        </div>
       </ul>
       <div className={'leftMenu__company'}>
         <h2>{companyInfo.name_company}</h2>

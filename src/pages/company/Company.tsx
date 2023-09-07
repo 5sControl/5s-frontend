@@ -56,7 +56,7 @@ export const Company: FC<{ activeTab: number }> = ({ activeTab }) => {
             <span>Contacts</span>
           </Link>
         </section>
-        <Button text="Log out" onClick={() => removeCookie('token')} />
+        {/* <Button text="Log out" onClick={() => removeCookie('token')} /> */}
       </HeaderMain>
       <div className="company">
         {activeTab === 0 && <CompanyInfo />}
