@@ -66,7 +66,6 @@ export const Coordinates: React.FC<PropsType> = ({
                 name: element.name,
               };
             });
-            console.log(bufCoord);
             setZone(bufCoord);
           }
         })
@@ -75,7 +74,7 @@ export const Coordinates: React.FC<PropsType> = ({
           console.log(err);
         });
     }
-  }, [currentSelect]);
+  }, [currentSelect, proportionHeight, proportionHeight]);
   const createCoord = (e: any) => {
     if (e && !target) {
       // const target = e.target.getBoundingClientRect();
