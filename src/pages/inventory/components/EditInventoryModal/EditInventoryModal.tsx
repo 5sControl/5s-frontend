@@ -279,6 +279,7 @@ export const EditInventoryModal: React.FC<PropsType> = ({
         handleClose={handleClose}
         setIsScale={(e) => setIsScale(e)}
         isScale={isScale}
+        token={cookies.token}
       />
       {isClose && (
         <>
