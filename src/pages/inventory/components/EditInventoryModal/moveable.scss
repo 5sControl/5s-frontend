@@ -34,3 +34,16 @@
 .coordSelected {
   border: 1px solid #fe6100;
 }
+.coordinatesZone{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 20px;
+  height: 20px;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 8px;
+  line-height: 9px;
+  pointer-events: none;
+  border: 1px solid #fe6100;
+}

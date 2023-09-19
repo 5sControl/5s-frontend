@@ -13,6 +13,7 @@ import { Scaleble } from './scale';
 
 import './moveable.scss';
 import styles from '../InventoryModal.module.scss';
+import { getCameraZones } from '../../../../api/cameraRequest';
 type PropsType = {
   submitHandler: () => void;
   setCoords: (coords: Coordinat[]) => void;
@@ -22,6 +23,7 @@ type PropsType = {
   handleClose: () => void;
   isScale: any;
   setIsScale: (coords: any) => void;
+  token: string;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -33,6 +35,7 @@ export const Coordinates: React.FC<PropsType> = ({
   handleClose,
   isScale,
   setIsScale,
+  token,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>('');
@@ -45,6 +48,32 @@ export const Coordinates: React.FC<PropsType> = ({
   const [moveDraw, setMoveDraw] = useState<DrawingCoordinates>({ x: 0, y: 0 });
   const [cameraBox, setCameraBox] = useState<any>([]);
   const [coordToScale, setCoordToScale] = useState<any[]>([]);
+  const [zone, setZone] = useState<any[]>([]);
+  useEffect(() => {
+    if (proportionHeight > 0 && proportionHeight > 0) {
+      getCameraZones(window.location.hostname, token, currentSelect)
+        .then((res) => {
+          console.log(res);
+          if (res && res.data && res.data.length > 0) {
+            const bufCoord = res.data.map((element: any) => {
+              return {
+                y: element?.coords[0]?.y1 / proportionHeight,
+                x: element?.coords[0]?.x1 / proportionWidth,
+                width: (element?.coords[0]?.x2 - element?.coords[0]?.x1) / proportionHeight,
+                height: (element?.coords[0]?.y2 - element?.coords[0]?.y1) / proportionWidth,
+                id: element.id,
+                name: element.name,
+              };
+            });
+            console.log(bufCoord);
+            setZone(bufCoord);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [currentSelect, proportionHeight, proportionWidth]);
 
   const changeTarget = (currentTarget: any) => {
     if (target !== '') {
@@ -255,6 +284,24 @@ export const Coordinates: React.FC<PropsType> = ({
             }
             onClick={(e) => createCoord(e)}
           />
+          {zone.length > 0 &&
+            zone.map((el) => (
+              <div
+                id={el.id}
+                className={'coordinatesZone'}
+                style={{
+                  left: el.x,
+                  top: el.y,
+                  width: el.width,
+                  height: el.height,
+                  zIndex: isStartDraw ? 1 : 1001,
+                }}
+                onClick={(e) => changeTarget(e.target)}
+                key={el.id}
+              >
+                {el.name}
+              </div>
+            ))}
           {oldBox.length > 0 &&
             !!proportionWidth &&
             oldBox.map((element: Coordinat) => (

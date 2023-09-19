@@ -13,6 +13,7 @@ import { Scaleble } from './scale';
 
 import './moveable.scss';
 import styles from '../InventoryModal.module.scss';
+import { getCameraZones } from '../../../../api/cameraRequest';
 type PropsType = {
   submitHandler: () => void;
   setCoords: (coords: Coordinat[]) => void;
@@ -23,6 +24,7 @@ type PropsType = {
   setIsScale: (coords: any) => void;
   isMulti: boolean;
   itemCount: number;
+  token: string;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -35,6 +37,7 @@ export const Coordinates: React.FC<PropsType> = ({
   setIsScale,
   isMulti,
   itemCount,
+  token,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
@@ -45,9 +48,34 @@ export const Coordinates: React.FC<PropsType> = ({
   const [cookie] = useCookies(['token']);
   const [proportionWidth, setProportionWidth] = useState(0);
   const [proportionHeight, setProportionHeight] = useState(0);
-
+  const [zone, setZone] = useState<any[]>([]);
   const [coordToScale, setCoordToScale] = useState<any[]>([]);
-  console.log(isMulti);
+  useEffect(() => {
+    if (proportionHeight > 0 && proportionHeight > 0) {
+      getCameraZones(window.location.hostname, token, currentSelect)
+        .then((res) => {
+          console.log(res);
+          if (res && res.data && res.data.length > 0) {
+            const bufCoord = res.data.map((element: any) => {
+              return {
+                y: element?.coords[0]?.y1 / proportionHeight,
+                x: element?.coords[0]?.x1 / proportionWidth,
+                width: (element?.coords[0]?.x2 - element?.coords[0]?.x1) / proportionHeight,
+                height: (element?.coords[0]?.y2 - element?.coords[0]?.y1) / proportionWidth,
+                id: element.id,
+                name: element.name,
+              };
+            });
+            console.log(bufCoord);
+            setZone(bufCoord);
+          }
+        })
+
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [currentSelect]);
   const createCoord = (e: any) => {
     if (e && !target) {
       // const target = e.target.getBoundingClientRect();
@@ -226,6 +254,26 @@ export const Coordinates: React.FC<PropsType> = ({
                 : `http://${window.location.hostname}/images/${currentSelect}/snapshot.jpg`
             }
           />
+
+          {zone.length > 0 &&
+            zone.map((el) => (
+              <div
+                id={el.id}
+                className={'coordinatesZone'}
+                style={{
+                  left: el.x,
+                  top: el.y,
+                  width: el.width,
+                  height: el.height,
+                  zIndex: isStartDraw ? 1 : 1001,
+                }}
+                onClick={(e) => changeTarget(e.target)}
+                key={el.id}
+              >
+                {el.name}
+              </div>
+            ))}
+
           {allBox.map((el: NewCoordinates) => (
             <div
               id={el.id}
@@ -248,6 +296,7 @@ export const Coordinates: React.FC<PropsType> = ({
               )}
             </div>
           ))}
+
           {!!cameraBox &&
             !!proportionWidth &&
             !!proportionHeight &&

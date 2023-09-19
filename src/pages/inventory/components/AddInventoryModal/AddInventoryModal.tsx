@@ -13,12 +13,12 @@ import { Coordinates } from './coordinates';
 import { Coordinat } from '../../types';
 import { Preloader } from '../../../../components/preloader';
 import { InvBottle, InvBox, InvRedLine, Tooltip } from '../../../../assets/svg/SVGcomponent';
-import tooltipImage from '../../../../assets/png/tooltipInventory.png';
 import { Notification } from '../../../../components/notification/notification';
 
 import styles from '../InventoryModal.module.scss';
 import './moveable.scss';
 import { Button } from '../../../../components/button';
+import { getCameraZones } from '../../../../api/cameraRequest';
 
 type PropsType = {
   isOpen: boolean;
@@ -246,6 +246,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
           setIsScale={(e) => setIsScale(e)}
           isScale={isScale}
           isMulti={!!isMulti.length}
+          token={cookies.token}
         />
       )}
       {isClose && (
