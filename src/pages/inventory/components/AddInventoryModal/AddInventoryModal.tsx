@@ -296,7 +296,9 @@ export const AddInventoryModal: React.FC<PropsType> = ({
               </div>
               <div
                 className={`${styles.typeModal__select_item} ${
-                  isMulti === 'red lines' || isMulti === 'red line'? styles.typeModal__select_active : ''
+                  isMulti === 'red lines' || isMulti === 'red line'
+                    ? styles.typeModal__select_active
+                    : ''
                 }`}
                 onClick={() => setIsMulti('red line')}
               >
