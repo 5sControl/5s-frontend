@@ -296,14 +296,14 @@ export const AddInventoryModal: React.FC<PropsType> = ({
               </div>
               <div
                 className={`${styles.typeModal__select_item} ${
-                  isMulti === 'red lines' ? styles.typeModal__select_active : ''
+                  isMulti === 'red lines' || isMulti === 'red line'? styles.typeModal__select_active : ''
                 }`}
-                onClick={() => setIsMulti('red lines')}
+                onClick={() => setIsMulti('red line')}
               >
                 <div className={styles.typeModal__select_img}>
                   <InvBox />
                 </div>
-                <h3>Red Lines</h3>
+                <h3>Red Line</h3>
                 <p>
                   Looks for a line marked with the tape that indicates low stock level. Suits any
                   type of item but doesn’t provide precise count of it.
