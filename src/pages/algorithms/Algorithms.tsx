@@ -19,10 +19,10 @@ export const Algorithms = () => {
 
   const sendAlgorithm = () => {
     postUploadAlgorithm(window.location.hostname, cookies.token, {
-      image_name: 'postgres:11',
-      name: 'postgres',
-      description: description,
+      name: name,
+      image_name: image,
       is_available: true,
+      description: description,
     }).then((response) => console.log(response));
   };
   useEffect(() => {

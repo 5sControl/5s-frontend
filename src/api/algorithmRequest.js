@@ -133,7 +133,7 @@ export const getOperationID = (hostname, cookies) => {
 export const postUploadAlgorithm = async (hostname, cookies, body) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
-      url: process.env.REACT_APP_NGROK + API_UPLOAD,
+      url: process.env.REACT_APP_NGROK + API_ALGORITHM,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -142,14 +142,14 @@ export const postUploadAlgorithm = async (hostname, cookies, body) => {
       body: JSON.stringify(body),
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_UPLOAD}`, body, {
+    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_ALGORITHM}`, body, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,
       },
     });
   } else {
-    return axios.post(`http://${hostname}/${API_UPLOAD}`, body, {
+    return axios.post(`http://${hostname}/${API_ALGORITHM}`, body, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,
