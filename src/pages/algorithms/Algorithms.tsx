@@ -21,6 +21,8 @@ export const Algorithms = () => {
     postUploadAlgorithm(window.location.hostname, cookies.token, {
       image_name: 'postgres:11',
       name: 'postgres',
+      description: description,
+      is_available: true,
     }).then((response) => console.log(response));
   };
   useEffect(() => {
