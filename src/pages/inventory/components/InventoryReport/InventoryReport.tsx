@@ -192,6 +192,7 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
                     ?.filter((invItem) =>
                       invItem.name.toString().toLowerCase().includes(filterItem.toLowerCase())
                     )
+                    .sort((item1, item2) => item1.camera.localeCompare(item2.camera))
                     .map((item) => {
                       return (
                         <Fragment key={item.id}>
