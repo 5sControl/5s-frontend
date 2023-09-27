@@ -22,6 +22,7 @@ export const Algorithms = () => {
   const [description, setDescription] = useState<string>('');
   const [image, setImage] = useState<string>('');
   const [process, setProcess] = useState<any[]>([]);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
   const sendAlgorithm = () => {
     postUploadAlgorithm(window.location.hostname, cookies.token, {
@@ -50,7 +51,7 @@ export const Algorithms = () => {
         setProcess(response.data);
       }
     });
-  }, [isShowAddModal]);
+  }, [isShowAddModal, isUpdate]);
 
   return (
     <div className={styles.wrapper}>
@@ -118,6 +119,7 @@ export const Algorithms = () => {
                 key={index}
                 token={cookies.token}
                 processList={process}
+                update={() => setIsUpdate(!isUpdate)}
               />
             ))}
           </div>
