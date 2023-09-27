@@ -65,6 +65,7 @@ import { ReactComponent as InvRedLine } from './invRedLine.svg';
 import { ReactComponent as InvBottle } from './invBottle.svg';
 import { ReactComponent as InvBox } from './invBox.svg';
 import { ReactComponent as Logout } from './logout.svg';
+import { ReactComponent as Folber } from './folber.svg';
 
 export {
   InvRedLine,
@@ -134,4 +135,5 @@ export {
   PlusPrimary,
   FiveS,
   Logout,
+  Folber,
 };

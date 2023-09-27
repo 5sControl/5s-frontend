@@ -5,7 +5,7 @@ const API_ALGORITHM = 'api/camera-algorithms/algorithms-detail/';
 const API_POSTALGORITHM = 'api/camera-algorithms/create-process/';
 const API_GETPROCESS = 'api/camera-algorithms/get-process/';
 const API_POSTOPERATIONID = 'api/order/index_stanowisko/';
-
+const API_UPLOAD = 'api/camera-algorithms/upload-algorithm/';
 export const getAveilableAlgorithms = (hostname, cookies) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return proxy(process.env.REACT_APP_NGROK + API_ALGORITHM, 'GET', {
@@ -23,6 +23,42 @@ export const getAveilableAlgorithms = (hostname, cookies) => {
         Authorization: cookies,
       },
     });
+  }
+};
+
+export const uploadAlgorithm = async (hostname, cookies, id) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+      url: process.env.REACT_APP_NGROK + API_UPLOAD + id,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+      body: {},
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(
+      `${process.env.REACT_APP_IP_SERVER}${API_UPLOAD}${id}`,
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookies,
+        },
+      }
+    );
+  } else {
+    return axios.post(
+      `http://${hostname}/${API_UPLOAD}${id}`,
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookies,
+        },
+      }
+    );
   }
 };
 
@@ -88,6 +124,34 @@ export const getOperationID = (hostname, cookies) => {
   } else {
     return axios.get(`http://${hostname}/${API_POSTOPERATIONID}`, {
       headers: {
+        Authorization: cookies,
+      },
+    });
+  }
+};
+
+export const postUploadAlgorithm = async (hostname, cookies, body) => {
+  if (process.env.REACT_APP_ENV === 'proxy') {
+    return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
+      url: process.env.REACT_APP_NGROK + API_UPLOAD,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+      body: JSON.stringify(body),
+    });
+  } else if (process.env.REACT_APP_ENV === 'wify') {
+    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_UPLOAD}`, body, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+      },
+    });
+  } else {
+    return axios.post(`http://${hostname}/${API_UPLOAD}`, body, {
+      headers: {
+        'Content-Type': 'application/json',
         Authorization: cookies,
       },
     });

@@ -8,6 +8,7 @@ import { DatabaseTab } from './components/DatabaseTab/DatabaseTab';
 import { Notifications } from '../notificationEmail/notifications';
 import styles from './configuration.module.scss';
 import { Link } from 'react-router-dom';
+import { Algorithms } from '../algorithms/Algorithms';
 
 export const Configuration: React.FC<{ activeTab: number }> = ({ activeTab }) => {
   const [cookies] = useCookies(['token']);
@@ -26,6 +27,12 @@ export const Configuration: React.FC<{ activeTab: number }> = ({ activeTab }) =>
     <>
       <HeaderMain title={'Configuration'}>
         <section className={styles.tabs}>
+          <Link
+            to="/configuration/algorithms"
+            className={`${styles.tab} ${activeTab === 3 ? styles.active : styles.noActive}`}
+          >
+            <span>Algorithms</span>
+          </Link>
           <Link
             to="/configuration/camera"
             className={`${styles.tab} ${activeTab === 0 ? styles.active : styles.noActive}`}
@@ -49,6 +56,7 @@ export const Configuration: React.FC<{ activeTab: number }> = ({ activeTab }) =>
       {activeTab === 0 && <Camera />}
       {activeTab === 1 && <DatabaseTab />}
       {activeTab === 2 && <Notifications />}
+      {activeTab === 3 && <Algorithms />}
     </>
   );
 };

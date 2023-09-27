@@ -56,6 +56,7 @@ function App() {
             <Route path="/configuration/database" element={<Configuration activeTab={1} />} />
             <Route path="/configuration/camera" element={<Configuration activeTab={0} />} />
             <Route path="/configuration/notifications" element={<Configuration activeTab={2} />} />
+            <Route path="/configuration/algorithms" element={<Configuration activeTab={3} />} />
             <Route path="/orders-view" element={<PreviewOrders />} />
             <Route path="/inventory" element={<Inventory />} />
             <Route path="/json" element={<OrderJSON />} />
