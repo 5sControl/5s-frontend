@@ -3,12 +3,17 @@ import { Button } from '../../components/button';
 import styles from './styles.module.scss';
 import s from '../configuration/configuration.module.scss';
 import { useEffect, useState } from 'react';
-import { getAveilableAlgorithms, postUploadAlgorithm } from '../../api/algorithmRequest';
+import {
+  getAveilableAlgorithms,
+  getProcess,
+  postUploadAlgorithm,
+} from '../../api/algorithmRequest';
 import { useCookies } from 'react-cookie';
 import { Preloader } from '../../components/preloader';
 import { AlgorithmList } from './components/algorithm.List';
 import { Modal } from '../../components/modal';
 import { Input } from '../../components/input';
+
 export const Algorithms = () => {
   const [cookies] = useCookies(['token']);
   const [algorithmList, setAlgorithmList] = useState<any>(false);
@@ -16,6 +21,7 @@ export const Algorithms = () => {
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [image, setImage] = useState<string>('');
+  const [process, setProcess] = useState<any[]>([]);
 
   const sendAlgorithm = () => {
     postUploadAlgorithm(window.location.hostname, cookies.token, {
@@ -23,8 +29,12 @@ export const Algorithms = () => {
       image_name: image,
       is_available: true,
       description: description,
-    }).then((response) => console.log(response));
+    }).then((response) => {
+      setIsShowAddModal(false);
+      console.log(response);
+    });
   };
+
   useEffect(() => {
     getAveilableAlgorithms(window.location.hostname, cookies.token)
       .then((response) => {
@@ -34,7 +44,13 @@ export const Algorithms = () => {
       .catch((error) => {
         setAlgorithmList([]);
       });
-  }, []);
+
+    getProcess(window.location.hostname, cookies.token).then((response) => {
+      if (response.data) {
+        setProcess(response.data);
+      }
+    });
+  }, [isShowAddModal]);
 
   return (
     <div className={styles.wrapper}>
@@ -46,20 +62,25 @@ export const Algorithms = () => {
               <label>Name</label>
               <Input
                 type="text"
-                placeholder="Enter Email"
-                className="authorization__input"
+                placeholder="Enter Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 id={''}
                 name={''}
+                className={styles.input}
               />
               <label>Description (optional)0</label>
-              <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className={styles.textarea}
+                placeholder="Enter Description"
+              />
               <label>Image</label>
               <Input
                 type="text"
-                placeholder="Enter Email"
-                className="authorization__input"
+                placeholder="Enter Image"
+                className={styles.input}
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
                 id={''}
@@ -67,8 +88,17 @@ export const Algorithms = () => {
               />
             </div>
             <div className={styles.modal__container_footer}>
-              <Button text="Cancel" variant="outlined" onClick={() => setIsShowAddModal(false)} />
-              <Button text="Apply" variant="contained" onClick={sendAlgorithm} />
+              <Button
+                text="Cancel"
+                className={styles.button_cancel}
+                onClick={() => setIsShowAddModal(false)}
+              />
+              <Button
+                text="Apply"
+                variant="contained"
+                onClick={sendAlgorithm}
+                disabled={name.length === 0 || image.length === 0}
+              />
             </div>
           </div>
         </Modal>
@@ -83,7 +113,12 @@ export const Algorithms = () => {
         algorithmList.length > 0 ? (
           <div className={styles.algorithmList}>
             {algorithmList.map((algorithm: any, index: number) => (
-              <AlgorithmList algorithm={algorithm} key={index} token={cookies.token} />
+              <AlgorithmList
+                algorithm={algorithm}
+                key={index}
+                token={cookies.token}
+                processList={process}
+              />
             ))}
           </div>
         ) : (

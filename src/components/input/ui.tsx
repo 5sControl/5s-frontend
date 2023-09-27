@@ -67,7 +67,7 @@ export const Input: React.FC<PropsType> = ({
           placeholder={placeholder}
           required={required}
           onChange={onChange}
-          className={`${className ? className : styles.block__input} ${
+          className={`${className ? `${className} ${styles.block__input}` : styles.block__input} ${
             errorMessage && styles.block__error
           }`}
           onKeyDown={onKeyDown}
