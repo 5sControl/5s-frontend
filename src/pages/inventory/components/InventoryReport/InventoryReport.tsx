@@ -186,7 +186,10 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
               </tr>
             </thead>
             <tbody>
-              {inventoryItems ? (
+              {inventoryItems &&
+              inventoryItems?.filter((invItem) =>
+                invItem.name.toString().toLowerCase().includes(filterItem.toLowerCase())
+              ).length > 0 ? (
                 <>
                   {inventoryItems
                     ?.filter((invItem) =>
@@ -296,7 +299,7 @@ export const InventoryReport: React.FC<PropsType> = ({ setIsNotification }) => {
                 <tr>
                   <th className={styles.emptyList}>Loading...</th>
                 </tr>
-              ) : !isLoading && !inventoryItems ? (
+              ) : !isLoading ? (
                 <tr>
                   <th className={styles.emptyList}>No items found</th>
                 </tr>

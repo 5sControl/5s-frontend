@@ -45,7 +45,7 @@ export const InventoryItemsList: React.FC<PropsType> = ({ data }) => {
           placeholder="Search item"
         />
       </div>
-      {inventoryItems ? (
+      {inventoryItems && searchFilter(inventoryItems) ? (
         <div className={styles.list}>
           {searchFilter(inventoryItems).map((item, index) => {
             return (
@@ -60,7 +60,7 @@ export const InventoryItemsList: React.FC<PropsType> = ({ data }) => {
         </div>
       ) : isLoading ? (
         <div className={styles.emptyList}>Loading...</div>
-      ) : !isLoading && !inventoryItems ? (
+      ) : !isLoading ? (
         <div className={styles.emptyList}>No items found</div>
       ) : null}
     </Cover>

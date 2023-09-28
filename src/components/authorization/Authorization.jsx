@@ -64,10 +64,10 @@ export const Authorization = () => {
       {/* <img src={logo} alt="logo" className="authorization__logo" /> */}
       <h2 className="authorization__title">Sign in to 5ControlS</h2>
       <div className="authorization__container">
-        <label>Email</label>
+        <label>Username</label>
         <Input
           type="text"
-          placeholder="Enter Email"
+          placeholder="Enter Username"
           className="authorization__input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
