@@ -52,7 +52,7 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
         <div className={styles.containerAlgo__footerInfo}>
           <span className={styles.containerAlgo__image}>image: {algorithm.image_name}</span>
           {algorithm.download_status ? (
-            <span>{moment(new Date()).format('DD-MM-YYYY HH:mm:ss')}</span>
+            <span>{moment(new Date(algorithm.date_created)).format('DD-MM-YYYY HH:mm:ss')}</span>
           ) : (
             <div className={styles.notDownload}>
               <span>Not downloaded</span>
