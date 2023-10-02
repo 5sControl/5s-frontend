@@ -4,6 +4,7 @@ import { Delete, Download } from '../../../assets/svg/SVGcomponent';
 import styles from '../styles.module.scss';
 import { Modal } from '../../../components/modal';
 import { Button } from '../../../components/button';
+import moment from 'moment';
 
 export const AlgorithmList = ({ algorithm, token, processList, update }: any) => {
   const [isRemove, setIsRemove] = useState<boolean>(false);
@@ -51,8 +52,7 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
         <div className={styles.containerAlgo__footerInfo}>
           <span className={styles.containerAlgo__image}>image: {algorithm.image_name}</span>
           {algorithm.download_status ? (
-            //   <span>{moment(algorithm.date_created).format('DD-MM-YYYY')}</span>
-            <span>{algorithm.date_created}</span>
+            <span>{moment(new Date(algorithm.date_created)).format('DD-MM-YYYY HH:mm:ss')}</span>
           ) : (
             <div className={styles.notDownload}>
               <span>Not downloaded</span>

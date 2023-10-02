@@ -30,7 +30,7 @@ export const getAveilableAlgorithms = (hostname, cookies) => {
 export const uploadAlgorithm = async (hostname, cookies, id) => {
   if (process.env.REACT_APP_ENV === 'proxy') {
     return axios.post('https://5scontrol.pl/proxy_to_ngrok', {
-      url: process.env.REACT_APP_NGROK + API_UPLOAD + id,
+      url: process.env.REACT_APP_NGROK + API_UPLOAD + id + '/',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export const uploadAlgorithm = async (hostname, cookies, id) => {
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
     return axios.post(
-      `${process.env.REACT_APP_IP_SERVER}${API_UPLOAD}${id}`,
+      `${process.env.REACT_APP_IP_SERVER}${API_UPLOAD}${id}/`,
       {},
       {
         headers: {
@@ -51,7 +51,7 @@ export const uploadAlgorithm = async (hostname, cookies, id) => {
     );
   } else {
     return axios.post(
-      `http://${hostname}/${API_UPLOAD}${id}`,
+      `http://${hostname}/${API_UPLOAD}${id}/`,
       {},
       {
         headers: {
