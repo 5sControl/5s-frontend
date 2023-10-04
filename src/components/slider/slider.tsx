@@ -70,13 +70,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
           <img
             key={index}
             style={{ transform: `translateX(-${currentCount * 100}%)` }}
-            src={
-              process.env.REACT_APP_ENV === 'proxy'
-                ? `${process.env.REACT_APP_NGROK + photo.image}`
-                : process.env.REACT_APP_ENV === 'wify'
-                ? `${process.env.REACT_APP_IP_SERVER}${photo.image}`
-                : `http://${window.location.hostname}/${photo.image}`
-            }
+            src={`${process.env.REACT_APP_NGROK + photo.image}`}
             alt={`Slide ${index + 1}`}
             className={styles.slides}
           />
