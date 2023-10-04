@@ -243,26 +243,9 @@ export const getUserList = (hostname, cookies) => {
 
 export const isVerifyToken = (hostname, cookies) => {
   cookies = cookies?.split(' ')[1];
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post(process.env.REACT_APP_PROXY, {
-      url: `${process.env.REACT_APP_NGROK + API_VERIFYTOKEN}`,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        token: cookies,
-      }),
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_VERIFYTOKEN}`, {
-      token: cookies,
-    });
-  } else {
-    return axios.post(`http://${hostname}/${API_VERIFYTOKEN}`, {
-      token: cookies,
-    });
-  }
+  return axios.post(`${process.env.REACT_APP_NGROK}${API_VERIFYTOKEN}`, {
+    token: cookies,
+  });
 };
 
 export const getSystemMessage = (hostname, cookies, page) => {
