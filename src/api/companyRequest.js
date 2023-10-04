@@ -6,7 +6,7 @@ const API_COMPANYINFO_FORM = 'api/company/company/';
 const API_COMPANY_SUBS_INFO = 'api/company/get_info/';
 const API_CREATELICENSE = 'api/company/create_license/';
 const API_REGISTRATION = 'api/employees/create/';
-const API_AUTH = 'auth/jwt/create/';
+const API_AUTH = 'api/auth/jwt/create/';
 const API_USERLIST = 'api/employees/';
 const API_VERIFYTOKEN = 'auth/jwt/verify/';
 const API_SYSTEMMESSAGE = 'api/core/system-message/';
@@ -14,69 +14,26 @@ const API_SUPPLIERS = 'api/suppliers/company/';
 const API_COUNTRIES = 'api/suppliers/countries/';
 
 export const authorizationRequest = (hostname, email, password) => {
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post(process.env.REACT_APP_PROXY, {
-      url: `${process.env.REACT_APP_NGROK + API_AUTH}`,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: email,
-        password: password,
-      }),
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.post(`${process.env.REACT_APP_IP_SERVER}${API_AUTH}`, {
-      username: email,
-      password: password,
-    });
-  } else {
-    return axios.post(`http://${hostname}/${API_AUTH}`, {
-      username: email,
-      password: password,
-    });
-  }
+  return axios.post(`${process.env.REACT_APP_NGROK}${API_AUTH}`, {
+    username: email,
+    password: password,
+  });
 };
 
 export const getCompanyInfo = (hostname, cookies) => {
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(process.env.REACT_APP_NGROK + API_COMPANYINFO, 'GET', {
+  return axios.get(`${process.env.REACT_APP_NGROK}${API_COMPANYINFO}`, {
+    headers: {
       Authorization: cookies,
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_COMPANYINFO}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  } else {
-    return axios.get(`http://${hostname}/${API_COMPANYINFO}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  }
+    },
+  });
 };
 
 export const getCompanyInfoForm = (hostname, cookies) => {
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(process.env.REACT_APP_NGROK + API_COMPANYINFO_FORM, 'GET', {
+  return axios.get(`${process.env.REACT_APP_NGROK}${API_COMPANYINFO_FORM}`, {
+    headers: {
       Authorization: cookies,
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_COMPANYINFO_FORM}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  } else {
-    return axios.get(`http://${hostname}/${API_COMPANYINFO_FORM}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  }
+    },
+  });
 };
 
 export const createCompanyInfoForm = (hostname, cookies, data) => {
