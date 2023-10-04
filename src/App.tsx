@@ -15,7 +15,6 @@ import { Inventory } from './pages/inventory/inventory';
 import { Info } from './pages/info/info';
 
 import './index.scss';
-import { OrderJSON } from './pages/orderJSON/orderJSON';
 import { NewContactForm } from './pages/company/contactsTab/NewContactForm';
 import { EditContactForm } from './pages/company/contactsTab/EditContactForm';
 import { EditCompanyForm } from './pages/company/companyTab/EditCompanyForm';
@@ -59,7 +58,6 @@ function App() {
             <Route path="/configuration/algorithms" element={<Configuration activeTab={3} />} />
             <Route path="/orders-view" element={<PreviewOrders />} />
             <Route path="/inventory" element={<Inventory />} />
-            <Route path="/json" element={<OrderJSON />} />
           </Route>
         ) : (
           <Route path="/*" element={<Authorization />} />
