@@ -171,7 +171,7 @@ export const CurrentReport = ({ camera }) => {
             <div className={styles.report}>
               <video
                 id="videoPlayer"
-                src={`https://grand-alien-apparently.ngrok-free.app/api/onvif/stream?camera_ip=${camera}`}
+                src={`${process.env.REACT_APP_NGROK}api/onvif/stream?camera_ip=${camera}`}
                 controls
                 autoPlay
               ></video>
