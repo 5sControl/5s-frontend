@@ -75,31 +75,13 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           {operationDataNew && (
             <video
               id="videoPlayer"
-              src={`${
-                process.env.REACT_APP_ENV === 'proxy'
-                  ? `http://192.168.1.110:3456/video?time=${operationDataNew.sTime}&camera_ip=${
-                      operationDataNew.cameraIP
-                    }#t=${
-                      operationDataNew.video.video_start_from
-                        ? operationDataNew.video.video_start_from / 1000
-                        : 0
-                    }`
-                  : process.env.REACT_APP_ENV === 'wify'
-                  ? `http://192.168.1.110:3456/video?time=${operationDataNew.sTime}&camera_ip=${
-                      operationDataNew.cameraIP
-                    }#t=${
-                      operationDataNew.video.video_start_from
-                        ? operationDataNew.video.video_start_from / 1000
-                        : 0
-                    }`
-                  : `http://${window.location.hostname}:3456/video?time=${
-                      operationDataNew.sTime
-                    }&camera_ip=${operationDataNew.cameraIP}#t=${
-                      operationDataNew.video.video_start_from
-                        ? operationDataNew.video.video_start_from / 1000
-                        : 0
-                    }`
-              }`}
+              src={`${`https://grand-alien-apparently.ngrok-free.app/api/onvif/video?time=${
+                operationDataNew.sTime
+              }&camera_ip=${operationDataNew.cameraIP}#t=${
+                operationDataNew.video.video_start_from
+                  ? operationDataNew.video.video_start_from / 1000
+                  : 0
+              }`}`}
               controls
               autoPlay
             ></video>
