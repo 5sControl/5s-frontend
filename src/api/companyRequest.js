@@ -24,6 +24,7 @@ export const getCompanyInfo = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_COMPANYINFO}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -31,7 +32,9 @@ export const getCompanyInfo = (hostname, cookies) => {
 export const getCompanyInfoForm = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_COMPANYINFO_FORM}`, {
     headers: {
+      'Content-Type': 'application/json',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -41,6 +44,7 @@ export const createCompanyInfoForm = (hostname, cookies, data) => {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -50,6 +54,7 @@ export const editCompanyInfoForm = (hostname, cookies, data, id) => {
     headers: {
       'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -58,6 +63,7 @@ export const getCompanySubsInfo = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_COMPANY_SUBS_INFO}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };

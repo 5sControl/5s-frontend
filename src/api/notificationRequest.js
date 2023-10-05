@@ -4,8 +4,9 @@ import { proxy } from './api';
 const API_SETTINGS = 'api/mailer/smtp-settings/';
 const API_EMAIL = 'api/mailer/emails/';
 const API_TASKMANAGER = ':3333/logs?taskId=';
+
 export const getNotificationSettings = (hostname, cookies) => {
-  return axios.get(`${process.env.REACT_APP_ENV}${API_SETTINGS}`, {
+  return axios.get(`${process.env.REACT_APP_NGROK}${API_SETTINGS}`, {
     headers: {
       Authorization: cookies,
     },
