@@ -76,16 +76,20 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
 
   useEffect(() => {
     getZone();
-    getWorkplaceList(window.location.hostname, cookie.token).then((res) => {
-      setWorkplaceList(
-        res.data.map((place) => {
-          return {
-            ...place,
-            comboBoxName: `${place.operationName} (id:${place.id})`,
-          };
-        })
-      );
-    });
+    getWorkplaceList(window.location.hostname, cookie.token)
+      .then((res) => {
+        setWorkplaceList(
+          res.data.map((place) => {
+            return {
+              ...place,
+              comboBoxName: `${place.operationName} (id:${place.id})`,
+            };
+          })
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [updating]);
 
   useEffect(() => {
