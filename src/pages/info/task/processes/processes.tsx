@@ -8,11 +8,7 @@ export const ProcessesComponent = () => {
   const [process, setProcess] = useState<any>([]);
   const [logs, setLogs] = useState<any>(false);
   useEffect(() => {
-    const socket = io(
-      `http://${
-        window.location.hostname.includes('local') ? '192.168.1.110' : window.location.hostname
-      }:3456`
-    );
+    const socket = io('https://grand-alien-apparently.ngrok-free.app/', { path: 'socket/onvif' });
     socket.on('connect', function () {
       console.log('Connected to the server');
     });
