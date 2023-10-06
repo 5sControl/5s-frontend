@@ -49,13 +49,7 @@ export const Glazik: React.FC<PropsType> = ({ showGlazik, setShowGlazik, cameraN
           ref={image}
           className={styles.img}
           onLoad={handleImageLoad}
-          src={
-            process.env.REACT_APP_ENV === 'proxy'
-              ? `${process.env.REACT_APP_NGROK}images/${showGlazik.camera}/snapshot.jpg`
-              : process.env.REACT_APP_ENV === 'wify'
-              ? `${process.env.REACT_APP_IP_SERVER}images/${showGlazik.camera}/snapshot.jpg`
-              : `http://${window.location.hostname}/images/${showGlazik.camera}/snapshot.jpg`
-          }
+          src={`${process.env.REACT_APP_NGROK}images/${showGlazik.camera}/snapshot.jpg`}
           alt=""
         />
         {!!cameraBox &&

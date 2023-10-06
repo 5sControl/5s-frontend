@@ -109,19 +109,9 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
       <div
         className={styles.imageContainer}
         style={{
-          backgroundImage: `url(${
-            process.env.REACT_APP_ENV === 'proxy'
-              ? `${process.env.REACT_APP_NGROK}${
-                  setExtraOfActiveData(currentReport.extra).image_item
-                }`
-              : process.env.REACT_APP_ENV === 'wify'
-              ? `${process.env.REACT_APP_IP_SERVER}${
-                  setExtraOfActiveData(currentReport.extra).image_item
-                }`
-              : `http://${window.location.hostname}/${
-                  setExtraOfActiveData(currentReport.extra).image_item
-                }`
-          })`,
+          backgroundImage: `url(${`${process.env.REACT_APP_NGROK}${
+            setExtraOfActiveData(currentReport.extra).image_item
+          }`})`,
         }}
       >
         <div className={styles.camera}>
@@ -139,17 +129,9 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
           className={styles.scale}
           onClick={() =>
             setFullImage(
-              process.env.REACT_APP_ENV === 'proxy'
-                ? `${process.env.REACT_APP_NGROK}${
-                    setExtraOfActiveData(currentReport.extra).image_item
-                  }`
-                : process.env.REACT_APP_ENV === 'wify'
-                ? `${process.env.REACT_APP_IP_SERVER}${
-                    setExtraOfActiveData(currentReport.extra).image_item
-                  }`
-                : `http://${window.location.hostname}/${
-                    setExtraOfActiveData(currentReport.extra).image_item
-                  }`
+              `${process.env.REACT_APP_NGROK}${
+                setExtraOfActiveData(currentReport.extra).image_item
+              }`
             )
           }
         />

@@ -7,23 +7,11 @@ import { NightModeResponse } from './components/NightModeModal/types';
 export const getInventoryItems = (hostname: string, cookies: string, isSort: boolean) => {
   const API_BY_ORDER = `api/inventory/items/${isSort ? '?order=desc' : ''}`;
 
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(process.env.REACT_APP_NGROK + API_BY_ORDER, 'GET', {
+  return axios.get(`${process.env.REACT_APP_NGROK}${API_BY_ORDER}`, {
+    headers: {
       Authorization: cookies,
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_BY_ORDER}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  } else {
-    return axios.get(`http://${hostname}/${API_BY_ORDER}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  }
+    },
+  });
 };
 
 export const getInventoryItemsToCamera = (
@@ -33,23 +21,11 @@ export const getInventoryItemsToCamera = (
 ) => {
   const API_BY_ORDER = `api/inventory/items/?camera=${camera}`;
 
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(process.env.REACT_APP_NGROK + API_BY_ORDER, 'GET', {
+  return axios.get(`${process.env.REACT_APP_NGROK}${API_BY_ORDER}`, {
+    headers: {
       Authorization: cookies,
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_BY_ORDER}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  } else {
-    return axios.get(`http://${hostname}/${API_BY_ORDER}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  }
+    },
+  });
 };
 
 export const setInventoryItem = (
@@ -59,29 +35,11 @@ export const setInventoryItem = (
 ) => {
   const API_INVENTORY_SET = 'api/inventory/items/create/';
 
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post(process.env.REACT_APP_PROXY, {
-      url: process.env.REACT_APP_NGROK + API_INVENTORY_SET,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookies,
-      },
-      body: JSON.stringify(body),
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.post(process.env.REACT_APP_IP_SERVER + API_INVENTORY_SET, body, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  } else {
-    return axios.post(`http://${hostname}/${API_INVENTORY_SET}`, body, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  }
+  return axios.post(process.env.REACT_APP_NGROK + API_INVENTORY_SET, body, {
+    headers: {
+      Authorization: cookies,
+    },
+  });
 };
 
 export const editInventoryItemAxios = (
@@ -91,51 +49,21 @@ export const editInventoryItemAxios = (
 ) => {
   const API_INVENTORY_SET = 'api/inventory/items/';
 
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post(process.env.REACT_APP_PROXY, {
-      url: process.env.REACT_APP_NGROK + API_INVENTORY_SET + body.id + '/',
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookies,
-      },
-      body: JSON.stringify(body),
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.put(process.env.REACT_APP_IP_SERVER + API_INVENTORY_SET + body.id + '/', body, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  } else {
-    return axios.put(`http://${hostname}/${API_INVENTORY_SET}${body.id}/`, body, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  }
+  return axios.put(process.env.REACT_APP_NGROK + API_INVENTORY_SET + body.id + '/', body, {
+    headers: {
+      Authorization: cookies,
+    },
+  });
 };
 
 export const deleteInventoryItemAxios = (hostname: string, cookies: string, id: number) => {
   const API_INVENTORY_DELETE = 'api/inventory/items/';
 
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(process.env.REACT_APP_NGROK + API_INVENTORY_DELETE + id + '/', 'DELETE', {
+  return axios.delete(`${process.env.REACT_APP_NGROK}${API_INVENTORY_DELETE}${id}/`, {
+    headers: {
       Authorization: cookies,
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.delete(`${process.env.REACT_APP_IP_SERVER}${API_INVENTORY_DELETE}${id}/`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  } else {
-    return axios.delete(`http://${hostname}/${API_INVENTORY_DELETE}${id}/`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  }
+    },
+  });
 };
 
 export const getInventoryItemHistory = (
@@ -145,103 +73,41 @@ export const getInventoryItemHistory = (
 ) => {
   const API_HISTORY = 'api/inventory/history/';
 
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(
-      `${process.env.REACT_APP_NGROK}${API_HISTORY}${data.date}/00:00:00/23:59:00/${data.itemId}/`,
-      'GET',
-      {
+  return axios.get(
+    `${process.env.REACT_APP_NGROK}${API_HISTORY}${data.date}/00:00:00/23:59:00/${data.itemId}/`,
+    {
+      headers: {
         Authorization: cookies,
-      }
-    );
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.get(
-      `${process.env.REACT_APP_IP_SERVER}${API_HISTORY}${data.date}/00:00:00/23:59:00/${data.itemId}/`,
-      {
-        headers: {
-          Authorization: cookies,
-        },
-      }
-    );
-  } else {
-    return axios.get(
-      `http://${hostname}/${API_HISTORY}${data.date}/00:00:00/23:59:00/${data.itemId}/`,
-      {
-        headers: {
-          Authorization: cookies,
-        },
-      }
-    );
-  }
+      },
+    }
+  );
 };
 
 export const setNightTime = (hostname: string, cookies: string, body: NightModeResponse) => {
   const API_INVENTORY_SET = 'api/mailer/working-time/';
-
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return axios.post(process.env.REACT_APP_PROXY, {
-      url: process.env.REACT_APP_NGROK + API_INVENTORY_SET,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookies,
-      },
-      body: JSON.stringify(body),
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.post(process.env.REACT_APP_IP_SERVER + API_INVENTORY_SET, body, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  } else {
-    return axios.post(`http://${hostname}/${API_INVENTORY_SET}`, body, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  }
+  return axios.post(process.env.REACT_APP_NGROK + API_INVENTORY_SET, body, {
+    headers: {
+      Authorization: cookies,
+    },
+  });
 };
 
 export const getNightTime = (hostname: string, cookies: string) => {
   const API_HISTORY = 'api/mailer/working-time/';
 
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(`${process.env.REACT_APP_NGROK}${API_HISTORY}`, 'GET', {
+  return axios.get(`${process.env.REACT_APP_NGROK}${API_HISTORY}`, {
+    headers: {
       Authorization: cookies,
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_HISTORY}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  } else {
-    return axios.get(`http://${hostname}/${API_HISTORY}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  }
+    },
+  });
 };
 
 export const getEmailListForNotificationAPI = (hostname: string, cookies: string) => {
   const API_MAILER = 'api/mailer/emails-list/';
 
-  if (process.env.REACT_APP_ENV === 'proxy') {
-    return proxy(`${process.env.REACT_APP_NGROK}${API_MAILER}`, 'GET', {
+  return axios.get(`${process.env.REACT_APP_NGROK}${API_MAILER}`, {
+    headers: {
       Authorization: cookies,
-    });
-  } else if (process.env.REACT_APP_ENV === 'wify') {
-    return axios.get(`${process.env.REACT_APP_IP_SERVER}${API_MAILER}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  } else {
-    return axios.get(`http://${hostname}/${API_MAILER}`, {
-      headers: {
-        Authorization: cookies,
-      },
-    });
-  }
+    },
+  });
 };

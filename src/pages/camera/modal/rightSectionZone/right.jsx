@@ -27,13 +27,7 @@ export const RightSection = ({
             ref={image}
             className={styles.img}
             onLoad={handleImageLoad}
-            src={
-              process.env.REACT_APP_ENV === 'proxy'
-                ? `${process.env.REACT_APP_NGROK}images/${cameraSelect.id}/snapshot.jpg`
-                : process.env.REACT_APP_ENV === 'wify'
-                ? `${process.env.REACT_APP_IP_SERVER}images/${cameraSelect.id}/snapshot.jpg`
-                : `http://${window.location.hostname}/images/${cameraSelect.id}/snapshot.jpg`
-            }
+            src={`${process.env.REACT_APP_NGROK}images/${cameraSelect.id}/snapshot.jpg`}
             alt=""
           />
           {!!workplace &&
