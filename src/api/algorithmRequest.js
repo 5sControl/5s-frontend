@@ -63,7 +63,7 @@ export const postUploadAlgorithm = async (hostname, cookies, body) => {
 };
 
 export const deleteAlgorithmAPI = (hostname, cookies, id) => {
-  return axios.delete(`${process.env.REACT_APP_PROXY}${API_ALGORITHM}${id}/`, {
+  return axios.delete(`${process.env.REACT_APP_NGROK}${API_ALGORITHM}${id}/`, {
     headers: {
       Authorization: cookies,
     },

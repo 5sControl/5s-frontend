@@ -70,7 +70,7 @@ export const getCompanySubsInfo = (hostname, cookies) => {
 
 export const sendLicenseKey = (hostname, cookies, key) => {
   return axios.post(
-    `${process.env.REACT_APP_PROXY}${API_CREATELICENSE}`,
+    `${process.env.REACT_APP_NGROK}${API_CREATELICENSE}`,
     {
       license_key: key,
     },

@@ -89,7 +89,7 @@ export const patchCameraZones = (hostname, cookies, response, id) => {
 };
 
 export const deleteCameraZones = (hostname, cookies, id) => {
-  return axios.delete(`${process.env.REACT_APP_PROXY}${API_ZONES}${id}/`, {
+  return axios.delete(`${process.env.REACT_APP_NGROK}${API_ZONES}${id}/`, {
     headers: {
       Authorization: cookies,
     },
