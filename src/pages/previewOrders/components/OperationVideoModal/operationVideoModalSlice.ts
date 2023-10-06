@@ -41,7 +41,7 @@ const operationVideoModalSlice = createSlice({
       const timeAction = minutes * 60 + sec;
 
       state.playerRef?.seekTo(timeAction);
-      state.videoState.url = `https://grand-alien-apparently.ngrok-free.app/api/onvif/video?time=${outputStr}&camera_ip=${cameraIp}#t=${timeAction}`;
+      state.videoState.url = `${process.env.REACT_APP_NGROK}api/onvif/video?time=${outputStr}&camera_ip=${cameraIp}#t=${timeAction}`;
     },
     setUrlOperationVideoModal(state, action: PayloadAction<string>) {
       state.videoState.url = action.payload;

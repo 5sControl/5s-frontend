@@ -75,7 +75,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           {operationDataNew && (
             <video
               id="videoPlayer"
-              src={`${`https://grand-alien-apparently.ngrok-free.app/api/onvif/video?time=${
+              src={`${`${process.env.REACT_APP_NGROK}api/onvif/video?time=${
                 operationDataNew.sTime
               }&camera_ip=${operationDataNew.cameraIP}#t=${
                 operationDataNew.video.video_start_from
