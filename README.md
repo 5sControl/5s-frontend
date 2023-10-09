@@ -77,6 +77,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
+# **Documentation**
+
+[User Documentation](https://github.com/5sControl/Manufacturing-Automatization-Enterprise/wiki)
+
 # **Contributing**
 Thank you for considering contributing to 5controlS. We truly believe that we can build an outstanding product together!
 
