@@ -7,6 +7,7 @@ export const getConnectionsToDatabases = (hostname: string, cookies: string) => 
   return axios.get(process.env.REACT_APP_NGROK + GET_CONNECTIONS, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };

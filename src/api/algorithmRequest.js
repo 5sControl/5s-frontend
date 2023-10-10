@@ -11,6 +11,7 @@ export const getAveilableAlgorithms = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_ALGORITHM}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -23,6 +24,7 @@ export const uploadAlgorithm = async (hostname, cookies, id) => {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
       },
     }
   );
