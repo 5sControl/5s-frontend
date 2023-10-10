@@ -117,36 +117,6 @@ export const CurrentReport = ({ camera }) => {
               </>
             )}
           </div>
-          {/* <div className={styles.report__description}>
-            <span>
-              {moment
-                .utc(currentReport.start_tracking)
-                .utcOffset(moment().utcOffset())
-                .format('YYYY-MM-DD ')}
-              |
-              {moment
-                .utc(currentReport.start_tracking)
-                .utcOffset(moment().utcOffset())
-                .format('HH:mm:ss')}
-              -
-              {moment
-                .utc(currentReport.stop_tracking)
-                .utcOffset(moment().utcOffset())
-                .format('HH:mm:ss')}
-            </span>
-
-            <div className={styles.report_item}>
-              <span>{currentReport.camera ? currentReport.camera.name : 'Deleted Camera'}</span>
-            </div>
-            <div className="current-report_item">
-              <span>{parsingAlgorithmName(currentReport.algorithm.name)}</span>
-            </div>
-            <div className={styles.report_item}>
-              <span>
-                {currentReport.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
-              </span>
-            </div>
-          </div> */}
         </div>
       ) : (
         <>
