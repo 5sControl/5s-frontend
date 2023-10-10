@@ -9,6 +9,7 @@ export const getNotificationSettings = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_SETTINGS}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -18,6 +19,7 @@ export const postNotificationSettings = async (hostname, cookies, response) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -26,6 +28,7 @@ export const patchNotificationSettings = (hostname, cookies, response) => {
   return axios.patch(`${process.env.REACT_APP_NGROK}${API_SETTINGS}1/`, response, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -34,6 +37,7 @@ export const getNotificationEmail = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_EMAIL}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -43,6 +47,7 @@ export const postNotificationEmail = async (hostname, cookies, response) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -57,6 +62,7 @@ export const patchNotificationEmail = (hostname, cookies, id, email) => {
     {
       headers: {
         Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
       },
     }
   );
@@ -66,6 +72,7 @@ export const deleteNotificationEmail = (hostname, cookies, id) => {
   return axios.delete(`${process.env.REACT_APP_NGROK}${API_EMAIL}${id}/`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };

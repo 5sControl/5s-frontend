@@ -78,6 +78,7 @@ export const sendLicenseKey = (hostname, cookies, key) => {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
       },
     }
   );
@@ -96,6 +97,7 @@ export const registerNewUser = (hostname, cookies, email, password, role) => {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
       },
     }
   );
@@ -105,6 +107,7 @@ export const getUserList = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_USERLIST}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -113,6 +116,7 @@ export const isVerifyToken = (hostname, cookies) => {
   cookies = cookies?.split(' ')[1];
   return axios.post(`${process.env.REACT_APP_NGROK}${API_VERIFYTOKEN}`, {
     token: cookies,
+    'ngrok-skip-browser-warning': 'true',
   });
 };
 
@@ -120,6 +124,7 @@ export const getSystemMessage = (hostname, cookies, page) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_SYSTEMMESSAGE}?page=${page}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -128,6 +133,7 @@ export const getSuppliers = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_SUPPLIERS}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -137,6 +143,7 @@ export const createSuppliers = (hostname, cookies, data) => {
     headers: {
       'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -146,6 +153,7 @@ export const editSuppliers = (hostname, cookies, id, data) => {
     headers: {
       'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -155,6 +163,7 @@ export const deleteSuppliers = (hostname, cookies, id) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -163,6 +172,7 @@ export const getCountriesList = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_COUNTRIES}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };

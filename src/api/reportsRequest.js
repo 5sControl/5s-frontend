@@ -18,6 +18,7 @@ export const getData = (hostname, cookies, date, startTime, endTime, algorithm, 
   return axios.get(process.env.REACT_APP_NGROK + urlString, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -26,6 +27,7 @@ export const getReportsById = (hostname, cookies, id) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_GETREPORTBYID}${id}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
