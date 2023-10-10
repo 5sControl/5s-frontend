@@ -24,7 +24,12 @@ export const RoutesOutlet = () => {
   };
 
   useEffect(() => {
-    const socket = io('https://grand-alien-apparently.ngrok-free.app/', { path: '/socket/onvif' });
+    const socket = io('https://grand-alien-apparently.ngrok-free.app/', {
+      path: '/socket/onvif',
+      extraHeaders: {
+        'ngrok-skip-browser-warning': 'true',
+      },
+    });
     socket.on('connect', function () {
       console.log('Connected to the server');
     });
