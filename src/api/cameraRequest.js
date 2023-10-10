@@ -49,7 +49,11 @@ export const deleteCameraAPI = (hostname, cookies, IPCamera) => {
 };
 
 export const findCamera = (hostname) => {
-  return axios.get(process.env.REACT_APP_NGROK + API_CAMERAFIND);
+  return axios.get(process.env.REACT_APP_NGROK + API_CAMERAFIND, {
+    headers: {
+      'ngrok-skip-browser-warning': 'true',
+    },
+  });
 };
 
 export const checkCamera = (hostname, cameraIP, username, password) => {
