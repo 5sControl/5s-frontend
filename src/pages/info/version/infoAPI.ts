@@ -8,6 +8,7 @@ export const getCompanyVersionAPI = (hostname: string, cookies: string) => {
   return axios.get<Array<VersionInfoType>>(process.env.REACT_APP_NGROK + API_VERSION, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
