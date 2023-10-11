@@ -52,7 +52,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   const operationClickHandler = (element) => {
     const body = {
       camera_ip: element.camera.id,
-      time: new Date(element.start_tracking).valueOf() + 10800000,
+      time: new Date(element.start_tracking).valueOf(),
     };
     getOrderViewOperation(window.location.hostname, '', element.extra[0].skany_index).then(
       (res) => {
@@ -71,8 +71,8 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
             if (Object.keys(res.data).length) {
               value = {
                 ...value,
-                sTime: new Date(element.start_tracking).valueOf() + 10800000,
-                eTime: new Date(element.stop_tracking).valueOf() + 10800000,
+                sTime: new Date(element.start_tracking).valueOf(),
+                eTime: new Date(element.stop_tracking).valueOf(),
                 video: res.data,
               };
               setOperationOV(value);
@@ -90,7 +90,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   const videoClickHandler = (element) => {
     const body = {
       camera_ip: element.camera.id,
-      time: new Date(element.start_tracking).valueOf() + 10800000,
+      time: new Date(element.start_tracking).valueOf(),
     };
     // console.log(body);
     getVideo(window.location.hostname, body).then((res) => {
@@ -99,8 +99,8 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
           cameraIP: element.camera.id,
           cameraName: element.camera.name,
           algorithm: element.algorithm.name,
-          sTime: new Date(element.start_tracking).valueOf() + 10800000,
-          eTime: new Date(element.stop_tracking).valueOf() + 10800000,
+          sTime: new Date(element.start_tracking).valueOf(),
+          eTime: new Date(element.stop_tracking).valueOf(),
           video: res.data,
         };
         // console.log(value);

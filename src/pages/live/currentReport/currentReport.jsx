@@ -53,7 +53,7 @@ export const CurrentReport = ({ camera }) => {
     if (currentReport) {
       const body = {
         camera_ip: currentReport.camera.id,
-        time: new Date(currentReport.start_tracking).valueOf() + 10800000,
+        time: new Date(currentReport.start_tracking).valueOf(),
       };
       getVideo(window.location.hostname, body).then((res) => {
         if (Object.keys(res.data).length && !!res.data.status) {
@@ -61,8 +61,8 @@ export const CurrentReport = ({ camera }) => {
             cameraIP: currentReport.camera.id,
             cameraName: currentReport.camera.name,
             algorithm: currentReport.algorithm.name,
-            sTime: new Date(currentReport.start_tracking).valueOf() + 10800000,
-            eTime: new Date(currentReport.stop_tracking).valueOf() + 10800000,
+            sTime: new Date(currentReport.start_tracking).valueOf(),
+            eTime: new Date(currentReport.stop_tracking).valueOf(),
             video: res.data,
           };
           // console.log(value);
