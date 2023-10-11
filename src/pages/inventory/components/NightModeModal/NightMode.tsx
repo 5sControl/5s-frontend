@@ -9,6 +9,7 @@ import { NightModeResponse } from './types';
 import { Input } from '../../../../components/input';
 import { Tooltip } from '../../../../assets/svg/SVGcomponent';
 import { GrClose } from 'react-icons/gr';
+import moment from 'moment';
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
@@ -44,10 +45,18 @@ export const NightModeModal: React.FC<PropsType> = ({ isOpen, handleClose }) => 
   const deleteAction = () => {
     const bufTime: NightModeResponse = time;
     if (!bufTime.time_end.includes(':')) {
-      bufTime.time_end = bufTime.time_end + ':00';
+      const localTime = moment(bufTime.time_end + ':00', 'HH:mm');
+      bufTime.time_end = localTime.utc().format('HH:mm');
+    } else {
+      const localTime = moment(bufTime.time_end, 'HH:mm');
+      bufTime.time_end = localTime.utc().format('HH:mm');
     }
     if (!bufTime.time_start.includes(':')) {
-      bufTime.time_start = bufTime.time_start + ':00';
+      const localTime = moment(bufTime.time_start + ':00', 'HH:mm');
+      bufTime.time_start = localTime.utc().format('HH:mm');
+    } else {
+      const localTime = moment(bufTime.time_start, 'HH:mm');
+      bufTime.time_start = localTime.utc().format('HH:mm');
     }
     dispatch(
       nightTimeSet({
