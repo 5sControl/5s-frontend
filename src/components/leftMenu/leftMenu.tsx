@@ -65,12 +65,9 @@ export const LeftMenu = () => {
         }
       });
 
-    const token: any = jwt(
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0Njc3NTk4LCJqdGkiOiJhN2Q2MGY4MjgwNjc0N2M4OWMwZTY3YmQ4NDhiY2U5YSIsInVzZXJfaWQiOjF9.P0Wos8JAaoihsjoUV0KUrCdyTPcyHW4YIHeA4K6yeXw'
-    );
+    const token: any = jwt(cookies.token.replace('JWT%220', ''));
     getUserList(window.location.hostname, cookies.token).then((response: any) => {
-      console.log(response);
-      if (token.user_id && response.data && response.data.results) {
+      if (token.user_id && response.data) {
         setUser(response.data.find((user: any) => user.id === token.user_id));
       }
     });
