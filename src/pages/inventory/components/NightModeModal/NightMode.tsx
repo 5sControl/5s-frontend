@@ -35,9 +35,11 @@ export const NightModeModal: React.FC<PropsType> = ({ isOpen, handleClose }) => 
   }, []);
   useEffect(() => {
     if (nightTime) {
+      const localTimeStart = moment(nightTime.time_start, 'HH:mm');
+      const localTimeEnd = moment(nightTime.time_end, 'HH:mm');
       setTime({
-        time_start: nightTime.time_start.slice(0, -3),
-        time_end: nightTime.time_end.slice(0, -3),
+        time_start: localTimeStart.utc().format('HH:mm'),
+        time_end: localTimeEnd.utc().format('HH:mm'),
       });
     }
   }, [nightTime]);
