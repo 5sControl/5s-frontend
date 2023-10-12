@@ -89,7 +89,7 @@ export const CurrentReport = () => {
                   .utcOffset(moment().utcOffset())
                   .format('MMM DD ')}
                 |{moment(new Date(currentReport.start_tracking)).format('HH:mm:ss')}-
-                {moment(new Date(currentReport.start_tracking)).format('HH:mm:ss')}
+                {moment(new Date(currentReport.stop_tracking)).format('HH:mm:ss')}
               </span>
             </div>
             <div className={styles.report_item}>
