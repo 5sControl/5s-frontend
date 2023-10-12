@@ -86,14 +86,13 @@ export const CurrentReport = ({ camera }) => {
                   <>
                     <video
                       id="videoPlayer"
-                      src={`${process.env.REACT_APP_NGROK}api/onvif/video?time=${
+                      src={`${`${process.env.REACT_APP_NGROK}api/onvif/video?time=${
                         operationDataNew.sTime
                       }&camera_ip=${operationDataNew.cameraIP}#t=${
                         operationDataNew.video.video_start_from
                           ? operationDataNew.video.video_start_from / 1000
                           : 0
-                      }``
-                      }`}
+                      }`}`}
                       controls
                       autoPlay
                       onEnded={() => arrowHandler('next')}
