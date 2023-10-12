@@ -32,7 +32,8 @@ export const CompanyInfo: FC = () => {
         res.data.detail !== 'Authentication credentials were not provided.' &&
         res.data.detail !== 'Given token not valid for any token type'
       ) {
-        setUserList(res.data.results);
+        console.log(res.data);
+        setUserList(res.data);
       }
     });
     getCompanyInfo(window.location.hostname, cookies.token)

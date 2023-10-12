@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 
 export const UserList = ({ userList }) => {
+  console.log(userList);
   return (
     <div className="company__accounts_container">
       {userList.map((user) => (

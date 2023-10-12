@@ -71,7 +71,7 @@ export const LeftMenu = () => {
     getUserList(window.location.hostname, cookies.token).then((response: any) => {
       console.log(response);
       if (token.user_id && response.data && response.data.results) {
-        setUser(response.data.results.find((user: any) => user.id === token.user_id));
+        setUser(response.data.find((user: any) => user.id === token.user_id));
       }
     });
   }, []);
