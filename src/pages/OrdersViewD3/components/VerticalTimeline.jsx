@@ -41,11 +41,15 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
     if (data.length > 0 || machineData.length > 0) {
       let first =
         data.length > 0
-          ? data.filter((order) => JSON.stringify(order.oprs).includes(`"${selectOrder}"`))
+          ? data.filter(
+              (order) => order.oprs && JSON.stringify(order.oprs).includes(`"${selectOrder}"`)
+            )
           : [];
       let end =
         data.length > 0
-          ? data.filter((order) => !JSON.stringify(order.oprs).includes(`"${selectOrder}"`))
+          ? data.filter(
+              (order) => order.oprs && !JSON.stringify(order.oprs).includes(`"${selectOrder}"`)
+            )
           : [];
       machineData.forEach((machineItem) => {
         if (first.some((item) => item.oprTypeID === machineItem.oprTypeID)) {
