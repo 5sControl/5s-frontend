@@ -10,6 +10,33 @@ The platform generates detailed reports to provide insights on how processes can
 
 Plug-in your ML-algorithms or some of the Official 5s algorithms and get a ready-to-use software for manufacturing monitoring.
 
+# **Project repositories**
+
+The connections between the project repositories are illustrated by the following diagram. 
+
+> Please note that to ensure system stability and perfomance you can use one of the Official 5S algorithms instead of Your Algorithm.
+
+<p align="center">
+  <img src="https://github.com/5sControl/5s-webserver/assets/131950264/6bfb9a7b-e16f-4600-8656-3f41fc61dba3" alt="5controlS-diagram" />
+</p>
+
+**5controlS Platform:**
+1. [5s-backend](https://github.com/5sControl/5s-backend)
+2. [5s-frontend](https://github.com/5sControl/5s-frontend)
+3. [5s-algorithms-controller](https://github.com/5sControl/5s-algorithms-controller)
+4. [5s-onvif](https://github.com/5sControl/5s-onvif)
+5. [5s-onvif-finder](https://github.com/5sControl/5s-onvif-finder)
+
+**Official Algorithms:**
+1. [min-max](https://github.com/5sControl/min-max)
+2. [idle-control](https://github.com/5sControl/idle-control)
+3. [operation-control-js](https://github.com/5sControl/operation-control-js)
+4. [machine-control](https://github.com/5sControl/machine-control)
+5. [machine-control-js](https://github.com/5sControl/machine-control-js)
+
+**Algorithms Servers:**
+1. [inference-server-js](https://github.com/5sControl/inference-server-js)
+
 # Getting Started with Frontend
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -81,6 +108,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 [User Documentation](https://github.com/5sControl/Manufacturing-Automatization-Enterprise/wiki)
 
+[Installation Guide Pt.1](https://5controls.com/blog/installing-5s-control-software)
+
+[Installation Guide Pt.2](https://5controls.com/blog/installing-5s-control-software-part-2-docker)
+
+
 # **Contributing**
 Thank you for considering contributing to 5controlS. We truly believe that we can build an outstanding product together!
 
@@ -94,30 +126,13 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 If you want to contribute, read  our [contributing guide](CONTRIBUTING.md) to learn about our development process and pull requests workflow.
 
-We also have a list of [good first issues]() that will help you make your first step to beсoming a 5S contributor.
-
-# **Project repositories**
-
-**5controlS Platform:**
-1. [5s-backend](https://github.com/5sControl/5s-backend)
-2. [5s-frontend](https://github.com/5sControl/5s-frontend)
-3. [5s-algorithms-controller](https://github.com/5sControl/5s-algorithms-controller)
-4. [5s-onvif](https://github.com/5sControl/5s-onvif)
-5. [5s-onvif-finder](https://github.com/5sControl/5s-onvif-finder))
-
-**Official Algorithms:**
-1. [min-max](https://github.com/5sControl/min-max)
-2. [idle-control](https://github.com/5sControl/idle-control)
-3. [operation-control-js](https://github.com/5sControl/operation-control-js)
-4. [machine-control](https://github.com/5sControl/machine-control)
-5. [machine-control-js](https://github.com/5sControl/machine-control-js)
-
-**Algorithms Servers:**
-1. [inference-server-js](https://github.com/5sControl/inference-server-js)
+We also have a list of [good first issues](https://github.com/5sControl/5s-frontend/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) that will help you make your first step to beсoming a 5S contributor.
 
 # **License**
 
-> Please note that [some](Components-with-copyleft-licensies.md) of the Official Algorithms are using copyleft licensies.  
+[GNU GPL-3.0](LICENSE)
+
+> 5controlS uses third party libraries that are distributed under their own terms (see [LICENSE-3RD-PARTY.md](https://github.com/5sControl/5s-frontend/blob/main/LICENSE-3RD-PARTY.md)).<br> 
 
 <br>
 <div align="center">
