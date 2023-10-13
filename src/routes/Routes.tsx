@@ -24,7 +24,7 @@ export const RoutesOutlet = () => {
   };
 
   useEffect(() => {
-    const socket = io('https://grand-alien-apparently.ngrok-free.app/', {
+    const socket = io(process.env.REACT_APP_NGROK, {
       path: '/socket/onvif',
       extraHeaders: {
         'ngrok-skip-browser-warning': 'true',
