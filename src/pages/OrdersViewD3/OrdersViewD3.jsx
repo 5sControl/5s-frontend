@@ -214,7 +214,6 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
           console.log(error);
         }
       };
-
       fetchData();
     }
   }, [endDate, startDate, isOpenFilter]);

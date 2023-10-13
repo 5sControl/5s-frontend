@@ -23,6 +23,7 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate, re
     }
   }, [startDate, endDate, reload]);
 
+  console.log(data);
   return (
     <div className={styles.orders}>
       <h2>Orders ({data.length})</h2>

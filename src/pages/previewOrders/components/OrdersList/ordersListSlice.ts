@@ -75,21 +75,6 @@ export const getOrdersAsync = createAsyncThunk(
     search: string | null;
     params: FilterDataParams;
   }) => {
-    const response = await getOrdersAPI(
-      data.hostname,
-      data.token,
-      data.page,
-      data.page_size,
-      data.search,
-      data.params
-    );
-    if (response.data) {
-      const orderData = response.data.results.map((item: OrderListByCustomer) => {
-        return parseOrderData(item);
-      });
-
-      return { ...response.data, results: orderData };
-    }
     return [];
   }
 );
@@ -174,7 +159,6 @@ const ordersList = createSlice({
     builder.addCase(getOrdersAsync.fulfilled, (state, action) => {
       state.isLoadingOrdersList = false;
       state.isErrorOfOrdersList = false;
-      state.ordersList = action.payload as OrdersWithPagination;
     });
     builder.addCase(getOrdersAsync.rejected, (state, action) => {
       state.isLoadingOrdersList = false;
