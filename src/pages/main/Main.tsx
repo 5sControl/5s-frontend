@@ -14,7 +14,7 @@ export const Main = () => {
     getSelectedCameras(window.location.hostname, cookies.token).then((response) => {
       setIsLoading(false);
       if (response.data.length > 0 || localStorage.getItem('firtEnter') === 'true') {
-        // navigate('/dashboard');
+        navigate('/dashboard');
       }
     });
   }, []);

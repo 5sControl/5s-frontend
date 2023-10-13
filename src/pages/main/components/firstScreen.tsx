@@ -17,7 +17,6 @@ export const Congratulations: React.FC<PropsType> = ({ setStage, isLoading }) =>
         <div className={styles.main}>
           <HeaderMain title=""></HeaderMain>
           <img src={LogoHorizontal} alt="logo" className={styles.main__logo} />
-
           <span className={styles.main__span}>
             Congratulations! <br />
             You have successfully installed the 5ControlS Docker and now ready to use it. Complete

@@ -79,11 +79,12 @@
         align-items: center;
         position: absolute;
         right: 0;
-        top: 30px;
+        top: 45px;
         height: 40px;
         width: 40px;
         border-radius: 4px;
         cursor: pointer;
+        z-index: 100;
       }
     }
 
