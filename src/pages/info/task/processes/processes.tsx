@@ -5,10 +5,15 @@ import { getTaskManager } from '../../../../api/notificationRequest';
 import { LogsModal } from './logsModal';
 
 export const ProcessesComponent = () => {
-  const [process, setProcess] = useState<any>([]);
+  const [processs, setProcess] = useState<any>([]);
   const [logs, setLogs] = useState<any>(false);
   useEffect(() => {
-    const socket = io(process.env.REACT_APP_NGROK, { path: '/socket/onvif' });
+    const socket = io(process.env.REACT_APP_NGROK, {
+      path: '/socket/onvif',
+      extraHeaders: {
+        'ngrok-skip-browser-warning': 'true',
+      },
+    });
     socket.on('connect', function () {
       console.log('Connected to the server');
     });
@@ -39,7 +44,7 @@ export const ProcessesComponent = () => {
           </tr>
         </thead>
         <tbody className={styles.tableBody}>
-          {process.map((el: any, index: number) => {
+          {processs.map((el: any, index: number) => {
             return (
               <tr key={index}>
                 <td>{el.value.algorithm}</td>

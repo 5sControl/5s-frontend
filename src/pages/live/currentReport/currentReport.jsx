@@ -53,7 +53,7 @@ export const CurrentReport = ({ camera }) => {
     if (currentReport) {
       const body = {
         camera_ip: currentReport.camera.id,
-        time: new Date(currentReport.start_tracking).valueOf() + 10800000,
+        time: new Date(currentReport.start_tracking).valueOf(),
       };
       getVideo(window.location.hostname, body).then((res) => {
         if (Object.keys(res.data).length && !!res.data.status) {
@@ -61,8 +61,8 @@ export const CurrentReport = ({ camera }) => {
             cameraIP: currentReport.camera.id,
             cameraName: currentReport.camera.name,
             algorithm: currentReport.algorithm.name,
-            sTime: new Date(currentReport.start_tracking).valueOf() + 10800000,
-            eTime: new Date(currentReport.stop_tracking).valueOf() + 10800000,
+            sTime: new Date(currentReport.start_tracking).valueOf(),
+            eTime: new Date(currentReport.stop_tracking).valueOf(),
             video: res.data,
           };
           // console.log(value);
@@ -86,14 +86,13 @@ export const CurrentReport = ({ camera }) => {
                   <>
                     <video
                       id="videoPlayer"
-                      src={`${process.env.REACT_APP_NGROK}api/onvif/video?time=${
+                      src={`${`${process.env.REACT_APP_NGROK}api/onvif/video?time=${
                         operationDataNew.sTime
                       }&camera_ip=${operationDataNew.cameraIP}#t=${
                         operationDataNew.video.video_start_from
                           ? operationDataNew.video.video_start_from / 1000
                           : 0
-                      }``
-                      }`}
+                      }`}`}
                       controls
                       autoPlay
                       onEnded={() => arrowHandler('next')}
@@ -117,36 +116,6 @@ export const CurrentReport = ({ camera }) => {
               </>
             )}
           </div>
-          {/* <div className={styles.report__description}>
-            <span>
-              {moment
-                .utc(currentReport.start_tracking)
-                .utcOffset(moment().utcOffset())
-                .format('YYYY-MM-DD ')}
-              |
-              {moment
-                .utc(currentReport.start_tracking)
-                .utcOffset(moment().utcOffset())
-                .format('HH:mm:ss')}
-              -
-              {moment
-                .utc(currentReport.stop_tracking)
-                .utcOffset(moment().utcOffset())
-                .format('HH:mm:ss')}
-            </span>
-
-            <div className={styles.report_item}>
-              <span>{currentReport.camera ? currentReport.camera.name : 'Deleted Camera'}</span>
-            </div>
-            <div className="current-report_item">
-              <span>{parsingAlgorithmName(currentReport.algorithm.name)}</span>
-            </div>
-            <div className={styles.report_item}>
-              <span>
-                {currentReport.violation_found ? <ViolintationFalse /> : <ViolintationTrue />}
-              </span>
-            </div>
-          </div> */}
         </div>
       ) : (
         <>

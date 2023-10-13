@@ -16,6 +16,7 @@ export const getSelectedCameras = (hostname, cookies) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -32,6 +33,7 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
     {
       headers: {
         Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
       },
     }
   );
@@ -41,12 +43,17 @@ export const deleteCameraAPI = (hostname, cookies, IPCamera) => {
   return axios.delete(`${process.env.REACT_APP_NGROK}${API_CAMERADELETE}${IPCamera}/`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
 
 export const findCamera = (hostname) => {
-  return axios.get(process.env.REACT_APP_NGROK + API_CAMERAFIND);
+  return axios.get(process.env.REACT_APP_NGROK + API_CAMERAFIND, {
+    headers: {
+      'ngrok-skip-browser-warning': 'true',
+    },
+  });
 };
 
 export const checkCamera = (hostname, cameraIP, username, password) => {
@@ -54,6 +61,7 @@ export const checkCamera = (hostname, cameraIP, username, password) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'ngrok-skip-browser-warning': 'true',
     },
     body: JSON.stringify({
       ip: cameraIP,
@@ -68,6 +76,7 @@ export const getCameraZones = (hostname, cookies, camera) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -76,6 +85,7 @@ export const postCameraZones = (hostname, cookies, body) => {
   return axios.post(`${process.env.REACT_APP_NGROK}${API_ZONES}`, body, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -84,6 +94,7 @@ export const patchCameraZones = (hostname, cookies, response, id) => {
   return axios.put(`${process.env.REACT_APP_NGROK}${API_ZONES}${id}/`, response, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -92,6 +103,7 @@ export const deleteCameraZones = (hostname, cookies, id) => {
   return axios.delete(`${process.env.REACT_APP_NGROK}${API_ZONES}${id}/`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -101,12 +113,17 @@ export const getAlgorithmZones = (hostname, cookies, camera) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
 
 export const getVideo = (hostname, body) => {
-  return axios.post(`${process.env.REACT_APP_NGROK}${API_VIDEO}`, body);
+  return axios.post(`${process.env.REACT_APP_NGROK}${API_VIDEO}`, body, {
+    headers: {
+      'ngrok-skip-browser-warning': 'true',
+    },
+  });
 };
 
 export const getSelectedZone = (hostname, cookies, id) => {
@@ -114,6 +131,7 @@ export const getSelectedZone = (hostname, cookies, id) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };

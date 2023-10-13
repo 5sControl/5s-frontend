@@ -8,6 +8,7 @@ export const getOrderData = (hostname: string, cookies: string, orderId: string)
   return axios.get(process.env.REACT_APP_NGROK + API_BY_ORDER + orderId + '/', {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };

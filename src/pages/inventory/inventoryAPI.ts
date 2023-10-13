@@ -10,6 +10,7 @@ export const getInventoryItems = (hostname: string, cookies: string, isSort: boo
   return axios.get(`${process.env.REACT_APP_NGROK}${API_BY_ORDER}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -24,6 +25,7 @@ export const getInventoryItemsToCamera = (
   return axios.get(`${process.env.REACT_APP_NGROK}${API_BY_ORDER}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -38,6 +40,7 @@ export const setInventoryItem = (
   return axios.post(process.env.REACT_APP_NGROK + API_INVENTORY_SET, body, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -52,6 +55,7 @@ export const editInventoryItemAxios = (
   return axios.put(process.env.REACT_APP_NGROK + API_INVENTORY_SET + body.id + '/', body, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -62,6 +66,7 @@ export const deleteInventoryItemAxios = (hostname: string, cookies: string, id: 
   return axios.delete(`${process.env.REACT_APP_NGROK}${API_INVENTORY_DELETE}${id}/`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -78,6 +83,7 @@ export const getInventoryItemHistory = (
     {
       headers: {
         Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
       },
     }
   );
@@ -88,6 +94,7 @@ export const setNightTime = (hostname: string, cookies: string, body: NightModeR
   return axios.post(process.env.REACT_APP_NGROK + API_INVENTORY_SET, body, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -98,6 +105,7 @@ export const getNightTime = (hostname: string, cookies: string) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_HISTORY}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -108,6 +116,7 @@ export const getEmailListForNotificationAPI = (hostname: string, cookies: string
   return axios.get(`${process.env.REACT_APP_NGROK}${API_MAILER}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };

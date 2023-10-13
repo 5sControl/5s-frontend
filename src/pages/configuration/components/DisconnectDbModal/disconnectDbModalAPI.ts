@@ -6,6 +6,7 @@ export const disconnectDbAPI = (hostname: string, cookies: string, id: number) =
   return axios.post(`${process.env.REACT_APP_NGROK}${DISCONNECT_CONNECTION}${id}/`, '', {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };

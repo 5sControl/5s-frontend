@@ -13,6 +13,7 @@ export const postConnectionWithDbAPI = (
     headers: {
       'Content-Type': 'application/json',
       Authorization: token,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };

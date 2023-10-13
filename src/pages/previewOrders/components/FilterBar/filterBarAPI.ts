@@ -11,6 +11,7 @@ export const getFilterOperationsAPI = (hostname: string, cookies: string) => {
 
     return proxy<OrderWithPaginationCustomer>(url.toString(), 'GET', {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     });
   } else if (process.env.REACT_APP_ENV === 'wify') {
     const stringUrl = `${process.env.REACT_APP_IP_SERVER}${API_GET_OPERATIONS}`;
@@ -19,6 +20,7 @@ export const getFilterOperationsAPI = (hostname: string, cookies: string) => {
     return axios.get<OrderWithPaginationCustomer>(url.toString(), {
       headers: {
         Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
       },
     });
   } else {
@@ -28,6 +30,7 @@ export const getFilterOperationsAPI = (hostname: string, cookies: string) => {
     return axios.get<OrderWithPaginationCustomer>(url.toString(), {
       headers: {
         Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
       },
     });
   }

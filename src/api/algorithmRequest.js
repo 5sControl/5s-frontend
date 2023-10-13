@@ -11,6 +11,7 @@ export const getAveilableAlgorithms = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_ALGORITHM}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -23,6 +24,7 @@ export const uploadAlgorithm = async (hostname, cookies, id) => {
       headers: {
         'Content-Type': 'application/json',
         Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
       },
     }
   );
@@ -33,6 +35,7 @@ export const postAlgorithnDependences = async (hostname, cookies, response) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -41,6 +44,7 @@ export const getProcess = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_GETPROCESS}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -49,6 +53,7 @@ export const getOperationID = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_POSTOPERATIONID}`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -58,6 +63,7 @@ export const postUploadAlgorithm = async (hostname, cookies, body) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
@@ -66,6 +72,7 @@ export const deleteAlgorithmAPI = (hostname, cookies, id) => {
   return axios.delete(`${process.env.REACT_APP_NGROK}${API_ALGORITHM}${id}/`, {
     headers: {
       Authorization: cookies,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 };
