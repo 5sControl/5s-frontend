@@ -23,7 +23,7 @@ type PropsType = {
   isScale: any;
   setIsScale: (coords: any) => void;
   isMulti: boolean;
-  itemCount: number;
+  itemCount: string;
   token: string;
 };
 
@@ -400,7 +400,7 @@ export const Coordinates: React.FC<PropsType> = ({
           className={styles.button}
           type="button"
           onClick={submitHandler}
-          disabled={allBox.length === 0 || !isMulti || !itemCount}
+          disabled={allBox.length === 0 || !isMulti || itemCount.length === 0}
         />
       </div>
     </div>

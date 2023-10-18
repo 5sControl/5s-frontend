@@ -32,7 +32,6 @@ export const Chart: React.FC = () => {
       {size.width && inventoryHistoryData && sortedData.length > 0 && (
         <BarChart data={sortedData} width={size.width} height={300} />
       )}
-
       <div className={styles.labels}>
         <div className={styles.label}>
           <div className={`${styles.labelInStock} ${styles.labelStock}`}></div>

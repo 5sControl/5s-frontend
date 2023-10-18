@@ -43,9 +43,9 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   const [coords, setCoords] = useState<Coordinat[]>([]);
   const [isClose, setIsClose] = useState<any>(false);
   const [itemName, setItemName] = useState<string>('');
-  const [itemCount, setItemCount] = useState<number>(0);
+  const [itemCount, setItemCount] = useState<string>('0');
   const [currentSelect, setCurrentSelect] = useState('');
-  const [isMulti, setIsMulti] = useState<string>('');
+  const [isMulti, setIsMulti] = useState<string>('box');
   const [isTooltipClicked, setIsTooltipClicked] = useState(false);
   const [isScale, setIsScale] = useState<any>(false);
   const [orderAmount, setOrderAmount] = useState<number | null>(0);
@@ -61,7 +61,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
     if (!isOpen) {
       setIsClose(false);
       setItemName('');
-      setItemCount(0);
+      setItemCount('0');
     }
   }, [isOpen]);
 
@@ -73,7 +73,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   const submitHandler = () => {
     const dataForm = {
       name: itemName,
-      low_stock_level: itemCount,
+      low_stock_level: Number(itemCount),
       camera: currentSelect,
       coords: coords.map((element: Coordinat) => {
         const { id, ...rest } = element; // Используйте деструктуризацию объекта и оператор rest

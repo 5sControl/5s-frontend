@@ -33,7 +33,7 @@ export const Info: React.FC = () => {
             className={`${styles.tab} ${active === 'task' ? styles.active : styles.noActive}`}
             onClick={() => setActive('task')}
           >
-            <span>System messages</span>
+            <span>Task manager</span>
           </Link>
         </section>
       </HeaderMain>
