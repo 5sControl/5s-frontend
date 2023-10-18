@@ -127,7 +127,7 @@ export const AlgorithmSelect = ({
                     />
                   </label>
                   <span className={styles.algorithms_list_item_desc}>{algorithm.description}</span>
-                  {/* {parsingAlgorithmName(algorithm.name) === 'Operation control' && (
+                  {parsingAlgorithmName(algorithm.name) === 'Operation control' && (
                     <>
                       <h2>Controlled operation</h2>
                       <Input
@@ -137,7 +137,7 @@ export const AlgorithmSelect = ({
                         onChange={(e) => setOperationID(e.target.value.replace(/[^\d]/g, ''))}
                       />
                     </>
-                  )} */}
+                  )}
                   <div className={styles.workplace}>
                     <span
                       className={
