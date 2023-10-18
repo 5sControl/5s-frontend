@@ -102,8 +102,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
         })
       )
         .then((response: any) => {
-          setIsClose({ status: !!response.payload.id, loading: false });
-
+          setIsClose({ status: !!response.payload?.id, loading: false });
           if (response.payload.id) {
             handleClose();
             setIsNotification();
