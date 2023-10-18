@@ -21,12 +21,13 @@ The connections between the project repositories are illustrated by the followin
 </p>
 
 **5controlS Platform:**
-1. [5s-backend](https://github.com/5sControl/5s-backend)
-2. [5s-frontend](https://github.com/5sControl/5s-frontend)
-3. [5s-algorithms-controller](https://github.com/5sControl/5s-algorithms-controller)
-4. [5s-onvif](https://github.com/5sControl/5s-onvif)
-5. [5s-onvif-finder](https://github.com/5sControl/5s-onvif-finder)
-
+1. [5s-webserver](https://github.com/5sControl/5s-webserver)
+2. [5s-backend](https://github.com/5sControl/5s-backend)
+3. [5s-frontend](https://github.com/5sControl/5s-frontend)
+4. [5s-algorithms-controller](https://github.com/5sControl/5s-algorithms-controller)
+5. [5s-onvif](https://github.com/5sControl/5s-onvif)
+6. [5s-onvif-finder](https://github.com/5sControl/5s-onvif-finder)
+   
 **Official Algorithms:**
 1. [min-max](https://github.com/5sControl/min-max)
 2. [idle-control](https://github.com/5sControl/idle-control)
@@ -105,6 +106,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 # **Documentation**
+
+[Documentation for Developers](https://github.com/5sControl/5s-dev-documentation/wiki)
 
 [User Documentation](https://github.com/5sControl/Manufacturing-Automatization-Enterprise/wiki)
 
