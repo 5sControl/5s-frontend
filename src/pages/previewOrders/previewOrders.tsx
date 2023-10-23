@@ -235,7 +235,6 @@ export const PreviewOrders: React.FC = () => {
           const productData = (res.payload as OrderItem).product.find((el) => {
             return el.id === +queryProductIdParam;
           });
-
           if (productData) {
             dispatch(setSelectProductData(productData));
 
