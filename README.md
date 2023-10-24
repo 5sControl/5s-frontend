@@ -17,8 +17,9 @@ The connections between the project repositories are illustrated by the followin
 > Please note that to ensure system stability and perfomance you can use one of the Official 5S algorithms instead of Your Algorithm.
 
 <p align="center">
-  <img src="https://github.com/5sControl/5s-webserver/assets/131950264/6bfb9a7b-e16f-4600-8656-3f41fc61dba3" alt="5controlS-diagram" />
+  <img src="https://github.com/5sControl/5s-user-documentation/blob/main/assets/5S%20scheme%20(1).png" alt="5controlS-diagram" />
 </p>
+
 
 **5controlS Platform:**
 1. [5s-webserver](https://github.com/5sControl/5s-webserver)
