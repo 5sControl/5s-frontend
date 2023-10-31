@@ -15,7 +15,6 @@ export const AlgorithmSelect = ({
   setOperationID,
   isCreateCamera,
   cameraSelect,
-  cameraIP,
   userName,
   password,
   setConfigAlgo,
@@ -68,14 +67,11 @@ export const AlgorithmSelect = ({
             algoObj[el] = result[el];
           });
           setAlgoWorkzone({ ...algoObj });
+          console.log(algoObj);
         }
       });
     }
   }, [loaded]);
-
-  useEffect(() => {
-    setInformationToSend(checkboxAlgo);
-  }, [checkboxAlgo]);
 
   const checkboxHandler = (state) => {
     if (checkboxAlgo.includes(state)) {
