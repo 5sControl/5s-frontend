@@ -5,7 +5,7 @@ import {
   getProcess,
   postAlgorithnDependences,
 } from '../../../api/algorithmRequest';
-import { findCamera } from '../../../api/cameraRequest';
+import { findCamera, getAlgorithmZones } from '../../../api/cameraRequest';
 import { Preloader } from '../../../components/preloader';
 import { Notification } from '../../../components/notification/notification';
 import { Tabs } from './tabs/tabs';
@@ -34,7 +34,22 @@ export const SettingsHub = ({
   const [isPreloader, setIsPreloader] = useState(false);
   const [activeTab, setActiveTab] = useState('Camera');
   const [configAlgo, setConfigAlgo] = useState({});
+  const [checkboxAlgo, setCheckboxAlgo] = useState([]);
+  const [algorithmsActive, setAlgorithmsActive] = useState([]);
+  const [algoWorkzone, setAlgoWorkzone] = useState({});
+  useEffect(() => {
+    if (algorithmsActiveObject[cameraSelect.id]) {
+      setAlgorithmsActive(algorithmsActiveObject[cameraSelect.id]);
+    }
+  }, [cameraSelect, algorithmsActiveObject]);
+  useEffect(() => {
+    console.log(algorithmsActive);
+    if (algorithmsActive) {
+      setCheckboxAlgo(Object.assign([], algorithmsActive));
+    }
+  }, [algorithmsActive]);
 
+  console.log(informationToSend);
   const applySettings = async () => {
     setIsPreloader(true);
     const response = {
@@ -46,7 +61,6 @@ export const SettingsHub = ({
       },
       algorithms: [],
     };
-
     for (const algorithm of informationToSend) {
       if (algorithm === 'operation_control') {
         response.algorithms = [
@@ -70,7 +84,7 @@ export const SettingsHub = ({
         ];
       }
     }
-    // console.log(response);
+    console.log(response);
     await postAlgorithnDependences(window.location.hostname, token, response)
       .then(() => {
         setIsEnabled(false);
@@ -85,6 +99,28 @@ export const SettingsHub = ({
       });
   };
 
+  useEffect(() => {
+    const algoObj = algoWorkzone;
+
+    getAlgorithmZones(window.location.hostname, token, cameraSelect.id).then((res) => {
+      const result = res.data.algorithms;
+      if (Object.keys(result).length > 0) {
+        Object.keys(result).forEach((el) => {
+          algoObj[el] = result[el];
+        });
+        setAlgoWorkzone({ ...algoObj });
+        console.log(algoObj);
+      }
+    });
+  }, []);
+  useEffect(() => {
+    console.log('sdfsdfsdf');
+    setInformationToSend(checkboxAlgo);
+  }, [checkboxAlgo]);
+
+  useEffect(() => {
+    setConfigAlgo(algoWorkzone);
+  }, [algoWorkzone]);
   useEffect(() => {
     if (!isCreateCamera) {
       setCameraName(cameraSelect.name);
@@ -181,11 +217,7 @@ export const SettingsHub = ({
                 {activeTab === 'Algorithms' && (
                   <AlgorithmSelect
                     token={token}
-                    algorithmsActive={
-                      algorithmsActiveObject[cameraSelect.id]
-                        ? algorithmsActiveObject[cameraSelect.id]
-                        : []
-                    }
+                    algorithmsActive={algorithmsActive}
                     process={processLocal}
                     IPCamera={cameraSelect.id}
                     setInformationToSend={(e) => setInformationToSend(e)}
