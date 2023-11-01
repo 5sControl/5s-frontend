@@ -10,14 +10,7 @@ import styles from './timeline.module.scss';
 export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => {
   const [algorithm, setAlgorithm] = useState([]);
   const [zoneList, setZoneList] = useState([]);
-  const [start, setStart] = useState(startTime);
-  const [end, setEnd] = useState(endTime);
   const [zoneDependence, setZoneDependence] = useState([]);
-
-  const setTimeFunct = (startTime, endTime) => {
-    setStart(startTime);
-    setEnd(endTime);
-  };
 
   useEffect(() => {
     if (data.length > 0) {
@@ -58,11 +51,11 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
       setZoneDependence(mergedObject);
       setZoneList(['Full camera', ...zone.filter((el) => el)]);
     }
-  }, [data, start, end]);
+  }, [data, startTime, endTime]);
 
   return (
     <>
-      {data.length > 0 && start && end && startDate && zoneList && (
+      {data.length > 0 && startTime && endTime && startDate && zoneList && (
         <div className={styles.container}>
           <h1>{camera.name}</h1>
           <div>
@@ -80,13 +73,13 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
                                 data={data.filter(
                                   (cam) =>
                                     cam.algorithm.name === algorithm &&
-                                    new Date(`${startDate + ' ' + start}`) <
+                                    new Date(`${startDate + ' ' + startTime}`) <
                                       new Date(
                                         moment
                                           .utc(cam.stop_tracking)
                                           .utcOffset(moment().utcOffset())
                                       ) &&
-                                    new Date(`${startDate + ' ' + end}`) >
+                                    new Date(`${startDate + ' ' + endTime}`) >
                                       new Date(
                                         moment
                                           .utc(cam.start_tracking)
@@ -98,8 +91,8 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
                                 )}
                                 startDate={startDate}
                                 algorithm={algorithm}
-                                startTime={start}
-                                endTime={end}
+                                startTime={startTime}
+                                endTime={endTime}
                                 zone={zona}
                               />
                             </div>
@@ -112,29 +105,13 @@ export const NewTimeline = ({ data, startDate, startTime, endTime, camera }) => 
               })}
 
               <div className={styles.timeline__line}>
-                <span
-                  className={styles.timeline__zoomout}
-                  onClick={() => setTimeFunct('00:00:00', '24:00:00')}
-                >
-                  <AiOutlineZoomOut
-                    className={`${styles.lupa} ${
-                      start === '00:00:00' && end === '24:00:00' ? '' : styles.lupaOrange
-                    }`}
-                  />
-                </span>
-                {calculateTimeCenter(start, end).map((el, id, array) => (
+                <span className={styles.timeline__zoomout}></span>
+                {calculateTimeCenter(startTime, endTime).map((el, id, array) => (
                   <Fragment key={id}>
                     <span className={styles.timeline__time}>
                       {el.split(':').slice(0, 2).join(':')}
                     </span>
-                    {array.length - 1 !== id && (
-                      <span
-                        className={styles.timeline__timezone}
-                        onClick={() => setTimeFunct(el, array[id + 1])}
-                      >
-                        <AiOutlineZoomIn className={styles.lupa} />
-                      </span>
-                    )}
+                    {array.length - 1 !== id && <span className={styles.timeline__timezone}></span>}
                   </Fragment>
                 ))}
               </div>
