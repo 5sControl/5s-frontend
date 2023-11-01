@@ -3,27 +3,24 @@ import MultiRangeSlider, { ChangeResult } from 'multi-range-slider-react';
 import styles from './timeline.module.scss';
 import { useState } from 'react';
 
-export const TimelineHub = ({ data, startDate, startTime, endTime, cameras }: any) => {
-  const timeMax = 24 * 60;
-  const curMin = 0;
+export const TimelineHub = ({ data, startDate, cameras }: any) => {
+  const timeMax = 18 * 60;
+  const curMin = 360;
   const [minTimeCaption, set_minTimeCaption] = useState('');
   const [maxTimeCaption, set_maxTimeCaption] = useState('');
   const handleTimeChange = (e: ChangeResult) => {
-    console.log(e);
     const h = Math.floor(e.minValue / 60);
     const m = e.minValue % 60;
     const minH = h.toString().padStart(2, '0');
     const minM = m.toString().padStart(2, '0');
-    set_minTimeCaption(minH + ':' + minM + ':00');
+    set_minTimeCaption(minH + ':' + minM);
 
     const hh = Math.floor(e.maxValue / 60);
     const mm = e.maxValue % 60;
     const maxH = hh.toString().padStart(2, '0');
     const maxM = mm.toString().padStart(2, '0');
-    set_maxTimeCaption(maxH + ':' + maxM + ':00');
+    set_maxTimeCaption(maxH + ':' + maxM);
   };
-
-  console.log(minTimeCaption, maxTimeCaption);
   const getTimeLabels = (): string[] => {
     const arr: string[] = [];
     for (let i = 0; i <= 24; i = i + 3) {
@@ -36,7 +33,7 @@ export const TimelineHub = ({ data, startDate, startTime, endTime, cameras }: an
       <MultiRangeSlider
         labels={getTimeLabels()}
         min={0}
-        max={timeMax}
+        max={24 * 60}
         minValue={curMin}
         maxValue={timeMax}
         step={1}
@@ -44,6 +41,11 @@ export const TimelineHub = ({ data, startDate, startTime, endTime, cameras }: an
         minCaption={minTimeCaption}
         maxCaption={maxTimeCaption}
         onInput={handleTimeChange}
+        barLeftColor="#E0E0E0"
+        barRightColor="#E0E0E0"
+        barInnerColor="#FE6100"
+        thumbLeftColor="#FE6100"
+        thumbRightColor="#FE6100"
       />
       <div className={styles.wrapper}>
         {cameras &&
@@ -53,8 +55,8 @@ export const TimelineHub = ({ data, startDate, startTime, endTime, cameras }: an
               <NewTimeline
                 data={data.filter((dat: any) => dat.camera && dat.camera.id === el.id)}
                 startDate={startDate}
-                startTime={minTimeCaption}
-                endTime={maxTimeCaption}
+                startTime={`${minTimeCaption}:00`}
+                endTime={`${maxTimeCaption}:00`}
                 camera={el}
                 key={id}
               />
