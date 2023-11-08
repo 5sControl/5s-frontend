@@ -9,6 +9,16 @@ import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
 import moment from 'moment';
 import { getVideo } from '../../api/cameraRequest';
 
+function downloadFile(url, filename) {
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.style.display = 'none';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 export const OrderOperationDetail = ({ operationData, handleClose }) => {
   const [operationDataNew, setOperationDataNew] = useState(operationData);
   const playerRef = useRef(null);
@@ -22,17 +32,19 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           : `${location.protocol === 'https:' ? 'https:' : 'http:'}//${window.location.hostname}`
       }/${operationDataNew?.video.file_name}`; // Замените на ссылку на ваше видео
 
-      fetch(videoUrl)
-        .then((response) => response.blob())
-        .then((blob) => {
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = url;
-          link.download = operationDataNew?.video.file_name; // Замените на имя файла, под которым нужно сохранить видео
-          link.click();
-          URL.revokeObjectURL(url);
-        })
-        .catch((error) => console.log(error));
+      downloadFile(videoUrl, operationDataNew.video.file_name);
+
+      // fetch(videoUrl)
+      //   .then((response) => response.blob())
+      //   .then((blob) => {
+      //     const url = URL.createObjectURL(blob);
+      //     const link = document.createElement('a');
+      //     link.href = url;
+      //     link.download = operationDataNew?.video.file_name; // Замените на имя файла, под которым нужно сохранить видео
+      //     link.click();
+      //     URL.revokeObjectURL(url);
+      //   })
+      //   .catch((error) => console.log(error));
     }
   };
   const arrowHandler = (text) => {
