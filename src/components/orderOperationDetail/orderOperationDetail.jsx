@@ -9,41 +9,6 @@ import { parsingAlgorithmName } from '../../functions/parsingAlgorithmName';
 import moment from 'moment';
 import { getVideo } from '../../api/cameraRequest';
 
-async function saveVideoIncrementally(videoUrl, filename) {
-  try {
-    const response = await fetch(videoUrl);
-    if (!response.body) {
-      console.error('Video download not supported.');
-      return;
-    }
-
-    const videoStream = response.body;
-    const writableStream = new WritableStream();
-    const writer = writableStream.getWriter();
-    const objectURL = URL.createObjectURL(await response.blob());
-    const link = document.createElement('a');
-    link.href = objectURL;
-    link.download = filename;
-    document.body.appendChild(link);
-    const reader = videoStream.getReader();
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) {
-        break;
-      }
-
-      writer.write(value);
-    }
-    writer.close();
-    reader.releaseLock();
-    link.click();
-    URL.revokeObjectURL(objectURL);
-  } catch (error) {
-    console.error('Error downloading video:', error);
-  }
-}
-
 export const OrderOperationDetail = ({ operationData, handleClose }) => {
   const [operationDataNew, setOperationDataNew] = useState(operationData);
   const playerRef = useRef(null);
@@ -57,7 +22,17 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           : `${location.protocol === 'https:' ? 'https:' : 'http:'}//${window.location.hostname}`
       }/${operationDataNew?.video.file_name}`; // Замените на ссылку на ваше видео
 
-      saveVideoIncrementally(videoUrl, operationDataNew.video.file_name);
+      fetch(videoUrl)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = operationDataNew?.video.file_name; // Замените на имя файла, под которым нужно сохранить видео
+          link.click();
+          URL.revokeObjectURL(url);
+        })
+        .catch((error) => console.log(error));
     }
   };
   const arrowHandler = (text) => {
