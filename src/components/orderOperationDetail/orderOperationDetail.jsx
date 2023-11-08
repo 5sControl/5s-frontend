@@ -19,7 +19,7 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           ? `${process.env.REACT_APP_NGROK}`
           : process.env.REACT_APP_ENV === 'wify'
           ? `${process.env.REACT_APP_IP_SERVER}`
-          : `http://${window.location.hostname}`
+          : `${location.protocol === 'https:' ? 'https:' : 'http:'}//${window.location.hostname}`
       }/${operationDataNew?.video.file_name}`; // Замените на ссылку на ваше видео
 
       fetch(videoUrl)
