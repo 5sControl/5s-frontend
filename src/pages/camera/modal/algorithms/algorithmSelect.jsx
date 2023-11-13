@@ -73,6 +73,10 @@ export const AlgorithmSelect = ({
     }
   }, [loaded]);
 
+  useEffect(() => {
+    setInformationToSend(checkboxAlgo);
+  }, [checkboxAlgo]);
+
   const checkboxHandler = (state) => {
     if (checkboxAlgo.includes(state)) {
       setCheckboxAlgo(checkboxAlgo.filter((item) => item !== state));
