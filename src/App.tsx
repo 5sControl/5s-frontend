@@ -18,6 +18,7 @@ import './index.scss';
 import { NewContactForm } from './pages/company/contactsTab/NewContactForm';
 import { EditContactForm } from './pages/company/contactsTab/EditContactForm';
 import { EditCompanyForm } from './pages/company/companyTab/EditCompanyForm';
+import AiChatPage from './pages/aiChat/AIChat';
 function App() {
   const [cookies, , removeCookie] = useCookies(['token']);
 
@@ -58,6 +59,7 @@ function App() {
             <Route path="/configuration/algorithms" element={<Configuration activeTab={3} />} />
             <Route path="/orders-view" element={<PreviewOrders />} />
             <Route path="/inventory" element={<Inventory />} />
+            <Route path="/ai-chat" element={<AiChatPage />} />
           </Route>
         ) : (
           <Route path="/*" element={<Authorization />} />
