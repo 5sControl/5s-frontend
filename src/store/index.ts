@@ -18,6 +18,7 @@ import inventoryHistorySlice from '../pages/inventory/components/InventoryHistor
 import inventoryReportSlice from '../pages/inventory/components/InventoryReport/InventoryReportSlice';
 import NightModeSlice from '../pages/inventory/components/NightModeModal/NightModeSlice';
 import companySlice from '../pages/company/companySlice';
+import aiChatSlice from '../pages/aiChat/aiChatSlice';
 
 export const store = configureStore({
   reducer: {
@@ -40,6 +41,7 @@ export const store = configureStore({
     inventoryHistory: inventoryHistorySlice,
     inventoryReportState: inventoryReportSlice,
     companyState: companySlice,
+    aiChatState: aiChatSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([]),
 });

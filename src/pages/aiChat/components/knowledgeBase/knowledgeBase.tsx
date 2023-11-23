@@ -5,12 +5,20 @@ import { Button } from '../../../../components/button';
 import CategoryCard from '../categoryCard/categoryCard';
 import { Modal } from '../../../../components/modal';
 import CategoryForm from '../categoryForm/categoryForm';
+import { useAppSelector } from '../../../../store/hooks';
 
 const KnowledgeBase = () => {
   const [showAddCategoryModal, setShowAddCategoryModal] = useState<boolean>(false);
   const [categoryModalAction, setCategoryModalAction] = useState<
     'create' | 'edit' | 'remove' | 'removeSource' | 'addSource'
   >('addSource');
+
+  const { categories } = useAppSelector((state) => state.aiChatState);
+
+  const onAddCategoryPressHandler = () => {
+    setCategoryModalAction('create');
+    setShowAddCategoryModal(true);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -21,7 +29,6 @@ const KnowledgeBase = () => {
       >
         <CategoryForm
           actionType={categoryModalAction}
-          action={() => null}
           closeHandler={() => setShowAddCategoryModal(false)}
         />
       </Modal>
@@ -38,28 +45,22 @@ const KnowledgeBase = () => {
           variant={'contained'}
           text={'Add category'}
           IconLeft={Plus}
-          onClick={() => setShowAddCategoryModal(true)}
+          onClick={onAddCategoryPressHandler}
         />
       </div>
       <div className={styles.categoriesListContainer}>
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
-        <CategoryCard title={'General'} description={'some category'} sources={999} />
+        {categories.map((category) => {
+          return (
+            <CategoryCard
+              key={category.name}
+              title={category.name}
+              description={category.description}
+              sources={
+                category.categoryContent.files.length + category.categoryContent.links.length
+              }
+            />
+          );
+        })}
       </div>
     </div>
   );

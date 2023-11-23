@@ -115,7 +115,7 @@ export const LeftMenu = () => {
         <li
           className={window.location.pathname.includes('ai-chat') ? 'activeMenu' : 'noActiveMenu'}
         >
-          <Link to="/ai-chat">
+          <Link to="/ai-chat?tab=chat">
             <AIChat />
             <span>AI Chat</span>
           </Link>

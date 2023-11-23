@@ -1,16 +1,18 @@
 import React, { FC, useState } from 'react';
 import styles from './categoryForm.module.scss';
 import { Button } from '../../../../components/button';
+import { useAppDispatch } from '../../../../store/hooks';
+import { apiCreateChatCategory } from '../../aiChatSlice';
 
 interface Props {
   actionType: 'create' | 'edit' | 'remove' | 'removeSource' | 'addSource';
-  action: () => void;
   closeHandler: () => void;
 }
 
-const CategoryForm: FC<Props> = ({ actionType, action, closeHandler }) => {
+const CategoryForm: FC<Props> = ({ actionType, closeHandler }) => {
   const [categoryName, setCategoryName] = useState<string>('');
   const [categoryDescription, setCategoryDescription] = useState<string>('');
+  const dispatch = useAppDispatch();
 
   const title =
     actionType === 'create'
@@ -22,6 +24,17 @@ const CategoryForm: FC<Props> = ({ actionType, action, closeHandler }) => {
       : actionType === 'addSource'
       ? 'Add to knowledge base'
       : 'Remove source';
+
+  const onFormSubmit = () => {
+    switch (actionType) {
+      case 'create':
+        dispatch(apiCreateChatCategory(categoryName, categoryDescription));
+        closeHandler();
+        break;
+      default:
+        return;
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -70,9 +83,10 @@ const CategoryForm: FC<Props> = ({ actionType, action, closeHandler }) => {
       <div className={styles.buttonsContainer}>
         <Button variant={'text'} text={'Cancel'} onClick={closeHandler} />
         <Button
+          disabled={!categoryName || !categoryDescription}
           variant={'contained'}
           text={actionType.includes('remove') ? 'Remove' : 'Done'}
-          onClick={action}
+          onClick={onFormSubmit}
         />
       </div>
     </div>
