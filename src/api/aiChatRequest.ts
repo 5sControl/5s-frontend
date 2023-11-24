@@ -12,6 +12,20 @@ export const createChatCategory = (categoryName: string, description: string) =>
     .then((res) => res.data);
 };
 
+export const removeChatCategory = (categoryName: string) => {
+  return axios
+    .post(`${process.env.REACT_APP_CHAT_API}removeCategory?name=${categoryName}`)
+    .then((res) => res.data);
+};
+
+export const removeCategorySource = (sourceName: string, categoryName: string) => {
+  return axios
+    .post(
+      `${process.env.REACT_APP_CHAT_API}removeSource?fileName=${sourceName}&categoryName=${categoryName}`
+    )
+    .then((res) => res.data);
+};
+
 export const editChatCategory = (
   oldCategoryName: string,
   categoryName: string,

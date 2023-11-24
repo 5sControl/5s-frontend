@@ -68,6 +68,8 @@ import { ReactComponent as InvBottle } from './invBottle.svg';
 import { ReactComponent as InvBox } from './invBox.svg';
 import { ReactComponent as Logout } from './logout.svg';
 import { ReactComponent as Folber } from './folber.svg';
+import { ReactComponent as LinkIcon } from './linkIcon.svg';
+import { ReactComponent as FileIcon } from './fileIcon.svg';
 
 export {
   InvRedLine,
@@ -140,4 +142,6 @@ export {
   Folber,
   AIChat,
   ChatInfo,
+  FileIcon,
+  LinkIcon,
 };

@@ -2,16 +2,20 @@ import React, { FC, useState } from 'react';
 import styles from './categoryForm.module.scss';
 import { Button } from '../../../../components/button';
 import { useAppDispatch } from '../../../../store/hooks';
-import { apiCreateChatCategory } from '../../aiChatSlice';
+import { apiCreateCategory, removeCategory, removeCategorySourceAction } from '../../aiChatSlice';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface Props {
+  fileName?: string;
   actionType: 'create' | 'edit' | 'remove' | 'removeSource' | 'addSource';
   closeHandler: () => void;
 }
 
-const CategoryForm: FC<Props> = ({ actionType, closeHandler }) => {
+const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
+  const { category } = useParams();
   const [categoryName, setCategoryName] = useState<string>('');
   const [categoryDescription, setCategoryDescription] = useState<string>('');
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const title =
@@ -28,8 +32,19 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler }) => {
   const onFormSubmit = () => {
     switch (actionType) {
       case 'create':
-        dispatch(apiCreateChatCategory(categoryName, categoryDescription));
+        dispatch(apiCreateCategory(categoryName, categoryDescription));
         closeHandler();
+        break;
+      case 'removeSource':
+        if (!category || !fileName) return;
+        dispatch(removeCategorySourceAction(fileName, category));
+        closeHandler();
+        break;
+      case 'remove':
+        if (!category) return;
+        dispatch(removeCategory(category));
+        closeHandler();
+        navigate('/ai-chat?tab=base');
         break;
       default:
         return;
@@ -83,7 +98,10 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler }) => {
       <div className={styles.buttonsContainer}>
         <Button variant={'text'} text={'Cancel'} onClick={closeHandler} />
         <Button
-          disabled={!categoryName || !categoryDescription}
+          disabled={
+            (!categoryName || !categoryDescription) &&
+            (actionType === 'create' || actionType === 'edit')
+          }
           variant={'contained'}
           text={actionType.includes('remove') ? 'Remove' : 'Done'}
           onClick={onFormSubmit}
