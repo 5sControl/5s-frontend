@@ -20,17 +20,11 @@ const CategoryPage = () => {
 
   const currentCategory = categories.find((cat) => cat.name === category);
 
-  const onAddSourcePressHandler = () => {
-    return;
-  };
-
-  const onRemoveCategoryPressHandler = () => {
-    setCategoryModalAction('remove');
+  const onActionPressHandler = (
+    actionType: 'create' | 'edit' | 'remove' | 'removeSource' | 'addSource'
+  ) => {
+    setCategoryModalAction(actionType);
     setShowAddCategoryModal(true);
-  };
-
-  const onEditCategoryPressHandler = () => {
-    return;
   };
 
   return (
@@ -65,15 +59,17 @@ const CategoryPage = () => {
       <div className={styles.categoryHeader}>
         <span className={styles.categoryTitle}>{`@${currentCategory?.name}`}</span>
         <div className={styles.actionsBlock}>
-          <div onClick={onRemoveCategoryPressHandler}>
+          <div onClick={() => onActionPressHandler('remove')}>
             <Delete />
           </div>
-          <Edit />
+          <div onClick={() => onActionPressHandler('edit')}>
+            <Edit />
+          </div>
           <Button
             variant={'contained'}
             text={'Add to knowledge base'}
             IconLeft={Plus}
-            onClick={onAddSourcePressHandler}
+            onClick={() => onActionPressHandler('addSource')}
           />
         </div>
       </div>

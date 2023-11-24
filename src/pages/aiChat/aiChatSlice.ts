@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   createChatCategory,
+  editChatCategory,
   getChatCategories,
   removeCategorySource,
   removeChatCategory,
@@ -80,6 +81,17 @@ export const removeCategory = (categoryName: string) => async (dispatch: AppDisp
     console.log('error fetching categories');
   }
 };
+
+export const editCategory =
+  (oldCategoryName: string, categoryName: string, description: string) =>
+  async (dispatch: AppDispatch) => {
+    try {
+      const data = await editChatCategory(oldCategoryName, categoryName, description);
+      dispatch(aiChatPage.actions.setCategories(data));
+    } catch {
+      console.log('error fetching categories');
+    }
+  };
 
 export const removeCategorySourceAction =
   (fileName: string, categoryName: string) => async (dispatch: AppDispatch) => {

@@ -1,8 +1,13 @@
-import React, { FC, useState } from 'react';
+import React, { ChangeEvent, FC, useState } from "react";
 import styles from './categoryForm.module.scss';
 import { Button } from '../../../../components/button';
-import { useAppDispatch } from '../../../../store/hooks';
-import { apiCreateCategory, removeCategory, removeCategorySourceAction } from '../../aiChatSlice';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import {
+  apiCreateCategory,
+  editCategory,
+  removeCategory,
+  removeCategorySourceAction,
+} from '../../aiChatSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 
 interface Props {
@@ -15,6 +20,9 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
   const { category } = useParams();
   const [categoryName, setCategoryName] = useState<string>('');
   const [categoryDescription, setCategoryDescription] = useState<string>('');
+  const [fileToLoad, setFileToLoad] = useState<File>();
+  const [linkToLoad, setLinkToLoad] = useState<string>();
+  const { categories } = useAppSelector((state) => state.aiChatState);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -28,6 +36,12 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
       : actionType === 'addSource'
       ? 'Add to knowledge base'
       : 'Remove source';
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFileToLoad(e.target.files[0]);
+    }
+  };
 
   const onFormSubmit = () => {
     switch (actionType) {
@@ -45,6 +59,15 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
         dispatch(removeCategory(category));
         closeHandler();
         navigate('/ai-chat?tab=base');
+        break;
+      case 'edit':
+        if (!category) return;
+        dispatch(editCategory(category, categoryName, categoryDescription));
+        navigate(`/ai-chat/base/${categoryName}`);
+        closeHandler();
+        break;
+      case 'addSource':
+        return;
         break;
       default:
         return;
@@ -75,13 +98,17 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
           <>
             <span className={styles.plainText}>Category name</span>
             <select>
-              <option value={'1'}>1</option>
-              <option value={'2'}>2</option>
-              <option value={'3'}>3</option>
-              <option value={'4'}>4</option>
-              <option value={'5'}>5</option>
-              <option value={'6'}>6</option>
+              {categories.map((category) => {
+                return (
+                  <option key={category.name} value={category.name}>
+                    {`@${category.name}`}
+                  </option>
+                );
+              })}
             </select>
+            <div>
+              <input type={'file'} />
+            </div>
           </>
         )}
       </div>
