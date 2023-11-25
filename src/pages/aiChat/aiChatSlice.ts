@@ -5,6 +5,7 @@ import {
   getChatCategories,
   removeCategorySource,
   removeChatCategory,
+  uploadSourcesApi,
 } from '../../api/aiChatRequest';
 import { AppDispatch } from '../../store';
 
@@ -100,6 +101,16 @@ export const removeCategorySourceAction =
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
       console.log('error fetching categories');
+    }
+  };
+
+export const uploadSourceAction =
+  (categoryName: string, formData: FormData) => async (dispatch: AppDispatch) => {
+    try {
+      const data = await uploadSourcesApi(categoryName, formData);
+      dispatch(aiChatPage.actions.setCategories(data));
+    } catch {
+      console.log('error uploading categories');
     }
   };
 

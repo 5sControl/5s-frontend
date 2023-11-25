@@ -37,3 +37,12 @@ export const editChatCategory = (
     )
     .then((res) => res.data);
 };
+
+export const uploadSourcesApi = (categoryName: string, data: FormData) => {
+  return axios({
+    method: 'post',
+    url: `${process.env.REACT_APP_CHAT_API}upload?categoryName=${categoryName}`,
+    data,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  }).then((res) => res.data);
+};

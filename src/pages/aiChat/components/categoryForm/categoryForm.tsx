@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from "react";
+import React, { FC, useState } from 'react';
 import styles from './categoryForm.module.scss';
 import { Button } from '../../../../components/button';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
@@ -7,8 +7,10 @@ import {
   editCategory,
   removeCategory,
   removeCategorySourceAction,
+  uploadSourceAction,
 } from '../../aiChatSlice';
 import { useNavigate, useParams } from 'react-router-dom';
+import { MdFileUpload } from 'react-icons/md';
 
 interface Props {
   fileName?: string;
@@ -20,11 +22,25 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
   const { category } = useParams();
   const [categoryName, setCategoryName] = useState<string>('');
   const [categoryDescription, setCategoryDescription] = useState<string>('');
-  const [fileToLoad, setFileToLoad] = useState<File>();
+  const [fileToLoad, setFileToLoad] = useState<File | null>();
   const [linkToLoad, setLinkToLoad] = useState<string>();
   const { categories } = useAppSelector((state) => state.aiChatState);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const handleUploadSources = () => {
+    if (!linkToLoad && !fileToLoad) {
+      return;
+    }
+    const formData = new FormData();
+    if (fileToLoad) {
+      formData.append('file', fileToLoad);
+    }
+    if (linkToLoad) {
+      formData.append('link', linkToLoad);
+    }
+    dispatch(uploadSourceAction(categoryName, formData));
+  };
 
   const title =
     actionType === 'create'
@@ -36,12 +52,6 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
       : actionType === 'addSource'
       ? 'Add to knowledge base'
       : 'Remove source';
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFileToLoad(e.target.files[0]);
-    }
-  };
 
   const onFormSubmit = () => {
     switch (actionType) {
@@ -67,7 +77,8 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
         closeHandler();
         break;
       case 'addSource':
-        return;
+        handleUploadSources();
+        closeHandler();
         break;
       default:
         return;
@@ -97,7 +108,7 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
         {actionType === 'addSource' && (
           <>
             <span className={styles.plainText}>Category name</span>
-            <select>
+            <select onChange={(e) => setCategoryName(e.currentTarget.value)}>
               {categories.map((category) => {
                 return (
                   <option key={category.name} value={category.name}>
@@ -106,9 +117,26 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
                 );
               })}
             </select>
-            <div>
-              <input type={'file'} />
+            <div className={styles.formDataContainer}>
+              <label>
+                <div className={styles.uploadButton}>
+                  <MdFileUpload color={'white'} />
+                  Upload
+                </div>
+                <input
+                  style={{ display: 'none' }}
+                  type={'file'}
+                  onChange={(e) => setFileToLoad(e.target.files ? e.target.files[0] : null)}
+                />
+              </label>
+              <span className={styles.plainText}>and/or</span>
+              <input
+                value={linkToLoad}
+                placeholder={'InsertUrl'}
+                onChange={(e) => setLinkToLoad(e.currentTarget.value)}
+              />
             </div>
+            <div>{fileToLoad?.name}</div>
           </>
         )}
       </div>
