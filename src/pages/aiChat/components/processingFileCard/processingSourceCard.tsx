@@ -10,6 +10,7 @@ import {
 import { ClipLoader } from 'react-spinners';
 import CategoryForm from '../categoryForm/categoryForm';
 import { Modal } from '../../../../components/modal';
+import { BiCopy } from 'react-icons/bi';
 
 interface Props {
   name: string;
@@ -59,7 +60,7 @@ const ProcessingSourceCard: FC<Props> = ({ name, size, date, type, variant }) =>
           )}
           {variant === 'uploaded' && (
             <>
-              <Download />
+              {type === 'file' ? <Download /> : <BiCopy />}
               <div onClick={onRemoveCategoryPress}>
                 <Delete />
               </div>

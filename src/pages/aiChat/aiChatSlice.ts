@@ -8,6 +8,7 @@ import {
   uploadSourcesApi,
 } from '../../api/aiChatRequest';
 import { AppDispatch } from '../../store';
+import { readFile } from 'fs';
 
 interface SourceData {
   name: string;
@@ -106,7 +107,18 @@ export const removeCategorySourceAction =
 
 export const uploadSourceAction =
   (categoryName: string, formData: FormData) => async (dispatch: AppDispatch) => {
+    console.log(formData.get('link'));
     try {
+      const fileToLoad = formData.get('file') as File;
+      const linkToLoad =
+        formData.get('link') === null ? undefined : (formData.get('link') as string);
+      dispatch(
+        aiChatPage.actions.addUploadingFiles({
+          categoryName,
+          filename: fileToLoad ? fileToLoad.name : undefined,
+          link: linkToLoad,
+        })
+      );
       const data = await uploadSourcesApi(categoryName, formData);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
@@ -128,6 +140,27 @@ const aiChatPage = createSlice({
           },
         };
       });
+    },
+    addUploadingFiles(
+      state: AIChat,
+      action: PayloadAction<{ categoryName: string; filename?: string; link?: string }>
+    ) {
+      const currentCategory = state.categories.find(
+        (cat) => cat.name === action.payload.categoryName
+      );
+      const date = new Date();
+      if (action.payload.filename) {
+        currentCategory?.processingSources.files.unshift({
+          name: action.payload.filename,
+          date: `${date.getDate()}.${date.getUTCMonth()}.${date.getFullYear()}`,
+        });
+      }
+      if (action.payload.link) {
+        currentCategory?.processingSources.links.unshift({
+          name: action.payload.link,
+          date: `${date.getDate()}.${date.getUTCMonth()}.${date.getFullYear()}`,
+        });
+      }
     },
     setChats(state: AIChat, action: PayloadAction<Chat[]>) {
       state.chats = action.payload;

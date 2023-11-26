@@ -101,7 +101,7 @@ const CategoryPage = () => {
         return (
           <>
             <ProcessingSourceCard
-              variant={'uploaded'}
+              variant={'processing'}
               key={file.name}
               name={file.name}
               size={'999mb'}
@@ -123,7 +123,7 @@ const CategoryPage = () => {
         return (
           <>
             <ProcessingSourceCard
-              variant={'processing'}
+              variant={'uploaded'}
               key={link.name}
               name={link.name}
               size={'999mb'}

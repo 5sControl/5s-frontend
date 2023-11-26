@@ -20,11 +20,11 @@ interface Props {
 
 const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
   const { category } = useParams();
-  const [categoryName, setCategoryName] = useState<string>('');
+  const { categories } = useAppSelector((state) => state.aiChatState);
+  const [categoryName, setCategoryName] = useState<string>(categories[0] ? categories[0].name : '');
   const [categoryDescription, setCategoryDescription] = useState<string>('');
   const [fileToLoad, setFileToLoad] = useState<File | null>();
   const [linkToLoad, setLinkToLoad] = useState<string>();
-  const { categories } = useAppSelector((state) => state.aiChatState);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -108,7 +108,10 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
         {actionType === 'addSource' && (
           <>
             <span className={styles.plainText}>Category name</span>
-            <select onChange={(e) => setCategoryName(e.currentTarget.value)}>
+            <select
+              defaultValue={categories[0].name}
+              onChange={(e) => setCategoryName(e.currentTarget.value)}
+            >
               {categories.map((category) => {
                 return (
                   <option key={category.name} value={category.name}>

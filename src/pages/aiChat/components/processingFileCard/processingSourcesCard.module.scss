@@ -11,6 +11,8 @@
 
 .fileImage {
   @include flexCenter;
+  justify-content: flex-start;
+  width: 20%;
 }
 
 .dataContainer {
@@ -30,6 +32,7 @@
   column-gap: 8px;
   svg {
     color: rgba(102, 102, 102, 1);
+    cursor: pointer;
   }
 }
 
