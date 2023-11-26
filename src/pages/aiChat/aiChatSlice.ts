@@ -8,7 +8,6 @@ import {
   uploadSourcesApi,
 } from '../../api/aiChatRequest';
 import { AppDispatch } from '../../store';
-import { readFile } from 'fs';
 
 interface SourceData {
   name: string;
@@ -18,7 +17,7 @@ interface SourceData {
 interface FetchedCategories {
   name: string;
   description: string;
-  chatsIds: string[];
+  chats: Chat[];
   categoryContent: {
     links: SourceData[];
     files: SourceData[];
@@ -28,7 +27,7 @@ interface FetchedCategories {
 interface Category {
   name: string;
   description: string;
-  chatsIds: string[];
+  chats: Chat[];
   categoryContent: {
     links: SourceData[];
     files: SourceData[];
@@ -44,6 +43,10 @@ export interface Chat {
   name: string;
   categoryName: string;
   sources: string[];
+  history: {
+    author: 'chat' | 'user';
+    message: string;
+  }[];
 }
 
 interface AIChat {
