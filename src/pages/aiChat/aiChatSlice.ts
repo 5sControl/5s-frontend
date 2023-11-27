@@ -1,9 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+  addChat,
   createChatCategory,
+  editChat,
   editChatCategory,
   getChatCategories,
   removeCategorySource,
+  removeChat,
   removeChatCategory,
   uploadSourcesApi,
 } from '../../api/aiChatRequest';
@@ -50,25 +53,30 @@ export interface Chat {
 }
 
 interface AIChat {
+  isLoading: boolean;
   categories: Category[];
   chats: Chat[];
 }
 
 const initialState: AIChat = {
+  isLoading: false,
   categories: [],
   chats: [],
 };
 
-export const fetchCategories = () => async (dispatch: AppDispatch) => {
+export const fetchCategoriesAction = () => async (dispatch: AppDispatch) => {
+  dispatch(aiChatPage.actions.setLoading(true));
   try {
     const data = await getChatCategories();
     dispatch(aiChatPage.actions.setCategories(data));
   } catch {
     console.log('error fetching categories');
+  } finally {
+    dispatch(aiChatPage.actions.setLoading(false));
   }
 };
 
-export const apiCreateCategory =
+export const createCategoryAction =
   (categoryName: string, categoryDescription: string) => async (dispatch: AppDispatch) => {
     try {
       const data = await createChatCategory(categoryName, categoryDescription);
@@ -78,7 +86,7 @@ export const apiCreateCategory =
     }
   };
 
-export const removeCategory = (categoryName: string) => async (dispatch: AppDispatch) => {
+export const removeCategoryAction = (categoryName: string) => async (dispatch: AppDispatch) => {
   try {
     const data = await removeChatCategory(categoryName);
     dispatch(aiChatPage.actions.setCategories(data));
@@ -87,7 +95,7 @@ export const removeCategory = (categoryName: string) => async (dispatch: AppDisp
   }
 };
 
-export const editCategory =
+export const editCategoryAction =
   (oldCategoryName: string, categoryName: string, description: string) =>
   async (dispatch: AppDispatch) => {
     try {
@@ -102,6 +110,41 @@ export const removeCategorySourceAction =
   (fileName: string, categoryName: string) => async (dispatch: AppDispatch) => {
     try {
       const data = await removeCategorySource(fileName, categoryName);
+      dispatch(aiChatPage.actions.setCategories(data));
+    } catch {
+      console.log('error fetching categories');
+    }
+  };
+
+export const addChatAction = (categoryName: string) => async (dispatch: AppDispatch) => {
+  try {
+    const data = await addChat(categoryName);
+    dispatch(aiChatPage.actions.setCategories(data));
+  } catch {
+    console.log('error fetching categories');
+  }
+};
+
+export const removeChatAction =
+  (categoryName: string, chatId: string) => async (dispatch: AppDispatch) => {
+    try {
+      const data = await removeChat(categoryName, chatId);
+      dispatch(aiChatPage.actions.setCategories(data));
+    } catch {
+      console.log('error fetching categories');
+    }
+  };
+
+export const editChatSourcesAction =
+  (categoryName: string, chatId: string, sources: string[]) => (dispatch: AppDispatch) => {
+    dispatch(aiChatPage.actions.setChatSources({ categoryName, chatId, sources }));
+  };
+
+export const editChatAction =
+  (payloadData: { categoryName: string; chatId: string; sources?: string[]; chatName?: string }) =>
+  async (dispatch: AppDispatch) => {
+    try {
+      const data = await editChat(payloadData);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
       console.log('error fetching categories');
@@ -144,6 +187,23 @@ const aiChatPage = createSlice({
         };
       });
     },
+    setLoading(state: AIChat, action: PayloadAction<boolean>) {
+      state.isLoading = action.payload;
+    },
+    setChatSources(
+      state: AIChat,
+      action: PayloadAction<{ categoryName: string; chatId: string; sources: string[] }>
+    ) {
+      const selectedCategory = state.categories.find(
+        (cat) => cat.name === action.payload.categoryName
+      );
+      const selectedChat = selectedCategory?.chats.find(
+        (chat) => chat.id === action.payload.chatId
+      );
+      if (selectedChat) {
+        selectedChat.sources = action.payload.sources;
+      }
+    },
     addUploadingFiles(
       state: AIChat,
       action: PayloadAction<{ categoryName: string; filename?: string; link?: string }>
@@ -165,14 +225,7 @@ const aiChatPage = createSlice({
         });
       }
     },
-    setChats(state: AIChat, action: PayloadAction<Chat[]>) {
-      state.chats = action.payload;
-    },
-    addChat(state: AIChat, action: PayloadAction<Chat>) {
-      state.chats.unshift(action.payload);
-    },
   },
 });
 
-export const { addChat } = aiChatPage.actions;
 export default aiChatPage.reducer;

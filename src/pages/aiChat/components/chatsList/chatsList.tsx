@@ -1,19 +1,27 @@
 import React, { useState } from 'react';
 import styles from './chatsList.module.scss';
-import { useAppSelector } from '../../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import ChatCard from '../chatCard/chatCard';
 import { Button } from '../../../../components/button';
 import { Plus } from '../../../../assets/svg/SVGcomponent';
+import { addChatAction, Chat, removeChatAction } from '../../aiChatSlice';
+import ChatsListSettingsSidebar from '../chatsListSettingsSidebar/chatsListSettingsSidebar';
 
 const ChatsList = () => {
   const { categories } = useAppSelector((state) => state.aiChatState);
   const [selectedCategory, setSelectedCategory] = useState(categories[0] ? categories[0].name : '');
-  const [selectedChat, setSelectedChat] = useState(
-    categories.find((cat) => cat.name === selectedCategory)?.chats[0]
-  );
+  const [selectedChat, setSelectedChat] = useState<Chat>();
+  const [showSettingsSidebar, setShowSettingsSidebar] = useState<boolean>(false);
+  const currentCategory = categories.find((cat) => cat.name === selectedCategory);
+
+  const dispatch = useAppDispatch();
 
   return (
     <div className={styles.container}>
+      <ChatsListSettingsSidebar
+        isOpened={showSettingsSidebar}
+        chat={currentCategory?.chats.find((c) => c.id === selectedChat?.id)}
+      />
       <div className={styles.chatsWrapper}>
         <select
           defaultValue={categories[0]?.name}
@@ -26,13 +34,17 @@ const ChatsList = () => {
         <div>
           {categories
             .find((cat) => cat.name === selectedCategory)
-            ?.chats.map((chat) => {
+            ?.chats.map((chat, i) => {
               return (
                 <ChatCard
                   name={chat.name}
-                  active={chat.id === selectedChat?.id}
+                  active={selectedChat ? chat.id === selectedChat.id : false}
                   onClickHandler={() => setSelectedChat(chat)}
-                  key={chat.name}
+                  key={i}
+                  onSettingsPress={() => setShowSettingsSidebar((prev) => !prev)}
+                  onRemovePress={() => dispatch(removeChatAction(chat.categoryName, chat.id))}
+                  chatId={chat.id}
+                  categoryName={chat.categoryName}
                 />
               );
             })}
@@ -43,7 +55,7 @@ const ChatsList = () => {
         variant={'contained'}
         text={'Add chat'}
         IconLeft={Plus}
-        onClick={() => null}
+        onClick={() => dispatch(addChatAction(selectedCategory))}
       />
     </div>
   );

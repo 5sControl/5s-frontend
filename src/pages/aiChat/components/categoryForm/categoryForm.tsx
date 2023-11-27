@@ -3,9 +3,9 @@ import styles from './categoryForm.module.scss';
 import { Button } from '../../../../components/button';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import {
-  apiCreateCategory,
-  editCategory,
-  removeCategory,
+  createCategoryAction,
+  editCategoryAction,
+  removeCategoryAction,
   removeCategorySourceAction,
   uploadSourceAction,
 } from '../../aiChatSlice';
@@ -56,7 +56,7 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
   const onFormSubmit = () => {
     switch (actionType) {
       case 'create':
-        dispatch(apiCreateCategory(categoryName, categoryDescription));
+        dispatch(createCategoryAction(categoryName, categoryDescription));
         closeHandler();
         break;
       case 'removeSource':
@@ -66,13 +66,13 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
         break;
       case 'remove':
         if (!category) return;
-        dispatch(removeCategory(category));
+        dispatch(removeCategoryAction(category));
         closeHandler();
         navigate('/ai-chat?tab=base');
         break;
       case 'edit':
         if (!category) return;
-        dispatch(editCategory(category, categoryName, categoryDescription));
+        dispatch(editCategoryAction(category, categoryName, categoryDescription));
         navigate(`/ai-chat/base/${categoryName}`);
         closeHandler();
         break;

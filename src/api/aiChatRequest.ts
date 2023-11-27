@@ -38,6 +38,34 @@ export const editChatCategory = (
     .then((res) => res.data);
 };
 
+export const addChat = (categoryName: string) => {
+  return axios
+    .post(`${process.env.REACT_APP_CHAT_API}createChat?categoryName=${categoryName}`)
+    .then((res) => res.data);
+};
+
+export const removeChat = (categoryName: string, chatId: string) => {
+  return axios
+    .post(
+      `${process.env.REACT_APP_CHAT_API}removeChat?categoryName=${categoryName}&chatId=${chatId}`
+    )
+    .then((res) => res.data);
+};
+
+export const editChat = (data: {
+  categoryName: string;
+  chatId: string;
+  sources?: string[];
+  chatName?: string;
+}) => {
+  return axios({
+    method: 'post',
+    url: `${process.env.REACT_APP_CHAT_API}editChat`,
+    data,
+    headers: { 'Content-Type': 'application/json' },
+  }).then((res) => res.data);
+};
+
 export const uploadSourcesApi = (categoryName: string, data: FormData) => {
   return axios({
     method: 'post',
