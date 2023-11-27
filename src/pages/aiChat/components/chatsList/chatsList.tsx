@@ -4,13 +4,12 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import ChatCard from '../chatCard/chatCard';
 import { Button } from '../../../../components/button';
 import { Plus } from '../../../../assets/svg/SVGcomponent';
-import { addChatAction, Chat, removeChatAction } from '../../aiChatSlice';
+import { addChatAction, removeChatAction, setSelectedChatAction } from '../../aiChatSlice';
 import ChatsListSettingsSidebar from '../chatsListSettingsSidebar/chatsListSettingsSidebar';
 
 const ChatsList = () => {
-  const { categories } = useAppSelector((state) => state.aiChatState);
+  const { categories, selectedChat } = useAppSelector((state) => state.aiChatState);
   const [selectedCategory, setSelectedCategory] = useState(categories[0] ? categories[0].name : '');
-  const [selectedChat, setSelectedChat] = useState<Chat>();
   const [showSettingsSidebar, setShowSettingsSidebar] = useState<boolean>(false);
   const currentCategory = categories.find((cat) => cat.name === selectedCategory);
 
@@ -39,7 +38,7 @@ const ChatsList = () => {
                 <ChatCard
                   name={chat.name}
                   active={selectedChat ? chat.id === selectedChat.id : false}
-                  onClickHandler={() => setSelectedChat(chat)}
+                  onClickHandler={() => dispatch(setSelectedChatAction(chat))}
                   key={i}
                   onSettingsPress={() => setShowSettingsSidebar((prev) => !prev)}
                   onRemovePress={() => dispatch(removeChatAction(chat.categoryName, chat.id))}

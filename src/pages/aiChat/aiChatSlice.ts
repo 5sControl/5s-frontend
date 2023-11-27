@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   addChat,
+  askChat,
   createChatCategory,
   editChat,
   editChatCategory,
@@ -11,6 +12,8 @@ import {
   uploadSourcesApi,
 } from '../../api/aiChatRequest';
 import { AppDispatch } from '../../store';
+import chat from './components/chat/chat';
+import { dispatch } from 'd3';
 
 interface SourceData {
   name: string;
@@ -55,13 +58,13 @@ export interface Chat {
 interface AIChat {
   isLoading: boolean;
   categories: Category[];
-  chats: Chat[];
+  selectedChat: Chat;
 }
 
 const initialState: AIChat = {
   isLoading: false,
   categories: [],
-  chats: [],
+  selectedChat: {} as Chat,
 };
 
 export const fetchCategoriesAction = () => async (dispatch: AppDispatch) => {
@@ -140,11 +143,26 @@ export const editChatSourcesAction =
     dispatch(aiChatPage.actions.setChatSources({ categoryName, chatId, sources }));
   };
 
+export const setSelectedChatAction = (chat: Chat) => (dispatch: AppDispatch) => {
+  dispatch(aiChatPage.actions.setSelectedChat(chat));
+};
+
 export const editChatAction =
   (payloadData: { categoryName: string; chatId: string; sources?: string[]; chatName?: string }) =>
   async (dispatch: AppDispatch) => {
     try {
       const data = await editChat(payloadData);
+      dispatch(aiChatPage.actions.setCategories(data));
+    } catch {
+      console.log('error fetching categories');
+    }
+  };
+
+export const askChatAction =
+  (chatId: string, prompt: string, categoryName: string) => async (dispatch: AppDispatch) => {
+    try {
+      const data = await askChat(chatId, prompt, categoryName);
+      console.log(data);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
       console.log('error fetching categories');
@@ -189,6 +207,9 @@ const aiChatPage = createSlice({
     },
     setLoading(state: AIChat, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
+    },
+    setSelectedChat(state: AIChat, action: PayloadAction<Chat>) {
+      state.selectedChat = action.payload;
     },
     setChatSources(
       state: AIChat,

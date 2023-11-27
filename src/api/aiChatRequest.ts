@@ -44,6 +44,14 @@ export const addChat = (categoryName: string) => {
     .then((res) => res.data);
 };
 
+export const askChat = (chatId: string, prompt: string, categoryName: string) => {
+  return axios
+    .get(
+      `${process.env.REACT_APP_CHAT_API}ask?chatId=${chatId}&prompt=${prompt}&categoryName=${categoryName}`
+    )
+    .then((res) => res.data);
+};
+
 export const removeChat = (categoryName: string, chatId: string) => {
   return axios
     .post(

@@ -47,6 +47,7 @@ const ChatCard: FC<Props> = ({
     <div onClick={onClickHandler} className={active ? styles.activeContainer : styles.container}>
       {editMode ? (
         <input
+          autoFocus
           value={newChatName}
           onChange={(e) => setNewChatName(e.currentTarget.value)}
           onBlur={() => setEditMode(false)}
