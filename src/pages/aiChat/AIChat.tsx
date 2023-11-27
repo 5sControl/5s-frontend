@@ -20,33 +20,25 @@ const AiChatPage = () => {
 
   return (
     <>
-      {!isLoading && (
-        <>
-          <div className={styles.aiChat}>
-            <HeaderMain title={'AI Chat'}>
-              <section className={styles.tabs}>
-                <div
-                  className={`${styles.tab} ${
-                    activeTab === 'chat' ? styles.active : styles.noActive
-                  }`}
-                  onClick={() => navigate('/ai-chat?tab=chat')}
-                >
-                  <span>Chat</span>
-                </div>
-                <div
-                  className={`${styles.tab} ${
-                    activeTab === 'base' ? styles.active : styles.noActive
-                  }`}
-                  onClick={() => navigate('/ai-chat?tab=base')}
-                >
-                  <span>Knowledge base</span>
-                </div>
-              </section>
-            </HeaderMain>
-            {activeTab === 'chat' ? <Chat /> : <KnowledgeBase />}
-          </div>
-        </>
-      )}
+      <div className={styles.aiChat}>
+        <HeaderMain title={'AI Chat'}>
+          <section className={styles.tabs}>
+            <div
+              className={`${styles.tab} ${activeTab === 'chat' ? styles.active : styles.noActive}`}
+              onClick={() => navigate('/ai-chat?tab=chat')}
+            >
+              <span>Chat</span>
+            </div>
+            <div
+              className={`${styles.tab} ${activeTab === 'base' ? styles.active : styles.noActive}`}
+              onClick={() => navigate('/ai-chat?tab=base')}
+            >
+              <span>Knowledge base</span>
+            </div>
+          </section>
+        </HeaderMain>
+        {activeTab === 'chat' ? <Chat /> : <KnowledgeBase />}
+      </div>
     </>
   );
 };

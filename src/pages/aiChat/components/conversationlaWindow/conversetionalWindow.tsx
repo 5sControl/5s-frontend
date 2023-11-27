@@ -7,9 +7,10 @@ import { askChatAction } from '../../aiChatSlice';
 import CategoryForm from '../categoryForm/categoryForm';
 import { Modal } from '../../../../components/modal';
 import { BiCopy } from 'react-icons/bi';
+import { ClipLoader } from 'react-spinners';
 
 const ConversetionalWindow = () => {
-  const { selectedChat, categories } = useAppSelector((state) => state.aiChatState);
+  const { selectedChat, categories, isLoading } = useAppSelector((state) => state.aiChatState);
   const [showAddCategoryModal, setShowAddCategoryModal] = useState<boolean>(false);
   const [prompt, setPrompt] = useState('');
   const dispatch = useAppDispatch();
@@ -53,6 +54,11 @@ const ConversetionalWindow = () => {
         );
       })}
       <div className={styles.inputWrapper}>
+        {isLoading && (
+          <div>
+            <ClipLoader size={28} color={'rgba(254, 97, 0, 1)'} />
+          </div>
+        )}
         <div onClick={() => setShowAddCategoryModal(true)}>
           <IoIosAttach />
         </div>

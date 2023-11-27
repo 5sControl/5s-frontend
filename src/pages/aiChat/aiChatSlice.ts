@@ -160,11 +160,14 @@ export const editChatAction =
 
 export const askChatAction =
   (chatId: string, prompt: string, categoryName: string) => async (dispatch: AppDispatch) => {
+    dispatch(aiChatPage.actions.setLoading(true));
     try {
       const data = await askChat(chatId, prompt, categoryName);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
       console.log('error asking chat');
+    } finally {
+      dispatch(aiChatPage.actions.setLoading(false));
     }
   };
 
