@@ -94,7 +94,7 @@ export const removeCategoryAction = (categoryName: string) => async (dispatch: A
     const data = await removeChatCategory(categoryName);
     dispatch(aiChatPage.actions.setCategories(data));
   } catch {
-    console.log('error fetching categories');
+    console.log('error removing category');
   }
 };
 
@@ -105,7 +105,7 @@ export const editCategoryAction =
       const data = await editChatCategory(oldCategoryName, categoryName, description);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
-      console.log('error fetching categories');
+      console.log('error editing category');
     }
   };
 
@@ -115,7 +115,7 @@ export const removeCategorySourceAction =
       const data = await removeCategorySource(fileName, categoryName);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
-      console.log('error fetching categories');
+      console.log('error removing category source');
     }
   };
 
@@ -124,7 +124,7 @@ export const addChatAction = (categoryName: string) => async (dispatch: AppDispa
     const data = await addChat(categoryName);
     dispatch(aiChatPage.actions.setCategories(data));
   } catch {
-    console.log('error fetching categories');
+    console.log('error adding chat');
   }
 };
 
@@ -134,7 +134,7 @@ export const removeChatAction =
       const data = await removeChat(categoryName, chatId);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
-      console.log('error fetching categories');
+      console.log('error removing chat');
     }
   };
 
@@ -154,7 +154,7 @@ export const editChatAction =
       const data = await editChat(payloadData);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
-      console.log('error fetching categories');
+      console.log('error editing chat');
     }
   };
 
@@ -162,10 +162,9 @@ export const askChatAction =
   (chatId: string, prompt: string, categoryName: string) => async (dispatch: AppDispatch) => {
     try {
       const data = await askChat(chatId, prompt, categoryName);
-      console.log(data);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
-      console.log('error fetching categories');
+      console.log('error asking chat');
     }
   };
 
@@ -191,7 +190,7 @@ export const uploadSourceAction =
   };
 
 const aiChatPage = createSlice({
-  name: 'inventory',
+  name: 'ai-chat',
   initialState,
   reducers: {
     setCategories(state: AIChat, action: PayloadAction<FetchedCategories[]>) {
@@ -204,6 +203,7 @@ const aiChatPage = createSlice({
           },
         };
       });
+      console.log(state.categories);
     },
     setLoading(state: AIChat, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
