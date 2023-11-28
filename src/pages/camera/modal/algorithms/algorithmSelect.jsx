@@ -15,7 +15,6 @@ export const AlgorithmSelect = ({
   setOperationID,
   isCreateCamera,
   cameraSelect,
-  cameraIP,
   userName,
   password,
   setConfigAlgo,
@@ -68,6 +67,7 @@ export const AlgorithmSelect = ({
             algoObj[el] = result[el];
           });
           setAlgoWorkzone({ ...algoObj });
+          console.log(algoObj);
         }
       });
     }

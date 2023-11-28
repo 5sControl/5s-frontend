@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { proxy } from './api';
 
 const API_OPERATIONS = 'api/new-order/operations/';
 // const API_OPERATIONS = 'api/new-order/machine/';

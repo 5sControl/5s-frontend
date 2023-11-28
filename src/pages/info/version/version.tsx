@@ -52,7 +52,7 @@ export const Version: React.FC = () => {
                   <span className={styles.version_row_title}>{name}: </span>
                   <div className={styles.version_row_text}>
                     <span>{version} </span>
-                    <span>{moment(date).format('DD.MM.YYYY')} </span>
+                    <span>{date}</span>
                   </div>
                 </div>
               );

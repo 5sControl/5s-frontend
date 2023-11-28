@@ -37,7 +37,7 @@ body {
 .swiper-pagination-fraction {
   position: absolute !important;
   top: 20px !important;
-  right: 10px !important; 
+  right: 10px !important;
   left: calc(100% - 70px) !important;
   padding: 5px 15px !important;
   color: white !important;
@@ -46,22 +46,23 @@ body {
   background: #0000006b;
   border-radius: 21px;
 }
-.swiper-button-disabled{
+.swiper-button-disabled {
   opacity: 0 !important;
 }
 
-.swiper-button-prev, .swiper-button-next{
+.swiper-button-prev,
+.swiper-button-next {
   width: 30px !important;
   height: 30px !important;
   background: #0000006b !important;
   border-radius: 50%;
   transition: all 0.5s;
-  &:hover{
+  &:hover {
     transform: scale(1.1);
   }
-  &::after{
-    font-size:20px !important;
-    color:white !important;
+  &::after {
+    font-size: 20px !important;
+    color: white !important;
   }
 }
 
@@ -77,33 +78,33 @@ body {
 }
 ::-webkit-scrollbar {
   background-color: inherit;
-  width: 6px
+  width: 6px;
 }
 
 /* background of the scrollbar except button or resizer */
 ::-webkit-scrollbar-track {
-  background-color: inherit
+  background-color: inherit;
 }
 
 ::-webkit-scrollbar-track:hover {
-  background-color: #fff
+  background-color: #fff;
 }
 
 /* scrollbar itself */
 ::-webkit-scrollbar-thumb {
   background-color: #babac0;
   border-radius: 16px;
-  border: 0px solid #fff
+  border: 0px solid #fff;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #a0a0a5;
-  border: 1px solid #f4f4f4
+  border: 1px solid #f4f4f4;
 }
 
 /* set button(top and bottom of the scrollbar) */
 ::-webkit-scrollbar-button {
-  display: none
+  display: none;
 }
 
 .spinner {
@@ -117,7 +118,7 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 5px solid rgba(0, 0, 0, 0.0);
+  border: 5px solid rgba(0, 0, 0, 0);
   border-top-color: #fe6100;
   border-left-color: #fe6100;
   border-bottom-color: #fe6100;
@@ -130,5 +131,29 @@ body {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+.multi-range-slider {
+  border: none !important;
+  box-shadow: none !important;
+  .bar-left,
+  .bar-right,
+  .bar-inner,
+  .thumb-left:before,
+  .thumb-right:before {
+    box-shadow: none !important;
+    border: none;
+  }
+  .caption {
+    pointer-events: none;
+    display: flex;
+    bottom: 25px !important;
+  }
+  .min-caption, .max-caption {
+    padding: 0!important;
+    box-shadow: none!important;
+    background-color: inherit!important;
+    color:#666666!important
   }
 }

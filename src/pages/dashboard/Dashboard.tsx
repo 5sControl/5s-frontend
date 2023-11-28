@@ -127,7 +127,9 @@ function Dashboard() {
           />
         </HeaderMain>
 
-        <main className={styles.wrapper}>
+        <main
+          className={`${styles.wrapper} ${activePage === 'timelines' && styles.whiteBackground}`}
+        >
           <section className={styles.content}>
             {!data || isPreloader ? (
               <Preloader />
