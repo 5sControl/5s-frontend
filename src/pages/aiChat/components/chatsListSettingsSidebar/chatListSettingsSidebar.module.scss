@@ -1,0 +1,59 @@
+@import '../../../../styles/common.scss';
+@import '../../../../styles/fonts';
+
+.container {
+  z-index: 5;
+  height: 100%;
+  width: 260px;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 10px;
+}
+
+.wrapper {
+  z-index: 5;
+  height: 100%;
+  position: absolute;
+  left: 330px;
+  padding: 10px;
+  top: 0px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  border-radius: var(--Corner-radius, 4px);
+  background: #FFF;
+  box-shadow: 0px 0px 8px 0px rgba(42, 98, 149, 0.25);
+}
+
+.sourceContainer {
+  width: 260px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  column-gap: 6px;
+  height: 32px;
+}
+
+.applyButton {
+  width: 100%;
+  background: #FFF;
+}
+
+.title {
+  @include h4
+}
+
+
+.subtitle {
+  @include h5
+}
+
+.plainText {
+  @include body2;
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

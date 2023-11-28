@@ -1,0 +1,41 @@
+@import '../../../../styles/common.scss';
+@import '../../../../styles/fonts';
+
+.container {
+  width: 100%;
+  display: flex;
+  height: 50px;
+  padding: 0px 10px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px;
+  cursor: default;
+  input {
+    height: 40px;
+    border-radius: 4px;
+    padding: 4px 4px 4px 4px;
+    border-width: 1px;
+    border-color: rgba(158, 158, 158, 1);
+    width: 50%;
+    background: rgba(254, 97, 0, 0.10);
+    border-color: rgba(102, 102, 102, 1);
+    :focus {
+      border-color: rgba(102, 102, 102, 1);
+    }
+  }
+}
+
+.activeContainer {
+ @extend .container;
+  background: var(--product-akcent-transperent, rgba(254, 97, 0, 0.10));
+}
+
+.actionsContainer {
+  @include flexCenter;
+  column-gap: 8px;
+  svg {
+    transform: scale(1.2);
+    fill: #2c2c2c;
+    cursor: pointer;
+  }
+}

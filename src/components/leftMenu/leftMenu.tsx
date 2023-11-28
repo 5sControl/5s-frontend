@@ -8,6 +8,7 @@ import {
   ConfigurationNew,
   Info,
   Logout,
+  AIChat,
 } from '../../assets/svg/SVGcomponent';
 import { useEffect, useState } from 'react';
 import { getCompanySubsInfo, getUserList } from '../../api/companyRequest';
@@ -37,6 +38,9 @@ export const LeftMenu = () => {
     }
     if (window.location.pathname.includes('inventory')) {
       document.title = 'Inventory';
+    }
+    if (window.location.pathname.includes('ai-chat')) {
+      document.title = 'AI Chat';
     }
     if (window.location.pathname.includes('configuration')) {
       document.title = 'Configuration';
@@ -106,6 +110,14 @@ export const LeftMenu = () => {
           <Link to="/inventory">
             <Inventory />
             <span>Inventory</span>
+          </Link>
+        </li>
+        <li
+          className={window.location.pathname.includes('ai-chat') ? 'activeMenu' : 'noActiveMenu'}
+        >
+          <Link to="/ai-chat?tab=chat">
+            <AIChat />
+            <span>AI Chat</span>
           </Link>
         </li>
         <hr></hr>

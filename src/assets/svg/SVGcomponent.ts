@@ -15,6 +15,7 @@ import { ReactComponent as SearchIcon } from './searchIcon.svg';
 import { ReactComponent as CloseCross } from './closeCross.svg';
 import { ReactComponent as VideoCamera } from './videoCamera.svg';
 import { ReactComponent as Inventory } from './inventory.svg';
+import { ReactComponent as AIChat } from './aiChat.svg';
 import { ReactComponent as Plus } from './plus.svg';
 import { ReactComponent as PlusPrimary } from './plusPrimary.svg';
 import { ReactComponent as Settings } from './settings.svg';
@@ -47,6 +48,7 @@ import { ReactComponent as NotificationWarning } from './notificationWarning.svg
 import { ReactComponent as NotificationInfo } from './notificationInfo.svg';
 import { ReactComponent as LogoHorizontal } from './5scontrol.svg';
 import { ReactComponent as Info } from './info.svg';
+import { ReactComponent as ChatInfo } from './chatInfo.svg';
 import { ReactComponent as ConfigurationNew } from './configurationNew.svg';
 import { ReactComponent as SliderArrow } from './sliderArrow.svg';
 import { ReactComponent as PaginatorRight } from './paginatorRight.svg';
@@ -66,6 +68,8 @@ import { ReactComponent as InvBottle } from './invBottle.svg';
 import { ReactComponent as InvBox } from './invBox.svg';
 import { ReactComponent as Logout } from './logout.svg';
 import { ReactComponent as Folber } from './folber.svg';
+import { ReactComponent as LinkIcon } from './linkIcon.svg';
+import { ReactComponent as FileIcon } from './fileIcon.svg';
 
 export {
   InvRedLine,
@@ -136,4 +140,8 @@ export {
   FiveS,
   Logout,
   Folber,
+  AIChat,
+  ChatInfo,
+  FileIcon,
+  LinkIcon,
 };
