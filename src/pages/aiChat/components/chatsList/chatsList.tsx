@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './chatsList.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import ChatCard from '../chatCard/chatCard';
@@ -9,7 +9,7 @@ import ChatsListSettingsSidebar from '../chatsListSettingsSidebar/chatsListSetti
 
 const ChatsList = () => {
   const { categories, selectedChat } = useAppSelector((state) => state.aiChatState);
-  const [selectedCategory, setSelectedCategory] = useState(categories[0] ? categories[0].name : '');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [showSettingsSidebar, setShowSettingsSidebar] = useState<boolean>(false);
   const currentCategory = categories.find((cat) => cat.name === selectedCategory);
 
@@ -23,11 +23,13 @@ const ChatsList = () => {
       />
       <div className={styles.chatsWrapper}>
         <select
-          defaultValue={categories[0]?.name}
-          onChange={(e) => setSelectedCategory(e.currentTarget.value)}
+          onChange={(e) => {
+            setSelectedCategory(e.currentTarget.value);
+          }}
         >
+          <option>Select category</option>
           {categories.map((category) => {
-            return <option key={category.name}>{`@${category.name}`}</option>;
+            return <option key={category.name} value={category.name}>{`@${category.name}`}</option>;
           })}
         </select>
         <div>
