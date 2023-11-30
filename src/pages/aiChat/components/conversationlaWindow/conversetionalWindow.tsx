@@ -23,6 +23,11 @@ const ConversetionalWindow = () => {
     dispatch(askChatAction(selectedChat.id, prompt, selectedChat.categoryName));
     setPrompt('');
   };
+  const handleKeyPress = (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      onAskPressHandler();
+    }
+  };
 
   return (
     <div className={styles.container}>

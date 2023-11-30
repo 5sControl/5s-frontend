@@ -2,6 +2,7 @@
 @import '../../../../styles/fonts';
 
 .container {
+  overflow: scroll;
   width: 70%;
   height: 100%;
   align-items: flex-end;
