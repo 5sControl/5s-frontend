@@ -6,6 +6,7 @@ import {
   editChat,
   editChatCategory,
   getChatCategories,
+  getModels,
   removeCategorySource,
   removeChat,
   removeChatCategory,
@@ -13,7 +14,6 @@ import {
 } from '../../api/aiChatRequest';
 import { AppDispatch } from '../../store';
 import chat from './components/chat/chat';
-import { dispatch } from 'd3';
 
 interface SourceData {
   name: string;
@@ -48,6 +48,7 @@ export interface Chat {
   id: string;
   name: string;
   categoryName: string;
+  modelName: string;
   sources: string[];
   history: {
     author: 'chat' | 'user';
@@ -58,12 +59,14 @@ export interface Chat {
 interface AIChat {
   isLoading: boolean;
   categories: Category[];
+  availableModels: string[];
   selectedChat: Chat;
 }
 
 const initialState: AIChat = {
   isLoading: false,
   categories: [],
+  availableModels: [],
   selectedChat: {} as Chat,
 };
 
@@ -72,6 +75,18 @@ export const fetchCategoriesAction = () => async (dispatch: AppDispatch) => {
   try {
     const data = await getChatCategories();
     dispatch(aiChatPage.actions.setCategories(data));
+  } catch {
+    console.log('error fetching categories');
+  } finally {
+    dispatch(aiChatPage.actions.setLoading(false));
+  }
+};
+
+export const fetchAvailableModelsAction = () => async (dispatch: AppDispatch) => {
+  dispatch(aiChatPage.actions.setLoading(true));
+  try {
+    const data = await getModels();
+    dispatch(aiChatPage.actions.setModels(data));
   } catch {
     console.log('error fetching categories');
   } finally {
@@ -119,14 +134,15 @@ export const removeCategorySourceAction =
     }
   };
 
-export const addChatAction = (categoryName: string) => async (dispatch: AppDispatch) => {
-  try {
-    const data = await addChat(categoryName);
-    dispatch(aiChatPage.actions.setCategories(data));
-  } catch {
-    console.log('error adding chat');
-  }
-};
+export const addChatAction =
+  (categoryName: string, modelName: string) => async (dispatch: AppDispatch) => {
+    try {
+      const data = await addChat(categoryName, modelName);
+      dispatch(aiChatPage.actions.setCategories(data));
+    } catch {
+      console.log('error adding chat');
+    }
+  };
 
 export const removeChatAction =
   (categoryName: string, chatId: string) => async (dispatch: AppDispatch) => {
@@ -148,7 +164,13 @@ export const setSelectedChatAction = (chat: Chat) => (dispatch: AppDispatch) => 
 };
 
 export const editChatAction =
-  (payloadData: { categoryName: string; chatId: string; sources?: string[]; chatName?: string }) =>
+  (payloadData: {
+    categoryName: string;
+    chatId: string;
+    sources?: string[];
+    chatName?: string;
+    modelName: string;
+  }) =>
   async (dispatch: AppDispatch) => {
     try {
       const data = await editChat(payloadData);
@@ -159,10 +181,11 @@ export const editChatAction =
   };
 
 export const askChatAction =
-  (chatId: string, prompt: string, categoryName: string) => async (dispatch: AppDispatch) => {
+  (chatId: string, prompt: string, categoryName: string, useChain: string) =>
+  async (dispatch: AppDispatch) => {
     dispatch(aiChatPage.actions.setLoading(true));
     try {
-      const data = await askChat(chatId, prompt, categoryName);
+      const data = await askChat(chatId, prompt, categoryName, useChain);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
       console.log('error asking chat');
@@ -196,6 +219,9 @@ const aiChatPage = createSlice({
   name: 'ai-chat',
   initialState,
   reducers: {
+    setModels(state: AIChat, action: PayloadAction<string[]>) {
+      state.availableModels = action.payload;
+    },
     setCategories(state: AIChat, action: PayloadAction<FetchedCategories[]>) {
       state.categories = action.payload.map((category) => {
         return {

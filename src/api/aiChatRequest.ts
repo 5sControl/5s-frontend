@@ -10,6 +10,12 @@ export const getChatCategories = () => {
     .then((res) => res.data);
 };
 
+export const getModels = () => {
+  return axios
+    .get(`${process.env.REACT_APP_CHAT_API}getModels`, { headers: ngrokHeaders })
+    .then((res) => res.data);
+};
+
 export const createChatCategory = (categoryName: string, description: string) => {
   return axios
     .post(
@@ -56,18 +62,27 @@ export const editChatCategory = (
     .then((res) => res.data);
 };
 
-export const addChat = (categoryName: string) => {
+export const addChat = (categoryName: string, modelName: string) => {
   return axios
-    .post(`${process.env.REACT_APP_CHAT_API}createChat?categoryName=${categoryName}`, null, {
-      headers: ngrokHeaders,
-    })
+    .post(
+      `${process.env.REACT_APP_CHAT_API}createChat?categoryName=${categoryName}&modelName=${modelName}`,
+      null,
+      {
+        headers: ngrokHeaders,
+      }
+    )
     .then((res) => res.data);
 };
 
-export const askChat = (chatId: string, prompt: string, categoryName: string) => {
+export const askChat = (
+  chatId: string,
+  prompt: string,
+  categoryName: string,
+  useChain?: string
+) => {
   return axios
     .get(
-      `${process.env.REACT_APP_CHAT_API}ask?chatId=${chatId}&prompt=${prompt}&categoryName=${categoryName}`,
+      `${process.env.REACT_APP_CHAT_API}ask?chatId=${chatId}&prompt=${prompt}&categoryName=${categoryName}&useChain=${useChain}`,
       {
         headers: ngrokHeaders,
       }
@@ -92,6 +107,7 @@ export const editChat = (data: {
   chatId: string;
   sources?: string[];
   chatName?: string;
+  modelName: string;
 }) => {
   return axios({
     method: 'post',

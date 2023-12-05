@@ -8,7 +8,9 @@ import { addChatAction, removeChatAction, setSelectedChatAction } from '../../ai
 import ChatsListSettingsSidebar from '../chatsListSettingsSidebar/chatsListSettingsSidebar';
 
 const ChatsList = () => {
-  const { categories, selectedChat } = useAppSelector((state) => state.aiChatState);
+  const { categories, selectedChat, availableModels } = useAppSelector(
+    (state) => state.aiChatState
+  );
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showSettingsSidebar, setShowSettingsSidebar] = useState<boolean>(false);
   const currentCategory = categories.find((cat) => cat.name === selectedCategory);
@@ -45,6 +47,7 @@ const ChatsList = () => {
                   onSettingsPress={() => setShowSettingsSidebar((prev) => !prev)}
                   onRemovePress={() => dispatch(removeChatAction(chat.categoryName, chat.id))}
                   chatId={chat.id}
+                  modelName={chat.modelName}
                   categoryName={chat.categoryName}
                 />
               );
@@ -56,7 +59,7 @@ const ChatsList = () => {
         variant={'contained'}
         text={'Add chat'}
         IconLeft={Plus}
-        onClick={() => dispatch(addChatAction(selectedCategory))}
+        onClick={() => dispatch(addChatAction(selectedCategory, availableModels[0]))}
       />
     </div>
   );

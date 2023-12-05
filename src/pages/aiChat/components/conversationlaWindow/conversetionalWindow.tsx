@@ -20,13 +20,8 @@ const ConversetionalWindow = () => {
     ?.chats.find((chat) => chat.id === selectedChat.id);
 
   const onAskPressHandler = () => {
-    dispatch(askChatAction(selectedChat.id, prompt, selectedChat.categoryName));
+    dispatch(askChatAction(selectedChat.id, prompt, selectedChat.categoryName, ''));
     setPrompt('');
-  };
-  const handleKeyPress = (event: KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      onAskPressHandler();
-    }
   };
 
   return (

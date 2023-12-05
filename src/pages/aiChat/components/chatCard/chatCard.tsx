@@ -14,6 +14,7 @@ interface Props {
   onRemovePress: () => void;
   chatId: string;
   categoryName: string;
+  modelName: string;
 }
 
 const ChatCard: FC<Props> = ({
@@ -21,6 +22,7 @@ const ChatCard: FC<Props> = ({
   name,
   chatId,
   categoryName,
+  modelName,
   onClickHandler,
   onSettingsPress,
   onRemovePress,
@@ -39,7 +41,7 @@ const ChatCard: FC<Props> = ({
   };
 
   const onAcceptPressHandler = () => {
-    dispatch(editChatAction({ chatId, categoryName, chatName: newChatName }));
+    dispatch(editChatAction({ chatId, categoryName, chatName: newChatName, modelName }));
     setEditMode(false);
   };
 

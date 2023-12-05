@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Chat, editChatAction, editChatSourcesAction } from '../../aiChatSlice';
 import styles from './chatListSettingsSidebar.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
@@ -11,9 +11,10 @@ interface Props {
 }
 
 const ChatsListSettingsSidebar: FC<Props> = ({ chat, isOpened }) => {
-  const { categories } = useAppSelector((state) => state.aiChatState);
+  const { categories, availableModels } = useAppSelector((state) => state.aiChatState);
   const currentChatCategory = categories.find((cat) => cat.name === chat?.categoryName);
   const dispatch = useAppDispatch();
+  const [selectedModel, setSelectedModel] = useState(availableModels[0]);
 
   const onSourceClick = (source: string) => {
     if (chat && chat.sources.includes(source)) {
@@ -28,13 +29,13 @@ const ChatsListSettingsSidebar: FC<Props> = ({ chat, isOpened }) => {
 
   const onApplyPress = () => {
     if (currentChatCategory && chat) {
-      console.log('here');
       dispatch(
         editChatAction({
           categoryName: currentChatCategory.name,
           chatId: chat.id,
           chatName: chat.name,
           sources: chat.sources,
+          modelName: selectedModel ? selectedModel : chat.modelName,
         })
       );
     }
@@ -46,6 +47,10 @@ const ChatsListSettingsSidebar: FC<Props> = ({ chat, isOpened }) => {
         <div className={styles.wrapper}>
           <div className={styles.container}>
             <span className={styles.title}>Chat settings</span>
+            {availableModels.map((m) => {
+              // eslint-disable-next-line react/jsx-key
+              return <span>{m}</span>;
+            })}
             <div className={styles.plainText}>{`Used @${
               chat.categoryName ? chat.categoryName : ''
             }`}</div>
