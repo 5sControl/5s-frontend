@@ -82,7 +82,11 @@ export const askChat = (
 ) => {
   return axios
     .get(
-      `${process.env.REACT_APP_CHAT_API}ask?chatId=${chatId}&prompt=${prompt}&categoryName=${categoryName}&useChain=${useChain}`,
+      `${
+        process.env.REACT_APP_CHAT_API
+      }ask?chatId=${chatId}&prompt=${prompt}&categoryName=${categoryName}${
+        useChain && `&useChain=${useChain}`
+      }`,
       {
         headers: ngrokHeaders,
       }

@@ -49,7 +49,6 @@ const ProcessingSourceCard: FC<Props> = ({ name, size, date, type, variant }) =>
           {type === 'file' ? <FileIcon /> : <LinkIcon />}
           <span className={styles.plainText}>{name}</span>
         </div>
-        <span className={styles.plainText}>{size}</span>
         <span className={styles.plainText}>{date}</span>
         <div className={styles.actionsBlock}>
           {variant === 'processing' && (

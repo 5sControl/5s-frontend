@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './categoryPage.module.scss';
 import { HeaderMain } from '../../../../components/header';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAppSelector } from '../../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import ProcessingSourceCard from '../processingFileCard/processingSourceCard';
 import { Delete, Edit, Plus } from '../../../../assets/svg/SVGcomponent';
 import { Button } from '../../../../components/button';
 import { Modal } from '../../../../components/modal';
 import CategoryForm from '../categoryForm/categoryForm';
+import { fetchAvailableModelsAction, fetchCategoriesAction } from '../../aiChatSlice';
 
 const CategoryPage = () => {
   const navigate = useNavigate();
@@ -17,6 +18,12 @@ const CategoryPage = () => {
   const [categoryModalAction, setCategoryModalAction] = useState<
     'create' | 'edit' | 'remove' | 'removeSource' | 'addSource'
   >('addSource');
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCategoriesAction());
+    dispatch(fetchAvailableModelsAction());
+  }, []);
 
   const currentCategory = categories.find((cat) => cat.name === category);
 

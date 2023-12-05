@@ -109,7 +109,7 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
           <>
             <span className={styles.plainText}>Category name</span>
             <select
-              defaultValue={categories[0].name}
+              defaultValue={category}
               onChange={(e) => setCategoryName(e.currentTarget.value)}
             >
               {categories.map((category) => {
@@ -127,7 +127,7 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
                   Upload
                 </div>
                 <input
-                  style={{ display: 'none' }}
+                  style={{ display: 'none', cursor: 'pointer' }}
                   type={'file'}
                   onChange={(e) => setFileToLoad(e.target.files ? e.target.files[0] : null)}
                 />

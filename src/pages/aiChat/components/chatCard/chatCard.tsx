@@ -40,8 +40,8 @@ const ChatCard: FC<Props> = ({
     setEditMode(false);
   };
 
-  const onAcceptPressHandler = () => {
-    dispatch(editChatAction({ chatId, categoryName, chatName: newChatName, modelName }));
+  const onAcceptPressHandler = async () => {
+    await dispatch(editChatAction({ chatId, categoryName, chatName: newChatName, modelName }));
     setEditMode(false);
   };
 
@@ -52,7 +52,6 @@ const ChatCard: FC<Props> = ({
           autoFocus
           value={newChatName}
           onChange={(e) => setNewChatName(e.currentTarget.value)}
-          onBlur={() => setEditMode(false)}
         />
       ) : (
         <span>{name}</span>
@@ -70,7 +69,12 @@ const ChatCard: FC<Props> = ({
             </>
           ) : (
             <>
-              <div onClick={onSettingsPress}>
+              <div
+                onClick={(e) => {
+                  e.preventDefault();
+                  onSettingsPress();
+                }}
+              >
                 <IoMdSettings />
               </div>
               <div onClick={onEditPressHandler}>

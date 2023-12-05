@@ -12,15 +12,16 @@ import { ClipLoader } from 'react-spinners';
 const ConversetionalWindow = () => {
   const { selectedChat, categories, isLoading } = useAppSelector((state) => state.aiChatState);
   const [showAddCategoryModal, setShowAddCategoryModal] = useState<boolean>(false);
+  const [useContext, setUseContext] = useState(!!selectedChat.sources.length);
   const [prompt, setPrompt] = useState('');
   const dispatch = useAppDispatch();
-
   const currentChat = categories
     .find((cat) => cat.name === selectedChat.categoryName)
     ?.chats.find((chat) => chat.id === selectedChat.id);
 
   const onAskPressHandler = () => {
-    dispatch(askChatAction(selectedChat.id, prompt, selectedChat.categoryName, ''));
+    const useChain = useContext ? 'true' : '';
+    dispatch(askChatAction(selectedChat.id, prompt, selectedChat.categoryName, useChain));
     setPrompt('');
   };
 
@@ -36,23 +37,25 @@ const ConversetionalWindow = () => {
           closeHandler={() => setShowAddCategoryModal(false)}
         />
       </Modal>
-      {currentChat?.history.map((message, i) => {
-        return (
-          <>
-            <div
-              className={message.author === 'chat' ? styles.chatMessage : styles.userMessage}
-              key={i}
-            >
-              {message.message}
-              {message.author === 'chat' && (
-                <div onClick={() => navigator.clipboard.writeText(message.message)}>
-                  <BiCopy />
-                </div>
-              )}
-            </div>
-          </>
-        );
-      })}
+      <div className={styles.chatMessageWrapper}>
+        {currentChat?.history.map((message, i) => {
+          return (
+            <>
+              <div
+                className={message.author === 'chat' ? styles.chatMessage : styles.userMessage}
+                key={i}
+              >
+                {message.message}
+                {message.author === 'chat' && (
+                  <div onClick={() => navigator.clipboard.writeText(message.message)}>
+                    <BiCopy />
+                  </div>
+                )}
+              </div>
+            </>
+          );
+        })}
+      </div>
       <div className={styles.inputWrapper}>
         {isLoading && (
           <div>
@@ -61,6 +64,14 @@ const ConversetionalWindow = () => {
         )}
         <div onClick={() => setShowAddCategoryModal(true)}>
           <IoIosAttach />
+        </div>
+        <div className={styles.useContextTag}>
+          <input
+            checked={useContext}
+            onChange={(e) => setUseContext(e.currentTarget.checked)}
+            type="checkbox"
+          />
+          <span> UseContext</span>
         </div>
         <input
           className={styles.input}

@@ -14,7 +14,7 @@ const ChatsListSettingsSidebar: FC<Props> = ({ chat, isOpened }) => {
   const { categories, availableModels } = useAppSelector((state) => state.aiChatState);
   const currentChatCategory = categories.find((cat) => cat.name === chat?.categoryName);
   const dispatch = useAppDispatch();
-  const [selectedModel, setSelectedModel] = useState(availableModels[0]);
+  const [selectedModel, setSelectedModel] = useState(chat?.modelName);
 
   const onSourceClick = (source: string) => {
     if (chat && chat.sources.includes(source)) {
@@ -22,7 +22,14 @@ const ChatsListSettingsSidebar: FC<Props> = ({ chat, isOpened }) => {
       dispatch(editChatSourcesAction(chat?.categoryName, chat?.id, newSources));
     } else {
       if (chat) {
-        dispatch(editChatSourcesAction(chat?.categoryName, chat?.id, [source, ...chat.sources]));
+        dispatch(
+          editChatSourcesAction(
+            chat?.categoryName,
+            chat?.id,
+            [source, ...chat.sources],
+            selectedModel
+          )
+        );
       }
     }
   };
@@ -47,10 +54,22 @@ const ChatsListSettingsSidebar: FC<Props> = ({ chat, isOpened }) => {
         <div className={styles.wrapper}>
           <div className={styles.container}>
             <span className={styles.title}>Chat settings</span>
-            {availableModels.map((m) => {
-              // eslint-disable-next-line react/jsx-key
-              return <span>{m}</span>;
-            })}
+            <div>
+              <select
+                defaultValue={chat.modelName}
+                onChange={(e) => {
+                  setSelectedModel(e.currentTarget.value);
+                }}
+              >
+                {availableModels.map((model) => {
+                  return (
+                    <option key={model} value={model}>
+                      {model}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
             <div className={styles.plainText}>{`Used @${
               chat.categoryName ? chat.categoryName : ''
             }`}</div>

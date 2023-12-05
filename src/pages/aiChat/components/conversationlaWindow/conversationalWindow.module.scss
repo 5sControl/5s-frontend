@@ -2,14 +2,12 @@
 @import '../../../../styles/fonts';
 
 .container {
-  overflow: scroll;
   width: 70%;
   height: 100%;
   align-items: flex-end;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  row-gap: 12px;
   input {
     width: 100%;
     height: 100%;
@@ -27,6 +25,7 @@
 .inputWrapper {
   height: 48px;
   display: flex;
+  @include flexCenter;
   flex-direction: row;
   width: 100%;
   padding: 10px;
@@ -42,11 +41,24 @@
   }
 }
 
+.useContextTag {
+  height: 30px;
+  padding: 4px;
+  font-size: 11px;
+  border-radius: 15px;
+  display: flex;
+  @include flexCenter;
+  background: #9e9e9e;
+}
+
 .chatMessageWrapper {
+  overflow: scroll;
   width: 100%;
   @include flexCenter;
+  display:flex;
+  flex-direction: column;
   justify-content: space-between;
-  column-gap: 12px;
+  row-gap: 12px;
   @include body1;
   position: relative;
   svg {

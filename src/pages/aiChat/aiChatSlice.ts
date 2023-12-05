@@ -155,8 +155,9 @@ export const removeChatAction =
   };
 
 export const editChatSourcesAction =
-  (categoryName: string, chatId: string, sources: string[]) => (dispatch: AppDispatch) => {
-    dispatch(aiChatPage.actions.setChatSources({ categoryName, chatId, sources }));
+  (categoryName: string, chatId: string, sources: string[], modelName?: string) =>
+  (dispatch: AppDispatch) => {
+    dispatch(aiChatPage.actions.setChatSources({ categoryName, chatId, sources, modelName }));
   };
 
 export const setSelectedChatAction = (chat: Chat) => (dispatch: AppDispatch) => {
@@ -242,7 +243,12 @@ const aiChatPage = createSlice({
     },
     setChatSources(
       state: AIChat,
-      action: PayloadAction<{ categoryName: string; chatId: string; sources: string[] }>
+      action: PayloadAction<{
+        categoryName: string;
+        chatId: string;
+        sources: string[];
+        modelName?: string;
+      }>
     ) {
       const selectedCategory = state.categories.find(
         (cat) => cat.name === action.payload.categoryName
