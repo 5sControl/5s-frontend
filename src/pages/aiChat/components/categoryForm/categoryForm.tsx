@@ -21,7 +21,7 @@ interface Props {
 const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
   const { category } = useParams();
   const { categories } = useAppSelector((state) => state.aiChatState);
-  const [categoryName, setCategoryName] = useState<string>(categories[0] ? categories[0].name : '');
+  const [categoryName, setCategoryName] = useState<string>(category ? category : '');
   const [categoryDescription, setCategoryDescription] = useState<string>('');
   const [fileToLoad, setFileToLoad] = useState<File | null>();
   const [linkToLoad, setLinkToLoad] = useState<string>();
@@ -84,6 +84,8 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
         return;
     }
   };
+
+  console.log(category);
 
   return (
     <div className={styles.container}>

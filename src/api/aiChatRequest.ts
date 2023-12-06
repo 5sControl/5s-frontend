@@ -129,3 +129,13 @@ export const uploadSourcesApi = (categoryName: string, data: FormData) => {
     headers: { 'Content-Type': 'multipart/form-data', 'ngrok-skip-browser-warning': 'true' },
   }).then((res) => res.data);
 };
+
+export const downloadFileApi = (categoryName: string, fileName: string) => {
+  axios.get(
+    `${process.env.REACT_APP_CHAT_API}download?categoryName=${categoryName}&fileName=${fileName}`,
+    {
+      headers: ngrokHeaders,
+      responseType: 'arraybuffer',
+    }
+  );
+};

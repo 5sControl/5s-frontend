@@ -13,7 +13,6 @@ import {
   uploadSourcesApi,
 } from '../../api/aiChatRequest';
 import { AppDispatch } from '../../store';
-import chat from './components/chat/chat';
 
 interface SourceData {
   name: string;
@@ -26,7 +25,7 @@ interface FetchedCategories {
   chats: Chat[];
   categoryContent: {
     links: SourceData[];
-    files: SourceData[];
+    files: Array<SourceData & { size: number }>;
   };
 }
 
@@ -36,11 +35,11 @@ interface Category {
   chats: Chat[];
   categoryContent: {
     links: SourceData[];
-    files: SourceData[];
+    files: Array<SourceData & { size: number }>;
   };
   processingSources: {
     links: SourceData[];
-    files: SourceData[];
+    files: Array<SourceData & { size: number }>;
   };
 }
 
@@ -207,6 +206,7 @@ export const uploadSourceAction =
           categoryName,
           filename: fileToLoad ? fileToLoad.name : undefined,
           link: linkToLoad,
+          fileSize: fileToLoad.size,
         })
       );
       const data = await uploadSourcesApi(categoryName, formData);
@@ -262,7 +262,12 @@ const aiChatPage = createSlice({
     },
     addUploadingFiles(
       state: AIChat,
-      action: PayloadAction<{ categoryName: string; filename?: string; link?: string }>
+      action: PayloadAction<{
+        categoryName: string;
+        filename?: string;
+        link?: string;
+        fileSize: number;
+      }>
     ) {
       const currentCategory = state.categories.find(
         (cat) => cat.name === action.payload.categoryName
@@ -272,6 +277,7 @@ const aiChatPage = createSlice({
         currentCategory?.processingSources.files.unshift({
           name: action.payload.filename,
           date: `${date.getDate()}.${date.getUTCMonth()}.${date.getFullYear()}`,
+          size: action.payload.fileSize,
         });
       }
       if (action.payload.link) {

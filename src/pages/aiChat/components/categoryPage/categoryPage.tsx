@@ -96,7 +96,7 @@ const CategoryPage = () => {
               variant={'processing'}
               key={link.name}
               name={link.name}
-              size={'999mb'}
+              size={''}
               date={link.date}
               type={'link'}
             />
@@ -111,7 +111,7 @@ const CategoryPage = () => {
               variant={'processing'}
               key={file.name}
               name={file.name}
-              size={'999mb'}
+              size={`${(file.size / 1000000).toFixed(2)}MB`}
               date={file.date}
               type={'file'}
             />
@@ -133,7 +133,7 @@ const CategoryPage = () => {
               variant={'uploaded'}
               key={link.name}
               name={link.name}
-              size={'999mb'}
+              size={''}
               date={link.date}
               type={'link'}
             />
@@ -148,7 +148,7 @@ const CategoryPage = () => {
               variant={'uploaded'}
               key={file.name}
               name={file.name}
-              size={'999mb'}
+              size={`${(file.size / 1000000).toFixed(2)}MB`}
               date={file.date}
               type={'file'}
             />
