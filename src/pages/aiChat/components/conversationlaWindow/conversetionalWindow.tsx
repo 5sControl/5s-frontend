@@ -67,8 +67,13 @@ const ConversetionalWindow = () => {
         </div>
         <div className={styles.useContextTag}>
           <input
-            checked={useContext}
-            onChange={(e) => setUseContext(e.currentTarget.checked)}
+            checked={!!currentChat?.sources.length && useContext}
+            onChange={(e) => {
+              if (currentChat?.sources.length && !e.currentTarget.checked) {
+                return;
+              }
+              setUseContext(e.currentTarget.checked);
+            }}
             type="checkbox"
           />
           <span> UseContext</span>
