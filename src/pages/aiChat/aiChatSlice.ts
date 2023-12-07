@@ -196,17 +196,18 @@ export const askChatAction =
 
 export const uploadSourceAction =
   (categoryName: string, formData: FormData) => async (dispatch: AppDispatch) => {
-    console.log(formData.get('link'));
     try {
       const fileToLoad = formData.get('file') as File;
+      const processingFileName = fileToLoad ? fileToLoad.name : '';
+      const processingFileSize = fileToLoad ? fileToLoad.size : 0;
       const linkToLoad =
         formData.get('link') === null ? undefined : (formData.get('link') as string);
       dispatch(
         aiChatPage.actions.addUploadingFiles({
           categoryName,
-          filename: fileToLoad ? fileToLoad.name : undefined,
+          filename: processingFileName,
           link: linkToLoad,
-          fileSize: fileToLoad.size,
+          fileSize: processingFileSize,
         })
       );
       const data = await uploadSourcesApi(categoryName, formData);
