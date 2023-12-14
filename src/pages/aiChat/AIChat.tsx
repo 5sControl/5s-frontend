@@ -1,10 +1,10 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styles from './aiChat.module.scss';
 import { HeaderMain } from '../../components/header';
 import Chat from './components/chat/chat';
 import KnowledgeBase from './components/knowledgeBase/knowledgeBase';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { fetchAvailableModelsAction, fetchCategoriesAction } from './aiChatSlice';
+import { fetchAvailableModelsAction, fetchCategoriesAction, fetchChatsAction } from './aiChatSlice';
 import { useAppDispatch } from '../../store/hooks';
 
 const AiChatPage = () => {
@@ -15,6 +15,7 @@ const AiChatPage = () => {
 
   useEffect(() => {
     dispatch(fetchCategoriesAction());
+    dispatch(fetchChatsAction());
     dispatch(fetchAvailableModelsAction());
   }, []);
 

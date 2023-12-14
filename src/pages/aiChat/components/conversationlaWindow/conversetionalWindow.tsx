@@ -1,28 +1,35 @@
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import styles from './conversationalWindow.module.scss';
-import { IoIosAttach } from 'react-icons/io';
+import { IoIosAttach, IoMdSettings } from 'react-icons/io';
 import { Button } from '../../../../components/button';
-import { askChatAction } from '../../aiChatSlice';
+import { askChatAction, editChatAction } from '../../aiChatSlice';
 import CategoryForm from '../categoryForm/categoryForm';
 import { Modal } from '../../../../components/modal';
 import { BiCopy } from 'react-icons/bi';
 import { ClipLoader } from 'react-spinners';
 
 const ConversetionalWindow = () => {
-  const { selectedChat, categories, isLoading } = useAppSelector((state) => state.aiChatState);
+  const { selectedChat, chats, isLoading, categories } = useAppSelector(
+    (state) => state.aiChatState
+  );
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [showAddCategoryModal, setShowAddCategoryModal] = useState<boolean>(false);
-  const [useContext, setUseContext] = useState(!!selectedChat.sources.length);
+  const [modalAction, setModalAction] = useState<
+    'create' | 'edit' | 'remove' | 'removeSource' | 'addSource' | 'chatSettings'
+  >('addSource');
   const [prompt, setPrompt] = useState('');
   const dispatch = useAppDispatch();
-  const currentChat = categories
-    .find((cat) => cat.name === selectedChat.categoryName)
-    ?.chats.find((chat) => chat.id === selectedChat.id);
+  const currentChat = chats.find((chat) => chat.id === selectedChat.id);
 
   const onAskPressHandler = () => {
-    const useChain = useContext ? 'true' : '';
-    dispatch(askChatAction(selectedChat.id, prompt, selectedChat.categoryName, useChain));
+    dispatch(askChatAction(selectedChat.id, prompt, selectedCategory));
     setPrompt('');
+  };
+
+  const onCategorySelect = (categoryName: string) => {
+    setSelectedCategory(categoryName);
+    dispatch(editChatAction({ categoryName, chatId: selectedChat.id }));
   };
 
   return (
@@ -33,7 +40,7 @@ const ConversetionalWindow = () => {
         handleClose={() => setShowAddCategoryModal(false)}
       >
         <CategoryForm
-          actionType={'addSource'}
+          actionType={modalAction}
           closeHandler={() => setShowAddCategoryModal(false)}
         />
       </Modal>
@@ -62,21 +69,27 @@ const ConversetionalWindow = () => {
             <ClipLoader size={28} color={'rgba(254, 97, 0, 1)'} />
           </div>
         )}
-        <div onClick={() => setShowAddCategoryModal(true)}>
+        <div
+          onClick={() => {
+            setModalAction('addSource');
+            setShowAddCategoryModal(true);
+          }}
+        >
           <IoIosAttach />
         </div>
         <div className={styles.useContextTag}>
-          <input
-            checked={!!currentChat?.sources.length && useContext}
+          <select
             onChange={(e) => {
-              if (currentChat?.sources.length && !e.currentTarget.checked) {
-                return;
-              }
-              setUseContext(e.currentTarget.checked);
+              onCategorySelect(e.currentTarget.value);
             }}
-            type="checkbox"
-          />
-          <span> UseContext</span>
+          >
+            <option value={undefined}>@Default</option>
+            {categories.map((category) => {
+              return (
+                <option key={category.name} value={category.name}>{`@${category.name}`}</option>
+              );
+            })}
+          </select>
         </div>
         <input
           className={styles.input}
@@ -90,6 +103,15 @@ const ConversetionalWindow = () => {
           text={'Chat'}
           onClick={onAskPressHandler}
         />
+        <div
+          style={{ display: 'flex', alignItems: 'center' }}
+          onClick={() => {
+            setModalAction('chatSettings');
+            setShowAddCategoryModal(true);
+          }}
+        >
+          <IoMdSettings />
+        </div>
       </div>
     </div>
   );

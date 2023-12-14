@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import styles from './chatCard.module.scss';
-import { IoMdSettings, IoMdClose } from 'react-icons/io';
+import { IoMdClose } from 'react-icons/io';
 import { IoCheckmark } from 'react-icons/io5';
 import { MdModeEdit, MdDelete } from 'react-icons/md';
 import { useAppDispatch } from '../../../../store/hooks';
@@ -10,7 +10,6 @@ interface Props {
   active: boolean;
   name: string;
   onClickHandler: () => void;
-  onSettingsPress: () => void;
   onRemovePress: () => void;
   chatId: string;
   categoryName: string;
@@ -24,7 +23,6 @@ const ChatCard: FC<Props> = ({
   categoryName,
   modelName,
   onClickHandler,
-  onSettingsPress,
   onRemovePress,
 }) => {
   const [editMode, setEditMode] = useState(false);
@@ -69,14 +67,6 @@ const ChatCard: FC<Props> = ({
             </>
           ) : (
             <>
-              <div
-                onClick={(e) => {
-                  e.preventDefault();
-                  onSettingsPress();
-                }}
-              >
-                <IoMdSettings />
-              </div>
               <div onClick={onEditPressHandler}>
                 <MdModeEdit />
               </div>

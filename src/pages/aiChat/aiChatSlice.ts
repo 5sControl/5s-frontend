@@ -1,16 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  addChat,
-  askChat,
-  createChatCategory,
-  editChat,
-  editChatCategory,
-  getChatCategories,
-  getModels,
-  removeCategorySource,
-  removeChat,
-  removeChatCategory,
+  addChatApi,
+  askChatApi,
+  createCategoryApi,
+  editChatApi,
+  editCategoryApi,
+  getCategoriesApi,
+  getModelsApi,
+  removeCategorySourceApi,
+  removeChatApi,
+  removeCategoryApi,
   uploadSourcesApi,
+  getChatsApi,
 } from '../../api/aiChatRequest';
 import { AppDispatch } from '../../store';
 
@@ -22,7 +23,6 @@ interface SourceData {
 interface FetchedCategories {
   name: string;
   description: string;
-  chats: Chat[];
   categoryContent: {
     links: SourceData[];
     files: Array<SourceData & { size: number }>;
@@ -32,7 +32,6 @@ interface FetchedCategories {
 interface Category {
   name: string;
   description: string;
-  chats: Chat[];
   categoryContent: {
     links: SourceData[];
     files: Array<SourceData & { size: number }>;
@@ -60,6 +59,7 @@ interface AIChat {
   categories: Category[];
   availableModels: string[];
   selectedChat: Chat;
+  chats: Chat[];
 }
 
 const initialState: AIChat = {
@@ -67,13 +67,26 @@ const initialState: AIChat = {
   categories: [],
   availableModels: [],
   selectedChat: {} as Chat,
+  chats: [],
 };
 
 export const fetchCategoriesAction = () => async (dispatch: AppDispatch) => {
   dispatch(aiChatPage.actions.setLoading(true));
   try {
-    const data = await getChatCategories();
+    const data = await getCategoriesApi();
     dispatch(aiChatPage.actions.setCategories(data));
+  } catch {
+    console.log('error fetching categories');
+  } finally {
+    dispatch(aiChatPage.actions.setLoading(false));
+  }
+};
+
+export const fetchChatsAction = () => async (dispatch: AppDispatch) => {
+  dispatch(aiChatPage.actions.setLoading(true));
+  try {
+    const data = await getChatsApi();
+    dispatch(aiChatPage.actions.setChats(data));
   } catch {
     console.log('error fetching categories');
   } finally {
@@ -84,7 +97,7 @@ export const fetchCategoriesAction = () => async (dispatch: AppDispatch) => {
 export const fetchAvailableModelsAction = () => async (dispatch: AppDispatch) => {
   dispatch(aiChatPage.actions.setLoading(true));
   try {
-    const data = await getModels();
+    const data = await getModelsApi();
     dispatch(aiChatPage.actions.setModels(data));
   } catch {
     console.log('error fetching categories');
@@ -96,7 +109,7 @@ export const fetchAvailableModelsAction = () => async (dispatch: AppDispatch) =>
 export const createCategoryAction =
   (categoryName: string, categoryDescription: string) => async (dispatch: AppDispatch) => {
     try {
-      const data = await createChatCategory(categoryName, categoryDescription);
+      const data = await createCategoryApi(categoryName, categoryDescription);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
       console.log('error creating category');
@@ -105,7 +118,7 @@ export const createCategoryAction =
 
 export const removeCategoryAction = (categoryName: string) => async (dispatch: AppDispatch) => {
   try {
-    const data = await removeChatCategory(categoryName);
+    const data = await removeCategoryApi(categoryName);
     dispatch(aiChatPage.actions.setCategories(data));
   } catch {
     console.log('error removing category');
@@ -116,7 +129,7 @@ export const editCategoryAction =
   (oldCategoryName: string, categoryName: string, description: string) =>
   async (dispatch: AppDispatch) => {
     try {
-      const data = await editChatCategory(oldCategoryName, categoryName, description);
+      const data = await editCategoryApi(oldCategoryName, categoryName, description);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
       console.log('error editing category');
@@ -126,28 +139,27 @@ export const editCategoryAction =
 export const removeCategorySourceAction =
   (fileName: string, categoryName: string) => async (dispatch: AppDispatch) => {
     try {
-      const data = await removeCategorySource(fileName, categoryName);
+      const data = await removeCategorySourceApi(fileName, categoryName);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
       console.log('error removing category source');
     }
   };
 
-export const addChatAction =
-  (categoryName: string, modelName: string) => async (dispatch: AppDispatch) => {
-    try {
-      const data = await addChat(categoryName, modelName);
-      dispatch(aiChatPage.actions.setCategories(data));
-    } catch {
-      console.log('error adding chat');
-    }
-  };
+export const addChatAction = (modelName: string) => async (dispatch: AppDispatch) => {
+  try {
+    const data = await addChatApi(modelName);
+    dispatch(aiChatPage.actions.setChats(data));
+  } catch {
+    console.log('error adding chat');
+  }
+};
 
 export const removeChatAction =
   (categoryName: string, chatId: string) => async (dispatch: AppDispatch) => {
     try {
-      const data = await removeChat(categoryName, chatId);
-      dispatch(aiChatPage.actions.setCategories(data));
+      const data = await removeChatApi(chatId);
+      dispatch(aiChatPage.actions.setChats(data));
     } catch {
       console.log('error removing chat');
     }
@@ -156,7 +168,7 @@ export const removeChatAction =
 export const editChatSourcesAction =
   (categoryName: string, chatId: string, sources: string[], modelName?: string) =>
   (dispatch: AppDispatch) => {
-    dispatch(aiChatPage.actions.setChatSources({ categoryName, chatId, sources, modelName }));
+    dispatch(aiChatPage.actions.setChatSources({ chatId, sources, modelName }));
   };
 
 export const setSelectedChatAction = (chat: Chat) => (dispatch: AppDispatch) => {
@@ -169,24 +181,23 @@ export const editChatAction =
     chatId: string;
     sources?: string[];
     chatName?: string;
-    modelName: string;
+    modelName?: string;
   }) =>
   async (dispatch: AppDispatch) => {
     try {
-      const data = await editChat(payloadData);
-      dispatch(aiChatPage.actions.setCategories(data));
+      const data = await editChatApi(payloadData);
+      dispatch(aiChatPage.actions.setChats(data));
     } catch {
       console.log('error editing chat');
     }
   };
 
 export const askChatAction =
-  (chatId: string, prompt: string, categoryName: string, useChain: string) =>
-  async (dispatch: AppDispatch) => {
+  (chatId: string, prompt: string, categoryName: string) => async (dispatch: AppDispatch) => {
     dispatch(aiChatPage.actions.setLoading(true));
     try {
-      const data = await askChat(chatId, prompt, categoryName, useChain);
-      dispatch(aiChatPage.actions.setCategories(data));
+      const data = await askChatApi(chatId, prompt, categoryName);
+      dispatch(aiChatPage.actions.setChats(data));
     } catch {
       console.log('error asking chat');
     } finally {
@@ -236,6 +247,17 @@ const aiChatPage = createSlice({
       });
       console.log(state.categories);
     },
+    setChats(state: AIChat, action: PayloadAction<Chat[]>) {
+      state.chats = action.payload;
+      if (state.selectedChat) {
+        const updatedSelectedChat = action.payload.find(
+          (chat) => chat.id === state.selectedChat.id
+        );
+        if (updatedSelectedChat) {
+          state.selectedChat = updatedSelectedChat;
+        }
+      }
+    },
     setLoading(state: AIChat, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
     },
@@ -245,18 +267,12 @@ const aiChatPage = createSlice({
     setChatSources(
       state: AIChat,
       action: PayloadAction<{
-        categoryName: string;
         chatId: string;
         sources: string[];
         modelName?: string;
       }>
     ) {
-      const selectedCategory = state.categories.find(
-        (cat) => cat.name === action.payload.categoryName
-      );
-      const selectedChat = selectedCategory?.chats.find(
-        (chat) => chat.id === action.payload.chatId
-      );
+      const selectedChat = state.chats.find((chat) => chat.id === action.payload.chatId);
       if (selectedChat) {
         selectedChat.sources = action.payload.sources;
       }

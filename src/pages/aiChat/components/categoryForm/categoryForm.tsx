@@ -11,16 +11,17 @@ import {
 } from '../../aiChatSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MdFileUpload } from 'react-icons/md';
+import ChatsListSettingsSidebar from '../chatsListSettingsSidebar/chatsListSettingsSidebar';
 
 interface Props {
   fileName?: string;
-  actionType: 'create' | 'edit' | 'remove' | 'removeSource' | 'addSource';
+  actionType: 'create' | 'edit' | 'remove' | 'removeSource' | 'addSource' | 'chatSettings';
   closeHandler: () => void;
 }
 
 const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
   const { category } = useParams();
-  const { categories } = useAppSelector((state) => state.aiChatState);
+  const { categories, selectedChat } = useAppSelector((state) => state.aiChatState);
   const [categoryName, setCategoryName] = useState<string>(category ? category : '');
   const [categoryDescription, setCategoryDescription] = useState<string>('');
   const [fileToLoad, setFileToLoad] = useState<File | null>();
@@ -51,6 +52,8 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
       ? 'Remove category'
       : actionType === 'addSource'
       ? 'Add to knowledge base'
+      : actionType === 'chatSettings'
+      ? 'ChatSettings'
       : 'Remove source';
 
   const onFormSubmit = () => {
@@ -155,18 +158,21 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
           AI will loose access to this source and won’t be able to use it in its answers.
         </span>
       )}
-      <div className={styles.buttonsContainer}>
-        <Button variant={'text'} text={'Cancel'} onClick={closeHandler} />
-        <Button
-          disabled={
-            (!categoryName || !categoryDescription) &&
-            (actionType === 'create' || actionType === 'edit')
-          }
-          variant={'contained'}
-          text={actionType.includes('remove') ? 'Remove' : 'Done'}
-          onClick={onFormSubmit}
-        />
-      </div>
+      {actionType === 'chatSettings' && <ChatsListSettingsSidebar chat={selectedChat} />}
+      {actionType !== 'chatSettings' && (
+        <div className={styles.buttonsContainer}>
+          <Button variant={'text'} text={'Cancel'} onClick={closeHandler} />
+          <Button
+            disabled={
+              (!categoryName || !categoryDescription) &&
+              (actionType === 'create' || actionType === 'edit')
+            }
+            variant={'contained'}
+            text={actionType.includes('remove') ? 'Remove' : 'Done'}
+            onClick={onFormSubmit}
+          />
+        </div>
+      )}
     </div>
   );
 };
