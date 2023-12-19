@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import styles from './conversationalWindow.module.scss';
 import { IoIosAttach, IoMdSettings } from 'react-icons/io';
@@ -6,11 +6,18 @@ import { Button } from '../../../../components/button';
 import { askChatAction, editChatAction } from '../../aiChatSlice';
 import CategoryForm from '../categoryForm/categoryForm';
 import { Modal } from '../../../../components/modal';
-import { BiCopy } from 'react-icons/bi';
+import { BiCopy, BiMicrophone } from 'react-icons/bi';
 import { ClipLoader } from 'react-spinners';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 const ConversetionalWindow = () => {
-  const { selectedChat, chats, isLoading, categories } = useAppSelector(
+  const { transcript, listening, resetTranscript } = useSpeechRecognition();
+  const startListening = () => SpeechRecognition.startListening({ continuous: true });
+  const stopListening = () => SpeechRecognition.stopListening();
+
+  const speech = window.speechSynthesis;
+
+  const { selectedChat, chats, isLoading, categories, messageToSpeak } = useAppSelector(
     (state) => state.aiChatState
   );
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -25,12 +32,28 @@ const ConversetionalWindow = () => {
   const onAskPressHandler = () => {
     dispatch(askChatAction(selectedChat.id, prompt, selectedCategory));
     setPrompt('');
+    resetTranscript();
   };
 
   const onCategorySelect = (categoryName: string) => {
     setSelectedCategory(categoryName);
     dispatch(editChatAction({ categoryName, chatId: selectedChat.id }));
   };
+
+  useEffect(() => {
+    setPrompt(transcript);
+  }, [transcript]);
+
+  useEffect(() => {
+    if (messageToSpeak) {
+      speech.cancel();
+      const speak = new SpeechSynthesisUtterance(messageToSpeak);
+      speech.speak(speak);
+    }
+    return () => {
+      speech.cancel();
+    };
+  }, [messageToSpeak]);
 
   return (
     <div className={styles.container}>
@@ -96,6 +119,17 @@ const ConversetionalWindow = () => {
           value={prompt}
           onChange={(e) => setPrompt(e.currentTarget.value)}
         />
+        <div
+          onClick={() => {
+            if (listening) {
+              stopListening();
+            } else {
+              startListening().then(() => console.log(transcript));
+            }
+          }}
+        >
+          <BiMicrophone style={{ color: listening ? 'red' : 'black' }} />
+        </div>
         <Button
           disabled={!prompt}
           className={styles.addChatButton}

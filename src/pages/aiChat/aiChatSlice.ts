@@ -60,6 +60,7 @@ interface AIChat {
   availableModels: string[];
   selectedChat: Chat;
   chats: Chat[];
+  messageToSpeak: string;
 }
 
 const initialState: AIChat = {
@@ -68,6 +69,7 @@ const initialState: AIChat = {
   availableModels: [],
   selectedChat: {} as Chat,
   chats: [],
+  messageToSpeak: '',
 };
 
 export const fetchCategoriesAction = () => async (dispatch: AppDispatch) => {
@@ -197,7 +199,9 @@ export const askChatAction =
     dispatch(aiChatPage.actions.setLoading(true));
     try {
       const data = await askChatApi(chatId, prompt, categoryName);
+      const currentChatData = data.find((chat: Chat) => chat.id === chatId);
       dispatch(aiChatPage.actions.setChats(data));
+      dispatch(aiChatPage.actions.setMessageToSpeak(currentChatData.history.at(-1).message));
     } catch {
       console.log('error asking chat');
     } finally {
@@ -234,6 +238,9 @@ const aiChatPage = createSlice({
   reducers: {
     setModels(state: AIChat, action: PayloadAction<string[]>) {
       state.availableModels = action.payload;
+    },
+    setMessageToSpeak(state: AIChat, action: PayloadAction<string>) {
+      state.messageToSpeak = action.payload;
     },
     setCategories(state: AIChat, action: PayloadAction<FetchedCategories[]>) {
       state.categories = action.payload.map((category) => {
