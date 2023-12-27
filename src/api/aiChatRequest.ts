@@ -22,6 +22,36 @@ export const getModelsApi = () => {
     .then((res) => res.data);
 };
 
+export const getPromptTemplatesApi = () => {
+  return axios
+    .get(`${process.env.REACT_APP_CHAT_API}getPrompts`, { headers: ngrokHeaders })
+    .then((res) => res.data);
+};
+
+export const createPromptTemplateApi = (promptTemplate: { title: string; content: string }) => {
+  return axios
+    .get(
+      `${process.env.REACT_APP_CHAT_API}createPrompt?title=${promptTemplate.title}&content=${promptTemplate.content}`,
+      { headers: ngrokHeaders }
+    )
+    .then((res) => res.data);
+};
+
+export const editPromptTemplateApi = (promptTemplate: { title: string; content?: string }) => {
+  return axios
+    .get(
+      `${process.env.REACT_APP_CHAT_API}editPrompt?title=${promptTemplate.title}&content=${promptTemplate.content}`,
+      { headers: ngrokHeaders }
+    )
+    .then((res) => res.data);
+};
+
+export const removePromptTemplateApi = (title: string) => {
+  return axios
+    .get(`${process.env.REACT_APP_CHAT_API}editPrompt?title=${title}`, { headers: ngrokHeaders })
+    .then((res) => res.data);
+};
+
 export const createCategoryApi = (categoryName: string, description: string) => {
   return axios
     .post(

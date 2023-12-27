@@ -11,8 +11,20 @@ import { ClipLoader } from 'react-spinners';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 const ConversetionalWindow = () => {
-  const { transcript, listening, resetTranscript } = useSpeechRecognition();
-  const startListening = () => SpeechRecognition.startListening({ continuous: true });
+  const commands = [
+    {
+      command: 'hey taqi * (please)',
+      callback: (question: string) => {
+        console.log(question);
+        setPrompt(question);
+        onAskPressHandler();
+        resetTranscript();
+      },
+    },
+  ];
+  const { transcript, listening, resetTranscript } = useSpeechRecognition({ commands });
+  const startListening = () =>
+    SpeechRecognition.startListening({ continuous: true, language: 'en-US' });
   const stopListening = () => SpeechRecognition.stopListening();
 
   const speech = window.speechSynthesis;
@@ -41,10 +53,6 @@ const ConversetionalWindow = () => {
   };
 
   useEffect(() => {
-    setPrompt(transcript);
-  }, [transcript]);
-
-  useEffect(() => {
     if (messageToSpeak) {
       speech.cancel();
       const speak = new SpeechSynthesisUtterance(messageToSpeak);
@@ -54,6 +62,19 @@ const ConversetionalWindow = () => {
       speech.cancel();
     };
   }, [messageToSpeak]);
+
+  useEffect(() => {
+    speech.cancel();
+    const speak = new SpeechSynthesisUtterance('taqi');
+    speech.speak(speak);
+    return () => {
+      speech.cancel();
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log(transcript);
+  }, [transcript]);
 
   return (
     <div className={styles.container}>
@@ -124,7 +145,7 @@ const ConversetionalWindow = () => {
             if (listening) {
               stopListening();
             } else {
-              startListening().then(() => console.log(transcript));
+              startListening();
             }
           }}
         >

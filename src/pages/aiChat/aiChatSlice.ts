@@ -12,8 +12,17 @@ import {
   removeCategoryApi,
   uploadSourcesApi,
   getChatsApi,
+  getPromptTemplatesApi,
+  createPromptTemplateApi,
+  editPromptTemplateApi,
+  removePromptTemplateApi,
 } from '../../api/aiChatRequest';
 import { AppDispatch } from '../../store';
+
+interface PromptTemplate {
+  title: string;
+  content: string;
+}
 
 interface SourceData {
   name: string;
@@ -61,6 +70,7 @@ interface AIChat {
   selectedChat: Chat;
   chats: Chat[];
   messageToSpeak: string;
+  promptTemplates: PromptTemplate[];
 }
 
 const initialState: AIChat = {
@@ -70,6 +80,7 @@ const initialState: AIChat = {
   selectedChat: {} as Chat,
   chats: [],
   messageToSpeak: '',
+  promptTemplates: [],
 };
 
 export const fetchCategoriesAction = () => async (dispatch: AppDispatch) => {
@@ -99,12 +110,53 @@ export const fetchChatsAction = () => async (dispatch: AppDispatch) => {
 export const fetchAvailableModelsAction = () => async (dispatch: AppDispatch) => {
   dispatch(aiChatPage.actions.setLoading(true));
   try {
+    const data = await getPromptTemplatesApi();
+    dispatch(aiChatPage.actions.setPromptTemplates(data));
+  } catch {
+    console.log('error fetching categories');
+  } finally {
+    dispatch(aiChatPage.actions.setLoading(false));
+  }
+};
+
+export const fetchPromptTemplatesAction = () => async (dispatch: AppDispatch) => {
+  dispatch(aiChatPage.actions.setLoading(true));
+  try {
     const data = await getModelsApi();
     dispatch(aiChatPage.actions.setModels(data));
   } catch {
     console.log('error fetching categories');
   } finally {
     dispatch(aiChatPage.actions.setLoading(false));
+  }
+};
+
+export const createPromptTemplateAction =
+  (promptTemplate: { title: string; content: string }) => async (dispatch: AppDispatch) => {
+    try {
+      const data = await createPromptTemplateApi(promptTemplate);
+      dispatch(aiChatPage.actions.setPromptTemplates(data));
+    } catch {
+      console.log('error creating category');
+    }
+  };
+
+export const editPromptTemplateAction =
+  (promptTemplate: { title: string; content?: string }) => async (dispatch: AppDispatch) => {
+    try {
+      const data = await editPromptTemplateApi(promptTemplate);
+      dispatch(aiChatPage.actions.setPromptTemplates(data));
+    } catch {
+      console.log('error creating category');
+    }
+  };
+
+export const removePromptTemplateAction = (title: string) => async (dispatch: AppDispatch) => {
+  try {
+    const data = await removePromptTemplateApi(title);
+    dispatch(aiChatPage.actions.setPromptTemplates(data));
+  } catch {
+    console.log('error creating category');
   }
 };
 
@@ -236,6 +288,9 @@ const aiChatPage = createSlice({
   name: 'ai-chat',
   initialState,
   reducers: {
+    setPromptTemplates(state: AIChat, action: PayloadAction<PromptTemplate[]>) {
+      state.promptTemplates = action.payload;
+    },
     setModels(state: AIChat, action: PayloadAction<string[]>) {
       state.availableModels = action.payload;
     },

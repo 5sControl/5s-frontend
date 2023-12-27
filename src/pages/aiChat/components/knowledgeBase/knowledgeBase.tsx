@@ -32,21 +32,20 @@ const KnowledgeBase = () => {
           closeHandler={() => setShowAddCategoryModal(false)}
         />
       </Modal>
-      <div className={styles.infoContainer}>
-        <ChatInfo />
+      <div style={{ width: '100%', rowGap: 18, display: 'flex', flexDirection: 'column' }}>
+        <div className={styles.titleContainer}>
+          <span className={styles.categoryTitle}>Categories</span>
+          <Button
+            variant={'contained'}
+            text={'Add category'}
+            IconLeft={Plus}
+            onClick={onAddCategoryPressHandler}
+          />
+        </div>
         <span>
           Add files and links sorted by categories to your knowledge base for AI to learn from. All
-          data analysis happens on your server, so nobody will gain access to your information.
+          All data analysis happens on your server, so nobody will gain access to your information.
         </span>
-      </div>
-      <div className={styles.titleContainer}>
-        <span className={styles.categoryTitle}>Categories</span>
-        <Button
-          variant={'contained'}
-          text={'Add category'}
-          IconLeft={Plus}
-          onClick={onAddCategoryPressHandler}
-        />
       </div>
       <div className={styles.categoriesListContainer}>
         {categories.map((category) => {
@@ -61,6 +60,13 @@ const KnowledgeBase = () => {
             />
           );
         })}
+      </div>
+      <div style={{ width: '100%', rowGap: 18, display: 'flex', flexDirection: 'column' }}>
+        <div className={styles.titleContainer}>
+          <span className={styles.categoryTitle}>Prompts</span>
+          <Button variant={'contained'} text={'Add prompt'} IconLeft={Plus} onClick={() => null} />
+        </div>
+        <span>Add prompts to define AI answers.</span>
       </div>
     </div>
   );
