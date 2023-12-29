@@ -43,6 +43,12 @@
   flex-wrap: wrap;
 }
 
+.promptsListContainer {
+  width: 100%;
+  @include flexCenter;
+  flex-direction: column;
+}
+
 .modal {
     max-width: 560px;
     max-height: 850px;

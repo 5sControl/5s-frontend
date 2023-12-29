@@ -29,10 +29,10 @@ const ConversetionalWindow = () => {
 
   const speech = window.speechSynthesis;
 
-  const { selectedChat, chats, isLoading, categories, messageToSpeak } = useAppSelector(
-    (state) => state.aiChatState
-  );
+  const { selectedChat, chats, isLoading, categories, messageToSpeak, promptTemplates } =
+    useAppSelector((state) => state.aiChatState);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedPromptTemplate, setSelectedPromptTemplate] = useState('');
   const [showAddCategoryModal, setShowAddCategoryModal] = useState<boolean>(false);
   const [modalAction, setModalAction] = useState<
     'create' | 'edit' | 'remove' | 'removeSource' | 'addSource' | 'chatSettings'
@@ -42,7 +42,7 @@ const ConversetionalWindow = () => {
   const currentChat = chats.find((chat) => chat.id === selectedChat.id);
 
   const onAskPressHandler = () => {
-    dispatch(askChatAction(selectedChat.id, prompt, selectedCategory));
+    dispatch(askChatAction(selectedChat.id, prompt, selectedCategory, selectedPromptTemplate));
     setPrompt('');
     resetTranscript();
   };
@@ -50,6 +50,10 @@ const ConversetionalWindow = () => {
   const onCategorySelect = (categoryName: string) => {
     setSelectedCategory(categoryName);
     dispatch(editChatAction({ categoryName, chatId: selectedChat.id }));
+  };
+
+  const onPromptTemplateSelect = (promptTemplateTitle: string) => {
+    setSelectedPromptTemplate(promptTemplateTitle);
   };
 
   useEffect(() => {
@@ -135,8 +139,22 @@ const ConversetionalWindow = () => {
             })}
           </select>
         </div>
+        <div className={styles.useContextTag}>
+          <select
+            onChange={(e) => {
+              onPromptTemplateSelect(e.currentTarget.value);
+            }}
+          >
+            <option value={undefined}>#</option>
+            {promptTemplates.map((template) => {
+              return (
+                <option key={template.title} value={template.title}>{`#${template.title}`}</option>
+              );
+            })}
+          </select>
+        </div>
         <input
-          className={styles.input}
+          style={{ minWidth: 128 }}
           value={prompt}
           onChange={(e) => setPrompt(e.currentTarget.value)}
         />

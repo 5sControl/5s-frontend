@@ -106,8 +106,7 @@ export const fetchChatsAction = () => async (dispatch: AppDispatch) => {
     dispatch(aiChatPage.actions.setLoading(false));
   }
 };
-
-export const fetchAvailableModelsAction = () => async (dispatch: AppDispatch) => {
+export const fetchPromptTemplatesAction = () => async (dispatch: AppDispatch) => {
   dispatch(aiChatPage.actions.setLoading(true));
   try {
     const data = await getPromptTemplatesApi();
@@ -119,7 +118,7 @@ export const fetchAvailableModelsAction = () => async (dispatch: AppDispatch) =>
   }
 };
 
-export const fetchPromptTemplatesAction = () => async (dispatch: AppDispatch) => {
+export const fetchAvailableModelsAction = () => async (dispatch: AppDispatch) => {
   dispatch(aiChatPage.actions.setLoading(true));
   try {
     const data = await getModelsApi();
@@ -142,7 +141,8 @@ export const createPromptTemplateAction =
   };
 
 export const editPromptTemplateAction =
-  (promptTemplate: { title: string; content?: string }) => async (dispatch: AppDispatch) => {
+  (promptTemplate: { oldTitle: string; title?: string; content?: string }) =>
+  async (dispatch: AppDispatch) => {
     try {
       const data = await editPromptTemplateApi(promptTemplate);
       dispatch(aiChatPage.actions.setPromptTemplates(data));
@@ -247,10 +247,11 @@ export const editChatAction =
   };
 
 export const askChatAction =
-  (chatId: string, prompt: string, categoryName: string) => async (dispatch: AppDispatch) => {
+  (chatId: string, prompt: string, categoryName: string, promptTemplateTitle?: string) =>
+  async (dispatch: AppDispatch) => {
     dispatch(aiChatPage.actions.setLoading(true));
     try {
-      const data = await askChatApi(chatId, prompt, categoryName);
+      const data = await askChatApi(chatId, prompt, categoryName, promptTemplateTitle);
       const currentChatData = data.find((chat: Chat) => chat.id === chatId);
       dispatch(aiChatPage.actions.setChats(data));
       dispatch(aiChatPage.actions.setMessageToSpeak(currentChatData.history.at(-1).message));

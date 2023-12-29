@@ -30,17 +30,21 @@ export const getPromptTemplatesApi = () => {
 
 export const createPromptTemplateApi = (promptTemplate: { title: string; content: string }) => {
   return axios
-    .get(
+    .post(
       `${process.env.REACT_APP_CHAT_API}createPrompt?title=${promptTemplate.title}&content=${promptTemplate.content}`,
       { headers: ngrokHeaders }
     )
     .then((res) => res.data);
 };
 
-export const editPromptTemplateApi = (promptTemplate: { title: string; content?: string }) => {
+export const editPromptTemplateApi = (promptTemplate: {
+  oldTitle: string;
+  title?: string;
+  content?: string;
+}) => {
   return axios
-    .get(
-      `${process.env.REACT_APP_CHAT_API}editPrompt?title=${promptTemplate.title}&content=${promptTemplate.content}`,
+    .post(
+      `${process.env.REACT_APP_CHAT_API}editPrompt?oldTitle=${promptTemplate.oldTitle}&title=${promptTemplate.title}&content=${promptTemplate.content}`,
       { headers: ngrokHeaders }
     )
     .then((res) => res.data);
@@ -48,7 +52,7 @@ export const editPromptTemplateApi = (promptTemplate: { title: string; content?:
 
 export const removePromptTemplateApi = (title: string) => {
   return axios
-    .get(`${process.env.REACT_APP_CHAT_API}editPrompt?title=${title}`, { headers: ngrokHeaders })
+    .post(`${process.env.REACT_APP_CHAT_API}removePrompt?title=${title}`, { headers: ngrokHeaders })
     .then((res) => res.data);
 };
 
@@ -110,10 +114,15 @@ export const addChatApi = (modelName: string, categoryName?: string) => {
     .then((res) => res.data);
 };
 
-export const askChatApi = (chatId: string, prompt: string, categoryName?: string) => {
+export const askChatApi = (
+  chatId: string,
+  prompt: string,
+  categoryName?: string,
+  promptTemplateTitle?: string
+) => {
   return axios
     .get(
-      `${process.env.REACT_APP_CHAT_API}ask?chatId=${chatId}&prompt=${prompt}&categoryName=${categoryName}`,
+      `${process.env.REACT_APP_CHAT_API}ask?chatId=${chatId}&prompt=${prompt}&categoryName=${categoryName}&promptTemplateTitle=${promptTemplateTitle}`,
       {
         headers: ngrokHeaders,
       }

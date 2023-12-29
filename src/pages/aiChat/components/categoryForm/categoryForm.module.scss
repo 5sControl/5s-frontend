@@ -3,7 +3,7 @@
 
 .container {
   width: 560px;
-  height: 340px;
+  min-height: 340px;
   padding: 30px 20px 20px 20px;
   display: flex;
   border-radius: 4px 4px 4px 4px;
@@ -26,6 +26,14 @@
       border-width: 1px;
       border-color: rgba(158, 158, 158, 1);
       width: 100%;
+  }
+  textarea {
+    border-radius: 4px;
+    padding: 4px 4px 4px 4px;
+    border-width: 1px;
+    border-color: rgba(158, 158, 158, 1);
+    width: 100%;
+    resize: none;
   }
 }
 
