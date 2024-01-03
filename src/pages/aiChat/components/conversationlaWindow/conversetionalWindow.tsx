@@ -117,73 +117,80 @@ const ConversetionalWindow = () => {
             <ClipLoader size={28} color={'rgba(254, 97, 0, 1)'} />
           </div>
         )}
-        <div
-          onClick={() => {
-            setModalAction('addSource');
-            setShowAddCategoryModal(true);
-          }}
-        >
-          <IoIosAttach />
-        </div>
-        <div className={styles.useContextTag}>
-          <select
-            onChange={(e) => {
-              onCategorySelect(e.currentTarget.value);
+        <div className={styles.chatInputBlock}>
+          <div
+            onClick={() => {
+              setModalAction('addSource');
+              setShowAddCategoryModal(true);
             }}
           >
-            <option value={undefined}>@Default</option>
-            {categories.map((category) => {
-              return (
-                <option key={category.name} value={category.name}>{`@${category.name}`}</option>
-              );
-            })}
-          </select>
+            <IoIosAttach />
+          </div>
+          <div className={styles.useContextTag}>
+            <select
+              onChange={(e) => {
+                onCategorySelect(e.currentTarget.value);
+              }}
+            >
+              <option value={undefined}>@Default</option>
+              {categories.map((category) => {
+                return (
+                  <option key={category.name} value={category.name}>{`@${category.name}`}</option>
+                );
+              })}
+            </select>
+          </div>
+          <div className={styles.useContextTag}>
+            <select
+              onChange={(e) => {
+                onPromptTemplateSelect(e.currentTarget.value);
+              }}
+            >
+              <option value={undefined}>#</option>
+              {promptTemplates.map((template) => {
+                return (
+                  <option
+                    key={template.title}
+                    value={template.title}
+                  >{`#${template.title}`}</option>
+                );
+              })}
+            </select>
+          </div>
+          <input
+            style={{ minWidth: 128 }}
+            value={prompt}
+            onChange={(e) => setPrompt(e.currentTarget.value)}
+          />
         </div>
-        <div className={styles.useContextTag}>
-          <select
-            onChange={(e) => {
-              onPromptTemplateSelect(e.currentTarget.value);
+        <div className={styles.chatButtonsBlock}>
+          <div
+            onClick={() => {
+              if (listening) {
+                stopListening();
+              } else {
+                startListening();
+              }
             }}
           >
-            <option value={undefined}>#</option>
-            {promptTemplates.map((template) => {
-              return (
-                <option key={template.title} value={template.title}>{`#${template.title}`}</option>
-              );
-            })}
-          </select>
-        </div>
-        <input
-          style={{ minWidth: 128 }}
-          value={prompt}
-          onChange={(e) => setPrompt(e.currentTarget.value)}
-        />
-        <div
-          onClick={() => {
-            if (listening) {
-              stopListening();
-            } else {
-              startListening();
-            }
-          }}
-        >
-          <BiMicrophone style={{ color: listening ? 'red' : 'black' }} />
-        </div>
-        <Button
-          disabled={!prompt}
-          className={styles.addChatButton}
-          variant={'contained'}
-          text={'Chat'}
-          onClick={onAskPressHandler}
-        />
-        <div
-          style={{ display: 'flex', alignItems: 'center' }}
-          onClick={() => {
-            setModalAction('chatSettings');
-            setShowAddCategoryModal(true);
-          }}
-        >
-          <IoMdSettings />
+            <BiMicrophone style={{ color: listening ? 'red' : 'black' }} />
+          </div>
+          <Button
+            disabled={!prompt}
+            className={styles.addChatButton}
+            variant={'contained'}
+            text={'Chat'}
+            onClick={onAskPressHandler}
+          />
+          <div
+            style={{ display: 'flex', alignItems: 'center' }}
+            onClick={() => {
+              setModalAction('chatSettings');
+              setShowAddCategoryModal(true);
+            }}
+          >
+            <IoMdSettings />
+          </div>
         </div>
       </div>
     </div>
