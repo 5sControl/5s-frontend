@@ -68,16 +68,7 @@ const ConversetionalWindow = () => {
   }, [messageToSpeak]);
 
   useEffect(() => {
-    speech.cancel();
-    const speak = new SpeechSynthesisUtterance('taqi');
-    speech.speak(speak);
-    return () => {
-      speech.cancel();
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log(transcript);
+    setPrompt(transcript);
   }, [transcript]);
 
   return (
@@ -158,6 +149,7 @@ const ConversetionalWindow = () => {
             </select>
           </div>
           <input
+            placeholder={'Ask your question'}
             style={{ minWidth: 128 }}
             value={prompt}
             onChange={(e) => setPrompt(e.currentTarget.value)}

@@ -15,6 +15,7 @@
   border-radius: var(--Corner-radius, 4px);
   background: var(--website-white, #FFF);
   box-shadow: 0 0 8px 0 rgba(42, 98, 149, 0.25);
+  overflow: scroll;
 }
 
 .chatsWrapper {
@@ -22,6 +23,9 @@
 }
 
 .addChatButton {
-  width: 100%;
+  width: calc(100% - 20px);
   height: 40px;
+  position: sticky;
+  left: 12px;
+  bottom: 0;
 }
