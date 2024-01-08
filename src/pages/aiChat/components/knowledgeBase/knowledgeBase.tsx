@@ -20,6 +20,7 @@ const KnowledgeBase = () => {
     | 'editPrompt'
     | 'createPrompt'
   >('addSource');
+  const [selectedPrompt, setSelectedPrompt] = useState<{ title: string; content: string }>();
 
   const { categories, promptTemplates } = useAppSelector((state) => state.aiChatState);
 
@@ -33,7 +34,8 @@ const KnowledgeBase = () => {
     setShowAddCategoryModal(true);
   };
 
-  const onPromptPressHandler = () => {
+  const onPromptPressHandler = (prompt: { title: string; content: string }) => {
+    setSelectedPrompt(prompt);
     setCategoryModalAction('editPrompt');
     setShowAddCategoryModal(true);
   };
@@ -48,6 +50,7 @@ const KnowledgeBase = () => {
         <CategoryForm
           actionType={categoryModalAction}
           closeHandler={() => setShowAddCategoryModal(false)}
+          prompt={categoryModalAction === 'editPrompt' ? selectedPrompt : undefined}
         />
       </Modal>
       <div style={{ width: '100%', rowGap: 18, display: 'flex', flexDirection: 'column' }}>
@@ -98,7 +101,7 @@ const KnowledgeBase = () => {
               <PromptTemplateCard
                 title={prompt.title}
                 description={prompt.content}
-                callback={onPromptPressHandler}
+                callback={() => onPromptPressHandler(prompt)}
               />
               <hr />
             </div>

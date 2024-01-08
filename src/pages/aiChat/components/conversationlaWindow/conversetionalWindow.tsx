@@ -42,7 +42,7 @@ const ConversetionalWindow = () => {
   const currentChat = chats.find((chat) => chat.id === selectedChat.id);
 
   const onAskPressHandler = () => {
-    dispatch(askChatAction(selectedChat.id, prompt, selectedCategory, selectedPromptTemplate));
+    dispatch(askChatAction(selectedChat.id, prompt, selectedPromptTemplate));
     setPrompt('');
     resetTranscript();
   };

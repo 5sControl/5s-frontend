@@ -27,15 +27,21 @@ interface Props {
     | 'editPrompt'
     | 'createPrompt';
   closeHandler: () => void;
+  prompt?: {
+    title: string;
+    content: string;
+  };
 }
 
-const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
+const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName, prompt }) => {
   const { category } = useParams();
   const { categories, selectedChat } = useAppSelector((state) => state.aiChatState);
   const [categoryName, setCategoryName] = useState<string>(category ? category : '');
   const [categoryDescription, setCategoryDescription] = useState<string>('');
-  const [promptTemplateTitle, setPromptTemplateTitle] = useState<string>('');
-  const [promptTemplateDescription, setPromptTemplateDescription] = useState<string>('');
+  const [promptTemplateTitle, setPromptTemplateTitle] = useState<string>(prompt?.title ?? '');
+  const [promptTemplateDescription, setPromptTemplateDescription] = useState<string>(
+    prompt?.content ?? ''
+  );
   const [fileToLoad, setFileToLoad] = useState<File | null>();
   const [linkToLoad, setLinkToLoad] = useState<string>();
   const navigate = useNavigate();
@@ -111,7 +117,7 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
       case 'editPrompt':
         dispatch(
           editPromptTemplateAction({
-            oldTitle: title,
+            oldTitle: prompt?.title as string,
             title: promptTemplateTitle,
             content: promptTemplateDescription,
           })

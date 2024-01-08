@@ -60,6 +60,7 @@ export interface Chat {
   history: {
     author: 'chat' | 'user';
     message: string;
+    mentionedRCFiles?: string[];
   }[];
 }
 
@@ -70,6 +71,7 @@ interface AIChat {
   selectedChat: Chat;
   chats: Chat[];
   messageToSpeak: string;
+  mentionedRCFiles: string[];
   promptTemplates: PromptTemplate[];
 }
 
@@ -80,6 +82,7 @@ const initialState: AIChat = {
   selectedChat: {} as Chat,
   chats: [],
   messageToSpeak: '',
+  mentionedRCFiles: [],
   promptTemplates: [],
 };
 
