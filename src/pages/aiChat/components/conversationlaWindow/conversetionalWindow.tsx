@@ -71,6 +71,20 @@ const ConversetionalWindow = () => {
     setPrompt(transcript);
   }, [transcript]);
 
+  const replaceFilenamesWithLinks = (message: string, filenames: string[]) => {
+    let newMessage = structuredClone(message);
+    if (filenames) {
+      for (let i = 0; i < filenames.length; i++) {
+        newMessage = newMessage.replace(
+          filenames[i],
+          `<a href=${process.env.REACT_APP_CHAT_API}download?categoryName=${currentChat?.categoryName}&rcFileName=${filenames[i]}>${filenames[i]}</a>`
+        );
+      }
+      return newMessage;
+    }
+    return newMessage;
+  };
+
   return (
     <div className={styles.container}>
       <Modal
@@ -91,7 +105,14 @@ const ConversetionalWindow = () => {
                 className={message.author === 'chat' ? styles.chatMessage : styles.userMessage}
                 key={i}
               >
-                {message.message}
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: replaceFilenamesWithLinks(
+                      message.message,
+                      message.mentionedRCFiles ?? []
+                    ),
+                  }}
+                />
                 {message.author === 'chat' && (
                   <div onClick={() => navigator.clipboard.writeText(message.message)}>
                     <BiCopy />
@@ -148,11 +169,14 @@ const ConversetionalWindow = () => {
               })}
             </select>
           </div>
-          <input
+          <textarea
             placeholder={'Ask your question'}
-            style={{ minWidth: 128 }}
+            className={styles.textarea}
             value={prompt}
-            onChange={(e) => setPrompt(e.currentTarget.value)}
+            onChange={(e) => {
+              setPrompt(e.currentTarget.value);
+              e.target.style.height = `${e.target.scrollHeight}px`;
+            }}
           />
         </div>
         <div className={styles.chatButtonsBlock}>

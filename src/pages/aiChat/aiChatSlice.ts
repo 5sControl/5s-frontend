@@ -71,7 +71,6 @@ interface AIChat {
   selectedChat: Chat;
   chats: Chat[];
   messageToSpeak: string;
-  mentionedRCFiles: string[];
   promptTemplates: PromptTemplate[];
 }
 
@@ -82,7 +81,6 @@ const initialState: AIChat = {
   selectedChat: {} as Chat,
   chats: [],
   messageToSpeak: '',
-  mentionedRCFiles: [],
   promptTemplates: [],
 };
 

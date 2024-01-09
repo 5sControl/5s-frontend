@@ -31,6 +31,23 @@
   }
 }
 
+.textarea {
+  padding: 4px 4px 4px 4px;
+  border-width: 0;
+  min-width: 100%;
+  min-height: 48px;
+  box-sizing: border-box;
+  max-height: 512px;
+  resize: none;
+  background: none;
+  outline: none;
+  :focus {
+    border: none;
+    background: none;
+    outline: none;
+  }
+}
+
 .chatInputBlock {
   display: flex;
   flex-direction: row;
