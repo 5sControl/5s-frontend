@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import styles from './conversationalWindow.module.scss';
 import { IoIosAttach, IoMdSettings } from 'react-icons/io';
@@ -40,6 +40,7 @@ const ConversetionalWindow = () => {
   const [prompt, setPrompt] = useState('');
   const dispatch = useAppDispatch();
   const currentChat = chats.find((chat) => chat.id === selectedChat.id);
+  const messageWindowRef = useRef<HTMLDivElement>(null);
 
   const onAskPressHandler = () => {
     dispatch(askChatAction(selectedChat.id, prompt, selectedCategory, selectedPromptTemplate));
@@ -85,6 +86,14 @@ const ConversetionalWindow = () => {
     return newMessage;
   };
 
+  const scrollToBottom = () => {
+    messageWindowRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chats]);
+
   return (
     <div className={styles.container}>
       <Modal
@@ -97,29 +106,26 @@ const ConversetionalWindow = () => {
           closeHandler={() => setShowAddCategoryModal(false)}
         />
       </Modal>
-      <div className={styles.chatMessageWrapper}>
+      <div className={styles.chatMessageWrapper} ref={messageWindowRef}>
         {currentChat?.history.map((message, i) => {
           return (
-            <>
-              <div
-                className={message.author === 'chat' ? styles.chatMessage : styles.userMessage}
-                key={i}
-              >
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: replaceFilenamesWithLinks(
-                      message.message,
-                      message.mentionedRCFiles ?? []
-                    ),
-                  }}
-                />
-                {message.author === 'chat' && (
-                  <div onClick={() => navigator.clipboard.writeText(message.message)}>
-                    <BiCopy />
-                  </div>
-                )}
+            <div
+              className={message.author === 'chat' ? styles.chatMessage : styles.userMessage}
+              key={i}
+              ref={i === currentChat?.history.length - 1 ? messageWindowRef : null}
+            >
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: replaceFilenamesWithLinks(
+                    message.message,
+                    message.mentionedRCFiles ?? []
+                  ),
+                }}
+              />
+              <div onClick={() => navigator.clipboard.writeText(message.message)}>
+                <BiCopy />
               </div>
-            </>
+            </div>
           );
         })}
       </div>
