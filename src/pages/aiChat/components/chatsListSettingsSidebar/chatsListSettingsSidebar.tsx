@@ -115,12 +115,10 @@ const ChatsListSettingsSidebar: FC<Props> = ({ chat, onClose }) => {
           </div>
         );
       })}
-      <Button
-        className={styles.applyButton}
-        variant={'outlined'}
-        text={'Apply'}
-        onClick={onApplyPress}
-      />
+      <div className={styles.buttonsContainer}>
+        <Button variant={'text'} text={'Cancel'} onClick={onClose} />
+        <Button variant={'contained'} text={'Done'} onClick={onApplyPress} />
+      </div>
     </>
   );
 };

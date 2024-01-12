@@ -36,8 +36,11 @@ interface Props {
 const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName, prompt }) => {
   const { category } = useParams();
   const { categories, selectedChat } = useAppSelector((state) => state.aiChatState);
+  const selectedCategory = categories.find((cat) => cat.name === category);
   const [categoryName, setCategoryName] = useState<string>(category ? category : '');
-  const [categoryDescription, setCategoryDescription] = useState<string>('');
+  const [categoryDescription, setCategoryDescription] = useState<string>(
+    selectedCategory?.description ?? ''
+  );
   const [promptTemplateTitle, setPromptTemplateTitle] = useState<string>(prompt?.title ?? '');
   const [promptTemplateDescription, setPromptTemplateDescription] = useState<string>(
     prompt?.content ?? ''
@@ -144,7 +147,8 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName, prompt })
               onChange={(e) => setCategoryName(e.currentTarget.value)}
             />
             <span className={styles.plainText}>Description</span>
-            <input
+            <textarea
+              className={styles.textarea}
               value={categoryDescription}
               placeholder={'Describe this category to help AI'}
               onChange={(e) => setCategoryDescription(e.currentTarget.value)}

@@ -27,6 +27,13 @@
   background: #FFF;
 }
 
+.buttonsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  column-gap: 10px;
+}
+
 .title {
   @include h4
 }

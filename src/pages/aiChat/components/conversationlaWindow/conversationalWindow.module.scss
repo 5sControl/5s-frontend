@@ -25,6 +25,7 @@
     height: 28px;
     width: 28px;
     cursor: pointer;
+    fill: #666666;
   }
   button {
     height: 32px;
@@ -92,7 +93,7 @@
   border-radius: 15px;
   display: flex;
   @include flexCenter;
-  background: #9e9e9e;
+  background: #e0e0e0;
 }
 
 .chatMessageWrapper {
@@ -128,6 +129,11 @@
   border-radius: var(--Corner-radius, 4px);
   background: var(--product-akcent-transperent, rgba(254, 97, 0, 0.10));
   align-self: flex-start!important;
+}
+
+.chatMessageTitle {
+  @include body3;
+  color: #666666;
 }
 
 .userMessage {

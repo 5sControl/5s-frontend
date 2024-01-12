@@ -11,6 +11,10 @@ const ChatsList = () => {
 
   const dispatch = useAppDispatch();
 
+  const onCreateChatHandler = async () => {
+    await dispatch(addChatAction(availableModels[0]));
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.chatsWrapper}>
@@ -36,7 +40,7 @@ const ChatsList = () => {
         variant={'contained'}
         text={'Add chat'}
         IconLeft={Plus}
-        onClick={() => dispatch(addChatAction(availableModels[0]))}
+        onClick={onCreateChatHandler}
       />
     </div>
   );

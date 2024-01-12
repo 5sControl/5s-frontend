@@ -16,7 +16,7 @@ const Chat = () => {
       }}
     >
       <ChatsList />
-      {selectedChat.id && <ConversetionalWindow />}
+      <ConversetionalWindow />
     </div>
   );
 };

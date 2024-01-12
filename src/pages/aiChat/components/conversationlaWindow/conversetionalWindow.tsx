@@ -12,7 +12,7 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import { PlayVoice } from '../../../../assets/svg/SVGcomponent';
 
 export const playMachineAudioFragment = async (text: string) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(() => {
     const synth = window.speechSynthesis;
     if (text !== '') {
       const utterThis: SpeechSynthesisUtterance = new SpeechSynthesisUtterance(text);
@@ -152,14 +152,19 @@ const ConversetionalWindow = () => {
               key={i}
               ref={i === currentChat?.history.length - 1 ? messageWindowRef : null}
             >
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: replaceFilenamesWithLinks(
-                    message.message,
-                    message.mentionedRCFiles ?? []
-                  ),
-                }}
-              />
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span className={styles.chatMessageTitle}>{`@${message.usedCategory ?? ''} #${
+                  message.usedPrompt ?? ''
+                }`}</span>
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: replaceFilenamesWithLinks(
+                      message.message,
+                      message.mentionedRCFiles ?? []
+                    ),
+                  }}
+                />
+              </div>
               <div>
                 <div onClick={() => navigator.clipboard.writeText(message.message)}>
                   <BiCopy />
@@ -237,7 +242,9 @@ const ConversetionalWindow = () => {
             value={prompt}
             onChange={(e) => {
               setPrompt(e.currentTarget.value);
-              e.target.style.height = `${e.target.scrollHeight}px`;
+              if (Number(e.target.style.height.replace('px', '')) <= 200) {
+                e.target.style.height = `${e.target.scrollHeight}px`;
+              }
             }}
           />
         </div>

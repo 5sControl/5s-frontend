@@ -61,6 +61,8 @@ export interface Chat {
   history: {
     author: 'chat' | 'user';
     message: string;
+    usedCategory?: string;
+    usedPrompt?: string;
     mentionedRCFiles?: string[];
   }[];
 }
@@ -205,7 +207,8 @@ export const removeCategorySourceAction =
 export const addChatAction = (modelName: string) => async (dispatch: AppDispatch) => {
   try {
     const data = await addChatApi(modelName);
-    dispatch(aiChatPage.actions.setChats(data));
+    await dispatch(aiChatPage.actions.setChats(data));
+    await dispatch(aiChatPage.actions.setSelectedChat(data.at(-1)));
   } catch {
     console.log('error adding chat');
   }
