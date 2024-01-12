@@ -9,6 +9,25 @@ import { Modal } from '../../../../components/modal';
 import { BiCopy, BiMicrophone } from 'react-icons/bi';
 import { ClipLoader } from 'react-spinners';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { PlayVoice } from '../../../../assets/svg/SVGcomponent';
+
+export const playMachineAudioFragment = async (text: string) => {
+  return new Promise((resolve, reject) => {
+    const synth = window.speechSynthesis;
+    if (text !== '') {
+      const utterThis: SpeechSynthesisUtterance = new SpeechSynthesisUtterance(text);
+      const voices = synth.getVoices();
+
+      utterThis.voice = voices.find((voice) => {
+        return voice.lang.includes('en');
+      }) as SpeechSynthesisVoice;
+
+      utterThis.pitch = 0.9;
+      utterThis.rate = 0.8;
+      synth.speak(utterThis);
+    }
+  });
+};
 
 const ConversetionalWindow = () => {
   const commands = [
@@ -32,7 +51,7 @@ const ConversetionalWindow = () => {
   const { selectedChat, chats, isLoading, categories, messageToSpeak, promptTemplates } =
     useAppSelector((state) => state.aiChatState);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedPromptTemplate, setSelectedPromptTemplate] = useState('');
+  const [selectedPromptTemplate, setSelectedPromptTemplate] = useState<string>('');
   const [showAddCategoryModal, setShowAddCategoryModal] = useState<boolean>(false);
   const [modalAction, setModalAction] = useState<
     'create' | 'edit' | 'remove' | 'removeSource' | 'addSource' | 'chatSettings'
@@ -41,6 +60,15 @@ const ConversetionalWindow = () => {
   const dispatch = useAppDispatch();
   const currentChat = chats.find((chat) => chat.id === selectedChat.id);
   const messageWindowRef = useRef<HTMLDivElement>(null);
+
+  const onInputEnterPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      if (e.shiftKey) {
+        return;
+      }
+      onAskPressHandler();
+    }
+  };
 
   const onAskPressHandler = () => {
     dispatch(askChatAction(selectedChat.id, prompt, selectedCategory, selectedPromptTemplate));
@@ -55,13 +83,17 @@ const ConversetionalWindow = () => {
 
   const onPromptTemplateSelect = (promptTemplateTitle: string) => {
     setSelectedPromptTemplate(promptTemplateTitle);
+    dispatch(editChatAction({ promptTemplateTitle, chatId: selectedChat.id }));
   };
+
+  useEffect(() => {
+    speech.getVoices();
+  }, []);
 
   useEffect(() => {
     if (messageToSpeak) {
       speech.cancel();
-      const speak = new SpeechSynthesisUtterance(messageToSpeak);
-      speech.speak(speak);
+      playMachineAudioFragment(messageToSpeak);
     }
     return () => {
       speech.cancel();
@@ -92,7 +124,13 @@ const ConversetionalWindow = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [chats]);
+  }, [chats, selectedChat]);
+
+  useEffect(() => {
+    console.log('chat changed');
+    setSelectedPromptTemplate(selectedChat.promptTemplateTitle ?? '#');
+    setSelectedCategory(selectedChat.categoryName);
+  }, [selectedChat]);
 
   return (
     <div className={styles.container}>
@@ -122,8 +160,21 @@ const ConversetionalWindow = () => {
                   ),
                 }}
               />
-              <div onClick={() => navigator.clipboard.writeText(message.message)}>
-                <BiCopy />
+              <div>
+                <div onClick={() => navigator.clipboard.writeText(message.message)}>
+                  <BiCopy />
+                </div>
+                <div
+                  onClick={() => {
+                    if (speech.speaking) {
+                      speech.cancel();
+                      return;
+                    }
+                    playMachineAudioFragment(message.message);
+                  }}
+                >
+                  <PlayVoice />
+                </div>
               </div>
             </div>
           );
@@ -149,6 +200,8 @@ const ConversetionalWindow = () => {
               onChange={(e) => {
                 onCategorySelect(e.currentTarget.value);
               }}
+              value={selectedCategory}
+              defaultValue={selectedChat.categoryName}
             >
               <option value={undefined}>@Default</option>
               {categories.map((category) => {
@@ -160,9 +213,11 @@ const ConversetionalWindow = () => {
           </div>
           <div className={styles.useContextTag}>
             <select
+              value={selectedPromptTemplate}
               onChange={(e) => {
                 onPromptTemplateSelect(e.currentTarget.value);
               }}
+              defaultValue={selectedChat.promptTemplateTitle}
             >
               <option value={undefined}>#</option>
               {promptTemplates.map((template) => {
@@ -176,6 +231,7 @@ const ConversetionalWindow = () => {
             </select>
           </div>
           <textarea
+            onKeyDown={(e) => onInputEnterPress(e)}
             placeholder={'Ask your question'}
             className={styles.textarea}
             value={prompt}

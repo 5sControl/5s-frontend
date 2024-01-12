@@ -216,7 +216,9 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName, prompt })
           AI will loose access to this source and won’t be able to use it in its answers.
         </span>
       )}
-      {actionType === 'chatSettings' && <ChatsListSettingsSidebar chat={selectedChat} />}
+      {actionType === 'chatSettings' && (
+        <ChatsListSettingsSidebar onClose={closeHandler} chat={selectedChat} />
+      )}
       {actionType !== 'chatSettings' && (
         <div className={styles.buttonsContainer}>
           <Button variant={'text'} text={'Cancel'} onClick={closeHandler} />

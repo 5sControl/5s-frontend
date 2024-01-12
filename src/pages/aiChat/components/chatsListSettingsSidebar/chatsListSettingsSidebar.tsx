@@ -7,9 +7,10 @@ import { Button } from '../../../../components/button';
 
 interface Props {
   chat: Chat;
+  onClose: () => void;
 }
 
-const ChatsListSettingsSidebar: FC<Props> = ({ chat }) => {
+const ChatsListSettingsSidebar: FC<Props> = ({ chat, onClose }) => {
   const { categories, availableModels } = useAppSelector((state) => state.aiChatState);
   const currentChatCategory = categories.find((cat) => cat.name === chat?.categoryName);
   const dispatch = useAppDispatch();
@@ -46,6 +47,7 @@ const ChatsListSettingsSidebar: FC<Props> = ({ chat }) => {
         modelName: selectedModel ? selectedModel : chat?.modelName,
       })
     );
+    onClose();
   };
 
   return (

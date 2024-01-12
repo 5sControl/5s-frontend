@@ -55,6 +55,7 @@ export interface Chat {
   id: string;
   name: string;
   categoryName: string;
+  promptTemplateTitle?: string;
   modelName: string;
   sources: string[];
   history: {
@@ -232,11 +233,12 @@ export const setSelectedChatAction = (chat: Chat) => (dispatch: AppDispatch) => 
 
 export const editChatAction =
   (payloadData: {
-    categoryName: string;
+    categoryName?: string;
     chatId: string;
     sources?: string[];
     chatName?: string;
     modelName?: string;
+    promptTemplateTitle?: string;
   }) =>
   async (dispatch: AppDispatch) => {
     try {

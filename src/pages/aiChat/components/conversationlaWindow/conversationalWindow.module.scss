@@ -96,7 +96,8 @@
 }
 
 .chatMessageWrapper {
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   width: 100%;
   @include flexCenter;
   display:flex;
@@ -133,9 +134,9 @@
   display: flex;
   max-width: 550px;
   padding: 10px;
-  flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  flex-wrap: wrap;
   gap: 4px;
   border-radius: var(--Corner-radius, 4px);
   border: 1px solid var(--product-on-surface-divider, #E0E0E0);
