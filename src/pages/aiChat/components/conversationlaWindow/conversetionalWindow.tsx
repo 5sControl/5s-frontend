@@ -3,13 +3,13 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import styles from './conversationalWindow.module.scss';
 import { IoIosAttach, IoMdSettings } from 'react-icons/io';
 import { Button } from '../../../../components/button';
-import { askChatAction, editChatAction } from '../../aiChatSlice';
+import { addChatAction, askChatAction, editChatAction } from '../../aiChatSlice';
 import CategoryForm from '../categoryForm/categoryForm';
 import { Modal } from '../../../../components/modal';
-import { BiCopy, BiMicrophone } from 'react-icons/bi';
+import { BiCopy } from 'react-icons/bi';
 import { ClipLoader } from 'react-spinners';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { PlayVoice } from '../../../../assets/svg/SVGcomponent';
+import { Microphone, PlayVoice, StopVoiceRecognition } from '../../../../assets/svg/SVGcomponent';
 
 export const playMachineAudioFragment = async (text: string) => {
   return new Promise(() => {
@@ -70,7 +70,11 @@ const ConversetionalWindow = () => {
     }
   };
 
-  const onAskPressHandler = () => {
+  const onAskPressHandler = async () => {
+    if (!selectedChat.id) {
+      dispatch(addChatAction());
+      return;
+    }
     dispatch(askChatAction(selectedChat.id, prompt, selectedCategory, selectedPromptTemplate));
     setPrompt('');
     resetTranscript();
@@ -91,7 +95,7 @@ const ConversetionalWindow = () => {
   }, []);
 
   useEffect(() => {
-    if (messageToSpeak) {
+    if (messageToSpeak && selectedChat.autoplayAnswers) {
       speech.cancel();
       playMachineAudioFragment(messageToSpeak);
     }
@@ -134,6 +138,13 @@ const ConversetionalWindow = () => {
 
   return (
     <div className={styles.container}>
+      {!currentChat?.history.length && (
+        <div className={styles.emptyChatPlaceholder}>
+          <p>Start chatting with AI</p>
+          <p>Select which @category knowledge to use</p>
+          <p>@Default gives you access to basic knowledge</p>
+        </div>
+      )}
       <Modal
         className={styles.modal}
         isOpen={showAddCategoryModal}
@@ -209,10 +220,8 @@ const ConversetionalWindow = () => {
               defaultValue={selectedChat.categoryName}
             >
               <option value={undefined}>@Default</option>
-              {categories.map((category) => {
-                return (
-                  <option key={category.name} value={category.name}>{`@${category.name}`}</option>
-                );
+              {categories.map((category, i) => {
+                return <option key={i} value={category.name}>{`@${category.name}`}</option>;
               })}
             </select>
           </div>
@@ -225,13 +234,8 @@ const ConversetionalWindow = () => {
               defaultValue={selectedChat.promptTemplateTitle}
             >
               <option value={undefined}>#</option>
-              {promptTemplates.map((template) => {
-                return (
-                  <option
-                    key={template.title}
-                    value={template.title}
-                  >{`#${template.title}`}</option>
-                );
+              {promptTemplates.map((template, i) => {
+                return <option key={i} value={template.title}>{`#${template.title}`}</option>;
               })}
             </select>
           </div>
@@ -249,16 +253,8 @@ const ConversetionalWindow = () => {
           />
         </div>
         <div className={styles.chatButtonsBlock}>
-          <div
-            onClick={() => {
-              if (listening) {
-                stopListening();
-              } else {
-                startListening();
-              }
-            }}
-          >
-            <BiMicrophone style={{ color: listening ? 'red' : 'black' }} />
+          <div onClick={() => (listening ? stopListening() : startListening())}>
+            {listening ? <StopVoiceRecognition /> : <Microphone />}
           </div>
           <Button
             disabled={!prompt}
@@ -270,8 +266,10 @@ const ConversetionalWindow = () => {
           <div
             style={{ display: 'flex', alignItems: 'center' }}
             onClick={() => {
-              setModalAction('chatSettings');
-              setShowAddCategoryModal(true);
+              if (selectedChat) {
+                setModalAction('chatSettings');
+                setShowAddCategoryModal(true);
+              }
             }}
           >
             <IoMdSettings />

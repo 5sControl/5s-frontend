@@ -34,6 +34,14 @@
   column-gap: 10px;
 }
 
+.switchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
 .title {
   @include h4
 }

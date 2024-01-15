@@ -145,6 +145,7 @@ export const editChatApi = (data: {
   chatName?: string;
   modelName?: string;
   promptTemplateTitle?: string;
+  autoplayAnswers?: boolean;
 }) => {
   return axios({
     method: 'post',

@@ -4,6 +4,7 @@ import styles from './chatListSettingsSidebar.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { Checkbox } from '../../../../components/checkbox';
 import { Button } from '../../../../components/button';
+import Switch from 'react-switch';
 
 interface Props {
   chat: Chat;
@@ -15,6 +16,7 @@ const ChatsListSettingsSidebar: FC<Props> = ({ chat, onClose }) => {
   const currentChatCategory = categories.find((cat) => cat.name === chat?.categoryName);
   const dispatch = useAppDispatch();
   const [selectedModel, setSelectedModel] = useState(chat?.modelName);
+  const [autoplayAnswers, setAutoplayAnswers] = useState(!!chat?.autoplayAnswers);
   const [selectedCategory, setSelectedCategory] = useState(
     chat?.categoryName ? chat?.categoryName : '@Default'
   );
@@ -45,6 +47,7 @@ const ChatsListSettingsSidebar: FC<Props> = ({ chat, onClose }) => {
         chatName: chat?.name,
         sources: chat?.sources,
         modelName: selectedModel ? selectedModel : chat?.modelName,
+        autoplayAnswers,
       })
     );
     onClose();
@@ -53,6 +56,21 @@ const ChatsListSettingsSidebar: FC<Props> = ({ chat, onClose }) => {
   return (
     <>
       <div className={styles.container}>
+        <div className={styles.switchContainer}>
+          <span className={styles.plainText}>Voice over replies</span>
+          <Switch
+            checked={autoplayAnswers}
+            checkedIcon={false}
+            uncheckedIcon={false}
+            onChange={(checked) => setAutoplayAnswers(checked)}
+            height={14}
+            handleDiameter={20}
+            width={34}
+            boxShadow={'0px 0px 6px 0px rgba(34, 60, 80, 0.7)'}
+            offColor={'#dcdcdc'}
+            onColor={'#FE6100'}
+          />
+        </div>
         <select
           defaultValue={chat?.modelName}
           onChange={(e) => {

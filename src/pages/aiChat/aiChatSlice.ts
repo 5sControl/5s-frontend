@@ -65,6 +65,7 @@ export interface Chat {
     usedPrompt?: string;
     mentionedRCFiles?: string[];
   }[];
+  autoplayAnswers?: boolean;
 }
 
 interface AIChat {
@@ -204,9 +205,9 @@ export const removeCategorySourceAction =
     }
   };
 
-export const addChatAction = (modelName: string) => async (dispatch: AppDispatch) => {
+export const addChatAction = (modelName?: string) => async (dispatch: AppDispatch) => {
   try {
-    const data = await addChatApi(modelName);
+    const data = await addChatApi(modelName ?? 'llama2:13b');
     await dispatch(aiChatPage.actions.setChats(data));
     await dispatch(aiChatPage.actions.setSelectedChat(data.at(-1)));
   } catch {
@@ -242,6 +243,7 @@ export const editChatAction =
     chatName?: string;
     modelName?: string;
     promptTemplateTitle?: string;
+    autoplayAnswers?: boolean;
   }) =>
   async (dispatch: AppDispatch) => {
     try {

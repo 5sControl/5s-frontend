@@ -14,6 +14,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { MdFileUpload } from 'react-icons/md';
 import ChatsListSettingsSidebar from '../chatsListSettingsSidebar/chatsListSettingsSidebar';
+import Switch from 'react-switch';
 
 interface Props {
   fileName?: string;
