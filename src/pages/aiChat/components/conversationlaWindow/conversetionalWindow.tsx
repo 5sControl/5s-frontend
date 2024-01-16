@@ -56,17 +56,20 @@ const ConversetionalWindow = () => {
   const [modalAction, setModalAction] = useState<
     'create' | 'edit' | 'remove' | 'removeSource' | 'addSource' | 'chatSettings'
   >('addSource');
-  const [prompt, setPrompt] = useState('');
+  const [prompt, setPrompt] = useState('dasdasdsadsa');
   const dispatch = useAppDispatch();
   const currentChat = chats.find((chat) => chat.id === selectedChat.id);
   const messageWindowRef = useRef<HTMLDivElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-  const onInputEnterPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const onInputEnterPress = (e: React.KeyboardEvent<HTMLSpanElement>) => {
     if (e.key === 'Enter') {
       if (e.shiftKey) {
         return;
       }
-      onAskPressHandler();
+      if (prompt) {
+        onAskPressHandler();
+      }
     }
   };
 
@@ -77,6 +80,9 @@ const ConversetionalWindow = () => {
     }
     dispatch(askChatAction(selectedChat.id, prompt, selectedCategory, selectedPromptTemplate));
     setPrompt('');
+    if (textAreaRef.current) {
+      textAreaRef.current.textContent = '';
+    }
     resetTranscript();
   };
 
@@ -105,14 +111,14 @@ const ConversetionalWindow = () => {
   }, [messageToSpeak]);
 
   useEffect(() => {
-    setPrompt(transcript);
+    setPrompt((prev) => prev + transcript);
   }, [transcript]);
 
   const replaceFilenamesWithLinks = (message: string, filenames: string[]) => {
     let newMessage = structuredClone(message);
     if (filenames) {
       for (let i = 0; i < filenames.length; i++) {
-        newMessage = newMessage.replace(
+        newMessage = newMessage.replaceAll(
           filenames[i],
           `<a href=${process.env.REACT_APP_CHAT_API}download?categoryName=${currentChat?.categoryName}&rcFileName=${filenames[i]}>${filenames[i]}</a>`
         );
@@ -131,7 +137,6 @@ const ConversetionalWindow = () => {
   }, [chats, selectedChat]);
 
   useEffect(() => {
-    console.log('chat changed');
     setSelectedPromptTemplate(selectedChat.promptTemplateTitle ?? '#');
     setSelectedCategory(selectedChat.categoryName);
   }, [selectedChat]);
@@ -239,16 +244,16 @@ const ConversetionalWindow = () => {
               })}
             </select>
           </div>
-          <textarea
+          <span
+            ref={textAreaRef}
+            role={'textbox'}
             onKeyDown={(e) => onInputEnterPress(e)}
-            placeholder={'Ask your question'}
             className={styles.textarea}
-            value={prompt}
-            onChange={(e) => {
-              setPrompt(e.currentTarget.value);
-              if (Number(e.target.style.height.replace('px', '')) <= 200) {
-                e.target.style.height = `${e.target.scrollHeight}px`;
-              }
+            contentEditable
+            aria-placeholder={'sadasdasdasdasd'}
+            onInput={(event) => {
+              resetTranscript();
+              setPrompt(event.currentTarget.textContent as string);
             }}
           />
         </div>

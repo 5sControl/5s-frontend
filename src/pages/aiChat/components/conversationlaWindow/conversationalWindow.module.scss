@@ -11,6 +11,7 @@
 }
 
 .inputWrapper {
+  position: relative;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -35,18 +36,20 @@
 .textarea {
   padding: 4px 4px 4px 4px;
   border-width: 0;
-  min-width: 100%;
+  width: 70%;
+  max-height: 200px;
+  overflow-y: scroll;
   min-height: 48px;
   box-sizing: border-box;
-  max-height: 512px;
   resize: none;
   background: none;
   outline: none;
-  :focus {
-    border: none;
-    background: none;
-    outline: none;
-  }
+  @include body2;
+}
+span[contenteditable]:empty:focus::before,
+span[contenteditable]:empty::before{
+  content: 'Ask your question';
+  color: #9E9E9E;
 }
 
 .chatInputBlock {
@@ -84,6 +87,8 @@
   flex-direction: row;
   align-items: center;
   column-gap: 12px;
+  position: absolute;
+  right: 10px;
 }
 
 .useContextTag {
