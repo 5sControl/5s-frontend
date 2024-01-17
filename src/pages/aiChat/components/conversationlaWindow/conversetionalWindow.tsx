@@ -64,6 +64,7 @@ const ConversetionalWindow = () => {
   const dispatch = useAppDispatch();
   const currentChat = chats.find((chat) => chat.id === selectedChat.id);
   const messageWindowRef = useRef<HTMLDivElement>(null);
+  const textAreaRef = useRef<HTMLSpanElement>(null);
 
   const onInputEnterPress = (e: React.KeyboardEvent<HTMLSpanElement>) => {
     if (e.key === 'Enter') {
@@ -83,6 +84,9 @@ const ConversetionalWindow = () => {
     }
     dispatch(askChatAction(selectedChat.id, prompt, selectedCategory, selectedPromptTemplate));
     setPrompt('');
+    if (textAreaRef.current) {
+      textAreaRef.current.textContent = '';
+    }
     resetTranscript();
   };
 
@@ -111,6 +115,9 @@ const ConversetionalWindow = () => {
   }, [messageToSpeak]);
 
   useEffect(() => {
+    if (textAreaRef.current) {
+      textAreaRef.current.textContent = transcript;
+    }
     setPrompt(transcript);
   }, [transcript]);
 
@@ -245,18 +252,19 @@ const ConversetionalWindow = () => {
             </select>
           </div>
           <span
+            ref={textAreaRef}
             suppressContentEditableWarning={true}
             role={'textbox'}
             onKeyDown={(e) => onInputEnterPress(e)}
             className={styles.textarea}
             contentEditable
-            onInput={(event) => {
+            onInput={() => {
               resetTranscript();
-              setPrompt(event.currentTarget.textContent as string);
+              if (textAreaRef.current) {
+                setPrompt(textAreaRef.current.textContent as string);
+              }
             }}
-          >
-            {prompt}
-          </span>
+          />
         </div>
         <div className={styles.chatButtonsBlock}>
           <div onClick={() => (listening ? stopListening() : startListening())}>
