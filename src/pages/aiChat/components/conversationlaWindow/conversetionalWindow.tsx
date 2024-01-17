@@ -115,6 +115,9 @@ const ConversetionalWindow = () => {
   }, [messageToSpeak]);
 
   useEffect(() => {
+    if (!transcript) {
+      return;
+    }
     if (textAreaRef.current) {
       textAreaRef.current.textContent = transcript;
     }
