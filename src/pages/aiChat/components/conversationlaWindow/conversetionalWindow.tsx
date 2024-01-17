@@ -42,9 +42,13 @@ const ConversetionalWindow = () => {
     },
   ];
   const { transcript, listening, resetTranscript } = useSpeechRecognition({ commands });
-  const startListening = () =>
+  const startListening = () => {
+    resetTranscript();
     SpeechRecognition.startListening({ continuous: true, language: 'en-US' });
-  const stopListening = () => SpeechRecognition.stopListening();
+  };
+  const stopListening = () => {
+    SpeechRecognition.stopListening();
+  };
 
   const speech = window.speechSynthesis;
 
@@ -56,11 +60,10 @@ const ConversetionalWindow = () => {
   const [modalAction, setModalAction] = useState<
     'create' | 'edit' | 'remove' | 'removeSource' | 'addSource' | 'chatSettings'
   >('addSource');
-  const [prompt, setPrompt] = useState('dasdasdsadsa');
+  const [prompt, setPrompt] = useState('');
   const dispatch = useAppDispatch();
   const currentChat = chats.find((chat) => chat.id === selectedChat.id);
   const messageWindowRef = useRef<HTMLDivElement>(null);
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const onInputEnterPress = (e: React.KeyboardEvent<HTMLSpanElement>) => {
     if (e.key === 'Enter') {
@@ -80,9 +83,6 @@ const ConversetionalWindow = () => {
     }
     dispatch(askChatAction(selectedChat.id, prompt, selectedCategory, selectedPromptTemplate));
     setPrompt('');
-    if (textAreaRef.current) {
-      textAreaRef.current.textContent = '';
-    }
     resetTranscript();
   };
 
@@ -111,7 +111,7 @@ const ConversetionalWindow = () => {
   }, [messageToSpeak]);
 
   useEffect(() => {
-    setPrompt((prev) => prev + transcript);
+    setPrompt(transcript);
   }, [transcript]);
 
   const replaceFilenamesWithLinks = (message: string, filenames: string[]) => {
@@ -245,17 +245,18 @@ const ConversetionalWindow = () => {
             </select>
           </div>
           <span
-            ref={textAreaRef}
+            suppressContentEditableWarning={true}
             role={'textbox'}
             onKeyDown={(e) => onInputEnterPress(e)}
             className={styles.textarea}
             contentEditable
-            aria-placeholder={'sadasdasdasdasd'}
             onInput={(event) => {
               resetTranscript();
               setPrompt(event.currentTarget.textContent as string);
             }}
-          />
+          >
+            {prompt}
+          </span>
         </div>
         <div className={styles.chatButtonsBlock}>
           <div onClick={() => (listening ? stopListening() : startListening())}>

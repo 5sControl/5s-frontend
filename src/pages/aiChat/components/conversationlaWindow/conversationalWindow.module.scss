@@ -46,6 +46,7 @@
   outline: none;
   @include body2;
 }
+
 span[contenteditable]:empty:focus::before,
 span[contenteditable]:empty::before{
   content: 'Ask your question';
