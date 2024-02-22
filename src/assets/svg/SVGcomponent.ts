@@ -70,6 +70,9 @@ import { ReactComponent as Logout } from './logout.svg';
 import { ReactComponent as Folber } from './folber.svg';
 import { ReactComponent as LinkIcon } from './linkIcon.svg';
 import { ReactComponent as FileIcon } from './fileIcon.svg';
+import { ReactComponent as PlayVoice } from './playVoice.svg';
+import { ReactComponent as Microphone } from './microphone.svg';
+import { ReactComponent as StopVoiceRecognition } from './stopVoiceRecognition.svg';
 
 export {
   InvRedLine,
@@ -144,4 +147,7 @@ export {
   ChatInfo,
   FileIcon,
   LinkIcon,
+  PlayVoice,
+  Microphone,
+  StopVoiceRecognition,
 };

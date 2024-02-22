@@ -66,3 +66,49 @@
     background: #f3e0e0;
   }
 }
+
+.algorithmsFilterContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.algorithmRadioContainer {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 4px;
+  align-items: flex-start;
+  justify-content: center;
+  div{
+    margin-bottom: 0!important;
+  }
+}
+
+.stockData {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  border-radius: 11px;
+  min-width: 84px;
+  max-width: 128px;
+  color: var(--White);
+  font-size: 12px;
+}
+  .stockIn {
+    background-color: var(--Green);
+    @extend .stockData
+  }
+
+  .low {
+    background-color: var(--StockOrange);
+    @extend .stockData
+  }
+
+  .out {
+    background-color: var(--StockRed);
+    @extend .stockData
+  }

@@ -4,25 +4,48 @@ import { Button } from '../../../../components/button';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import {
   createCategoryAction,
+  createPromptTemplateAction,
   editCategoryAction,
+  editPromptTemplateAction,
   removeCategoryAction,
   removeCategorySourceAction,
   uploadSourceAction,
 } from '../../aiChatSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MdFileUpload } from 'react-icons/md';
+import ChatsListSettingsSidebar from '../chatsListSettingsSidebar/chatsListSettingsSidebar';
+import Switch from 'react-switch';
 
 interface Props {
   fileName?: string;
-  actionType: 'create' | 'edit' | 'remove' | 'removeSource' | 'addSource';
+  actionType:
+    | 'create'
+    | 'edit'
+    | 'remove'
+    | 'removeSource'
+    | 'addSource'
+    | 'chatSettings'
+    | 'editPrompt'
+    | 'createPrompt';
   closeHandler: () => void;
+  prompt?: {
+    title: string;
+    content: string;
+  };
 }
 
-const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
+const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName, prompt }) => {
   const { category } = useParams();
-  const { categories } = useAppSelector((state) => state.aiChatState);
-  const [categoryName, setCategoryName] = useState<string>(categories[0] ? categories[0].name : '');
-  const [categoryDescription, setCategoryDescription] = useState<string>('');
+  const { categories, selectedChat } = useAppSelector((state) => state.aiChatState);
+  const selectedCategory = categories.find((cat) => cat.name === category);
+  const [categoryName, setCategoryName] = useState<string>(category ? category : '');
+  const [categoryDescription, setCategoryDescription] = useState<string>(
+    selectedCategory?.description ?? ''
+  );
+  const [promptTemplateTitle, setPromptTemplateTitle] = useState<string>(prompt?.title ?? '');
+  const [promptTemplateDescription, setPromptTemplateDescription] = useState<string>(
+    prompt?.content ?? ''
+  );
   const [fileToLoad, setFileToLoad] = useState<File | null>();
   const [linkToLoad, setLinkToLoad] = useState<string>();
   const navigate = useNavigate();
@@ -51,6 +74,12 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
       ? 'Remove category'
       : actionType === 'addSource'
       ? 'Add to knowledge base'
+      : actionType === 'chatSettings'
+      ? 'ChatSettings'
+      : actionType === 'createPrompt'
+      ? 'Add prompt'
+      : actionType === 'editPrompt'
+      ? 'Edit prompt'
       : 'Remove source';
 
   const onFormSubmit = () => {
@@ -80,10 +109,31 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
         handleUploadSources();
         closeHandler();
         break;
+      case 'createPrompt':
+        dispatch(
+          createPromptTemplateAction({
+            title: promptTemplateTitle,
+            content: promptTemplateDescription,
+          })
+        );
+        closeHandler();
+        break;
+      case 'editPrompt':
+        dispatch(
+          editPromptTemplateAction({
+            oldTitle: prompt?.title as string,
+            title: promptTemplateTitle,
+            content: promptTemplateDescription,
+          })
+        );
+        closeHandler();
+        break;
       default:
         return;
     }
   };
+
+  console.log(category);
 
   return (
     <div className={styles.container}>
@@ -98,10 +148,28 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
               onChange={(e) => setCategoryName(e.currentTarget.value)}
             />
             <span className={styles.plainText}>Description</span>
-            <input
+            <textarea
+              className={styles.textarea}
               value={categoryDescription}
               placeholder={'Describe this category to help AI'}
               onChange={(e) => setCategoryDescription(e.currentTarget.value)}
+            />
+          </>
+        )}
+        {(actionType === 'createPrompt' || actionType === 'editPrompt') && (
+          <>
+            <span className={styles.plainText}>Prompt title</span>
+            <input
+              value={promptTemplateTitle}
+              placeholder={'Enter prompt title, # will be added automatically'}
+              onChange={(e) => setPromptTemplateTitle(e.currentTarget.value)}
+            />
+            <span className={styles.plainText}>Prompt content</span>
+            <textarea
+              style={{ height: 130 }}
+              value={promptTemplateDescription}
+              placeholder={'As an AI, your...'}
+              onChange={(e) => setPromptTemplateDescription(e.currentTarget.value)}
             />
           </>
         )}
@@ -109,7 +177,7 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
           <>
             <span className={styles.plainText}>Category name</span>
             <select
-              defaultValue={categories[0].name}
+              defaultValue={category}
               onChange={(e) => setCategoryName(e.currentTarget.value)}
             >
               {categories.map((category) => {
@@ -127,7 +195,7 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
                   Upload
                 </div>
                 <input
-                  style={{ display: 'none' }}
+                  style={{ display: 'none', cursor: 'pointer' }}
                   type={'file'}
                   onChange={(e) => setFileToLoad(e.target.files ? e.target.files[0] : null)}
                 />
@@ -153,18 +221,23 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName }) => {
           AI will loose access to this source and won’t be able to use it in its answers.
         </span>
       )}
-      <div className={styles.buttonsContainer}>
-        <Button variant={'text'} text={'Cancel'} onClick={closeHandler} />
-        <Button
-          disabled={
-            (!categoryName || !categoryDescription) &&
-            (actionType === 'create' || actionType === 'edit')
-          }
-          variant={'contained'}
-          text={actionType.includes('remove') ? 'Remove' : 'Done'}
-          onClick={onFormSubmit}
-        />
-      </div>
+      {actionType === 'chatSettings' && (
+        <ChatsListSettingsSidebar onClose={closeHandler} chat={selectedChat} />
+      )}
+      {actionType !== 'chatSettings' && (
+        <div className={styles.buttonsContainer}>
+          <Button variant={'text'} text={'Cancel'} onClick={closeHandler} />
+          <Button
+            disabled={
+              (!categoryName || !categoryDescription) &&
+              (actionType === 'create' || actionType === 'edit')
+            }
+            variant={'contained'}
+            text={actionType.includes('remove') ? 'Remove' : 'Done'}
+            onClick={onFormSubmit}
+          />
+        </div>
+      )}
     </div>
   );
 };

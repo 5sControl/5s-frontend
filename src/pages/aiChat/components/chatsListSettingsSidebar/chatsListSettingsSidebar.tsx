@@ -1,19 +1,25 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Chat, editChatAction, editChatSourcesAction } from '../../aiChatSlice';
 import styles from './chatListSettingsSidebar.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { Checkbox } from '../../../../components/checkbox';
 import { Button } from '../../../../components/button';
+import Switch from 'react-switch';
 
 interface Props {
-  isOpened: boolean;
-  chat?: Chat;
+  chat: Chat;
+  onClose: () => void;
 }
 
-const ChatsListSettingsSidebar: FC<Props> = ({ chat, isOpened }) => {
-  const { categories } = useAppSelector((state) => state.aiChatState);
+const ChatsListSettingsSidebar: FC<Props> = ({ chat, onClose }) => {
+  const { categories, availableModels } = useAppSelector((state) => state.aiChatState);
   const currentChatCategory = categories.find((cat) => cat.name === chat?.categoryName);
   const dispatch = useAppDispatch();
+  const [selectedModel, setSelectedModel] = useState(chat?.modelName);
+  const [autoplayAnswers, setAutoplayAnswers] = useState(!!chat?.autoplayAnswers);
+  const [selectedCategory, setSelectedCategory] = useState(
+    chat?.categoryName ? chat?.categoryName : '@Default'
+  );
 
   const onSourceClick = (source: string) => {
     if (chat && chat.sources.includes(source)) {
@@ -21,80 +27,116 @@ const ChatsListSettingsSidebar: FC<Props> = ({ chat, isOpened }) => {
       dispatch(editChatSourcesAction(chat?.categoryName, chat?.id, newSources));
     } else {
       if (chat) {
-        dispatch(editChatSourcesAction(chat?.categoryName, chat?.id, [source, ...chat.sources]));
+        dispatch(
+          editChatSourcesAction(
+            chat?.categoryName,
+            chat?.id,
+            [source, ...chat.sources],
+            selectedModel
+          )
+        );
       }
     }
   };
 
   const onApplyPress = () => {
-    if (currentChatCategory && chat) {
-      console.log('here');
-      dispatch(
-        editChatAction({
-          categoryName: currentChatCategory.name,
-          chatId: chat.id,
-          chatName: chat.name,
-          sources: chat.sources,
-        })
-      );
-    }
+    dispatch(
+      editChatAction({
+        categoryName: selectedCategory,
+        chatId: chat?.id,
+        chatName: chat?.name,
+        sources: chat?.sources,
+        modelName: selectedModel ? selectedModel : chat?.modelName,
+        autoplayAnswers,
+      })
+    );
+    onClose();
   };
 
   return (
     <>
-      {isOpened && chat && (
-        <div className={styles.wrapper}>
-          <div className={styles.container}>
-            <span className={styles.title}>Chat settings</span>
-            <div className={styles.plainText}>{`Used @${
-              chat.categoryName ? chat.categoryName : ''
-            }`}</div>
-            <span className={styles.subtitle}>{`Used sources (${chat.sources.length})`}</span>
-            {currentChatCategory?.categoryContent.files.map((file, i) => {
-              return (
-                <div
-                  key={i}
-                  className={styles.sourceContainer}
-                  onClick={() => onSourceClick(file.name)}
-                >
-                  <Checkbox
-                    id={''}
-                    name={''}
-                    label={''}
-                    value={''}
-                    isChecked={chat?.sources.includes(file.name)}
-                  />
-                  <span className={styles.plainText}>{file.name}</span>
-                </div>
-              );
-            })}
-            {currentChatCategory?.categoryContent.links.map((link, i) => {
-              return (
-                <div
-                  key={i}
-                  className={styles.sourceContainer}
-                  onClick={() => onSourceClick(link.name)}
-                >
-                  <Checkbox
-                    id={''}
-                    name={''}
-                    label={''}
-                    value={''}
-                    isChecked={chat?.sources.includes(link.name)}
-                  />
-                  <span className={styles.plainText}>{link.name}</span>
-                </div>
-              );
-            })}
-          </div>
-          <Button
-            className={styles.applyButton}
-            variant={'outlined'}
-            text={'Apply'}
-            onClick={onApplyPress}
+      <div className={styles.container}>
+        <div className={styles.switchContainer}>
+          <span className={styles.plainText}>Voice over replies</span>
+          <Switch
+            checked={autoplayAnswers}
+            checkedIcon={false}
+            uncheckedIcon={false}
+            onChange={(checked) => setAutoplayAnswers(checked)}
+            height={14}
+            handleDiameter={20}
+            width={34}
+            boxShadow={'0px 0px 6px 0px rgba(34, 60, 80, 0.7)'}
+            offColor={'#dcdcdc'}
+            onColor={'#FE6100'}
           />
         </div>
-      )}
+        <select
+          defaultValue={chat?.modelName}
+          onChange={(e) => {
+            setSelectedModel(e.currentTarget.value);
+          }}
+        >
+          {availableModels.map((model) => {
+            return (
+              <option key={model} value={model}>
+                {model}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      <div className={styles.plainText}>Currently used category</div>
+      <div className={styles.container}>
+        <select
+          defaultValue={chat?.categoryName}
+          onChange={(e) => {
+            setSelectedCategory(e.currentTarget.value);
+          }}
+        >
+          <option value={'@Default'}>@Default</option>
+          {categories.map((cat) => {
+            return (
+              <option key={cat.name} value={cat.name}>
+                {cat.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      <span className={styles.subtitle}>{`Used sources (${chat?.sources.length ?? '0'})`}</span>
+      {currentChatCategory?.categoryContent.files.map((file, i) => {
+        return (
+          <div key={i} className={styles.sourceContainer} onClick={() => onSourceClick(file.name)}>
+            <Checkbox
+              id={''}
+              name={''}
+              label={''}
+              value={''}
+              isChecked={chat?.sources.includes(file.name)}
+            />
+            <span className={styles.plainText}>{file.name}</span>
+          </div>
+        );
+      })}
+      {currentChatCategory?.categoryContent.links.map((link, i) => {
+        return (
+          <div key={i} className={styles.sourceContainer} onClick={() => onSourceClick(link.name)}>
+            <Checkbox
+              id={''}
+              name={''}
+              label={''}
+              value={''}
+              isChecked={chat?.sources.includes(link.name)}
+            />
+            <span className={styles.plainText}>{link.name}</span>
+          </div>
+        );
+      })}
+      <div className={styles.buttonsContainer}>
+        <Button variant={'text'} text={'Cancel'} onClick={onClose} />
+        <Button variant={'contained'} text={'Done'} onClick={onApplyPress} />
+      </div>
     </>
   );
 };

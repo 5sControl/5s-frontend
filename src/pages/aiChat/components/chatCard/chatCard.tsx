@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import styles from './chatCard.module.scss';
-import { IoMdSettings, IoMdClose } from 'react-icons/io';
+import { IoMdClose } from 'react-icons/io';
 import { IoCheckmark } from 'react-icons/io5';
 import { MdModeEdit, MdDelete } from 'react-icons/md';
 import { useAppDispatch } from '../../../../store/hooks';
@@ -10,10 +10,10 @@ interface Props {
   active: boolean;
   name: string;
   onClickHandler: () => void;
-  onSettingsPress: () => void;
   onRemovePress: () => void;
   chatId: string;
   categoryName: string;
+  modelName: string;
 }
 
 const ChatCard: FC<Props> = ({
@@ -21,8 +21,8 @@ const ChatCard: FC<Props> = ({
   name,
   chatId,
   categoryName,
+  modelName,
   onClickHandler,
-  onSettingsPress,
   onRemovePress,
 }) => {
   const [editMode, setEditMode] = useState(false);
@@ -38,8 +38,8 @@ const ChatCard: FC<Props> = ({
     setEditMode(false);
   };
 
-  const onAcceptPressHandler = () => {
-    dispatch(editChatAction({ chatId, categoryName, chatName: newChatName }));
+  const onAcceptPressHandler = async () => {
+    await dispatch(editChatAction({ chatId, categoryName, chatName: newChatName, modelName }));
     setEditMode(false);
   };
 
@@ -50,7 +50,6 @@ const ChatCard: FC<Props> = ({
           autoFocus
           value={newChatName}
           onChange={(e) => setNewChatName(e.currentTarget.value)}
-          onBlur={() => setEditMode(false)}
         />
       ) : (
         <span>{name}</span>
@@ -68,9 +67,6 @@ const ChatCard: FC<Props> = ({
             </>
           ) : (
             <>
-              <div onClick={onSettingsPress}>
-                <IoMdSettings />
-              </div>
               <div onClick={onEditPressHandler}>
                 <MdModeEdit />
               </div>

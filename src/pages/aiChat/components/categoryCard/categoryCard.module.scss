@@ -15,6 +15,9 @@
   box-shadow: 0px 0px 8px 0px rgba(42, 98, 149, 0.25);
   text-decoration: none;
   color: black;
+  overflow-wrap: break-word;
+  overflow: scroll;
+  text-overflow: ellipsis;
 }
 
 .titleContainer {

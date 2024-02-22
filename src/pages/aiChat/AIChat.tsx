@@ -1,21 +1,28 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styles from './aiChat.module.scss';
 import { HeaderMain } from '../../components/header';
 import Chat from './components/chat/chat';
 import KnowledgeBase from './components/knowledgeBase/knowledgeBase';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { fetchCategoriesAction } from './aiChatSlice';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import {
+  fetchAvailableModelsAction,
+  fetchCategoriesAction,
+  fetchChatsAction,
+  fetchPromptTemplatesAction,
+} from './aiChatSlice';
+import { useAppDispatch } from '../../store/hooks';
 
 const AiChatPage = () => {
   const [searchParams] = useSearchParams();
   const activeTab = searchParams.get('tab') as 'chat' | 'base';
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { isLoading } = useAppSelector((state) => state.aiChatState);
 
   useEffect(() => {
     dispatch(fetchCategoriesAction());
+    dispatch(fetchPromptTemplatesAction());
+    dispatch(fetchChatsAction());
+    dispatch(fetchAvailableModelsAction());
   }, []);
 
   return (

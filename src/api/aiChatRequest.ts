@@ -4,13 +4,59 @@ const ngrokHeaders = {
   'ngrok-skip-browser-warning': 'true',
 };
 
-export const getChatCategories = () => {
+export const getCategoriesApi = () => {
   return axios
     .get(`${process.env.REACT_APP_CHAT_API}getCategories`, { headers: ngrokHeaders })
     .then((res) => res.data);
 };
 
-export const createChatCategory = (categoryName: string, description: string) => {
+export const getChatsApi = () => {
+  return axios
+    .get(`${process.env.REACT_APP_CHAT_API}getChats`, { headers: ngrokHeaders })
+    .then((res) => res.data);
+};
+
+export const getModelsApi = () => {
+  return axios
+    .get(`${process.env.REACT_APP_CHAT_API}getModels`, { headers: ngrokHeaders })
+    .then((res) => res.data);
+};
+
+export const getPromptTemplatesApi = () => {
+  return axios
+    .get(`${process.env.REACT_APP_CHAT_API}getPrompts`, { headers: ngrokHeaders })
+    .then((res) => res.data);
+};
+
+export const createPromptTemplateApi = (promptTemplate: { title: string; content: string }) => {
+  return axios
+    .post(
+      `${process.env.REACT_APP_CHAT_API}createPrompt?title=${promptTemplate.title}&content=${promptTemplate.content}`,
+      { headers: ngrokHeaders }
+    )
+    .then((res) => res.data);
+};
+
+export const editPromptTemplateApi = (promptTemplate: {
+  oldTitle: string;
+  title?: string;
+  content?: string;
+}) => {
+  return axios
+    .post(
+      `${process.env.REACT_APP_CHAT_API}editPrompt?oldTitle=${promptTemplate.oldTitle}&title=${promptTemplate.title}&content=${promptTemplate.content}`,
+      { headers: ngrokHeaders }
+    )
+    .then((res) => res.data);
+};
+
+export const removePromptTemplateApi = (title: string) => {
+  return axios
+    .post(`${process.env.REACT_APP_CHAT_API}removePrompt?title=${title}`, { headers: ngrokHeaders })
+    .then((res) => res.data);
+};
+
+export const createCategoryApi = (categoryName: string, description: string) => {
   return axios
     .post(
       `${process.env.REACT_APP_CHAT_API}createCategory?name=${categoryName}&description=${description}`,
@@ -20,7 +66,7 @@ export const createChatCategory = (categoryName: string, description: string) =>
     .then((res) => res.data);
 };
 
-export const removeChatCategory = (categoryName: string) => {
+export const removeCategoryApi = (categoryName: string) => {
   return axios
     .post(`${process.env.REACT_APP_CHAT_API}removeCategory?name=${categoryName}`, null, {
       headers: ngrokHeaders,
@@ -28,7 +74,7 @@ export const removeChatCategory = (categoryName: string) => {
     .then((res) => res.data);
 };
 
-export const removeCategorySource = (sourceName: string, categoryName: string) => {
+export const removeCategorySourceApi = (sourceName: string, categoryName: string) => {
   return axios
     .post(
       `${process.env.REACT_APP_CHAT_API}removeSource?fileName=${sourceName}&categoryName=${categoryName}`,
@@ -40,10 +86,10 @@ export const removeCategorySource = (sourceName: string, categoryName: string) =
     .then((res) => res.data);
 };
 
-export const editChatCategory = (
+export const editCategoryApi = (
   oldCategoryName: string,
-  categoryName: string,
-  description: string
+  categoryName?: string,
+  description?: string
 ) => {
   return axios
     .post(
@@ -56,29 +102,10 @@ export const editChatCategory = (
     .then((res) => res.data);
 };
 
-export const addChat = (categoryName: string) => {
-  return axios
-    .post(`${process.env.REACT_APP_CHAT_API}createChat?categoryName=${categoryName}`, null, {
-      headers: ngrokHeaders,
-    })
-    .then((res) => res.data);
-};
-
-export const askChat = (chatId: string, prompt: string, categoryName: string) => {
-  return axios
-    .get(
-      `${process.env.REACT_APP_CHAT_API}ask?chatId=${chatId}&prompt=${prompt}&categoryName=${categoryName}`,
-      {
-        headers: ngrokHeaders,
-      }
-    )
-    .then((res) => res.data);
-};
-
-export const removeChat = (categoryName: string, chatId: string) => {
+export const addChatApi = (modelName: string, categoryName?: string) => {
   return axios
     .post(
-      `${process.env.REACT_APP_CHAT_API}removeChat?categoryName=${categoryName}&chatId=${chatId}`,
+      `${process.env.REACT_APP_CHAT_API}createChat?categoryName=${categoryName}&modelName=${modelName}`,
       null,
       {
         headers: ngrokHeaders,
@@ -87,11 +114,38 @@ export const removeChat = (categoryName: string, chatId: string) => {
     .then((res) => res.data);
 };
 
-export const editChat = (data: {
-  categoryName: string;
+export const askChatApi = (
+  chatId: string,
+  prompt: string,
+  categoryName?: string,
+  promptTemplateTitle?: string
+) => {
+  return axios
+    .get(
+      `${process.env.REACT_APP_CHAT_API}ask?chatId=${chatId}&prompt=${prompt}&categoryName=${categoryName}&promptTemplateTitle=${promptTemplateTitle}`,
+      {
+        headers: ngrokHeaders,
+      }
+    )
+    .then((res) => res.data);
+};
+
+export const removeChatApi = (chatId: string) => {
+  return axios
+    .post(`${process.env.REACT_APP_CHAT_API}removeChat?chatId=${chatId}`, null, {
+      headers: ngrokHeaders,
+    })
+    .then((res) => res.data);
+};
+
+export const editChatApi = (data: {
+  categoryName?: string;
   chatId: string;
   sources?: string[];
   chatName?: string;
+  modelName?: string;
+  promptTemplateTitle?: string;
+  autoplayAnswers?: boolean;
 }) => {
   return axios({
     method: 'post',
@@ -108,4 +162,14 @@ export const uploadSourcesApi = (categoryName: string, data: FormData) => {
     data,
     headers: { 'Content-Type': 'multipart/form-data', 'ngrok-skip-browser-warning': 'true' },
   }).then((res) => res.data);
+};
+
+export const downloadFileApi = (categoryName: string, fileName: string) => {
+  axios.get(
+    `${process.env.REACT_APP_CHAT_API}download?categoryName=${categoryName}&fileName=${fileName}`,
+    {
+      headers: ngrokHeaders,
+      responseType: 'arraybuffer',
+    }
+  );
 };

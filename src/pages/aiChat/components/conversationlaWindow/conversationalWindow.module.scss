@@ -8,10 +8,70 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  row-gap: 12px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  padding: 6px;
+  gap: 10px;
+  border-radius: var(--Corner-radius, 4px);
+  background: var(--website-white, #FFF);
+  box-shadow: 0 0 8px 0 rgba(42, 98, 149, 0.25);
+  justify-content: space-between;
+  svg {
+    height: 28px;
+    width: 28px;
+    cursor: pointer;
+    fill: #666666;
+  }
+  button {
+    height: 32px;
+  }
+}
+
+.textarea {
+  padding: 4px 4px 4px 4px;
+  border-width: 0;
+  width: 70%;
+  max-height: 200px;
+  overflow-y: scroll;
+  min-height: 48px;
+  box-sizing: border-box;
+  resize: none;
+  background: none;
+  outline: none;
+  @include body2;
+}
+
+span[contenteditable]:empty:focus::before,
+span[contenteditable]:empty::before{
+  content: 'Ask your question';
+  color: #9E9E9E;
+}
+
+.chatInputBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  column-gap: 8px;
+  select {
+    border: none;
+    background: transparent;
+    :focus {
+      border: none;
+      background: none;
+      outline: none;
+    }
+  }
   input {
-    width: 100%;
-    height: 100%;
+    min-width: 350px;
+    height: 48px;
     border: none;
     background: none;
     outline: none;
@@ -23,29 +83,34 @@
   }
 }
 
-.inputWrapper {
-  height: 48px;
+.chatButtonsBlock {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  padding: 10px;
-  gap: 10px;
-  border-radius: var(--Corner-radius, 4px);
-  background: var(--website-white, #FFF);
-  box-shadow: 0px 0px 8px 0px rgba(42, 98, 149, 0.25);
-  justify-content: space-between;
-  svg {
-    height: 28px;
-    width: 28px;
-    cursor: pointer;
-  }
+  align-items: center;
+  column-gap: 12px;
+  position: absolute;
+  right: 10px;
+}
+
+.useContextTag {
+  height: 30px;
+  padding: 4px;
+  font-size: 11px;
+  border-radius: 15px;
+  display: flex;
+  @include flexCenter;
+  background: #e0e0e0;
 }
 
 .chatMessageWrapper {
+  overflow-y: scroll;
+  overflow-x: hidden;
   width: 100%;
   @include flexCenter;
+  display:flex;
+  flex-direction: column;
   justify-content: space-between;
-  column-gap: 12px;
+  row-gap: 12px;
   @include body1;
   position: relative;
   svg {
@@ -72,13 +137,18 @@
   align-self: flex-start!important;
 }
 
+.chatMessageTitle {
+  @include body3;
+  color: #666666;
+}
+
 .userMessage {
   display: flex;
   max-width: 550px;
   padding: 10px;
-  flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  flex-wrap: wrap;
   gap: 4px;
   border-radius: var(--Corner-radius, 4px);
   border: 1px solid var(--product-on-surface-divider, #E0E0E0);
@@ -94,4 +164,13 @@
   position: relative;
   background-color: #ffffff;
   z-index: 2;
+}
+
+.emptyChatPlaceholder {
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  row-gap: 4px;
+  color: #9E9E9E;
+  @include flexCenter
 }

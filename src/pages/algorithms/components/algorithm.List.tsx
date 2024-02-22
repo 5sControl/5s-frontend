@@ -10,19 +10,23 @@ import { Modal } from '../../../components/modal';
 import { Button } from '../../../components/button';
 import moment from 'moment';
 import { Input } from '../../../components/input';
+import { DropdownList } from 'react-widgets/cjs';
 
 export const AlgorithmList = ({ algorithm, token, processList, update }: any) => {
   const [isRemove, setIsRemove] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<any>(false);
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [usedIn, setUsedIn] = useState<string>('');
+  const [imageName, setIMageName] = useState<string>(algorithm.image_name);
 
   const sendAlgorithm = () => {
     putAlgorithmAPI(token, isEdit.id, {
       name: name,
-      image_name: isEdit.image_name,
+      image_name: imageName,
       is_available: true,
       description: description,
+      used_in: usedIn,
     })
       .then((response) => {
         setIsEdit(false);
@@ -110,10 +114,20 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
                 type="text"
                 placeholder="Enter Image"
                 className={styles.input}
-                value={isEdit.image_name}
+                value={imageName}
+                onChange={(e) => {
+                  console.log(e.currentTarget.value);
+                  setIMageName(e.currentTarget.value);
+                }}
                 id={''}
                 name={''}
-                disabled={true}
+              />
+              <label>Used in</label>
+              <DropdownList
+                defaultValue={'Dashboard'}
+                data={['dashboard', 'inventory', 'orders_view']}
+                className={styles.input}
+                onChange={(e) => setUsedIn(e.toLowerCase())}
               />
             </div>
             <div className={styles.modal__container_footer}>
@@ -152,6 +166,7 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
               processList.filter((el: any) => el.algorithm.id === algorithm.id).length}{' '}
             cameras
           </span>
+          <span>Used in {algorithm.used_in} </span>
         </div>
       </div>
       <div className={styles.containerAlgo__trash}>

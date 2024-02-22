@@ -11,6 +11,8 @@ import { ClipLoader } from 'react-spinners';
 import CategoryForm from '../categoryForm/categoryForm';
 import { Modal } from '../../../../components/modal';
 import { BiCopy } from 'react-icons/bi';
+import { downloadFileApi } from '../../../../api/aiChatRequest';
+import { useParams } from 'react-router-dom';
 
 interface Props {
   name: string;
@@ -21,6 +23,7 @@ interface Props {
 }
 
 const ProcessingSourceCard: FC<Props> = ({ name, size, date, type, variant }) => {
+  const { category } = useParams();
   const [showAddCategoryModal, setShowAddCategoryModal] = useState<boolean>(false);
   const [categoryModalAction, setCategoryModalAction] = useState<
     'create' | 'edit' | 'remove' | 'removeSource' | 'addSource'
@@ -60,7 +63,15 @@ const ProcessingSourceCard: FC<Props> = ({ name, size, date, type, variant }) =>
           )}
           {variant === 'uploaded' && (
             <>
-              {type === 'file' ? <Download /> : <BiCopy />}
+              {type === 'file' ? (
+                <a
+                  href={`${process.env.REACT_APP_CHAT_API}download?categoryName=${category}&fileName=${name}`}
+                >
+                  <Download />
+                </a>
+              ) : (
+                <BiCopy />
+              )}
               <div onClick={onRemoveCategoryPress}>
                 <Delete />
               </div>

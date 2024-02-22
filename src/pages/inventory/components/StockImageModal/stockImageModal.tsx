@@ -157,6 +157,10 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
 
         <div className={styles.wrapper}>
           <div className={styles.subtitle}>
+            <span>{'Algorithm : '}</span>
+            <span className={styles.value}>{currentReport.algorithm?.name}</span>
+          </div>
+          <div className={styles.subtitle}>
             <span>{'Stock level at the time : '}</span>
             <span className={styles.value}>{setExtraOfActiveData(currentReport.extra).count}</span>
           </div>

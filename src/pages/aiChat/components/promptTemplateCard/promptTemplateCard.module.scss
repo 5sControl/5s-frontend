@@ -1,0 +1,30 @@
+@import '../../../../styles/common.scss';
+@import '../../../../styles/fonts';
+
+.container {
+  display: flex;
+  width: 100%;
+  padding: 0 10px;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 8px;
+  color: black;
+  &:hover {
+    cursor: pointer;
+    background: rgba(254, 97, 0, 0.1);
+  }
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  @include h4
+}
+
+.plainText {
+  @include body2;
+  color: rgba(102, 102, 102, 1);
+}

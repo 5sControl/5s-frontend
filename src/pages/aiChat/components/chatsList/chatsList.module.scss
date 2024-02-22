@@ -14,14 +14,8 @@
   gap: 20px;
   border-radius: var(--Corner-radius, 4px);
   background: var(--website-white, #FFF);
-  box-shadow: 0px 0px 8px 0px rgba(42, 98, 149, 0.25);
-  select {
-    height: 40px;
-    width: 50%;
-    border-radius: var(--Corner-radius, 4px);
-    border: 1px solid var(--product-on-surface-divider, #E0E0E0);
-    background: var(--product-light-gray, #F3F4F6);
-  }
+  box-shadow: 0 0 8px 0 rgba(42, 98, 149, 0.25);
+  overflow: scroll;
 }
 
 .chatsWrapper {
@@ -29,6 +23,9 @@
 }
 
 .addChatButton {
-  width: 100%;
+  width: calc(100% - 20px);
   height: 40px;
+  position: sticky;
+  left: 12px;
+  bottom: 0;
 }
