@@ -1,4 +1,8 @@
 export interface InventoryHistory {
+  algorithm?: {
+    id: number;
+    name: string;
+  };
   id: number;
   date_created: string;
   date_updated: string;

@@ -7,7 +7,7 @@ import * as d3 from 'd3';
 
 import styles from './chart.module.scss';
 
-export const Chart: React.FC = () => {
+export const Chart: React.FC<{ algorithm?: { id: number; name: string } }> = ({ algorithm }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = useRef<any>(null);
   const [size, setSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
@@ -22,10 +22,12 @@ export const Chart: React.FC = () => {
 
   useEffect(() => {
     if (inventoryHistoryData && inventoryHistoryData.length > 0) {
-      const buf = [...inventoryHistoryData];
+      const buf = algorithm
+        ? inventoryHistoryData.filter((report) => report.algorithm?.id === algorithm.id)
+        : [...inventoryHistoryData];
       setSortedData(buf.sort((a: any, b: any) => a.id - b.id));
     }
-  }, [inventoryHistoryData]);
+  }, [inventoryHistoryData, algorithm]);
 
   return (
     <div id="chartBar" ref={ref}>
