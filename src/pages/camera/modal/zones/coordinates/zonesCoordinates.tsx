@@ -19,6 +19,7 @@ type PropsType = {
   cameraBox: any;
   oldBox: any;
   currentZoneId: number;
+  createZoneMode: boolean;
 };
 
 export const ZonesCoordinates: React.FC<PropsType> = ({
@@ -30,6 +31,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   cameraBox,
   oldBox,
   currentZoneId,
+  createZoneMode,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
@@ -209,7 +211,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
             onLoad={handleImageLoad}
             src={`${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`}
           />
-          {testCoordinates && isStartDraw && (
+          {testCoordinates && createZoneMode && (
             <svg
               className={styles.newCoordinates}
               style={{
@@ -278,8 +280,10 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
             ))}
           <div
             className={styles.draw}
-            onClick={(e) => createCoord(e)}
+            // onClick={(e) => createCoord(e)}
             onMouseDown={(e) => startPosition(e)}
+            onMouseMove={(e) => movePosition(e)}
+            onMouseUp={(e) => endPosition(e)}
             style={
               target ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
             }

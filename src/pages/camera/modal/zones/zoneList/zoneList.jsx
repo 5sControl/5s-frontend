@@ -13,8 +13,9 @@ export const ZoneList = ({
   workplaceList,
   updatingHandler,
   workplace,
+  isNewZone,
+  setIsNewZone,
 }) => {
-  const [isNewZone, setIsNewZone] = useState(false);
   const [isBlockAdd, setIsBlockAdd] = useState(false);
 
   const addZoneHandler = () => {

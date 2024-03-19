@@ -6,7 +6,12 @@ import { useCookies } from 'react-cookie';
 import { Button } from '../../../../components/button';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { generateString } from '../../../../functions/randomizer';
-import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../types';
+import {
+  Coordinat,
+  DrawingCoordinates,
+  FourPointsNewCoordinates,
+  NewCoordinates,
+} from '../../types';
 import { getInventoryItemsToCamera } from '../../inventoryAPI';
 import { Scale } from '../../../../components/scale';
 import { Scaleble } from './scale';
@@ -16,7 +21,7 @@ import styles from '../InventoryModal.module.scss';
 import { getCameraZones } from '../../../../api/cameraRequest';
 type PropsType = {
   submitHandler: () => void;
-  setCoords: (coords: Coordinat[]) => void;
+  setCoords: (coords: any[]) => void;
   currentSelect: string;
   handleClose: () => void;
   itemName: string;
@@ -25,6 +30,7 @@ type PropsType = {
   isMulti: boolean;
   itemCount: string;
   token: string;
+  isFourPointsMode: boolean;
 };
 
 export const Coordinates: React.FC<PropsType> = ({
@@ -38,10 +44,11 @@ export const Coordinates: React.FC<PropsType> = ({
   isMulti,
   itemCount,
   token,
+  isFourPointsMode,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
-  const [allBox, setAllBox] = useState<NewCoordinates[]>([]);
+  const [allBox, setAllBox] = useState<Array<NewCoordinates | FourPointsNewCoordinates>>([]);
   const [cameraBox, setCameraBox] = useState<any>([]);
   const [isStartDraw, setIsStartDraw] = useState<any>(false);
   const [moveDraw, setMoveDraw] = useState<DrawingCoordinates>({ x: 0, y: 0 });
@@ -50,11 +57,11 @@ export const Coordinates: React.FC<PropsType> = ({
   const [proportionHeight, setProportionHeight] = useState(0);
   const [zone, setZone] = useState<any[]>([]);
   const [coordToScale, setCoordToScale] = useState<any[]>([]);
+  const [fourPointsCoordinates, setFourPointsCoordinates] = useState<any[]>([]);
   useEffect(() => {
     if (proportionHeight > 0 && proportionHeight > 0) {
       getCameraZones(window.location.hostname, token, currentSelect)
         .then((res) => {
-          console.log(res);
           if (res && res.data && res.data.length > 0) {
             const bufCoord = res.data.map((element: any) => {
               return {
@@ -77,13 +84,26 @@ export const Coordinates: React.FC<PropsType> = ({
   }, [currentSelect, proportionHeight, proportionHeight]);
   const createCoord = (e: any) => {
     if (e && !target) {
-      // const target = e.target.getBoundingClientRect();
-      // const id = generateString();
-      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
+      const target = e.target.getBoundingClientRect();
+      if (fourPointsCoordinates.length >= 4) {
+        setFourPointsCoordinates([]);
+      } else {
+        setFourPointsCoordinates((prev) => [
+          ...prev,
+          { x: e.clientX - target.x, y: e.clientY - target.y },
+        ]);
+      }
     } else {
       setTarget(null);
     }
   };
+
+  useEffect(() => {
+    console.log(isMulti);
+    console.log(itemCount);
+    console.log(allBox);
+  }, [isMulti, itemCount, allBox]);
+
   useEffect(() => {
     if (coordToScale.length > 0 && !isScale) {
       const proportionWidth = image.current.naturalWidth / image.current.width;
@@ -169,8 +189,45 @@ export const Coordinates: React.FC<PropsType> = ({
     }
   }, [allBox, proportionWidth]);
 
+  useEffect(() => {
+    if (!isFourPointsMode) {
+      setFourPointsCoordinates([]);
+    }
+  }, [isFourPointsMode]);
+
+  useEffect(() => {
+    if (isFourPointsMode && fourPointsCoordinates.length === 4) {
+      const newCoords = fourPointsCoordinates
+        .map((el, index) => {
+          return {
+            [`x${index + 1}`]: el.x * proportionWidth,
+            [`y${index + 1}`]: el.y * proportionHeight,
+          };
+        })
+        .reduce((acc, el) => {
+          return { ...acc, ...el };
+        }, {});
+      const response = {
+        x1: newCoords.x1 / proportionWidth,
+        x2: newCoords.x2 / proportionWidth,
+        x3: newCoords.x3 / proportionWidth,
+        x4: newCoords.x4 / proportionWidth,
+        y1: newCoords.y1 / proportionHeight,
+        y2: newCoords.y2 / proportionHeight,
+        y3: newCoords.y3 / proportionHeight,
+        y4: newCoords.y4 / proportionHeight,
+        id: generateString(),
+      } as FourPointsNewCoordinates;
+      setAllBox([...allBox, response]);
+      setCoords([newCoords]);
+      console.log(newCoords);
+    }
+  }, [fourPointsCoordinates]);
+
   const removeCoord = () => {
-    setAllBox(allBox.filter((el: NewCoordinates) => el.id !== target.id));
+    setAllBox(
+      allBox.filter((el: NewCoordinates | FourPointsNewCoordinates) => el.id !== target.id)
+    );
     setTarget('');
   };
 
@@ -188,7 +245,7 @@ export const Coordinates: React.FC<PropsType> = ({
     const proportionWidth = image.current.naturalWidth / image.current.width;
     const proportionHeight = image.current.naturalHeight / image.current.height;
 
-    const sendCoord: Coordinat[] = [];
+    const sendCoord: any[] = [];
     coordinatesLayout.forEach((element: any) => {
       const bufLeft = Number(element.style.left.replace(/px/gi, ''));
       const bufTop = Number(element.style.top.replace(/px/gi, ''));
@@ -200,14 +257,18 @@ export const Coordinates: React.FC<PropsType> = ({
       const totalX = bufTransWidth + bufLeft;
       const totalY = bufTransHeight + bufTop;
 
-      sendCoord.push({
-        x1: totalX * proportionWidth,
-        y1: totalY * proportionHeight,
-        x2: bufWidth * proportionWidth + totalX * proportionWidth,
-        y2: bufHeight * proportionHeight + totalY * proportionHeight,
-      });
+      if (!isFourPointsMode) {
+        sendCoord.push({
+          x1: totalX * proportionWidth,
+          y1: totalY * proportionHeight,
+          x2: bufWidth * proportionWidth + totalX * proportionWidth,
+          y2: bufHeight * proportionHeight + totalY * proportionHeight,
+        });
+        setCoords(sendCoord);
+        console.log('coords:');
+        console.log(sendCoord);
+      }
     });
-    setCoords(sendCoord);
   };
   const scaleHandler = (img: string) => {
     const coordinatesLayout: any = document.querySelectorAll('.coordinates');
@@ -248,6 +309,29 @@ export const Coordinates: React.FC<PropsType> = ({
             src={`${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`}
           />
 
+          {fourPointsCoordinates.length !== 0 && isFourPointsMode && (
+            <svg
+              className={styles.newCoordinates}
+              style={{
+                width: '100%',
+                height: '100%',
+                position: 'absolute',
+                top: '0px',
+                left: '0px',
+              }}
+            >
+              {fourPointsCoordinates.map((el, i) => {
+                return <circle key={i} cx={`${el.x}`} cy={`${el.y}`} r={'5'} fill={'white'} />;
+              })}
+              {fourPointsCoordinates.length === 4 && (
+                <polygon
+                  fill={'rgba(255, 123, 41, 0.5)'}
+                  points={`${fourPointsCoordinates[0].x},${fourPointsCoordinates[0].y} ${fourPointsCoordinates[1].x},${fourPointsCoordinates[1].y} ${fourPointsCoordinates[2].x},${fourPointsCoordinates[2].y}, ${fourPointsCoordinates[3].x},${fourPointsCoordinates[3].y}`}
+                />
+              )}
+            </svg>
+          )}
+
           {zone.length > 0 &&
             zone.map((el) => (
               <div
@@ -267,28 +351,62 @@ export const Coordinates: React.FC<PropsType> = ({
               </div>
             ))}
 
-          {allBox.map((el: NewCoordinates) => (
-            <div
-              id={el.id}
-              className={
-                target && target.id === el.id ? 'coordinates coordSelected' : 'coordinates'
-              }
-              style={{
-                left: el.x,
-                top: el.y,
-                width: el.width,
-                height: el.height,
-                zIndex: isStartDraw ? 1 : 1001,
-              }}
-              onClick={(e) => changeTarget(e.target)}
-              key={el.id}
-            >
-              {itemName}
-              {target && target.id === el.id && (
-                <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
-              )}
-            </div>
-          ))}
+          {allBox.map((el: NewCoordinates | FourPointsNewCoordinates) => {
+            if (Object.keys(el).includes('x')) {
+              const element = el as NewCoordinates;
+              return (
+                <div
+                  id={el.id}
+                  className={
+                    target && target.id === el.id ? 'coordinates coordSelected' : 'coordinates'
+                  }
+                  style={{
+                    left: element.x,
+                    top: element.y,
+                    width: element.width,
+                    height: element.height,
+                    zIndex: isStartDraw ? 1 : 1001,
+                  }}
+                  onClick={(e) => changeTarget(e.target)}
+                  key={el.id}
+                >
+                  {itemName}
+                  {target && target.id === el.id && (
+                    <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
+                  )}
+                </div>
+              );
+            } else {
+              const element = el as FourPointsNewCoordinates;
+              return (
+                <svg
+                  key={element.id}
+                  style={{
+                    zIndex: isStartDraw ? 1 : 1001,
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute',
+                    top: '0px',
+                    left: '0px',
+                  }}
+                >
+                  <text
+                    style={{ fontSize: 8, fill: 'white' }}
+                    x={element.x1 + 4}
+                    y={element.y1 + 12}
+                  >
+                    {itemName}
+                  </text>
+                  <polygon
+                    stroke={'#fe6100'}
+                    strokeWidth={1}
+                    fill={'rgba(255, 123, 41, 0.0)'}
+                    points={`${element.x1},${element.y1} ${element.x2},${element.y2} ${element.x3},${element.y3}, ${element.x4},${element.y4}`}
+                  />
+                </svg>
+              );
+            }
+          })}
 
           {!!cameraBox &&
             !!proportionWidth &&
@@ -315,10 +433,10 @@ export const Coordinates: React.FC<PropsType> = ({
             ))}
           <div
             className={styles.draw}
-            onClick={(e) => createCoord(e)}
-            onMouseDown={(e) => startPosition(e)}
-            onMouseMove={(e) => movePosition(e)}
-            onMouseUp={(e) => endPosition(e)}
+            onClick={(e) => isFourPointsMode && createCoord(e)}
+            onMouseDown={(e) => !isFourPointsMode && startPosition(e)}
+            onMouseMove={(e) => !isFourPointsMode && movePosition(e)}
+            onMouseUp={(e) => !isFourPointsMode && endPosition(e)}
             style={
               target ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
             }
