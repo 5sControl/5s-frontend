@@ -1,0 +1,92 @@
+@import '../../../../styles/common.scss';
+@import '../../../../styles/fonts';
+
+.container {
+  width: 560px;
+  min-height: 340px;
+  padding: 30px 20px 20px 20px;
+  display: flex;
+  border-radius: 4px 4px 4px 4px;
+  background: #FFF;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 10px;
+  input {
+    height: 40px;
+    border-radius: 4px;
+    padding: 4px 4px 4px 4px;
+    border-width: 1px;
+    border-color: rgba(158, 158, 158, 1);
+    width: 100%;
+  }
+  select {
+      height: 40px;
+      border-radius: 4px;
+      padding: 4px 4px 4px 4px;
+      border-width: 1px;
+      border-color: rgba(158, 158, 158, 1);
+      width: 100%;
+  }
+  textarea {
+    border-radius: 4px;
+    padding: 4px 4px 4px 4px;
+    border-width: 1px;
+    border-color: rgba(158, 158, 158, 1);
+    width: 100%;
+    resize: none;
+  }
+}
+
+.textarea {
+  height: 200px;
+  border-radius: 4px;
+  padding: 4px 4px 4px 4px;
+  border-width: 1px;
+  border-color: rgba(158, 158, 158, 1);
+  width: 100%;
+}
+
+.title {
+  @include h2
+}
+
+.plainText {
+  @include body1;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.buttonsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  column-gap: 10px;
+}
+
+.formDataContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  input {
+    width: 40%;
+    height: 32px;
+  }
+}
+
+.uploadButton {
+  cursor: pointer;
+  margin-top: -10px;
+  height: 32px;
+  width: 214px;
+  background-color: rgba(254, 97, 0, 1);
+  color: white;
+  border-radius: 4px;
+  display: flex;
+  @include flexCenter;
+  align-self: center;
+}

@@ -1,9 +1,0 @@
-- name: Run make django run command
-  hosts: remote
-  gather_facts: false
-
-  tasks:
-    - name: Change working directory
-      become: true
-      become_user: server
-      shell: cd /home/server/reps/server- && make front run

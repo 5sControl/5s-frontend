@@ -1,0 +1,176 @@
+@import '../../../../styles/common.scss';
+@import '../../../../styles/fonts';
+
+.container {
+  width: 70%;
+  height: 100%;
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  padding: 6px;
+  gap: 10px;
+  border-radius: var(--Corner-radius, 4px);
+  background: var(--website-white, #FFF);
+  box-shadow: 0 0 8px 0 rgba(42, 98, 149, 0.25);
+  justify-content: space-between;
+  svg {
+    height: 28px;
+    width: 28px;
+    cursor: pointer;
+    fill: #666666;
+  }
+  button {
+    height: 32px;
+  }
+}
+
+.textarea {
+  padding: 4px 4px 4px 4px;
+  border-width: 0;
+  width: 70%;
+  max-height: 200px;
+  overflow-y: scroll;
+  min-height: 48px;
+  box-sizing: border-box;
+  resize: none;
+  background: none;
+  outline: none;
+  @include body2;
+}
+
+span[contenteditable]:empty:focus::before,
+span[contenteditable]:empty::before{
+  content: 'Ask your question';
+  color: #9E9E9E;
+}
+
+.chatInputBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  column-gap: 8px;
+  select {
+    border: none;
+    background: transparent;
+    :focus {
+      border: none;
+      background: none;
+      outline: none;
+    }
+  }
+  input {
+    min-width: 350px;
+    height: 48px;
+    border: none;
+    background: none;
+    outline: none;
+    :focus {
+      border: none;
+      background: none;
+      outline: none;
+    }
+  }
+}
+
+.chatButtonsBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 12px;
+  position: absolute;
+  right: 10px;
+}
+
+.useContextTag {
+  height: 30px;
+  padding: 4px;
+  font-size: 11px;
+  border-radius: 15px;
+  display: flex;
+  @include flexCenter;
+  background: #e0e0e0;
+}
+
+.chatMessageWrapper {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 100%;
+  @include flexCenter;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 12px;
+  @include body1;
+  position: relative;
+  svg {
+    height: 18px;
+    width: 18px;
+    cursor: pointer;
+  }
+}
+
+.addChatButton {
+  width: 54px;
+  height: 100%;
+}
+
+.chatMessage{
+  display: flex;
+  max-width: 550px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: var(--Corner-radius, 4px);
+  background: var(--product-akcent-transperent, rgba(254, 97, 0, 0.10));
+  align-self: flex-start!important;
+}
+
+.chatMessageTitle {
+  @include body3;
+  color: #666666;
+}
+
+.userMessage {
+  display: flex;
+  max-width: 550px;
+  padding: 10px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-radius: var(--Corner-radius, 4px);
+  border: 1px solid var(--product-on-surface-divider, #E0E0E0);
+  background: var(--product-light-gray, #F3F4F6);
+  align-self: flex-end!important;
+}
+
+.modal {
+  max-width: 560px;
+  max-height: 850px;
+  height: max-content;
+  overflow: hidden;
+  position: relative;
+  background-color: #ffffff;
+  z-index: 2;
+}
+
+.emptyChatPlaceholder {
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  row-gap: 4px;
+  color: #9E9E9E;
+  @include flexCenter
+}

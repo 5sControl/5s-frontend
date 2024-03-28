@@ -1,0 +1,60 @@
+@import '../../../../styles/common.scss';
+@import '../../../../styles/fonts';
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  row-gap: 30px;
+  flex-direction: column;
+}
+
+.infoContainer {
+  width: 100%;
+  @include flexCenter;
+  @include body1;
+  flex-direction: row;
+  column-gap: 10px;
+  padding: 18px 10px;
+  box-shadow: 0px 0px 8px 0px rgba(42, 98, 149, 0.25);
+  border-radius: var(--Corner-radius, 4px);
+  background: var(--website-white, #FFF);
+  &span {
+    @include body1;
+  }
+}
+
+.titleContainer {
+  width: 100%;
+  @include flexCenter;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.categoryTitle {
+  @include h2;
+}
+
+.categoriesListContainer {
+  width: 100%;
+  display: flex;
+  row-gap: 10px;
+  column-gap: 10px;
+  flex-wrap: wrap;
+}
+
+.promptsListContainer {
+  width: 100%;
+  @include flexCenter;
+  flex-direction: column;
+}
+
+.modal {
+    max-width: 560px;
+    max-height: 850px;
+    height: max-content;
+    overflow: hidden;
+    position: relative;
+    background-color: #ffffff;
+    z-index: 2;
+}

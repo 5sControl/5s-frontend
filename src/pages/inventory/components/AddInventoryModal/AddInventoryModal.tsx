@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -12,13 +11,13 @@ import { selectInventory, setCurrentItemName } from '../../inventorySlice';
 import { Coordinates } from './coordinates';
 import { Coordinat } from '../../types';
 import { Preloader } from '../../../../components/preloader';
-import { InvBottle, InvBox, InvRedLine, Tooltip } from '../../../../assets/svg/SVGcomponent';
+import { InvBottle, InvBox, InvRedLine } from '../../../../assets/svg/SVGcomponent';
 import { Notification } from '../../../../components/notification/notification';
 
 import styles from '../InventoryModal.module.scss';
 import './moveable.scss';
 import { Button } from '../../../../components/button';
-import { getCameraZones } from '../../../../api/cameraRequest';
+import Switch from 'react-switch';
 
 type PropsType = {
   isOpen: boolean;
@@ -40,7 +39,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   const { camerasData, isSMTPServerConnect, isFullOwnCompanyInfo, emailNotificationInfo } =
     useAppSelector(selectInventory);
   const [cookies] = useCookies(['token']);
-  const [coords, setCoords] = useState<Coordinat[]>([]);
+  const [coords, setCoords] = useState<any[]>([]);
   const [isClose, setIsClose] = useState<any>(false);
   const [itemName, setItemName] = useState<string>('');
   const [itemCount, setItemCount] = useState<string>('0');
@@ -52,6 +51,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   const [selectedSupplierID, setSelectedSupplierID] = useState<number | null>(null);
   const [isAutomaticallyOrder, setIsAutomaticallyOrder] = useState(false);
   const [isTypeModal, setIsTypeModal] = useState(false);
+  const [zoneType, setZoneType] = useState<2 | 4>(2);
 
   useEffect(() => {
     dispatch(setCurrentItemName(itemName));
@@ -71,13 +71,15 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   }, [isSMTPServerConnect, isFullOwnCompanyInfo]);
 
   const submitHandler = () => {
+    console.log('set coords:');
+    console.log(coords);
     const dataForm = {
       name: itemName,
       low_stock_level: Number(itemCount),
       camera: currentSelect,
       coords: coords.map((element: Coordinat) => {
         const { id, ...rest } = element; // Используйте деструктуризацию объекта и оператор rest
-        return rest;
+        return { ...rest, zoneType };
       }),
       // multi_row: isMulti === 'red line',
       object_type: isMulti,
@@ -198,6 +200,10 @@ export const AddInventoryModal: React.FC<PropsType> = ({
               </Link>
             )}
           </form>
+          <div className={styles.zonesSwitcher}>
+            <span>4 points zone mode</span>
+            <Switch checked={zoneType === 4} onChange={(e) => setZoneType(e ? 4 : 2)} />
+          </div>
         </div>
 
         <div className={styles.content}>
@@ -246,6 +252,7 @@ export const AddInventoryModal: React.FC<PropsType> = ({
           isScale={isScale}
           isMulti={!!isMulti.length}
           token={cookies.token}
+          isFourPointsMode={zoneType === 4}
         />
       )}
       {isClose && (

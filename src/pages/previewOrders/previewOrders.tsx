@@ -235,7 +235,6 @@ export const PreviewOrders: React.FC = () => {
           const productData = (res.payload as OrderItem).product.find((el) => {
             return el.id === +queryProductIdParam;
           });
-
           if (productData) {
             dispatch(setSelectProductData(productData));
 
@@ -265,12 +264,12 @@ export const PreviewOrders: React.FC = () => {
           >
             <span>Timelines</span>
           </div>
-          <div
+          {/* <div
             className={`${styles.tab} ${activeTab === 'reports' ? styles.active : styles.noActive}`}
             onClick={() => setActiveTab('reports')}
           >
             <span>Reports</span>
-          </div>
+          </div> */}
         </section>
         <div className={styles.header}>
           <div className={styles.header_container}>

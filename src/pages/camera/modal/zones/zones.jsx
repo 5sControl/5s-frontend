@@ -20,6 +20,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [updating, setUpdating] = useState(false);
   const [preloader, setPreloader] = useState(false);
   const [message, setMessage] = useState(false);
+  const [createZoneMode, setCreateZoneMode] = useState(false);
 
   const updatingHandler = () => {
     setUpdating(!updating);
@@ -135,6 +136,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
             cameraBox={cameraZones.filter((box) => box.id !== currentZoneId)}
             oldBox={cameraZones.filter((box) => box.id === currentZoneId)}
             currentZoneId={currentZoneId}
+            createZoneMode={createZoneMode}
           />
           <div className={styles.zones__right}>
             <ZoneList
@@ -148,6 +150,8 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
               workplaceList={workplaceList}
               updatingHandler={updatingHandler}
               workplace={workplaceToSend ? workplaceToSend.comboBoxName : ''}
+              isNewZone={createZoneMode}
+              setIsNewZone={setCreateZoneMode}
             />
           </div>
         </div>

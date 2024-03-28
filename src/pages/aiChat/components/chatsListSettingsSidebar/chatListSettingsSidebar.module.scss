@@ -1,0 +1,60 @@
+@import '../../../../styles/common.scss';
+@import '../../../../styles/fonts';
+
+.wrapper {
+  z-index: 5;
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--Corner-radius, 4px);
+  background: #FFF;
+  box-shadow: 0 0 8px 0 rgba(42, 98, 149, 0.25);
+}
+
+.sourceContainer {
+  width: 260px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  column-gap: 6px;
+  height: 32px;
+}
+
+.applyButton {
+  width: 100%;
+  background: #FFF;
+}
+
+.buttonsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  column-gap: 10px;
+}
+
+.switchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.title {
+  @include h4
+}
+
+
+.subtitle {
+  @include h5
+}
+
+.plainText {
+  @include body2;
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

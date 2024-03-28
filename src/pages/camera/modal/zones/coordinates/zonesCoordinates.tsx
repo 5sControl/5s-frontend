@@ -19,6 +19,7 @@ type PropsType = {
   cameraBox: any;
   oldBox: any;
   currentZoneId: number;
+  createZoneMode: boolean;
 };
 
 export const ZonesCoordinates: React.FC<PropsType> = ({
@@ -30,6 +31,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   cameraBox,
   oldBox,
   currentZoneId,
+  createZoneMode,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
@@ -39,6 +41,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   const [proportionWidth, setProportionWidth] = useState(0);
   const [proportionHeight, setProportionHeight] = useState(0);
   const [coordToScale, setCoordToScale] = useState<any[]>([]);
+  const [testCoordinates, setTesCoordinates] = useState<any[]>([]);
 
   useEffect(() => {
     if (oldBox.length > 0) {
@@ -61,9 +64,16 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
 
   const createCoord = (e: any) => {
     if (e && !target) {
-      // const target = e.target.getBoundingClientRect();
-      // const id = generateString();
-      // setAllBox([...allBox, { x: e.clientX - target.x, y: e.clientY - target.y, id: id }]);
+      const target = e.target.getBoundingClientRect();
+      if (testCoordinates.length >= 4) {
+        setTesCoordinates([]);
+      } else {
+        setTesCoordinates((prev) => [
+          ...prev,
+          { x: e.clientX - target.x, y: e.clientY - target.y },
+        ]);
+      }
+      console.log(testCoordinates);
     } else {
       setTarget(null);
     }
@@ -174,6 +184,13 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
       const totalX = bufTransWidth + bufLeft;
       const totalY = bufTransHeight + bufTop;
 
+      // testCoordinates.forEach((el, index) => {
+      //   sendCoord.push({
+      //     [`x${index + 1}`]: el.x * proportionWidth,
+      //     [`y${index + 1}`]: el.xy * proportionHeight
+      //   });
+      // });
+
       sendCoord.push({
         x1: totalX * proportionWidth,
         y1: totalY * proportionHeight,
@@ -184,34 +201,6 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
     setCoords(sendCoord);
   };
 
-  const scaleHandler = (img: string) => {
-    const coordinatesLayout: any = document.querySelectorAll('.coordinates');
-
-    const proportionWidth = image.current.naturalWidth / image.current.width;
-    const proportionHeight = image.current.naturalHeight / image.current.height;
-
-    const sendCoord: Coordinat[] = [];
-    coordinatesLayout.forEach((element: any) => {
-      const bufLeft = Number(element.style.left.replace(/px/gi, ''));
-      const bufTop = Number(element.style.top.replace(/px/gi, ''));
-      const bufWidth = Number(element.style.width.replace(/px/gi, ''));
-      const bufHeight = Number(element.style.height.replace(/px/gi, ''));
-      const bufTrans = element.style.transform.replace(/[^\d,-]/g, '').split(',');
-      const bufTransWidth = Number(bufTrans[0]) || 0;
-      const bufTransHeight = Number(bufTrans[1]) || 0;
-      const totalX = bufTransWidth + bufLeft;
-      const totalY = bufTransHeight + bufTop;
-
-      sendCoord.push({
-        x1: totalX * proportionWidth,
-        y1: totalY * proportionHeight,
-        x2: bufWidth * proportionWidth + totalX * proportionWidth,
-        y2: bufHeight * proportionHeight + totalY * proportionHeight,
-      });
-    });
-    setCoordToScale(sendCoord);
-    setIsScale(img);
-  };
   return (
     <div className={styles.zones__left}>
       <div className={styles.area}>
@@ -222,6 +211,28 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
             onLoad={handleImageLoad}
             src={`${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`}
           />
+          {testCoordinates && createZoneMode && (
+            <svg
+              className={styles.newCoordinates}
+              style={{
+                width: '100%',
+                height: '100%',
+                position: 'absolute',
+                top: '0px',
+                left: '0px',
+              }}
+            >
+              {testCoordinates.map((el) => {
+                return <circle key={el.x} cx={`${el.x}`} cy={`${el.y}`} r={'5'} fill={'white'} />;
+              })}
+              {testCoordinates.length === 4 && (
+                <polygon
+                  fill={'rgba(238,127,49,0.4)'}
+                  points={`${testCoordinates[0].x},${testCoordinates[0].y} ${testCoordinates[1].x},${testCoordinates[1].y} ${testCoordinates[2].x},${testCoordinates[2].y}, ${testCoordinates[3].x},${testCoordinates[3].y}`}
+                />
+              )}
+            </svg>
+          )}
           {allBox.map((el: NewCoordinates) => (
             <div
               id={el.id}
@@ -269,7 +280,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
             ))}
           <div
             className={styles.draw}
-            onClick={(e) => createCoord(e)}
+            // onClick={(e) => createCoord(e)}
             onMouseDown={(e) => startPosition(e)}
             onMouseMove={(e) => movePosition(e)}
             onMouseUp={(e) => endPosition(e)}

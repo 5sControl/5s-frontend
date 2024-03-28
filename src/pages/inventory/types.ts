@@ -1,4 +1,8 @@
 export interface InventoryHistory {
+  algorithm?: {
+    id: number;
+    name: string;
+  };
   id: number;
   date_created: string;
   date_updated: string;
@@ -51,7 +55,7 @@ export interface InventoryItem {
   low_stock_level: number;
   camera: string;
   date_created: string;
-  coords: Coordinat[];
+  coords: any[];
   order_quantity: number | null;
   suppliers: number | null;
   to_emails: string[] | null;
@@ -73,6 +77,18 @@ export interface NewCoordinates {
   y: number;
   width: number;
   height: number;
+  id: string;
+}
+
+export interface FourPointsNewCoordinates {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  x3: number;
+  y3: number;
+  x4: number;
+  y4: number;
   id: string;
 }
 

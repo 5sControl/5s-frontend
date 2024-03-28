@@ -56,7 +56,9 @@ export const OperationVideoModal: React.FC<PropsType> = ({
 
   const handleDownload = () => {
     if (operationData) {
-      const videoUrl = `http://${window.location.hostname}/${operationData?.video_data.file_name}`; // Замените на ссылку на ваше видео
+      const videoUrl = `${location.protocol === 'https:' ? 'https:' : 'http:'}//${
+        window.location.hostname
+      }/${operationData?.video_data.file_name}`; // Замените на ссылку на ваше видео
       fetch(videoUrl)
         .then((response) => response.blob())
         .then((blob) => {
