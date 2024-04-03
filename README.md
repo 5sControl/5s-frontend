@@ -4,7 +4,7 @@
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
-**[5controlS](https://5controls.com/)** is a video monitoring system with AI analysis and ERP Integration (Open Source) that helps companies improve productivity, eliminate waste, and enhance workplace safety using computer vision (CV) and machine learning (ML). 
+**[5sControl](https://5scontrol.com/)** is a video monitoring system with AI analysis and ERP Integration (Open Source) that helps companies improve productivity, eliminate waste, and enhance workplace safety using computer vision (CV) and machine learning (ML). 
 
 The platform generates detailed reports to provide insights on how processes can be optimized.
 
@@ -118,7 +118,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 # **Contributing**
-Thank you for considering contributing to 5controlS. We truly believe that we can build an outstanding product together!
+Thank you for considering contributing to 5sControl. We truly believe that we can build an outstanding product together!
 
 We welcome a variety of ways to contribute. Read below to learn how you can take part in improving 5controlS.
 
@@ -136,11 +136,11 @@ We also have a list of [good first issues](https://github.com/5sControl/5s-front
 
 [GNU GPL-3.0](LICENSE)
 
-> 5controlS uses third party libraries that are distributed under their own terms (see [LICENSE-3RD-PARTY.md](https://github.com/5sControl/5s-frontend/blob/main/LICENSE-3RD-PARTY.md)).<br> 
+> 5sControl uses third party libraries that are distributed under their own terms (see [LICENSE-3RD-PARTY.md](https://github.com/5sControl/5s-frontend/blob/main/LICENSE-3RD-PARTY.md)).<br> 
 
 <br>
 <div align="center">
-  <a href="https://5controls.com/" style="text-decoration:none;">
+  <a href="https://5scontrol.com/" style="text-decoration:none;">
     <img src="https://github.com/5sControl/Manufacturing-Automatization-Enterprise/blob/3bafa5805821a34e8b825df7cc78e00543fd7a58/assets/Property%201%3DVariant4.png" width="10%" alt="" /></a> 
   <img src="https://github.com/5sControl/5s-backend/assets/131950264/d48bcf5c-8aa6-42c4-a47d-5548ae23940d" width="3%" alt="" />
   <a href="https://github.com/5sControl" style="text-decoration:none;">
