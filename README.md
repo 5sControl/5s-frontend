@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/5sControl/.github/assets/131950264/d65c5be1-1cca-46a1-b564-ef4364f0dbc6" alt="5controlS" height = "320" />
+  <img src="https://github.com/5sControl/5s-webserver/assets/131950264/fb306932-66fe-4a59-8cf4-878cf0ad6dc6" alt="5sControl" height = "320" />
 </p>
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
