@@ -16,10 +16,14 @@ import {
   setIsOpenDisconnectModal,
 } from '../DisconnectDbModal/disconnectDbModalSlice';
 import styles from './databaseTab.module.scss';
-import { SettingsWhite } from '../../../../assets/svg/SVGcomponent';
+import { Plus, SettingsWhite } from '../../../../assets/svg/SVGcomponent';
 import { ConnectToDbModalOdoo } from '../ConnectToDbModal/ConnectToDbModalOdoo';
 
+import s from '../../../configuration/configuration.module.scss';
+import { AddConnectionModal } from '../ConnectToDbModal/AddConnectionModal';
+
 export const DatabaseTab: React.FC = () => {
+  const [isModalAddConnection, setIsModalAddConnection] = useState(false);
   const [isEditConnectToDbModal, setIsEditConnectToDbModal] = useState(false);
   const [isModalOdoo, setIsModalOdoo] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
@@ -51,6 +55,9 @@ export const DatabaseTab: React.FC = () => {
 
   const handleOpenModalOdoo = () => {
     setIsModalOdoo(true);
+  };
+  const handleOpenModalAddConnection = () => {
+    setIsModalAddConnection(true);
   };
   const handleConfirmDisconnectModal = () => {
     if (!databases) {
@@ -107,6 +114,11 @@ export const DatabaseTab: React.FC = () => {
   }, [isModalOdoo, isOpenConnectToDbModal]);
   return (
     <>
+      <AddConnectionModal
+        isOpen={isModalAddConnection}
+        isEdit={false}
+        handleClose={() => setIsModalAddConnection(false)}
+      />
       <ConnectToDbModal
         isOpen={isOpenConnectToDbModal}
         isEdit={isEditConnectToDbModal}
@@ -126,6 +138,13 @@ export const DatabaseTab: React.FC = () => {
         }
         handleClose={handleCloseDisconnectModal}
         handleConfirm={handleConfirmDisconnectModal}
+      />
+
+      <Button
+        text="Add connection"
+        className={s.buttonPosition}
+        onClick={handleOpenModalAddConnection}
+        IconLeft={Plus}
       />
 
       <div className={styles.wrapper}>
