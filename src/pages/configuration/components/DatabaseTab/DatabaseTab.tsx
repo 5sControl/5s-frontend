@@ -21,6 +21,8 @@ import { ConnectToDbModalOdoo } from '../ConnectToDbModal/ConnectToDbModalOdoo';
 
 import s from '../../../configuration/configuration.module.scss';
 import { AddConnectionModal } from '../ConnectToDbModal/AddConnectionModal';
+import { ConnectionItem } from './ConnectionItem';
+import { DatabaseInfo } from '../../types';
 
 export const DatabaseTab: React.FC = () => {
   const [isModalAddConnection, setIsModalAddConnection] = useState(false);
@@ -59,28 +61,28 @@ export const DatabaseTab: React.FC = () => {
   const handleOpenModalAddConnection = () => {
     setIsModalAddConnection(true);
   };
-  const handleConfirmDisconnectModal = () => {
-    if (!databases) {
-      console.error('You doesnt have any databases');
-      return;
-    }
+  // const handleConfirmDisconnectModal = () => {
+  //   if (!databases) {
+  //     console.error('You doesnt have any databases');
+  //     return;
+  //   }
 
-    dispatch(
-      disconnectDb({
-        token: cookies.token,
-        hostname: window.location.hostname,
-        id: disconectType === 'db' ? databases.db.id : databases.api.id,
-      })
-    ).then(() => {
-      setDisconectType('');
-      dispatch(
-        getConnectionsToDB({
-          token: cookies.token,
-          hostname: window.location.hostname,
-        })
-      );
-    });
-  };
+  //   dispatch(
+  //     disconnectDb({
+  //       token: cookies.token,
+  //       hostname: window.location.hostname,
+  //       id: disconectType === 'db' ? databases.db.id : databases.api.id,
+  //     })
+  //   ).then(() => {
+  //     setDisconectType('');
+  //     dispatch(
+  //       getConnectionsToDB({
+  //         token: cookies.token,
+  //         hostname: window.location.hostname,
+  //       })
+  //     );
+  //   });
+  // };
 
   useEffect(() => {
     if (disconnectDbResponse?.success) {
@@ -119,15 +121,16 @@ export const DatabaseTab: React.FC = () => {
         isEdit={false}
         handleClose={() => setIsModalAddConnection(false)}
       />
+
       <ConnectToDbModal
         isOpen={isOpenConnectToDbModal}
         isEdit={isEditConnectToDbModal}
         handleClose={handleCloseConnectModal}
       />
-      {isModalOdoo && (
+      {/* {isModalOdoo && (
         <ConnectToDbModalOdoo handleClose={() => setIsModalOdoo(false)} databases={databases.api} />
-      )}
-      <DisconnectDbModal
+      )} */}
+      {/* <DisconnectDbModal
         isOpen={isOpenDisconnectModal}
         dbName={
           isLoadingGetConnectionsToDB
@@ -138,7 +141,7 @@ export const DatabaseTab: React.FC = () => {
         }
         handleClose={handleCloseDisconnectModal}
         handleConfirm={handleConfirmDisconnectModal}
-      />
+      /> */}
 
       <Button
         text="Add connection"
@@ -147,7 +150,7 @@ export const DatabaseTab: React.FC = () => {
         IconLeft={Plus}
       />
 
-      <div className={styles.wrapper}>
+      {/* <div className={styles.wrapper}>
         <div className={styles.header}>
           <h3 className={styles.header_title}>Winkhaus</h3>
           {databases && databases.db ? (
@@ -240,7 +243,12 @@ export const DatabaseTab: React.FC = () => {
             </span>
           </div>
         </div>
-      </div>
+      </div> */}
+
+      {databases &&
+        databases.map((database: DatabaseInfo) => (
+          <ConnectionItem dataItem={database} key={database.id} />
+        ))}
     </>
   );
 };

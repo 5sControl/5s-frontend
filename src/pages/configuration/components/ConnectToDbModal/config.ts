@@ -47,4 +47,8 @@ export const inputProps = [
   },
 ];
 
+export const FormTypes = {
+  winkhaus: inputProps,
+};
+
 export const listOfDataForSelect = [{ id: 0, text: 'WBNet' }];
