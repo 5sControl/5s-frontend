@@ -7,7 +7,7 @@ import { getConnectionsToDB, selectConnectionPage } from '../../connectionSlice'
 import { ConnectToDbModal } from '../ConnectToDbModal';
 import {
   selectConnectToDbModal,
-  setIsOpenConnectToDbModal,
+  setConnectionType,
 } from '../ConnectToDbModal/connectToDbModalSlice';
 import { DisconnectDbModal } from '../DisconnectDbModal';
 import {
@@ -23,6 +23,7 @@ import s from '../../../configuration/configuration.module.scss';
 import { AddConnectionModal } from '../ConnectToDbModal/AddConnectionModal';
 import { ConnectionItem } from './ConnectionItem';
 import { DatabaseInfo } from '../../types';
+import { ConnectionModal } from '../ConnectToDbModal/ConnectionModal';
 
 export const DatabaseTab: React.FC = () => {
   const [isModalAddConnection, setIsModalAddConnection] = useState(false);
@@ -30,7 +31,7 @@ export const DatabaseTab: React.FC = () => {
   const [isModalOdoo, setIsModalOdoo] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
   const { databases, isLoadingGetConnectionsToDB } = useAppSelector(selectConnectionPage);
-  const { isOpenConnectToDbModal } = useAppSelector(selectConnectToDbModal);
+  const { connectionType, currentConnectionData } = useAppSelector(selectConnectToDbModal);
   const { isOpenDisconnectModal, disconnectDbResponse } = useAppSelector(selectDisconnectDBModal);
   const [disconectType, setDisconectType] = useState<string>('');
   const dispatch = useAppDispatch();
@@ -40,15 +41,15 @@ export const DatabaseTab: React.FC = () => {
   };
 
   const handleOpenModalConnect = () => {
-    dispatch(setIsOpenConnectToDbModal(true));
+    // dispatch(setIsOpenConnectToDbModal(true));
   };
 
   const handleOpenModalConnectionSettings = () => {
-    dispatch(setIsOpenConnectToDbModal(true));
+    // dispatch(setIsOpenConnectToDbModal(true));
   };
 
   const handleCloseConnectModal = () => {
-    dispatch(setIsOpenConnectToDbModal(false));
+    dispatch(setConnectionType(null));
   };
 
   const handleCloseDisconnectModal = () => {
@@ -104,29 +105,34 @@ export const DatabaseTab: React.FC = () => {
     }
   }, [disconectType]);
 
-  useEffect(() => {
-    if (!isModalOdoo || isOpenConnectToDbModal) {
-      dispatch(
-        getConnectionsToDB({
-          token: cookies.token,
-          hostname: window.location.hostname,
-        })
-      );
-    }
-  }, [isModalOdoo, isOpenConnectToDbModal]);
+  // useEffect(() => {
+  //   if (!isModalOdoo || isOpenConnectToDbModal) {
+  //     dispatch(
+  //       getConnectionsToDB({
+  //         token: cookies.token,
+  //         hostname: window.location.hostname,
+  //       })
+  //     );
+  //   }
+  // }, [isModalOdoo, isOpenConnectToDbModal]);
   return (
     <>
       <AddConnectionModal
         isOpen={isModalAddConnection}
-        isEdit={false}
         handleClose={() => setIsModalAddConnection(false)}
       />
 
-      <ConnectToDbModal
+      <ConnectionModal
+        handleClose={handleCloseConnectModal}
+        type={connectionType}
+        data={currentConnectionData}
+      />
+
+      {/* <ConnectToDbModal
         isOpen={isOpenConnectToDbModal}
         isEdit={isEditConnectToDbModal}
         handleClose={handleCloseConnectModal}
-      />
+      /> */}
       {/* {isModalOdoo && (
         <ConnectToDbModalOdoo handleClose={() => setIsModalOdoo(false)} databases={databases.api} />
       )} */}

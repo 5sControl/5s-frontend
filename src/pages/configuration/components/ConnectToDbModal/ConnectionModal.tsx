@@ -11,17 +11,18 @@ import { createConnectionWithDB, selectConnectToDbModal } from './connectToDbMod
 import { ConnectionToDatabaseForm } from './types';
 import { Notification } from '../../../../components/notification/notification';
 import { DatabaseInfo } from '../../types';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 type PropsType = {
-  isOpen: boolean;
-  isEdit: boolean;
   handleClose: () => void;
-  data: DatabaseInfo;
+  type: string | null;
+  data: DatabaseInfo | null;
 };
 
-export const ConnectionModal: React.FC<PropsType> = ({ isOpen, isEdit, handleClose, data }) => {
-  const [inputs, setInputs] = useState(FormTypes[data.erp_system as keyof typeof FormTypes]);
-  console.log(FormTypes[data.erp_system as keyof typeof FormTypes]);
+export const ConnectionModal: React.FC<PropsType> = ({ handleClose, type, data }) => {
+  const inputs = FormTypes[type as keyof typeof FormTypes] || [];
+  // const [inputs, setInputs] = useState(undefined);
+  console.log(inputs);
 
   const [cookies] = useCookies(['token']);
   const { isLoadingPostConnectionToDb, isErrorLoadingPostConnectionToDb, connectResponse } =
@@ -29,43 +30,57 @@ export const ConnectionModal: React.FC<PropsType> = ({ isOpen, isEdit, handleClo
   const { databases } = useAppSelector(selectConnectionPage);
   const dispatch = useAppDispatch();
 
-  const onSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
+  const { register, handleSubmit } = useForm();
 
-    const target = e.target as typeof e.target & {
-      type: { value: string };
-      database: { value: string };
-      server: { value: string };
-      port: { value: string };
-      db_name: { value: string };
-      username: { value: string };
-      password: { value: string };
-    };
-
-    const type = 'database'; // typechecks!
-    const database = target.database.value; // typechecks!
-    const server = target?.server?.value;
-    const port = target?.port?.value; // typechecks!
-    const username = target.username.value; // typechecks!
-    const password = target.password.value; // typechecks!
-
-    const dataForm: ConnectionToDatabaseForm = {
-      type,
-      database,
-      server,
-      port,
-      username,
-      password,
-    };
+  const onSubmit = (data: any) => {
+    console.log(data);
 
     dispatch(
       createConnectionWithDB({
         token: cookies.token,
         hostname: window.location.hostname,
-        body: dataForm,
+        body: data,
       })
     );
   };
+
+  // const onSubmit = (e: React.SyntheticEvent) => {
+  //   e.preventDefault();
+
+  //   const target = e.target as typeof e.target & {
+  //     type: { value: string };
+  //     database: { value: string };
+  //     server: { value: string };
+  //     port: { value: string };
+  //     db_name: { value: string };
+  //     username: { value: string };
+  //     password: { value: string };
+  //   };
+
+  //   const type = 'database'; // typechecks!
+  //   const database = target.database.value; // typechecks!
+  //   const server = target?.server?.value;
+  //   const port = target?.port?.value; // typechecks!
+  //   const username = target.username.value; // typechecks!
+  //   const password = target.password.value; // typechecks!
+
+  //   const dataForm: ConnectionToDatabaseForm = {
+  //     type,
+  //     database,
+  //     server,
+  //     port,
+  //     username,
+  //     password,
+  //   };
+
+  //   dispatch(
+  //     createConnectionWithDB({
+  //       token: cookies.token,
+  //       hostname: window.location.hostname,
+  //       body: dataForm,
+  //     })
+  //   );
+  // };
 
   useEffect(() => {
     if (connectResponse?.success) {
@@ -91,45 +106,42 @@ export const ConnectionModal: React.FC<PropsType> = ({ isOpen, isEdit, handleClo
 
   return (
     <>
-      {data.erp_system}1
       <Modal
-        isOpen={isOpen}
+        isOpen={!!type}
         handleClose={handleClose}
         className={styles.modal}
         disableClickBg={true}
       >
-        <></>
-        {/* <div className={styles.header}>
-        <h2 className={styles.header_title}>{data.erp_system} connection settings</h2>
-      </div>
-
-      <form onSubmit={onSubmit} className={styles.form}>
-        <div className={styles.form_wrapper}>
-          {inputs?.map((props, index) => (
-            <div key={index} className={index === 2 ? styles.inputContainer : ''}>
-              <Input {...props} />
-            </div>
-          ))}
-
-          {isErrorLoadingPostConnectionToDb && (
-            <Notification status={false} message="Could not connect to database" />
-          )}
+        <div className={styles.header}>
+          <h2 className={styles.header_title}>{data?.erp_system} connection settings</h2>
         </div>
-        <div className={styles.buttons}>
-          <Button
-            disabled={isLoadingPostConnectionToDb}
-            onClick={handleClose}
-            text="Cancel"
-            className={styles.cancel}
-          />
-          <Button
-            disabled={isLoadingPostConnectionToDb}
-            type="submit"
-            text="Done"
-            className={styles.form_submit}
-          />
-        </div>
-      </form> */}
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          <div className={styles.form_wrapper}>
+            {inputs.map((props, index) => (
+              <div key={index} className={index === 2 ? styles.inputContainer : ''}>
+                <input {...props} {...register(props.name)} />
+              </div>
+            ))}
+
+            {isErrorLoadingPostConnectionToDb && (
+              <Notification status={false} message="Could not connect to database" />
+            )}
+          </div>
+          <div className={styles.buttons}>
+            <Button
+              disabled={isLoadingPostConnectionToDb}
+              onClick={handleClose}
+              text="Cancel"
+              className={styles.cancel}
+            />
+            <Button
+              disabled={isLoadingPostConnectionToDb}
+              type="submit"
+              text="Done"
+              className={styles.form_submit}
+            />
+          </div>
+        </form>
       </Modal>
     </>
   );

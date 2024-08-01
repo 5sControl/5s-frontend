@@ -2,40 +2,31 @@ import { useState } from 'react';
 import { SettingsWhite } from '../../../../assets/svg/SVGcomponent';
 import { Button } from '../../../../components/button';
 import { DatabaseInfo } from '../../types';
-import { ConnectionModal } from '../ConnectToDbModal/ConnectionModal';
 import styles from './databaseTab.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import {
   selectConnectToDbModal,
-  setIsOpenConnectToDbModal,
+  setConnectionType,
+  setCurrentConnectionData,
 } from '../ConnectToDbModal/connectToDbModalSlice';
 
 export const ConnectionItem = ({ dataItem }: { dataItem: DatabaseInfo }) => {
   const [isModalAddConnection, setIsModalAddConnection] = useState(false);
   const [isEditConnectToDbModal, setIsEditConnectToDbModal] = useState(false);
-  const { isOpenConnectToDbModal } = useAppSelector(selectConnectToDbModal);
+  const { connectionType, connectResponse } = useAppSelector(selectConnectToDbModal);
   const dispatch = useAppDispatch();
 
-  const handleOpenModalConnect = () => {
-    dispatch(setIsOpenConnectToDbModal(true));
-  };
-
   const handleOpenModalConnectionSettings = () => {
-    dispatch(setIsOpenConnectToDbModal(true));
+    dispatch(setConnectionType(dataItem.erp_system));
+    dispatch(setCurrentConnectionData(dataItem));
   };
 
   const handleCloseConnectModal = () => {
-    dispatch(setIsOpenConnectToDbModal(false));
+    dispatch(setConnectionType(null));
   };
 
   return (
     <>
-      <ConnectionModal
-        isOpen={false}
-        isEdit={false}
-        handleClose={handleCloseConnectModal}
-        data={dataItem}
-      />
       <div className={styles.wrapper}>
         <div className={styles.header}>
           <h3 className={styles.header_title}>{dataItem.erp_system}</h3>
@@ -57,7 +48,7 @@ export const ConnectionItem = ({ dataItem }: { dataItem: DatabaseInfo }) => {
           ) : (
             <div className={`${styles.header_buttons}`}>
               <Button
-                onClick={handleOpenModalConnect}
+                onClick={handleOpenModalConnectionSettings}
                 // disabled={isLoadingGetConnectionsToDB}
                 IconLeft={SettingsWhite}
                 text="Settings"

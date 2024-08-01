@@ -47,8 +47,21 @@ export const inputProps = [
   },
 ];
 
+export const odooInputProps = [
+  {
+    id: '0',
+    name: 'type',
+    label: 'Host',
+    type: 'text',
+    placeholder: 'Enter host',
+    required: true,
+    defaultValue: '',
+  },
+];
+
 export const FormTypes = {
   winkhaus: inputProps,
+  odoo: odooInputProps,
 };
 
 export const listOfDataForSelect = [{ id: 0, text: 'WBNet' }];
