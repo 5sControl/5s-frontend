@@ -21,8 +21,6 @@ type PropsType = {
 
 export const ConnectionModal: React.FC<PropsType> = ({ handleClose, type, data }) => {
   const inputs = FormTypes[type as keyof typeof FormTypes] || [];
-  // const [inputs, setInputs] = useState(undefined);
-  console.log(inputs);
 
   const [cookies] = useCookies(['token']);
   const { isLoadingPostConnectionToDb, isErrorLoadingPostConnectionToDb, connectResponse } =
@@ -34,7 +32,6 @@ export const ConnectionModal: React.FC<PropsType> = ({ handleClose, type, data }
 
   const onSubmit = (data: any) => {
     console.log(data);
-
     dispatch(
       createConnectionWithDB({
         token: cookies.token,
@@ -113,13 +110,17 @@ export const ConnectionModal: React.FC<PropsType> = ({ handleClose, type, data }
         disableClickBg={true}
       >
         <div className={styles.header}>
-          <h2 className={styles.header_title}>{data?.erp_system} connection settings</h2>
+          <h2 className={styles.header_title}>{type} connection settings</h2>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <div className={styles.form_wrapper}>
             {inputs.map((props, index) => (
-              <div key={index} className={index === 2 ? styles.inputContainer : ''}>
-                <input {...props} {...register(props.name)} />
+              <div
+                key={index}
+                // className={`${index === 2 ? styles.inputContainer : ''} ${props.type}`}
+                className={props.type}
+              >
+                <Input {...props} register={register(props.name)} />
               </div>
             ))}
 

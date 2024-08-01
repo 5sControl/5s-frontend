@@ -34,6 +34,10 @@ body {
   }
 }
 
+.hidden {
+  display: none;
+}
+
 .swiper-pagination-fraction {
   position: absolute !important;
   top: 20px !important;
