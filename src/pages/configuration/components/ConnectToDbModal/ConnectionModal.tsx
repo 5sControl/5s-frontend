@@ -5,7 +5,7 @@ import { Input } from '../../../../components/input';
 import { Modal } from '../../../../components/modal';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { selectConnectionPage, setDatabasesOrdersView } from '../../connectionSlice';
-import { FormTypes, inputProps } from './config';
+import { FormTypes } from './config';
 import styles from './connectToDbModal.module.scss';
 import { createConnectionWithDB, selectConnectToDbModal } from './connectToDbModalSlice';
 import { ConnectionToDatabaseForm } from './types';
@@ -28,89 +28,45 @@ export const ConnectionModal: React.FC<PropsType> = ({ handleClose, type, data }
   const { databases } = useAppSelector(selectConnectionPage);
   const dispatch = useAppDispatch();
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue, reset } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = (body: any) => {
     dispatch(
       createConnectionWithDB({
         token: cookies.token,
         hostname: window.location.hostname,
-        body: data,
+        body,
       })
     );
   };
 
-  // const onSubmit = (e: React.SyntheticEvent) => {
-  //   e.preventDefault();
-
-  //   const target = e.target as typeof e.target & {
-  //     type: { value: string };
-  //     database: { value: string };
-  //     server: { value: string };
-  //     port: { value: string };
-  //     db_name: { value: string };
-  //     username: { value: string };
-  //     password: { value: string };
-  //   };
-
-  //   const type = 'database'; // typechecks!
-  //   const database = target.database.value; // typechecks!
-  //   const server = target?.server?.value;
-  //   const port = target?.port?.value; // typechecks!
-  //   const username = target.username.value; // typechecks!
-  //   const password = target.password.value; // typechecks!
-
-  //   const dataForm: ConnectionToDatabaseForm = {
-  //     type,
-  //     database,
-  //     server,
-  //     port,
-  //     username,
-  //     password,
-  //   };
-
-  //   dispatch(
-  //     createConnectionWithDB({
-  //       token: cookies.token,
-  //       hostname: window.location.hostname,
-  //       body: dataForm,
-  //     })
-  //   );
-  // };
-
   useEffect(() => {
-    if (connectResponse?.success) {
-      dispatch(setDatabasesOrdersView(connectResponse?.connection));
-      handleClose();
-    }
-  }, [connectResponse]);
+    reset();
+
+    const fields = Object.entries((data as object) || {});
+    const filteredFields = fields.filter((field) => field[1] != null && field[0] != 'id');
+    filteredFields.forEach((field) => {
+      if (field[0] == 'is_active') {
+        setValue('is_active', true);
+      } else {
+        setValue(field[0], field[1]);
+      }
+    });
+  }, [data]);
 
   // useEffect(() => {
-  //   if (isEdit) {
-  //     const newInputsProps = inputs.map((el) => {
-  //       return {
-  //         ...el,
-  //         defaultValue: databases.db ? databases.db[el.name] : '',
-  //       };
-  //     });
-
-  //     setInputs(newInputsProps);
-  //   } else {
-  //     setInputs(inputProps);
+  //   if (connectResponse?.status) {
+  //     dispatch(setDatabasesOrdersView(connectResponse?.connection));
   //   }
-  // }, [isEdit]);
+  // }, [connectResponse]);
 
   return (
     <>
-      <Modal
-        isOpen={!!type}
-        handleClose={handleClose}
-        className={styles.modal}
-        disableClickBg={true}
-      >
+      <Modal isOpen={!!type} handleClose={handleClose} className={styles.modal}>
         <div className={styles.header}>
-          <h2 className={styles.header_title}>{type} connection settings</h2>
+          <h2 className={styles.header_title}>
+            {data ? <>{type} connection settings</> : <>Add ERP connection</>}
+          </h2>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <div className={styles.form_wrapper}>

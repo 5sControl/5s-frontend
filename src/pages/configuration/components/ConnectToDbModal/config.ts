@@ -1,10 +1,37 @@
-export const inputProps = [
+export const winkhausIputProps = [
   {
-    id: 'server',
-    name: 'server',
+    id: 'erp_system',
+    name: 'erp_system',
+    type: 'hidden',
+    defaultValue: 'winkhaus',
+  },
+  {
+    id: 'type',
+    name: 'type',
+    type: 'hidden',
+    defaultValue: 'database',
+  },
+  {
+    id: 'dbms',
+    name: 'dbms',
+    type: 'hidden',
+    defaultValue: 'mssql',
+  },
+  {
+    id: 'host',
+    name: 'host',
     label: 'Host',
     type: 'text',
     placeholder: 'Enter host',
+    required: true,
+    defaultValue: '',
+  },
+  {
+    id: 'server',
+    name: 'server',
+    label: 'Server',
+    type: 'text',
+    placeholder: 'Enter server',
     required: true,
     defaultValue: '',
   },
@@ -14,15 +41,6 @@ export const inputProps = [
     label: 'Port',
     type: 'text',
     placeholder: 'Enter port',
-    required: true,
-    defaultValue: '',
-  },
-  {
-    id: 'database',
-    name: 'database',
-    label: 'Database name',
-    type: 'text',
-    placeholder: 'Database name',
     required: true,
     defaultValue: '',
   },
@@ -45,6 +63,15 @@ export const inputProps = [
     required: true,
     defaultValue: '',
   },
+  {
+    id: 'database',
+    name: 'database',
+    label: 'Database',
+    type: 'text',
+    placeholder: 'Enter database name',
+    required: true,
+    defaultValue: '',
+  },
 ];
 
 export const odooInputProps = [
@@ -61,8 +88,8 @@ export const odooInputProps = [
     defaultValue: 'api',
   },
   {
-    id: 'dmbs',
-    name: 'dmbs',
+    id: 'dbms',
+    name: 'dbms',
     type: 'hidden',
     defaultValue: 'postgres',
   },
@@ -96,10 +123,57 @@ export const odooInputProps = [
   },
 ];
 
-export const manifestIputProps = [];
+export const manifestIputProps = [
+  {
+    id: 'erp_system',
+    name: 'erp_system',
+    type: 'hidden',
+    defaultValue: 'manifest',
+  },
+  {
+    id: 'type',
+    name: 'type',
+    type: 'hidden',
+    defaultValue: 'api',
+  },
+  {
+    id: 'dbms',
+    name: 'dbms',
+    type: 'hidden',
+    defaultValue: 'manifest',
+  },
+  {
+    id: 'host',
+    name: 'host',
+    label: 'Host',
+    type: 'text',
+    placeholder: 'Enter host',
+    required: true,
+    defaultValue: '',
+  },
+  {
+    id: 'username',
+    name: 'username',
+    label: 'Username',
+    type: 'text',
+    placeholder: 'Enter username',
+    required: true,
+    defaultValue: '',
+  },
+  {
+    id: 'password',
+    name: 'password',
+    label: 'Password',
+    type: 'password',
+    placeholder: 'Enter password',
+    showEye: true,
+    required: true,
+    defaultValue: '',
+  },
+];
 
 export const FormTypes = {
-  winkhaus: inputProps,
+  winkhaus: winkhausIputProps,
   odoo: odooInputProps,
   manifest: manifestIputProps,
 };

@@ -9,6 +9,11 @@ import {
   setConnectionType,
   setCurrentConnectionData,
 } from '../ConnectToDbModal/connectToDbModalSlice';
+import {
+  disconnectDb,
+  selectDisconnectDBModal,
+  setConnectionToDisconnectData,
+} from '../DisconnectDbModal/disconnectDbModalSlice';
 
 export const ConnectionItem = ({ dataItem }: { dataItem: DatabaseInfo }) => {
   const [isModalAddConnection, setIsModalAddConnection] = useState(false);
@@ -25,6 +30,10 @@ export const ConnectionItem = ({ dataItem }: { dataItem: DatabaseInfo }) => {
     dispatch(setConnectionType(null));
   };
 
+  const handleOpenDisconnectModal = () => {
+    dispatch(setConnectionToDisconnectData(dataItem));
+  };
+
   return (
     <>
       <div className={styles.wrapper}>
@@ -33,7 +42,7 @@ export const ConnectionItem = ({ dataItem }: { dataItem: DatabaseInfo }) => {
           {dataItem.is_active ? (
             <div className={`${styles.header_buttons}`}>
               <Button
-                // onClick={() => setDisconectType('db')}
+                onClick={handleOpenDisconnectModal}
                 // disabled={isLoadingGetConnectionsToDB}
                 text="Disconnect"
                 variant="outlined"
@@ -43,6 +52,7 @@ export const ConnectionItem = ({ dataItem }: { dataItem: DatabaseInfo }) => {
                 // disabled={isLoadingGetConnectionsToDB}
                 IconLeft={SettingsWhite}
                 text="Settings"
+                disabled
               />
             </div>
           ) : (
@@ -52,6 +62,7 @@ export const ConnectionItem = ({ dataItem }: { dataItem: DatabaseInfo }) => {
                 // disabled={isLoadingGetConnectionsToDB}
                 IconLeft={SettingsWhite}
                 text="Settings"
+                disabled
               />
             </div>
           )}
