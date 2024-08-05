@@ -19,6 +19,7 @@ import { Modal } from '../../components/modal';
 import { Cross } from '../../assets/svg/SVGcomponent';
 import { Button } from '../../components/button';
 import { Checkbox } from '../../components/checkbox';
+import { SelectConnection } from './components/selectConnection';
 
 export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const { filterDateData } = useAppSelector(selectOrdersList);
@@ -264,6 +265,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
                 Odoo
               </span>
             </div>
+            <SelectConnection />
             <main className={styles.content}>
               <span className={styles.content__name}>Displayed operations</span>
               <ul className={styles.content__list}>
