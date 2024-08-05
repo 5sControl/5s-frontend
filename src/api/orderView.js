@@ -7,6 +7,7 @@ const API_OPERATION = 'api/new-order/order-detail/';
 const API_WORKPLACE = 'api/new-order/whnet-operations/';
 const API_FILTRATIONDATA = 'api/new-order/filtration-data';
 const API_STATUSDATA = 'api/connector/status/';
+const API_CONNECTIONS = 'api/connector/connections/';
 
 export const getOrderViewOperations = (hostname, cookies, startDate, endDate) => {
   return axios.get(
@@ -77,11 +78,12 @@ export const getStatusData = (hostname, cookies) => {
   });
 };
 
-export const patchStatusData = (hostname, cookies, body) => {
-  return axios.put(`${process.env.REACT_APP_NGROK}${API_STATUSDATA}`, body, {
+export const patchStatusData = (id, cookies, body) => {
+  return axios.put(`${process.env.REACT_APP_NGROK}${API_CONNECTIONS}${id}`, body, {
     headers: {
       Authorization: cookies,
       'ngrok-skip-browser-warning': 'true',
     },
+    body,
   });
 };
