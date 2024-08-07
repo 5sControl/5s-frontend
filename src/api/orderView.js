@@ -79,7 +79,7 @@ export const getStatusData = (hostname, cookies) => {
 };
 
 export const patchStatusData = (id, cookies, body) => {
-  return axios.put(`${process.env.REACT_APP_NGROK}${API_CONNECTIONS}${id}`, body, {
+  return axios.put(`${process.env.REACT_APP_NGROK}${API_CONNECTIONS}${id}/`, body, {
     headers: {
       Authorization: cookies,
       'ngrok-skip-browser-warning': 'true',

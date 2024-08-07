@@ -72,6 +72,8 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     setEndDate(moment(filterDateData.to).format('YYYY-MM-DD'));
   }, [filterDateData]);
 
+  // console.log(data);
+
   useEffect(() => {
     // getStatusData(window.location.hostname, cookies.token).then((response) => {
     //   setDefaultBaseType(response.data.type);
@@ -104,16 +106,17 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
             currentDate.add(1, 'day');
           }
 
-          const dataPromises = dates.map((date) =>
-            getData(
-              window.location.hostname,
-              cookies.token,
-              date,
-              '06:00:00',
-              '20:00:00',
-              'machine_control'
-            )
-          );
+          // const dataPromises = dates.map((date) =>
+          //   getData(
+          //     window.location.hostname,
+          //     cookies.token,
+          //     date,
+          //     '06:00:00',
+          //     '20:00:00',
+          //     'machine_control'
+          //   )
+          // );
+          const dataPromises = [];
 
           const responses = await Promise.all(dataPromises);
           const data = responses.flatMap((response) =>

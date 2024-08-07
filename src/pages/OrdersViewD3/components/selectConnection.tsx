@@ -1,12 +1,14 @@
 import { useCookies } from 'react-cookie';
-import { useAppSelector } from '../../../store/hooks';
-import { selectConnectionPage } from '../../configuration/connectionSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { getConnectionsToDB, selectConnectionPage } from '../../configuration/connectionSlice';
 import styles from '../style.module.scss';
 import { patchStatusData } from '../../../api/orderView';
+import { useEffect } from 'react';
 
 export const SelectConnection = ({ closeFilter }: { closeFilter: () => void }) => {
   const { databases } = useAppSelector(selectConnectionPage);
   const [cookies] = useCookies(['token']);
+  const dispatch = useAppDispatch();
 
   const changeActiveConnection = (id: number) => {
     patchStatusData(id, cookies.token, { is_active: true }).then(() => {
@@ -14,6 +16,15 @@ export const SelectConnection = ({ closeFilter }: { closeFilter: () => void }) =
       closeFilter();
     });
   };
+
+  useEffect(() => {
+    dispatch(
+      getConnectionsToDB({
+        token: cookies.token,
+        hostname: window.location.hostname,
+      })
+    );
+  }, []);
 
   return (
     <div className={styles.select}>
