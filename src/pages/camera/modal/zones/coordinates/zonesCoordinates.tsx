@@ -73,7 +73,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
           { x: e.clientX - target.x, y: e.clientY - target.y },
         ]);
       }
-      console.log(testCoordinates);
+      // console.log(testCoordinates);
     } else {
       setTarget(null);
     }
@@ -197,6 +197,8 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
         x2: bufWidth * proportionWidth + totalX * proportionWidth,
         y2: bufHeight * proportionHeight + totalY * proportionHeight,
       });
+
+      console.log(sendCoord);
     });
     setCoords(sendCoord);
   };
@@ -324,6 +326,8 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
           )}
         </div>
         <Moveable
+          snappable={true}
+          bounds={{ left: 0, right: image?.current?.width, top: 1, bottom: image?.current?.height }}
           target={target}
           draggable={true}
           resizable={true}
