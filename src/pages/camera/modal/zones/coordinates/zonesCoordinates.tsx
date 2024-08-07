@@ -327,7 +327,12 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
         </div>
         <Moveable
           snappable={true}
-          bounds={{ left: 0, right: image?.current?.width, top: 1, bottom: image?.current?.height }}
+          bounds={{
+            left: 1,
+            right: image?.current?.width - 1,
+            top: 1,
+            bottom: image?.current?.height - 1,
+          }}
           target={target}
           draggable={true}
           resizable={true}
