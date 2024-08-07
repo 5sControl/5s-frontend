@@ -10,25 +10,23 @@ export const SelectConnection = ({ closeFilter }: { closeFilter: () => void }) =
   const [cookies] = useCookies(['token']);
   const dispatch = useAppDispatch();
 
+  const results = [...(databases?.results || [])].sort((a, b) => a.id - b.id);
+
   const changeActiveConnection = (id: number) => {
     patchStatusData(id, cookies.token, { is_active: true }).then(() => {
-      // setDefaultBaseType(type);
-      closeFilter();
+      // closeFilter();
+      dispatch(
+        getConnectionsToDB({
+          token: cookies.token,
+          hostname: window.location.hostname,
+        })
+      );
     });
   };
 
-  useEffect(() => {
-    dispatch(
-      getConnectionsToDB({
-        token: cookies.token,
-        hostname: window.location.hostname,
-      })
-    );
-  }, []);
-
   return (
     <div className={styles.select}>
-      {databases?.results.map((connection) => (
+      {results.map((connection) => (
         <span
           key={connection.id}
           className={connection.is_active ? styles.select__active : styles.select__noActive}

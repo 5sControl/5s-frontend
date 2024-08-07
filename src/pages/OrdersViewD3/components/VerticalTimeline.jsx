@@ -66,7 +66,8 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
       first = first.sort((a, b) => b.oprTypeID - a.oprTypeID);
       end = end.sort((a, b) => b.oprTypeID - a.oprTypeID);
       setUpdate([...first, ...end].sort((a, b) => (a.oprName > b.oprName ? 1 : -1)));
-      // console.log(update);
+    } else {
+      setUpdate([]);
     }
   }, [data, selectOrder]);
 

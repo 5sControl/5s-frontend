@@ -10,7 +10,7 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate, re
   const [preloader, setPreloader] = useState(false);
 
   useEffect(() => {
-    console.log(reload);
+    // console.log(reload);
     if (!reload) {
       setPreloader(true);
       getOrderViewOrderList(window.location.hostname, '', startDate, endDate)
@@ -23,7 +23,7 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate, re
     }
   }, [startDate, endDate, reload]);
 
-  console.log(data);
+  // console.log(data);
   return (
     <div className={styles.orders}>
       <h2>Orders ({data.length})</h2>
