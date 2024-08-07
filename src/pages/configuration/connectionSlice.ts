@@ -4,7 +4,7 @@ import { RootState } from '../../store';
 import { DatabaseInfo, DataBaseResponse } from './types';
 
 interface ConnectionState {
-  databases: DataBaseResponse | null | any;
+  databases: DataBaseResponse | null;
   isLoadingGetConnectionsToDB: boolean;
   isErrorOfGetConnections: boolean;
   errorMessageFromDb: SerializedError | null;
@@ -21,9 +21,6 @@ export const getConnectionsToDB = createAsyncThunk(
   'getConnectionsToDB',
   async (data: { token: string; hostname: string }) => {
     const response = await getConnectionsToDatabases(data.hostname, data.token);
-
-    // console.log('getConnectionsToDB', response.data);
-
     return response.data;
   }
 );
@@ -45,7 +42,12 @@ const connectionSlice = createSlice({
     });
     builder.addCase(getConnectionsToDB.fulfilled, (state, action) => {
       state.isLoadingGetConnectionsToDB = false;
-      state.databases = action.payload as DataBaseResponse;
+      state.databases = {
+        count: action.payload.length,
+        next: null,
+        previous: null,
+        results: action.payload,
+      };
     });
     builder.addCase(getConnectionsToDB.rejected, (state, action) => {
       state.isLoadingGetConnectionsToDB = false;

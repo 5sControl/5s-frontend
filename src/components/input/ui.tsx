@@ -21,6 +21,7 @@ type PropsType = {
   onKeyDown?: () => void;
   min?: number;
   errorMessage?: string | null;
+  register?: any;
 };
 
 export const Input: React.FC<PropsType> = ({
@@ -40,6 +41,7 @@ export const Input: React.FC<PropsType> = ({
   onKeyDown,
   min,
   errorMessage,
+  register,
 }) => {
   const [inputType, setInputType] = useState(type);
 
@@ -72,6 +74,7 @@ export const Input: React.FC<PropsType> = ({
           }`}
           onKeyDown={onKeyDown}
           min={min}
+          {...register}
         />
 
         {errorMessage && <span className={styles.block__error_message}>{errorMessage}</span>}

@@ -11,6 +11,6 @@ export type ConnectionToDatabaseForm = {
 
 export type ConnectResponse = {
   message: string;
-  success: boolean;
+  status: boolean;
   connection: DatabaseInfo;
 };
