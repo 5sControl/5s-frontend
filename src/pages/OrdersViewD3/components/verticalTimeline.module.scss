@@ -91,12 +91,13 @@
 .text {
   text-align: center;
   font-size: 10px;
-  white-space: nowrap; /* Отменяем перенос текста */
+  // white-space: nowrap; /* Отменяем перенос текста */
+  word-wrap: break-word;
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 1.25;
   letter-spacing: 0.15px;
   padding: 0 5px;
   color: #444343;
@@ -105,10 +106,12 @@
   position: relative;
   z-index: 100;
   transition: all 0.4s;
+  font-size: 10px;
 }
 
 .tooltip::before {
-  content: attr(titles);
+  white-space: nowrap;
+  // content: attr(titles);
   position: absolute;
   top: 25px;
   left: 15px;

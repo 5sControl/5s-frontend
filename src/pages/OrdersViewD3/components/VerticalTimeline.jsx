@@ -278,10 +278,13 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
                         element.oprName
                       }`}
                     >
-                      {element.workplaceName
+                      {/* {element.workplaceName
                         ? `${element.workplaceName.slice(0, 2)}. ${element.oprName.slice(0, 4)}`
                         : `${element.oprName.slice(0, 7)}`}
-                      {element.oprName.length < 5 ? '' : '...'}
+                      {element.oprName.length < 5 ? '' : '...'} */}
+                      {element.oprName.length > 28
+                        ? element.oprName.slice(0, 28) + '...'
+                        : element.oprName}
                     </div>
                   ))}
                   {/* <div className={styles.prev}>

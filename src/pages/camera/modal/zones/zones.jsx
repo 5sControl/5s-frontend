@@ -54,7 +54,6 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
 
         if (overlap) {
           setMessage({ status: false, message: 'Zones must not overlap' });
-          console.log(message.message);
           return;
         }
       }
