@@ -197,8 +197,6 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
         x2: bufWidth * proportionWidth + totalX * proportionWidth,
         y2: bufHeight * proportionHeight + totalY * proportionHeight,
       });
-
-      console.log(sendCoord);
     });
     setCoords(sendCoord);
   };

@@ -24,7 +24,7 @@ export const ZoneList = ({
     setIsNewZone(true);
   };
 
-  console.log(isNewZone, currentZoneId);
+  // console.log(isNewZone, currentZoneId);
   useEffect(() => {
     if (currentZoneId !== -1) {
       setIsNewZone(false);
