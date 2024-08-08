@@ -39,6 +39,27 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   };
 
   const saveZone = () => {
+    const otherZones = cameraZones.filter((box) => box.id !== currentZoneId);
+
+    for (let i = 0; i < otherZones.length; i++) {
+      for (let n = 0; n < otherZones[i].coords.length; n++) {
+        const otherCoords = otherZones[i].coords[n];
+
+        const overlap = !(
+          coords[0].x1 > otherCoords.x2 ||
+          coords[0].x2 < otherCoords.x1 ||
+          coords[0].y1 > otherCoords.y2 ||
+          coords[0].y2 < otherCoords.y1
+        );
+
+        if (overlap) {
+          setMessage({ status: false, message: 'Zones must not overlap' });
+          console.log(message.message);
+          return;
+        }
+      }
+    }
+
     const body = {
       coords: coords,
       camera: cameraSelect.id,
