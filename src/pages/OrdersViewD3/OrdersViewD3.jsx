@@ -19,6 +19,7 @@ import { Modal } from '../../components/modal';
 import { Cross } from '../../assets/svg/SVGcomponent';
 import { Button } from '../../components/button';
 import { Checkbox } from '../../components/checkbox';
+import { SelectConnection } from './components/selectConnection';
 
 export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const { filterDateData } = useAppSelector(selectOrdersList);
@@ -30,7 +31,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const [preloader, setPreloader] = useState(false);
   const [cookies] = useCookies(['token']);
   const [workPlaceList, setWorkPlaceList] = useState([]);
-  const [defaultBaseType, setDefaultBaseType] = useState('');
+  // const [defaultBaseType, setDefaultBaseType] = useState('');
 
   const changeHandler = (index) => {
     const workplaces = workPlaceList;
@@ -51,12 +52,12 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     setWorkPlaceList([...workplaces]);
   };
 
-  const changeSelectType = (type) => {
-    patchStatusData(window.location.hostname, cookies.token, { type: type }).then((response) => {
-      setDefaultBaseType(type);
-      setIsOpenFilter(false);
-    });
-  };
+  // const changeSelectType = (type) => {
+  //   patchStatusData(window.location.hostname, cookies.token, { type: type }).then((response) => {
+  //     setDefaultBaseType(type);
+  //     setIsOpenFilter(false);
+  //   });
+  // };
 
   const submitHandler = () => {
     patchFiltrationData(window.location.hostname, cookies.token, workPlaceList)
@@ -71,10 +72,12 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     setEndDate(moment(filterDateData.to).format('YYYY-MM-DD'));
   }, [filterDateData]);
 
+  // console.log(data);
+
   useEffect(() => {
-    getStatusData(window.location.hostname, cookies.token).then((response) => {
-      setDefaultBaseType(response.data.type);
-    });
+    // getStatusData(window.location.hostname, cookies.token).then((response) => {
+    //   setDefaultBaseType(response.data.type);
+    // });
 
     getFiltrationData(window.location.hostname, cookies.token)
       .then((res) => {
@@ -103,16 +106,17 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
             currentDate.add(1, 'day');
           }
 
-          const dataPromises = dates.map((date) =>
-            getData(
-              window.location.hostname,
-              cookies.token,
-              date,
-              '06:00:00',
-              '20:00:00',
-              'machine_control'
-            )
-          );
+          // const dataPromises = dates.map((date) =>
+          //   getData(
+          //     window.location.hostname,
+          //     cookies.token,
+          //     date,
+          //     '06:00:00',
+          //     '20:00:00',
+          //     'machine_control'
+          //   )
+          // );
+          const dataPromises = [];
 
           const responses = await Promise.all(dataPromises);
           const data = responses.flatMap((response) =>
@@ -246,24 +250,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               <h2>Orders View settings</h2>
               <Cross onClick={setIsOpenFilter} className={styles.cross} />
             </header>
-            <div className={styles.select}>
-              <span
-                className={
-                  defaultBaseType === 'database' ? styles.select__active : styles.select__noActive
-                }
-                onClick={() => changeSelectType('database')}
-              >
-                Winkhaus
-              </span>
-              <span
-                className={
-                  defaultBaseType === 'api' ? styles.select__active : styles.select__noActive
-                }
-                onClick={() => changeSelectType('api')}
-              >
-                Odoo
-              </span>
-            </div>
+            <SelectConnection closeFilter={() => setIsOpenFilter(false)} />
             <main className={styles.content}>
               <span className={styles.content__name}>Displayed operations</span>
               <ul className={styles.content__list}>

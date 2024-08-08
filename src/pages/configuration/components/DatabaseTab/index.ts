@@ -1,1 +1,0 @@
-export { DatabaseTab } from './DatabaseTab';

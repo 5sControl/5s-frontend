@@ -20,8 +20,11 @@ import { EditContactForm } from './pages/company/contactsTab/EditContactForm';
 import { EditCompanyForm } from './pages/company/companyTab/EditCompanyForm';
 import AiChatPage from './pages/aiChat/AIChat';
 import CategoryPage from './pages/aiChat/components/categoryPage/categoryPage';
+import { useAppDispatch } from './store/hooks';
+import { getConnectionsToDB } from './pages/configuration/connectionSlice';
 function App() {
   const [cookies, , removeCookie] = useCookies(['token']);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     isVerifyToken(window.location.hostname, cookies.token)
@@ -37,6 +40,15 @@ function App() {
         removeCookie('token');
       });
   }, [cookies]);
+
+  useEffect(() => {
+    dispatch(
+      getConnectionsToDB({
+        token: cookies.token,
+        hostname: window.location.hostname,
+      })
+    );
+  }, []);
 
   return (
     <BrowserRouter>

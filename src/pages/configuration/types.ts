@@ -1,9 +1,15 @@
 export type DatabaseInfo = {
   id: number;
   type: string;
-  database: string;
-  server: string;
+  database: string | null;
+  server: string | null;
   username: string;
+  erp_system: string;
+  dbms: string;
+  is_active: boolean;
+  host: string;
+  password: string;
+  port: number | null; 
 };
 
 export type DataBaseResponse = {
