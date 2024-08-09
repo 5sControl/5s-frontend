@@ -94,7 +94,9 @@ export const Item = ({
               IconLeft={DeleteWhite}
               type="button"
               className={styles.item__delete}
-              onClick={() => onDelete(currentZoneId)}
+              onClick={
+                currentZoneId === -1 ? () => setCurrentZoneId(-2) : () => onDelete(currentZoneId)
+              }
             />
             <div className={styles.item__footer_control}>
               <Button text="Cancel" variant="text" onClick={() => setCurrentZoneId(-2)} />

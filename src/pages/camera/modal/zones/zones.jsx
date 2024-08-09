@@ -41,6 +41,11 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const saveZone = () => {
     const otherZones = cameraZones.filter((box) => box.id !== currentZoneId);
 
+    if (coords.length == 0) {
+      setMessage({ status: false, message: 'Select zone' });
+      return;
+    }
+
     for (let i = 0; i < otherZones.length; i++) {
       for (let n = 0; n < otherZones[i].coords.length; n++) {
         const otherCoords = otherZones[i].coords[n];
@@ -74,11 +79,12 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
         .then(() => {
           getZone();
           setPreloader(false);
-          setMessage({ status: 'true', message: 'Zone is save' });
+          setMessage({ status: true, message: 'Zone is save' });
         })
         .catch((error) => {
           console.log(error);
-          setMessage({ status: 'false', message: 'Zone not save' });
+          setPreloader(false);
+          setMessage({ status: false, message: 'Zone not save' });
         });
     } else {
       setPreloader(true);
@@ -86,11 +92,12 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
         .then(() => {
           getZone();
           setPreloader(false);
-          setMessage({ status: 'true', message: 'Zone is save' });
+          setMessage({ status: true, message: 'Zone is save' });
         })
         .catch((error) => {
           console.log(error);
-          setMessage({ status: 'false', message: 'Zone not save' });
+          setPreloader(false);
+          setMessage({ status: false, message: 'Zone not save' });
         });
     }
   };
