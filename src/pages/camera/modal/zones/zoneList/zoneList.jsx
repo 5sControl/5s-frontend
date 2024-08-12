@@ -4,6 +4,7 @@ import { Item } from './zoneItem';
 
 export const ZoneList = ({
   saveZone,
+  deleteZone,
   cameraZones,
   setItemName,
   itemName,
@@ -11,7 +12,6 @@ export const ZoneList = ({
   currentZoneId,
   setWorkplaceToSend,
   workplaceList,
-  updatingHandler,
   workplace,
   isNewZone,
   setIsNewZone,
@@ -46,6 +46,7 @@ export const ZoneList = ({
             key={index}
             workplaceList={workplaceList}
             saveZone={saveZone}
+            deleteZone={deleteZone}
             name={zona.name}
             workplace={
               zona.workplace && workplaceList.length > 0
@@ -58,7 +59,6 @@ export const ZoneList = ({
             zona={zona}
             currentZoneId={currentZoneId}
             setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
-            updatingHandler={updatingHandler}
             workplaceComboBox={workplace}
           />
         ))}
@@ -66,6 +66,7 @@ export const ZoneList = ({
           <Item
             workplaceList={workplaceList}
             saveZone={saveZone}
+            deleteZone={deleteZone}
             name={''}
             workplace={''}
             setItemName={(name) => setItemName(name)}
@@ -75,7 +76,6 @@ export const ZoneList = ({
             zona={{ id: -1 }}
             currentZoneId={currentZoneId}
             setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
-            updatingHandler={updatingHandler}
           />
         )}
       </div>

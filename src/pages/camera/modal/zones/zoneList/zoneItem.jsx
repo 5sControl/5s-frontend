@@ -4,12 +4,11 @@ import { Input } from '../../../../../components/input';
 import { Button } from '../../../../../components/button';
 import styles from '../zones.module.scss';
 import { useEffect, useState } from 'react';
-import { deleteCameraZones } from '../../../../../api/cameraRequest';
-import { useCookies } from 'react-cookie';
 
 export const Item = ({
   workplaceList,
   saveZone,
+  deleteZone,
   name,
   workplace,
   setItemName,
@@ -19,11 +18,9 @@ export const Item = ({
   zona,
   currentZoneId,
   setWorkplaceToSend,
-  updatingHandler,
   workplaceComboBox,
 }) => {
   const [isShow, setIsShow] = useState(isOpen);
-  const [cookies] = useCookies(['token']);
 
   const showHandler = () => {
     setCurrentZoneId(zona.id);
@@ -44,12 +41,6 @@ export const Item = ({
 
   const comboboxHandler = (value) => {
     setWorkplaceToSend(workplaceList.filter((item) => item.comboBoxName === value)[0]);
-  };
-
-  const onDelete = (id) => {
-    deleteCameraZones(window.location.hostname, cookies.token, id).then((res) => {
-      updatingHandler();
-    });
   };
 
   return (
@@ -95,7 +86,7 @@ export const Item = ({
               type="button"
               className={styles.item__delete}
               onClick={
-                currentZoneId === -1 ? () => setCurrentZoneId(-2) : () => onDelete(currentZoneId)
+                currentZoneId === -1 ? () => setCurrentZoneId(-2) : () => deleteZone(currentZoneId)
               }
             />
             <div className={styles.item__footer_control}>
