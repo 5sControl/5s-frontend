@@ -32,7 +32,6 @@ function Dashboard() {
   const [activePage, setActivePage] = useState('timelines');
   const dispatch = useAppDispatch();
   const update = () => {
-    setIsPreloader(true);
     const searchParams = new URLSearchParams(window.location.search);
     const algorithmsURL = searchParams.getAll('algorithm');
     const camerasURL = searchParams.getAll('camera');
@@ -70,9 +69,17 @@ function Dashboard() {
         }
       });
   };
+
   useEffect(() => {
     update();
     dispatch(addCurrentReport(false));
+
+    const interval = setInterval(() => {
+      update();
+      dispatch(addCurrentReport(false));
+    }, 20000);
+
+    return () => clearInterval(interval);
   }, [selectDate]);
 
   useEffect(() => {
