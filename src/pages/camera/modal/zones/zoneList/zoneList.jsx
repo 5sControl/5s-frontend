@@ -41,27 +41,29 @@ export const ZoneList = ({
       </div>
 
       <div className={styles.list}>
-        {cameraZones.map((zona, index) => (
-          <Item
-            key={index}
-            workplaceList={workplaceList}
-            saveZone={saveZone}
-            deleteZone={deleteZone}
-            name={zona.name}
-            workplace={
-              zona.workplace && workplaceList.length > 0
-                ? workplaceList.filter((item) => item.operationName === zona.workplace)[0]
-                : ''
-            }
-            setItemName={(name) => setItemName(name)}
-            itemName={itemName}
-            setCurrentZoneId={(id) => setCurrentZoneId(id)}
-            zona={zona}
-            currentZoneId={currentZoneId}
-            setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
-            workplaceComboBox={workplace}
-          />
-        ))}
+        {[...cameraZones]
+          .sort((a, b) => (a.name > b.name ? 1 : -1))
+          .map((zona, index) => (
+            <Item
+              key={index}
+              workplaceList={workplaceList}
+              saveZone={saveZone}
+              deleteZone={deleteZone}
+              name={zona.name}
+              workplace={
+                zona.workplace && workplaceList.length > 0
+                  ? workplaceList.filter((item) => item.operationName === zona.workplace)[0]
+                  : ''
+              }
+              setItemName={(name) => setItemName(name)}
+              itemName={itemName}
+              setCurrentZoneId={(id) => setCurrentZoneId(id)}
+              zona={zona}
+              currentZoneId={currentZoneId}
+              setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
+              workplaceComboBox={workplace}
+            />
+          ))}
         {isNewZone && currentZoneId === -1 && (
           <Item
             workplaceList={workplaceList}
@@ -76,6 +78,7 @@ export const ZoneList = ({
             zona={{ id: -1 }}
             currentZoneId={currentZoneId}
             setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
+            numberOfZones={cameraZones.length}
           />
         )}
       </div>
