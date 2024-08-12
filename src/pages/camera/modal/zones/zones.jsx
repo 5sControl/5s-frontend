@@ -2,12 +2,18 @@ import { useEffect, useState } from 'react';
 import styles from './zones.module.scss';
 import { ZonesCoordinates } from './coordinates/zonesCoordinates';
 import { ZoneList } from './zoneList/zoneList';
-import { getCameraZones, patchCameraZones, postCameraZones } from '../../../../api/cameraRequest';
+import {
+  getCameraZones,
+  patchCameraZones,
+  postCameraZones,
+  deleteCameraZones,
+} from '../../../../api/cameraRequest';
 import { useCookies } from 'react-cookie';
 import { NoVideoBig } from '../../../../assets/svg/SVGcomponent';
 import { getWorkplaceList } from '../../../../api/orderView';
 import { Preloader } from '../../../../components/preloader';
 import { Notification } from '../../../../components/notification/notification';
+
 export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [coords, setCoords] = useState([]);
   const [itemName, setItemName] = useState('');
@@ -22,19 +28,32 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [message, setMessage] = useState(false);
   const [createZoneMode, setCreateZoneMode] = useState(false);
 
-  const updatingHandler = () => {
-    setUpdating(!updating);
-  };
-
   const getZone = () => {
+    setPreloader(true);
     getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
       .then((res) => {
         setCameraZones(res.data);
         setCurrentZoneId(-2);
         setCoords([]);
+        setPreloader(false);
       })
       .catch((err) => {
         console.log(err);
+        setPreloader(false);
+      });
+  };
+
+  const deleteZone = (id) => {
+    setPreloader(true);
+    deleteCameraZones(window.location.hostname, cookie.token, id)
+      .then(() => {
+        setMessage({ status: true, message: 'Zone was deleted' });
+        getZone();
+      })
+      .catch((err) => {
+        console.log(err);
+        setMessage({ status: false, message: 'Zone was not deleted' });
+        setPreloader(false);
       });
   };
 
@@ -78,7 +97,6 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
       postCameraZones(window.location.hostname, cookie.token, body)
         .then(() => {
           getZone();
-          setPreloader(false);
           setMessage({ status: true, message: 'Zone is save' });
         })
         .catch((error) => {
@@ -91,7 +109,6 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
       patchCameraZones(window.location.hostname, cookie.token, body, currentZoneId)
         .then(() => {
           getZone();
-          setPreloader(false);
           setMessage({ status: true, message: 'Zone is save' });
         })
         .catch((error) => {
@@ -168,6 +185,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
           <div className={styles.zones__right}>
             <ZoneList
               saveZone={saveZone}
+              deleteZone={deleteZone}
               cameraZones={cameraZones}
               setItemName={(name) => setItemName(name)}
               itemName={itemName}
@@ -175,7 +193,6 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
               currentZoneId={currentZoneId}
               setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
               workplaceList={workplaceList}
-              updatingHandler={updatingHandler}
               workplace={workplaceToSend ? workplaceToSend.comboBoxName : ''}
               isNewZone={createZoneMode}
               setIsNewZone={setCreateZoneMode}
