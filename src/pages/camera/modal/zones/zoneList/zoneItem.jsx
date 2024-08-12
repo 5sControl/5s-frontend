@@ -19,6 +19,7 @@ export const Item = ({
   currentZoneId,
   setWorkplaceToSend,
   workplaceComboBox,
+  numberOfZones,
 }) => {
   const [isShow, setIsShow] = useState(isOpen);
 
@@ -30,6 +31,7 @@ export const Item = ({
   useEffect(() => {
     if (isOpen) {
       setCurrentZoneId(-1);
+      setItemName(`Zone ${numberOfZones + 1}`);
     }
   }, [isOpen]);
 
@@ -63,6 +65,7 @@ export const Item = ({
               className={styles.item__input}
               value={itemName}
               onChange={(e) => setItemName(e.target.value)}
+              placeholder={'Enter zone name'}
             />
           </label>
           <label>
