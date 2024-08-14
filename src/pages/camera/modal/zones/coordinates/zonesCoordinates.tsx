@@ -5,7 +5,6 @@ import Moveable from 'react-moveable';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { generateString } from '../../../../../functions/randomizer';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../../types';
-import { Scale } from '../../../../../components/scale';
 
 import './moveable.scss';
 import styles from './zonesCoordinat.module.scss';
@@ -20,6 +19,8 @@ type PropsType = {
   oldBox: any;
   currentZoneId: number;
   createZoneMode: boolean;
+  handleSaveError: boolean;
+  setValidZone: (status: boolean) => void;
 };
 
 export const ZonesCoordinates: React.FC<PropsType> = ({
@@ -32,6 +33,8 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   oldBox,
   currentZoneId,
   createZoneMode,
+  handleSaveError,
+  setValidZone,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
@@ -42,6 +45,8 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   const [proportionHeight, setProportionHeight] = useState(0);
   const [coordToScale, setCoordToScale] = useState<any[]>([]);
   const [testCoordinates, setTesCoordinates] = useState<any[]>([]);
+  const moveableRef = useRef<Moveable>(null);
+  const [validCoords, setValidCoords] = useState({ x: 1, y: 1, width: 100, height: 100 });
 
   useEffect(() => {
     if (oldBox.length > 0) {
@@ -190,16 +195,59 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
       //     [`y${index + 1}`]: el.xy * proportionHeight
       //   });
       // });
-
       sendCoord.push({
         x1: totalX * proportionWidth,
         y1: totalY * proportionHeight,
         x2: bufWidth * proportionWidth + totalX * proportionWidth,
         y2: bufHeight * proportionHeight + totalY * proportionHeight,
       });
+
+      setCoords(sendCoord);
+
+      if (
+        sendCoord[0] &&
+        !(
+          sendCoord[0].x1 < 1 ||
+          sendCoord[0].x1 > 1920 ||
+          sendCoord[0].y1 < 1 ||
+          sendCoord[0].y1 > 1080 ||
+          sendCoord[0].x2 < 1 ||
+          sendCoord[0].x2 > 1920 ||
+          sendCoord[0].y2 < 1 ||
+          sendCoord[0].y2 > 1080
+        )
+      ) {
+        setValidCoords({
+          x: Math.round(totalX),
+          y: Math.round(totalY),
+          width: Math.round(bufWidth),
+          height: Math.round(bufHeight),
+        });
+        setValidZone(true);
+      } else {
+        setValidZone(false);
+      }
     });
-    setCoords(sendCoord);
   };
+
+  useEffect(() => {
+    moveableRef.current!.request(
+      'draggable',
+      {
+        x: validCoords.x,
+        y: validCoords.y,
+      },
+      true
+    );
+    moveableRef.current!.request(
+      'resizable',
+      {
+        offsetWidth: validCoords.width,
+        offsetHeight: validCoords.height,
+      },
+      true
+    );
+  }, [handleSaveError]);
 
   return (
     <div className={styles.zones__left}>
@@ -325,6 +373,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
         </div>
         <Moveable
           snappable={true}
+          ref={moveableRef}
           bounds={{
             left: 1,
             right: image?.current?.width - 1,
