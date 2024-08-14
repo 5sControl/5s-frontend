@@ -20,6 +20,7 @@ type PropsType = {
   currentZoneId: number;
   createZoneMode: boolean;
   handleSaveError: boolean;
+  setValidZone: (status: boolean) => void;
 };
 
 export const ZonesCoordinates: React.FC<PropsType> = ({
@@ -33,6 +34,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   currentZoneId,
   createZoneMode,
   handleSaveError,
+  setValidZone,
 }) => {
   const image = useRef<any>();
   const [target, setTarget] = useState<any>(null);
@@ -221,8 +223,9 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
           width: Math.round(bufWidth),
           height: Math.round(bufHeight),
         });
+        setValidZone(true);
       } else {
-        console.log('not valid coords');
+        setValidZone(false);
       }
     });
   };
@@ -369,7 +372,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
           )}
         </div>
         <Moveable
-          // snappable={true}
+          snappable={true}
           ref={moveableRef}
           bounds={{
             left: 1,

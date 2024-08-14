@@ -28,6 +28,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [message, setMessage] = useState(false);
   const [createZoneMode, setCreateZoneMode] = useState(false);
   const [handleSaveError, setHandleSaveError] = useState(false);
+  const [validZone, setValidZone] = useState(true);
 
   const getZone = () => {
     setPreloader(true);
@@ -66,16 +67,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
       return;
     }
 
-    if (
-      coords[0].x1 < 0 ||
-      coords[0].x1 > 1920 ||
-      coords[0].y1 < 0 ||
-      coords[0].y1 > 1080 ||
-      coords[0].x2 < 0 ||
-      coords[0].x2 > 1920 ||
-      coords[0].y2 < 0 ||
-      coords[0].y2 > 1080
-    ) {
+    if (!validZone) {
       setMessage({ status: false, message: 'Zone is not save. Try again' });
       setHandleSaveError((prev) => !prev);
       return;
@@ -198,6 +190,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
             currentZoneId={currentZoneId}
             createZoneMode={createZoneMode}
             handleSaveError={handleSaveError}
+            setValidZone={setValidZone}
           />
           <div className={styles.zones__right}>
             <ZoneList
