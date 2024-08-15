@@ -23,9 +23,14 @@ export const Item = ({
 }) => {
   const [isShow, setIsShow] = useState(isOpen);
 
+  const comboboxHandler = (value) => {
+    setWorkplaceToSend(workplaceList.filter((item) => item.comboBoxName === value)[0]);
+  };
+
   const showHandler = () => {
     setCurrentZoneId(zona.id);
     setIsShow(!isShow);
+    comboboxHandler(workplace?.comboBoxName);
   };
 
   useEffect(() => {
@@ -40,10 +45,6 @@ export const Item = ({
       setCurrentZoneId(-1);
     }
   }, [isShow]);
-
-  const comboboxHandler = (value) => {
-    setWorkplaceToSend(workplaceList.filter((item) => item.comboBoxName === value)[0]);
-  };
 
   return (
     <div className={styles.item}>

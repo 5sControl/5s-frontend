@@ -22,7 +22,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [cameraZones, setCameraZones] = useState([]);
   const [currentZoneId, setCurrentZoneId] = useState();
   const [workplaceList, setWorkplaceList] = useState([]);
-  const [workplaceToSend, setWorkplaceToSend] = useState(false);
+  const [workplaceToSend, setWorkplaceToSend] = useState(null);
   const [updating, setUpdating] = useState(false);
   const [preloader, setPreloader] = useState(false);
   const [message, setMessage] = useState(false);
@@ -156,16 +156,9 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   useEffect(() => {
     const buf = cameraZones.filter((el) => el.id === currentZoneId);
     if (buf.length > 0) {
-      const sendWork = workplaceList.filter((el) => el.id === buf[0].index_workplace);
       setItemName(buf[0].name);
-      if (currentZoneId > 0 && sendWork && sendWork.length > 0) {
-        setWorkplaceToSend({
-          operationName: sendWork[0].operationName,
-          id: sendWork[0].id,
-          comboBoxName: `${sendWork[0].operationName} (${sendWork[0].id})`,
-        });
-      } else {
-        setWorkplaceToSend(false);
+      if (currentZoneId < 0) {
+        setWorkplaceToSend(null);
       }
     }
   }, [currentZoneId]);
