@@ -258,9 +258,9 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
                   return (
                     <li key={index}>
                       <Checkbox
-                        id={place.operation_type_id}
-                        name={`${place.name} (${place.operation_type_id})`}
-                        label={`${place.name} (${place.operation_type_id})`}
+                        id={index}
+                        name={`${place.name}`}
+                        label={`${place.name}`}
                         isChecked={place.is_active}
                         onChange={() => changeHandler(index)}
                       />
