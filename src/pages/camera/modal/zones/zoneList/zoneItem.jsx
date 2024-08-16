@@ -22,8 +22,10 @@ export const Item = ({
   numberOfZones,
 }) => {
   const [isShow, setIsShow] = useState(isOpen);
+  const [value, setValue] = useState(workplaceComboBox);
 
   const comboboxHandler = (value) => {
+    setValue(value);
     setWorkplaceToSend(workplaceList.filter((item) => item.comboBoxName === value)[0]);
   };
 
@@ -75,11 +77,12 @@ export const Item = ({
               data={workplaceList.map((e) => e.comboBoxName)}
               placeholder="Select or enter"
               hideEmptyPopup
-              value={workplaceComboBox}
+              value={value}
               onChange={(value) => comboboxHandler(value)}
               onSelect={(value) => comboboxHandler(value)}
               className={styles.item__combobox}
               selectIcon={<ArrowDown />}
+              filter={'contains'}
             />
           </label>
           <p className={styles.item__description}>Select one or more areas on the left.</p>
