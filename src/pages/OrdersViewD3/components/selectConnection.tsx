@@ -3,9 +3,12 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getConnectionsToDB, selectConnectionPage } from '../../configuration/connectionSlice';
 import styles from '../style.module.scss';
 import { patchStatusData } from '../../../api/orderView';
-import { useEffect } from 'react';
 
-export const SelectConnection = ({ closeFilter }: { closeFilter: () => void }) => {
+type Props = {
+  changeHandler: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const SelectConnection = ({ changeHandler }: Props) => {
   const { databases } = useAppSelector(selectConnectionPage);
   const [cookies] = useCookies(['token']);
   const dispatch = useAppDispatch();
@@ -14,13 +17,13 @@ export const SelectConnection = ({ closeFilter }: { closeFilter: () => void }) =
 
   const changeActiveConnection = (id: number) => {
     patchStatusData(id, cookies.token, { is_active: true }).then(() => {
-      // closeFilter();
       dispatch(
         getConnectionsToDB({
           token: cookies.token,
           hostname: window.location.hostname,
         })
       );
+      changeHandler((prev) => !prev);
     });
   };
 
