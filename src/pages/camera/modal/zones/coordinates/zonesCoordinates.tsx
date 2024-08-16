@@ -326,16 +326,18 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
                 ))}
               </Fragment>
             ))}
-          <div
-            className={styles.draw}
-            // onClick={(e) => createCoord(e)}
-            onMouseDown={(e) => startPosition(e)}
-            onMouseMove={(e) => movePosition(e)}
-            onMouseUp={(e) => endPosition(e)}
-            style={
-              target ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
-            }
-          ></div>
+          {createZoneMode && (
+            <div
+              className={styles.draw}
+              // onClick={(e) => createCoord(e)}
+              onMouseDown={(e) => startPosition(e)}
+              onMouseMove={(e) => movePosition(e)}
+              onMouseUp={(e) => endPosition(e)}
+              style={
+                target ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
+              }
+            ></div>
+          )}
           {!!proportionHeight && (
             <div className={styles.scale} style={{ zIndex: isStartDraw ? 1 : 2001 }}>
               {/* <Scale
