@@ -135,7 +135,8 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
           res.data.map((place) => {
             return {
               ...place,
-              comboBoxName: `${place.operationName} (id:${place.id})`,
+              comboBoxName: place.operationName,
+              // comboBoxName: `${place.operationName} (id:${place.id})`,
             };
           })
         );
