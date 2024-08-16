@@ -31,6 +31,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const [preloader, setPreloader] = useState(false);
   const [cookies] = useCookies(['token']);
   const [workPlaceList, setWorkPlaceList] = useState([]);
+  const [changeConnectionHandler, setChangeConnectionHandler] = useState(false);
   // const [defaultBaseType, setDefaultBaseType] = useState('');
 
   const changeHandler = (index) => {
@@ -85,7 +86,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
         setWorkPlaceList(response.sort((a, b) => a.operation_type_id - b.operation_type_id));
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [changeConnectionHandler]);
 
   useEffect(() => {
     if (startDate && endDate && !isOpenFilter) {
@@ -250,7 +251,10 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               <h2>Orders View settings</h2>
               <Cross onClick={setIsOpenFilter} className={styles.cross} />
             </header>
-            <SelectConnection closeFilter={() => setIsOpenFilter(false)} />
+            <SelectConnection
+              closeFilter={() => setIsOpenFilter(false)}
+              changeHandler={setChangeConnectionHandler}
+            />
             <main className={styles.content}>
               <span className={styles.content__name}>Displayed operations</span>
               <ul className={styles.content__list}>

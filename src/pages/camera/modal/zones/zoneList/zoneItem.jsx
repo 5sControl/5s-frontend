@@ -53,7 +53,9 @@ export const Item = ({
       <div className={styles.zona}>
         <div className={styles.zona__left}>
           <span className={styles.zona__name}>Name: {name}</span>
-          <span className={styles.zona__workplace}>Workplace: {workplace?.operationName}</span>
+          <span className={styles.zona__workplace}>
+            Workplace: {workplace?.operationName || zona.workplace}
+          </span>
         </div>
         <span className={styles.zona__right} onClick={showHandler}>
           <ArrowDown className={isShow && currentZoneId === zona.id ? styles.rotate : ''} />
@@ -78,6 +80,7 @@ export const Item = ({
               placeholder="Select or enter"
               hideEmptyPopup
               value={value}
+              defaultValue={value ? value : zona.workplace}
               onChange={(value) => comboboxHandler(value)}
               onSelect={(value) => comboboxHandler(value)}
               className={styles.item__combobox}

@@ -43,13 +43,13 @@ export const SettingsHub = ({
     }
   }, [cameraSelect, algorithmsActiveObject]);
   useEffect(() => {
-    console.log(algorithmsActive);
+    // console.log(algorithmsActive);
     if (algorithmsActive) {
       setCheckboxAlgo(Object.assign([], algorithmsActive));
     }
   }, [algorithmsActive]);
 
-  console.log(informationToSend);
+  // console.log(informationToSend);
   const applySettings = async () => {
     setIsPreloader(true);
     const response = {
@@ -114,7 +114,6 @@ export const SettingsHub = ({
     });
   }, []);
   useEffect(() => {
-    console.log('sdfsdfsdf');
     setInformationToSend(checkboxAlgo);
   }, [checkboxAlgo]);
 
