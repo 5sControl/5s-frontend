@@ -7,12 +7,9 @@ import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
 import {
   getFiltrationData,
-  getStatusData,
   getOrderViewOperations,
   patchFiltrationData,
-  patchStatusData,
 } from '../../api/orderView';
-import { getData } from '../../api/reportsRequest';
 import { useCookies } from 'react-cookie';
 import { getSelectedZone } from '../../api/cameraRequest';
 import { Modal } from '../../components/modal';
@@ -29,10 +26,11 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const [startDate, setStartDate] = useState(false);
   const [endDate, setEndDate] = useState(false);
   const [preloader, setPreloader] = useState(false);
+  const [selectedTimeRange, setSelectedTimeRange] = useState('1 day'); // Default time range
   const [cookies] = useCookies(['token']);
   const [workPlaceList, setWorkPlaceList] = useState([]);
   const [changeConnectionHandler, setChangeConnectionHandler] = useState(false);
-  // const [defaultBaseType, setDefaultBaseType] = useState('');
+  const [scaleParam, setScaleParam] = useState(10);
 
   const changeHandler = (index) => {
     const workplaces = workPlaceList;
@@ -53,13 +51,6 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     setWorkPlaceList([...workplaces]);
   };
 
-  // const changeSelectType = (type) => {
-  //   patchStatusData(window.location.hostname, cookies.token, { type: type }).then((response) => {
-  //     setDefaultBaseType(type);
-  //     setIsOpenFilter(false);
-  //   });
-  // };
-
   const submitHandler = () => {
     patchFiltrationData(window.location.hostname, cookies.token, workPlaceList)
       .then((response) => {
@@ -73,13 +64,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     setEndDate(moment(filterDateData.to).format('YYYY-MM-DD'));
   }, [filterDateData]);
 
-  // console.log(data);
-
   useEffect(() => {
-    // getStatusData(window.location.hostname, cookies.token).then((response) => {
-    //   setDefaultBaseType(response.data.type);
-    // });
-
     getFiltrationData(window.location.hostname, cookies.token)
       .then((res) => {
         const response = res.data;
@@ -100,59 +85,8 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
             endDate
           );
           const dataToD3 = response.data;
-          const dates = [];
-          const currentDate = moment(startDate);
-          while (currentDate.isSameOrBefore(endDate)) {
-            dates.push(currentDate.format('YYYY-MM-DD'));
-            currentDate.add(1, 'day');
-          }
 
-          // const dataPromises = dates.map((date) =>
-          //   getData(
-          //     window.location.hostname,
-          //     cookies.token,
-          //     date,
-          //     '06:00:00',
-          //     '20:00:00',
-          //     'machine_control'
-          //   )
-          // );
-          const dataPromises = [];
-
-          const responses = await Promise.all(dataPromises);
-          const data = responses.flatMap((response) =>
-            response.data
-              .filter((e) => e.extra?.zoneId)
-              .map((el) => ({
-                id: el.extra?.zoneId,
-                zoneId: el.extra?.zoneId,
-                zoneName: el.extra.zoneName,
-                sTime: el.start_tracking,
-                eTime: el.stop_tracking,
-                camera: el.camera?.id,
-                cameraName: el.camera?.name,
-                algorithm: el.algorithm?.name,
-              }))
-          );
-
-          const grouped = data.reduce((acc, obj) => {
-            const zoneName = obj.zoneName.trim();
-            if (acc[zoneName]) {
-              acc[zoneName].push(obj);
-            } else {
-              acc[zoneName] = [obj];
-            }
-            return acc;
-          }, {});
-
-          const answer = Object.entries(grouped).map(([zoneName, zoneData]) => ({
-            inverse: true,
-            oprName: zoneName,
-            oprs: zoneData,
-            zoneId: zoneData[0].zoneId,
-          }));
-
-          const newDataPromises = answer.map(async (zone) => {
+          const newDataPromises = dataToD3.map(async (zone) => {
             try {
               const res = await getSelectedZone(
                 window.location.hostname,
@@ -205,8 +139,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
                 };
               } else {
                 console.error(error);
-                // Обработка других ошибок
-                throw error; // Перебросить ошибку для дальнейшей обработки
+                throw error;
               }
             }
           });
@@ -223,8 +156,32 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     }
   }, [endDate, startDate, isOpenFilter]);
 
+  const handleTimeRangeChange = (event) => {
+    setSelectedTimeRange(event.target.value);
+  };
+
+  const getMaxDate = () => {
+    switch (selectedTimeRange) {
+      case '1 hour':
+        return new Date(`${startDate}T07:00:00.000`);
+      case '3 hours':
+        return new Date(`${startDate}T09:00:00.000`);
+      case '1 day':
+      default:
+        return new Date(`${endDate}T20:00:00.000`);
+    }
+  };
+
   return (
     <>
+      <div>
+        <label htmlFor="timeRange">Select Time Range: </label>
+        <select id="timeRange" value={selectedTimeRange} onChange={handleTimeRangeChange}>
+          <option value="1 day">1 day</option>
+          <option value="3 hours">3 hours</option>
+          <option value="1 hour">1 hour</option>
+        </select>
+      </div>
       {filterDateData && endDate && startDate && (
         <div className={styles.fullScreen}>
           <OrdersList
@@ -237,10 +194,11 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
           <VerticalTimeline
             data={data}
             minDate={new Date(`${startDate}T06:00:00.000`)}
-            maxDate={new Date(`${endDate}T20:00:00.000`)}
+            maxDate={getMaxDate()}
             selectOrder={selectOrder}
             preloader={preloader}
             machineData={machineData}
+            scaleParam={scaleParam}
           />
         </div>
       )}
@@ -263,8 +221,8 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
                     <li key={index}>
                       <Checkbox
                         id={index}
-                        name={`${place.name}`}
-                        label={`${place.name}`}
+                        name={place.name}
+                        label={place.name}
                         isChecked={place.is_active}
                         onChange={() => changeHandler(index)}
                       />

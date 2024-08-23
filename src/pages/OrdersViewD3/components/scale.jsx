@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import moment from 'moment';
 
-const Timeline = ({ minDate, maxDate }) => {
+const Timeline = ({ minDate, maxDate, scaleParam = 1 }) => {
   const svgRef = useRef(null);
 
   function getDuration(milli) {
@@ -25,7 +25,7 @@ const Timeline = ({ minDate, maxDate }) => {
     // Определение размеров графика
     const margin = { top: 10, right: 20, bottom: 0, left: 60 };
     const width = 100 - margin.left - margin.right;
-    const height = getDuration(maxDate - minDate) * proportion;
+    const height = getDuration(maxDate - minDate) * proportion * scaleParam;
     // Создание шкалы времени для оси Y - первый диапазон
     const parseTime = d3.timeParse('%Y-%m-%dT%H:%M:%S');
 
