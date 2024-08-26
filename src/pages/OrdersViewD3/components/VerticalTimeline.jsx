@@ -47,33 +47,34 @@ const VerticalTimeline = ({
 
   useEffect(() => {
     if (data.length > 0 || machineData.length > 0) {
-      // let first =
-      //   data.length > 0
-      //     ? data.filter(
-      //         (order) => order.oprs && JSON.stringify(order.oprs).includes(`"${selectOrder}"`)
-      //       )
-      //     : [];
-      // let end =
-      //   data.length > 0
-      //     ? data.filter(
-      //         (order) => order.oprs && !JSON.stringify(order.oprs).includes(`"${selectOrder}"`)
-      //       )
-      //     : [];
-      // machineData.forEach((machineItem) => {
-      //   if (first.some((item) => item.oprTypeID === machineItem.oprTypeID)) {
-      //     first.unshift(machineItem);
-      //   } else {
-      //     end.push(machineItem);
-      //   }
-      // });
-      // machineData = machineData.filter((machineItem) => {
-      //   const foundInFirst = first.some((item) => item.oprTypeID === machineItem.oprTypeID);
-      //   const foundInEnd = end.some((item) => item.oprTypeID === machineItem.oprTypeID);
-      //   return !foundInFirst && !foundInEnd;
-      // });
-      // first = first.sort((a, b) => b.oprTypeID - a.oprTypeID);
-      // end = end.sort((a, b) => b.oprTypeID - a.oprTypeID);
-      // setUpdate([...first, ...end].sort((a, b) => (a.oprName > b.oprName ? 1 : -1)));
+      //   let first =
+      //     data.length > 0
+      //       ? data.filter(
+      //           (order) => order.oprs && JSON.stringify(order.oprs).includes(`"${selectOrder}"`)
+      //         )
+      //       : [];
+      //   let end =
+      //     data.length > 0
+      //       ? data.filter(
+      //           (order) => order.oprs && !JSON.stringify(order.oprs).includes(`"${selectOrder}"`)
+      //         )
+      //       : [];
+      //   machineData.forEach((machineItem) => {
+      //     if (first.some((item) => item.oprTypeID === machineItem.oprTypeID)) {
+      //       first.unshift(machineItem);
+      //     } else {
+      //       end.push(machineItem);
+      //     }
+      //   });
+      //   machineData = machineData.filter((machineItem) => {
+      //     const foundInFirst = first.some((item) => item.oprTypeID === machineItem.oprTypeID);
+      //     const foundInEnd = end.some((item) => item.oprTypeID === machineItem.oprTypeID);
+      //     return !foundInFirst && !foundInEnd;
+      //   });
+      //  first = first.sort((a, b) => b.oprTypeID - a.oprTypeID);
+      //  end = end.sort((a, b) => b.oprTypeID - a.oprTypeID);
+      //  setUpdate([...first, ...end].sort((a, b) => (a.oprTypeID > b.oprTypeID ? 1 : -1)));
+      data = data.sort((a, b) => a.oprTypeID - b.oprTypeID);
       setUpdate(data);
     } else {
       setUpdate([]);
@@ -144,7 +145,7 @@ const VerticalTimeline = ({
     if (timelineRef.current && update.length > 0 && !preloader) {
       const margin = { top: 10, right: 0, bottom: 0, left: 0 };
       const proportion = 1 - Math.abs((days * 10) / ((days + 1) * 24 - 10));
-      const height = getDuration(maxDate - minDate) * proportion * zoomParam + (days + 1) * 18;
+      const height = (50400 * zoomParam) / 32;
       const width = update.length * fieldWidth;
 
       const svg = d3
@@ -196,11 +197,8 @@ const VerticalTimeline = ({
             .attr('x', index * fieldWidth + 35)
             .attr('y', 0)
             .attr('width', fieldWidth - 70)
-            .attr('height', 19)
+            .attr('height', height)
             .attr('fill', '#f5f5f5')
-            .attr('transform', (d, i) => {
-              return `translate(0, ${(ind + 1) * (400 * proportion * zoomParam) + ind * 18} )`;
-            })
             .attr('display', days > 0 ? 'block' : 'none');
         });
       });
@@ -240,8 +238,7 @@ const VerticalTimeline = ({
           .attr('height', (d) => {
             return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d)) < 0
               ? 0
-              : (y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d))) *
-                  zoomParam;
+              : y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d));
           })
           .attr('fill', '#87BC45')
           .attr('opacity', (d) => (selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4))
@@ -322,9 +319,7 @@ const VerticalTimeline = ({
                   ref={timelineRef}
                   style={{
                     width: `${update.length * fieldWidth}px`,
-                    height: `${
-                      (getDuration(maxDate - minDate) * proportion + (days + 1) * 20) * zoomParam
-                    }px`,
+                    height: `${(50400 * zoomParam) / 32}px`,
                     transform: `translateX(${position * fieldWidth}px)`,
                   }}
                 ></div>
