@@ -18,7 +18,15 @@ function getDuration(milli) {
   return days * size;
 }
 
-const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, machineData }) => {
+const VerticalTimeline = ({
+  data,
+  minDate,
+  maxDate,
+  selectOrder,
+  preloader,
+  machineData,
+  zoomParam,
+}) => {
   const [update, setUpdate] = useState(data);
   const [operationOV, setOperationOV] = useState(false);
   const days = moment(maxDate).diff(minDate, 'days');
@@ -39,33 +47,34 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
 
   useEffect(() => {
     if (data.length > 0 || machineData.length > 0) {
-      let first =
-        data.length > 0
-          ? data.filter(
-              (order) => order.oprs && JSON.stringify(order.oprs).includes(`"${selectOrder}"`)
-            )
-          : [];
-      let end =
-        data.length > 0
-          ? data.filter(
-              (order) => order.oprs && !JSON.stringify(order.oprs).includes(`"${selectOrder}"`)
-            )
-          : [];
-      machineData.forEach((machineItem) => {
-        if (first.some((item) => item.oprTypeID === machineItem.oprTypeID)) {
-          first.unshift(machineItem);
-        } else {
-          end.push(machineItem);
-        }
-      });
-      machineData = machineData.filter((machineItem) => {
-        const foundInFirst = first.some((item) => item.oprTypeID === machineItem.oprTypeID);
-        const foundInEnd = end.some((item) => item.oprTypeID === machineItem.oprTypeID);
-        return !foundInFirst && !foundInEnd;
-      });
-      first = first.sort((a, b) => b.oprTypeID - a.oprTypeID);
-      end = end.sort((a, b) => b.oprTypeID - a.oprTypeID);
-      setUpdate([...first, ...end].sort((a, b) => (a.oprName > b.oprName ? 1 : -1)));
+      // let first =
+      //   data.length > 0
+      //     ? data.filter(
+      //         (order) => order.oprs && JSON.stringify(order.oprs).includes(`"${selectOrder}"`)
+      //       )
+      //     : [];
+      // let end =
+      //   data.length > 0
+      //     ? data.filter(
+      //         (order) => order.oprs && !JSON.stringify(order.oprs).includes(`"${selectOrder}"`)
+      //       )
+      //     : [];
+      // machineData.forEach((machineItem) => {
+      //   if (first.some((item) => item.oprTypeID === machineItem.oprTypeID)) {
+      //     first.unshift(machineItem);
+      //   } else {
+      //     end.push(machineItem);
+      //   }
+      // });
+      // machineData = machineData.filter((machineItem) => {
+      //   const foundInFirst = first.some((item) => item.oprTypeID === machineItem.oprTypeID);
+      //   const foundInEnd = end.some((item) => item.oprTypeID === machineItem.oprTypeID);
+      //   return !foundInFirst && !foundInEnd;
+      // });
+      // first = first.sort((a, b) => b.oprTypeID - a.oprTypeID);
+      // end = end.sort((a, b) => b.oprTypeID - a.oprTypeID);
+      // setUpdate([...first, ...end].sort((a, b) => (a.oprName > b.oprName ? 1 : -1)));
+      setUpdate(data);
     } else {
       setUpdate([]);
     }
@@ -134,7 +143,8 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
   useEffect(() => {
     if (timelineRef.current && update.length > 0 && !preloader) {
       const margin = { top: 10, right: 0, bottom: 0, left: 0 };
-      const height = getDuration(maxDate - minDate);
+      const proportion = 1 - Math.abs((days * 10) / ((days + 1) * 24 - 10));
+      const height = getDuration(maxDate - minDate) * proportion * zoomParam + (days + 1) * 18;
       const width = update.length * fieldWidth;
 
       const svg = d3
@@ -189,7 +199,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
             .attr('height', 19)
             .attr('fill', '#f5f5f5')
             .attr('transform', (d, i) => {
-              return `translate(0, ${(ind + 1) * (400 * proportion) + ind * 18} )`;
+              return `translate(0, ${(ind + 1) * (400 * proportion * zoomParam) + ind * 18} )`;
             })
             .attr('display', days > 0 ? 'block' : 'none');
         });
@@ -222,7 +232,6 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
               .attr('opacity', selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4)
               .attr('fill', '#87BC45');
           });
-
         bars
           .append('rect')
           .attr('x', index * fieldWidth + 35)
@@ -231,7 +240,8 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
           .attr('height', (d) => {
             return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d)) < 0
               ? 0
-              : y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d));
+              : (y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d))) *
+                  zoomParam;
           })
           .attr('fill', '#87BC45')
           .attr('opacity', (d) => (selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4))
@@ -268,8 +278,8 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
                       style={{
                         position: 'absolute',
                         top: '10px',
-                        left: `${fieldWidth * index + 30}px`,
-                        width: `${fieldWidth - 60}px`,
+                        left: `${fieldWidth * index + 10}px`,
+                        width: `${fieldWidth - 20}px`,
                         transform: `translateX(${position * fieldWidth}px)`,
                         color: `${element.inverse ? '#666666' : '#26272B'}`,
                       }}
@@ -312,7 +322,9 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
                   ref={timelineRef}
                   style={{
                     width: `${update.length * fieldWidth}px`,
-                    height: `${getDuration(maxDate - minDate) * proportion + (days + 1) * 20}px`,
+                    height: `${
+                      (getDuration(maxDate - minDate) * proportion + (days + 1) * 20) * zoomParam
+                    }px`,
                     transform: `translateX(${position * fieldWidth}px)`,
                   }}
                 ></div>
@@ -327,7 +339,7 @@ const VerticalTimeline = ({ data, minDate, maxDate, selectOrder, preloader, mach
         </div>
         {!preloader && update.length > 0 && update.length > 0 && (
           <div className={styles.datetime}>
-            <Timeline minDate={minDate} maxDate={maxDate} />
+            <Timeline minDate={minDate} maxDate={maxDate} zoomParam={zoomParam} />
           </div>
         )}
       </div>

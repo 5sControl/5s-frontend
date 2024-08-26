@@ -7,12 +7,9 @@ import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
 import {
   getFiltrationData,
-  getStatusData,
   getOrderViewOperations,
   patchFiltrationData,
-  patchStatusData,
 } from '../../api/orderView';
-import { getData } from '../../api/reportsRequest';
 import { useCookies } from 'react-cookie';
 import { getSelectedZone } from '../../api/cameraRequest';
 import { Modal } from '../../components/modal';
@@ -20,6 +17,7 @@ import { Cross } from '../../assets/svg/SVGcomponent';
 import { Button } from '../../components/button';
 import { Checkbox } from '../../components/checkbox';
 import { SelectConnection } from './components/selectConnection';
+import { SelectParam } from './components/selectParam';
 
 export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const { filterDateData } = useAppSelector(selectOrdersList);
@@ -32,7 +30,8 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const [cookies] = useCookies(['token']);
   const [workPlaceList, setWorkPlaceList] = useState([]);
   const [changeConnectionHandler, setChangeConnectionHandler] = useState(false);
-  // const [defaultBaseType, setDefaultBaseType] = useState('');
+  const [zoomParam, setZoomParam] = useState(1);
+  const [openZoomModal, setOpenZoomModal] = useState(false);
 
   const changeHandler = (index) => {
     const workplaces = workPlaceList;
@@ -53,13 +52,6 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     setWorkPlaceList([...workplaces]);
   };
 
-  // const changeSelectType = (type) => {
-  //   patchStatusData(window.location.hostname, cookies.token, { type: type }).then((response) => {
-  //     setDefaultBaseType(type);
-  //     setIsOpenFilter(false);
-  //   });
-  // };
-
   const submitHandler = () => {
     patchFiltrationData(window.location.hostname, cookies.token, workPlaceList)
       .then((response) => {
@@ -73,13 +65,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     setEndDate(moment(filterDateData.to).format('YYYY-MM-DD'));
   }, [filterDateData]);
 
-  // console.log(data);
-
   useEffect(() => {
-    // getStatusData(window.location.hostname, cookies.token).then((response) => {
-    //   setDefaultBaseType(response.data.type);
-    // });
-
     getFiltrationData(window.location.hostname, cookies.token)
       .then((res) => {
         const response = res.data;
@@ -100,59 +86,8 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
             endDate
           );
           const dataToD3 = response.data;
-          const dates = [];
-          const currentDate = moment(startDate);
-          while (currentDate.isSameOrBefore(endDate)) {
-            dates.push(currentDate.format('YYYY-MM-DD'));
-            currentDate.add(1, 'day');
-          }
 
-          // const dataPromises = dates.map((date) =>
-          //   getData(
-          //     window.location.hostname,
-          //     cookies.token,
-          //     date,
-          //     '06:00:00',
-          //     '20:00:00',
-          //     'machine_control'
-          //   )
-          // );
-          const dataPromises = [];
-
-          const responses = await Promise.all(dataPromises);
-          const data = responses.flatMap((response) =>
-            response.data
-              .filter((e) => e.extra?.zoneId)
-              .map((el) => ({
-                id: el.extra?.zoneId,
-                zoneId: el.extra?.zoneId,
-                zoneName: el.extra.zoneName,
-                sTime: el.start_tracking,
-                eTime: el.stop_tracking,
-                camera: el.camera?.id,
-                cameraName: el.camera?.name,
-                algorithm: el.algorithm?.name,
-              }))
-          );
-
-          const grouped = data.reduce((acc, obj) => {
-            const zoneName = obj.zoneName.trim();
-            if (acc[zoneName]) {
-              acc[zoneName].push(obj);
-            } else {
-              acc[zoneName] = [obj];
-            }
-            return acc;
-          }, {});
-
-          const answer = Object.entries(grouped).map(([zoneName, zoneData]) => ({
-            inverse: true,
-            oprName: zoneName,
-            oprs: zoneData,
-            zoneId: zoneData[0].zoneId,
-          }));
-
-          const newDataPromises = answer.map(async (zone) => {
+          const newDataPromises = dataToD3.map(async (zone) => {
             try {
               const res = await getSelectedZone(
                 window.location.hostname,
@@ -205,8 +140,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
                 };
               } else {
                 console.error(error);
-                // Обработка других ошибок
-                throw error; // Перебросить ошибку для дальнейшей обработки
+                throw error;
               }
             }
           });
@@ -222,6 +156,10 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
       fetchData();
     }
   }, [endDate, startDate, isOpenFilter]);
+
+  const handleZoomParamChange = (value) => {
+    setZoomParam(parseInt(value));
+  };
 
   return (
     <>
@@ -241,6 +179,12 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
             selectOrder={selectOrder}
             preloader={preloader}
             machineData={machineData}
+            zoomParam={zoomParam}
+          />
+          <SelectParam
+            options={['1x', '2x', '4x', '8x', '16x']}
+            selectedValue={`${zoomParam}x`}
+            onChange={handleZoomParamChange}
           />
         </div>
       )}
@@ -263,8 +207,8 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
                     <li key={index}>
                       <Checkbox
                         id={index}
-                        name={`${place.name}`}
-                        label={`${place.name}`}
+                        name={place.name}
+                        label={place.name}
                         isChecked={place.is_active}
                         onChange={() => changeHandler(index)}
                       />

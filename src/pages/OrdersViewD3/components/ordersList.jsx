@@ -47,9 +47,8 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate, re
                   String(item.orId).toLowerCase().includes(searchText.toLowerCase()) && (
                     <div
                       key={index}
-                      className={`${styles.orders__item} ${
-                        selectOrder === item.orId ? styles.select : ''
-                      }`}
+                      className={`${styles.orders__item} 
+                      ${selectOrder === item.orId ? styles.select : ''}`}
                       onClick={() => setSelectOrder(item.orId)}
                     >
                       {`№${item.orId}`}

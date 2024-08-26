@@ -2,15 +2,28 @@ import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import moment from 'moment';
 
-const Timeline = ({ minDate, maxDate }) => {
+const Timeline = ({ minDate, maxDate, zoomParam }) => {
   const svgRef = useRef(null);
-
   function getDuration(milli) {
     let minutes = Math.floor(milli / 60000);
     let hours = Math.round(minutes / 60);
     let days = Math.round(hours / 24);
-    let size = days > 1 ? 400 : window.innerHeight - 190;
+    let size = days > 1 ? 400 : window.innerHeight - 188;
     return days * size;
+  }
+
+  function calcTimeInterval(d3) {
+    switch (zoomParam) {
+      case 1:
+        return d3.timeHour.every(1);
+      case 2:
+        return d3.timeMinute.every(30);
+      case 4:
+        return d3.timeMinute.every(10);
+      case 8:
+      case 16:
+        return d3.timeMinute.every(5);
+    }
   }
   const days = moment(maxDate).diff(minDate, 'days');
   const proportion = 1 - Math.abs((days * 10) / ((days + 1) * 24 - 10));
@@ -25,7 +38,7 @@ const Timeline = ({ minDate, maxDate }) => {
     // Определение размеров графика
     const margin = { top: 10, right: 20, bottom: 0, left: 60 };
     const width = 100 - margin.left - margin.right;
-    const height = getDuration(maxDate - minDate) * proportion;
+    const height = getDuration(maxDate - minDate) * proportion * zoomParam;
     // Создание шкалы времени для оси Y - первый диапазон
     const parseTime = d3.timeParse('%Y-%m-%dT%H:%M:%S');
 
@@ -45,9 +58,9 @@ const Timeline = ({ minDate, maxDate }) => {
       // Создание оси Y для первого диапазона
       const yAxis1 = d3
         .axisRight(yScale1)
-        .ticks(d3.timeHour.every(1))
+        .ticks(calcTimeInterval(d3))
         .tickFormat((date, index) => {
-          if (index === 0 || index === 14) {
+          if (index === 0) {
             return d3.timeFormat('%d.%m, %H:%M')(date);
           } else {
             return d3.timeFormat('%H:%M')(date);
