@@ -1,7 +1,6 @@
 import moment from 'moment';
 import styles from './operation.module.scss';
 import { useRef } from 'react';
-import { getOrderViewOperation } from '../../../api/orderView';
 
 import { useOutsideClick } from '../../../functions/useOutsideClick';
 
@@ -19,21 +18,7 @@ export const Operation = ({ operation, x, y, onClose, setOperationOV }) => {
   useOutsideClick(refOperation, () => onClose());
 
   const operationClickHandler = (id) => {
-    if (id) {
-      getOrderViewOperation(window.location.hostname, '', id)
-        .then((res) => {
-          if (Object.keys(res.data).length) {
-            setOperationOV(res.data);
-          } else {
-            setOperationOV(`Operation #${id} was not found in the database`);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      setOperationOV(operation);
-    }
+    setOperationOV(operation);
   };
 
   return (
@@ -45,7 +30,7 @@ export const Operation = ({ operation, x, y, onClose, setOperationOV }) => {
         {operation.oprName && <span className={styles.name}>{operation.oprName}</span>}
         <div>
           {operation.video && operation.video.status ? (
-            <span onClick={() => operationClickHandler(operation.id)} className={styles.video}>
+            <span onClick={() => operationClickHandler(operation.orId)} className={styles.video}>
               <VideoCamera width="16px" color="#fe6100" />
               &nbsp; Open Video
             </span>
