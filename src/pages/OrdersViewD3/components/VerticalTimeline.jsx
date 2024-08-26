@@ -25,7 +25,7 @@ const VerticalTimeline = ({
   selectOrder,
   preloader,
   machineData,
-  scaleParam,
+  zoomParam,
 }) => {
   const [update, setUpdate] = useState(data);
   const [operationOV, setOperationOV] = useState(false);
@@ -143,7 +143,8 @@ const VerticalTimeline = ({
   useEffect(() => {
     if (timelineRef.current && update.length > 0 && !preloader) {
       const margin = { top: 10, right: 0, bottom: 0, left: 0 };
-      const height = getDuration(maxDate - minDate) * scaleParam;
+      const proportion = 1 - Math.abs((days * 10) / ((days + 1) * 24 - 10));
+      const height = getDuration(maxDate - minDate) * proportion * zoomParam + (days + 1) * 18;
       const width = update.length * fieldWidth;
 
       const svg = d3
@@ -198,7 +199,7 @@ const VerticalTimeline = ({
             .attr('height', 19)
             .attr('fill', '#f5f5f5')
             .attr('transform', (d, i) => {
-              return `translate(0, ${(ind + 1) * (400 * proportion) + ind * 18} )`;
+              return `translate(0, ${(ind + 1) * (400 * proportion * zoomParam) + ind * 18} )`;
             })
             .attr('display', days > 0 ? 'block' : 'none');
         });
@@ -240,7 +241,7 @@ const VerticalTimeline = ({
             return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d)) < 0
               ? 0
               : (y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d))) *
-              scaleParam;
+                  zoomParam;
           })
           .attr('fill', '#87BC45')
           .attr('opacity', (d) => (selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4))
@@ -283,8 +284,9 @@ const VerticalTimeline = ({
                         color: `${element.inverse ? '#666666' : '#26272B'}`,
                       }}
                       // eslint-disable-next-line react/no-unknown-property
-                      titles={`${element.workplaceName ? element.workplaceName : ''} ${element.oprName
-                        }`}
+                      titles={`${element.workplaceName ? element.workplaceName : ''} ${
+                        element.oprName
+                      }`}
                     >
                       {/* {element.workplaceName
                         ? `${element.workplaceName.slice(0, 2)}. ${element.oprName.slice(0, 4)}`
@@ -320,8 +322,9 @@ const VerticalTimeline = ({
                   ref={timelineRef}
                   style={{
                     width: `${update.length * fieldWidth}px`,
-                    height: `${(getDuration(maxDate - minDate) * proportion + (days + 1) * 20) * scaleParam
-                      }px`,
+                    height: `${
+                      (getDuration(maxDate - minDate) * proportion + (days + 1) * 20) * zoomParam
+                    }px`,
                     transform: `translateX(${position * fieldWidth}px)`,
                   }}
                 ></div>
@@ -336,7 +339,7 @@ const VerticalTimeline = ({
         </div>
         {!preloader && update.length > 0 && update.length > 0 && (
           <div className={styles.datetime}>
-            <Timeline minDate={minDate} maxDate={maxDate} scaleParam={scaleParam} />
+            <Timeline minDate={minDate} maxDate={maxDate} zoomParam={zoomParam} />
           </div>
         )}
       </div>

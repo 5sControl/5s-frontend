@@ -17,6 +17,7 @@ import { Cross } from '../../assets/svg/SVGcomponent';
 import { Button } from '../../components/button';
 import { Checkbox } from '../../components/checkbox';
 import { SelectConnection } from './components/selectConnection';
+import { SelectParam } from './components/selectParam';
 
 export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const { filterDateData } = useAppSelector(selectOrdersList);
@@ -26,11 +27,11 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const [startDate, setStartDate] = useState(false);
   const [endDate, setEndDate] = useState(false);
   const [preloader, setPreloader] = useState(false);
-  const [selectedTimeRange, setSelectedTimeRange] = useState('1 day'); // Default time range
   const [cookies] = useCookies(['token']);
   const [workPlaceList, setWorkPlaceList] = useState([]);
   const [changeConnectionHandler, setChangeConnectionHandler] = useState(false);
-  const [scaleParam, setScaleParam] = useState(10);
+  const [zoomParam, setZoomParam] = useState(1);
+  const [openZoomModal, setOpenZoomModal] = useState(false);
 
   const changeHandler = (index) => {
     const workplaces = workPlaceList;
@@ -156,32 +157,12 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     }
   }, [endDate, startDate, isOpenFilter]);
 
-  const handleTimeRangeChange = (event) => {
-    setSelectedTimeRange(event.target.value);
-  };
-
-  const getMaxDate = () => {
-    switch (selectedTimeRange) {
-      case '1 hour':
-        return new Date(`${startDate}T07:00:00.000`);
-      case '3 hours':
-        return new Date(`${startDate}T09:00:00.000`);
-      case '1 day':
-      default:
-        return new Date(`${endDate}T20:00:00.000`);
-    }
+  const handleZoomParamChange = (value) => {
+    setZoomParam(parseInt(value));
   };
 
   return (
     <>
-      <div>
-        <label htmlFor="timeRange">Select Time Range: </label>
-        <select id="timeRange" value={selectedTimeRange} onChange={handleTimeRangeChange}>
-          <option value="1 day">1 day</option>
-          <option value="3 hours">3 hours</option>
-          <option value="1 hour">1 hour</option>
-        </select>
-      </div>
       {filterDateData && endDate && startDate && (
         <div className={styles.fullScreen}>
           <OrdersList
@@ -194,11 +175,16 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
           <VerticalTimeline
             data={data}
             minDate={new Date(`${startDate}T06:00:00.000`)}
-            maxDate={getMaxDate()}
+            maxDate={new Date(`${endDate}T20:00:00.000`)}
             selectOrder={selectOrder}
             preloader={preloader}
             machineData={machineData}
-            scaleParam={scaleParam}
+            zoomParam={zoomParam}
+          />
+          <SelectParam
+            options={['1x', '2x', '4x', '8x', '16x']}
+            selectedValue={`${zoomParam}x`}
+            onChange={handleZoomParamChange}
           />
         </div>
       )}
