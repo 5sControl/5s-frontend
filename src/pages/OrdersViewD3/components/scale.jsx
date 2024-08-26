@@ -23,6 +23,8 @@ const Timeline = ({ minDate, maxDate, zoomParam }) => {
       case 8:
       case 16:
         return d3.timeMinute.every(5);
+      case 32:
+        return d3.timeMinute.every(1);
     }
   }
   const days = moment(maxDate).diff(minDate, 'days');
@@ -38,7 +40,7 @@ const Timeline = ({ minDate, maxDate, zoomParam }) => {
     // Определение размеров графика
     const margin = { top: 10, right: 20, bottom: 0, left: 60 };
     const width = 100 - margin.left - margin.right;
-    const height = getDuration(maxDate - minDate) * proportion * zoomParam;
+    const height = (50400 * zoomParam) / 32;
     // Создание шкалы времени для оси Y - первый диапазон
     const parseTime = d3.timeParse('%Y-%m-%dT%H:%M:%S');
 

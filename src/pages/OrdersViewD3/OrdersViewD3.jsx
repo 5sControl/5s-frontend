@@ -182,7 +182,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
             zoomParam={zoomParam}
           />
           <SelectParam
-            options={['1x', '2x', '4x', '8x', '16x']}
+            options={['1x', '2x', '4x', '8x', '16x', '32x']}
             selectedValue={`${zoomParam}x`}
             onChange={handleZoomParamChange}
           />
