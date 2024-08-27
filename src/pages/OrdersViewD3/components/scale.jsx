@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import moment from 'moment';
 
-const Timeline = ({ minDate, maxDate, zoomParam }) => {
+const Timeline = ({ minDate, maxDate, minTime, maxTime, zoomParam }) => {
   const svgRef = useRef(null);
   function getDuration(milli) {
     let minutes = Math.floor(milli / 60000);
@@ -28,7 +28,10 @@ const Timeline = ({ minDate, maxDate, zoomParam }) => {
     }
   }
   const days = moment(maxDate).diff(minDate, 'days');
-  const proportion = 1 - Math.abs((days * 10) / ((days + 1) * 24 - 10));
+  const minutes = moment(maxTime).diff(minTime, 'minutes');
+  const minDateTime = minTime.toISOString().split('T')[1];
+  const maxDateTime = maxTime.toISOString().split('T')[1];
+  const proportion = 1;
   useEffect(() => {
     const dateArray = [];
     const currentDate = new Date(minDate);
@@ -40,21 +43,24 @@ const Timeline = ({ minDate, maxDate, zoomParam }) => {
     // Определение размеров графика
     const margin = { top: 10, right: 20, bottom: 0, left: 60 };
     const width = 100 - margin.left - margin.right;
-    const height = (50400 * zoomParam) / 32;
+    const height = (minutes * 60 * zoomParam) / 32;
     // Создание шкалы времени для оси Y - первый диапазон
-    const parseTime = d3.utcParse('%Y-%m-%dT%H:%M:%S.%LZ');
+    const parseTime = d3.timeParse('%Y-%m-%dT%H:%M:%S');
 
     const svg = d3
       .select(svgRef.current)
       .attr('width', width + margin.left + margin.right)
-      .attr('height', height)
+      .attr('height', height + 2 * margin.top + days * 18)
       .append('g')
       .attr('transform', `translate(5,${margin.top})`);
 
     for (let i = 0; i < dateArray.length; i++) {
       const yScale1 = d3
         .scaleTime()
-        .domain([minDate, maxDate])
+        .domain([
+          new Date(`${dateArray[i]}T${minDateTime}`),
+          new Date(`${dateArray[i]}T${maxDateTime}`),
+        ])
         .range([0, height / dateArray.length]);
 
       // Создание оси Y для первого диапазона
@@ -89,7 +95,7 @@ const Timeline = ({ minDate, maxDate, zoomParam }) => {
     return () => {
       d3.select(svgRef.current).selectAll('*').remove();
     };
-  }, [maxDate, minDate, proportion]);
+  }, [maxDate, minDate, minTime, maxTime, proportion]);
 
   return <svg ref={svgRef}></svg>;
 };

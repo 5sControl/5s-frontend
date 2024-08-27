@@ -89,68 +89,68 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
           );
           const dataToD3 = response.data;
 
-          const newDataPromises = dataToD3.map(async (zone) => {
-            try {
-              const res = await getSelectedZone(
-                window.location.hostname,
-                cookies.token,
-                zone.zoneId
-              );
-              const oper = zone.oprs.reverse().map((operation, index, array) => ({
-                zoneId: operation.zoneId,
-                orId: operation.orId,
-                camera: operation.camera,
-                cameraName: operation.cameraName,
-                algorithm: operation.algorithm,
-                workplaceName: res?.data?.workplace ? res.data.workplace : '',
-                sTime: new Date(operation.eTime).valueOf(),
-                eTime:
-                  index < array.length - 1
-                    ? new Date(array[index + 1].sTime).valueOf()
-                    : new Date(operation.eTime).valueOf(),
-              }));
-              return {
-                inverse: true,
-                oprName: zone.oprName,
-                oprTypeID: res?.data?.index_workplace ? res.data.index_workplace : '',
-                workplaceID: res?.data?.index_workplace ? res.data.index_workplace : '',
-                workplaceName: res?.data?.workplace ? res.data.workplace : '',
-                oprs: oper,
-              };
-            } catch (error) {
-              if (error) {
-                const oper = zone.oprs.reverse().map((operation, index, array) => ({
-                  zoneId: operation.zoneId,
-                  orId: operation.orId,
-                  camera: operation.camera,
-                  cameraName: operation.cameraName,
-                  algorithm: operation.algorithm,
-                  workplaceName: '',
-                  sTime: new Date(operation.eTime).valueOf(),
-                  eTime:
-                    index < array.length - 1
-                      ? new Date(array[index + 1].sTime).valueOf()
-                      : new Date(operation.eTime).valueOf(),
-                }));
-                return {
-                  inverse: true,
-                  oprName: zone.oprName,
-                  oprTypeID: zone.oprTypeID,
-                  workplaceID: '',
-                  workplaceName: '',
-                  oprs: oper,
-                };
-              } else {
-                console.error(error);
-                throw error;
-              }
-            }
-          });
+          // const newDataPromises = dataToD3.map(async (zone) => {
+          //   try {
+          //   const res = await getSelectedZone(
+          //     window.location.hostname,
+          //     cookies.token,
+          //     zone.zoneId
+          //   );
+          //   const oper = zone.oprs.reverse().map((operation, index, array) => ({
+          //     zoneId: operation.zoneId,
+          //     orId: operation.orId,
+          //     camera: operation.camera,
+          //     cameraName: operation.cameraName,
+          //     algorithm: operation.algorithm,
+          //     workplaceName: res?.data?.workplace ? res.data.workplace : '',
+          //     sTime: new Date(operation.eTime).valueOf(),
+          //     eTime:
+          //       index < array.length - 1
+          //         ? new Date(array[index + 1].sTime).valueOf()
+          //         : new Date(operation.eTime).valueOf(),
+          //   }));
+          //   return {
+          //     inverse: true,
+          //     oprName: zone.oprName,
+          //     oprTypeID: res?.data?.index_workplace ? res.data.index_workplace : '',
+          //     workplaceID: res?.data?.index_workplace ? res.data.index_workplace : '',
+          //     workplaceName: res?.data?.workplace ? res.data.workplace : '',
+          //     oprs: oper,
+          //   };
+          // } catch (error) {
+          //     if (error) {
+          //       const oper = zone.oprs.reverse().map((operation, index, array) => ({
+          //         zoneId: operation.zoneId,
+          //         orId: operation.orId,
+          //         camera: operation.camera,
+          //         cameraName: operation.cameraName,
+          //         algorithm: operation.algorithm,
+          //         workplaceName: '',
+          //         sTime: new Date(operation.eTime).valueOf(),
+          //         eTime:
+          //           index < array.length - 1
+          //             ? new Date(array[index + 1].sTime).valueOf()
+          //             : new Date(operation.eTime).valueOf(),
+          //       }));
+          //       return {
+          //         inverse: true,
+          //         oprName: zone.oprName,
+          //         oprTypeID: zone.oprTypeID,
+          //         workplaceID: '',
+          //         workplaceName: '',
+          //         oprs: oper,
+          //       };
+          //     } else {
+          //       console.error(error);
+          //       throw error;
+          //     }
+          //   }
+          // });
 
-          const newData = await Promise.all(newDataPromises);
+          // const newData = await Promise.all(newDataPromises);
           setPreloader(false);
           setData(dataToD3);
-          setMachineData(newData);
+          // setMachineData(newData);
         } catch (error) {
           console.log(error);
         }
@@ -164,12 +164,10 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   };
 
   const handleMinDateTimeChange = (event) => {
-    console.log('min', event.target.value);
     setMinDateTime(event.target.value);
   };
 
   const handleMaxDateTimeChange = (event) => {
-    console.log('max', event.target.value);
     setMaxDateTime(event.target.value);
   };
 
@@ -188,6 +186,8 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
             data={data}
             minDate={new Date(`${startDate}T${minDateTime}:00.000`)}
             maxDate={new Date(`${endDate}T${maxDateTime}:00.000`)}
+            minTime={new Date(`${startDate}T${minDateTime}:00.000`)}
+            maxTime={new Date(`${startDate}T${maxDateTime}:00.000`)}
             selectOrder={selectOrder}
             preloader={preloader}
             machineData={machineData}

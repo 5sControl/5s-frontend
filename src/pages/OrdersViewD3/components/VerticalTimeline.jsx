@@ -22,6 +22,8 @@ const VerticalTimeline = ({
   data,
   minDate,
   maxDate,
+  minTime,
+  maxTime,
   selectOrder,
   preloader,
   machineData,
@@ -30,12 +32,13 @@ const VerticalTimeline = ({
   const [update, setUpdate] = useState(data);
   const [operationOV, setOperationOV] = useState(false);
   const days = moment(maxDate).diff(minDate, 'days');
-  const proportion = 1 - Math.abs((days * 10) / ((days + 1) * 24 - 10));
+  const minutes = moment(maxTime).diff(minTime, 'minutes');
+  const proportion = 1;
   const dateArray = [];
   const currentDate = new Date(minDate);
 
   while (currentDate <= maxDate) {
-    dateArray.push(currentDate.toISOString());
+    dateArray.push(currentDate.toISOString().split('T')[0]);
     currentDate.setDate(currentDate.getDate() + 1);
   }
 
@@ -144,8 +147,8 @@ const VerticalTimeline = ({
   useEffect(() => {
     if (timelineRef.current && update.length > 0 && !preloader) {
       const margin = { top: 10, right: 0, bottom: 0, left: 0 };
-      const proportion = 1 - Math.abs((days * 10) / ((days + 1) * 24 - 10));
-      const height = (50400 * zoomParam) / 32;
+      const proportion = 1;
+      const height = (minutes * 60 * zoomParam) / 32 + 10 + days * 10;
       const width = update.length * fieldWidth;
 
       const svg = d3
@@ -162,10 +165,9 @@ const VerticalTimeline = ({
 
       const y = d3
         .scaleTime()
-        .domain([minDate, maxDate])
+        .domain([minTime, maxTime])
         .range([0, height + days * 1.8]);
 
-      // Добавление серых блоков для заполнения разницы
       update.forEach((element, index) => {
         const greyBars = svg
           .selectAll('.grey-bar' + index)
@@ -197,19 +199,29 @@ const VerticalTimeline = ({
             .attr('x', index * fieldWidth + 35)
             .attr('y', 0)
             .attr('width', fieldWidth - 70)
-            .attr('height', height)
+            .attr('height', 10)
             .attr('fill', '#f5f5f5')
-            // .attr('transform', (d, i) => {
-            //   return `translate(0, ${(ind + 1) * (400 * proportion * zoomParam) + ind * 18} )`;
-            // })
+            .attr('transform', (d, i) => {
+              return `translate(0, ${((ind + 1) * height) / dateArray.length + ind * 10} )`;
+            })
             .attr('display', days > 0 ? 'block' : 'none');
         });
       });
 
       update.forEach((element, index) => {
+        const filteredData = element.oprs.filter((d) => {
+          const dTime = moment(d.sTime);
+          const dHour = dTime.hour();
+          const dMinute = dTime.minute();
+          const maxHour = moment(maxTime).hour();
+          const maxMinute = moment(maxTime).minute();
+
+          return dHour < maxHour || (dHour === maxHour && dMinute < maxMinute);
+        });
+
         const bars = svg
           .selectAll('.timeline-bar' + index)
-          .data(() => element.oprs)
+          .data(filteredData)
           .enter()
           .append('g')
           .attr('class', 'timeline-bar' + index)
@@ -218,7 +230,7 @@ const VerticalTimeline = ({
             const newDate = moment(d.sTime)
               .subtract(9 * diff, 'hours')
               .format('YYYY-MM-DD HH:mm:ss.SSSSSS');
-            return `translate(0, ${y(parseDate(newDate))})`;
+            return `translate(0, ${y(parseDate(newDate)) / dateArray.length})`;
           })
           .on('mouseover', function () {
             d3.select(this).select('rect').attr('opacity', 1).attr('fill', '#518722');
@@ -252,7 +264,19 @@ const VerticalTimeline = ({
     return () => {
       d3.select(timelineRef.current).selectAll('*').remove();
     };
-  }, [minDate, maxDate, selectOrder, timelineRef, update, dateArray, proportion, days, preloader]);
+  }, [
+    minDate,
+    maxDate,
+    minTime,
+    maxTime,
+    selectOrder,
+    timelineRef,
+    update,
+    dateArray,
+    proportion,
+    days,
+    preloader,
+  ]);
 
   useEffect(() => {
     setPosition(0);
@@ -318,8 +342,7 @@ const VerticalTimeline = ({
                   ref={timelineRef}
                   style={{
                     width: `${update.length * fieldWidth}px`,
-                    height: `${(50400 * zoomParam) / 32
-                      }px`,
+                    height: `${(minutes * 60 * zoomParam) / 32 + 10 + days * 10}px`,
                     transform: `translateX(${position * fieldWidth}px)`,
                   }}
                 ></div>
@@ -334,7 +357,13 @@ const VerticalTimeline = ({
         </div>
         {!preloader && update.length > 0 && update.length > 0 && (
           <div className={styles.datetime}>
-            <Timeline minDate={minDate} maxDate={maxDate} zoomParam={zoomParam} />
+            <Timeline
+              minDate={minDate}
+              maxDate={maxDate}
+              minTime={minTime}
+              maxTime={maxTime}
+              zoomParam={zoomParam}
+            />
           </div>
         )}
       </div>
