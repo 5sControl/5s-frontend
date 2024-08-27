@@ -9,7 +9,7 @@ export type DatabaseInfo = {
   is_active: boolean;
   host: string;
   password: string;
-  port: number | null; 
+  port: number | null;
 };
 
 export type DataBaseResponse = {

@@ -18,6 +18,7 @@ import { Button } from '../../components/button';
 import { Checkbox } from '../../components/checkbox';
 import { SelectConnection } from './components/selectConnection';
 import { SelectParam } from './components/selectParam';
+import { TimePicker } from '../../components/timePicker/timePicker';
 
 export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const { filterDateData } = useAppSelector(selectOrdersList);
@@ -31,7 +32,8 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const [workPlaceList, setWorkPlaceList] = useState([]);
   const [changeConnectionHandler, setChangeConnectionHandler] = useState(false);
   const [zoomParam, setZoomParam] = useState(1);
-  const [openZoomModal, setOpenZoomModal] = useState(false);
+  const [minDateTime, setMinDateTime] = useState('06:00');
+  const [maxDateTime, setMaxDateTime] = useState('20:00');
 
   const changeHandler = (index) => {
     const workplaces = workPlaceList;
@@ -161,6 +163,16 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     setZoomParam(parseInt(value));
   };
 
+  const handleMinDateTimeChange = (event) => {
+    console.log('min', event.target.value);
+    setMinDateTime(event.target.value);
+  };
+
+  const handleMaxDateTimeChange = (event) => {
+    console.log('max', event.target.value);
+    setMaxDateTime(event.target.value);
+  };
+
   return (
     <>
       {filterDateData && endDate && startDate && (
@@ -174,18 +186,32 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
           />
           <VerticalTimeline
             data={data}
-            minDate={new Date(`${startDate}T06:00:00.000`)}
-            maxDate={new Date(`${endDate}T20:00:00.000`)}
+            minDate={new Date(`${startDate}T${minDateTime}:00.000`)}
+            maxDate={new Date(`${endDate}T${maxDateTime}:00.000`)}
             selectOrder={selectOrder}
             preloader={preloader}
             machineData={machineData}
             zoomParam={zoomParam}
           />
-          <SelectParam
-            options={['1x', '2x', '4x', '8x', '16x', '32x']}
-            selectedValue={`${zoomParam}x`}
-            onChange={handleZoomParamChange}
-          />
+          <div className={styles.paramInputs}>
+            <SelectParam
+              options={['1x', '2x', '4x', '8x', '16x', '32x']}
+              selectedValue={`${zoomParam}x`}
+              onChange={handleZoomParamChange}
+            />
+            <TimePicker
+              label="Start time"
+              id="minDateTime"
+              value={minDateTime}
+              onValueChange={handleMinDateTimeChange}
+            />
+            <TimePicker
+              label="End time"
+              id="maxDateTime"
+              value={maxDateTime}
+              onValueChange={handleMaxDateTimeChange}
+            />
+          </div>
         </div>
       )}
       {isOpenFilter && (

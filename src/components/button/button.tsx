@@ -13,6 +13,7 @@ type PropsType = {
   IconRight?: React.FC<React.SVGProps<SVGSVGElement>>;
   iconColor?: string;
   className?: string;
+  stylesClassName?: string;
   target?: string;
   download?: string;
   id?: string;
@@ -22,6 +23,7 @@ type PropsType = {
 export const Button: React.FC<PropsType> = ({
   variant = 'contained',
   className,
+  stylesClassName,
   type = 'button',
   text,
   disabled = false,
@@ -39,9 +41,8 @@ export const Button: React.FC<PropsType> = ({
     href ? 'a' : 'button',
     {
       type,
-      className: `${styles[variant]} ${disabled ? styles.disabled : ''} ${text ? styles.gap : ''} ${
-        className ?? ''
-      }`,
+      className: `${styles[variant]} ${disabled ? styles.disabled : ''} ${text ? styles.gap : ''} 
+      ${stylesClassName ? styles[stylesClassName] : ''} ${className ?? ''}`,
       disabled: disabled,
       onClick: onClick,
       href,

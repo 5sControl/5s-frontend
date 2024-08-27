@@ -42,19 +42,19 @@ const Timeline = ({ minDate, maxDate, zoomParam }) => {
     const width = 100 - margin.left - margin.right;
     const height = (50400 * zoomParam) / 32;
     // Создание шкалы времени для оси Y - первый диапазон
-    const parseTime = d3.timeParse('%Y-%m-%dT%H:%M:%S');
+    const parseTime = d3.utcParse('%Y-%m-%dT%H:%M:%S.%LZ');
 
     const svg = d3
       .select(svgRef.current)
       .attr('width', width + margin.left + margin.right)
-      .attr('height', height + (days + 1) * 18)
+      .attr('height', height)
       .append('g')
       .attr('transform', `translate(5,${margin.top})`);
 
     for (let i = 0; i < dateArray.length; i++) {
       const yScale1 = d3
         .scaleTime()
-        .domain([parseTime(`${dateArray[i]}T06:00:00`), parseTime(`${dateArray[i]}T20:00:00`)])
+        .domain([minDate, maxDate])
         .range([0, height / dateArray.length]);
 
       // Создание оси Y для первого диапазона

@@ -1,12 +1,14 @@
 
 .container {
-  height: 100%;
+  height: 90vh;
+  overflow: scroll;
   width: fit-content;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
   overflow-y: auto;
   transition: all 0.4s;
+  margin-right: 10px;
 }
 
 .header {
@@ -55,7 +57,7 @@
   transform: scaleY(-1);
 }
 .datetime {
-  margin-top: 47px;
+  margin-top: 16px;
   width: 100px;
   z-index: 1;
 }

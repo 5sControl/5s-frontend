@@ -49,7 +49,9 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate, re
                       key={index}
                       className={`${styles.orders__item} 
                       ${selectOrder === item.orId ? styles.select : ''}`}
-                      onClick={() => setSelectOrder(item.orId)}
+                      onClick={() => {
+                        setSelectOrder(item.orId);
+                      }}
                     >
                       {`№${item.orId}`}
                       &nbsp;<span>{` (${convertMillisecondsToTime(item.duration)})`}</span>
