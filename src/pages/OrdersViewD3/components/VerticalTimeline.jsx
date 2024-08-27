@@ -35,7 +35,7 @@ const VerticalTimeline = ({
   const currentDate = new Date(minDate);
 
   while (currentDate <= maxDate) {
-    dateArray.push(currentDate.toISOString().split('T')[0]);
+    dateArray.push(currentDate.toISOString());
     currentDate.setDate(currentDate.getDate() + 1);
   }
 
@@ -74,7 +74,7 @@ const VerticalTimeline = ({
       //  first = first.sort((a, b) => b.oprTypeID - a.oprTypeID);
       //  end = end.sort((a, b) => b.oprTypeID - a.oprTypeID);
       //  setUpdate([...first, ...end].sort((a, b) => (a.oprTypeID > b.oprTypeID ? 1 : -1)));
-      data = data.sort((a, b) => a.oprTypeID - b.oprTypeID);
+      data = data.sort((a, b) => a.oprTypeID - b.oprTypeID); // //////////////////
       setUpdate(data);
     } else {
       setUpdate([]);
@@ -199,6 +199,9 @@ const VerticalTimeline = ({
             .attr('width', fieldWidth - 70)
             .attr('height', height)
             .attr('fill', '#f5f5f5')
+            // .attr('transform', (d, i) => {
+            //   return `translate(0, ${(ind + 1) * (400 * proportion * zoomParam) + ind * 18} )`;
+            // })
             .attr('display', days > 0 ? 'block' : 'none');
         });
       });
@@ -257,44 +260,30 @@ const VerticalTimeline = ({
 
   return (
     <div className={styles.container}>
-      <div className={styles.timelineWrapper}>
-        <div className={styles.wrapper}>
-          {preloader && (
-            <div className={styles.gorilla}>
-              <Preloader />
-            </div>
-          )}
-          <>
-            {!preloader && update.length > 0 && (
-              <div className={styles.content}>
-                <div className={styles.header}>
-                  {update.map((element, index) => (
-                    <div
-                      key={index}
-                      className={`${styles.text} ${styles.tooltip}`}
-                      style={{
-                        position: 'absolute',
-                        top: '10px',
-                        left: `${fieldWidth * index + 10}px`,
-                        width: `${fieldWidth - 20}px`,
-                        transform: `translateX(${position * fieldWidth}px)`,
-                        color: `${element.inverse ? '#666666' : '#26272B'}`,
-                      }}
-                      // eslint-disable-next-line react/no-unknown-property
-                      titles={`${element.workplaceName ? element.workplaceName : ''} ${
-                        element.oprName
-                      }`}
-                    >
-                      {/* {element.workplaceName
+      <div className={styles.header}>
+        {update.map((element, index) => (
+          <div
+            key={index}
+            className={`${styles.text} ${styles.tooltip}`}
+            style={{
+              position: 'absolute',
+              top: '10px',
+              left: `${fieldWidth * index + 10}px`,
+              width: `${fieldWidth - 20}px`,
+              transform: `translateX(${position * fieldWidth}px)`,
+              color: `${element.inverse ? '#666666' : '#26272B'}`,
+            }}
+            // eslint-disable-next-line react/no-unknown-property
+            titles={`${element.workplaceName ? element.workplaceName : ''} ${element.oprName}`}
+          >
+            {/* {element.workplaceName
                         ? `${element.workplaceName.slice(0, 2)}. ${element.oprName.slice(0, 4)}`
                         : `${element.oprName.slice(0, 7)}`}
                       {element.oprName.length < 5 ? '' : '...'} */}
-                      {element.oprName.length > 28
-                        ? element.oprName.slice(0, 28) + '...'
-                        : element.oprName}
-                    </div>
-                  ))}
-                  {/* <div className={styles.prev}>
+            {element.oprName.length > 28 ? element.oprName.slice(0, 28) + '...' : element.oprName}
+          </div>
+        ))}
+        {/* <div className={styles.prev}>
                     <img
                       src={Arrow}
                       alt=""
@@ -314,12 +303,23 @@ const VerticalTimeline = ({
                       onClick={() => positionHandler(-1)}
                     />
                   </div> */}
-                </div>
+      </div>
+      <div className={styles.timelineWrapper}>
+        <div className={styles.wrapper}>
+          {preloader && (
+            <div className={styles.gorilla}>
+              <Preloader />
+            </div>
+          )}
+          <>
+            {!preloader && update.length > 0 && (
+              <div className={styles.content}>
                 <div
                   ref={timelineRef}
                   style={{
                     width: `${update.length * fieldWidth}px`,
-                    height: `${(50400 * zoomParam) / 32}px`,
+                    height: `${(50400 * zoomParam) / 32
+                      }px`,
                     transform: `translateX(${position * fieldWidth}px)`,
                   }}
                 ></div>

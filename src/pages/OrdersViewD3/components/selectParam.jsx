@@ -37,6 +37,7 @@ export const SelectParam = ({ options, selectedValue, onChange }) => {
         onClick={handleToggleOpen}
         iconColor="var(--LowEmphasis)"
         IconRight={isOpen ? ArrowTop : ArrowDown}
+        stylesClassName="fullWidth"
       />
       {isOpen && (
         <ul className={styles.dropdownList}>

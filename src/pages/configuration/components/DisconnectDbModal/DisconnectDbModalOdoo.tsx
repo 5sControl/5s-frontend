@@ -7,10 +7,7 @@ type PropsType = {
   handleClose: () => void;
 };
 
-export const DisconnectDbModal: React.FC<PropsType> = ({
-  dbName,
-  handleClose,
-}) => {
+export const DisconnectDbModal: React.FC<PropsType> = ({ dbName, handleClose }) => {
   return (
     <Modal isOpen={true} handleClose={handleClose} className={styles.modal}>
       <div className={styles.header}>
@@ -24,7 +21,11 @@ export const DisconnectDbModal: React.FC<PropsType> = ({
 
       <div className={styles.buttons}>
         <Button text={'Cancel'} variant="outlined" onClick={handleClose} />
-        <Button text={'Disconnect'} className={styles.buttons_gap} onClick={() => console.log('sdfsdfsf')} />
+        <Button
+          text={'Disconnect'}
+          className={styles.buttons_gap}
+          onClick={() => console.log('sdfsdfsf')}
+        />
       </div>
     </Modal>
   );
