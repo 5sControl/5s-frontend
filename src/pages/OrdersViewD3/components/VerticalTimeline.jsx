@@ -32,7 +32,6 @@ const VerticalTimeline = ({
   const [update, setUpdate] = useState(data);
   const [operationOV, setOperationOV] = useState(false);
   const days = moment(maxDate).diff(minDate, 'days') + 1;
-  console.log(days);
   const minutes = moment(maxTime).diff(minTime, 'minutes');
   const proportion = 1;
   const dateArray = [];
