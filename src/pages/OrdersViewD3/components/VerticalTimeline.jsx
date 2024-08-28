@@ -31,7 +31,7 @@ const VerticalTimeline = ({
 }) => {
   const [update, setUpdate] = useState(data);
   const [operationOV, setOperationOV] = useState(false);
-  const days = moment(maxDate).diff(minDate, 'days');
+  const days = moment(maxDate).diff(minDate, 'days') + 1;
   const minutes = moment(maxTime).diff(minTime, 'minutes');
   const proportion = 1;
   const dateArray = [];
@@ -148,7 +148,7 @@ const VerticalTimeline = ({
     if (timelineRef.current && update.length > 0 && !preloader) {
       const margin = { top: 10, right: 0, bottom: 0, left: 0 };
       const proportion = 1;
-      const height = (minutes * 60 * zoomParam) / 32 + 10 + days * 10;
+      const height = (minutes * 60 * zoomParam * days) / 32 + 10 + days * 10;
       const width = update.length * fieldWidth;
 
       const svg = d3
@@ -204,19 +204,25 @@ const VerticalTimeline = ({
             .attr('transform', (d, i) => {
               return `translate(0, ${((ind + 1) * height) / dateArray.length + ind * 10} )`;
             })
-            .attr('display', days > 0 ? 'block' : 'none');
+            .attr('display', days > 0 ? 'block' : 'none')
+            .attr('z-index', 3);
         });
       });
 
       update.forEach((element, index) => {
+        const maxHour = moment(maxTime).hour();
+        const maxMinute = moment(maxTime).minute();
+        const minHour = moment(minTime).hour();
+        const minMinute = moment(minTime).minute();
         const filteredData = element.oprs.filter((d) => {
           const dTime = moment(d.sTime);
           const dHour = dTime.hour();
           const dMinute = dTime.minute();
-          const maxHour = moment(maxTime).hour();
-          const maxMinute = moment(maxTime).minute();
 
-          return dHour < maxHour || (dHour === maxHour && dMinute < maxMinute);
+          return (
+            (dHour > minHour || (dHour === minHour && dMinute > minMinute)) &&
+            (dHour < maxHour || (dHour === maxHour && dMinute < maxMinute))
+          );
         });
 
         const bars = svg
@@ -228,9 +234,9 @@ const VerticalTimeline = ({
           .attr('transform', (d) => {
             const diff = moment(d.sTime).diff(minDate, 'days');
             const newDate = moment(d.sTime)
-              .subtract(9 * diff, 'hours')
+              .subtract((minHour - maxHour + 24) * diff * 60, 'minutes')
               .format('YYYY-MM-DD HH:mm:ss.SSSSSS');
-            return `translate(0, ${y(parseDate(newDate)) / dateArray.length})`;
+            return `translate(0, ${y(parseDate(newDate)) / days - diff * 10})`;
           })
           .on('mouseover', function () {
             d3.select(this).select('rect').attr('opacity', 1).attr('fill', '#518722');
@@ -253,7 +259,8 @@ const VerticalTimeline = ({
           .attr('height', (d) => {
             return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d)) < 0
               ? 0
-              : y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d));
+              : (y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d))) /
+              dateArray.length;
           })
           .attr('fill', '#87BC45')
           .attr('opacity', (d) => (selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4))
@@ -342,7 +349,7 @@ const VerticalTimeline = ({
                   ref={timelineRef}
                   style={{
                     width: `${update.length * fieldWidth}px`,
-                    height: `${(minutes * 60 * zoomParam) / 32 + 10 + days * 10}px`,
+                    height: `${(minutes * 60 * zoomParam * days) / 32 + 10 + days * 10}px`,
                     transform: `translateX(${position * fieldWidth}px)`,
                   }}
                 ></div>
