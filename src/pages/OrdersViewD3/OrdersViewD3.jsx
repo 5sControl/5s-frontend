@@ -34,6 +34,32 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const [zoomParam, setZoomParam] = useState(1);
   const [minDateTime, setMinDateTime] = useState('06:00');
   const [maxDateTime, setMaxDateTime] = useState('20:00');
+  const minTimeIntervals = {
+    1: {
+      minTimeRange: 4,
+      timeUnits: 'hours',
+    },
+    2: {
+      minTimeRange: 2,
+      timeUnits: 'hours',
+    },
+    4: {
+      minTimeRange: 1,
+      timeUnits: 'hours',
+    },
+    8: {
+      minTimeRange: 30,
+      timeUnits: 'minutes',
+    },
+    16: {
+      minTimeRange: 15,
+      timeUnits: 'minutes',
+    },
+    32: {
+      minTimeRange: 8,
+      timeUnits: 'minutes',
+    },
+  };
 
   const changeHandler = (index) => {
     const workplaces = workPlaceList;
@@ -160,15 +186,34 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   }, [endDate, startDate, isOpenFilter]);
 
   const handleZoomParamChange = (value) => {
-    setZoomParam(parseInt(value));
+    const newZoomParam = parseInt(value);
+    setZoomParam(newZoomParam);
+    checkMinTimeInterval(minDateTime, maxDateTime, newZoomParam);
+  };
+
+  const checkMinTimeInterval = (startTime, endTime, param = zoomParam) => {
+    let { minTimeRange, timeUnits } = minTimeIntervals[param];
+    if (moment(endTime, 'HH:mm').diff(moment(startTime, 'HH:mm'), timeUnits) >= minTimeRange) {
+      return true;
+    } else {
+      setMinDateTime(startTime);
+      setMaxDateTime(moment(startTime, 'HH:mm').add(minTimeRange, timeUnits).format('HH:mm'));
+      return false;
+    }
   };
 
   const handleMinDateTimeChange = (event) => {
-    setMinDateTime(event.target.value);
+    const minTime = event.target.value;
+    if (checkMinTimeInterval(minTime, maxDateTime)) {
+      setMinDateTime(minTime);
+    }
   };
 
   const handleMaxDateTimeChange = (event) => {
-    setMaxDateTime(event.target.value);
+    const maxTime = event.target.value;
+    if (checkMinTimeInterval(minDateTime, maxTime)) {
+      setMaxDateTime(maxTime);
+    }
   };
 
   return (
@@ -211,6 +256,13 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               value={maxDateTime}
               onValueChange={handleMaxDateTimeChange}
             />
+            <div className={styles.minIntervalInfo}>
+              *Minimum interval:
+              <br /> {minTimeIntervals[zoomParam].minTimeRange}{' '}
+              {minTimeIntervals[zoomParam].minTimeRange === 1
+                ? minTimeIntervals[zoomParam].timeUnits.slice(0, -1)
+                : minTimeIntervals[zoomParam].timeUnits}
+            </div>
           </div>
         </div>
       )}
