@@ -160,19 +160,56 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   }, [endDate, startDate, isOpenFilter]);
 
   const handleZoomParamChange = (value) => {
-    setZoomParam(parseInt(value));
+    const newZoomParam = parseInt(value);
+    setZoomParam(newZoomParam);
+    checkMinTimeInterval(minDateTime, maxDateTime, newZoomParam);
+  };
+
+  const checkMinTimeInterval = (startTime, endTime, param = zoomParam) => {
+    let minTimeRange, timeUnits;
+    switch (param) {
+      case 1:
+      case 2:
+      case 4: {
+        minTimeRange = 4 / param;
+        timeUnits = 'hours';
+        break;
+      }
+      case 8: {
+        minTimeRange = 30;
+        timeUnits = 'minutes';
+        break;
+      }
+      case 16: {
+        minTimeRange = 15;
+        timeUnits = 'minutes';
+        break;
+      }
+      case 32: {
+        minTimeRange = 8;
+        timeUnits = 'minutes';
+        break;
+      }
+    }
+    if (moment(endTime, 'HH:mm').diff(moment(startTime, 'HH:mm'), timeUnits) >= minTimeRange) {
+      return true;
+    } else {
+      setMinDateTime(startTime);
+      setMaxDateTime(moment(startTime, 'HH:mm').add(minTimeRange, timeUnits).format('HH:mm'));
+      return false;
+    }
   };
 
   const handleMinDateTimeChange = (event) => {
     const minTime = event.target.value;
-    if (moment(minTime, 'HH:mm').isBefore(moment(maxDateTime, 'HH:mm'))) {
+    if (checkMinTimeInterval(minTime, maxDateTime)) {
       setMinDateTime(minTime);
     }
   };
 
   const handleMaxDateTimeChange = (event) => {
     const maxTime = event.target.value;
-    if (moment(maxTime, 'HH:mm').isAfter(moment(minDateTime, 'HH:mm'))) {
+    if (checkMinTimeInterval(minDateTime, maxTime)) {
       setMaxDateTime(maxTime);
     }
   };
