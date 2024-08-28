@@ -260,7 +260,7 @@ const VerticalTimeline = ({
             return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d)) < 0
               ? 0
               : (y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d))) /
-              dateArray.length;
+                  dateArray.length;
           })
           .attr('fill', '#87BC45')
           .attr('opacity', (d) => (selectOrder.length === 0 || d.orId === selectOrder ? 1 : 0.4))

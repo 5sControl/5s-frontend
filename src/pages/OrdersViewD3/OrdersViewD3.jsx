@@ -164,11 +164,17 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   };
 
   const handleMinDateTimeChange = (event) => {
-    setMinDateTime(event.target.value);
+    const minTime = event.target.value;
+    if (moment(minTime, 'HH:mm').isBefore(moment(maxDateTime, 'HH:mm'))) {
+      setMinDateTime(minTime);
+    }
   };
 
   const handleMaxDateTimeChange = (event) => {
-    setMaxDateTime(event.target.value);
+    const maxTime = event.target.value;
+    if (moment(maxTime, 'HH:mm').isAfter(moment(minDateTime, 'HH:mm'))) {
+      setMaxDateTime(maxTime);
+    }
   };
 
   return (
