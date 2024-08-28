@@ -34,6 +34,32 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const [zoomParam, setZoomParam] = useState(1);
   const [minDateTime, setMinDateTime] = useState('06:00');
   const [maxDateTime, setMaxDateTime] = useState('20:00');
+  const minTimeIntervals = {
+    1: {
+      minTimeRange: 4,
+      timeUnits: 'hours',
+    },
+    2: {
+      minTimeRange: 2,
+      timeUnits: 'hours',
+    },
+    4: {
+      minTimeRange: 1,
+      timeUnits: 'hours',
+    },
+    8: {
+      minTimeRange: 30,
+      timeUnits: 'minutes',
+    },
+    16: {
+      minTimeRange: 15,
+      timeUnits: 'minutes',
+    },
+    32: {
+      minTimeRange: 8,
+      timeUnits: 'minutes',
+    },
+  };
 
   const changeHandler = (index) => {
     const workplaces = workPlaceList;
@@ -166,31 +192,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   };
 
   const checkMinTimeInterval = (startTime, endTime, param = zoomParam) => {
-    let minTimeRange, timeUnits;
-    switch (param) {
-      case 1:
-      case 2:
-      case 4: {
-        minTimeRange = 4 / param;
-        timeUnits = 'hours';
-        break;
-      }
-      case 8: {
-        minTimeRange = 30;
-        timeUnits = 'minutes';
-        break;
-      }
-      case 16: {
-        minTimeRange = 15;
-        timeUnits = 'minutes';
-        break;
-      }
-      case 32: {
-        minTimeRange = 8;
-        timeUnits = 'minutes';
-        break;
-      }
-    }
+    let { minTimeRange, timeUnits } = minTimeIntervals[param];
     if (moment(endTime, 'HH:mm').diff(moment(startTime, 'HH:mm'), timeUnits) >= minTimeRange) {
       return true;
     } else {
@@ -254,6 +256,13 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               value={maxDateTime}
               onValueChange={handleMaxDateTimeChange}
             />
+            <div className={styles.minIntervalInfo}>
+              *Minimum interval:
+              <br /> {minTimeIntervals[zoomParam].minTimeRange}{' '}
+              {minTimeIntervals[zoomParam].minTimeRange === 1
+                ? minTimeIntervals[zoomParam].timeUnits.slice(0, -1)
+                : minTimeIntervals[zoomParam].timeUnits}
+            </div>
           </div>
         </div>
       )}
