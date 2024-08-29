@@ -42,7 +42,7 @@ export const Camera = () => {
     getSelectedCameras(window.location.hostname, cookies.token)
       .then((response) => {
         if (response.data.length > 0) {
-          setCreatedCameras(response.data);
+          setCreatedCameras(response.data.sort((a, b) => a.name.localeCompare(b.name)));
         }
       })
       .catch((error) => setError(error.message));

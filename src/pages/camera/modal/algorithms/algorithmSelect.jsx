@@ -49,7 +49,7 @@ export const AlgorithmSelect = ({
 
     getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
       .then((res) => {
-        setWorkplace(res.data);
+        setWorkplace(res.data.sort((a, b) => a.name.localeCompare(b.name)));
       })
       .catch((err) => {
         console.log(err);
