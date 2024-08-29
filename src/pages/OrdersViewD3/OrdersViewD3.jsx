@@ -202,16 +202,41 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     }
   };
 
+  const checkMinTimeLimit = (minTime) => {
+    let { minTimeRange, timeUnits } = minTimeIntervals[zoomParam];
+    if (moment('23:59', 'HH:mm').diff(moment(minTime, 'HH:mm'), timeUnits) >= minTimeRange)
+      return true;
+    else {
+      setMinDateTime(
+        moment('23:59', 'HH:mm')
+          .add(-1 * minTimeRange, timeUnits)
+          .format('HH:mm')
+      );
+      setMaxDateTime('23:59');
+    }
+  };
+
+  const checkMaxTimeLimit = (maxTime) => {
+    let { minTimeRange, timeUnits } = minTimeIntervals[zoomParam];
+    if (moment(maxTime, 'HH:mm').diff(moment('00:00', 'HH:mm'), timeUnits) >= minTimeRange)
+      return true;
+    else {
+      setMinDateTime('00:00');
+      setMaxDateTime(moment('00:00', 'HH:mm').add(minTimeRange, timeUnits).format('HH:mm'));
+    }
+  };
+
   const handleMinDateTimeChange = (event) => {
     const minTime = event.target.value;
-    if (checkMinTimeInterval(minTime, maxDateTime)) {
+    console.log('minTime', minTime);
+    if (checkMinTimeLimit(minTime) && checkMinTimeInterval(minTime, maxDateTime)) {
       setMinDateTime(minTime);
     }
   };
 
   const handleMaxDateTimeChange = (event) => {
     const maxTime = event.target.value;
-    if (checkMinTimeInterval(minDateTime, maxTime)) {
+    if (checkMaxTimeLimit(maxTime) && checkMinTimeInterval(minDateTime, maxTime)) {
       setMaxDateTime(maxTime);
     }
   };

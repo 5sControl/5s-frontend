@@ -199,10 +199,10 @@ const VerticalTimeline = ({
             .attr('x', index * fieldWidth + 35)
             .attr('y', 0)
             .attr('width', fieldWidth - 70)
-            .attr('height', 10)
+            .attr('height', 12)
             .attr('fill', '#f5f5f5')
             .attr('transform', (d, i) => {
-              return `translate(0, ${((ind + 1) * height) / dateArray.length + ind * 10} )`;
+              return `translate(0, ${((ind + 1) * height) / dateArray.length + ind * 5} )`;
             })
             .attr('display', days > 0 ? 'block' : 'none')
             .attr('z-index', 3);
@@ -260,7 +260,7 @@ const VerticalTimeline = ({
             return y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d)) < 0
               ? 0
               : (y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d))) /
-              dateArray.length;
+                  dateArray.length;
           })
           .attr('fill', '#87BC45')
           .attr('opacity', (d) => (selectOrder.length === 0 || d.orId == selectOrder ? 1 : 0.4))
