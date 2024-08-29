@@ -188,7 +188,11 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const handleZoomParamChange = (value) => {
     const newZoomParam = parseInt(value);
     setZoomParam(newZoomParam);
-    checkMinTimeInterval(minDateTime, maxDateTime, newZoomParam);
+    if (
+      checkMinTimeLimit(minDateTime, newZoomParam) &&
+      checkMaxTimeLimit(maxDateTime, newZoomParam)
+    )
+      checkMinTimeInterval(minDateTime, maxDateTime, newZoomParam);
   };
 
   const checkMinTimeInterval = (startTime, endTime, param = zoomParam) => {
@@ -202,8 +206,8 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     }
   };
 
-  const checkMinTimeLimit = (minTime) => {
-    let { minTimeRange, timeUnits } = minTimeIntervals[zoomParam];
+  const checkMinTimeLimit = (minTime, param = zoomParam) => {
+    let { minTimeRange, timeUnits } = minTimeIntervals[param];
     if (moment('23:59', 'HH:mm').diff(moment(minTime, 'HH:mm'), timeUnits) >= minTimeRange)
       return true;
     else {
@@ -216,8 +220,8 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     }
   };
 
-  const checkMaxTimeLimit = (maxTime) => {
-    let { minTimeRange, timeUnits } = minTimeIntervals[zoomParam];
+  const checkMaxTimeLimit = (maxTime, param = zoomParam) => {
+    let { minTimeRange, timeUnits } = minTimeIntervals[param];
     if (moment(maxTime, 'HH:mm').diff(moment('00:00', 'HH:mm'), timeUnits) >= minTimeRange)
       return true;
     else {
