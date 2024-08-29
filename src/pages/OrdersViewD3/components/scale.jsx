@@ -55,9 +55,15 @@ const Timeline = ({ minDate, maxDate, minTime, maxTime, zoomParam }) => {
       .attr('transform', `translate(5,${margin.top})`);
 
     for (let i = 0; i < dateArray.length; i++) {
+      const tempMinDate = new Date(`${dateArray[i]}T${minDateTime}`);
+      const tempMaxdate = new Date(`${dateArray[i]}T${maxDateTime}`);
       const yScale1 = d3
         .scaleTime()
         .domain([
+          tempMinDate.getDay() === tempMaxdate.getDay()
+            ? tempMinDate
+            : tempMinDate.setDate(tempMinDate.getDate() - 1),
+          tempMaxdate,
           new Date(`${dateArray[i]}T${minDateTime}`),
           new Date(`${dateArray[i]}T${maxDateTime}`),
         ])

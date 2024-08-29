@@ -199,10 +199,10 @@ const VerticalTimeline = ({
             .attr('x', index * fieldWidth + 35)
             .attr('y', 0)
             .attr('width', fieldWidth - 70)
-            .attr('height', 10)
+            .attr('height', 12)
             .attr('fill', '#f5f5f5')
             .attr('transform', (d, i) => {
-              return `translate(0, ${((ind + 1) * height) / dateArray.length + ind * 10} )`;
+              return `translate(0, ${((ind + 1) * height) / dateArray.length + ind * 5} )`;
             })
             .attr('display', days > 0 ? 'block' : 'none')
             .attr('z-index', 3);
@@ -234,7 +234,7 @@ const VerticalTimeline = ({
           .attr('transform', (d) => {
             const diff = moment(d.sTime).diff(minDate, 'days');
             const newDate = moment(d.sTime)
-              .subtract((minHour - maxHour + 24) * diff * 60, 'minutes')
+              .subtract(((minHour - maxHour + 24) * 60 + (minMinute - maxMinute)) * diff, 'minutes')
               .format('YYYY-MM-DD HH:mm:ss.SSSSSS');
             return `translate(0, ${y(parseDate(newDate)) / days - diff * 10})`;
           })
