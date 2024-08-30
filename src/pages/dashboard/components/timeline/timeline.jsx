@@ -117,8 +117,9 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
     const hours = duration.hours();
     const minutes = duration.minutes();
     const seconds = duration.seconds();
-    return `${days ? days + 'days' : ''} ${hours ? hours + 'h' : ''} ${minutes ? minutes + 'min' : ''
-      } ${seconds ? seconds + 'sec' : ''}`;
+    return `${days ? days + 'days' : ''} ${hours ? hours + 'h' : ''} ${
+      minutes ? minutes + 'min' : ''
+    } ${seconds ? seconds + 'sec' : ''}`;
   };
 
   useEffect(() => {
@@ -128,15 +129,15 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
           id: dat.id,
           start: moment(dat.start_tracking).isSame(moment(new Date(startDate)), 'day')
             ? moment
-              .utc(dat.start_tracking)
-              .utcOffset(moment().utcOffset())
-              .format('YYYY-MM-DD HH:mm:ss')
+                .utc(dat.start_tracking)
+                .utcOffset(moment().utcOffset())
+                .format('YYYY-MM-DD HH:mm:ss')
             : moment(startDate).format(`YYYY-MM-DD ${startTime}`),
           stop: moment(dat.stop_tracking).isSame(moment(new Date(startDate)), 'day')
             ? moment
-              .utc(dat.stop_tracking)
-              .utcOffset(moment().utcOffset())
-              .format('YYYY-MM-DD HH:mm:ss')
+                .utc(dat.stop_tracking)
+                .utcOffset(moment().utcOffset())
+                .format('YYYY-MM-DD HH:mm:ss')
             : moment(startDate).format(`YYYY-MM-DD ${endTime}`),
           violation_found: dat.violation_found ? 'red' : 'green',
           algorithm: parsingAlgorithmName(dat.algorithm.name),
@@ -308,7 +309,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
               </div>
 
               {currentReport.extra && currentReport.extra.length > 0 ? (
-                <div className={styles.fullscreen__footer_text}>
+                <div style={{ display: 'none' }} className={styles.fullscreen__footer_text}>
                   <span> Additional:&nbsp;</span>
                   <span
                     className={styles.link}
