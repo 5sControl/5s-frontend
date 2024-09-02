@@ -74,12 +74,12 @@ function Dashboard() {
     update();
     dispatch(addCurrentReport(false));
 
-    const interval = setInterval(() => {
-      update();
-      dispatch(addCurrentReport(false));
-    }, 20000);
+    // const interval = setInterval(() => {
+    //   update();
+    //   dispatch(addCurrentReport(false));
+    // }, 20000);
 
-    return () => clearInterval(interval);
+    // return () => clearInterval(interval);
   }, [selectDate]);
 
   useEffect(() => {
