@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { Modal } from '../modal';
 import styles from './orderOperationDetail.module.scss';
 import { ArrowLeft, ArrowRight, Download } from '../../assets/svg/SVGcomponent';
@@ -22,15 +22,15 @@ function downloadFile(url, filename) {
 export const OrderOperationDetail = ({ operationData, handleClose }) => {
   const [operationDataNew, setOperationDataNew] = useState(operationData);
   const playerRef = useRef(null);
+  const [isReady, setIsReady] = useState(false);
   const handleDownload = () => {
     if (operationDataNew && operationDataNew.video && operationDataNew.video.status) {
-      const videoUrl = `${
-        process.env.REACT_APP_ENV === 'proxy'
-          ? `${process.env.REACT_APP_NGROK}`
-          : process.env.REACT_APP_ENV === 'wify'
+      const videoUrl = `${process.env.REACT_APP_ENV === 'proxy'
+        ? `${process.env.REACT_APP_NGROK}`
+        : process.env.REACT_APP_ENV === 'wify'
           ? `${process.env.REACT_APP_IP_SERVER}`
           : `${location.protocol === 'https:' ? 'https:' : 'http:'}//${window.location.hostname}`
-      }/${operationDataNew?.video.file_name}`; // Замените на ссылку на ваше видео
+        }/${operationDataNew?.video.file_name}`; // Замените на ссылку на ваше видео
 
       downloadFile(videoUrl, operationDataNew.video.file_name);
     }
@@ -62,6 +62,15 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
     });
   };
 
+
+  const handlePlay = useCallback(() => {
+    if (!isReady) {
+      const timeToStart = operationDataNew?.video.video_start_from / 1000;
+      playerRef.current.seekTo(timeToStart, 'seconds');
+      setIsReady(true);
+    }
+  }, [isReady]);
+
   return (
     <Modal
       isOpen={true}
@@ -75,13 +84,11 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
           {operationDataNew && (
             <video
               id="videoPlayer"
-              src={`${`${process.env.REACT_APP_NGROK}api/onvif/video?time=${
-                operationDataNew.sTime
-              }&camera_ip=${operationDataNew.cameraIP}#t=${
-                operationDataNew.video.video_start_from
+              src={`${`${process.env.REACT_APP_NGROK}api/onvif/video?time=${operationDataNew.sTime
+                }&camera_ip=${operationDataNew.cameraIP}#t=${operationDataNew.video.video_start_from
                   ? operationDataNew.video.video_start_from / 1000
                   : 0
-              }`}`}
+                }`}`}
               controls
               autoPlay
             ></video>
@@ -112,13 +119,13 @@ export const OrderOperationDetail = ({ operationData, handleClose }) => {
               forceVideo: true,
             },
           }}
-          url={`${
-            process.env.REACT_APP_ENV === 'proxy'
-              ? `${process.env.REACT_APP_NGROK}`
-              : process.env.REACT_APP_ENV === 'wify'
+          url={`${process.env.REACT_APP_ENV === 'proxy'
+            ? `${process.env.REACT_APP_NGROK}`
+            : process.env.REACT_APP_ENV === 'wify'
               ? `${process.env.REACT_APP_IP_SERVER}`
-              : `http://${window.location.hostname}`
-          }/${operationDataNew?.video.file_name}`}
+              : `${process.env.REACT_APP_NGROK}`
+            }/${operationDataNew?.video.file_name}`}
+          onReady={handlePlay}
         />
       ) : (
         <img alt="no video" src={noVideo} />
