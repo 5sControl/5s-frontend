@@ -242,17 +242,18 @@ const VerticalTimeline = ({
             d3.select(this).select('rect').attr('opacity', 1).attr('fill', '#518722');
           })
           .on('click', function (event, d) {
-            d3.select(this).select('rect').attr('opacity', 1);
+            d3.select(this).select('rect').attr('opacity', 1).attr('fill', '#518722');
             clickHandler(d, event);
           })
           .on('mouseout', function (event, d) {
             d3.select(this)
               .select('rect')
               .attr('opacity', selectOrder.length === 0 || d.orId == selectOrder ? 1 : 0.4)
-              .attr('fill', '#87BC45');
+              .attr('fill', selectOrder.length === 0 || d.orId == selectOrder ? '#518722' : '#87BC45');
           });
         bars
           .append('rect')
+          .attr('class', (d) => `bar-${d.orId}`)
           .attr('x', index * fieldWidth + 35)
           .attr('y', 0)
           .attr('width', fieldWidth - 70)
@@ -262,7 +263,7 @@ const VerticalTimeline = ({
               : (y(parseDate(new Date(d.eTime), d)) - y(parseDate(new Date(d.sTime), d))) /
               dateArray.length;
           })
-          .attr('fill', '#87BC45')
+          .attr('fill', (d) => (selectOrder.length === 0 || d.orId == selectOrder ? '#518722' : '#87BC45'))
           .attr('opacity', (d) => (selectOrder.length === 0 || d.orId == selectOrder ? 1 : 0.4))
           .attr('cursor', 'pointer')
           .attr('z-index', 2);
@@ -290,7 +291,7 @@ const VerticalTimeline = ({
   }, [selectOrder, update]);
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} verticalTimeline`} >
       <div className={styles.header}>
         {update.map((element, index) => (
           <div
@@ -374,26 +375,32 @@ const VerticalTimeline = ({
           </div>
         )}
       </div>
-      {operation && (
-        <Operation
-          operation={operation.data}
-          x={`${operation.x}px`}
-          y={`${operation.y}px`}
-          onClose={() => setOperation(false)}
-          setOperationOV={(e) => setOperationOV(e)}
-        />
-      )}
-      {operationOV && typeof operationOV === 'object' && (
-        <OrderOperationDetail
-          operationData={operationOV}
-          handleClose={() => setOperationOV(false)}
-        />
-      )}
+      {
+        operation && (
+          <Operation
+            operation={operation.data}
+            x={`${operation.x}px`}
+            y={`${operation.y}px`}
+            onClose={() => setOperation(false)}
+            setOperationOV={(e) => setOperationOV(e)}
+          />
+        )
+      }
+      {
+        operationOV && typeof operationOV === 'object' && (
+          <OrderOperationDetail
+            operationData={operationOV}
+            handleClose={() => setOperationOV(false)}
+          />
+        )
+      }
 
-      {operationOV && typeof operationOV === 'string' && (
-        <Notification status={false} message={operationOV} />
-      )}
-    </div>
+      {
+        operationOV && typeof operationOV === 'string' && (
+          <Notification status={false} message={operationOV} />
+        )
+      }
+    </div >
   );
 };
 

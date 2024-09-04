@@ -245,12 +245,28 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     }
   };
 
+  const scrollToBar = (orId) => {
+    if (orId) {
+      setZoomParam(32);
+      setTimeout(() => {
+        const timeline = document.querySelector('.verticalTimeline');
+        const barElement = timeline.querySelector(`.bar-${orId}`);
+        if (barElement) {
+          barElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
+    }
+  };
+
   return (
     <>
       {filterDateData && endDate && startDate && (
         <div className={styles.fullScreen}>
           <OrdersList
-            setSelectOrder={(order) => setSelectOrder(order)}
+            setSelectOrder={(order) => {
+              setSelectOrder(order);
+              scrollToBar(order)
+            }}
             selectOrder={selectOrder}
             startDate={startDate}
             endDate={endDate}
