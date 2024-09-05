@@ -77,7 +77,6 @@ const VerticalTimeline = ({
       //  first = first.sort((a, b) => b.oprTypeID - a.oprTypeID);
       //  end = end.sort((a, b) => b.oprTypeID - a.oprTypeID);
       //  setUpdate([...first, ...end].sort((a, b) => (a.oprTypeID > b.oprTypeID ? 1 : -1)));
-      data = data.sort((a, b) => a.oprTypeID - b.oprTypeID); // //////////////////
       setUpdate(data);
     } else {
       setUpdate([]);
