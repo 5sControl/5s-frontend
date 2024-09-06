@@ -99,49 +99,29 @@ const VerticalTimeline = ({
   };
 
   const clickHandler = (e, event) => {
-    if (e.zoneId) {
-      const buf = {
-        sTime: e.sTime,
-        eTime: e.eTime,
-        cameraIP: e.camera,
-        cameraName: e.cameraName,
-        algorithm: e.algorithm,
-        workplace: e.workplaceName,
-        video: {
-          status: true,
-        },
-      };
-      getVideo(window.location.hostname, {
+    const buf = {
+      sTime: e.sTime,
+      eTime: e.eTime,
+      cameraIP: e.camera,
+      cameraName: e.cameraName,
+      algorithm: e.algorithm,
+      workplace: e.workplaceName,
+      video: {
+        status: true,
+      },
+    };
+    setOperation({
+      data: {
+        ...buf,
         camera_ip: e.camera,
         time: e.sTime,
-      })
-        .then((res) => {
-          setOperation({
-            data: {
-              ...buf,
-              video: res.data,
-            },
-            x: event.pageX,
-            y: event.pageY,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      getOrderViewOperation(window.location.hostname, '', e.id)
-        .then((response) => {
-          setOperation({
-            data: response.data,
-            x: event.pageX,
-            y: event.pageY,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
+        id: e.id,
+        zone: e.zoneId,
+      },
+      x: event.pageX,
+      y: event.pageY,
+    });
+  }
 
   useEffect(() => {
     if (timelineRef.current && update.length > 0 && !preloader) {
@@ -377,11 +357,12 @@ const VerticalTimeline = ({
       {
         operation && (
           <Operation
-            operation={operation.data}
+            content={operation.data}
             x={`${operation.x}px`}
             y={`${operation.y}px`}
             onClose={() => setOperation(false)}
             setOperationOV={(e) => setOperationOV(e)}
+            timelineRef={timelineRef}
           />
         )
       }
