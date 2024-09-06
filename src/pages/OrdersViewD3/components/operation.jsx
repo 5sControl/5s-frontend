@@ -88,6 +88,7 @@ export const Operation = ({ content, x, y, onClose, setOperationOV }) => {
         <span className={styles.name}>{`${operation.frsName} ${operation.lstName}`}</span>
       )}
       <span className={styles.respTime}>{`${moment(operation.sTime).format('HH:mm:ss')} (${duration})`}</span>
+      <span><a href={operation.url} className={styles.link}>Additional</a></span>
       <span className={styles.status}>
         {operation.status === null && <QuestionSquere color={'var(--LowEmphasis)'} />}
         {operation.status && <CheckCircle color={'var(--Green)'} />}
