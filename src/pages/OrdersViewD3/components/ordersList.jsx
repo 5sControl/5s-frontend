@@ -53,7 +53,7 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate, re
                         setSelectOrder(item.orId);
                       }}
                     >
-                      {`№${item.orId}`}
+                      {`#${item.orId}`}
                       &nbsp;<span>{` (${convertMillisecondsToTime(item.duration)})`}</span>
                     </div>
                   )

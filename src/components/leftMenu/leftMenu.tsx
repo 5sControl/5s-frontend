@@ -52,7 +52,7 @@ export const LeftMenu = () => {
       document.title = 'Info';
     }
     if (window.location.pathname === '/') {
-      document.title = '5ControlS';
+      document.title = '5S Control';
     }
   });
 

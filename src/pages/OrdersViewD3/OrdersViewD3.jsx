@@ -81,11 +81,11 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   };
 
   const submitHandler = () => {
-    patchFiltrationData(window.location.hostname, cookies.token, workPlaceList)
-      .then((response) => {
-        setIsOpenFilter();
-      })
-      .catch((error) => console.log(error));
+    // patchFiltrationData(window.location.hostname, cookies.token, workPlaceList)
+    //   .then((response) => {
+    //     setIsOpenFilter();
+    //   })
+    //   .catch((error) => console.log(error));
   };
 
   useEffect(() => {
@@ -96,8 +96,87 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   useEffect(() => {
     getFiltrationData(window.location.hostname, cookies.token)
       .then((res) => {
-        const response = res.data;
+        // const response = res.data;
+        const response = [
+          {
+            'operation_type_id': 40,
+            'name': 'Asset: Coffee Grinder(8). Template: Bean Preparation(18).Step: Grinding(Step2)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 41,
+            'name': 'Asset: Coffee Grinder(8). Template: Bean Preparation(18).Step: Tampering(Step3)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 37,
+            'name': 'Asset: Coffee Machine(7). Template: Beverage Preparation(17).Step: Brewing Coffee(Step1)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 38,
+            'name': 'Asset: Coffee Machine(7). Template: Beverage Preparation(17).Step: Quality Control(Step2)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 39,
+            'name': 'Asset: Coffee Grinder(8). Template: Bean Preparation(18).Step: Weighing(Step1)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 39,
+            'name': 'Asset:  Coffee Machine(7). Template: Bean Preparation(18).Step: Weighing(Step1)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 40,
+            'name': 'Asset:  Coffee Machine(7). Template: Bean Preparation(18).Step: Grinding(Step2)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 41,
+            'name': 'Asset:  Coffee Machine(7). Template: Bean Preparation(18).Step: Tampering(Step3)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 37,
+            'name': 'Asset:  Coffee Machine(7). Template: Beverage Preparation(17).Step: Brewing Coffee(Step1)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 38,
+            'name': 'Asset:  Coffee Machine(7). Template: Beverage Preparation(17).Step: Quality Control(Step2)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 39,
+            'name': 'Asset:  Coffee Grinder(8). Template: Bean Preparation(18).Step: Weighing(Step1)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 40,
+            'name': 'Asset:  Coffee Grinder(8). Template: Bean Preparation(18).Step: Grinding(Step2)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 41,
+            'name': 'Asset:  Coffee Grinder(8). Template: Bean Preparation(18).Step: Tampering(Step3)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 37,
+            'name': 'Asset:  Coffee Grinder(8). Template: Beverage Preparation(17).Step: Brewing Coffee(Step1)',
+            'is_active': false
+          },
+          {
+            'operation_type_id': 38,
+            'name': 'Asset:  Coffee Grinder(8). Template: Beverage Preparation(17).Step: Quality Control(Step2)',
+            'is_active': false
+          }
+        ]
+        console.log(response);
         setWorkPlaceList(response.sort((a, b) => a.operation_type_id - b.operation_type_id));
+        console.log(response);
       })
       .catch((err) => console.log(err));
   }, [changeConnectionHandler]);
@@ -326,6 +405,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               <span className={styles.content__name}>Displayed operations</span>
               <ul className={styles.content__list}>
                 {workPlaceList.map((place, index) => {
+                  console.log(place, index);
                   return (
                     <li key={index}>
                       <Checkbox

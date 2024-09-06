@@ -23,7 +23,7 @@ export const Version: React.FC = () => {
     <section>
       <div className={styles.version_app}>
         {isLoadingCompanyVersions ? (
-          <span className={styles.version_row_title}>5ControlS version: Loading...</span>
+          <span className={styles.version_row_title}>5S Control version: Loading...</span>
         ) : (
           <>
             <h3>Product version</h3>
