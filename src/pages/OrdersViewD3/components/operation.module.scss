@@ -52,11 +52,21 @@
   color: #666666;
 }
 
-.noVideo, .loading {
+.noVideo, .loading,.link {
   font-weight: 400;
   font-size: 12px;
   line-height: 150%;
   color: #9e9e9e;
+}
+
+.link{
+  color: #FE6100;
+  text-decoration: none;
+  transition: all 0.3s;
+  &:hover {
+    border-bottom: 1px solid #FE6100;
+    border-bottom-color: #FE6100;
+  }
 }
 
 .status{
