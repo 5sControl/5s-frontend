@@ -11,6 +11,7 @@ export const Operation = ({ content, x, y, onClose, setOperationOV }) => {
   const refOperation = useRef(null);
   const [loading, setLoading] = useState(true);
   const [operation, setOperation] = useState(content);
+  const [duration, setDuration] = useState('00:00:00');
 
   useOutsideClick(refOperation, () => onClose());
 
@@ -31,13 +32,20 @@ export const Operation = ({ content, x, y, onClose, setOperationOV }) => {
             })
           })
         }
-        await getOrderViewOperation(window.location.hostname, '', content.id)
-          .then((response) => {
-            setOperation(response.data)
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        else {
+          await getOrderViewOperation(window.location.hostname, '', content.id)
+            .then((response) => {
+              setOperation(response.data)
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+        const startTime = moment(operation.sTime);
+        const endTime = moment(operation.eTime);
+        const duration = moment.duration(endTime.diff(startTime));
+        const formattedDuration = moment.utc(duration.asMilliseconds()).format('HH:mm:ss');
+        setDuration(formattedDuration);
       } catch (err) {
         console.error('Error fetching video:', err);
       } finally {
@@ -79,7 +87,7 @@ export const Operation = ({ content, x, y, onClose, setOperationOV }) => {
       {operation.frsName && operation.lstName && (
         <span className={styles.name}>{`${operation.frsName} ${operation.lstName}`}</span>
       )}
-      <span className={styles.respTime}>{`${moment(operation.sTime).format('HH:mm:ss')} - ${moment(operation.eTime).format('HH:mm:ss')}`}</span>
+      <span className={styles.respTime}>{`${moment(operation.sTime).format('HH:mm:ss')} (${duration})`}</span>
       <span className={styles.status}>
         {operation.status === null && <QuestionSquere color={'var(--LowEmphasis)'} />}
         {operation.status && <CheckCircle color={'var(--Green)'} />}
