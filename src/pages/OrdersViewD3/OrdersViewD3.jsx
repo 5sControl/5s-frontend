@@ -174,9 +174,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
             'is_active': false
           }
         ]
-        console.log(response);
         setWorkPlaceList(response.sort((a, b) => a.operation_type_id - b.operation_type_id));
-        console.log(response);
       })
       .catch((err) => console.log(err));
   }, [changeConnectionHandler]);
@@ -311,7 +309,6 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
 
   const handleMinDateTimeChange = (event) => {
     const minTime = event.target.value;
-    console.log('minTime', minTime);
     if (checkMinTimeLimit(minTime) && checkMinTimeInterval(minTime, maxDateTime)) {
       setMinDateTime(minTime);
     }
@@ -405,7 +402,6 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               <span className={styles.content__name}>Displayed operations</span>
               <ul className={styles.content__list}>
                 {workPlaceList.map((place, index) => {
-                  console.log(place, index);
                   return (
                     <li key={index}>
                       <Checkbox
