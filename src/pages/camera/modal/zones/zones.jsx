@@ -13,6 +13,7 @@ import { NoVideoBig } from '../../../../assets/svg/SVGcomponent';
 import { getWorkplaceList } from '../../../../api/orderView';
 import { Preloader } from '../../../../components/preloader';
 import { Notification } from '../../../../components/notification/notification';
+import Switch from 'react-switch';
 
 export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [coords, setCoords] = useState([]);
@@ -29,6 +30,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [createZoneMode, setCreateZoneMode] = useState(false);
   const [handleSaveError, setHandleSaveError] = useState(false);
   const [validZone, setValidZone] = useState(true);
+  const [zoneType, setZoneType] = useState(2);
 
   const getZone = () => {
     setPreloader(true);
@@ -62,13 +64,13 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
   const saveZone = () => {
     const otherZones = cameraZones.filter((box) => box.id !== currentZoneId);
 
-    if (coords.length == 0) {
+    if (coords.length === 0) {
       setMessage({ status: false, message: 'Select zone' });
       return;
     }
 
     if (!validZone) {
-      setMessage({ status: false, message: 'Zone is not save. Try again' });
+      setMessage({ status: false, message: 'Zone is not saved. Try again' });
       setHandleSaveError((prev) => !prev);
       return;
     }
@@ -92,7 +94,10 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
     }
 
     const body = {
-      coords: coords,
+      coords: coords.map(coord => ({
+        ...coord,
+        zoneType: zoneType
+    })),
       camera: cameraSelect.id,
       name: itemName,
     };
@@ -105,24 +110,24 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
       postCameraZones(window.location.hostname, cookie.token, body)
         .then(() => {
           getZone();
-          setMessage({ status: true, message: 'Zone is save' });
+          setMessage({ status: true, message: 'Zone is saved' });
         })
         .catch((error) => {
           console.log(error);
           setPreloader(false);
-          setMessage({ status: false, message: 'Zone is not save' });
+          setMessage({ status: false, message: 'Zone is not saved' });
         });
     } else {
       setPreloader(true);
       patchCameraZones(window.location.hostname, cookie.token, body, currentZoneId)
         .then(() => {
           getZone();
-          setMessage({ status: true, message: 'Zone is save' });
+          setMessage({ status: true, message: 'Zone is saved' });
         })
         .catch((error) => {
           console.log(error);
           setPreloader(false);
-          setMessage({ status: false, message: 'Zone is not save' });
+          setMessage({ status: false, message: 'Zone is not saved' });
         });
     }
   };
@@ -134,8 +139,8 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
         setWorkplaceList(
           res.data.map((place) => {
             return {
-              ...place,
-              comboBoxName: place.operationName,
+            ...place,
+            comboBoxName: place.operationName,
               // comboBoxName: `${place.operationName} (id:${place.id})`,
             };
           })
@@ -185,6 +190,7 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
             createZoneMode={createZoneMode}
             handleSaveError={handleSaveError}
             setValidZone={setValidZone}
+            isFourPointsMode={zoneType === 4}
           />
           <div className={styles.zones__right}>
             <ZoneList
@@ -201,6 +207,10 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
               isNewZone={createZoneMode}
               setIsNewZone={setCreateZoneMode}
             />
+            <div className={styles.zonesSwitcher}>
+            <span>4 points zone mode</span>
+            <Switch checked={zoneType === 4} onChange={(e) => setZoneType(e ? 4 : 2)} />
+          </div>
           </div>
         </div>
       )}
