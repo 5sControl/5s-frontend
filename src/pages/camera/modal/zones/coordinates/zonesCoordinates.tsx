@@ -56,18 +56,37 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
 
   useEffect(() => {
     if (oldBox.length > 0) {
+      console.log('oldBox', oldBox);
       const old = JSON.parse(JSON.stringify(oldBox))
         .map((el: any) => el.coords)[0]
         .map((coord: any) => {
-          return {
-            x: coord.x1 / proportionWidth,
-            y: coord.y1 / proportionHeight,
-            width: (coord.x2 - coord.x1) / proportionWidth,
-            height: (coord.y2 - coord.y1) / proportionHeight,
-            id: generateString(11),
-          };
+          if (coord.zoneType === 4) {
+            return {
+              zoneType: coord.zoneType,
+              x1: coord.x1 / proportionWidth,
+              y1: coord.y1 / proportionHeight,
+              x2: coord.x2 / proportionWidth,
+              y2: coord.y2 / proportionHeight,
+              x3: coord.x3 / proportionWidth,
+              y3: coord.y3 / proportionHeight,
+              x4: coord.x4 / proportionWidth,
+              y4: coord.y4 / proportionHeight,
+              id: generateString(11),
+            }
+          }
+          else{
+            return {
+              zoneType: coord.zoneType,
+              x: coord.x1 / proportionWidth,
+              y: coord.y1 / proportionHeight,
+              width: (coord.x2 - coord.x1) / proportionWidth,
+              height: (coord.y2 - coord.y1) / proportionHeight,
+              id: generateString(11),
+            };
+          }
         });
       setAllBox(old);
+      console.log(old)
     } else {
       setAllBox([]);
     }
@@ -79,7 +98,6 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
       if (fourPointsCoordinates.length >= 4) {
         setFourPointsCoordinates([]);
       } else {
-        console.log('set coord');
         setFourPointsCoordinates((prev) => [
           ...prev,
           { x: e.clientX - target.x, y: e.clientY - target.y },
@@ -156,6 +174,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
 
   useEffect(() => {
     if (proportionWidth) {
+      console.log('allBox', allBox);
       if (allBox.length > 0) {
         setTarget(document.getElementById(allBox[allBox.length - 1].id));
       } else {
@@ -200,7 +219,6 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
       } as FourPointsNewCoordinates;
       setAllBox([...allBox, response]);
       setCoords([newCoords]);
-      console.log(newCoords);
 
     }
 
@@ -246,8 +264,6 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
           y2: bufHeight * proportionHeight + totalY * proportionHeight,
         });
         setCoords(sendCoord);
-        console.log('coords:');
-        console.log(sendCoord);
       }
     });
   };
@@ -300,6 +316,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
                 top: '0px',
                 left: '0px',
               }}
+              onClick={(e) => changeTarget(e.target)}
             >
               {fourPointsCoordinates.map((el, i) => {
                 return <circle key={i} cx={`${el.x}`} cy={`${el.y}`} r={'5'} fill={'white'} />;
@@ -307,6 +324,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
               {fourPointsCoordinates.length === 4 && (
                 <polygon
                   fill={'rgba(255, 123, 41, 0.5)'}
+
                   points={`${fourPointsCoordinates[0].x},${fourPointsCoordinates[0].y} ${fourPointsCoordinates[1].x},${fourPointsCoordinates[1].y} ${fourPointsCoordinates[2].x},${fourPointsCoordinates[2].y}, ${fourPointsCoordinates[3].x},${fourPointsCoordinates[3].y}`}
                 />
               )}
@@ -359,8 +377,10 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
             } else {
               const element = el as FourPointsNewCoordinates;
               return (
-                <svg
+                <div 
                   key={element.id}
+                  onClick={(e) => changeTarget(e.target)}>
+                <svg
                   style={{
                     zIndex: isStartDraw ? 1 : 1001,
                     width: '100%',
@@ -370,6 +390,12 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
                     left: '0px',
                   }}
                 >
+                  <polygon
+                    stroke={'#fe6100'}
+                    strokeWidth={1}
+                    fill={'rgba(255, 123, 41, 0.5)'}
+                    points={`${element.x1},${element.y1} ${element.x2},${element.y2} ${element.x3},${element.y3} ${element.x4},${element.y4}`}
+                  />
                   <text
                     style={{ fontSize: 8, fill: 'white' }}
                     x={element.x1 + 4}
@@ -377,13 +403,14 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
                   >
                     {itemName}
                   </text>
-                  <polygon
-                    stroke={'#fe6100'}
-                    strokeWidth={1}
-                    fill={'rgba(255, 123, 41, 0.0)'}
-                    points={`${element.x1},${element.y1} ${element.x2},${element.y2} ${element.x3},${element.y3}, ${element.x4},${element.y4}`}
-                  />
                 </svg>
+                {
+                  console.log('target', target)
+                }
+                {target && target.id === element.id && (
+                  <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
+                )}
+                </div>
               );
             }
           })}
@@ -394,7 +421,6 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
                 cameraBox.length > 0 &&
                 cameraBox.map((el: any) => {
                     const coord = el.coords[0];
-                    console.log(coord)
                     return (
                         <Fragment key={el.id}>
                             {coord.zoneType === 4 ? (
@@ -407,11 +433,18 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
                                         left: '0px',
                                     }}
                                 >
-                                    <polygon 
-                                        fill={'rgba(33, 33, 33, 0.6)'}
-                                        stroke={'#666666'}
-                                        points={`${coord.x1 / proportionWidth},${coord.y1 / proportionHeight} ${coord.x2 / proportionWidth},${coord.y2 / proportionHeight} ${coord.x3 / proportionWidth},${coord.y3 / proportionHeight}, ${coord.x4 / proportionWidth},${coord.y4 / proportionHeight}`}
-                                    />
+                                  <polygon 
+                                    fill={'rgba(33, 33, 33, 0.6)'}
+                                    stroke={'#666666'}
+                                    points={`${coord.x1 / proportionWidth},${coord.y1 / proportionHeight} ${coord.x2 / proportionWidth},${coord.y2 / proportionHeight} ${coord.x3 / proportionWidth},${coord.y3 / proportionHeight}, ${coord.x4 / proportionWidth},${coord.y4 / proportionHeight}`}
+                                  />
+                                  <text
+                                    style={{ fontSize: 8, fill: 'white' }}
+                                    x={(coord.x1 + 4) / proportionWidth}
+                                    y={(coord.y1 + 12) / proportionHeight}
+                                  >
+                                  {el.name}
+                                  </text>
                                 </svg>
                             ) : (
                                 el.coords.map((element: any) => (
