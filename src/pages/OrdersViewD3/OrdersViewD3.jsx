@@ -81,11 +81,11 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   };
 
   const submitHandler = () => {
-    // patchFiltrationData(window.location.hostname, cookies.token, workPlaceList)
-    //   .then((response) => {
-    //     setIsOpenFilter();
-    //   })
-    //   .catch((error) => console.log(error));
+    patchFiltrationData(window.location.hostname, cookies.token, workPlaceList)
+      .then((response) => {
+        setIsOpenFilter();
+      })
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
