@@ -249,7 +249,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
       setZoomParam(32);
       setTimeout(() => {
         const timeline = document.querySelector('.verticalTimeline');
-        const barElement = timeline.querySelector(`.bar-${orId}`);
+        const barElement = timeline.querySelector(`[data-or-id="${orId}"]`);
         if (barElement) {
           barElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }

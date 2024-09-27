@@ -233,6 +233,7 @@ const VerticalTimeline = ({
         bars
           .append('rect')
           .attr('class', (d) => `bar-${d.orId}`)
+          .attr('data-or-id', (d) => d.orId)
           .attr('x', index * fieldWidth + 35)
           .attr('y', 0)
           .attr('width', fieldWidth - 70)
