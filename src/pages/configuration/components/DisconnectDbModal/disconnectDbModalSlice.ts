@@ -31,7 +31,10 @@ const connectToDbModalSlice = createSlice({
   name: 'disconnectDbModal',
   initialState,
   reducers: {
-    setConnectionToDisconnectData(state, action: PayloadAction<DatabaseInfo | null>) {
+    setConnectionToDisconnectData(
+      state,
+      action: PayloadAction<DatabaseInfo | null>
+    ) {
       state.connectionToDisconnectData = action.payload;
     },
   },
@@ -54,5 +57,6 @@ const connectToDbModalSlice = createSlice({
 });
 
 export const { setConnectionToDisconnectData } = connectToDbModalSlice.actions;
-export const selectDisconnectDBModal = (state: RootState) => state.disconnectDBModal;
+export const selectDisconnectDBModal = (state: RootState) =>
+  state.disconnectDBModal;
 export default connectToDbModalSlice.reducer;

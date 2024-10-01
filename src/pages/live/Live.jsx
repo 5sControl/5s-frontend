@@ -103,7 +103,7 @@ export const Live = () => {
       <HeaderMain title={'Live'} noTabs={true}>
         <button
           onClick={() => setVisibleModalDate(!visibleModalDate)}
-          className="live__data-button"
+          className='live__data-button'
         >
           {new Date(selectDate ? selectDate : new Date().toDateString()).toDateString() ===
           new Date().toDateString()
@@ -114,21 +114,21 @@ export const Live = () => {
           <ArrowBottom style={{ marginLeft: '10px', width: '9px' }} />
         </button>
       </HeaderMain>
-      <section className="live">
-        <div className="live__container">
-          <div className="live__reports">
-            <div className="live__camera">
+      <section className='live'>
+        <div className='live__container'>
+          <div className='live__reports'>
+            <div className='live__camera'>
               <h2>Cameras</h2>
-              <div className="live__camera_filter">
+              <div className='live__camera_filter'>
                 <input
-                  type="text"
-                  placeholder="Search"
+                  type='text'
+                  placeholder='Search'
                   value={inputFilter}
                   onChange={(e) => setInputFilter(e.target.value)}
                 />
                 <SearchIcon />
               </div>
-              <div className="live__camera_container">
+              <div className='live__camera_container'>
                 {filterCameras.length > 0 ? (
                   filterCameras.map((camera, index, array) => {
                     return (
@@ -152,12 +152,12 @@ export const Live = () => {
                 )}
               </div>
             </div>
-            <div className="live__report-info">
-              <div className="live__report-info_list"></div>
+            <div className='live__report-info'>
+              <div className='live__report-info_list'></div>
               <CurrentReport camera={cameraToResponse} />
             </div>
           </div>
-          <div className="live__timeline">
+          <div className='live__timeline'>
             {reports.length > 0 && cameraToResponse !== 'camera' ? (
               <TimelineHub
                 data={reports}

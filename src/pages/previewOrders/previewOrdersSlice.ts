@@ -1,5 +1,10 @@
 import { OperationItem, ProductItem } from './../../storage/orderView';
-import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+  SerializedError,
+} from '@reduxjs/toolkit';
 import { OrderItem } from '../../storage/orderView';
 import { RootState } from '../../store';
 import { getOrderData } from './previewOrdersAPI';
@@ -30,7 +35,11 @@ const initialState: PreviewOrders = {
 export const getOrderAsync = createAsyncThunk(
   'getOrderData',
   async (data: { token: string; hostname: string; currentOrder: string }) => {
-    const response = await getOrderData(data.hostname, data.token, data.currentOrder);
+    const response = await getOrderData(
+      data.hostname,
+      data.token,
+      data.currentOrder
+    );
 
     if (response.data) {
       return parseOrdersData(response.data[0]);
@@ -65,6 +74,7 @@ const previewOrdersPage = createSlice({
   },
 });
 
-export const { setSelectOperationData, setSelectProductData } = previewOrdersPage.actions;
+export const { setSelectOperationData, setSelectProductData } =
+  previewOrdersPage.actions;
 export const selectPreviewOrders = (state: RootState) => state.previewOrders;
 export default previewOrdersPage.reducer;

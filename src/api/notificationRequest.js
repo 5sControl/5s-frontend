@@ -25,12 +25,16 @@ export const postNotificationSettings = async (hostname, cookies, response) => {
 };
 
 export const patchNotificationSettings = (hostname, cookies, response) => {
-  return axios.patch(`${process.env.REACT_APP_NGROK}${API_SETTINGS}1/`, response, {
-    headers: {
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.patch(
+    `${process.env.REACT_APP_NGROK}${API_SETTINGS}1/`,
+    response,
+    {
+      headers: {
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
 export const getNotificationEmail = (hostname, cookies) => {
@@ -78,7 +82,10 @@ export const deleteNotificationEmail = (hostname, cookies, id) => {
 };
 
 export const getTaskManager = (hostname, taskId) => {
-  return axios.get(`${process.env.REACT_APP_NGROK}${API_TASKMANAGER}${taskId}`, {
-    headers: { 'ngrok-skip-browser-warning': 'true' },
-  });
+  return axios.get(
+    `${process.env.REACT_APP_NGROK}${API_TASKMANAGER}${taskId}`,
+    {
+      headers: { 'ngrok-skip-browser-warning': 'true' },
+    }
+  );
 };

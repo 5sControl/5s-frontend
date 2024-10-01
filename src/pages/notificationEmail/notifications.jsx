@@ -124,7 +124,7 @@ export const Notifications = () => {
           <Button
             onClick={() => setIsShowModal(true)}
             IconLeft={SettingsWhite}
-            text="Settings"
+            text='Settings'
             className={s.buttonPosition}
           ></Button>
         </div>

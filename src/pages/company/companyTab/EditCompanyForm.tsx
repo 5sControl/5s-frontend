@@ -175,14 +175,14 @@ export const EditCompanyForm = () => {
   return (
     <>
       <HeaderMain title={'Contacts'}>
-        <section className="company__header">
-          <Link className={`company__tab ${'company__header_noActive'}`} to="/company">
+        <section className='company__header'>
+          <Link className={`company__tab ${'company__header_noActive'}`} to='/company'>
             <span>Company</span>
           </Link>
           <Link
             className={`company__tab ${'company__header_active'}
             }`}
-            to="/company/contacts"
+            to='/company/contacts'
           >
             <span>Contacts</span>
           </Link>
@@ -204,7 +204,7 @@ export const EditCompanyForm = () => {
           </div>
 
           <div className={style.control_box}>
-            <Button text="Save" onClick={() => editContact()} disabled={isLoading} />
+            <Button text='Save' onClick={() => editContact()} disabled={isLoading} />
           </div>
         </div>
 

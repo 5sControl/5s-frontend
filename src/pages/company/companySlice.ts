@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { getCompanyInfoForm, getCountriesList, getSuppliers } from '../../api/companyRequest';
+import {
+  getCompanyInfoForm,
+  getCountriesList,
+  getSuppliers,
+} from '../../api/companyRequest';
 import { ContactInfoType, CountryType } from './types';
 
 interface CompanyState {

@@ -6,7 +6,9 @@ const ngrokHeaders = {
 
 export const getCategoriesApi = () => {
   return axios
-    .get(`${process.env.REACT_APP_CHAT_API}getCategories`, { headers: ngrokHeaders })
+    .get(`${process.env.REACT_APP_CHAT_API}getCategories`, {
+      headers: ngrokHeaders,
+    })
     .then((res) => res.data);
 };
 
@@ -18,17 +20,24 @@ export const getChatsApi = () => {
 
 export const getModelsApi = () => {
   return axios
-    .get(`${process.env.REACT_APP_CHAT_API}getModels`, { headers: ngrokHeaders })
+    .get(`${process.env.REACT_APP_CHAT_API}getModels`, {
+      headers: ngrokHeaders,
+    })
     .then((res) => res.data);
 };
 
 export const getPromptTemplatesApi = () => {
   return axios
-    .get(`${process.env.REACT_APP_CHAT_API}getPrompts`, { headers: ngrokHeaders })
+    .get(`${process.env.REACT_APP_CHAT_API}getPrompts`, {
+      headers: ngrokHeaders,
+    })
     .then((res) => res.data);
 };
 
-export const createPromptTemplateApi = (promptTemplate: { title: string; content: string }) => {
+export const createPromptTemplateApi = (promptTemplate: {
+  title: string;
+  content: string;
+}) => {
   return axios
     .post(
       `${process.env.REACT_APP_CHAT_API}createPrompt?title=${promptTemplate.title}&content=${promptTemplate.content}`,
@@ -52,11 +61,16 @@ export const editPromptTemplateApi = (promptTemplate: {
 
 export const removePromptTemplateApi = (title: string) => {
   return axios
-    .post(`${process.env.REACT_APP_CHAT_API}removePrompt?title=${title}`, { headers: ngrokHeaders })
+    .post(`${process.env.REACT_APP_CHAT_API}removePrompt?title=${title}`, {
+      headers: ngrokHeaders,
+    })
     .then((res) => res.data);
 };
 
-export const createCategoryApi = (categoryName: string, description: string) => {
+export const createCategoryApi = (
+  categoryName: string,
+  description: string
+) => {
   return axios
     .post(
       `${process.env.REACT_APP_CHAT_API}createCategory?name=${categoryName}&description=${description}`,
@@ -68,13 +82,20 @@ export const createCategoryApi = (categoryName: string, description: string) => 
 
 export const removeCategoryApi = (categoryName: string) => {
   return axios
-    .post(`${process.env.REACT_APP_CHAT_API}removeCategory?name=${categoryName}`, null, {
-      headers: ngrokHeaders,
-    })
+    .post(
+      `${process.env.REACT_APP_CHAT_API}removeCategory?name=${categoryName}`,
+      null,
+      {
+        headers: ngrokHeaders,
+      }
+    )
     .then((res) => res.data);
 };
 
-export const removeCategorySourceApi = (sourceName: string, categoryName: string) => {
+export const removeCategorySourceApi = (
+  sourceName: string,
+  categoryName: string
+) => {
   return axios
     .post(
       `${process.env.REACT_APP_CHAT_API}removeSource?fileName=${sourceName}&categoryName=${categoryName}`,
@@ -132,9 +153,13 @@ export const askChatApi = (
 
 export const removeChatApi = (chatId: string) => {
   return axios
-    .post(`${process.env.REACT_APP_CHAT_API}removeChat?chatId=${chatId}`, null, {
-      headers: ngrokHeaders,
-    })
+    .post(
+      `${process.env.REACT_APP_CHAT_API}removeChat?chatId=${chatId}`,
+      null,
+      {
+        headers: ngrokHeaders,
+      }
+    )
     .then((res) => res.data);
 };
 
@@ -151,7 +176,10 @@ export const editChatApi = (data: {
     method: 'post',
     url: `${process.env.REACT_APP_CHAT_API}editChat`,
     data,
-    headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+    headers: {
+      'Content-Type': 'application/json',
+      'ngrok-skip-browser-warning': 'true',
+    },
   }).then((res) => res.data);
 };
 
@@ -160,7 +188,10 @@ export const uploadSourcesApi = (categoryName: string, data: FormData) => {
     method: 'post',
     url: `${process.env.REACT_APP_CHAT_API}upload?categoryName=${categoryName}`,
     data,
-    headers: { 'Content-Type': 'multipart/form-data', 'ngrok-skip-browser-warning': 'true' },
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'ngrok-skip-browser-warning': 'true',
+    },
   }).then((res) => res.data);
 };
 

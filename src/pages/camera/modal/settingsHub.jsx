@@ -186,10 +186,10 @@ export const SettingsHub = ({
     <>
       {algorithmsActiveObject && findCameraList ? (
         <>
-          <div className="cameras__settings_container">
-            <section className="cameras__settings">
-              <div className="cameras__settings_modal">
-                <div className="cameras__settings_header">
+          <div className='cameras__settings_container'>
+            <section className='cameras__settings'>
+              <div className='cameras__settings_modal'>
+                <div className='cameras__settings_header'>
                   <h1>Camera Settings</h1>
                   <Tabs activeTab={activeTab} setActiveTab={(tab) => setActiveTab(tab)} />
                 </div>
@@ -230,30 +230,30 @@ export const SettingsHub = ({
                     setConfigAlgo={(e) => setConfigAlgo(e)}
                   />
                 )}
-                <div className="cameras__settings_buttons">
+                <div className='cameras__settings_buttons'>
                   <button
                     disabled={!isEnabled}
-                    className="cameras__button_cancel"
+                    className='cameras__button_cancel'
                     onClick={() => setIsCameraSettings(false)}
                   >
                     Cancel
                   </button>
-                  <button disabled={!isEnabled} className="cameras__button" onClick={applySettings}>
+                  <button disabled={!isEnabled} className='cameras__button' onClick={applySettings}>
                     Done
                   </button>
                 </div>
               </div>
             </section>
-            {isNotification && <Notification status={false} message="Camera not create" />}
+            {isNotification && <Notification status={false} message='Camera not create' />}
             {isPreloader && (
-              <div className="cameras__preloader" onClick={() => setIsCameraSettings(false)}>
+              <div className='cameras__preloader' onClick={() => setIsCameraSettings(false)}>
                 <Preloader />
               </div>
             )}
           </div>
         </>
       ) : (
-        <div className="cameras__preloader" onClick={() => setIsCameraSettings(false)}>
+        <div className='cameras__preloader' onClick={() => setIsCameraSettings(false)}>
           <Preloader />
         </div>
       )}

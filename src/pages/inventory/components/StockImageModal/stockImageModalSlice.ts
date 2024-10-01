@@ -25,6 +25,8 @@ const stockImageModalSlice = createSlice({
   },
 });
 
-export const { setIsOpenStockImageModal, setCurrentReportData } = stockImageModalSlice.actions;
-export const selectStockImageModal = (state: RootState) => state.stockImageModal;
+export const { setIsOpenStockImageModal, setCurrentReportData } =
+  stockImageModalSlice.actions;
+export const selectStockImageModal = (state: RootState) =>
+  state.stockImageModal;
 export default stockImageModalSlice.reducer;

@@ -21,5 +21,6 @@ const inventoryItemsList = createSlice({
 });
 
 export const { addActiveInventoryItem } = inventoryItemsList.actions;
-export const selectActiveInventoryItem = (state: RootState) => state.activeInventoryItem;
+export const selectActiveInventoryItem = (state: RootState) =>
+  state.activeInventoryItem;
 export default inventoryItemsList.reducer;

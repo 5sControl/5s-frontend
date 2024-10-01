@@ -30,9 +30,9 @@ export const OperationCard: React.FC<PropsType> = ({ data, onClick }) => {
       <div className={styles.block}>
         <p className={styles.block_title}>{data.operationName}</p>
         {data.video_data.status ? (
-          <VideoCamera width="16px" color="var(--MediumEmphasis)" />
+          <VideoCamera width='16px' color='var(--MediumEmphasis)' />
         ) : (
-          <VideoCameraCrossed width="16px" color="var(--MediumEmphasis)" />
+          <VideoCameraCrossed width='16px' color='var(--MediumEmphasis)' />
         )}
       </div>
 

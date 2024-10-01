@@ -26,8 +26,16 @@ const initialState: nightModalState = {
 
 export const nightTimeSet = createAsyncThunk(
   'nightTime',
-  async (data: { token: string; hostname: string; bufTime: NightModeResponse }) => {
-    const response: any = await setNightTime(data.hostname, data.token, data.bufTime);
+  async (data: {
+    token: string;
+    hostname: string;
+    bufTime: NightModeResponse;
+  }) => {
+    const response: any = await setNightTime(
+      data.hostname,
+      data.token,
+      data.bufTime
+    );
     if (response.status === 204) {
       return { mesasge: 'Item deleted success' };
     }
@@ -82,5 +90,6 @@ const nightModalSlice = createSlice({
 });
 
 export const { setIsOpenNightModal } = nightModalSlice.actions;
-export const selectNightInventoryModal = (state: RootState) => state.NightModeSlice;
+export const selectNightInventoryModal = (state: RootState) =>
+  state.NightModeSlice;
 export default nightModalSlice.reducer;

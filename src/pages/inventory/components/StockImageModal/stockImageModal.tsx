@@ -186,7 +186,7 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
       {fullImage && (
         <>
           <div className={styles.fullimage}>
-            <img src={fullImage} alt="report img" className={styles.fullimage_image} />
+            <img src={fullImage} alt='report img' className={styles.fullimage_image} />
             <ZoomOut onClick={() => setFullImage(false)} className={styles.fullimage_out} />
           </div>
         </>

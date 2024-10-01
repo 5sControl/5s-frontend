@@ -33,11 +33,11 @@ export const SelectParam = ({ options, selectedValue, onChange }) => {
     <div className={styles.dropdown} ref={dropdownRef}>
       <Button
         text={`Zoom: ${selectedValue}`}
-        variant="oval"
+        variant='oval'
         onClick={handleToggleOpen}
-        iconColor="var(--LowEmphasis)"
+        iconColor='var(--LowEmphasis)'
         IconRight={isOpen ? ArrowTop : ArrowDown}
-        stylesClassName="fullWidth"
+        stylesClassName='fullWidth'
       />
       {isOpen && (
         <ul className={styles.dropdownList}>

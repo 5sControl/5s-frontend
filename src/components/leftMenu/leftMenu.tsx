@@ -77,18 +77,18 @@ export const LeftMenu = () => {
   }, []);
 
   return (
-    <aside className="leftMenu">
+    <aside className='leftMenu'>
       <ul>
         <li
           className={window.location.pathname.includes('dashboard') ? 'activeMenu' : 'noActiveMenu'}
         >
-          <Link to="dashboard">
+          <Link to='dashboard'>
             <Dashboard />
             <span>Dashboard</span>
           </Link>
         </li>
         {/* <li className={window.location.pathname.includes('live') ? 'activeMenu' : 'noActiveMenu'}>*/}
-        {/*  <Link to="live">*/}
+        {/*  <Link to='live'>*/}
         {/*    <Live />*/}
         {/*    <span>Live</span>*/}
         {/*  </Link>*/}
@@ -98,7 +98,7 @@ export const LeftMenu = () => {
             window.location.pathname.includes('orders-view') ? 'activeMenu' : 'noActiveMenu'
           }
         >
-          <Link to="/orders-view">
+          <Link to='/orders-view'>
             <OrdersView />
             <span>Orders View</span>
           </Link>
@@ -106,7 +106,7 @@ export const LeftMenu = () => {
         <li
           className={window.location.pathname.includes('inventory') ? 'activeMenu' : 'noActiveMenu'}
         >
-          <Link to="/inventory">
+          <Link to='/inventory'>
             <Inventory />
             <span>Inventory</span>
           </Link>
@@ -114,7 +114,7 @@ export const LeftMenu = () => {
         <li
           className={window.location.pathname.includes('ai-chat') ? 'activeMenu' : 'noActiveMenu'}
         >
-          <Link to="/ai-chat?tab=chat">
+          <Link to='/ai-chat?tab=chat'>
             <AIChat />
             <span>AI Chat</span>
           </Link>
@@ -125,7 +125,7 @@ export const LeftMenu = () => {
             window.location.pathname.includes('configuration') ? 'activeMenu' : 'noActiveMenu'
           }
         >
-          <Link to="/configuration">
+          <Link to='/configuration'>
             <ConfigurationNew />
             <span>Configuration</span>
           </Link>
@@ -133,24 +133,24 @@ export const LeftMenu = () => {
         <li
           className={window.location.pathname.includes('company') ? 'activeMenu' : 'noActiveMenu'}
         >
-          <Link to="/company">
+          <Link to='/company'>
             <Company />
             <span>Company</span>
           </Link>
         </li>
         <li className={window.location.pathname.includes('info') ? 'activeMenu' : 'noActiveMenu'}>
-          <Link to="/info">
+          <Link to='/info'>
             <Info />
             <span>Info</span>
           </Link>
         </li>
         <hr></hr>
-        <div className="leftMenu__logout">
-          <div className="leftMenu__logout_svg" onClick={() => removeCookie('token')}>
+        <div className='leftMenu__logout'>
+          <div className='leftMenu__logout_svg' onClick={() => removeCookie('token')}>
             <Logout />
           </div>
           {user && (
-            <div className="leftMenu__logout_text">
+            <div className='leftMenu__logout_text'>
               <span>{user.username}</span>
               <span
                 className={

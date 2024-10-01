@@ -31,10 +31,12 @@ const operationVideoModalSlice = createSlice({
     },
     setTimeOperationVideoModal(state, action: PayloadAction<OperationItem>) {
       const dateObj = new Date(action.payload.operationTime);
-      const cameraIp = action.payload.video_data?.camera_ip || window.location.hostname;
+      const cameraIp =
+        action.payload.video_data?.camera_ip || window.location.hostname;
       const outputStr = dateObj.toISOString().replace('T', ' ').slice(0, -1);
       const reportTime =
-        Date.parse(action.payload.operationTime) - action.payload.video_data.date_start;
+        Date.parse(action.payload.operationTime) -
+        action.payload.video_data.date_start;
       const reportTimeDate = new Date(reportTime);
       const minutes = reportTimeDate.getMinutes();
       const sec = reportTimeDate.getSeconds();
@@ -58,5 +60,6 @@ export const {
   setUrlOperationVideoModal,
   setRefVideoModal,
 } = operationVideoModalSlice.actions;
-export const selectOperationVideoModal = (state: RootState) => state.operationVideoModal;
+export const selectOperationVideoModal = (state: RootState) =>
+  state.operationVideoModal;
 export default operationVideoModalSlice.reducer;

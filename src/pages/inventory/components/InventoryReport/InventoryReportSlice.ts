@@ -20,5 +20,6 @@ const inventoryReport = createSlice({
 });
 
 export const { setStatusSort } = inventoryReport.actions;
-export const selectStatusSort = (state: RootState) => state.inventoryReportState;
+export const selectStatusSort = (state: RootState) =>
+  state.inventoryReportState;
 export default inventoryReport.reducer;

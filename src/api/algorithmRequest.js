@@ -31,13 +31,17 @@ export const uploadAlgorithm = async (hostname, cookies, id) => {
 };
 
 export const postAlgorithnDependences = async (hostname, cookies, response) => {
-  return axios.post(`${process.env.REACT_APP_NGROK}${API_POSTALGORITHM}`, response, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.post(
+    `${process.env.REACT_APP_NGROK}${API_POSTALGORITHM}`,
+    response,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
 export const getProcess = (hostname, cookies) => {
@@ -79,10 +83,14 @@ export const deleteAlgorithmAPI = (hostname, cookies, id) => {
 
 export const putAlgorithmAPI = (cookies, id, body) => {
   console.log(cookies);
-  return axios.put(`${process.env.REACT_APP_NGROK}${API_ALGORITHM}${id}/`, body, {
-    headers: {
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.put(
+    `${process.env.REACT_APP_NGROK}${API_ALGORITHM}${id}/`,
+    body,
+    {
+      headers: {
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };

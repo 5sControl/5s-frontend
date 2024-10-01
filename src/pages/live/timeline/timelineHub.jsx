@@ -20,11 +20,11 @@ export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) =>
     setNewData(data);
   }, [data]);
   return (
-    <div className="timeline-hub-clickable">
-      <div className="timeline-hub-clickable__container">
-        <div className="timeline-clickable__line">
+    <div className='timeline-hub-clickable'>
+      <div className='timeline-hub-clickable__container'>
+        <div className='timeline-clickable__line'>
           <span
-            className="timeline-clickable__zoomout"
+            className='timeline-clickable__zoomout'
             onClick={() => setTimeFunct('00:00:00', '24:00:00')}
           >
             <AiOutlineZoomOut />
@@ -34,7 +34,7 @@ export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) =>
               <span>{el.split(':').slice(0, 2).join(':')}</span>
               {array.length - 1 !== id && (
                 <span
-                  className="timeline-clickable__timezone"
+                  className='timeline-clickable__timezone'
                   onClick={() => setTimeFunct(el, array[id + 1])}
                 >
                   <AiOutlineZoomIn />
@@ -48,7 +48,7 @@ export const TimelineHub = ({ data, startDate, endDate, startTime, endTime }) =>
           end &&
           algorithm.map((algorithm, id) => {
             return (
-              <div className="timeline-hub-clickable__camera" key={id}>
+              <div className='timeline-hub-clickable__camera' key={id}>
                 <Timeline
                   data={newData.filter(
                     (cam) =>

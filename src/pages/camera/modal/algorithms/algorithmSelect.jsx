@@ -105,7 +105,7 @@ export const AlgorithmSelect = ({
   }, [algoWorkzone]);
 
   return (
-    <div className="cameras__settings_container">
+    <div className='cameras__settings_container'>
       <div className={styles.wrapper}>
         <div className={styles.algorithms}>
           <h1 className={styles.algorithms_title}>
@@ -120,7 +120,7 @@ export const AlgorithmSelect = ({
                   <label className={styles.algorithms_list_item}>
                     {parsingAlgorithmName(algorithm.name)}
                     <input
-                      type="checkbox"
+                      type='checkbox'
                       defaultChecked={algorithmsActive && algorithmsActive.includes(algorithm.name)}
                       onChange={() => checkboxHandler(algorithm.name)}
                       className={styles.checkbox}

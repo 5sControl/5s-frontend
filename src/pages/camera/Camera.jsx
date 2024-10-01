@@ -71,7 +71,7 @@ export const Camera = () => {
   return (
     <section className={styles.cameras}>
       <Button
-        text="Add camera"
+        text='Add camera'
         className={s.buttonPosition}
         onClick={showAddCameras}
         IconLeft={Plus}
@@ -86,7 +86,7 @@ export const Camera = () => {
                   <img
                     className={styles.cameras__list_image}
                     src={`${process.env.REACT_APP_NGROK}images/${el.id}/snapshot.jpg`}
-                    alt="Camera"
+                    alt='Camera'
                   />
                   <div>
                     <div className={styles.cameras__name}>Name: {el.name}</div>

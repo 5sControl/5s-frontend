@@ -15,8 +15,8 @@ export const Congratulations: React.FC<PropsType> = ({ setStage, isLoading }) =>
         <Preloader />
       ) : (
         <div className={styles.main}>
-          <HeaderMain title=""></HeaderMain>
-          <img src={LogoHorizontal} alt="logo" className={styles.main__logo} />
+          <HeaderMain title=''></HeaderMain>
+          <img src={LogoHorizontal} alt='logo' className={styles.main__logo} />
           <span className={styles.main__span}>
             Congratulations! <br />
             You have successfully installed the 5S Control Docker and now ready to use it. Complete

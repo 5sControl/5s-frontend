@@ -27,8 +27,16 @@ const initialState: editInventoryModalState = {
 
 export const editItem = createAsyncThunk(
   'editItem',
-  async (data: { token: string; hostname: string; body: EditInventoryDataResponse }) => {
-    const response = await editInventoryItemAxios(data.hostname, data.token, data.body);
+  async (data: {
+    token: string;
+    hostname: string;
+    body: EditInventoryDataResponse;
+  }) => {
+    const response = await editInventoryItemAxios(
+      data.hostname,
+      data.token,
+      data.body
+    );
     return response.data;
   }
 );
@@ -59,6 +67,8 @@ const editInventoryModalSlice = createSlice({
   },
 });
 
-export const { setIsOpenEditModal, setCurrentEditItem } = editInventoryModalSlice.actions;
-export const selectEditInventoryModal = (state: RootState) => state.editInventoryModal;
+export const { setIsOpenEditModal, setCurrentEditItem } =
+  editInventoryModalSlice.actions;
+export const selectEditInventoryModal = (state: RootState) =>
+  state.editInventoryModal;
 export default editInventoryModalSlice.reducer;

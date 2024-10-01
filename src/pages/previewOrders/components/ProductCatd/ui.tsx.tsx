@@ -32,7 +32,7 @@ export const ProductCatd: React.FC<PropsType> = ({ index, data }) => {
               ? 'error'
               : 'undefined'
           }
-          type="text"
+          type='text'
         />
       </div>
 

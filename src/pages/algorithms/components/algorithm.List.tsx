@@ -72,14 +72,14 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
             </div>
             <div className={styles.remove__footer}>
               <Button
-                text="Cancel"
+                text='Cancel'
                 className={styles.button_cancel}
                 onClick={() => setIsRemove(false)}
               />
               <Button
                 className={styles.remove__footer_del}
-                text="Remove"
-                variant="contained"
+                text='Remove'
+                variant='contained'
                 onClick={deleteAlgorithm}
               />
             </div>
@@ -94,8 +94,8 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
               <h2>Algorithm settings</h2>
               <label>Name</label>
               <Input
-                type="text"
-                placeholder="Enter Name"
+                type='text'
+                placeholder='Enter Name'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 id={''}
@@ -107,12 +107,12 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className={styles.textarea}
-                placeholder="Enter Description"
+                placeholder='Enter Description'
               />
               <label>Image</label>
               <Input
-                type="text"
-                placeholder="Enter Image"
+                type='text'
+                placeholder='Enter Image'
                 className={styles.input}
                 value={imageName}
                 onChange={(e) => {
@@ -132,13 +132,13 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
             </div>
             <div className={styles.modal__container_footer}>
               <Button
-                text="Cancel"
+                text='Cancel'
                 className={styles.button_cancel}
                 onClick={() => setIsEdit(false)}
               />
               <Button
-                text="Apply"
-                variant="contained"
+                text='Apply'
+                variant='contained'
                 onClick={sendAlgorithm}
                 disabled={name.length === 0}
               />

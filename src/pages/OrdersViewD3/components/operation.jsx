@@ -71,7 +71,7 @@ export const Operation = ({ content, x, y, onClose, setOperationOV }) => {
           <span className={styles.loading}>Loading...</span>
         ) : operation.video && operation.video.status ? (
           <span onClick={operationClickHandler} className={styles.video}>
-            <VideoCamera width="16px" color="#fe6100" />
+            <VideoCamera width='16px' color='#fe6100' />
             &nbsp; Open Video
           </span>
         ) : (

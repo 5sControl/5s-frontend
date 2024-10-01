@@ -41,9 +41,9 @@ export const RoutesOutlet = () => {
 
   return (
     <>
-      <div className="window">
-        <LeftMenu />
-        <section className="outlet">
+      <div className='window'>
+        {/* <LeftMenu /> */}
+        <section className='outlet'>
           <Outlet />
         </section>
       </div>
