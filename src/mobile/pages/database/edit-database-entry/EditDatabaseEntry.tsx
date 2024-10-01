@@ -4,17 +4,19 @@ import { useParams } from 'react-router';
 import { ConfirmationModal } from '../../../components/confirmationModal/confirmationModal';
 import { DeleteButton } from '../../../components/deleteButton/DeleteButton';
 import { AddItemList } from '../../../components/addItemList/AddItemList';
-import { ROUTES } from '../../../../shared/constants';
+import { ROUTES } from '../../../../shared/constants/routes';
 import { deleteProduct, updateProduct } from '../../../api/product/productType';
 import { deleteOperation, updateOperation } from '../../../api/product/productOperation';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { databaseTables } from '../../../../shared/constants/databaseTables';
 
 const EditDatabaseEntry: React.FC = () => {
   const navigate = useNavigate();
   const [ cookies ] = useCookies(['token']);
   const { category, entry, id } = useParams() as { category: string, entry: string, id: string };
   const decodedEntry = decodeURIComponent(entry);
+  const databaseTable = databaseTables[category as keyof typeof databaseTables];
 
   const [name, setName] = useState<string>(decodedEntry);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
@@ -59,7 +61,7 @@ const EditDatabaseEntry: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton text="" defaultHref={ROUTES.DATABASE_CATEGORY(category + 's')} color="medium"></IonBackButton>
+            <IonBackButton text="" defaultHref={ROUTES.DATABASE_CATEGORY(databaseTable.path)} color="medium"></IonBackButton>
           </IonButtons>
           <IonTitle>{name}</IonTitle>
           <IonButton slot="end" size="small" color="primary" disabled={!name} onClick={updateEntry}>Save</IonButton>

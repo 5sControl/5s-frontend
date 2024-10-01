@@ -14,6 +14,7 @@ import { DeleteRedIcon } from '../../assets/svg/SVGcomponent';
 import { fetchDatabaseParam } from '../../api/fetchDatabaseParam';
 import { SelectItemsModal } from '../selectItemsModal/selectItemsModal';
 import { useCookies } from 'react-cookie';
+import { Preloader } from '../../../components/preloader';
 
 type AddItemListProps = {
   title: string;
@@ -21,8 +22,8 @@ type AddItemListProps = {
 };
 
 export const AddItemList: React.FC<AddItemListProps> = ({ title, items }) => {
-  const [currentItems, setCurrentItems] = useState<string[]>(['op1', 'op2', 'op3']);
-  const [allItems, setAllItems] = useState<string[]>(['op1', 'op2', 'op3']);
+  const [currentItems, setCurrentItems] = useState<string[]>([]);
+  const [allItems, setAllItems] = useState<string[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedItems, setSelectedItems] = useState<boolean[]>([true, true, true]);
@@ -114,6 +115,11 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items }) => {
       </IonList>
 
       <IonLoading isOpen={loading} message={'Loading...'} onClick={handleCloseModal} /> 
+
+      {/* {loading && 
+      <div className='preloader'>
+        <Preloader />
+      </div>} */}
 
       <SelectItemsModal
         isOpen={showModal}

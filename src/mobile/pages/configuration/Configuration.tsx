@@ -1,6 +1,6 @@
 import { IonContent, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonList, IonListHeader, IonLabel, IonSearchbar, IonItem } from '@ionic/react';
 import React from 'react'
-import { ROUTES } from '../../../shared/constants';
+import { ROUTES } from '../../../shared/constants/routes';
 import { useNavigate } from 'react-router-dom';
 
 const Configuration = () => {

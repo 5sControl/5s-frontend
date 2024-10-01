@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/react';
 import { useParams } from 'react-router';
-import { ROUTES } from '../../../../shared/constants';
+import { ROUTES } from '../../../../shared/constants/routes';
 import { useCookies } from 'react-cookie';
 import { getConnectionsToDatabases } from '../../../api/connections';
 import { capitalize } from '../../../utils/capitalize';

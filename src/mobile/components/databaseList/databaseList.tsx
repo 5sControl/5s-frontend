@@ -3,10 +3,11 @@ import { IonContent, IonList, IonItem, IonLabel } from '@ionic/react';
 import { fetchDatabaseParam } from '../../api/fetchDatabaseParam';
 import './styles.module.css';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../shared/constants';
+import { ROUTES } from '../../../shared/constants/routes';
 import { EmptyResultPrompt } from '../emptyResultPrompt/emptyResultPrompt';
 import { useCookies } from 'react-cookie';
 import { Preloader } from '../../../components/preloader';
+import { databaseTables } from '../../../shared/constants/databaseTables';
 
 type DatabaseItem = {
     name: string,
@@ -40,6 +41,11 @@ const DatabaseList: React.FC<DatabaseListProps> = ({ paramName, searchQuery }) =
         };
 
         fetchData();
+
+        return () => {
+            setItems([]);
+            setResults([]);
+          };
     }, [paramName]);
 
     useEffect(() => {
@@ -49,8 +55,8 @@ const DatabaseList: React.FC<DatabaseListProps> = ({ paramName, searchQuery }) =
 
     const handleItemClick = (category: string, itemName: string, itemId: number) => {
         const encodedItemName = encodeURIComponent(itemName);
-        if (category === 'productCategories'){
-            navigate(ROUTES.DATABASE_CATEGORY('products'));
+        if (category === databaseTables.productCategories.singularName){
+            navigate(ROUTES.DATABASE_CATEGORY(databaseTables.products.path));
             return;
         }
         const path = ROUTES.DATABASE_EDIT_ENTRY(category, encodedItemName, itemId.toString());

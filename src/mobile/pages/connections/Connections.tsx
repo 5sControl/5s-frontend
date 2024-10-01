@@ -6,7 +6,7 @@ import { useCookies } from 'react-cookie';
 import { ConnectionsList } from '../../components/connectionsList/ConnectionsList';
 import { Preloader } from '../../../components/preloader'; 
 import { ConnectionItem } from '../../models/interfaces/connectionItem.interface';
-import { ROUTES } from '../../../shared/constants';
+import { ROUTES } from '../../../shared/constants/routes';
 
 const Connections: React.FC = () => {
   const [cookies] = useCookies(['token']);

@@ -1,7 +1,7 @@
 import { IonButton } from '@ionic/react'
 import React from 'react'
 import { capitalize } from '../../utils/capitalize'
-import { ROUTES } from '../../../shared/constants'
+import { ROUTES } from '../../../shared/constants/routes'
 import './emptyResultPrompt.scss'
 import { useNavigate } from 'react-router-dom'
 

@@ -3,7 +3,7 @@ import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonTitle, 
 import DatabaseList from '../../../../components/databaseList/databaseList';
 import './../styles.module.css';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../../../shared/constants';
+import { ROUTES } from '../../../../../shared/constants/routes';
 
 
 const ProductCategories: React.FC = () => {

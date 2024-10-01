@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/react';
 import { useParams } from 'react-router';
 import { AddItemList } from '../../../components/addItemList/AddItemList';
-import { ROUTES } from '../../../../shared/constants';
+import { ROUTES } from '../../../../shared/constants/routes';
 import { createProductCategory } from '../../../api/product/productCategories';
 import { createOperation } from '../../../api/product/productOperation';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { createProduct } from '../../../api/product/productType';
+import { databaseTables } from '../../../../shared/constants/databaseTables';
 
 const NewDatabaseEntry: React.FC = () => {
   const navigate = useNavigate();
   const [cookies] = useCookies(['token']);
   const { category } = useParams() as { category: string };
-  const titleCategory = category.endsWith('s') ? category.slice(0, -1) : category;
+  const databaseTable = databaseTables[category as keyof typeof databaseTables];
 
   const [name, setName] = useState<string>('');
 
@@ -42,9 +43,9 @@ const NewDatabaseEntry: React.FC = () => {
     <IonHeader>
         <IonToolbar>
             <IonButtons slot="start">
-                <IonBackButton text="" defaultHref={ROUTES.DATABASE_CATEGORY(category)} color="medium"></IonBackButton>
+                <IonBackButton text="" defaultHref={ROUTES.DATABASE_CATEGORY(databaseTable.path)} color="medium"></IonBackButton>
             </IonButtons>
-            <IonTitle>New {titleCategory}</IonTitle>
+            <IonTitle>New {databaseTable.singularName}</IonTitle>
             <IonButton slot="end" size="small" color="primary" disabled={!name} onClick={createEntry}>Save</IonButton>
         </IonToolbar>
     </IonHeader>
@@ -52,7 +53,7 @@ const NewDatabaseEntry: React.FC = () => {
       <IonLabel position="stacked">Name</IonLabel>
       <IonInput placeholder="Enter a name" onIonInput={handleInputChange} className="input__wrapper"></IonInput>
     </IonItem>
-    {category === 'products' && <AddItemList title="Operations" items={[]}/>}
+    {category === databaseTables.products.path && <AddItemList title="Operations" items={[]}/>}
   </IonContent>
   )
 }

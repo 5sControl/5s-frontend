@@ -3,16 +3,16 @@ import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonTitle, 
 import DatabaseList from '../../../components/databaseList/databaseList';
 import './styles.module.css';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../../shared/constants';
+import { ROUTES } from '../../../../shared/constants/routes';
+import { DatabaseTableInfo } from '../../../models/interfaces/databaseTableInfo.interface';
 
 type DatabaseTableProps = {
-    name: string
+    table: DatabaseTableInfo
 }
 
-const DatabaseTable: React.FC<DatabaseTableProps> = ({ name }) => {
+const DatabaseTable: React.FC<DatabaseTableProps> = ({ table }) => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const searchParam = name.endsWith('s') ? name.slice(0, -1) : name;
 
     const handleItemClick = (path: string) => {
         navigate(path);
@@ -29,14 +29,14 @@ const DatabaseTable: React.FC<DatabaseTableProps> = ({ name }) => {
                     <IonButtons slot="start">
                         <IonBackButton text="" defaultHref={ROUTES.DATABASE} color="medium"></IonBackButton>
                     </IonButtons>
-                    <IonTitle className="capitalized">{name}</IonTitle>
-                    <IonButton slot="end" size="small" color="primary" onClick={() => handleItemClick(ROUTES.DATABASE_ADD_ENTRY(name))}>+ Add</IonButton>
+                    <IonTitle className="capitalized">{table.pageTitle}</IonTitle>
+                    <IonButton slot="end" size="small" color="primary" onClick={() => handleItemClick(ROUTES.DATABASE_ADD_ENTRY(table.path))}>+ Add</IonButton>
                 </IonToolbar>
             </IonHeader>
             <div className="searchContainer">
                 <IonSearchbar placeholder={'Search '} onIonInput={handleSearchInput}></IonSearchbar>
             </div>
-            <DatabaseList paramName={searchParam} searchQuery={searchQuery} />
+            <DatabaseList paramName={table.singularName} searchQuery={searchQuery} />
         </IonContent>
     )
 };
