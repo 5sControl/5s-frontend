@@ -32,8 +32,14 @@ export const calculateTimeCenter = (startTime, endTime) => {
     Number(endTime.split(':')[2])
   );
 
-  let middle = formatTime(timestrToSec(startTime) / 2 + timestrToSec(endTime) / 2);
-  let preMiddle = formatTime(timestrToSec(startTime) / 2 + timestrToSec(middle) / 2);
-  let postMiddle = formatTime(timestrToSec(middle) / 2 + timestrToSec(endTime) / 2);
+  let middle = formatTime(
+    timestrToSec(startTime) / 2 + timestrToSec(endTime) / 2
+  );
+  let preMiddle = formatTime(
+    timestrToSec(startTime) / 2 + timestrToSec(middle) / 2
+  );
+  let postMiddle = formatTime(
+    timestrToSec(middle) / 2 + timestrToSec(endTime) / 2
+  );
   return [startTime, preMiddle, middle, postMiddle, endTime];
 };

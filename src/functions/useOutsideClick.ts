@@ -12,7 +12,10 @@ export const useOutsideClick = (
       if (!ref.current || ref.current.contains(event.target)) {
         return;
       }
-      if (exception && (!exception.current || exception.current.contains(event.target))) {
+      if (
+        exception &&
+        (!exception.current || exception.current.contains(event.target))
+      ) {
         return;
       }
       handler(event);

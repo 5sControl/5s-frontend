@@ -1,4 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+  SerializedError,
+} from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
 import { postConnectionWithDbAPI } from './connectToDbModalAPI';
 import { ConnectionToDatabaseForm, ConnectResponse } from './types';
@@ -25,7 +30,11 @@ const initialState: ConnectToDbModalState = {
 export const createConnectionWithDB = createAsyncThunk(
   'createConnectionWithDB',
   async (data: { token: string; hostname: string; body: any }) => {
-    const response = await postConnectionWithDbAPI(data.hostname, data.token, data.body);
+    const response = await postConnectionWithDbAPI(
+      data.hostname,
+      data.token,
+      data.body
+    );
     return response.data;
   }
 );
@@ -38,7 +47,10 @@ const connectToDbModalSlice = createSlice({
       state.connectionType = action.payload;
       state.connectResponse = null;
     },
-    setCurrentConnectionData(state, action: PayloadAction<DatabaseInfo | null>) {
+    setCurrentConnectionData(
+      state,
+      action: PayloadAction<DatabaseInfo | null>
+    ) {
       state.currentConnectionData = action.payload;
     },
   },
@@ -61,6 +73,8 @@ const connectToDbModalSlice = createSlice({
   },
 });
 
-export const { setConnectionType, setCurrentConnectionData } = connectToDbModalSlice.actions;
-export const selectConnectToDbModal = (state: RootState) => state.connectToDbModal;
+export const { setConnectionType, setCurrentConnectionData } =
+  connectToDbModalSlice.actions;
+export const selectConnectToDbModal = (state: RootState) =>
+  state.connectToDbModal;
 export default connectToDbModalSlice.reducer;

@@ -80,7 +80,7 @@ export const OperationVideoModal: React.FC<PropsType> = ({
       showCross
       showSubstrateCross
     >
-      <ReactPlayer ref={playerCallback} {...videoState} width="100%" height="100%" />
+      <ReactPlayer ref={playerCallback} {...videoState} width='100%' height='100%' />
 
       <div className={styles.infoBlock}>
         <div className={styles.header}>
@@ -129,8 +129,8 @@ export const OperationVideoModal: React.FC<PropsType> = ({
         onClick={handleDownload}
         IconLeft={Download}
         className={styles.download}
-        variant="text"
-        iconColor="var(--MediumEmphasis)"
+        variant='text'
+        iconColor='var(--MediumEmphasis)'
       />
     </Modal>
   );

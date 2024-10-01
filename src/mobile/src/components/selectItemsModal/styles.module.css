@@ -1,0 +1,5 @@
+.customCheckbox{
+    --border-radius: 0;
+    --size: 16px;
+    --border-color: #666666;
+}

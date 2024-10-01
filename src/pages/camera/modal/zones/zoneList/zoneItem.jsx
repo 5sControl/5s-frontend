@@ -77,7 +77,7 @@ export const Item = ({
             Controlled workplace
             <Combobox
               data={workplaceList.map((e) => e.comboBoxName)}
-              placeholder="Select or enter"
+              placeholder='Select or enter'
               hideEmptyPopup
               value={value}
               defaultValue={value ? value : zona.workplace}
@@ -93,15 +93,15 @@ export const Item = ({
             <Button
               text={'Delete'}
               IconLeft={DeleteWhite}
-              type="button"
+              type='button'
               className={styles.item__delete}
               onClick={
                 currentZoneId === -1 ? () => setCurrentZoneId(-2) : () => deleteZone(currentZoneId)
               }
             />
             <div className={styles.item__footer_control}>
-              <Button text="Cancel" variant="text" onClick={() => setCurrentZoneId(-2)} />
-              <Button text="Save" onClick={saveZone} />
+              <Button text='Cancel' variant='text' onClick={() => setCurrentZoneId(-2)} />
+              <Button text='Save' onClick={saveZone} />
             </div>
           </div>
         </div>

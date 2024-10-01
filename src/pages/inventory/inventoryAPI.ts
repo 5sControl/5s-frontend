@@ -4,7 +4,11 @@ import { AddInventoryDataResponse } from './components/AddInventoryModal/types';
 import { EditInventoryDataResponse } from './components/EditInventoryModal/types';
 import { NightModeResponse } from './components/NightModeModal/types';
 
-export const getInventoryItems = (hostname: string, cookies: string, isSort: boolean) => {
+export const getInventoryItems = (
+  hostname: string,
+  cookies: string,
+  isSort: boolean
+) => {
   const API_BY_ORDER = `api/inventory/items/${isSort ? '?order=desc' : ''}`;
 
   return axios.get(`${process.env.REACT_APP_NGROK}${API_BY_ORDER}`, {
@@ -52,23 +56,34 @@ export const editInventoryItemAxios = (
 ) => {
   const API_INVENTORY_SET = 'api/inventory/items/';
 
-  return axios.put(process.env.REACT_APP_NGROK + API_INVENTORY_SET + body.id + '/', body, {
-    headers: {
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.put(
+    process.env.REACT_APP_NGROK + API_INVENTORY_SET + body.id + '/',
+    body,
+    {
+      headers: {
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
-export const deleteInventoryItemAxios = (hostname: string, cookies: string, id: number) => {
+export const deleteInventoryItemAxios = (
+  hostname: string,
+  cookies: string,
+  id: number
+) => {
   const API_INVENTORY_DELETE = 'api/inventory/items/';
 
-  return axios.delete(`${process.env.REACT_APP_NGROK}${API_INVENTORY_DELETE}${id}/`, {
-    headers: {
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.delete(
+    `${process.env.REACT_APP_NGROK}${API_INVENTORY_DELETE}${id}/`,
+    {
+      headers: {
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
 export const getInventoryItemHistory = (
@@ -89,7 +104,11 @@ export const getInventoryItemHistory = (
   );
 };
 
-export const setNightTime = (hostname: string, cookies: string, body: NightModeResponse) => {
+export const setNightTime = (
+  hostname: string,
+  cookies: string,
+  body: NightModeResponse
+) => {
   const API_INVENTORY_SET = 'api/mailer/working-time/';
   return axios.post(process.env.REACT_APP_NGROK + API_INVENTORY_SET, body, {
     headers: {
@@ -110,7 +129,10 @@ export const getNightTime = (hostname: string, cookies: string) => {
   });
 };
 
-export const getEmailListForNotificationAPI = (hostname: string, cookies: string) => {
+export const getEmailListForNotificationAPI = (
+  hostname: string,
+  cookies: string
+) => {
   const API_MAILER = 'api/mailer/emails-list/';
 
   return axios.get(`${process.env.REACT_APP_NGROK}${API_MAILER}`, {

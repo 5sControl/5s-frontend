@@ -49,7 +49,7 @@ export const CompanyInfo: FC = () => {
 
   return (
     <>
-      <div className="company">
+      <div className='company'>
         {companyInfoForm && (
           <CompanyCard
             companyData={companyInfoForm[0]}
@@ -60,7 +60,7 @@ export const CompanyInfo: FC = () => {
         )}
 
         {companyInfo && Object.keys(companyInfo).length > 0 && isLicensed && (
-          <div className="company__name">
+          <div className='company__name'>
             <h3>5S Control</h3>
             <br></br>
             <h4>Date joined: {moment(companyInfo.date_joined).format('DD-MM-YYYY')}</h4>
@@ -77,11 +77,11 @@ export const CompanyInfo: FC = () => {
 
         <LicenseKey cookies={cookies.token} />
         <AvailableProcess />
-        <div className="company__accounts_tab">
+        <div className='company__accounts_tab'>
           <h2>Accounts</h2>
           <Button
-            className="company__add"
-            text="Add account"
+            className='company__add'
+            text='Add account'
             onClick={() => setIsAddAccount(true)}
             IconLeft={Plus}
           />

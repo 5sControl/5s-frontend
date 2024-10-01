@@ -22,8 +22,16 @@ const initialState: addInventoryModalState = {
 
 export const addItem = createAsyncThunk(
   'addItem',
-  async (data: { token: string; hostname: string; body: AddInventoryDataResponse }) => {
-    const response = await setInventoryItem(data.hostname, data.token, data.body);
+  async (data: {
+    token: string;
+    hostname: string;
+    body: AddInventoryDataResponse;
+  }) => {
+    const response = await setInventoryItem(
+      data.hostname,
+      data.token,
+      data.body
+    );
     return response.data;
   }
 );
@@ -47,5 +55,6 @@ const addInventoryModalSlice = createSlice({
   },
 });
 
-export const selectAddInventoryModal = (state: RootState) => state.addInventoryModal;
+export const selectAddInventoryModal = (state: RootState) =>
+  state.addInventoryModal;
 export default addInventoryModalSlice.reducer;

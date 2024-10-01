@@ -147,4 +147,8 @@
     color: #e0e0e0;
     border: 0.7px solid #e0e0e0;
   }
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 }

@@ -1,4 +1,8 @@
-import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  createSearchParams,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom';
 
 export const useNavigateSearch = () => {
   const navigate = useNavigate();
@@ -13,7 +17,11 @@ export const useNavigateSearch = () => {
     }
   }
 
-  return (pathname: string, params: { [key: string]: string }, removeParams?: Array<string>) => {
+  return (
+    pathname: string,
+    params: { [key: string]: string },
+    removeParams?: Array<string>
+  ) => {
     if (removeParams) {
       for (const key of removeParams) {
         delete existParams[key];

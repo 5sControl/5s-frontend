@@ -47,10 +47,12 @@ export const setDateDot = (formatDate: string) => {
 
 export const sortOperations = (productData: ProductItem) =>
   productData.operations.reduce((prev, curr, index, arr) => {
-    const dateToString = (date: string) => new Date(date).toLocaleDateString().split('/').join('.');
+    const dateToString = (date: string) =>
+      new Date(date).toLocaleDateString().split('/').join('.');
 
     const filter = arr.filter(
-      (el) => dateToString(el.operationTime) === dateToString(curr.operationTime)
+      (el) =>
+        dateToString(el.operationTime) === dateToString(curr.operationTime)
     );
 
     return {

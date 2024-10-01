@@ -1,4 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+  SerializedError,
+} from '@reduxjs/toolkit';
 import { OrdersWithPagination } from '../../../../storage/orderView';
 import { OrderListByCustomer } from '../../../../storage/orderViewCustomer';
 import { RootState } from '../../../../store';
@@ -109,8 +114,13 @@ const ordersList = createSlice({
     setOrderStatusFilterData(state, action: PayloadAction<string>) {
       state.filterData['order-status'] = action.payload;
     },
-    setOperationsFilterData(state, action: PayloadAction<{ [key: string]: string }>) {
-      const key = Object.keys(action.payload)[0] as 'operation-name' | 'operation-status';
+    setOperationsFilterData(
+      state,
+      action: PayloadAction<{ [key: string]: string }>
+    ) {
+      const key = Object.keys(action.payload)[0] as
+        | 'operation-name'
+        | 'operation-status';
       const value = Object.values(action.payload)[0];
 
       if (state.filterData[key].includes(value)) {

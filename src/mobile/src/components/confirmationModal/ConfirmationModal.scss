@@ -1,0 +1,27 @@
+.block {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+ion-modal {
+  --height: auto;
+  align-items: end;
+}
+
+.modal__description{
+    color: var(--ion-color-medium);
+}
+
+ion-button.outlined{
+    --border-color: var(--ion-color-medium);
+    --color: var(--ion-color-primary);
+}
+
+ion-button.modal__button{
+    margin: 8px 0;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+}

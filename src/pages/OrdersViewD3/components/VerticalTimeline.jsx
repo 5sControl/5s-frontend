@@ -53,13 +53,13 @@ const VerticalTimeline = ({
       //   let first =
       //     data.length > 0
       //       ? data.filter(
-      //           (order) => order.oprs && JSON.stringify(order.oprs).includes(`"${selectOrder}"`)
+      //           (order) => order.oprs && JSON.stringify(order.oprs).includes(`'${selectOrder}'`)
       //         )
       //       : [];
       //   let end =
       //     data.length > 0
       //       ? data.filter(
-      //           (order) => order.oprs && !JSON.stringify(order.oprs).includes(`"${selectOrder}"`)
+      //           (order) => order.oprs && !JSON.stringify(order.oprs).includes(`'${selectOrder}'`)
       //         )
       //       : [];
       //   machineData.forEach((machineItem) => {
@@ -298,7 +298,7 @@ const VerticalTimeline = ({
         {/* <div className={styles.prev}>
                     <img
                       src={Arrow}
-                      alt=""
+                      alt=''
                       width={20}
                       height={20}
                       className={styles.arrow}
@@ -308,7 +308,7 @@ const VerticalTimeline = ({
                   <div className={styles.next}>
                     <img
                       src={Arrow}
-                      alt=""
+                      alt=''
                       width={20}
                       height={20}
                       className={styles.arrow}

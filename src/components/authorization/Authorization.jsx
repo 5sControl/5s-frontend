@@ -59,25 +59,25 @@ export const Authorization = () => {
   };
 
   return (
-    <div className="authorization">
-      <FiveS className="authorization__logo" />
-      {/* <img src={logo} alt="logo" className="authorization__logo" /> */}
-      <h2 className="authorization__title">Sign in to 5S Control</h2>
-      <div className="authorization__container">
+    <div className='authorization'>
+      <FiveS className='authorization__logo' />
+      {/* <img src={logo} alt='logo' className='authorization__logo' /> */}
+      <h2 className='authorization__title'>Sign in to 5S Control</h2>
+      <div className='authorization__container'>
         <label>Username</label>
         <Input
-          type="text"
-          placeholder="Enter Username"
-          className="authorization__input"
+          type='text'
+          placeholder='Enter Username'
+          className='authorization__input'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         {/* {!correctEmail && <span className='authorization__error'>Email isn't correct!</span>} */}
         <label>Password</label>
         <Input
-          type="password"
-          className="authorization__input"
-          placeholder="Enter Password"
+          type='password'
+          className='authorization__input'
+          placeholder='Enter Password'
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
@@ -87,12 +87,12 @@ export const Authorization = () => {
           showEye={true}
         />
         {errorResponse && (
-          <span className="authorization__error_response">
+          <span className='authorization__error_response'>
             Incorrect email or password. Please, try again.
           </span>
         )}
         {errorPassword && (
-          <span className="authorization__error_password">This field is required</span>
+          <span className='authorization__error_password'>This field is required</span>
         )}
         <button className={'authorization__button'} onClick={post}>
           Log In

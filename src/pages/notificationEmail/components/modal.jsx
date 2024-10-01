@@ -93,28 +93,28 @@ export const ModalEmail = ({
         </div>
         <label>Server</label>
         <Input
-          type="text"
+          type='text'
           className={styles.modal__input}
           value={server}
           onChange={(e) => setServer(e.target.value)}
         />
         <label>Port</label>
         <Input
-          type="text"
+          type='text'
           className={styles.modal__input}
           value={port}
           onChange={(e) => setPort(e.target.value.replace(/[^\d]/g, ''))}
         />
         <label>Username</label>
         <Input
-          type="text"
+          type='text'
           className={styles.modal__input}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
         <label>Password</label>
         <Input
-          type="password"
+          type='password'
           showEye={true}
           className={styles.modal__input}
           value={password}
@@ -122,7 +122,7 @@ export const ModalEmail = ({
         />
         <label>
           <input
-            type="checkbox"
+            type='checkbox'
             className={styles.checkbox}
             checked={isTls}
             onChange={() => setIsTls(!isTls)}
@@ -131,7 +131,7 @@ export const ModalEmail = ({
         </label>
         <label>
           <input
-            type="checkbox"
+            type='checkbox'
             className={styles.checkbox}
             checked={isSsl}
             onChange={() => setIsSsl(!isSsl)}
@@ -142,8 +142,8 @@ export const ModalEmail = ({
           <Preloader />
         ) : (
           <div className={styles.buttons}>
-            <Button text="Cancel" className={styles.cancel} onClick={handleClose} />
-            <Button text="Done" className={styles.save} onClick={save} />
+            <Button text='Cancel' className={styles.cancel} onClick={handleClose} />
+            <Button text='Done' className={styles.save} onClick={save} />
           </div>
         )}
       </section>

@@ -61,7 +61,11 @@ const initialState: Inventory = {
 export const getInventoryItemsAsync = createAsyncThunk(
   'getInventoryItems',
   async (data: { token: string; hostname: string; isSort: boolean }) => {
-    const response: any = await getInventoryItems(data.hostname, data.token, data.isSort);
+    const response: any = await getInventoryItems(
+      data.hostname,
+      data.token,
+      data.isSort
+    );
     if (response.data) {
       return response.data;
     }
@@ -71,8 +75,16 @@ export const getInventoryItemsAsync = createAsyncThunk(
 
 export const getInventoryItemHistoryAsync = createAsyncThunk(
   'getInventoryHistory',
-  async (data: { token: string; hostname: string; params: { itemId: number; date: string } }) => {
-    const response: any = await getInventoryItemHistory(data.hostname, data.token, data.params);
+  async (data: {
+    token: string;
+    hostname: string;
+    params: { itemId: number; date: string };
+  }) => {
+    const response: any = await getInventoryItemHistory(
+      data.hostname,
+      data.token,
+      data.params
+    );
     if (response.data) {
       return response.data;
     }
@@ -104,7 +116,10 @@ export const getSMTPConnect = createAsyncThunk(
 export const getEmailListForNotification = createAsyncThunk(
   'getEmailListForNotification',
   async (data: { token: string; hostname: string }) => {
-    const response = await getEmailListForNotificationAPI(data.hostname, data.token);
+    const response = await getEmailListForNotificationAPI(
+      data.hostname,
+      data.token
+    );
     return response.data;
   }
 );
@@ -190,7 +205,10 @@ const inventoryPage = createSlice({
   },
 });
 
-export const { setIsOpenNotificationModal, setNotificationInfo, setCurrentItemName } =
-  inventoryPage.actions;
+export const {
+  setIsOpenNotificationModal,
+  setNotificationInfo,
+  setCurrentItemName,
+} = inventoryPage.actions;
 export const selectInventory = (state: RootState) => state.inventory;
 export default inventoryPage.reducer;

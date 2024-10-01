@@ -5,7 +5,15 @@ import { proxy } from './api';
 
 const API_GETREPORTBYID = 'api/reports/by-id/';
 
-export const getData = (hostname, cookies, date, startTime, endTime, algorithm, camera) => {
+export const getData = (
+  hostname,
+  cookies,
+  date,
+  startTime,
+  endTime,
+  algorithm,
+  camera
+) => {
   let urlString = `api/reports/search_params/?date=${date}&start_time=${startTime}&end_time=${endTime}`;
 
   if (algorithm && algorithm !== 'algorithm') {

@@ -1,5 +1,10 @@
 import { getConnectionsToDatabases } from './configurationAPI';
-import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+  SerializedError,
+} from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import { DatabaseInfo, DataBaseResponse } from './types';
 
@@ -30,7 +35,12 @@ const connectionSlice = createSlice({
   initialState,
   reducers: {
     setDatabasesOrdersView(state, action: PayloadAction<DatabaseInfo>) {
-      state.databases = { count: 1, next: null, previous: null, results: [action.payload] };
+      state.databases = {
+        count: 1,
+        next: null,
+        previous: null,
+        results: [action.payload],
+      };
     },
     clearDatabasesOrdersView(state) {
       state.databases = null;
@@ -57,6 +67,7 @@ const connectionSlice = createSlice({
   },
 });
 
-export const { setDatabasesOrdersView, clearDatabasesOrdersView } = connectionSlice.actions;
+export const { setDatabasesOrdersView, clearDatabasesOrdersView } =
+  connectionSlice.actions;
 export const selectConnectionPage = (state: RootState) => state.connectionPage;
 export default connectionSlice.reducer;

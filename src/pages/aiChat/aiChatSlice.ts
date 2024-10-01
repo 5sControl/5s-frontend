@@ -111,32 +111,35 @@ export const fetchChatsAction = () => async (dispatch: AppDispatch) => {
     dispatch(aiChatPage.actions.setLoading(false));
   }
 };
-export const fetchPromptTemplatesAction = () => async (dispatch: AppDispatch) => {
-  dispatch(aiChatPage.actions.setLoading(true));
-  try {
-    const data = await getPromptTemplatesApi();
-    dispatch(aiChatPage.actions.setPromptTemplates(data));
-  } catch {
-    console.log('error fetching categories');
-  } finally {
-    dispatch(aiChatPage.actions.setLoading(false));
-  }
-};
+export const fetchPromptTemplatesAction =
+  () => async (dispatch: AppDispatch) => {
+    dispatch(aiChatPage.actions.setLoading(true));
+    try {
+      const data = await getPromptTemplatesApi();
+      dispatch(aiChatPage.actions.setPromptTemplates(data));
+    } catch {
+      console.log('error fetching categories');
+    } finally {
+      dispatch(aiChatPage.actions.setLoading(false));
+    }
+  };
 
-export const fetchAvailableModelsAction = () => async (dispatch: AppDispatch) => {
-  dispatch(aiChatPage.actions.setLoading(true));
-  try {
-    const data = await getModelsApi();
-    dispatch(aiChatPage.actions.setModels(data));
-  } catch {
-    console.log('error fetching categories');
-  } finally {
-    dispatch(aiChatPage.actions.setLoading(false));
-  }
-};
+export const fetchAvailableModelsAction =
+  () => async (dispatch: AppDispatch) => {
+    dispatch(aiChatPage.actions.setLoading(true));
+    try {
+      const data = await getModelsApi();
+      dispatch(aiChatPage.actions.setModels(data));
+    } catch {
+      console.log('error fetching categories');
+    } finally {
+      dispatch(aiChatPage.actions.setLoading(false));
+    }
+  };
 
 export const createPromptTemplateAction =
-  (promptTemplate: { title: string; content: string }) => async (dispatch: AppDispatch) => {
+  (promptTemplate: { title: string; content: string }) =>
+  async (dispatch: AppDispatch) => {
     try {
       const data = await createPromptTemplateApi(promptTemplate);
       dispatch(aiChatPage.actions.setPromptTemplates(data));
@@ -156,17 +159,19 @@ export const editPromptTemplateAction =
     }
   };
 
-export const removePromptTemplateAction = (title: string) => async (dispatch: AppDispatch) => {
-  try {
-    const data = await removePromptTemplateApi(title);
-    dispatch(aiChatPage.actions.setPromptTemplates(data));
-  } catch {
-    console.log('error creating category');
-  }
-};
+export const removePromptTemplateAction =
+  (title: string) => async (dispatch: AppDispatch) => {
+    try {
+      const data = await removePromptTemplateApi(title);
+      dispatch(aiChatPage.actions.setPromptTemplates(data));
+    } catch {
+      console.log('error creating category');
+    }
+  };
 
 export const createCategoryAction =
-  (categoryName: string, categoryDescription: string) => async (dispatch: AppDispatch) => {
+  (categoryName: string, categoryDescription: string) =>
+  async (dispatch: AppDispatch) => {
     try {
       const data = await createCategoryApi(categoryName, categoryDescription);
       dispatch(aiChatPage.actions.setCategories(data));
@@ -175,20 +180,25 @@ export const createCategoryAction =
     }
   };
 
-export const removeCategoryAction = (categoryName: string) => async (dispatch: AppDispatch) => {
-  try {
-    const data = await removeCategoryApi(categoryName);
-    dispatch(aiChatPage.actions.setCategories(data));
-  } catch {
-    console.log('error removing category');
-  }
-};
+export const removeCategoryAction =
+  (categoryName: string) => async (dispatch: AppDispatch) => {
+    try {
+      const data = await removeCategoryApi(categoryName);
+      dispatch(aiChatPage.actions.setCategories(data));
+    } catch {
+      console.log('error removing category');
+    }
+  };
 
 export const editCategoryAction =
   (oldCategoryName: string, categoryName: string, description: string) =>
   async (dispatch: AppDispatch) => {
     try {
-      const data = await editCategoryApi(oldCategoryName, categoryName, description);
+      const data = await editCategoryApi(
+        oldCategoryName,
+        categoryName,
+        description
+      );
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
       console.log('error editing category');
@@ -205,15 +215,16 @@ export const removeCategorySourceAction =
     }
   };
 
-export const addChatAction = (modelName?: string) => async (dispatch: AppDispatch) => {
-  try {
-    const data = await addChatApi(modelName ?? 'llama2:13b');
-    await dispatch(aiChatPage.actions.setChats(data));
-    await dispatch(aiChatPage.actions.setSelectedChat(data.at(-1)));
-  } catch {
-    console.log('error adding chat');
-  }
-};
+export const addChatAction =
+  (modelName?: string) => async (dispatch: AppDispatch) => {
+    try {
+      const data = await addChatApi(modelName ?? 'llama2:13b');
+      await dispatch(aiChatPage.actions.setChats(data));
+      await dispatch(aiChatPage.actions.setSelectedChat(data.at(-1)));
+    } catch {
+      console.log('error adding chat');
+    }
+  };
 
 export const removeChatAction =
   (categoryName: string, chatId: string) => async (dispatch: AppDispatch) => {
@@ -226,14 +237,20 @@ export const removeChatAction =
   };
 
 export const editChatSourcesAction =
-  (categoryName: string, chatId: string, sources: string[], modelName?: string) =>
+  (
+    categoryName: string,
+    chatId: string,
+    sources: string[],
+    modelName?: string
+  ) =>
   (dispatch: AppDispatch) => {
     dispatch(aiChatPage.actions.setChatSources({ chatId, sources, modelName }));
   };
 
-export const setSelectedChatAction = (chat: Chat) => (dispatch: AppDispatch) => {
-  dispatch(aiChatPage.actions.setSelectedChat(chat));
-};
+export const setSelectedChatAction =
+  (chat: Chat) => (dispatch: AppDispatch) => {
+    dispatch(aiChatPage.actions.setSelectedChat(chat));
+  };
 
 export const editChatAction =
   (payloadData: {
@@ -255,14 +272,28 @@ export const editChatAction =
   };
 
 export const askChatAction =
-  (chatId: string, prompt: string, categoryName: string, promptTemplateTitle?: string) =>
+  (
+    chatId: string,
+    prompt: string,
+    categoryName: string,
+    promptTemplateTitle?: string
+  ) =>
   async (dispatch: AppDispatch) => {
     dispatch(aiChatPage.actions.setLoading(true));
     try {
-      const data = await askChatApi(chatId, prompt, categoryName, promptTemplateTitle);
+      const data = await askChatApi(
+        chatId,
+        prompt,
+        categoryName,
+        promptTemplateTitle
+      );
       const currentChatData = data.find((chat: Chat) => chat.id === chatId);
       dispatch(aiChatPage.actions.setChats(data));
-      dispatch(aiChatPage.actions.setMessageToSpeak(currentChatData.history.at(-1).message));
+      dispatch(
+        aiChatPage.actions.setMessageToSpeak(
+          currentChatData.history.at(-1).message
+        )
+      );
     } catch {
       console.log('error asking chat');
     } finally {
@@ -271,13 +302,16 @@ export const askChatAction =
   };
 
 export const uploadSourceAction =
-  (categoryName: string, formData: FormData) => async (dispatch: AppDispatch) => {
+  (categoryName: string, formData: FormData) =>
+  async (dispatch: AppDispatch) => {
     try {
       const fileToLoad = formData.get('file') as File;
       const processingFileName = fileToLoad ? fileToLoad.name : '';
       const processingFileSize = fileToLoad ? fileToLoad.size : 0;
       const linkToLoad =
-        formData.get('link') === null ? undefined : (formData.get('link') as string);
+        formData.get('link') === null
+          ? undefined
+          : (formData.get('link') as string);
       dispatch(
         aiChatPage.actions.addUploadingFiles({
           categoryName,
@@ -343,7 +377,9 @@ const aiChatPage = createSlice({
         modelName?: string;
       }>
     ) {
-      const selectedChat = state.chats.find((chat) => chat.id === action.payload.chatId);
+      const selectedChat = state.chats.find(
+        (chat) => chat.id === action.payload.chatId
+      );
       if (selectedChat) {
         selectedChat.sources = action.payload.sources;
       }

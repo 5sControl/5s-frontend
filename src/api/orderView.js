@@ -9,7 +9,12 @@ const API_FILTRATIONDATA = 'api/new-order/filtration-data';
 const API_STATUSDATA = 'api/connector/status/';
 const API_CONNECTIONS = 'api/connector/connections/';
 
-export const getOrderViewOperations = (hostname, cookies, startDate, endDate) => {
+export const getOrderViewOperations = (
+  hostname,
+  cookies,
+  startDate,
+  endDate
+) => {
   return axios.get(
     `${process.env.REACT_APP_NGROK}${API_OPERATIONS}?from=${startDate}&to=${endDate}`,
     {
@@ -21,7 +26,12 @@ export const getOrderViewOperations = (hostname, cookies, startDate, endDate) =>
   );
 };
 
-export const getOrderViewOrderList = (hostname, cookies, startDate, endDate) => {
+export const getOrderViewOrderList = (
+  hostname,
+  cookies,
+  startDate,
+  endDate
+) => {
   return axios.get(
     `${process.env.REACT_APP_NGROK}${API_ORDERLIST}?from=${startDate}&to=${endDate}`,
     {
@@ -34,12 +44,15 @@ export const getOrderViewOrderList = (hostname, cookies, startDate, endDate) => 
 };
 
 export const getOrderViewOperation = (hostname, cookies, id) => {
-  return axios.get(`${process.env.REACT_APP_NGROK}${API_OPERATION}?operation=${id}`, {
-    headers: {
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.get(
+    `${process.env.REACT_APP_NGROK}${API_OPERATION}?operation=${id}`,
+    {
+      headers: {
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
 export const getWorkplaceList = (hostname, cookies) => {
@@ -61,12 +74,16 @@ export const getFiltrationData = (hostname, cookies) => {
 };
 
 export const patchFiltrationData = (hostname, cookies, body) => {
-  return axios.put(`${process.env.REACT_APP_NGROK}${API_FILTRATIONDATA}`, body, {
-    headers: {
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.put(
+    `${process.env.REACT_APP_NGROK}${API_FILTRATIONDATA}`,
+    body,
+    {
+      headers: {
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
 export const getStatusData = (hostname, cookies) => {
@@ -79,11 +96,15 @@ export const getStatusData = (hostname, cookies) => {
 };
 
 export const patchStatusData = (id, cookies, body) => {
-  return axios.put(`${process.env.REACT_APP_NGROK}${API_CONNECTIONS}${id}/`, body, {
-    headers: {
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
+  return axios.put(
+    `${process.env.REACT_APP_NGROK}${API_CONNECTIONS}${id}/`,
     body,
-  });
+    {
+      headers: {
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+      body,
+    }
+  );
 };

@@ -40,12 +40,15 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
 };
 
 export const deleteCameraAPI = (hostname, cookies, IPCamera) => {
-  return axios.delete(`${process.env.REACT_APP_NGROK}${API_CAMERADELETE}${IPCamera}/`, {
-    headers: {
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.delete(
+    `${process.env.REACT_APP_NGROK}${API_CAMERADELETE}${IPCamera}/`,
+    {
+      headers: {
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
 export const findCamera = (hostname) => {
@@ -72,13 +75,16 @@ export const checkCamera = (hostname, cameraIP, username, password) => {
 };
 
 export const getCameraZones = (hostname, cookies, camera) => {
-  return axios.get(`${process.env.REACT_APP_NGROK}${API_CAMERAZONES}?camera=${camera}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.get(
+    `${process.env.REACT_APP_NGROK}${API_CAMERAZONES}?camera=${camera}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
 export const postCameraZones = (hostname, cookies, body) => {
@@ -91,12 +97,16 @@ export const postCameraZones = (hostname, cookies, body) => {
 };
 
 export const patchCameraZones = (hostname, cookies, response, id) => {
-  return axios.put(`${process.env.REACT_APP_NGROK}${API_ZONES}${id}/`, response, {
-    headers: {
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.put(
+    `${process.env.REACT_APP_NGROK}${API_ZONES}${id}/`,
+    response,
+    {
+      headers: {
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
 export const deleteCameraZones = (hostname, cookies, id) => {
@@ -109,13 +119,16 @@ export const deleteCameraZones = (hostname, cookies, id) => {
 };
 
 export const getAlgorithmZones = (hostname, cookies, camera) => {
-  return axios.get(`${process.env.REACT_APP_NGROK}${API_ALGORITHMZONES}?camera=${camera}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.get(
+    `${process.env.REACT_APP_NGROK}${API_ALGORITHMZONES}?camera=${camera}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
 export const getVideo = (hostname, body) => {

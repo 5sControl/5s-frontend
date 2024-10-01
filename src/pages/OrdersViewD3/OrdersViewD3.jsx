@@ -249,7 +249,7 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
       setZoomParam(32);
       setTimeout(() => {
         const timeline = document.querySelector('.verticalTimeline');
-        const barElement = timeline.querySelector(`[data-or-id="${orId}"]`);
+        const barElement = timeline.querySelector(`[data-or-id='${orId}']`);
         if (barElement) {
           barElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
@@ -289,14 +289,14 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               onChange={handleZoomParamChange}
             />
             <TimePicker
-              label="Start time"
-              id="minDateTime"
+              label='Start time'
+              id='minDateTime'
               value={minDateTime}
               onValueChange={handleMinDateTimeChange}
             />
             <TimePicker
-              label="End time"
-              id="maxDateTime"
+              label='End time'
+              id='maxDateTime'
               value={maxDateTime}
               onValueChange={handleMaxDateTimeChange}
             />
@@ -340,8 +340,8 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               </ul>
             </main>
             <footer className={styles.footer}>
-              <Button text="Reset" variant="text" onClick={resetHandler} />
-              <Button text="Done" onClick={submitHandler} />
+              <Button text='Reset' variant='text' onClick={resetHandler} />
+              <Button text='Done' onClick={submitHandler} />
             </footer>
           </section>
         </Modal>

@@ -20,5 +20,6 @@ const inventoryHistory = createSlice({
 });
 
 export const { setInventoryHistoryDate } = inventoryHistory.actions;
-export const selectInventoryHistory = (state: RootState) => state.inventoryHistory;
+export const selectInventoryHistory = (state: RootState) =>
+  state.inventoryHistory;
 export default inventoryHistory.reducer;

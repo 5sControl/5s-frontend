@@ -40,23 +40,32 @@ export const getCompanyInfoForm = (hostname, cookies) => {
 };
 
 export const createCompanyInfoForm = (hostname, cookies, data) => {
-  return axios.post(`${process.env.REACT_APP_NGROK}${API_COMPANYINFO_FORM}`, data, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.post(
+    `${process.env.REACT_APP_NGROK}${API_COMPANYINFO_FORM}`,
+    data,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
 export const editCompanyInfoForm = (hostname, cookies, data, id) => {
-  return axios.patch(`${process.env.REACT_APP_NGROK}${API_COMPANYINFO_FORM}${id}/`, data, {
-    headers: {
-      'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.patch(
+    `${process.env.REACT_APP_NGROK}${API_COMPANYINFO_FORM}${id}/`,
+    data,
+    {
+      headers: {
+        'Content-Type':
+          data.logo === null ? 'application/json' : 'multipart/form-data',
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
 export const getCompanySubsInfo = (hostname, cookies) => {
@@ -121,12 +130,15 @@ export const isVerifyToken = (hostname, cookies) => {
 };
 
 export const getSystemMessage = (hostname, cookies, page) => {
-  return axios.get(`${process.env.REACT_APP_NGROK}${API_SYSTEMMESSAGE}?page=${page}`, {
-    headers: {
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.get(
+    `${process.env.REACT_APP_NGROK}${API_SYSTEMMESSAGE}?page=${page}`,
+    {
+      headers: {
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
 export const getSuppliers = (hostname, cookies) => {
@@ -141,7 +153,8 @@ export const getSuppliers = (hostname, cookies) => {
 export const createSuppliers = (hostname, cookies, data) => {
   return axios.post(`${process.env.REACT_APP_NGROK}${API_SUPPLIERS}`, data, {
     headers: {
-      'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
+      'Content-Type':
+        data.logo === null ? 'application/json' : 'multipart/form-data',
       Authorization: cookies,
       'ngrok-skip-browser-warning': 'true',
     },
@@ -149,13 +162,18 @@ export const createSuppliers = (hostname, cookies, data) => {
 };
 
 export const editSuppliers = (hostname, cookies, id, data) => {
-  return axios.patch(`${process.env.REACT_APP_NGROK}${API_SUPPLIERS}${id}/`, data, {
-    headers: {
-      'Content-Type': data.logo === null ? 'application/json' : 'multipart/form-data',
-      Authorization: cookies,
-      'ngrok-skip-browser-warning': 'true',
-    },
-  });
+  return axios.patch(
+    `${process.env.REACT_APP_NGROK}${API_SUPPLIERS}${id}/`,
+    data,
+    {
+      headers: {
+        'Content-Type':
+          data.logo === null ? 'application/json' : 'multipart/form-data',
+        Authorization: cookies,
+        'ngrok-skip-browser-warning': 'true',
+      },
+    }
+  );
 };
 
 export const deleteSuppliers = (hostname, cookies, id) => {
