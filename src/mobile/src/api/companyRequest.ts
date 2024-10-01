@@ -9,7 +9,7 @@ export const authorizationRequest = (
   email: string,
   password: string
 ): Promise<AxiosResponse> => {
-  return axios.post(`${process.env.REACT_APP_MOBILE_API}${API_AUTH}`, {
+  return axios.post(`${process.env.REACT_APP_NGROK}${API_AUTH}`, {
     username: email,
     password: password,
   });
@@ -17,14 +17,14 @@ export const authorizationRequest = (
 
 export const isVerifyToken = (hostname: string, cookies: string) => {
   cookies = cookies?.split(' ')[1];
-  return axios.post(`${process.env.REACT_APP_MOBILE_API}${API_VERIFYTOKEN}`, {
+  return axios.post(`${process.env.REACT_APP_NGROK}${API_VERIFYTOKEN}`, {
     token: cookies,
     'ngrok-skip-browser-warning': 'true',
   });
 };
 
 export const getUserList = (hostname: string, cookies: string) => {
-  return axios.get(`${process.env.REACT_APP_MOBILE_API}${API_USERLIST}`, {
+  return axios.get(`${process.env.REACT_APP_NGROK}${API_USERLIST}`, {
     headers: {
       Authorization: cookies,
       'ngrok-skip-browser-warning': 'true',

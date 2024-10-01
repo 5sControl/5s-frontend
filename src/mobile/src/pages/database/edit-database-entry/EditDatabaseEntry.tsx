@@ -59,7 +59,7 @@ const EditDatabaseEntry: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton text="" defaultHref={ROUTES.DATABASE_CATEGORY(category)} color="medium"></IonBackButton>
+            <IonBackButton text="" defaultHref={ROUTES.DATABASE_CATEGORY(category + 's')} color="medium"></IonBackButton>
           </IonButtons>
           <IonTitle>{name}</IonTitle>
           <IonButton slot="end" size="small" color="primary" disabled={!name} onClick={updateEntry}>Save</IonButton>

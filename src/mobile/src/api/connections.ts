@@ -5,7 +5,7 @@ const API_CONNECTIONS = 'api/connector/connections/';
 const GET_CONNECTIONS = 'api/order/get-connections/';
 
 export const getStatusData = (hostname: string, cookies: string) => {
-  return axios.get(`${process.env.REACT_APP_MOBILE_API}${API_STATUSDATA}`, {
+  return axios.get(`${process.env.REACT_APP_NGROK}${API_STATUSDATA}`, {
     headers: {
       Authorization: cookies,
       'ngrok-skip-browser-warning': 'true',
@@ -15,7 +15,7 @@ export const getStatusData = (hostname: string, cookies: string) => {
 
 export const patchStatusData = (id: number, cookies: string, body: any) => {
   return axios.put(
-    `${process.env.REACT_APP_MOBILE_API}${API_CONNECTIONS}${id}/`,
+    `${process.env.REACT_APP_NGROK}${API_CONNECTIONS}${id}/`,
     body,
     {
       headers: {
@@ -30,7 +30,7 @@ export const getConnectionsToDatabases = (
   hostname: string,
   cookies: string
 ) => {
-  return axios.get(process.env.REACT_APP_MOBILE_API + GET_CONNECTIONS, {
+  return axios.get(process.env.REACT_APP_NGROK + GET_CONNECTIONS, {
     headers: {
       Authorization: cookies,
       'ngrok-skip-browser-warning': 'true',

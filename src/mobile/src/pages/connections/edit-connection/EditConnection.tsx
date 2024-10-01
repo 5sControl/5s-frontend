@@ -6,6 +6,7 @@ import { useCookies } from 'react-cookie';
 import { getConnectionsToDatabases } from '../../../api/connections';
 import { capitalize } from '../../../utils/capitalize';
 import { Input } from '../../../components/input/Input';
+import { ConnectionItem } from '../../../models/interfaces/connectionItem.interface';
 
 const EditConnection: React.FC = () => {
   const [cookies] = useCookies(['token']);

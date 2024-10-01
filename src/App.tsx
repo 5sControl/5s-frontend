@@ -82,8 +82,8 @@ function App() {
     <IonApp>
       <BrowserRouter>
         <Routes>
-          {/* <Route path='/authorization' element={<Authorization />} />
-          {cookies.token ? ( */}
+          <Route path='/authorization' element={<Authorization />} />
+          {cookies.token ? (
             <Route element={<RoutesOutlet />}>
               <Route path='/' element={<Main />} />
               <Route path='/info/*' element={<Info />} />
@@ -119,9 +119,9 @@ function App() {
                   <Route path={ROUTES.DATABASE_ADD_ENTRY(':category')} element={<NewDatabaseEntry />} />
                   <Route path={ROUTES.DATABASE_EDIT_ENTRY(':category', ':entry', ':id')} element={<EditDatabaseEntry />} />
             </Route>
-          {/* ) : (
+          ) : (
             <Route path='/*' element={<Authorization />} />
-          )} */}
+          )}
         </Routes>
       </BrowserRouter>
     </IonApp>

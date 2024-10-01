@@ -32,7 +32,6 @@ export const Menu = () => {
 
   const logout = () => {
     removeCookie('token');
-    navigate(ROUTES.AUTHORIZATION);
   }
 
   return (
@@ -45,7 +44,7 @@ export const Menu = () => {
         </IonToolbar>
       </IonHeader>
       <IonList inset={true}>
-        <IonItem button onClick={() => handleItemClick('/')}>
+        <IonItem disabled button onClick={() => handleItemClick('/')}>
           <IonIcon aria-hidden="true" icon={Settings} slot="start"></IonIcon>
           <IonLabel>Orders View</IonLabel>
         </IonItem>

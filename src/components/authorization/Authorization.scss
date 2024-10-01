@@ -36,6 +36,10 @@
       border-color: #212121;
       outline: none;
     }
+
+    @media screen and (max-width: 768px) {
+      width: 90vw;
+    }
   }
   &__button {
     margin: 0 auto;
@@ -53,6 +57,10 @@
     transition: all 0.5s;
     &:hover {
       background: #833505;
+    }
+
+    @media screen and (max-width: 768px) {
+      width: 90vw;
     }
   }
   .disableButton {

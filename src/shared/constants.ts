@@ -1,6 +1,6 @@
 export const ROUTES = {
   MENU: '/mobile/',
-  AUTHORIZATION: '/mobile/authorization',
+  AUTHORIZATION: '/authorization',
   CONFIGURATION: '/mobile/configuration',
   CONNECTIONS: '/mobile/configuration/connections',
   CONNECTIONS_ADD: '/mobile/configuration/connections/add',

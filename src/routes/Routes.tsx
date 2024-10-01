@@ -42,7 +42,7 @@ export const RoutesOutlet = () => {
   return (
     <>
       <div className='window'>
-        {/* <LeftMenu /> */}
+        <LeftMenu />
         <section className='outlet'>
           <Outlet />
         </section>
