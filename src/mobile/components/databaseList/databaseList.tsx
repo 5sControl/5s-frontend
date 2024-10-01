@@ -3,10 +3,10 @@ import { IonContent, IonList, IonItem, IonLabel } from '@ionic/react';
 import { fetchDatabaseParam } from '../../api/fetchDatabaseParam';
 import './styles.module.css';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../../shared/constants';
+import { ROUTES } from '../../../shared/constants';
 import { EmptyResultPrompt } from '../emptyResultPrompt/emptyResultPrompt';
 import { useCookies } from 'react-cookie';
-import { Preloader } from '../../../../components/preloader';
+import { Preloader } from '../../../components/preloader';
 
 type DatabaseItem = {
     name: string,

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonList, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
-import { ROUTES } from '../../../../../shared/constants';
+import { ROUTES } from '../../../../shared/constants';
 import { Input } from '../../../components/input/Input';
 
 const NewDatabaseEntry: React.FC = () => {

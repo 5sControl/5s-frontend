@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/react';
 import { useParams } from 'react-router';
 import { AddItemList } from '../../../components/addItemList/AddItemList';
-import { ROUTES } from '../../../../../shared/constants';
+import { ROUTES } from '../../../../shared/constants';
 import { createProductCategory } from '../../../api/product/productCategories';
 import { createOperation } from '../../../api/product/productOperation';
 import { useNavigate } from 'react-router-dom';

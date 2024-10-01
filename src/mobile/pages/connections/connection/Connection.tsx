@@ -3,11 +3,11 @@ import { IonContent, IonHeader, IonList, IonItem, IonLabel, IonTitle, IonToolbar
 import { useNavigate, useParams } from 'react-router-dom';
 import { getConnectionsToDatabases } from '../../../api/connections';
 import { useCookies } from 'react-cookie';
-import { ROUTES } from '../../../../../shared/constants';
+import { ROUTES } from '../../../../shared/constants';
 import { Delete, DeleteCover, DeleteRedIcon, Edit, EditCover, EditOrangeIcon } from '../../../assets/svg/SVGcomponent';
 import { capitalize } from '../../../utils/capitalize';
 import { ConfirmationModal } from '../../../components/confirmationModal/confirmationModal';
-import { Preloader } from '../../../../../components/preloader';
+import { Preloader } from '../../../../components/preloader';
 import { ConnectionItem } from '../../../models/interfaces/connectionItem.interface';
 
 const Connection: React.FC = () => {

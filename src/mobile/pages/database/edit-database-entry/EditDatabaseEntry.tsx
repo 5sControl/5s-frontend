@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import { ConfirmationModal } from '../../../components/confirmationModal/confirmationModal';
 import { DeleteButton } from '../../../components/deleteButton/DeleteButton';
 import { AddItemList } from '../../../components/addItemList/AddItemList';
-import { ROUTES } from '../../../../../shared/constants';
+import { ROUTES } from '../../../../shared/constants';
 import { deleteProduct, updateProduct } from '../../../api/product/productType';
 import { deleteOperation, updateOperation } from '../../../api/product/productOperation';
 import { useNavigate } from 'react-router-dom';

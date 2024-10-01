@@ -1,7 +1,7 @@
 import React from 'react';
 import { IonContent, IonHeader, IonList, IonItem, IonLabel, IonTitle, IonToolbar, IonIcon, IonButtons, IonBackButton, IonListHeader, IonSearchbar } from '@ionic/react';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../../shared/constants';
+import { ROUTES } from '../../../shared/constants';
 
 const Database: React.FC = () => {
   const navigate = useNavigate();

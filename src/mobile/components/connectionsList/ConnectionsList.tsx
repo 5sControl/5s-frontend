@@ -6,7 +6,7 @@ import {
   IonNote,
 } from '@ionic/react';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../../shared/constants';
+import { ROUTES } from '../../../shared/constants';
 import { ConnectionItem } from '../../models/interfaces/connectionItem.interface';
 
 type ConnectionsListProps = {

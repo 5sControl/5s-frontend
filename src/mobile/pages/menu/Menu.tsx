@@ -8,7 +8,7 @@ import './Menu.scss'
 import { Logout } from '../../components/logout/Logout';
 import jwtDecode from 'jwt-decode';
 import { getUserList } from '../../api/companyRequest';
-import { ROUTES } from '../../../../shared/constants';
+import { ROUTES } from '../../../shared/constants';
 
 export const Menu = () => {
   const [cookies, , removeCookie] = useCookies(['token']);
