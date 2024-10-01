@@ -5,7 +5,8 @@ import './styles.module.css';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../../shared/constants';
 import { EmptyResultPrompt } from '../emptyResultPrompt/emptyResultPrompt';
-import { getAllProductCategories } from '../../api/product/productCategories';
+import { useCookies } from 'react-cookie';
+import { Preloader } from '../../../../components/preloader';
 
 type DatabaseItem = {
     name: string,
@@ -22,12 +23,13 @@ const DatabaseList: React.FC<DatabaseListProps> = ({ paramName, searchQuery }) =
     const [results, setResults] = useState<DatabaseItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const navigate = useNavigate();
+    const [ cookies ] = useCookies(['token']);
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const data = await fetchDatabaseParam(paramName);
+                const data = await fetchDatabaseParam(paramName, cookies.token);
                 setItems(data);
                 setResults(data);
             } catch (error) {
@@ -41,7 +43,8 @@ const DatabaseList: React.FC<DatabaseListProps> = ({ paramName, searchQuery }) =
     }, [paramName]);
 
     useEffect(() => {
-        setResults(items.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase())));
+        if (Array.isArray(items) && items.length !== 0)
+            setResults(items.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase())));
     }, [searchQuery, items]);
 
     const handleItemClick = (category: string, itemName: string, itemId: number) => {
@@ -57,13 +60,11 @@ const DatabaseList: React.FC<DatabaseListProps> = ({ paramName, searchQuery }) =
     return (
         <IonContent>
             {loading ? (
-                <IonList inset={true}>
-                    <IonItem>
-                        <IonLabel>Loading items...</IonLabel>
-                    </IonItem>
-                </IonList>
+                <div className='preloader'>
+                    <Preloader/>
+                </div>
             ) :
-            items.length === 0 ?
+            !Array.isArray(items) || items.length === 0 ?
                 <EmptyResultPrompt itemsCategory={paramName} addButton={true}/>
                 :
                     <IonList inset={true}>

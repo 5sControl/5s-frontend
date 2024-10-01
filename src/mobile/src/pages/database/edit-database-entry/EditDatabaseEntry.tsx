@@ -6,13 +6,13 @@ import { DeleteButton } from '../../../components/deleteButton/DeleteButton';
 import { AddItemList } from '../../../components/addItemList/AddItemList';
 import { ROUTES } from '../../../../../shared/constants';
 import { deleteProduct, updateProduct } from '../../../api/product/productType';
-import { updateProductCategory } from '../../../api/product/productCategories';
-import { updateProductTypeOperation } from '../../../api/product/productTypeOperation';
 import { deleteOperation, updateOperation } from '../../../api/product/productOperation';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 const EditDatabaseEntry: React.FC = () => {
   const navigate = useNavigate();
+  const [ cookies ] = useCookies(['token']);
   const { category, entry, id } = useParams() as { category: string, entry: string, id: string };
   const decodedEntry = decodeURIComponent(entry);
 
@@ -38,7 +38,7 @@ const EditDatabaseEntry: React.FC = () => {
         deleteProduct(parseInt(id));
         break;
       case 'operation':
-        deleteOperation(parseInt(id));
+        deleteOperation(parseInt(id), cookies.token);
     }
     navigate(-1);
   };
@@ -49,7 +49,7 @@ const EditDatabaseEntry: React.FC = () => {
         updateProduct(parseInt(id), name, 1);
         break;
       case 'operation':
-        updateOperation(parseInt(id), name, 1)
+        updateOperation(parseInt(id), name, 1, cookies.token)
     }
     navigate(-1);
   }

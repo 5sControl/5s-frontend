@@ -2,11 +2,5 @@
     text-transform: capitalize;
 }
 
-.searchContainer {
-    background-color: #FFF;
-    border-bottom: 1px solid #ddd;
-}
 
-ion-searchbar {
-    padding-top: 0;
-}
+

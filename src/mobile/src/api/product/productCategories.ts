@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 
-const API_PRODUCTCATEGORIES = 'product-categories/';
+const API_PRODUCTCATEGORIES = 'api/erp-reference/product-categories/'
 
-export const getAllProductCategories = (cookies = '') => {
-  return axios.get(`${process.env.REACT_APP_MOBILE_API}${API_PRODUCTCATEGORIES}`, {
+export const getAllProductCategories = (cookies: string) => {
+  return axios.get(`${process.env.REACT_APP_NGROK}${API_PRODUCTCATEGORIES}`, {
     headers: {
       Authorization: cookies,
       'ngrok-skip-browser-warning': 'true',
@@ -11,9 +11,9 @@ export const getAllProductCategories = (cookies = '') => {
   });
 };
 
-export const createProductCategory = (name: string, cookies = '') => {
+export const createProductCategory = (name: string, cookies: string) => {
   return axios.post(
-    `${process.env.REACT_APP_MOBILE_API}${API_PRODUCTCATEGORIES}`,
+    `${process.env.REACT_APP_NGROK}${API_PRODUCTCATEGORIES}`,
     { name },
     {
       headers: {
@@ -26,10 +26,10 @@ export const createProductCategory = (name: string, cookies = '') => {
 
 export const getProductCategory = (
   categoryId: number,
-  cookies = ''
+  cookies: string
 ) => {
   return axios.get(
-    `${process.env.REACT_APP_MOBILE_API}${API_PRODUCTCATEGORIES}${categoryId}/`,
+    `${process.env.REACT_APP_NGROK}${API_PRODUCTCATEGORIES}${categoryId}/`,
     {
       headers: {
         Authorization: cookies,
@@ -39,13 +39,14 @@ export const getProductCategory = (
   );
 };
 
+
 export const updateProductCategory = (
   categoryId: number,
   name: string,
-  cookies = ''
+  cookies: string
 ) => {
   return axios.patch(
-    `${process.env.REACT_APP_MOBILE_API}${API_PRODUCTCATEGORIES}${categoryId}/`,
+    `${process.env.REACT_APP_NGROK}${API_PRODUCTCATEGORIES}${categoryId}/`,
     { name },
     {
       headers: {
@@ -58,10 +59,10 @@ export const updateProductCategory = (
 
 export const deleteProductCategory = (
   categoryId: number,
-  cookies = ''
+  cookies: string
 ) => {
   return axios.delete(
-    `${process.env.REACT_APP_MOBILE_API}${API_PRODUCTCATEGORIES}${categoryId}/`,
+    `${process.env.REACT_APP_NGROK}${API_PRODUCTCATEGORIES}${categoryId}/`,
     {
       headers: {
         Authorization: cookies,

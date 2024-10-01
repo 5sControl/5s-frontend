@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const API_PRODUCT = 'product-type/';
+const API_PRODUCT = 'api/erp-reference/product-type/';
 
 
 export const getAllProducts = (categoryId: number, cookies = '') => {
-  return axios.get(`${process.env.REACT_APP_MOBILE_API}${API_PRODUCT}${categoryId}`, {
+  return axios.get(`${process.env.REACT_APP_NGROK}${API_PRODUCT}${categoryId}`, {
     headers: {
       Authorization: cookies,
       'ngrok-skip-browser-warning': 'true',
@@ -18,7 +18,7 @@ export const createProduct = (
   cookies = ''
 ) => {
   return axios.post(
-    `${process.env.REACT_APP_MOBILE_API}${API_PRODUCT}`,
+    `${process.env.REACT_APP_NGROK}${API_PRODUCT}`,
     { name, categoryId },
     {
       headers: {
@@ -36,7 +36,7 @@ export const updateProduct = (
   cookies = ''
 ) => {
   return axios.patch(
-    `${process.env.REACT_APP_MOBILE_API}${API_PRODUCT}${id}/`,
+    `${process.env.REACT_APP_NGROK}${API_PRODUCT}${id}/`,
     { name, categoryId },
     {
       headers: {
@@ -48,7 +48,7 @@ export const updateProduct = (
 };
 
 export const deleteProduct = (id: number, cookies = '') => {
-  return axios.delete(`${process.env.REACT_APP_MOBILE_API}${API_PRODUCT}${id}/`, {
+  return axios.delete(`${process.env.REACT_APP_NGROK}${API_PRODUCT}${id}/`, {
     headers: {
       Authorization: cookies,
       'ngrok-skip-browser-warning': 'true',

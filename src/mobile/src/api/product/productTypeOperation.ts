@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_PRODUCTTYPEOPERATION = 'product-type-operation/';
+const API_PRODUCTTYPEOPERATION = 'api/erp-reference/product-type-operation/';
 
 export const getAllProductTypeOperations = (
   productTypeId: number,
@@ -8,7 +8,7 @@ export const getAllProductTypeOperations = (
 ) => {
   return axios.get(
     `${
-      process.env.REACT_APP_MOBILE_API
+      process.env.REACT_APP_NGROK
     }${API_PRODUCTTYPEOPERATION}by-type/${productTypeId}`,
     {
       headers: {
@@ -25,7 +25,7 @@ export const createProductTypeOperation = (
   cookies = ''
 ) => {
   return axios.post(
-    `${process.env.REACT_APP_MOBILE_API}${API_PRODUCTTYPEOPERATION}`,
+    `${process.env.REACT_APP_NGROK}${API_PRODUCTTYPEOPERATION}`,
     { name, categoryId },
     {
       headers: {
@@ -43,7 +43,7 @@ export const updateProductTypeOperation = (
   cookies = ''
 ) => {
   return axios.patch(
-    `${process.env.REACT_APP_MOBILE_API}${API_PRODUCTTYPEOPERATION}${id}/`,
+    `${process.env.REACT_APP_NGROK}${API_PRODUCTTYPEOPERATION}${id}/`,
     { name, categoryId },
     {
       headers: {
@@ -59,7 +59,7 @@ export const deleteProductTypeOperation = (
   cookies = ''
 ) => {
   return axios.delete(
-    `${process.env.REACT_APP_MOBILE_API}${API_PRODUCTTYPEOPERATION}${id}/`,
+    `${process.env.REACT_APP_NGROK}${API_PRODUCTTYPEOPERATION}${id}/`,
     {
       headers: {
         Authorization: cookies,

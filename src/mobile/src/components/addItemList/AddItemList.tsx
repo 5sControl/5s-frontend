@@ -13,6 +13,7 @@ import {
 import { DeleteRedIcon } from '../../assets/svg/SVGcomponent';
 import { fetchDatabaseParam } from '../../api/fetchDatabaseParam';
 import { SelectItemsModal } from '../selectItemsModal/selectItemsModal';
+import { useCookies } from 'react-cookie';
 
 type AddItemListProps = {
   title: string;
@@ -26,6 +27,7 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedItems, setSelectedItems] = useState<boolean[]>([true, true, true]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [cookies] = useCookies(['token']);
 
   useEffect(() => {
     const updatedSelections = allItems.map(item => currentItems.includes(item));
@@ -54,7 +56,7 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items }) => {
   const handleOpenModal = async () => {
     setLoading(true); 
     try {
-      const data = await fetchDatabaseParam(title.toLowerCase());
+      const data = await fetchDatabaseParam(title.toLowerCase(), cookies.token);
       const operationNames = data.map((item: { name: string }) => item.name);
       setAllItems(operationNames);
     } catch (error) {
