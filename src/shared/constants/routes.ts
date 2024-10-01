@@ -11,4 +11,5 @@ export const ROUTES = {
   DATABASE_ADD_ENTRY: (category: string) => `/mobile/database/${category}/addEntry`,
   DATABASE_EDIT_ENTRY: (category: string, entry: string, id: string) =>
     `/mobile/database/${category}/${entry}/${id}/edit`,
+  ORDERSVIEW: '/mobile/ordersView',
 };

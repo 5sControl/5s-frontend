@@ -43,11 +43,11 @@ import Connections from './mobile/pages/connections/Connections';
 import NewConnection from './mobile/pages/connections/new-connection/NewConnection';
 import Database from './mobile/pages/database/Database';
 import DatabaseTable from './mobile/pages/database/database-table/DatabaseTable';
-import ProductCategories from './mobile/pages/database/database-table/product-categories/ProductCategories';
 import EditDatabaseEntry from './mobile/pages/database/edit-database-entry/EditDatabaseEntry';
 import NewDatabaseEntry from './mobile/pages/database/new-database-entry/NewDatabaseEntry';
 import ConfigurationMobile from './mobile/pages/configuration/Configuration'; 
 import { databaseTables } from './shared/constants/databaseTables';
+import { OrdersView as OrdersViewMobile } from './mobile/pages/ordersView/ordersView';
 
 setupIonicReact();
 
@@ -119,6 +119,7 @@ function App() {
                   <Route path={ROUTES.DATABASE_CATEGORY('products')}  element={<DatabaseTable table={databaseTables['products']} />} />
                   <Route path={ROUTES.DATABASE_ADD_ENTRY(':category')} element={<NewDatabaseEntry />} />
                   <Route path={ROUTES.DATABASE_EDIT_ENTRY(':category', ':entry', ':id')} element={<EditDatabaseEntry />} />
+                  <Route path={ROUTES.ORDERSVIEW} element={<OrdersViewMobile />} />
             </Route>
           ) : (
             <Route path='/*' element={<Authorization />} />
