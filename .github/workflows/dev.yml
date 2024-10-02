@@ -47,5 +47,11 @@ jobs:
       - name: Pull the latest Docker image
         run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml pull 5scontrol_front
 
+      - name: Stop the old server container
+        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml stop 5scontrol_front
+
+      - name: Stop and remove the old server container
+        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml rm -f 5scontrol_front
+
       - name: Recreate and restart server container
-        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml up -d --no-deps --force-recreate 5scontrol_front 
+        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml up -d --no-deps 5scontrol_front 
