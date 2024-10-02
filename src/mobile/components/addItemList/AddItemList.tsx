@@ -15,26 +15,31 @@ import { fetchDatabaseParam } from '../../api/fetchDatabaseParam';
 import { SelectItemsModal } from '../selectItemsModal/selectItemsModal';
 import { useCookies } from 'react-cookie';
 import { Preloader } from '../../../components/preloader';
+import { getAllOperations } from '../../api/product/productOperation';
+import { getAllProductTypeOperations } from '../../api/product/productTypeOperation';
 
 type AddItemListProps = {
   title: string;
   items: string[];
-  categoryId: string
+  categoryId: string;
+  typeId: string;
 };
 
-export const AddItemList: React.FC<AddItemListProps> = ({ title, items, categoryId }) => {
+export const AddItemList: React.FC<AddItemListProps> = ({ title, items, categoryId, typeId }) => {
   const [currentItems, setCurrentItems] = useState<string[]>([]);
   const [allItems, setAllItems] = useState<string[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [selectedItems, setSelectedItems] = useState<boolean[]>([true, true, true]);
+  const [selectedItems, setSelectedItems] = useState<boolean[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
 
-  useEffect(() => {
-    const updatedSelections = allItems.map(item => currentItems.includes(item));
-    setSelectedItems(updatedSelections);
-  }, [allItems, currentItems]);
+useEffect(() => {
+  const updatedSelections = allItems.map(item => currentItems.includes(item));
+  console.log('updatedSelections', updatedSelections);
+  setSelectedItems(updatedSelections);
+  console.log('selectedItems', selectedItems);
+}, [allItems, currentItems]);
 
   const handleEditToggle = () => {
     if (currentItems.length > 0) {
@@ -61,6 +66,14 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
       const data = await fetchDatabaseParam(title.toLowerCase(), cookies.token);
       const operationNames = data.map((item: { name: string }) => item.name);
       setAllItems(operationNames);
+      const productOperations: string[] = [];
+      getAllProductTypeOperations(parseInt(typeId), cookies.token)
+      .then((response: any) => {
+        console.log(response.data);
+        response.data.forEach((operation: any) => productOperations.push(operation.productOperationName));
+        console.log('product operations',productOperations);
+        setCurrentItems(productOperations);
+      });
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -127,8 +140,7 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
         onClose={handleCloseModal}
         onConfirm={handleConfirmAdd}
         allItems={allItems}
-        selectedItems={selectedItems}
-        setSelectedItems={setSelectedItems}
+        previouslySelectedItems={selectedItems}
         categoryId={categoryId}
       />
     </>

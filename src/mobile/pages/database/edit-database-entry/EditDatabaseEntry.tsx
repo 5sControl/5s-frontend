@@ -80,7 +80,7 @@ const EditDatabaseEntry: React.FC = () => {
           <IonLabel position="stacked">Name</IonLabel>
           <IonInput value={name} onIonInput={handleInputChange} className="input__wrapper"></IonInput>
         </IonItem>
-        {category === 'products' && <AddItemList title="Operations" items={[]} categoryId={id}/>}
+        {category === 'products' && <AddItemList title="Operations" items={[]} typeId={id} categoryId={category}/>}
         <DeleteButton handleDeleteClick={handleDeleteClick} />
       </IonHeader>
       <ConfirmationModal 

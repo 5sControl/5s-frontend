@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IonButton,
   IonContent,
@@ -20,9 +20,7 @@ type SelectItemsModalProps = {
   onConfirm: (selectedItems: string[]) => void;
   allItems: string[];
   categoryId: string;
-  selectedItems: boolean[];
-  setSelectedItems: (selected: boolean[]) => void;
-  
+  previouslySelectedItems: boolean[];
 };
 
 export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
@@ -30,11 +28,13 @@ export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
   onClose,
   onConfirm,
   allItems,
-  selectedItems,
-  setSelectedItems,
+  previouslySelectedItems,
   categoryId
 }) => {
   const [cookies] = useCookies(['token']);
+  console.log('previously', previouslySelectedItems);
+  const [selectedItems, setSelectedItems] = useState<boolean[]>(previouslySelectedItems);
+
 
   const handleSelectItem = (index: number) => {
     const updatedSelection = [...selectedItems];
@@ -43,25 +43,33 @@ export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
   };
 
   const handleConfirmAdd = async () => {
+    console.log('selected', selectedItems);
+    console.log('all', allItems);
     const newSelectedItems: string[] = allItems.filter((_, index) => selectedItems[index]);
+    console.log('newSelected', newSelectedItems);
+    setSelectedItems([]);
+    onClose();
     onConfirm(newSelectedItems);
       try {
         for (const item of newSelectedItems) {
           await createOperation(item, parseInt(categoryId), cookies.token); 
         }
         onConfirm(newSelectedItems); 
-        onClose(); 
       } catch (error) {
         console.error("Error creating operations:", error);
       }
-    onClose();
   };
+
+  const handleClose = () => {
+    setSelectedItems([]);
+    onClose();
+  }
 
   return (
     <IonModal isOpen={isOpen} onDidDismiss={onClose} className='selectModal'>
       <IonHeader>
         <IonToolbar>
-          <IonButton slot="start" onClick={onClose} fill="clear" size="small">Cancel</IonButton>
+          <IonButton slot="start" onClick={handleClose} fill="clear" size="small">Cancel</IonButton>
           <IonTitle>Select</IonTitle>
           <IonButton slot="end" onClick={handleConfirmAdd} size="small">Add</IonButton>
         </IonToolbar>
@@ -73,7 +81,8 @@ export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
             <IonItem key={index}>
                 <IonCheckbox 
                 className="customCheckbox"
-                checked={selectedItems[index]}
+                checked={selectedItems[index] || previouslySelectedItems[index]}
+                disabled={previouslySelectedItems[index]}
                 onIonChange={() => handleSelectItem(index)}
                 justify="space-between">
                 {item}

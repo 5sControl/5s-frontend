@@ -54,7 +54,7 @@ const NewDatabaseEntry: React.FC = () => {
       <IonLabel position="stacked">Name</IonLabel>
       <IonInput placeholder="Enter a name" onIonInput={handleInputChange} className="input__wrapper"></IonInput>
     </IonItem>
-    {category === databaseTables.products.path && <AddItemList title="Operations" items={[]} categoryId={categoryId}/>}
+    {category === databaseTables.products.path && <AddItemList title="Operations" items={[]} categoryId={categoryId} typeId={'-1'}/>}
   </IonContent>
   )
 }
