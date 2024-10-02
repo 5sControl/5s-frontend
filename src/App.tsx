@@ -48,6 +48,7 @@ import NewDatabaseEntry from './mobile/pages/database/new-database-entry/NewData
 import ConfigurationMobile from './mobile/pages/configuration/Configuration'; 
 import { databaseTables } from './shared/constants/databaseTables';
 import { OrdersView as OrdersViewMobile } from './mobile/pages/ordersView/ordersView';
+import EditConnection from './mobile/pages/connections/edit-connection/EditConnection';
 
 setupIonicReact();
 
@@ -110,7 +111,7 @@ function App() {
                   <Route path={ROUTES.CONNECTIONS}  element={<Connections />} />
                   <Route path={ROUTES.CONNECTIONS_ADD} element={<NewConnection />} />
                   <Route path={ROUTES.CONNECTIONS_ITEM(':id')} element={<Connection />} />
-                  {/* <Route path={ROUTES.CONNECTIONS_EDIT(':id')} element={<EditConnection />} /> */}
+                  <Route path={ROUTES.CONNECTIONS_EDIT(':id')} element={<EditConnection />} />
                   <Route path={ROUTES.DATABASE}  element={<Database />} />
                   <Route path={ROUTES.DATABASE_CATEGORY('productCategories')}  element={<DatabaseTable table={databaseTables['productCategories']} />} />
                   <Route path={ROUTES.DATABASE_CATEGORY('operations')}  element={<DatabaseTable table={databaseTables['operations']} />} />

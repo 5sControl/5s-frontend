@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/react';
+import React, { useEffect, useRef, useState } from 'react';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonPopover, IonTitle, IonToolbar } from '@ionic/react';
 import { useParams } from 'react-router';
 import { ROUTES } from '../../../../shared/constants/routes';
 import { useCookies } from 'react-cookie';
@@ -13,6 +13,8 @@ const EditConnection: React.FC = () => {
   const { id } = useParams() as { id: string };
   const [currentConnection, setCurrentConnection] = useState<ConnectionItem>();
   const [changed, setChanged] = useState<boolean>(false);
+  const popover = useRef<HTMLIonPopoverElement>(null);
+  const [errorPopoverOpen, setErrorPopoverOpen] = useState(false);
 
   useEffect(() => {
     getConnectionsToDatabases('', cookies.token)
@@ -25,6 +27,15 @@ const EditConnection: React.FC = () => {
       });
   }, [])
 
+  const openErrorPopover = (e: any) => {
+    popover.current!.event = e;
+    setErrorPopoverOpen(true);
+  };
+
+  const handleSaveClick = (e: any) => {
+    openErrorPopover(e);
+  }
+
   return (
     <IonContent>
       <IonHeader>
@@ -33,7 +44,10 @@ const EditConnection: React.FC = () => {
                 <IonBackButton text="" defaultHref={ROUTES.CONNECTIONS} color="medium"></IonBackButton>
             </IonButtons>
             <IonTitle>{capitalize(currentConnection?.erp_system)} connection</IonTitle>
-            <IonButton slot="end" size="small" color="primary" disabled={!changed}>Save</IonButton>
+            <IonButton slot="end" size="small" color="primary" disabled={!changed} onClick={handleSaveClick}>Save</IonButton>
+              <IonPopover ref={popover} isOpen={errorPopoverOpen} onDidDismiss={() => setErrorPopoverOpen(false)}>
+                <IonContent class="ion-padding">Unable to save</IonContent>
+              </IonPopover>
         </IonToolbar>
         <Input label="Domain" value={currentConnection?.host || ''} required={true} handleChange={() => setChanged(true)}/>
         <Input label="Name" value={currentConnection?.erp_system || ''} required={true} handleChange={() => setChanged(true)}/>
