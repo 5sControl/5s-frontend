@@ -8,11 +8,11 @@ import { databaseTables } from '../../shared/constants/databaseTables';
 
 export async function fetchDatabaseParam(param: string, token: string): Promise<any> {
   switch (param) {
-    case databaseTables.products.singularName:
+    case databaseTables.products.path:
       return (await getAllProducts(1)).data;
-    case databaseTables.operations.singularName:
+    case databaseTables.operations.path:
       return (await getAllOperations(1, token)).data;
-    case databaseTables.productCategories.singularName:
+    case databaseTables.productCategories.path:
       return (await getAllProductCategories(token)).data;
   }
 }

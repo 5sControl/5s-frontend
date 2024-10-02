@@ -36,10 +36,10 @@ const EditDatabaseEntry: React.FC = () => {
   const handleConfirmDelete = () => {
     setShowDeleteModal(false);
     switch (category){
-      case 'product':
+      case databaseTables.products.path:
         deleteProduct(parseInt(id));
         break;
-      case 'operation':
+      case databaseTables.operations.path:
         deleteOperation(parseInt(id), cookies.token);
     }
     navigate(-1);
@@ -47,10 +47,10 @@ const EditDatabaseEntry: React.FC = () => {
 
   const updateEntry = () => {
     switch (category){
-      case 'product':
+      case databaseTables.products.path:
         updateProduct(parseInt(id), name, 1);
         break;
-      case 'operation':
+      case databaseTables.operations.path:
         updateOperation(parseInt(id), name, 1, cookies.token)
     }
     navigate(-1);
@@ -80,8 +80,7 @@ const EditDatabaseEntry: React.FC = () => {
           <IonLabel position="stacked">Name</IonLabel>
           <IonInput value={name} onIonInput={handleInputChange} className="input__wrapper"></IonInput>
         </IonItem>
-        {/* {category === 'products' && <AddItemList title="Operations" items={getProductOperations} />} */}
-        {category === 'products' && <AddItemList title="Operations" items={[]} />}
+        {category === 'products' && <AddItemList title="Operations" items={[]} categoryId={id}/>}
         <DeleteButton handleDeleteClick={handleDeleteClick} />
       </IonHeader>
       <ConfirmationModal 

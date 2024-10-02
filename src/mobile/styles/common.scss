@@ -79,3 +79,13 @@ ion-list-header{
 .preloader{
     height: 50%;
 }
+
+.customCheckbox{
+    --border-radius: 0;
+    --size: 16px;
+    --border-color: #666666;
+}
+
+ion-modal.selectModal{
+    --height: 100% !important;
+}

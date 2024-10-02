@@ -10,17 +10,19 @@ import {
   IonItem,
   IonCheckbox,
   IonSearchbar,
-  IonLabel,
 } from '@ionic/react';
-import './styles.module.css';
+import { createOperation } from '../../api/product/productOperation';
+import { useCookies } from 'react-cookie';
 
 type SelectItemsModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: (selectedItems: string[]) => void;
   allItems: string[];
+  categoryId: string;
   selectedItems: boolean[];
   setSelectedItems: (selected: boolean[]) => void;
+  
 };
 
 export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
@@ -30,7 +32,9 @@ export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
   allItems,
   selectedItems,
   setSelectedItems,
+  categoryId
 }) => {
+  const [cookies] = useCookies(['token']);
 
   const handleSelectItem = (index: number) => {
     const updatedSelection = [...selectedItems];
@@ -38,14 +42,23 @@ export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
     setSelectedItems(updatedSelection);
   };
 
-  const handleConfirmAdd = () => {
+  const handleConfirmAdd = async () => {
     const newSelectedItems: string[] = allItems.filter((_, index) => selectedItems[index]);
     onConfirm(newSelectedItems);
+      try {
+        for (const item of newSelectedItems) {
+          await createOperation(item, parseInt(categoryId), cookies.token); 
+        }
+        onConfirm(newSelectedItems); 
+        onClose(); 
+      } catch (error) {
+        console.error("Error creating operations:", error);
+      }
     onClose();
   };
 
   return (
-    <IonModal isOpen={isOpen} onDidDismiss={onClose}>
+    <IonModal isOpen={isOpen} onDidDismiss={onClose} className='selectModal'>
       <IonHeader>
         <IonToolbar>
           <IonButton slot="start" onClick={onClose} fill="clear" size="small">Cancel</IonButton>
