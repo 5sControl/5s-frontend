@@ -34,19 +34,20 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
-import './mobile/src/theme/variables.css';
-import './mobile/src/styles/common.scss';
-import { ROUTES } from './shared/constants';
-import { Menu } from './mobile/src/pages/menu/Menu';
-import Connection from './mobile/src/pages/connections/connection/Connection';
-import Connections from './mobile/src/pages/connections/Connections';
-import NewConnection from './mobile/src/pages/connections/new-connection/NewConnection';
-import Database from './mobile/src/pages/database/Database';
-import DatabaseTable from './mobile/src/pages/database/database-table/DatabaseTable';
-import ProductCategories from './mobile/src/pages/database/database-table/product-categories/ProductCategories';
-import EditDatabaseEntry from './mobile/src/pages/database/edit-database-entry/EditDatabaseEntry';
-import NewDatabaseEntry from './mobile/src/pages/database/new-database-entry/NewDatabaseEntry';
-import ConfigurationMobile from './mobile/src/pages/configuration/Configuration'; 
+import './mobile/theme/variables.css';
+import './mobile/styles/common.scss';
+import { ROUTES } from './shared/constants/routes';
+import { Menu } from './mobile/pages/menu/Menu';
+import Connection from './mobile/pages/connections/connection/Connection';
+import Connections from './mobile/pages/connections/Connections';
+import NewConnection from './mobile/pages/connections/new-connection/NewConnection';
+import Database from './mobile/pages/database/Database';
+import DatabaseTable from './mobile/pages/database/database-table/DatabaseTable';
+import EditDatabaseEntry from './mobile/pages/database/edit-database-entry/EditDatabaseEntry';
+import NewDatabaseEntry from './mobile/pages/database/new-database-entry/NewDatabaseEntry';
+import ConfigurationMobile from './mobile/pages/configuration/Configuration'; 
+import { databaseTables } from './shared/constants/databaseTables';
+import { OrdersView as OrdersViewMobile } from './mobile/pages/ordersView/ordersView';
 
 setupIonicReact();
 
@@ -111,13 +112,14 @@ function App() {
                   <Route path={ROUTES.CONNECTIONS_ITEM(':id')} element={<Connection />} />
                   {/* <Route path={ROUTES.CONNECTIONS_EDIT(':id')} element={<EditConnection />} /> */}
                   <Route path={ROUTES.DATABASE}  element={<Database />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY('productCategories')}  element={<ProductCategories />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY('operations')}  element={<DatabaseTable name='operations' />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY('employees')}  element={<DatabaseTable name='employees' />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY('equipment')}  element={<DatabaseTable name='equipment' />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY('products')}  element={<DatabaseTable name='products' />} />
+                  <Route path={ROUTES.DATABASE_CATEGORY('productCategories')}  element={<DatabaseTable table={databaseTables['productCategories']} />} />
+                  <Route path={ROUTES.DATABASE_CATEGORY('operations')}  element={<DatabaseTable table={databaseTables['operations']} />} />
+                  <Route path={ROUTES.DATABASE_CATEGORY('employees')}  element={<DatabaseTable table={databaseTables['employees']} />} />
+                  <Route path={ROUTES.DATABASE_CATEGORY('equipment')}  element={<DatabaseTable table={databaseTables['equipment']} />} />
+                  <Route path={ROUTES.DATABASE_CATEGORY('products')}  element={<DatabaseTable table={databaseTables['products']} />} />
                   <Route path={ROUTES.DATABASE_ADD_ENTRY(':category')} element={<NewDatabaseEntry />} />
                   <Route path={ROUTES.DATABASE_EDIT_ENTRY(':category', ':entry', ':id')} element={<EditDatabaseEntry />} />
+                  <Route path={ROUTES.ORDERSVIEW} element={<OrdersViewMobile />} />
             </Route>
           ) : (
             <Route path='/*' element={<Authorization />} />
