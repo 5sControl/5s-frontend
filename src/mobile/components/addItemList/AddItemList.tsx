@@ -19,9 +19,10 @@ import { Preloader } from '../../../components/preloader';
 type AddItemListProps = {
   title: string;
   items: string[];
+  categoryId: string
 };
 
-export const AddItemList: React.FC<AddItemListProps> = ({ title, items }) => {
+export const AddItemList: React.FC<AddItemListProps> = ({ title, items, categoryId }) => {
   const [currentItems, setCurrentItems] = useState<string[]>([]);
   const [allItems, setAllItems] = useState<string[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -128,6 +129,7 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items }) => {
         allItems={allItems}
         selectedItems={selectedItems}
         setSelectedItems={setSelectedItems}
+        categoryId={categoryId}
       />
     </>
   );

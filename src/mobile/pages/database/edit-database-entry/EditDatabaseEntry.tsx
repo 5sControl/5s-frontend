@@ -6,7 +6,7 @@ import { DeleteButton } from '../../../components/deleteButton/DeleteButton';
 import { AddItemList } from '../../../components/addItemList/AddItemList';
 import { ROUTES } from '../../../../shared/constants/routes';
 import { deleteProduct, updateProduct } from '../../../api/product/productType';
-import { deleteOperation, updateOperation } from '../../../api/product/productOperation';
+import { deleteOperation, getAllOperations, updateOperation } from '../../../api/product/productOperation';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { databaseTables } from '../../../../shared/constants/databaseTables';
@@ -36,10 +36,10 @@ const EditDatabaseEntry: React.FC = () => {
   const handleConfirmDelete = () => {
     setShowDeleteModal(false);
     switch (category){
-      case 'product':
+      case databaseTables.products.path:
         deleteProduct(parseInt(id));
         break;
-      case 'operation':
+      case databaseTables.operations.path:
         deleteOperation(parseInt(id), cookies.token);
     }
     navigate(-1);
@@ -47,14 +47,24 @@ const EditDatabaseEntry: React.FC = () => {
 
   const updateEntry = () => {
     switch (category){
-      case 'product':
+      case databaseTables.products.path:
         updateProduct(parseInt(id), name, 1);
         break;
-      case 'operation':
+      case databaseTables.operations.path:
         updateOperation(parseInt(id), name, 1, cookies.token)
     }
     navigate(-1);
   }
+
+  const getProductOperations = async () => {
+    try {
+      const response = (await getAllOperations(parseInt(id), cookies.token)).data;
+      return response; 
+    } catch (error) {
+      console.error("Error fetching operations:", error);
+      throw error;
+    }
+  };
 
   return (
     <IonContent>
@@ -70,7 +80,7 @@ const EditDatabaseEntry: React.FC = () => {
           <IonLabel position="stacked">Name</IonLabel>
           <IonInput value={name} onIonInput={handleInputChange} className="input__wrapper"></IonInput>
         </IonItem>
-        {category === 'products' && <AddItemList title="Operations" items={[]} />}
+        {category === 'products' && <AddItemList title="Operations" items={[]} categoryId={id}/>}
         <DeleteButton handleDeleteClick={handleDeleteClick} />
       </IonHeader>
       <ConfirmationModal 

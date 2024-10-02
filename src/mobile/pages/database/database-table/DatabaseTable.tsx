@@ -36,7 +36,7 @@ const DatabaseTable: React.FC<DatabaseTableProps> = ({ table }) => {
             <div className="searchContainer">
                 <IonSearchbar placeholder={'Search '} onIonInput={handleSearchInput}></IonSearchbar>
             </div>
-            <DatabaseList paramName={table.singularName} searchQuery={searchQuery} />
+            <DatabaseList category={table.path} searchQuery={searchQuery} />
         </IonContent>
     )
 };

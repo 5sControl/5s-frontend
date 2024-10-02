@@ -15,22 +15,23 @@ type DatabaseItem = {
 };
 
 type DatabaseListProps = {
-    paramName: string;
+    category: string;
     searchQuery: string;
 };
 
-const DatabaseList: React.FC<DatabaseListProps> = ({ paramName, searchQuery }) => {
+const DatabaseList: React.FC<DatabaseListProps> = ({ category, searchQuery }) => {
     const [items, setItems] = useState<DatabaseItem[]>([]);
     const [results, setResults] = useState<DatabaseItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const navigate = useNavigate();
     const [ cookies ] = useCookies(['token']);
+    const databaseTable = databaseTables[category as keyof typeof databaseTables];
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const data = await fetchDatabaseParam(paramName, cookies.token);
+                const data = await fetchDatabaseParam(category, cookies.token);
                 setItems(data);
                 setResults(data);
             } catch (error) {
@@ -46,7 +47,7 @@ const DatabaseList: React.FC<DatabaseListProps> = ({ paramName, searchQuery }) =
             setItems([]);
             setResults([]);
           };
-    }, [paramName]);
+    }, [category]);
 
     useEffect(() => {
         if (Array.isArray(items) && items.length !== 0)
@@ -55,7 +56,7 @@ const DatabaseList: React.FC<DatabaseListProps> = ({ paramName, searchQuery }) =
 
     const handleItemClick = (category: string, itemName: string, itemId: number) => {
         const encodedItemName = encodeURIComponent(itemName);
-        if (category === databaseTables.productCategories.singularName){
+        if (category === databaseTables.productCategories.path){
             navigate(ROUTES.DATABASE_CATEGORY(databaseTables.products.path));
             return;
         }
@@ -71,11 +72,11 @@ const DatabaseList: React.FC<DatabaseListProps> = ({ paramName, searchQuery }) =
                 </div>
             ) :
             !Array.isArray(items) || items.length === 0 ?
-                <EmptyResultPrompt itemsCategory={paramName} addButton={true}/>
+                <EmptyResultPrompt itemsCategory={databaseTable.singularName} addButton={true}/>
                 :
                     <IonList inset={true}>
                     {results.map((item, index) => (
-                        <IonItem key={index} button className="capitalized" onClick={() => handleItemClick(paramName, item.name, item.id)}>
+                        <IonItem key={index} button className="capitalized" onClick={() => handleItemClick(category, item.name, item.id)}>
                             <IonLabel>{item.name}</IonLabel>
                         </IonItem>
                     ))}

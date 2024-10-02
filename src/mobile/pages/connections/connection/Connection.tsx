@@ -88,7 +88,7 @@ const Connection: React.FC = () => {
             </IonItem>
           </IonList>
           <IonList inset={true}>
-            <IonItem>
+            <IonItem onClick={() => navigate(ROUTES.CONNECTIONS_EDIT(id))}>
               <IonIcon slot="start" icon={connected ? EditCover : EditOrangeIcon} />
               <IonLabel color={connected ? 'medium' : 'primary'}>Edit</IonLabel>
             </IonItem>

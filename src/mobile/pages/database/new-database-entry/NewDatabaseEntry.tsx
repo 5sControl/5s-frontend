@@ -14,6 +14,7 @@ const NewDatabaseEntry: React.FC = () => {
   const navigate = useNavigate();
   const [cookies] = useCookies(['token']);
   const { category } = useParams() as { category: string };
+  const [ categoryId, setCategoryId] = useState<string>('');
   const databaseTable = databaseTables[category as keyof typeof databaseTables];
 
   const [name, setName] = useState<string>('');
@@ -29,7 +30,7 @@ const NewDatabaseEntry: React.FC = () => {
         navigate(ROUTES.DATABASE_CATEGORY('productCategories'));
         break;
       case 'products':
-        createProduct(name, 1, cookies.token);
+        createProduct(name, 1, cookies.token).then((response) => setCategoryId(response.data.id))
         navigate(ROUTES.DATABASE_CATEGORY('productCategories'));
         break;
       case 'operations':
@@ -53,7 +54,7 @@ const NewDatabaseEntry: React.FC = () => {
       <IonLabel position="stacked">Name</IonLabel>
       <IonInput placeholder="Enter a name" onIonInput={handleInputChange} className="input__wrapper"></IonInput>
     </IonItem>
-    {category === databaseTables.products.path && <AddItemList title="Operations" items={[]}/>}
+    {category === databaseTables.products.path && <AddItemList title="Operations" items={[]} categoryId={categoryId}/>}
   </IonContent>
   )
 }
