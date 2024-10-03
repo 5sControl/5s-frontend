@@ -7,15 +7,17 @@ import { AddItemList } from '../../../components/addItemList/AddItemList';
 import { ROUTES } from '../../../../shared/constants/routes';
 import { deleteProduct, updateProduct } from '../../../api/product/productType';
 import { deleteOperation, getAllOperations, updateOperation } from '../../../api/product/productOperation';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { databaseTables } from '../../../../shared/constants/databaseTables';
 
 const EditDatabaseEntry: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [ cookies ] = useCookies(['token']);
   const { category, entry, id } = useParams() as { category: string, entry: string, id: string };
   const decodedEntry = decodeURIComponent(entry);
+  const { productCategoryId } = location.state || '-1';
   const databaseTable = databaseTables[category as keyof typeof databaseTables];
 
   const [name, setName] = useState<string>(decodedEntry);
@@ -48,23 +50,13 @@ const EditDatabaseEntry: React.FC = () => {
   const updateEntry = () => {
     switch (category){
       case databaseTables.products.path:
-        updateProduct(parseInt(id), name, 1);
+        updateProduct(parseInt(id), name, parseInt(productCategoryId), cookies.token);
         break;
       case databaseTables.operations.path:
-        updateOperation(parseInt(id), name, 1, cookies.token)
+        updateOperation(parseInt(id), name, parseInt(productCategoryId), cookies.token)
     }
-    navigate(-1);
+    navigate(ROUTES.DATABASE_CATEGORY(databaseTable.path), { state: { productCategoryId } });
   }
-
-  const getProductOperations = async () => {
-    try {
-      const response = (await getAllOperations(parseInt(id), cookies.token)).data;
-      return response; 
-    } catch (error) {
-      console.error("Error fetching operations:", error);
-      throw error;
-    }
-  };
 
   return (
     <IonContent>
@@ -80,7 +72,7 @@ const EditDatabaseEntry: React.FC = () => {
           <IonLabel position="stacked">Name</IonLabel>
           <IonInput value={name} onIonInput={handleInputChange} className="input__wrapper"></IonInput>
         </IonItem>
-        {category === 'products' && <AddItemList title="Operations" items={[]} categoryId={id}/>}
+        {category === 'products' && <AddItemList title="Operations" items={[]} typeId={id} categoryId={category}/>}
         <DeleteButton handleDeleteClick={handleDeleteClick} />
       </IonHeader>
       <ConfirmationModal 

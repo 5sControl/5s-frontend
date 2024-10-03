@@ -15,21 +15,44 @@ import { fetchDatabaseParam } from '../../api/fetchDatabaseParam';
 import { SelectItemsModal } from '../selectItemsModal/selectItemsModal';
 import { useCookies } from 'react-cookie';
 import { Preloader } from '../../../components/preloader';
+import { getAllOperations } from '../../api/product/productOperation';
+import { getAllProductTypeOperations } from '../../api/product/productTypeOperation';
 
 type AddItemListProps = {
   title: string;
   items: string[];
-  categoryId: string
+  categoryId: string;
+  typeId: string;
 };
 
-export const AddItemList: React.FC<AddItemListProps> = ({ title, items, categoryId }) => {
+export const AddItemList: React.FC<AddItemListProps> = ({ title, items, categoryId, typeId }) => {
   const [currentItems, setCurrentItems] = useState<string[]>([]);
   const [allItems, setAllItems] = useState<string[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [selectedItems, setSelectedItems] = useState<boolean[]>([true, true, true]);
+  const [selectedItems, setSelectedItems] = useState<boolean[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true); 
+      try {
+        const data = await fetchDatabaseParam(title.toLowerCase(), cookies.token, 1);
+        const operationNames = data.map((item: { name: string }) => item.name);
+        setAllItems(operationNames);
+        const productOperations: string[] = [];
+        const response = await getAllProductTypeOperations(parseInt(typeId), cookies.token);
+        response.data.forEach((operation: any) => productOperations.push(operation.productOperationName));
+        setCurrentItems(productOperations);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const updatedSelections = allItems.map(item => currentItems.includes(item));
@@ -56,17 +79,7 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
   };
 
   const handleOpenModal = async () => {
-    setLoading(true); 
-    try {
-      const data = await fetchDatabaseParam(title.toLowerCase(), cookies.token);
-      const operationNames = data.map((item: { name: string }) => item.name);
-      setAllItems(operationNames);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoading(false);
-      setShowModal(true);
-    }
+    setShowModal(true);
   };
 
   const handleCloseModal = () => {
@@ -115,7 +128,7 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
         }
       </IonList>
 
-      <IonLoading isOpen={loading} message={'Loading...'} onClick={handleCloseModal} /> 
+      <IonLoading isOpen={loading} spinner="circular" onClick={handleCloseModal} /> 
 
       {/* {loading && 
       <div className='preloader'>
@@ -127,8 +140,7 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
         onClose={handleCloseModal}
         onConfirm={handleConfirmAdd}
         allItems={allItems}
-        selectedItems={selectedItems}
-        setSelectedItems={setSelectedItems}
+        previouslySelectedItems={selectedItems}
         categoryId={categoryId}
       />
     </>

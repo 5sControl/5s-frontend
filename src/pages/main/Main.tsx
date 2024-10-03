@@ -11,15 +11,9 @@ export const Main = () => {
   const [cookies] = useCookies(['token']);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const isMobile = useIsMobile();
-
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token).then((response) => {
       setIsLoading(false);
-      if (isMobile) {
-        navigate('/mobile');
-        return;
-      }
       if (response.data.length > 0 || localStorage.getItem('firtEnter') === 'true') {
         navigate('/dashboard');
       }
