@@ -32,7 +32,6 @@ export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
   categoryId
 }) => {
   const [cookies] = useCookies(['token']);
-  console.log('previously', previouslySelectedItems);
   const [selectedItems, setSelectedItems] = useState<boolean[]>(previouslySelectedItems);
 
 
@@ -43,10 +42,7 @@ export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
   };
 
   const handleConfirmAdd = async () => {
-    console.log('selected', selectedItems);
-    console.log('all', allItems);
     const newSelectedItems: string[] = allItems.filter((_, index) => selectedItems[index]);
-    console.log('newSelected', newSelectedItems);
     setSelectedItems([]);
     onClose();
     onConfirm(newSelectedItems);

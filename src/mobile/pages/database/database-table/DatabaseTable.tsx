@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar } from '@ionic/react';
 import DatabaseList from '../../../components/databaseList/databaseList';
 import './styles.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../../shared/constants/routes';
 import { DatabaseTableInfo } from '../../../models/interfaces/databaseTableInfo.interface';
+import { databaseTables } from '../../../../shared/constants/databaseTables';
+import { set } from 'lodash';
 
 type DatabaseTableProps = {
     table: DatabaseTableInfo
@@ -12,14 +14,26 @@ type DatabaseTableProps = {
 
 const DatabaseTable: React.FC<DatabaseTableProps> = ({ table }) => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const { productCategoryId } = location.state || '-1';
 
-    const handleItemClick = (path: string) => {
-        navigate(path);
+    const handleAddClick = (path: string) => {
+        navigate(path, { state: { productCategoryId } });
     };
 
     const handleSearchInput = (ev: CustomEvent) => {
         setSearchQuery(ev.detail.value);
+    };
+
+    const handleItemClick = (category: string, itemName: string, itemId: number) => {
+        const encodedItemName = encodeURIComponent(itemName);
+        if (category === databaseTables.productCategories.path){
+            navigate(ROUTES.DATABASE_CATEGORY(databaseTables.products.path), { state: { productCategoryId: itemId }});
+            return;
+        }
+        const path = ROUTES.DATABASE_EDIT_ENTRY(category, encodedItemName, itemId.toString());
+        navigate(path);
     };
 
     return (
@@ -30,13 +44,13 @@ const DatabaseTable: React.FC<DatabaseTableProps> = ({ table }) => {
                         <IonBackButton text="" defaultHref={ROUTES.DATABASE} color="medium"></IonBackButton>
                     </IonButtons>
                     <IonTitle className="capitalized">{table.pageTitle}</IonTitle>
-                    <IonButton slot="end" size="small" color="primary" onClick={() => handleItemClick(ROUTES.DATABASE_ADD_ENTRY(table.path))}>+ Add</IonButton>
+                    <IonButton slot="end" size="small" color="primary" onClick={() => handleAddClick(ROUTES.DATABASE_ADD_ENTRY(table.path))}>+ Add</IonButton>
                 </IonToolbar>
             </IonHeader>
             <div className="searchContainer">
                 <IonSearchbar placeholder={'Search '} onIonInput={handleSearchInput}></IonSearchbar>
             </div>
-            <DatabaseList category={table.path} searchQuery={searchQuery} />
+            <DatabaseList category={table.path} searchQuery={searchQuery} handleItemClick={handleItemClick}/>
         </IonContent>
     )
 };

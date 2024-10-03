@@ -6,12 +6,12 @@ import { getAllProductTypeOperations } from './product/productTypeOperation';
 import { databaseTables } from '../../shared/constants/databaseTables';
 
 
-export async function fetchDatabaseParam(param: string, token: string): Promise<any> {
+export async function fetchDatabaseParam(param: string, token: string, productCategoryId: number): Promise<any> {
   switch (param) {
     case databaseTables.products.path:
-      return (await getAllProducts(1)).data;
+      return (await getAllProducts(productCategoryId)).data;
     case databaseTables.operations.path:
-      return (await getAllOperations(1, token)).data;
+      return (await getAllOperations(productCategoryId, token)).data;
     case databaseTables.productCategories.path:
       return (await getAllProductCategories(token)).data;
   }

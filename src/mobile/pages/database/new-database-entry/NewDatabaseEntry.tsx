@@ -5,16 +5,18 @@ import { AddItemList } from '../../../components/addItemList/AddItemList';
 import { ROUTES } from '../../../../shared/constants/routes';
 import { createProductCategory } from '../../../api/product/productCategories';
 import { createOperation } from '../../../api/product/productOperation';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { createProduct } from '../../../api/product/productType';
 import { databaseTables } from '../../../../shared/constants/databaseTables';
 
 const NewDatabaseEntry: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [cookies] = useCookies(['token']);
   const { category } = useParams() as { category: string };
   const [ categoryId, setCategoryId] = useState<string>('');
+  const { productCategoryId } = location.state || '-1';
   const databaseTable = databaseTables[category as keyof typeof databaseTables];
 
   const [name, setName] = useState<string>('');
@@ -23,19 +25,22 @@ const NewDatabaseEntry: React.FC = () => {
     setName(event.detail.value);
   };
 
-  const createEntry = () => {
+  const createEntry = async () => {
     switch (category){
       case 'productCategories':
-        createProductCategory(name, cookies.token);
-        navigate(ROUTES.DATABASE_CATEGORY('productCategories'));
+        createProductCategory(name, cookies.token)
+        .then(() => navigate(ROUTES.DATABASE_CATEGORY('productCategories')))
         break;
       case 'products':
-        createProduct(name, 1, cookies.token).then((response) => setCategoryId(response.data.id))
-        navigate(ROUTES.DATABASE_CATEGORY('productCategories'));
+        createProduct(name, parseInt(productCategoryId), cookies.token)
+        .then((response) => {
+          setCategoryId(response.data.id);
+          navigate(ROUTES.DATABASE_CATEGORY('productCategories'))
+        })
         break;
       case 'operations':
-        createOperation(name, 1, cookies.token);
-        navigate(ROUTES.DATABASE_CATEGORY('operations'));
+        createOperation(name, parseInt(productCategoryId), cookies.token)
+        .then(() => navigate(ROUTES.DATABASE_CATEGORY('operations')))
     }
   }
   

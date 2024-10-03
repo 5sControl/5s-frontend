@@ -36,9 +36,7 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
 
 useEffect(() => {
   const updatedSelections = allItems.map(item => currentItems.includes(item));
-  console.log('updatedSelections', updatedSelections);
   setSelectedItems(updatedSelections);
-  console.log('selectedItems', selectedItems);
 }, [allItems, currentItems]);
 
   const handleEditToggle = () => {
@@ -63,15 +61,13 @@ useEffect(() => {
   const handleOpenModal = async () => {
     setLoading(true); 
     try {
-      const data = await fetchDatabaseParam(title.toLowerCase(), cookies.token);
+      const data = await fetchDatabaseParam(title.toLowerCase(), cookies.token, 1);  // to change
       const operationNames = data.map((item: { name: string }) => item.name);
       setAllItems(operationNames);
       const productOperations: string[] = [];
       getAllProductTypeOperations(parseInt(typeId), cookies.token)
       .then((response: any) => {
-        console.log(response.data);
         response.data.forEach((operation: any) => productOperations.push(operation.productOperationName));
-        console.log('product operations',productOperations);
         setCurrentItems(productOperations);
       });
     } catch (error) {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IonContent, IonList, IonItem, IonLabel } from '@ionic/react';
 import { fetchDatabaseParam } from '../../api/fetchDatabaseParam';
 import './styles.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../shared/constants/routes';
 import { EmptyResultPrompt } from '../emptyResultPrompt/emptyResultPrompt';
 import { useCookies } from 'react-cookie';
@@ -17,21 +17,25 @@ type DatabaseItem = {
 type DatabaseListProps = {
     category: string;
     searchQuery: string;
+    handleItemClick: (category: string, itemName: string, itemId: number) => void;
 };
 
-const DatabaseList: React.FC<DatabaseListProps> = ({ category, searchQuery }) => {
+const DatabaseList: React.FC<DatabaseListProps> = ({ category, searchQuery, handleItemClick }) => {
     const [items, setItems] = useState<DatabaseItem[]>([]);
     const [results, setResults] = useState<DatabaseItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const navigate = useNavigate();
     const [ cookies ] = useCookies(['token']);
     const databaseTable = databaseTables[category as keyof typeof databaseTables];
+    const location = useLocation(); 
+    const { productCategoryId } = location.state || '-1';
+
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const data = await fetchDatabaseParam(category, cookies.token);
+                const data = await fetchDatabaseParam(category, cookies.token, productCategoryId);
                 setItems(data);
                 setResults(data);
             } catch (error) {
@@ -47,22 +51,22 @@ const DatabaseList: React.FC<DatabaseListProps> = ({ category, searchQuery }) =>
             setItems([]);
             setResults([]);
           };
-    }, [category]);
+    }, [category, location]);
 
     useEffect(() => {
         if (Array.isArray(items) && items.length !== 0)
             setResults(items.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase())));
     }, [searchQuery, items]);
 
-    const handleItemClick = (category: string, itemName: string, itemId: number) => {
-        const encodedItemName = encodeURIComponent(itemName);
-        if (category === databaseTables.productCategories.path){
-            navigate(ROUTES.DATABASE_CATEGORY(databaseTables.products.path));
-            return;
-        }
-        const path = ROUTES.DATABASE_EDIT_ENTRY(category, encodedItemName, itemId.toString());
-        navigate(path);
-    };
+    // const handleItemClick = (category: string, itemName: string, itemId: number) => {
+    //     const encodedItemName = encodeURIComponent(itemName);
+    //     if (category === databaseTables.productCategories.path){
+    //         navigate(ROUTES.DATABASE_CATEGORY(databaseTables.products.path));
+    //         return;
+    //     }
+    //     const path = ROUTES.DATABASE_EDIT_ENTRY(category, encodedItemName, itemId.toString());
+    //     navigate(path);
+    // };
 
     return (
         <IonContent>
