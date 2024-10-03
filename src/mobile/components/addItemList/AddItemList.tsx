@@ -34,10 +34,30 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
   const [loading, setLoading] = useState<boolean>(false);
   const [cookies] = useCookies(['token']);
 
-useEffect(() => {
-  const updatedSelections = allItems.map(item => currentItems.includes(item));
-  setSelectedItems(updatedSelections);
-}, [allItems, currentItems]);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true); 
+      try {
+        const data = await fetchDatabaseParam(title.toLowerCase(), cookies.token, 1);
+        const operationNames = data.map((item: { name: string }) => item.name);
+        setAllItems(operationNames);
+        const productOperations: string[] = [];
+        const response = await getAllProductTypeOperations(parseInt(typeId), cookies.token);
+        response.data.forEach((operation: any) => productOperations.push(operation.productOperationName));
+        setCurrentItems(productOperations);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const updatedSelections = allItems.map(item => currentItems.includes(item));
+    setSelectedItems(updatedSelections);
+  }, [allItems, currentItems]);
 
   const handleEditToggle = () => {
     if (currentItems.length > 0) {
@@ -59,23 +79,7 @@ useEffect(() => {
   };
 
   const handleOpenModal = async () => {
-    setLoading(true); 
-    try {
-      const data = await fetchDatabaseParam(title.toLowerCase(), cookies.token, 1);  // to change
-      const operationNames = data.map((item: { name: string }) => item.name);
-      setAllItems(operationNames);
-      const productOperations: string[] = [];
-      getAllProductTypeOperations(parseInt(typeId), cookies.token)
-      .then((response: any) => {
-        response.data.forEach((operation: any) => productOperations.push(operation.productOperationName));
-        setCurrentItems(productOperations);
-      });
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoading(false);
-      setShowModal(true);
-    }
+    setShowModal(true);
   };
 
   const handleCloseModal = () => {
@@ -124,7 +128,7 @@ useEffect(() => {
         }
       </IonList>
 
-      <IonLoading isOpen={loading} message={'Loading...'} onClick={handleCloseModal} /> 
+      <IonLoading isOpen={loading} spinner="circular" onClick={handleCloseModal} /> 
 
       {/* {loading && 
       <div className='preloader'>

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar } from '@ionic/react';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonLoading } from '@ionic/react';
 import DatabaseList from '../../../components/databaseList/databaseList';
 import './styles.module.css';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../../shared/constants/routes';
 import { DatabaseTableInfo } from '../../../models/interfaces/databaseTableInfo.interface';
 import { databaseTables } from '../../../../shared/constants/databaseTables';
-import { set } from 'lodash';
+import '../../../styles/common.scss'
 
 type DatabaseTableProps = {
     table: DatabaseTableInfo
@@ -33,7 +33,7 @@ const DatabaseTable: React.FC<DatabaseTableProps> = ({ table }) => {
             return;
         }
         const path = ROUTES.DATABASE_EDIT_ENTRY(category, encodedItemName, itemId.toString());
-        navigate(path);
+        navigate(path, { state: { productCategoryId: itemId }});
     };
 
     return (
