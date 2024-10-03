@@ -44,7 +44,7 @@ export const Menu = () => {
         </IonToolbar>
       </IonHeader>
       <IonList inset={true}>
-        <IonItem disabled button onClick={() => handleItemClick('/')}>
+        <IonItem button onClick={() => handleItemClick(ROUTES.ORDERSVIEW)}>
           <IonIcon aria-hidden="true" icon={Settings} slot="start"></IonIcon>
           <IonLabel>Orders View</IonLabel>
         </IonItem>

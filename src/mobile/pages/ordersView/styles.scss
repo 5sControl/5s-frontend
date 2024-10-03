@@ -1,0 +1,23 @@
+.dateWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+ion-chip{
+    padding: 6px 10px;
+    margin: 4px;
+}
+
+.orders-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .orders {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 10px 0;
+  }

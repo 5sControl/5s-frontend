@@ -1,10 +1,20 @@
-import { IonContent, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonList, IonListHeader, IonLabel, IonSearchbar, IonItem, IonSegment, IonSegmentButton } from '@ionic/react';
-import React from 'react'
+import { IonContent, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonList, IonListHeader, IonLabel, IonSearchbar, IonItem, IonSegment, IonSegmentButton, IonGrid, IonRow, IonCol, IonToggle, IonChip } from '@ionic/react';
+import React, { useState } from 'react'
 import { ROUTES } from '../../../shared/constants/routes';
 import { useNavigate } from 'react-router-dom';
+import { timeIntervals } from '../../constants/timeIntervals';
+import { HourMode, MinuteMode } from '../../assets/svg/SVGcomponent';
+import '../../styles/common.scss';
+import './styles.scss'
 
 export const OrdersView = () => {
     const navigate = useNavigate();
+    const [timeMode, setTimeMode] = useState<'hourMode' | 'minuteMode'>('hourMode');
+    const [selectedInterval, setSelectedInterval] = useState<string>('15min');
+    const handleTimeModeChange = (value: 'hourMode' | 'minuteMode') => {
+        setTimeMode(value);
+        setSelectedInterval(timeIntervals[value][0].value);
+    };
 
     const handleItemClick = (path: string) => {
         navigate(path);
@@ -21,28 +31,43 @@ export const OrdersView = () => {
             </IonToolbar>
           </IonHeader>
           <div className='ion-padding'>
-            <IonListHeader>Oct 2 | 06:00 - 07:00</IonListHeader>
-            <div>
-            <IonSegment value="15min" scrollable={false}>
-                <IonSegmentButton value="15min">
-                    <IonLabel>15min</IonLabel>
+            <IonGrid>
+            <IonRow class="ion-align-items-center">
+            <IonCol>
+                <IonListHeader>Oct 2 | 06:00 - 07:00</IonListHeader>
+            </IonCol>
+            <IonCol size='auto'>
+            <IonSegment  className='timeMode' value={timeMode} onIonChange={e => handleTimeModeChange(e.detail.value as 'hourMode' | 'minuteMode')}>
+                <IonSegmentButton value={'hourMode'}>
+                    <img src={HourMode} alt='hour mode' />
                 </IonSegmentButton>
-                <IonSegmentButton value="30min">
-                    <IonLabel>30min</IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="1h">
-                    <IonLabel>1h</IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="2h">
-                    <IonLabel>2h</IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="4h">
-                    <IonLabel>4h</IonLabel>
-                </IonSegmentButton>
-                <IonSegmentButton value="8h">
-                    <IonLabel>8h</IonLabel>
+                <IonSegmentButton value={'minuteMode'}>
+                    <img src={MinuteMode} alt='minute mode' />
                 </IonSegmentButton>
             </IonSegment>
+            </IonCol>
+            </IonRow>
+            </IonGrid>
+            <div>
+            <IonSegment value={selectedInterval} scrollable={false} onIonChange={e => setSelectedInterval(e.detail.value?.toString() || '')}>
+                {timeIntervals[timeMode].map(interval => (
+                    <IonSegmentButton key={interval.value} value={interval.value}>
+                        <IonLabel>{interval.label}</IonLabel>
+                    </IonSegmentButton>
+                ))}
+            </IonSegment>
+            </div>
+            <div>
+            <IonToggle justify="space-between">Show scheduled time</IonToggle>
+            <div className='orders-container'>
+      <div className='orders'>
+        {[...Array(4).keys()].map((index) => (
+          <IonChip key={index} color="dark">
+            #{45872 + index}
+          </IonChip>
+        ))}
+      </div>
+    </div>
             </div>
           </div>
           
