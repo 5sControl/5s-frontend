@@ -8,7 +8,6 @@ export const ROUTES = {
   CONNECTIONS_EDIT: (erp: string) => `/mobile/configuration/connections/${erp}/edit`,
   DATABASE: '/mobile/database',
   DATABASE_CATEGORY: (category: string) => `/mobile/database/${category}`,
-  // DATABASE_PRODUCTS: (productCategoryId: string) => `/mobile/database/${productCategoryId}/products`,
   DATABASE_ADD_ENTRY: (category: string) => `/mobile/database/${category}/addEntry`,
   DATABASE_EDIT_ENTRY: (category: string, entry: string, id: string) =>
     `/mobile/database/${category}/${entry}/${id}/edit`,

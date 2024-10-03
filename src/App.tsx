@@ -114,7 +114,6 @@ function App() {
                   <Route path={ROUTES.CONNECTIONS_EDIT(':id')} element={<EditConnection />} />
                   <Route path={ROUTES.DATABASE}  element={<Database />} />
                   <Route path={ROUTES.DATABASE_CATEGORY('productCategories')}  element={<DatabaseTable table={databaseTables['productCategories']} />} />
-                  {/* <Route path={ROUTES.DATABASE_PRODUCTS(':productCategoryId')}  element={<DatabaseTable table={databaseTables['products']} />} /> */}
                   <Route path={ROUTES.DATABASE_CATEGORY('operations')}  element={<DatabaseTable table={databaseTables['operations']} />} />
                   <Route path={ROUTES.DATABASE_CATEGORY('employees')}  element={<DatabaseTable table={databaseTables['employees']} />} />
                   <Route path={ROUTES.DATABASE_CATEGORY('equipment')}  element={<DatabaseTable table={databaseTables['equipment']} />} />
