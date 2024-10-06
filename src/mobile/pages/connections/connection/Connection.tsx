@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonList, IonItem, IonLabel, IonTitle, IonToolbar, IonIcon, IonButtons, IonBackButton, IonNote } from '@ionic/react';
+import { IonContent, IonList, IonItem, IonLabel, IonIcon, IonNote } from '@ionic/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getConnectionsToDatabases } from '../../../api/connections';
 import { useCookies } from 'react-cookie';
 import { ROUTES } from '../../../../shared/constants/routes';
-import { Delete, DeleteCover, DeleteRedIcon, Edit, EditCover, EditOrangeIcon } from '../../../assets/svg/SVGcomponent';
+import { DeleteCover, DeleteRedIcon, EditCover, EditOrangeIcon } from '../../../assets/svg/SVGcomponent';
 import { capitalize } from '../../../utils/capitalize';
 import { ConfirmationModal } from '../../../components/confirmationModal/confirmationModal';
 import { Preloader } from '../../../../components/preloader';
 import { ConnectionItem } from '../../../models/interfaces/connectionItem.interface';
+import { Header } from '../../../components/header/Header';
 
 const Connection: React.FC = () => {
   const navigate = useNavigate();
@@ -58,14 +59,7 @@ const Connection: React.FC = () => {
 
   return (
     <IonContent>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton text="" defaultHref={ROUTES.CONNECTIONS} color="medium"></IonBackButton>
-          </IonButtons>
-          <IonTitle>{capitalize(currentConnection?.erp_system)} connection</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header title={capitalize(currentConnection?.erp_system)} backButtonHref={ROUTES.CONNECTIONS} />
       {loading ? ( 
         <div className='preloader'>
           <Preloader />

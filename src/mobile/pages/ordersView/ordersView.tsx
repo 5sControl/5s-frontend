@@ -1,10 +1,5 @@
 import {
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonButtons,
-    IonBackButton,
-    IonTitle,
     IonListHeader,
     IonLabel,
     IonSegment,
@@ -25,6 +20,7 @@ import {
   import "./styles.scss";
 import { parseInputDate } from "../../utils/parseInputDate";
 import { TimeMode } from "../../models/enums/timeMode.enum";
+import { Header } from "../../components/header/Header";
   
   export const OrdersView = () => {
     const modal = useRef<HTMLIonModalElement>(null);
@@ -50,18 +46,7 @@ import { TimeMode } from "../../models/enums/timeMode.enum";
 
     return (
       <IonContent>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonBackButton
-                text=""
-                defaultHref={ROUTES.MENU}
-                color="medium"
-              ></IonBackButton>
-            </IonButtons>
-            <IonTitle>OrdersView</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+        <Header title="OrdersView" backButtonHref={ROUTES.MENU}/>
         <div className="ion-padding">
           <IonGrid>
             <IonRow class="ion-align-items-center dateTimeControls">
