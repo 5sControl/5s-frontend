@@ -21,13 +21,17 @@ import {
 import { parseInputDate } from "../../utils/parseInputDate";
 import { TimeMode } from "../../models/enums/timeMode.enum";
 import { Header } from "../../components/header/Header";
+import TimelineChart from "../../components/timelineChart/TimelineChart";
+import { TimeInterval } from "../../models/types/timeInterval";
+import moment from "moment";
   
   export const OrdersView = () => {
     const modal = useRef<HTMLIonModalElement>(null);
     const [timeMode, setTimeMode] = useState<TimeMode>(TimeMode.hour);
     const [selectedInterval, setSelectedInterval] = useState<string>("1h");
+    const [hourInterval, setHourInterval] = useState<TimeInterval>("1h");
     const [showDatepicker, setShowDatepicker] = useState(false);
-    const [selectedRange, setSelectedRange] = useState("");
+    const [selectedRange, setSelectedRange] = useState(moment().set({ hour: 8, minute: 0, second: 0 }).format('YYYY-MM-DDTHH:mm:ss'));
   
     const handleTimeModeChange = (value: TimeMode) => {
       setTimeMode(value);
@@ -77,8 +81,13 @@ import { Header } from "../../components/header/Header";
             <IonSegment
               value={selectedInterval}
               scrollable={false}
-              onIonChange={(e) =>
-                setSelectedInterval(e.detail.value?.toString() || "")
+              onIonChange={(e) => {
+                const value = e.detail.value;
+                setSelectedInterval(value?.toString() || "");
+                if (timeMode === TimeMode.hour) {
+                    setHourInterval(value as TimeInterval);
+                }
+                }
               }
             >
               {timeIntervals[timeMode].map((interval) => (
@@ -90,6 +99,8 @@ import { Header } from "../../components/header/Header";
           </div>
         </div>
   
+        <TimelineChart startTime={selectedRange} selectedInterval={hourInterval}/>
+
         <div className="ion-padding ordersPanel">
           <IonToggle justify="space-between">Show scheduled time</IonToggle>
           <div className="orders-container">
