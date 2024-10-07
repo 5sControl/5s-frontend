@@ -39,7 +39,7 @@ export const Menu = () => {
     <IonContent color="light">
       <Header title={<img src={MenuLogo} />} />
       <IonList inset={true}>
-        <IonItem button onClick={() => handleItemClick(ROUTES.ORDERSVIEW)}>
+        <IonItem button disabled onClick={() => handleItemClick(ROUTES.ORDERSVIEW)}>
           <IonIcon aria-hidden="true" icon={Settings} slot="start"></IonIcon>
           <IonLabel>Orders View</IonLabel>
         </IonItem>
