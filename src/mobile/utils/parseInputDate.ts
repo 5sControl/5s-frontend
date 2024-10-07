@@ -28,7 +28,6 @@ export const parseInputDate = (dateString: string, timeMode: string, selectedInt
     const startMinutes: string = date.getMinutes().toString().padStart(2, "0");
     if (timeMode === "hourMode") {
       interval = parseInt(selectedInterval.slice(0, -1));
-      console.log(interval);
     }
     const endHours: string = (date.getHours() + interval)
       .toString()

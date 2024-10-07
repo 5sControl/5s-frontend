@@ -9,7 +9,6 @@ type TimelineChartProps = {
 };
 
 export const TimelineChart: FC<TimelineChartProps> = ({ startTime, selectedInterval }) => {
-    console.log('startTime', startTime);
   const chartRef = useRef<SVGSVGElement>(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const chartHeight = 500;

@@ -10,6 +10,7 @@ import { ConfirmationModal } from '../../../components/confirmationModal/confirm
 import { Preloader } from '../../../../components/preloader';
 import { ConnectionItem } from '../../../models/interfaces/connectionItem.interface';
 import { Header } from '../../../components/header/Header';
+import { ItemButton } from '../../../components/itemButton/ItemButton';
 
 const Connection: React.FC = () => {
   const navigate = useNavigate();
@@ -67,29 +68,15 @@ const Connection: React.FC = () => {
       ) : (
         <>
           <IonList inset={true}>
-            <IonItem>
-              <IonLabel className="capitalized">Status</IonLabel>
-              <IonNote slot="end" color="medium">{connected ? 'Used in Orders View' : 'Connected'}</IonNote>
-            </IonItem>
-            <IonItem>
-              <IonLabel className="capitalized">Domain</IonLabel>
-              <IonNote slot="end" color="medium">{currentConnection?.host}</IonNote>
-            </IonItem>
+            <ItemButton label="Status" note={connected ? 'Used in Orders View' : 'Connected'} />
+            <ItemButton label="Domain" note={currentConnection?.host} />
           </IonList>
           <IonList inset={true}>
-            <IonItem button disabled={!connected} onClick={() => handleDatabaseClick(ROUTES.DATABASE)}>
-              <IonLabel className="capitalized">{currentConnection?.erp_system} Database</IonLabel>
-            </IonItem>
+            <ItemButton label={`${currentConnection?.erp_system} Database`} disabled={!connected} handleItemClick={() => handleDatabaseClick(ROUTES.DATABASE)}/>
           </IonList>
           <IonList inset={true}>
-            <IonItem onClick={() => navigate(ROUTES.CONNECTIONS_EDIT(id))}>
-              <IonIcon slot="start" icon={connected ? EditCover : EditOrangeIcon} />
-              <IonLabel color={connected ? 'medium' : 'primary'}>Edit</IonLabel>
-            </IonItem>
-            <IonItem>
-              <IonIcon slot="start" icon={connected ? DeleteCover : DeleteRedIcon} />
-              <IonLabel color={connected ? 'medium' : 'danger'}>Disconnect</IonLabel>
-            </IonItem>
+            <ItemButton label="Edit" labelColor={connected ? 'medium' : 'primary'} icon={connected ? EditCover : EditOrangeIcon} handleItemClick={() => navigate(ROUTES.CONNECTIONS_EDIT(id))} />
+            <ItemButton label="Disconnect" labelColor={connected ? 'medium' : 'danger'} icon={connected ? DeleteCover : DeleteRedIcon}/>
           </IonList>
           <ConfirmationModal 
             isOpen={showConfirmationModal} 

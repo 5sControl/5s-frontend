@@ -3,6 +3,7 @@ import React from 'react'
 import { ROUTES } from '../../../shared/constants/routes';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../components/header/Header';
+import { ItemButton } from '../../components/itemButton/ItemButton';
 
 const Configuration = () => {
     const navigate = useNavigate();
@@ -15,9 +16,7 @@ const Configuration = () => {
         <IonContent>
           <Header title='Configuration' backButtonHref={ROUTES.MENU}/>
           <IonList inset={true}>
-            <IonItem button onClick={() => handleItemClick(ROUTES.CONNECTIONS)}>
-                <IonLabel>ERP Connections</IonLabel>
-            </IonItem>
+            <ItemButton label="ERP Connections" handleItemClick={() => handleItemClick(ROUTES.CONNECTIONS)} />
           </IonList>
         </IonContent>
       );

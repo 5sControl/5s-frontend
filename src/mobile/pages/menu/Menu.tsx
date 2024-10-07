@@ -10,6 +10,7 @@ import jwtDecode from 'jwt-decode';
 import { getUserList } from '../../api/companyRequest';
 import { ROUTES } from '../../../shared/constants/routes';
 import { Header } from '../../components/header/Header';
+import { ItemButton } from '../../components/itemButton/ItemButton';
 
 export const Menu = () => {
   const [cookies, , removeCookie] = useCookies(['token']);
@@ -39,15 +40,9 @@ export const Menu = () => {
     <IonContent color="light">
       <Header title={<img src={MenuLogo} />} />
       <IonList inset={true}>
-        <IonItem button disabled onClick={() => handleItemClick(ROUTES.ORDERSVIEW)}>
-          <IonIcon aria-hidden="true" icon={Settings} slot="start"></IonIcon>
-          <IonLabel>Orders View</IonLabel>
-        </IonItem>
-        <IonItem button onClick={() => handleItemClick(ROUTES.CONFIGURATION)}>
-          <IonIcon aria-hidden="true" icon={Orders} slot="start"></IonIcon>
-          <IonLabel>Configuration</IonLabel>
-         </IonItem>
-        </IonList>
+        <ItemButton label="Orders View" icon={Settings} handleItemClick={() => handleItemClick(ROUTES.ORDERSVIEW)} />
+        <ItemButton label="Configuration" icon={Orders} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
+      </IonList>
         { user && <Logout username={user.username} status={user.status} logout={logout}/> }
       </IonContent>
       );

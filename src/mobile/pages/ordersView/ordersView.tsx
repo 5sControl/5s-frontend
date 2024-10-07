@@ -40,7 +40,6 @@ import moment from "moment";
   
     const handleDateTimeChange = (e: any) => {
       const selectedDateTime = e.detail.value;
-      console.log(selectedDateTime);
       setSelectedRange(selectedDateTime);
     };
   

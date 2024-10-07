@@ -8,6 +8,7 @@ import { EmptyResultPrompt } from '../emptyResultPrompt/emptyResultPrompt';
 import { useCookies } from 'react-cookie';
 import { Preloader } from '../../../components/preloader';
 import { databaseTables } from '../../../shared/constants/databaseTables';
+import { ItemButton } from '../itemButton/ItemButton';
 
 type DatabaseItem = {
     name: string,
@@ -79,10 +80,8 @@ const DatabaseList: React.FC<DatabaseListProps> = ({ category, searchQuery, hand
                 <EmptyResultPrompt itemsCategory={databaseTable.singularName} addButton={true}/>
                 :
                     <IonList inset={true}>
-                    {results.map((item, index) => (
-                        <IonItem key={index} button className="capitalized" onClick={() => handleItemClick(category, item.name, item.id)}>
-                            <IonLabel>{item.name}</IonLabel>
-                        </IonItem>
+                    {results.map((item) => (
+                        <ItemButton key={item.id} label={item.name} handleItemClick={() => handleItemClick(category, item.name, item.id)} />
                     ))}
                     </IonList>
             }
