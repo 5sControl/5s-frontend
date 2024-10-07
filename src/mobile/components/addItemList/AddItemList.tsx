@@ -11,7 +11,7 @@ import {
   IonLoading, 
 } from '@ionic/react';
 import { DeleteRedIcon } from '../../assets/svg/SVGcomponent';
-import { fetchDatabaseParam } from '../../api/fetchDatabaseParam';
+import { fetchDatabaseParam } from '../../utils/fetchDatabaseParam';
 import { SelectItemsModal } from '../selectItemsModal/selectItemsModal';
 import { useCookies } from 'react-cookie';
 import { Preloader } from '../../../components/preloader';

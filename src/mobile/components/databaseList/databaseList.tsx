@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IonContent, IonList, IonItem, IonLabel } from '@ionic/react';
-import { fetchDatabaseParam } from '../../api/fetchDatabaseParam';
+import { fetchDatabaseParam } from '../../utils/fetchDatabaseParam';
 import './styles.module.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../shared/constants/routes';

@@ -40,7 +40,7 @@ const EditDatabaseEntry: React.FC = () => {
     setShowDeleteModal(false);
     switch (category){
       case databaseTables.products.path:
-        deleteProduct(parseInt(id));
+        deleteProduct(parseInt(id), cookies.token);
         break;
       case databaseTables.operations.path:
         deleteOperation(parseInt(id), cookies.token);

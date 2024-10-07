@@ -6,7 +6,7 @@ import { Orders, Settings,  MenuLogo } from '../../assets/svg/SVGcomponent';
 import './Menu.scss'
 import { Logout } from '../../components/logout/Logout';
 import jwtDecode from 'jwt-decode';
-import { getUserList } from '../../api/companyRequest';
+import { getUserList } from '../../api/getUserList';
 import { ROUTES } from '../../../shared/constants/routes';
 import { Header } from '../../components/header/Header';
 import { ItemButton } from '../../components/itemButton/ItemButton';
@@ -19,7 +19,7 @@ export const Menu = () => {
   useEffect(() => {
     if (cookies.token){
       const token = jwtDecode<any>(cookies.token.replace('JWT%220', ''));
-      getUserList(window.location.hostname, cookies.token).then((response: any) => {
+      getUserList(cookies.token).then((response: any) => {
         if (token.user_id && response.data) {
           setUser(response.data.find((user: any) => user.id === token.user_id));
         }
