@@ -1,9 +1,8 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useEffect, useState } from 'react'
-import MenuLogo from '../../assets/svg/menu-logo.svg'
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import { Orders, Settings } from '../../assets/svg/SVGcomponent';
+import { Orders, Settings,  MenuLogo } from '../../assets/svg/SVGcomponent';
 import './Menu.scss'
 import { Logout } from '../../components/logout/Logout';
 import jwtDecode from 'jwt-decode';
