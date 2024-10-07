@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonList, IonItem, IonLabel, IonTitle, IonToolbar, IonButtons, IonBackButton } from '@ionic/react';
+import { IonContent, IonList, IonItem } from '@ionic/react';
 import { useNavigate } from 'react-router-dom';
 import { getConnectionsToDatabases } from '../../api/connections';
 import { useCookies } from 'react-cookie';
@@ -7,6 +7,7 @@ import { ConnectionsList } from '../../components/connectionsList/ConnectionsLis
 import { Preloader } from '../../../components/preloader'; 
 import { ConnectionItem } from '../../models/interfaces/connectionItem.interface';
 import { ROUTES } from '../../../shared/constants/routes';
+import { Header } from '../../components/header/Header';
 
 const Connections: React.FC = () => {
   const [cookies] = useCookies(['token']);
@@ -31,14 +32,7 @@ const Connections: React.FC = () => {
 
   return (
     <IonContent>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot='start'>
-            <IonBackButton text='' defaultHref={ROUTES.CONFIGURATION} color='medium'></IonBackButton>
-          </IonButtons>
-          <IonTitle>ERP Connections</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header title='ERP Connections' backButtonHref={ROUTES.CONFIGURATION}/>
       {loading ? ( 
         <div className='preloader'>
           <Preloader />

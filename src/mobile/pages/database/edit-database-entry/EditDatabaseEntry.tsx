@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonDatetime, IonHeader, IonInput, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/react';
 import { useParams } from 'react-router';
 import { ConfirmationModal } from '../../../components/confirmationModal/confirmationModal';
 import { DeleteButton } from '../../../components/deleteButton/DeleteButton';
@@ -10,6 +10,7 @@ import { deleteOperation, getAllOperations, updateOperation } from '../../../api
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { databaseTables } from '../../../../shared/constants/databaseTables';
+import TimePicker from '../../../components/timePickerInput/timePickerInput';
 
 const EditDatabaseEntry: React.FC = () => {
   const navigate = useNavigate();
@@ -73,6 +74,7 @@ const EditDatabaseEntry: React.FC = () => {
           <IonInput value={name} onIonInput={handleInputChange} className="input__wrapper"></IonInput>
         </IonItem>
         {category === 'products' && <AddItemList title="Operations" items={[]} typeId={id} categoryId={category}/>}
+        {category === 'operations' && <TimePicker/>}
         <DeleteButton handleDeleteClick={handleDeleteClick} />
       </IonHeader>
       <ConfirmationModal 

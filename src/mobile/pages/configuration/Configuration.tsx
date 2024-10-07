@@ -1,7 +1,8 @@
-import { IonContent, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonList, IonListHeader, IonLabel, IonSearchbar, IonItem } from '@ionic/react';
+import { IonContent, IonList, IonLabel, IonItem } from '@ionic/react';
 import React from 'react'
 import { ROUTES } from '../../../shared/constants/routes';
 import { useNavigate } from 'react-router-dom';
+import { Header } from '../../components/header/Header';
 
 const Configuration = () => {
     const navigate = useNavigate();
@@ -12,14 +13,7 @@ const Configuration = () => {
 
     return (
         <IonContent>
-          <IonHeader>
-            <IonToolbar>
-                <IonButtons slot='start'>
-                    <IonBackButton text='' defaultHref={ROUTES.MENU} color='medium'></IonBackButton>
-                </IonButtons>
-              <IonTitle>Configuration</IonTitle>
-            </IonToolbar>
-          </IonHeader>
+          <Header title='Configuration' backButtonHref={ROUTES.MENU}/>
           <IonList inset={true}>
             <IonItem button onClick={() => handleItemClick(ROUTES.CONNECTIONS)}>
                 <IonLabel>ERP Connections</IonLabel>

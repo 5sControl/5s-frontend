@@ -9,6 +9,7 @@ import { Logout } from '../../components/logout/Logout';
 import jwtDecode from 'jwt-decode';
 import { getUserList } from '../../api/companyRequest';
 import { ROUTES } from '../../../shared/constants/routes';
+import { Header } from '../../components/header/Header';
 
 export const Menu = () => {
   const [cookies, , removeCookie] = useCookies(['token']);
@@ -36,15 +37,9 @@ export const Menu = () => {
 
   return (
     <IonContent color="light">
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>
-            <img src={MenuLogo}/>
-          </IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header title={<img src={MenuLogo} />} />
       <IonList inset={true}>
-        <IonItem disabled button onClick={() => handleItemClick('/')}>
+        <IonItem button disabled onClick={() => handleItemClick(ROUTES.ORDERSVIEW)}>
           <IonIcon aria-hidden="true" icon={Settings} slot="start"></IonIcon>
           <IonLabel>Orders View</IonLabel>
         </IonItem>

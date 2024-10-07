@@ -77,6 +77,8 @@ import Microphone from './microphone.svg';
 import StopVoiceRecognition from './stopVoiceRecognition.svg';
 import RedirectIcon from './redirect.svg';
 import Orders from './orders.svg';
+import MinuteMode from './minuteMode.svg';
+import HourMode from './hourMode.svg';
 
 export {
   InvRedLine,
@@ -158,4 +160,6 @@ export {
   StopVoiceRecognition,
   RedirectIcon,
   Orders,
+  MinuteMode,
+  HourMode,
 };
