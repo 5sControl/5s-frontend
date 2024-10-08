@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
-import { deleteInventoryItemAxios } from '../../inventoryAPI';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
+import { deleteInventoryItemAxios } from "../../inventoryAPI";
 
 interface deleteInventoryModalState {
   isOpenDeleteModal: boolean;
@@ -19,7 +19,7 @@ const initialState: deleteInventoryModalState = {
 };
 
 export const deleteItem = createAsyncThunk(
-  'deleteItem',
+  "deleteItem",
   async (data: { token: string; hostname: string; id: number }) => {
     const response: any = await deleteInventoryItemAxios(
       data.hostname,
@@ -27,14 +27,14 @@ export const deleteItem = createAsyncThunk(
       data.id
     );
     if (response.status === 204) {
-      return { mesasge: 'Item deleted success' };
+      return { mesasge: "Item deleted success" };
     }
     return null;
   }
 );
 
 const deleteInventoryModalSlice = createSlice({
-  name: 'deleteInventoryModal',
+  name: "deleteInventoryModal",
   initialState,
   reducers: {
     setIsOpenDeleteModal(state, action: PayloadAction<boolean>) {

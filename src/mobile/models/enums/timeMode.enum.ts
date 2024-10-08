@@ -1,4 +1,4 @@
 export enum TimeMode {
-    hour = "hourMode",
-    minute = "minuteMode"
+  hour = "hourMode",
+  minute = "minuteMode",
 }

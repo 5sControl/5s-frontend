@@ -1,1 +1,1 @@
-export { ProductCatd } from './ui.tsx';
+export { ProductCatd } from "./ui.tsx";

@@ -1,9 +1,10 @@
-import React from 'react';
-import { IonContent, IonList, IonItem, IonLabel } from '@ionic/react';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../shared/constants/routes';
-import { databaseTables } from '../../../shared/constants/databaseTables';
-import { Header } from '../../components/header/Header';
+import React from "react";
+import { IonContent, IonList } from "@ionic/react";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../shared/constants/routes";
+import { databaseTables } from "../../../shared/constants/databaseTables";
+import { Header } from "../../components/header/Header";
+import { ItemButton } from "../../components/itemButton/ItemButton";
 
 const Database: React.FC = () => {
   const navigate = useNavigate();
@@ -14,12 +15,11 @@ const Database: React.FC = () => {
 
   return (
     <IonContent>
-      <Header title="Database" backButtonHref={ROUTES.MENU} />
+      <Header title="Database" backButtonHref={ROUTES.CONNECTIONS} />
       <IonList inset={true}>
-        {Object.values(databaseTables).map((table, index) => (
-        table.pageDisplay && <IonItem key={index} button disabled={table.disabled} onClick={() => handleItemClick(ROUTES.DATABASE_CATEGORY(table.path))}>
-            <IonLabel>{table.buttonTitle}</IonLabel>
-          </IonItem>
+        {Object.values(databaseTables).map((table) => (
+        table.pageDisplay && 
+        <ItemButton key={table.buttonTitle} disabled={table.disabled} label={table.buttonTitle} handleItemClick={() => handleItemClick(ROUTES.DATABASE_CATEGORY(table.path))} />
         ))}
       </IonList>
     </IonContent>

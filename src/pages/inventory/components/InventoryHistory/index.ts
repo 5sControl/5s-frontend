@@ -1,1 +1,1 @@
-export { InventoryHistory } from './inventoryHistory';
+export { InventoryHistory } from "./inventoryHistory";

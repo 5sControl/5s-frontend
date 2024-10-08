@@ -1,1 +1,1 @@
-export { StatusLable } from './ui';
+export { StatusLable } from "./ui";

@@ -1,4 +1,4 @@
-import { DatabaseInfo } from '../../types';
+import { DatabaseInfo } from "../../types";
 
 export type ConnectionToDatabaseForm = {
   type: string;

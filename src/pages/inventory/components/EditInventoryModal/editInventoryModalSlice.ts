@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
-import { editInventoryItemAxios } from '../../inventoryAPI';
-import { InventoryItem } from '../../types';
-import { EditInventoryData, EditInventoryDataResponse } from './types';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
+import { editInventoryItemAxios } from "../../inventoryAPI";
+import { InventoryItem } from "../../types";
+import { EditInventoryData, EditInventoryDataResponse } from "./types";
 
 interface editInventoryModalState {
   isOpenEditModal: boolean;
@@ -26,7 +26,7 @@ const initialState: editInventoryModalState = {
 };
 
 export const editItem = createAsyncThunk(
-  'editItem',
+  "editItem",
   async (data: {
     token: string;
     hostname: string;
@@ -42,7 +42,7 @@ export const editItem = createAsyncThunk(
 );
 
 const editInventoryModalSlice = createSlice({
-  name: 'editInventoryModal',
+  name: "editInventoryModal",
   initialState,
   reducers: {
     setIsOpenEditModal(state, action: PayloadAction<boolean>) {

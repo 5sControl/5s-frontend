@@ -1,33 +1,33 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_PRODUCTOPERATION = 'api/erp-reference/product-operation/'
+const API_BASE_URL = process.env.REACT_APP_NGROK;
+const API_PRODUCTOPERATION = "api/erp-reference/product-operation/";
 
-export const getAllOperations = (categoryId: number, cookies: string ) => {
+const axiosConfig = (cookies: string) => ({
+  headers: {
+    Authorization: cookies,
+    "ngrok-skip-browser-warning": "true",
+  },
+});
+
+const constructUrl = (endpoint: string) => `${API_BASE_URL}${endpoint}`;
+
+export const getAllOperations = (categoryId: number, cookies: string) => {
   return axios.get(
-    `${process.env.REACT_APP_NGROK}${API_PRODUCTOPERATION}${categoryId}`,
-    {
-      headers: {
-        Authorization: cookies,
-        'ngrok-skip-browser-warning': 'true',
-      },
-    }
+    constructUrl(`${API_PRODUCTOPERATION}${categoryId}`),
+    axiosConfig(cookies)
   );
 };
 
 export const createOperation = (
   name: string,
   categoryId: number,
-  cookies : string
+  cookies: string
 ) => {
   return axios.post(
-    `${process.env.REACT_APP_NGROK}${API_PRODUCTOPERATION}`,
+    constructUrl(API_PRODUCTOPERATION),
     { name, categoryId },
-    {
-      headers: {
-        Authorization: cookies,
-        'ngrok-skip-browser-warning': 'true',
-      },
-    }
+    axiosConfig(cookies)
   );
 };
 
@@ -35,28 +35,18 @@ export const updateOperation = (
   id: number,
   name: string,
   categoryId: number,
-  cookies: string 
+  cookies: string
 ) => {
   return axios.patch(
-    `${process.env.REACT_APP_NGROK}${API_PRODUCTOPERATION}${id}/`,
+    constructUrl(`${API_PRODUCTOPERATION}${id}/`),
     { name, categoryId },
-    {
-      headers: {
-        Authorization: cookies,
-        'ngrok-skip-browser-warning': 'true',
-      },
-    }
+    axiosConfig(cookies)
   );
 };
 
-export const deleteOperation = (id: number, cookies: string ) => {
+export const deleteOperation = (id: number, cookies: string) => {
   return axios.delete(
-    `${process.env.REACT_APP_NGROK}${API_PRODUCTOPERATION}${id}/`,
-    {
-      headers: {
-        Authorization: cookies,
-        'ngrok-skip-browser-warning': 'true',
-      },
-    }
+    constructUrl(`${API_PRODUCTOPERATION}${id}/`),
+    axiosConfig(cookies)
   );
 };

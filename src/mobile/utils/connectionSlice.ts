@@ -1,15 +1,15 @@
-import { getConnectionsToDatabases } from '../api/connections';
+import { getConnectionsToDatabases } from "../api/connections";
 import {
   createAsyncThunk,
   createSlice,
   PayloadAction,
   SerializedError,
-} from '@reduxjs/toolkit';
-import { RootState } from '../store';
+} from "@reduxjs/toolkit";
+import { RootState } from "../store";
 import {
   DatabaseInfo,
   DataBaseResponse,
-} from '../models/types/configurationTypes';
+} from "../models/types/configurationTypes";
 
 interface ConnectionState {
   databases: DataBaseResponse | null;
@@ -26,7 +26,7 @@ const initialState: ConnectionState = {
 };
 
 export const getConnectionsToDB = createAsyncThunk(
-  'getConnectionsToDB',
+  "getConnectionsToDB",
   async (data: { token: string; hostname: string }) => {
     const response = await getConnectionsToDatabases(data.hostname, data.token);
     return response.data;
@@ -34,7 +34,7 @@ export const getConnectionsToDB = createAsyncThunk(
 );
 
 const connectionSlice = createSlice({
-  name: 'connectionPage',
+  name: "connectionPage",
   initialState,
   reducers: {
     setDatabasesOrdersView(state, action: PayloadAction<DatabaseInfo>) {

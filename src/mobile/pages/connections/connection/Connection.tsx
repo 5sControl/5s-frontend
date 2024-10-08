@@ -1,28 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonList, IonItem, IonLabel, IonIcon, IonNote } from '@ionic/react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getConnectionsToDatabases } from '../../../api/connections';
-import { useCookies } from 'react-cookie';
-import { ROUTES } from '../../../../shared/constants/routes';
-import { DeleteCover, DeleteRedIcon, EditCover, EditOrangeIcon } from '../../../assets/svg/SVGcomponent';
-import { capitalize } from '../../../utils/capitalize';
-import { ConfirmationModal } from '../../../components/confirmationModal/confirmationModal';
-import { Preloader } from '../../../../components/preloader';
-import { ConnectionItem } from '../../../models/interfaces/connectionItem.interface';
-import { Header } from '../../../components/header/Header';
+import React, { useEffect, useState } from "react";
+import { IonContent, IonList } from "@ionic/react";
+import { useNavigate, useParams } from "react-router-dom";
+import { getConnectionsToDatabases } from "../../../api/connections";
+import { useCookies } from "react-cookie";
+import { ROUTES } from "../../../../shared/constants/routes";
+import { DeleteCover, DeleteRedIcon, EditCover, EditOrangeIcon } from "../../../assets/svg/SVGcomponent";
+import { capitalize } from "../../../utils/capitalize";
+import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
+import { Preloader } from "../../../../components/preloader";
+import { ConnectionItem } from "../../../models/interfaces/connectionItem.interface";
+import { Header } from "../../../components/header/Header";
+import { ItemButton } from "../../../components/itemButton/ItemButton";
 
 const Connection: React.FC = () => {
   const navigate = useNavigate();
-  const [cookies] = useCookies(['token']);
+  const [cookies] = useCookies(["token"]);
   const { id } = useParams() as { id: string };
   const [currentConnection, setCurrentConnection] = useState<ConnectionItem>();
   const [connected, setConnected] = useState<boolean>(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true); 
-
-  const handleConfirmClick = () => {
-    setShowConfirmationModal(true);
-  };
 
   const handleCloseModal = () => {
     setShowConfirmationModal(false);
@@ -34,10 +31,10 @@ const Connection: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    getConnectionsToDatabases('', cookies.token)
+    getConnectionsToDatabases("", cookies.token)
       .then(response => {
         response.data.forEach((connection: ConnectionItem) => {
-          connection.read_only = connection.erp_system !== '5s_control';
+          connection.read_only = connection.erp_system !== "5s_control";
         });
         const connection = response.data.find((connection: ConnectionItem) => connection.id === parseInt(id));
         setCurrentConnection(connection);
@@ -61,35 +58,21 @@ const Connection: React.FC = () => {
     <IonContent>
       <Header title={capitalize(currentConnection?.erp_system)} backButtonHref={ROUTES.CONNECTIONS} />
       {loading ? ( 
-        <div className='preloader'>
+        <div className="preloader">
           <Preloader />
         </div>
       ) : (
         <>
           <IonList inset={true}>
-            <IonItem>
-              <IonLabel className="capitalized">Status</IonLabel>
-              <IonNote slot="end" color="medium">{connected ? 'Used in Orders View' : 'Connected'}</IonNote>
-            </IonItem>
-            <IonItem>
-              <IonLabel className="capitalized">Domain</IonLabel>
-              <IonNote slot="end" color="medium">{currentConnection?.host}</IonNote>
-            </IonItem>
+            <ItemButton label="Status" note={connected ? "Used in Orders View" : "Connected"} />
+            <ItemButton label="Domain" note={currentConnection?.host} />
           </IonList>
           <IonList inset={true}>
-            <IonItem button disabled={!connected} onClick={() => handleDatabaseClick(ROUTES.DATABASE)}>
-              <IonLabel className="capitalized">{currentConnection?.erp_system} Database</IonLabel>
-            </IonItem>
+            <ItemButton label={`${currentConnection?.erp_system} Database`} disabled={!connected} handleItemClick={() => handleDatabaseClick(ROUTES.DATABASE)}/>
           </IonList>
           <IonList inset={true}>
-            <IonItem onClick={() => navigate(ROUTES.CONNECTIONS_EDIT(id))}>
-              <IonIcon slot="start" icon={connected ? EditCover : EditOrangeIcon} />
-              <IonLabel color={connected ? 'medium' : 'primary'}>Edit</IonLabel>
-            </IonItem>
-            <IonItem>
-              <IonIcon slot="start" icon={connected ? DeleteCover : DeleteRedIcon} />
-              <IonLabel color={connected ? 'medium' : 'danger'}>Disconnect</IonLabel>
-            </IonItem>
+            <ItemButton label="Edit" labelColor={connected ? "medium" : "primary"} icon={connected ? EditCover : EditOrangeIcon} handleItemClick={() => navigate(ROUTES.CONNECTIONS_EDIT(id))} />
+            <ItemButton label="Disconnect" labelColor={connected ? "medium" : "danger"} icon={connected ? DeleteCover : DeleteRedIcon}/>
           </IonList>
           <ConfirmationModal 
             isOpen={showConfirmationModal} 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { RefObject, useEffect } from 'react';
+import { RefObject, useEffect } from "react";
 
 export const useOutsideClick = (
   ref: RefObject<Element>,
@@ -21,10 +21,10 @@ export const useOutsideClick = (
       handler(event);
     };
 
-    document.addEventListener('mouseup', listener);
+    document.addEventListener("mouseup", listener);
 
     return () => {
-      document.removeEventListener('mouseup', listener);
+      document.removeEventListener("mouseup", listener);
     };
   }, [ref, handler, exception]);
 };

@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonLoading } from '@ionic/react';
-import DatabaseList from '../../../components/databaseList/databaseList';
-import './styles.module.css';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { ROUTES } from '../../../../shared/constants/routes';
-import { DatabaseTableInfo } from '../../../models/interfaces/databaseTableInfo.interface';
-import { databaseTables } from '../../../../shared/constants/databaseTables';
-import '../../../styles/common.scss'
+import React, { useState } from "react";
+import { IonButton, IonContent, IonSearchbar } from "@ionic/react";
+import DatabaseList from "../../../components/databaseList/databaseList";
+import "./styles.module.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../../shared/constants/routes";
+import { DatabaseTableInfo } from "../../../models/interfaces/databaseTableInfo.interface";
+import { databaseTables } from "../../../../shared/constants/databaseTables";
+import "../../../styles/common.scss";
+import { Header } from "../../../components/header/Header";
 
 type DatabaseTableProps = {
-    table: DatabaseTableInfo
-}
+    table: DatabaseTableInfo;
+};
 
 const DatabaseTable: React.FC<DatabaseTableProps> = ({ table }) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [searchQuery, setSearchQuery] = useState<string>('');
-    const { productCategoryId } = location.state || '-1';
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const { productCategoryId } = location.state || { productCategoryId: "-1" };
 
     const handleAddClick = (path: string) => {
         navigate(path, { state: { productCategoryId } });
@@ -28,31 +29,31 @@ const DatabaseTable: React.FC<DatabaseTableProps> = ({ table }) => {
 
     const handleItemClick = (category: string, itemName: string, itemId: number) => {
         const encodedItemName = encodeURIComponent(itemName);
-        if (category === databaseTables.productCategories.path){
-            navigate(ROUTES.DATABASE_CATEGORY(databaseTables.products.path), { state: { productCategoryId: itemId }});
+        if (category === databaseTables.productCategories.path) {
+            navigate(ROUTES.DATABASE_CATEGORY(databaseTables.products.path), { state: { productCategoryId: itemId } });
             return;
         }
         const path = ROUTES.DATABASE_EDIT_ENTRY(category, encodedItemName, itemId.toString());
-        navigate(path, { state: { productCategoryId: itemId }});
+        navigate(path, { state: { productCategoryId: itemId } });
     };
 
     return (
         <IonContent>
-            <IonHeader className='ion-no-border'>
-                <IonToolbar>
-                    <IonButtons slot="start">
-                        <IonBackButton text="" defaultHref={ROUTES.DATABASE} color="medium"></IonBackButton>
-                    </IonButtons>
-                    <IonTitle className="capitalized">{table.pageTitle}</IonTitle>
-                    <IonButton slot="end" size="small" color="primary" onClick={() => handleAddClick(ROUTES.DATABASE_ADD_ENTRY(table.path))}>+ Add</IonButton>
-                </IonToolbar>
-            </IonHeader>
+            <Header
+                title={table.pageTitle}
+                backButtonHref={ROUTES.DATABASE}
+                endButton={
+                    <IonButton size="small" fill="solid" onClick={() => handleAddClick(ROUTES.DATABASE_ADD_ENTRY(table.path))}>
+                        + Add
+                    </IonButton>
+                }
+            />
             <div className="searchContainer">
-                <IonSearchbar placeholder={'Search '} onIonInput={handleSearchInput}></IonSearchbar>
+                <IonSearchbar placeholder={"Search "} onIonInput={handleSearchInput}></IonSearchbar>
             </div>
-            <DatabaseList category={table.path} searchQuery={searchQuery} handleItemClick={handleItemClick}/>
+            <DatabaseList category={table.path} searchQuery={searchQuery} handleItemClick={handleItemClick} />
         </IonContent>
-    )
+    );
 };
 
 export default DatabaseTable;

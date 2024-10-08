@@ -1,1 +1,1 @@
-export { InventoryCard } from './InventoryCard';
+export { InventoryCard } from "./InventoryCard";

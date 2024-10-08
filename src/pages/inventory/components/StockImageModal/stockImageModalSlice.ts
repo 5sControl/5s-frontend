@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
-import { InventoryHistory } from '../../types';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
+import { InventoryHistory } from "../../types";
 
 interface StockImageModalState {
   isOpenStockImageModal: boolean;
@@ -13,7 +13,7 @@ const initialState: StockImageModalState = {
 };
 
 const stockImageModalSlice = createSlice({
-  name: 'stockImageModal',
+  name: "stockImageModal",
   initialState,
   reducers: {
     setIsOpenStockImageModal(state, action: PayloadAction<boolean>) {

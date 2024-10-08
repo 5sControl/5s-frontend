@@ -1,1 +1,1 @@
-export { StockImageModal } from './stockImageModal';
+export { StockImageModal } from "./stockImageModal";

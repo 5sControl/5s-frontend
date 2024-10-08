@@ -1,5 +1,5 @@
-import { PreviewOrderItem } from '../../../../storage/orderView';
-import { OrderListByCustomer } from '../../../../storage/orderViewCustomer';
+import { PreviewOrderItem } from "../../../../storage/orderView";
+import { OrderListByCustomer } from "../../../../storage/orderViewCustomer";
 
 export const parseOrderData = (data: OrderListByCustomer) => {
   const previewData: PreviewOrderItem = {

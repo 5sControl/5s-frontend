@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from "react";
 import {
   IonButton,
   IonContent,
@@ -10,9 +10,9 @@ import {
   IonItem,
   IonCheckbox,
   IonSearchbar,
-} from '@ionic/react';
-import { createOperation } from '../../api/product/productOperation';
-import { useCookies } from 'react-cookie';
+} from "@ionic/react";
+import { createOperation } from "../../api/product/productOperation";
+import { useCookies } from "react-cookie";
 
 type SelectItemsModalProps = {
   isOpen: boolean;
@@ -31,7 +31,7 @@ export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
   previouslySelectedItems,
   categoryId
 }) => {
-  const [cookies] = useCookies(['token']);
+  const [cookies] = useCookies(["token"]);
   const [selectedItems, setSelectedItems] = useState<boolean[]>(previouslySelectedItems);
 
 
@@ -62,7 +62,7 @@ export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
   }
 
   return (
-    <IonModal isOpen={isOpen} onDidDismiss={onClose} className='selectModal'>
+    <IonModal isOpen={isOpen} onDidDismiss={onClose} className="selectModal">
       <IonHeader>
         <IonToolbar>
           <IonButton slot="start" onClick={handleClose} fill="clear" size="small">Cancel</IonButton>

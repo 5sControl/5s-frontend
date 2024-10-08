@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const cookies = createSlice({
-  name: 'cookies',
+  name: "cookies",
   initialState: {
     report: false,
   },
