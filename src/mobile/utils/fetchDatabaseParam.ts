@@ -1,10 +1,13 @@
-import { getAllProductCategories } from '../api/product/productCategories';
-import { getAllOperations } from '../api/product/productOperation';
-import { getAllProducts } from '../api/product/productType';
-import { databaseTables } from '../../shared/constants/databaseTables';
+import { getAllProductCategories } from "../api/product/productCategories";
+import { getAllOperations } from "../api/product/productOperation";
+import { getAllProducts } from "../api/product/productType";
+import { databaseTables } from "../../shared/constants/databaseTables";
 
-
-export async function fetchDatabaseParam(param: string, token: string, productCategoryId: number): Promise<any> {
+export async function fetchDatabaseParam(
+  param: string,
+  token: string,
+  productCategoryId: number
+): Promise<any> {
   switch (param) {
     case databaseTables.products.path:
       return (await getAllProducts(productCategoryId, token)).data;

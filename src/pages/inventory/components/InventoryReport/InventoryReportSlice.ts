@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
 
 interface ReportState {
   statusSort: boolean;
@@ -10,7 +10,7 @@ const initialState: ReportState = {
 };
 
 const inventoryReport = createSlice({
-  name: 'inventoryReport',
+  name: "inventoryReport",
   initialState,
   reducers: {
     setStatusSort(state, action: PayloadAction<boolean>) {

@@ -1,7 +1,7 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import currentReportReducer from './dataSlice';
-import cookiesReducer from './cookiesSlice';
-import connectionPageSlice from '../utils/connectionSlice';
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import currentReportReducer from "./dataSlice";
+import cookiesReducer from "./cookiesSlice";
+import connectionPageSlice from "../utils/connectionSlice";
 
 export const store = configureStore({
   reducer: {

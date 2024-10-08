@@ -1,1 +1,1 @@
-export { Cover } from './ui';
+export { Cover } from "./ui";

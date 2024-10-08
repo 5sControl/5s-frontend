@@ -3,11 +3,11 @@ import {
   createSlice,
   PayloadAction,
   SerializedError,
-} from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
-import { postConnectionWithDbAPI } from './connectToDbModalAPI';
-import { ConnectionToDatabaseForm, ConnectResponse } from './types';
-import { DatabaseInfo } from '../../types';
+} from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
+import { postConnectionWithDbAPI } from "./connectToDbModalAPI";
+import { ConnectionToDatabaseForm, ConnectResponse } from "./types";
+import { DatabaseInfo } from "../../types";
 
 interface ConnectToDbModalState {
   connectionType: string | null;
@@ -28,7 +28,7 @@ const initialState: ConnectToDbModalState = {
 };
 
 export const createConnectionWithDB = createAsyncThunk(
-  'createConnectionWithDB',
+  "createConnectionWithDB",
   async (data: { token: string; hostname: string; body: any }) => {
     const response = await postConnectionWithDbAPI(
       data.hostname,
@@ -40,7 +40,7 @@ export const createConnectionWithDB = createAsyncThunk(
 );
 
 const connectToDbModalSlice = createSlice({
-  name: 'connectToDbModal',
+  name: "connectToDbModal",
   initialState,
   reducers: {
     setConnectionType(state, action: PayloadAction<string | null>) {

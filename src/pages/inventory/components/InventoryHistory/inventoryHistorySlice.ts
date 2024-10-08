@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
 
 interface HistoryState {
   selectDate: string | null;
@@ -10,7 +10,7 @@ const initialState: HistoryState = {
 };
 
 const inventoryHistory = createSlice({
-  name: 'inventoryHistory',
+  name: "inventoryHistory",
   initialState,
   reducers: {
     setInventoryHistoryDate(state, action: PayloadAction<string>) {

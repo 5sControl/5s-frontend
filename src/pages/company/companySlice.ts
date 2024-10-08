@@ -1,11 +1,11 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../store';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../store";
 import {
   getCompanyInfoForm,
   getCountriesList,
   getSuppliers,
-} from '../../api/companyRequest';
-import { ContactInfoType, CountryType } from './types';
+} from "../../api/companyRequest";
+import { ContactInfoType, CountryType } from "./types";
 
 interface CompanyState {
   companies: ContactInfoType[];
@@ -20,44 +20,44 @@ const initialState: CompanyState = {
 };
 
 export const getCompanies = createAsyncThunk(
-  'getCompanies',
+  "getCompanies",
   async (data: { token: string; hostname: string }) => {
     try {
       const response = await getSuppliers(data.hostname, data.token);
-      console.log('getSuppliers', response);
+      console.log("getSuppliers", response);
       return response.data;
     } catch (e) {
-      console.log('getSuppliersError', e);
+      console.log("getSuppliersError", e);
     }
   }
 );
 
 export const getCountries = createAsyncThunk(
-  'getCountries',
+  "getCountries",
   async (data: { token: string; hostname: string }) => {
     try {
       const response = await getCountriesList(data.hostname, data.token);
       return response.data;
     } catch (e) {
-      console.log('getCountriesError', e);
+      console.log("getCountriesError", e);
     }
   }
 );
 
 export const getCompanyInfoForForm = createAsyncThunk(
-  'getCompanyInfoForForm',
+  "getCompanyInfoForForm",
   async (data: { token: string; hostname: string }) => {
     try {
       const response = await getCompanyInfoForm(data.hostname, data.token);
       return response.data;
     } catch (e) {
-      console.log('companyInfoFormError', e);
+      console.log("companyInfoFormError", e);
     }
   }
 );
 
 const companySlice = createSlice({
-  name: 'companyPage',
+  name: "companyPage",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

@@ -10,6 +10,7 @@ import { useCookies } from 'react-cookie';
 import { createProduct } from '../../../api/product/productType';
 import { databaseTables } from '../../../../shared/constants/databaseTables';
 import TimePicker from '../../../components/timePickerInput/timePickerInput';
+import { Header } from '../../../components/header/Header';
 
 const NewDatabaseEntry: React.FC = () => {
   const navigate = useNavigate();
@@ -60,15 +61,8 @@ const NewDatabaseEntry: React.FC = () => {
 
   return (
     <IonContent>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton text="" defaultHref={ROUTES.DATABASE_CATEGORY(databaseTable.path)} color="medium"></IonBackButton>
-          </IonButtons>
-          <IonTitle>New {databaseTable.singularName}</IonTitle>
-          <IonButton slot="end" size="small" color="primary" disabled={!name || loading} onClick={createEntry}>Save</IonButton>
-        </IonToolbar>
-      </IonHeader>
+      <Header title={`New ${databaseTable.singularName}`} backButtonHref={ROUTES.DATABASE_CATEGORY(databaseTable.path)}
+        endButton={<IonButton slot="end" size="small" color="primary" disabled={!name || loading} onClick={createEntry}>Save</IonButton>}/>
       {
         <IonLoading isOpen={loading} spinner="circular"> 
         </IonLoading>

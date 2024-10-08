@@ -1,1 +1,1 @@
-export { Сlosing } from './ui';
+export { Сlosing } from "./ui";

@@ -1,1 +1,1 @@
-export { InventoryListItem } from './InventoryListItem';
+export { InventoryListItem } from "./InventoryListItem";

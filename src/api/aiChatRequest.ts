@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
 const ngrokHeaders = {
-  'ngrok-skip-browser-warning': 'true',
+  "ngrok-skip-browser-warning": "true",
 };
 
 export const getCategoriesApi = () => {
@@ -173,24 +173,24 @@ export const editChatApi = (data: {
   autoplayAnswers?: boolean;
 }) => {
   return axios({
-    method: 'post',
+    method: "post",
     url: `${process.env.REACT_APP_CHAT_API}editChat`,
     data,
     headers: {
-      'Content-Type': 'application/json',
-      'ngrok-skip-browser-warning': 'true',
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
     },
   }).then((res) => res.data);
 };
 
 export const uploadSourcesApi = (categoryName: string, data: FormData) => {
   return axios({
-    method: 'post',
+    method: "post",
     url: `${process.env.REACT_APP_CHAT_API}upload?categoryName=${categoryName}`,
     data,
     headers: {
-      'Content-Type': 'multipart/form-data',
-      'ngrok-skip-browser-warning': 'true',
+      "Content-Type": "multipart/form-data",
+      "ngrok-skip-browser-warning": "true",
     },
   }).then((res) => res.data);
 };
@@ -200,7 +200,7 @@ export const downloadFileApi = (categoryName: string, fileName: string) => {
     `${process.env.REACT_APP_CHAT_API}download?categoryName=${categoryName}&fileName=${fileName}`,
     {
       headers: ngrokHeaders,
-      responseType: 'arraybuffer',
+      responseType: "arraybuffer",
     }
   );
 };

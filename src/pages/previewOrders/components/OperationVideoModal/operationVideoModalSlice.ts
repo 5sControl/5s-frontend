@@ -1,7 +1,7 @@
-import { OperationItem } from './../../../../storage/orderView';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
-import type ReactPlayer from 'react-player';
+import { OperationItem } from "./../../../../storage/orderView";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
+import type ReactPlayer from "react-player";
 
 export type VideoStateOperationModal = {
   playing: boolean;
@@ -18,12 +18,12 @@ interface OperationVideoModalState {
 
 const initialState: OperationVideoModalState = {
   playerRef: null,
-  videoState: { playing: true, volume: 0.9, controls: true, url: '' },
+  videoState: { playing: true, volume: 0.9, controls: true, url: "" },
   isOpenOperationVideoModal: false,
 };
 
 const operationVideoModalSlice = createSlice({
-  name: 'operationVideoModal',
+  name: "operationVideoModal",
   initialState,
   reducers: {
     setIsOpenOperationVideoModal(state, action: PayloadAction<boolean>) {
@@ -33,7 +33,7 @@ const operationVideoModalSlice = createSlice({
       const dateObj = new Date(action.payload.operationTime);
       const cameraIp =
         action.payload.video_data?.camera_ip || window.location.hostname;
-      const outputStr = dateObj.toISOString().replace('T', ' ').slice(0, -1);
+      const outputStr = dateObj.toISOString().replace("T", " ").slice(0, -1);
       const reportTime =
         Date.parse(action.payload.operationTime) -
         action.payload.video_data.date_start;

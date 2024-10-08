@@ -2,7 +2,7 @@ import {
   createSearchParams,
   useNavigate,
   useSearchParams,
-} from 'react-router-dom';
+} from "react-router-dom";
 
 export const useNavigateSearch = () => {
   const navigate = useNavigate();

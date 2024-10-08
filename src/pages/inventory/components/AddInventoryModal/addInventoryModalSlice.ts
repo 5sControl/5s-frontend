@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
-import { setInventoryItem } from '../../inventoryAPI';
-import { AddInventoryDataResponse } from './types';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
+import { setInventoryItem } from "../../inventoryAPI";
+import { AddInventoryDataResponse } from "./types";
 
 interface addInventoryModalState {
   isLoadingAddData: boolean;
@@ -21,7 +21,7 @@ const initialState: addInventoryModalState = {
 };
 
 export const addItem = createAsyncThunk(
-  'addItem',
+  "addItem",
   async (data: {
     token: string;
     hostname: string;
@@ -37,7 +37,7 @@ export const addItem = createAsyncThunk(
 );
 
 const addInventoryModalSlice = createSlice({
-  name: 'addInventoryModal',
+  name: "addInventoryModal",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

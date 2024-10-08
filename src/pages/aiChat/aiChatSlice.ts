@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   addChatApi,
   askChatApi,
@@ -16,8 +16,8 @@ import {
   createPromptTemplateApi,
   editPromptTemplateApi,
   removePromptTemplateApi,
-} from '../../api/aiChatRequest';
-import { AppDispatch } from '../../store';
+} from "../../api/aiChatRequest";
+import { AppDispatch } from "../../store";
 
 interface PromptTemplate {
   title: string;
@@ -59,7 +59,7 @@ export interface Chat {
   modelName: string;
   sources: string[];
   history: {
-    author: 'chat' | 'user';
+    author: "chat" | "user";
     message: string;
     usedCategory?: string;
     usedPrompt?: string;
@@ -84,7 +84,7 @@ const initialState: AIChat = {
   availableModels: [],
   selectedChat: {} as Chat,
   chats: [],
-  messageToSpeak: '',
+  messageToSpeak: "",
   promptTemplates: [],
 };
 
@@ -94,7 +94,7 @@ export const fetchCategoriesAction = () => async (dispatch: AppDispatch) => {
     const data = await getCategoriesApi();
     dispatch(aiChatPage.actions.setCategories(data));
   } catch {
-    console.log('error fetching categories');
+    console.log("error fetching categories");
   } finally {
     dispatch(aiChatPage.actions.setLoading(false));
   }
@@ -106,7 +106,7 @@ export const fetchChatsAction = () => async (dispatch: AppDispatch) => {
     const data = await getChatsApi();
     dispatch(aiChatPage.actions.setChats(data));
   } catch {
-    console.log('error fetching categories');
+    console.log("error fetching categories");
   } finally {
     dispatch(aiChatPage.actions.setLoading(false));
   }
@@ -118,7 +118,7 @@ export const fetchPromptTemplatesAction =
       const data = await getPromptTemplatesApi();
       dispatch(aiChatPage.actions.setPromptTemplates(data));
     } catch {
-      console.log('error fetching categories');
+      console.log("error fetching categories");
     } finally {
       dispatch(aiChatPage.actions.setLoading(false));
     }
@@ -131,7 +131,7 @@ export const fetchAvailableModelsAction =
       const data = await getModelsApi();
       dispatch(aiChatPage.actions.setModels(data));
     } catch {
-      console.log('error fetching categories');
+      console.log("error fetching categories");
     } finally {
       dispatch(aiChatPage.actions.setLoading(false));
     }
@@ -144,7 +144,7 @@ export const createPromptTemplateAction =
       const data = await createPromptTemplateApi(promptTemplate);
       dispatch(aiChatPage.actions.setPromptTemplates(data));
     } catch {
-      console.log('error creating category');
+      console.log("error creating category");
     }
   };
 
@@ -155,7 +155,7 @@ export const editPromptTemplateAction =
       const data = await editPromptTemplateApi(promptTemplate);
       dispatch(aiChatPage.actions.setPromptTemplates(data));
     } catch {
-      console.log('error creating category');
+      console.log("error creating category");
     }
   };
 
@@ -165,7 +165,7 @@ export const removePromptTemplateAction =
       const data = await removePromptTemplateApi(title);
       dispatch(aiChatPage.actions.setPromptTemplates(data));
     } catch {
-      console.log('error creating category');
+      console.log("error creating category");
     }
   };
 
@@ -176,7 +176,7 @@ export const createCategoryAction =
       const data = await createCategoryApi(categoryName, categoryDescription);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
-      console.log('error creating category');
+      console.log("error creating category");
     }
   };
 
@@ -186,7 +186,7 @@ export const removeCategoryAction =
       const data = await removeCategoryApi(categoryName);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
-      console.log('error removing category');
+      console.log("error removing category");
     }
   };
 
@@ -201,7 +201,7 @@ export const editCategoryAction =
       );
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
-      console.log('error editing category');
+      console.log("error editing category");
     }
   };
 
@@ -211,18 +211,18 @@ export const removeCategorySourceAction =
       const data = await removeCategorySourceApi(fileName, categoryName);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
-      console.log('error removing category source');
+      console.log("error removing category source");
     }
   };
 
 export const addChatAction =
   (modelName?: string) => async (dispatch: AppDispatch) => {
     try {
-      const data = await addChatApi(modelName ?? 'llama2:13b');
+      const data = await addChatApi(modelName ?? "llama2:13b");
       await dispatch(aiChatPage.actions.setChats(data));
       await dispatch(aiChatPage.actions.setSelectedChat(data.at(-1)));
     } catch {
-      console.log('error adding chat');
+      console.log("error adding chat");
     }
   };
 
@@ -232,7 +232,7 @@ export const removeChatAction =
       const data = await removeChatApi(chatId);
       dispatch(aiChatPage.actions.setChats(data));
     } catch {
-      console.log('error removing chat');
+      console.log("error removing chat");
     }
   };
 
@@ -267,7 +267,7 @@ export const editChatAction =
       const data = await editChatApi(payloadData);
       dispatch(aiChatPage.actions.setChats(data));
     } catch {
-      console.log('error editing chat');
+      console.log("error editing chat");
     }
   };
 
@@ -295,7 +295,7 @@ export const askChatAction =
         )
       );
     } catch {
-      console.log('error asking chat');
+      console.log("error asking chat");
     } finally {
       dispatch(aiChatPage.actions.setLoading(false));
     }
@@ -305,13 +305,13 @@ export const uploadSourceAction =
   (categoryName: string, formData: FormData) =>
   async (dispatch: AppDispatch) => {
     try {
-      const fileToLoad = formData.get('file') as File;
-      const processingFileName = fileToLoad ? fileToLoad.name : '';
+      const fileToLoad = formData.get("file") as File;
+      const processingFileName = fileToLoad ? fileToLoad.name : "";
       const processingFileSize = fileToLoad ? fileToLoad.size : 0;
       const linkToLoad =
-        formData.get('link') === null
+        formData.get("link") === null
           ? undefined
-          : (formData.get('link') as string);
+          : (formData.get("link") as string);
       dispatch(
         aiChatPage.actions.addUploadingFiles({
           categoryName,
@@ -323,12 +323,12 @@ export const uploadSourceAction =
       const data = await uploadSourcesApi(categoryName, formData);
       dispatch(aiChatPage.actions.setCategories(data));
     } catch {
-      console.log('error uploading categories');
+      console.log("error uploading categories");
     }
   };
 
 const aiChatPage = createSlice({
-  name: 'ai-chat',
+  name: "ai-chat",
   initialState,
   reducers: {
     setPromptTemplates(state: AIChat, action: PayloadAction<PromptTemplate[]>) {

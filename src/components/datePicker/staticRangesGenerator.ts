@@ -9,7 +9,7 @@ import {
   startOfWeek,
   endOfWeek,
   isSameDay,
-} from 'date-fns';
+} from "date-fns";
 
 const createDefineds = (weekStartsOn: any) => ({
   startOfWeek: startOfWeek(new Date(), { weekStartsOn }),
@@ -47,14 +47,14 @@ export default (locale: { options: { weekStartsOn: any } }) => {
 
   return createStaticRanges([
     {
-      label: 'Today',
+      label: "Today",
       range: () => ({
         startDate: defineds.startOfToday,
         endDate: defineds.endOfToday,
       }),
     },
     {
-      label: 'Yesterday',
+      label: "Yesterday",
       range: () => ({
         startDate: defineds.startOfYesterday,
         endDate: defineds.endOfYesterday,
@@ -62,28 +62,28 @@ export default (locale: { options: { weekStartsOn: any } }) => {
     },
 
     {
-      label: 'This Week',
+      label: "This Week",
       range: () => ({
         startDate: defineds.startOfWeek,
         endDate: defineds.endOfWeek,
       }),
     },
     {
-      label: 'Last Week',
+      label: "Last Week",
       range: () => ({
         startDate: defineds.startOfLastWeek,
         endDate: defineds.endOfLastWeek,
       }),
     },
     {
-      label: 'This Month',
+      label: "This Month",
       range: () => ({
         startDate: defineds.startOfMonth,
         endDate: defineds.endOfMonth,
       }),
     },
     {
-      label: 'Last Month',
+      label: "Last Month",
       range: () => ({
         startDate: defineds.startOfLastMonth,
         endDate: defineds.endOfLastMonth,

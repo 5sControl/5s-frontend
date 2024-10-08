@@ -3,5 +3,5 @@ export interface ConnectionItem {
   erp_system: string;
   is_active: boolean;
   host: string;
-  read_only: boolean
+  read_only: boolean;
 }

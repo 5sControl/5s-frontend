@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
-import { disconnectDbAPI } from './disconnectDbModalAPI';
-import { DatabaseInfo } from '../../types';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
+import { disconnectDbAPI } from "./disconnectDbModalAPI";
+import { DatabaseInfo } from "../../types";
 
 type DisconnectResponseStatus = number;
 
@@ -20,7 +20,7 @@ const initialState: ConnectToDbModalState = {
 };
 
 export const disconnectDb = createAsyncThunk(
-  'disconnectDB',
+  "disconnectDB",
   async (data: { token: string; hostname: string; id: number }) => {
     const response = await disconnectDbAPI(data.hostname, data.token, data.id);
     return response.status;
@@ -28,7 +28,7 @@ export const disconnectDb = createAsyncThunk(
 );
 
 const connectToDbModalSlice = createSlice({
-  name: 'disconnectDbModal',
+  name: "disconnectDbModal",
   initialState,
   reducers: {
     setConnectionToDisconnectData(
