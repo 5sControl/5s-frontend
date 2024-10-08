@@ -31,7 +31,7 @@ export const Menu: React.FC = () => {
   };
 
   const logout = () => {
-    removeCookie("token");
+    removeCookie("token", {path: "/"});
   };
 
   return (
