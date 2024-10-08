@@ -2,12 +2,13 @@ import React, { FC, useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 import moment from "moment";
 import { TimeInterval } from "../../models/types/timeInterval";
+import { OperationItem } from "../../models/interfaces/operationItem.interface";
 
 type TimelineChartProps = {
   startTime: string;
   selectedInterval: TimeInterval;
   showScheduled: boolean;
-  data: any;
+  data: OperationItem[];
 };
 
 export const TimelineChart: FC<TimelineChartProps> = ({
@@ -19,7 +20,7 @@ export const TimelineChart: FC<TimelineChartProps> = ({
   const chartRef = useRef<SVGSVGElement>(null);
   const operationHeight = 36;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [chartHeight, setChartHeight] = useState(showScheduled ? ((data.length + 10) * operationHeight) : ((data.length * 2 + 10) * operationHeight));
+  const [chartHeight, setChartHeight] = useState(showScheduled ? ((data.length * 2 + 10) * operationHeight) : ((data.length + 10) * operationHeight));
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,8 +36,8 @@ export const TimelineChart: FC<TimelineChartProps> = ({
   useEffect(() => {
     d3.select(chartRef.current).selectAll("*").remove();
     const displayedHours = parseInt(selectedInterval.slice(0, -1));
-
-    setChartHeight(showScheduled ? ((data.length + 10) * operationHeight) : ((data.length * 2 + 10) * operationHeight))
+    const newChartHeight = showScheduled ? ((data.length * 2 + 10) * operationHeight) : ((data.length + 10) * operationHeight)
+    setChartHeight(newChartHeight);
 
     const drawOperations = () => {
       svg
@@ -45,7 +46,7 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .enter()
       .append("rect")
       .attr("x", 0)
-      .attr("y", (d) => (yScale(d.category) ?? 0) + 10)
+      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10)
       .attr("width", width)
       .attr("height", operationHeight)
       .attr("fill", "#C5C5C")
@@ -56,9 +57,9 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .data(data)
       .enter()
       .append("rect")
-      .attr("x", 0)
-      .attr("y", (d) => (yScale(d.category) ?? 0) + 10)
-      .attr("width", (d) => xScale(new Date(d.end)) - xScale(new Date(d.start)))
+      .attr("x", (d) => xScale(new Date(d.oprs[0].sTime)))
+      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10)
+      .attr("width", (d) => xScale(new Date(d.oprs[0].eTime)) - xScale(new Date(d.oprs[0].sTime)))
       .attr("height", operationHeight)
       .attr("fill", "#87BC45");
 
@@ -68,10 +69,10 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .enter()
       .append("text")
       .attr("x", 0)
-      .attr("y", (d) => (yScale(d.category) ?? 0) + 5)
+      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 5)
       .attr("fill", "black")
       .attr("font-size", "12px")
-      .text((d) => d.category);
+      .text((d) => d.oprName);
     }
 
     const drawOperationsWithScheduled = () => {
@@ -81,7 +82,7 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .enter()
       .append("rect")
       .attr("x", 0)
-      .attr("y", (d) => (yScale(d.category) ?? 0) + 10)
+      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10)
       .attr("width", width)
       .attr("height", operationHeight * 2)
       .attr("fill", "#C5C5C")
@@ -92,9 +93,9 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .data(data)
       .enter()
       .append("rect")
-      .attr("x", 0)
-      .attr("y", (d) => (yScale(d.category) ?? 0) + 10)
-      .attr("width", (d) => xScale(new Date(d.end)) - xScale(new Date(d.start)))
+      .attr("x", (d) => xScale(new Date(d.oprs[0].sTime)))
+      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10)
+      .attr("width", (d) => xScale(new Date(d.oprs[0].eTime)) - xScale(new Date(d.oprs[0].sTime)))
       .attr("height", operationHeight)
       .attr("fill", "#87BC45");
 
@@ -103,9 +104,12 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .data(data)
       .enter()
       .append("rect")
-      .attr("x", 0)
-      .attr("y", (d) => (yScale(d.category) ?? 0) + 10 + operationHeight)
-      .attr("width", (d) => xScale(new Date(d.end)) - xScale(new Date(d.start)))
+      .attr("x", (d) => {
+        console.log(new Date(d.oprs[0].sTime));
+        return xScale(new Date(d.oprs[0].sTime));
+      })
+      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10 + operationHeight)
+      .attr("width", (d) => xScale(new Date(d.oprs[0].sTime + d.oprs[0].duration_expected)) - xScale(new Date(d.oprs[0].sTime)))
       .attr("height", operationHeight)
       .attr("fill", "#FE6100");
 
@@ -115,15 +119,15 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .enter()
       .append("text")
       .attr("x", 0)
-      .attr("y", (d) => (yScale(d.category) ?? 0) + 5)
+      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 5)
       .attr("fill", "black")
       .attr("font-size", "12px")
-      .text((d) => d.category);
+      .text((d) => d.oprName);
     }
 
     const margin = { top: 20, right: 30, bottom: 100, left: 20 };
     const width = windowWidth - margin.left - margin.right;
-    const height = chartHeight - margin.top - margin.bottom;
+    const height = newChartHeight - margin.top - margin.bottom;
 
     const svg = d3
       .select(chartRef.current)
@@ -154,7 +158,7 @@ export const TimelineChart: FC<TimelineChartProps> = ({
 
     const yScale = d3
       .scaleBand()
-      .domain(data.map((d) => d.category))
+      .domain(data.map((d) => d.oprName))
       .range([0, height])
       .padding(0.1);
 
