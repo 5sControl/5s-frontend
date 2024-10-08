@@ -22,7 +22,7 @@ import { Header } from "../../components/header/Header";
 import TimelineChart from "../../components/timelineChart/TimelineChart";
 import moment from "moment";
 import { TimeInterval } from "../../models/types/timeInterval";
-import './styles.scss'
+import "./styles.scss";
 
 export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
@@ -30,9 +30,60 @@ export const OrdersView: React.FC = () => {
   const [selectedInterval, setSelectedInterval] = useState<string>("1h");
   const [hourInterval, setHourInterval] = useState<TimeInterval>("1h");
   const [showDatepicker, setShowDatepicker] = useState(false);
+  const [showScheduled, setShowScheduled] = useState(false);
   const [selectedRange, setSelectedRange] = useState(
-    moment().set({ hour: 8, minute: 0, second: 0 }).format("YYYY-MM-DDTHH:mm:ss")
+    moment()
+      .set({ hour: 8, minute: 0, second: 0 })
+      .format("YYYY-MM-DDTHH:mm:ss")
   );
+  const data = [
+    {
+      category: "Category 1",
+      label: "Label 1",
+      start: 1727938837000,
+      end: 1727938859000,
+    },
+    {
+      category: "Category 2",
+      label: "Label 1",
+      start: 1727938837000,
+      end: 1727938859000,
+    },
+    {
+      category: "Category 3",
+      label: "Label 1",
+      start: 1727938837000,
+      end: 1727938859000,
+    },
+    {
+      category: "Category 4",
+      label: "Label 1",
+      start: 1727938837000,
+      end: 1727938859000,
+    },
+    {
+      category: "Category 5",
+      label: "Label 1",
+      start: 1727938837000,
+      end: 1727938859000,
+    },
+    {
+      category: "Category 6",
+      label: "Label 1",
+      start: 1727938837000,
+      end: 1727938859000,
+    },
+    {
+      category: "Category 7",
+      label: "Label 1",
+      start: 1727938837000,
+      end: 1727938859000,
+    },
+  ];
+
+  const handleToggle = () => {
+    setShowScheduled(!showScheduled);
+};
 
   const handleTimeModeChange = (value: TimeMode) => {
     setTimeMode(value);
@@ -55,13 +106,17 @@ export const OrdersView: React.FC = () => {
         <IonGrid>
           <IonRow className="ion-align-items-center dateTimeControls">
             <IonCol onClick={openDateTimePicker} id="openDateTimePicker">
-              <IonListHeader>{parseInputDate(selectedRange, timeMode, selectedInterval)}</IonListHeader>
+              <IonListHeader>
+                {parseInputDate(selectedRange, timeMode, selectedInterval)}
+              </IonListHeader>
             </IonCol>
             <IonCol size="auto">
               <IonSegment
                 className="timeMode"
                 value={timeMode}
-                onIonChange={(e) => handleTimeModeChange(e.detail.value as TimeMode)}
+                onIonChange={(e) =>
+                  handleTimeModeChange(e.detail.value as TimeMode)
+                }
               >
                 <IonSegmentButton value="hourMode">
                   <img src={HourMode} alt="hour mode" />
@@ -94,10 +149,15 @@ export const OrdersView: React.FC = () => {
         </div>
       </div>
 
-      <TimelineChart startTime={selectedRange} selectedInterval={hourInterval} />
+      <TimelineChart
+        startTime={selectedRange}
+        selectedInterval={hourInterval}
+        showScheduled={showScheduled}
+        data={data}
+      />
 
       <div className="ion-padding ordersPanel">
-        <IonToggle justify="space-between">Show scheduled time</IonToggle>
+        <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>Show scheduled time</IonToggle>
         <div className="orders-container">
           <div className="orders">
             {[...Array(20).keys()].map((index) => (
@@ -116,6 +176,7 @@ export const OrdersView: React.FC = () => {
             presentation="date-time"
             placeholder="Select Date and Start Time"
             onIonChange={handleDateTimeChange}
+            className="dateTimePickerWrapper"
           >
             <span slot="time-label">Start time</span>
           </IonDatetime>
