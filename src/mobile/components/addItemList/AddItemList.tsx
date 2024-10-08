@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   IonButton,
   IonList,
   IonItem,
   IonLabel,
   IonListHeader,
-  IonIcon,
   IonReorderGroup,
-  IonReorder,
-  IonLoading, 
-} from '@ionic/react';
-import { DeleteRedIcon } from '../../assets/svg/SVGcomponent';
-import { fetchDatabaseParam } from '../../utils/fetchDatabaseParam';
-import { SelectItemsModal } from '../selectItemsModal/selectItemsModal';
-import { useCookies } from 'react-cookie';
-import { getAllProductTypeOperations } from '../../api/product/productTypeOperation';
-import { ReorderItem } from './ReorderItem';
+  IonLoading,
+} from "@ionic/react";
+import { fetchDatabaseParam } from "../../utils/fetchDatabaseParam";
+import { SelectItemsModal } from "../selectItemsModal/selectItemsModal";
+import { useCookies } from "react-cookie";
+import { getAllProductTypeOperations } from "../../api/product/productTypeOperation";
+import { ReorderItem } from "./ReorderItem";
 
 type AddItemListProps = {
   title: string;
@@ -27,15 +24,15 @@ type AddItemListProps = {
 export const AddItemList: React.FC<AddItemListProps> = ({ title, items, categoryId, typeId }) => {
   const [currentItems, setCurrentItems] = useState<string[]>([]);
   const [allItems, setAllItems] = useState<string[]>([]);
-  const [statusEditing, setstatusEditing] = useState<boolean>(false);
+  const [statusEditing, setStatusEditing] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedItems, setSelectedItems] = useState<boolean[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [cookies] = useCookies(['token']);
+  const [cookies] = useCookies(["token"]);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); 
+      setLoading(true);
       try {
         const data = await fetchDatabaseParam(title.toLowerCase(), cookies.token, 1);
         const operationNames = data.map((item: { name: string }) => item.name);
@@ -45,7 +42,7 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
         response.data.forEach((operation: any) => productOperations.push(operation.productOperationName));
         setCurrentItems(productOperations);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -54,13 +51,13 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
   }, []);
 
   useEffect(() => {
-    const updatedSelections = allItems.map(item => currentItems.includes(item));
+    const updatedSelections = allItems.map((item) => currentItems.includes(item));
     setSelectedItems(updatedSelections);
   }, [allItems, currentItems]);
 
   const handleEditToggle = () => {
     if (currentItems.length > 0) {
-      setstatusEditing((prev) => !prev);
+      setStatusEditing((prev) => !prev);
     }
   };
 
@@ -73,7 +70,7 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
     const newOperations = [...currentItems];
     newOperations.splice(event.detail.from, 1);
     newOperations.splice(event.detail.to, 0, movedOperation);
-    // setOperations(newOperations);
+    setCurrentItems(newOperations);
     event.detail.complete();
   };
 
@@ -100,23 +97,34 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
           <IonLabel>
             {title} ({currentItems.length})
           </IonLabel>
-          <IonButton onClick={handleEditToggle} color={currentItems.length === 0 && !statusEditing ? 'medium' : 'primary'}>
-            {statusEditing ? 'Done' : 'Edit'}
+          <IonButton
+            onClick={handleEditToggle}
+            color={currentItems.length === 0 && !statusEditing ? "medium" : "primary"}
+          >
+            {statusEditing ? "Done" : "Edit"}
           </IonButton>
         </IonListHeader>
         <IonReorderGroup disabled={!statusEditing} onIonItemReorder={handleReorder}>
           {currentItems.map((item, index) => (
-            <ReorderItem key={index} label={item} index={index} statusEditing={statusEditing} handleDelete={handleDelete}/>
+            <ReorderItem
+              key={index}
+              label={item}
+              index={index}
+              statusEditing={statusEditing}
+              handleDelete={handleDelete}
+            />
           ))}
         </IonReorderGroup>
-        {!statusEditing && 
+        {!statusEditing && (
           <IonItem className="button__wrapper">
-            <IonLabel color='primary' onClick={handleOpenModal} className='add-button'>+ Add</IonLabel>
+            <IonLabel color="primary" onClick={handleOpenModal} className="add-button">
+              + Add
+            </IonLabel>
           </IonItem>
-        }
+        )}
       </IonList>
 
-      <IonLoading isOpen={loading} spinner="circular" onClick={handleCloseModal} /> 
+      <IonLoading isOpen={loading} spinner="circular" onClick={handleCloseModal} />
 
       <SelectItemsModal
         isOpen={showModal}

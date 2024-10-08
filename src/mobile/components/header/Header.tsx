@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonSearchbar } from '@ionic/react';
+import React, { ReactNode } from "react";
+import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonSearchbar } from "@ionic/react";
 
 type HeaderProps = {
     title: ReactNode;
@@ -10,7 +10,7 @@ type HeaderProps = {
 
 export const Header: React.FC<HeaderProps> = ({ title, backButtonHref, endButton, searchBar }) => {
   return (
-    <IonHeader className={searchBar ? '' : 'ion-no-border'}>
+    <IonHeader className={searchBar ? "" : "ion-no-border"}>
     <IonToolbar>
         {backButtonHref && 
             <IonButtons slot="start">

@@ -1,6 +1,6 @@
-import { IonIcon, IonItem, IonLabel, IonList } from '@ionic/react'
-import { DeleteRedIcon } from '../../assets/svg/SVGcomponent';
-import React from 'react'
+import { IonIcon, IonItem, IonLabel, IonList } from "@ionic/react"
+import { DeleteRedIcon } from "../../assets/svg/SVGcomponent";
+import React from "react"
 
 type DeleteButtonProps = {
     handleDeleteClick: () => void;

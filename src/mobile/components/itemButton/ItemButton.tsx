@@ -1,5 +1,5 @@
-import { IonItem, IonIcon, IonLabel, IonNote } from '@ionic/react'
-import React from 'react'
+import { IonItem, IonIcon, IonLabel, IonNote } from "@ionic/react"
+import React from "react"
 
 type ItemButtonProps = {
     label: string,
@@ -14,7 +14,7 @@ export const ItemButton: React.FC<ItemButtonProps> = ({label, icon, note, handle
   return (
     <IonItem button onClick={handleItemClick} disabled={disabled}>
         {icon && <IonIcon aria-hidden="true" icon={icon} slot="start"></IonIcon>}
-        <IonLabel color={labelColor || "dark"} className='capitalized'>{label}</IonLabel>
+        <IonLabel color={labelColor || "dark"} className="capitalized">{label}</IonLabel>
         {note && <IonNote slot="end" color="medium">{note}</IonNote>}
     </IonItem>
   )
