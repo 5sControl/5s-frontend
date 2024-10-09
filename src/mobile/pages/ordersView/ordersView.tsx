@@ -43,6 +43,11 @@ export const OrdersView: React.FC = () => {
       .format("YYYY-MM-DDTHH:mm:ss")
   );
 
+  const getMillisecondsForInterval = (interval: string): number => {
+    const hours = parseInt(interval.slice(0, -1));
+    return hours * 3600 * 1000;
+  };
+
   useEffect(() => {
     const currentDay = selectedRange.split('T')[0];
     if (selectedRange) {
@@ -53,8 +58,17 @@ export const OrdersView: React.FC = () => {
             currentDay,
             currentDay
           );
-          console.log(response.data)
-          setData(response.data);
+          const operations: OperationItem[] = response.data;
+            
+          operations.forEach((item: OperationItem) => {
+            const newOprs = item.oprs.filter(opr => {
+              const startTime = moment(opr.sTime);
+              const selectedStartTime = moment(selectedRange);
+              return startTime.isSameOrAfter(selectedStartTime) && startTime.isBefore(selectedStartTime.add(getMillisecondsForInterval(selectedInterval), 'milliseconds'));
+            });
+            item.oprs = newOprs;
+          });
+          setData(operations);
         } catch (error) {
           console.log(error);
         }
@@ -66,7 +80,7 @@ export const OrdersView: React.FC = () => {
     .then((response) => {
       setOrdersList(response.data)})
       .catch((error) => console.log(error));
-  }, [selectedRange]);
+  }, [selectedRange, selectedInterval]);
 
   const handleToggle = () => {
     setShowScheduled(prev => !prev);
