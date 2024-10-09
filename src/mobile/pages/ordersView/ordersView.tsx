@@ -34,7 +34,6 @@ export const OrdersView: React.FC = () => {
   const [timeMode, setTimeMode] = useState<TimeMode>(TimeMode.hour);
   const [selectedInterval, setSelectedInterval] = useState<string>("1h");
   const [hourInterval, setHourInterval] = useState<TimeInterval>("1h");
-  const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
   const [showScheduled, setShowScheduled] = useState<boolean>(false);
   const [data, setData] = useState<OperationItem[]>([]);
   const [ordersList, setOrdersList] = useState<OrderItem[]>([]);
@@ -83,17 +82,13 @@ export const OrdersView: React.FC = () => {
     setSelectedRange(selectedDateTime);
   };
 
-  const openDateTimePicker = () => {
-    setShowDatepicker(!showDatepicker);
-  };
-
   return (
     <IonContent>
       <Header title="OrdersView" backButtonHref={ROUTES.MENU} />
       <div className="ion-padding">
         <IonGrid>
           <IonRow className="ion-align-items-center dateTimeControls">
-            <IonCol onClick={openDateTimePicker} id="openDateTimePicker">
+            <IonCol id="openDateTimePicker">
               <IonListHeader>
                 {parseInputDate(selectedRange, timeMode, selectedInterval)}
               </IonListHeader>
@@ -150,17 +145,16 @@ export const OrdersView: React.FC = () => {
       </div>
 
       <IonModal ref={modal} trigger="openDateTimePicker">
-        {showDatepicker && (
           <IonDatetime
             id="datetime-picker"
             presentation="date-time"
             placeholder="Select Date and Start Time"
+            value={selectedRange}
             onIonChange={handleDateTimeChange}
             className="dateTimePickerWrapper"
           >
             <span slot="time-label">Start time</span>
           </IonDatetime>
-        )}
       </IonModal>
     </IonContent>
   );
