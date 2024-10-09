@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonPopover, IonSelect, IonSelectOption, IonTitle, IonToolbar } from "@ionic/react";
 import { ROUTES } from "../../../../shared/constants/routes";
 import { Input } from "../../../components/input/Input";
+import {useTranslation} from "react-i18next";
 
 const NewDatabaseEntry: React.FC = () => {
   const [erpSystem, setErpSystem] = useState<string>("");
@@ -11,7 +12,7 @@ const NewDatabaseEntry: React.FC = () => {
   const [saveEnabled, setSaveEnabled] = useState<boolean>(false);
   const popover = useRef<HTMLIonPopoverElement>(null);
   const [errorPopoverOpen, setErrorPopoverOpen] = useState<boolean>(false);
-
+  const {t} = useTranslation();
   const handleInputChange = () => {
     if (erpSystem && domain && name && password) {
       setSaveEnabled(true);
@@ -38,24 +39,24 @@ const NewDatabaseEntry: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton text="" defaultHref={ROUTES.CONNECTIONS} color="medium" />
           </IonButtons>
-          <IonTitle>New connection</IonTitle>
-          <IonButton slot="end" size="small" color="primary" disabled={!saveEnabled} onClick={handleSaveClick}>Save</IonButton>
+          <IonTitle>{t('newConnection.title')}</IonTitle>
+          <IonButton slot="end" size="small" color="primary" disabled={!saveEnabled} onClick={handleSaveClick}>{t('operations.save')}</IonButton>
           <IonPopover ref={popover} isOpen={errorPopoverOpen} onDidDismiss={() => setErrorPopoverOpen(false)}>
-            <IonContent className="ion-padding">Unable to save</IonContent>
+            <IonContent className="ion-padding">{t('messages.unableToSave')}</IonContent>
           </IonPopover>
         </IonToolbar>
       </IonHeader>
       <IonItem className="input__field">
-        <IonLabel position="stacked">ERP system</IonLabel>
-        <IonSelect value={erpSystem} placeholder="Select" onIonChange={(e) => { setErpSystem(e.detail.value); handleInputChange(); }} interface="popover">
+        <IonLabel position="stacked">{t('newConnection.system')}</IonLabel>
+        <IonSelect value={erpSystem} placeholder={t('text.select')} onIonChange={(e) => { setErpSystem(e.detail.value); handleInputChange(); }} interface="popover">
           <IonSelectOption value="Odoo">Odoo</IonSelectOption>
           <IonSelectOption value="Manifest">Manifest</IonSelectOption>
           <IonSelectOption value="Winkhouse">Winkhouse</IonSelectOption>
         </IonSelect>
       </IonItem>
-      <Input label="Domain" value={domain} required handleChange={(e) => { setDomain(e.target.value); handleInputChange(); }} />
-      <Input label="Name" value={name} required handleChange={(e) => { setName(e.target.value); handleInputChange(); }} />
-      <Input type="password" label="Password" value={password} required handleChange={(e) => { setPassword(e.target.value); handleInputChange(); }} />
+      <Input label={t('newConnection.domain')} value={domain} required handleChange={(e) => { setDomain(e.target.value); handleInputChange(); }} />
+      <Input label={t('newConnection.name')} value={name} required handleChange={(e) => { setName(e.target.value); handleInputChange(); }} />
+      <Input type="password" label={t('newConnection.pwd')} value={password} required handleChange={(e) => { setPassword(e.target.value); handleInputChange(); }} />
     </IonContent>
   );
 };

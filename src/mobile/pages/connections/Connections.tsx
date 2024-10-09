@@ -7,11 +7,13 @@ import { Preloader } from "../../../components/preloader";
 import { ConnectionItem } from "../../models/interfaces/connectionItem.interface";
 import { ROUTES } from "../../../shared/constants/routes";
 import { Header } from "../../components/header/Header";
+import {useTranslation} from "react-i18next";
 
 const Connections: React.FC = () => {
   const [cookies] = useCookies(["token"]);
   const [items, setItems] = useState<ConnectionItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const {t} = useTranslation();
 
   useEffect(() => {
     setLoading(true);
@@ -29,7 +31,7 @@ const Connections: React.FC = () => {
 
   return (
     <IonContent>
-      <Header title="ERP Connections" backButtonHref={ROUTES.CONFIGURATION} />
+      <Header title={t('config.erp')} backButtonHref={ROUTES.CONFIGURATION} />
       {loading ? (
         <div className="preloader">
           <Preloader />
@@ -37,7 +39,7 @@ const Connections: React.FC = () => {
       ) : (
         items.length === 0 ? (
           <IonList inset={true}>
-            <IonItem>No databases available</IonItem>
+            <IonItem>{t('messages.noDatabases')}</IonItem>
           </IonList>
         ) : (
           <ConnectionsList items={items} />

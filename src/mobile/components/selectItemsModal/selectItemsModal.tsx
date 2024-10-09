@@ -13,6 +13,7 @@ import {
 } from "@ionic/react";
 import { createOperation } from "../../api/product/productOperation";
 import { useCookies } from "react-cookie";
+import {useTranslation} from "react-i18next";
 
 type SelectItemsModalProps = {
   isOpen: boolean;
@@ -33,7 +34,7 @@ export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
 }) => {
   const [cookies] = useCookies(["token"]);
   const [selectedItems, setSelectedItems] = useState<boolean[]>(previouslySelectedItems);
-
+  const {t} = useTranslation();
 
   const handleSelectItem = (index: number) => {
     const updatedSelection = [...selectedItems];
@@ -48,9 +49,9 @@ export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
     onConfirm(newSelectedItems);
       try {
         for (const item of newSelectedItems) {
-          await createOperation(item, parseInt(categoryId), cookies.token); 
+          await createOperation(item, parseInt(categoryId), cookies.token);
         }
-        onConfirm(newSelectedItems); 
+        onConfirm(newSelectedItems);
       } catch (error) {
         console.error("Error creating operations:", error);
       }
@@ -66,16 +67,16 @@ export const SelectItemsModal: React.FC<SelectItemsModalProps> = ({
       <IonHeader>
         <IonToolbar>
           <IonButton slot="start" onClick={handleClose} fill="clear" size="small">Cancel</IonButton>
-          <IonTitle>Select</IonTitle>
-          <IonButton slot="end" onClick={handleConfirmAdd} size="small">Add</IonButton>
+          <IonTitle>{t('text.select')}</IonTitle>
+          <IonButton slot="end" onClick={handleConfirmAdd} size="small">{t('operations.add')}</IonButton>
         </IonToolbar>
-        <IonSearchbar placeholder="Search" />
+        <IonSearchbar placeholder={t('operations.search')} />
       </IonHeader>
       <IonContent>
         <IonList>
           {allItems.map((item, index) => (
             <IonItem key={index}>
-                <IonCheckbox 
+                <IonCheckbox
                 className="customCheckbox"
                 checked={selectedItems[index] || previouslySelectedItems[index]}
                 disabled={previouslySelectedItems[index]}

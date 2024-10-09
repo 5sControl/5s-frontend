@@ -8,6 +8,7 @@ import { DatabaseTableInfo } from "../../../models/interfaces/databaseTableInfo.
 import { databaseTables } from "../../../../shared/constants/databaseTables";
 import "../../../styles/common.scss";
 import { Header } from "../../../components/header/Header";
+import {useTranslation} from "react-i18next";
 
 type DatabaseTableProps = {
     table: DatabaseTableInfo;
@@ -18,6 +19,7 @@ const DatabaseTable: React.FC<DatabaseTableProps> = ({ table }) => {
     const location = useLocation();
     const [searchQuery, setSearchQuery] = useState<string>("");
     const { productCategoryId } = location.state || { productCategoryId: "-1" };
+    const {t} = useTranslation();
 
     const handleAddClick = (path: string) => {
         navigate(path, { state: { productCategoryId } });
@@ -40,16 +42,16 @@ const DatabaseTable: React.FC<DatabaseTableProps> = ({ table }) => {
     return (
         <IonContent>
             <Header
-                title={table.pageTitle}
+                title={t(table.pageTitle)}
                 backButtonHref={ROUTES.DATABASE}
                 endButton={
                     <IonButton size="small" fill="solid" onClick={() => handleAddClick(ROUTES.DATABASE_ADD_ENTRY(table.path))}>
-                        + Add
+                        {`+ ${t('operations.add')}`}
                     </IonButton>
                 }
             />
             <div className="searchContainer">
-                <IonSearchbar placeholder={"Search "} onIonInput={handleSearchInput}></IonSearchbar>
+                <IonSearchbar placeholder={t('operations.search')} onIonInput={handleSearchInput}></IonSearchbar>
             </div>
             <DatabaseList category={table.path} searchQuery={searchQuery} handleItemClick={handleItemClick} />
         </IonContent>

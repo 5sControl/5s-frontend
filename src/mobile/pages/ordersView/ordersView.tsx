@@ -23,6 +23,7 @@ import TimelineChart from "../../components/timelineChart/TimelineChart";
 import moment from "moment";
 import { TimeInterval } from "../../models/types/timeInterval";
 import './styles.scss'
+import {useTranslation} from "react-i18next";
 
 export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
@@ -33,6 +34,7 @@ export const OrdersView: React.FC = () => {
   const [selectedRange, setSelectedRange] = useState(
     moment().set({ hour: 8, minute: 0, second: 0 }).format("YYYY-MM-DDTHH:mm:ss")
   );
+  const {t} = useTranslation();
 
   const handleTimeModeChange = (value: TimeMode) => {
     setTimeMode(value);
@@ -50,7 +52,7 @@ export const OrdersView: React.FC = () => {
 
   return (
     <IonContent>
-      <Header title="OrdersView" backButtonHref={ROUTES.MENU} />
+      <Header title={t('text.ordersView')} backButtonHref={ROUTES.MENU} />
       <div className="ion-padding">
         <IonGrid>
           <IonRow className="ion-align-items-center dateTimeControls">
@@ -97,7 +99,7 @@ export const OrdersView: React.FC = () => {
       <TimelineChart startTime={selectedRange} selectedInterval={hourInterval} />
 
       <div className="ion-padding ordersPanel">
-        <IonToggle justify="space-between">Show scheduled time</IonToggle>
+        <IonToggle justify="space-between">{t('text.scheduled')}</IonToggle>
         <div className="orders-container">
           <div className="orders">
             {[...Array(20).keys()].map((index) => (
@@ -114,10 +116,10 @@ export const OrdersView: React.FC = () => {
           <IonDatetime
             id="datetime-picker"
             presentation="date-time"
-            placeholder="Select Date and Start Time"
+            placeholder={t('text.datePlaceholder')}
             onIonChange={handleDateTimeChange}
           >
-            <span slot="time-label">Start time</span>
+            <span slot="time-label">{t('text.startTime')}</span>
           </IonDatetime>
         )}
       </IonModal>

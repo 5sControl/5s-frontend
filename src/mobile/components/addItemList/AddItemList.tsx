@@ -13,6 +13,7 @@ import { SelectItemsModal } from "../selectItemsModal/selectItemsModal";
 import { useCookies } from "react-cookie";
 import { getAllProductTypeOperations } from "../../api/product/productTypeOperation";
 import { ReorderItem } from "./ReorderItem";
+import {useTranslation} from "react-i18next";
 
 type AddItemListProps = {
   title: string;
@@ -29,6 +30,7 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
   const [selectedItems, setSelectedItems] = useState<boolean[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [cookies] = useCookies(["token"]);
+  const {t} = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,7 +103,7 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
             onClick={handleEditToggle}
             color={currentItems.length === 0 && !statusEditing ? "medium" : "primary"}
           >
-            {statusEditing ? "Done" : "Edit"}
+            {statusEditing ? t('operations.done') : t('operations.done')}
           </IonButton>
         </IonListHeader>
         <IonReorderGroup disabled={!statusEditing} onIonItemReorder={handleReorder}>
@@ -118,7 +120,7 @@ export const AddItemList: React.FC<AddItemListProps> = ({ title, items, category
         {!statusEditing && (
           <IonItem className="button__wrapper">
             <IonLabel color="primary" onClick={handleOpenModal} className="add-button">
-              + Add
+              {`+ ${t('operations.add')}`}
             </IonLabel>
           </IonItem>
         )}

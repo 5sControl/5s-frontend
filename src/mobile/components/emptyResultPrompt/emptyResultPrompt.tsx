@@ -4,6 +4,7 @@ import { capitalize } from "../../utils/capitalize"
 import { ROUTES } from "../../../shared/constants/routes"
 import "./emptyResultPrompt.scss"
 import { useNavigate } from "react-router-dom"
+import {useTranslation} from "react-i18next";
 
 type emptyResultPromptProps = {
   itemsCategory: string
@@ -13,8 +14,9 @@ type emptyResultPromptProps = {
 
 export const EmptyResultPrompt: React.FC<emptyResultPromptProps> = ({itemsCategory, addButton, path}) => {
   const navigate = useNavigate();
-  const title = `No ${itemsCategory}`;
-  const description = `${capitalize(itemsCategory)} you've added will appear here.`;
+  const {t} = useTranslation();
+  const title = `${t('text.no')} ${itemsCategory}`;
+  const description = `${capitalize(itemsCategory)} ${t('text.added')}`;
   const singleItemName = itemsCategory.endsWith("s") ? itemsCategory.slice(0, -1) : itemsCategory;
 
   const handleAddClick = () => {
@@ -25,7 +27,7 @@ export const EmptyResultPrompt: React.FC<emptyResultPromptProps> = ({itemsCatego
     <div className="prompt">
         <div className="prompt__title">{title}</div>
         <div className="prompt__description">{description}</div>
-        {addButton && <IonButton fill="clear" onClick={handleAddClick}>Add {singleItemName}</IonButton>}
+        {addButton && <IonButton fill="clear" onClick={handleAddClick}>{t('operations.add')} {singleItemName}</IonButton>}
     </div>
   )
 }
