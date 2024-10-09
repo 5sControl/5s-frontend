@@ -52,16 +52,29 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .attr("fill", "#C5C5C")
       .attr("opacity", 0.07);
 
-    svg
-      .selectAll(".greenRect")
-      .data(data)
+    // svg
+    //   .selectAll(".greenRect")
+    //   .data(data)
+    //   .enter()
+    //   .append("rect")
+    //   .attr("x", (d) => xScale(new Date(d.oprs[0].sTime)))
+    //   .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10)
+    //   .attr("width", (d) => xScale(new Date(d.oprs[0].eTime)) - xScale(new Date(d.oprs[0].sTime)))
+    //   .attr("height", operationHeight)
+    //   .attr("fill", "#87BC45");
+
+    data.forEach((op: OperationItem) => {
+      console.log(op);
+      svg.selectAll(".greenRect")
+      .data(op.oprs)
       .enter()
       .append("rect")
-      .attr("x", (d) => xScale(new Date(d.oprs[0].sTime)))
-      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10)
-      .attr("width", (d) => xScale(new Date(d.oprs[0].eTime)) - xScale(new Date(d.oprs[0].sTime)))
+      .attr("x", d => xScale(new Date(d.sTime)))
+      .attr("y", (yScale(op.oprName) ?? 0 )+ 10)
+      .attr("width", d => xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)))
       .attr("height", operationHeight)
       .attr("fill", "#87BC45");
+    })
 
     svg
       .selectAll(".operationName")
@@ -88,30 +101,32 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .attr("fill", "#C5C5C")
       .attr("opacity", 0.07);
 
-    svg
-      .selectAll(".greenRect")
-      .data(data)
+    data.forEach((op: OperationItem) => {
+      console.log(op);
+      svg.selectAll(".greenRect")
+      .data(op.oprs)
       .enter()
       .append("rect")
-      .attr("x", (d) => xScale(new Date(d.oprs[0].sTime)))
-      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10)
-      .attr("width", (d) => xScale(new Date(d.oprs[0].eTime)) - xScale(new Date(d.oprs[0].sTime)))
+      .attr("x", d => xScale(new Date(d.sTime)))
+      .attr("y", (yScale(op.oprName) ?? 0) + 10)
+      .attr("width", d => xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)))
       .attr("height", operationHeight)
       .attr("fill", "#87BC45");
 
-    svg
+      svg
       .selectAll(".orangeRect")
-      .data(data)
+      .data(op.oprs)
       .enter()
       .append("rect")
-      .attr("x", (d) => {
-        console.log(new Date(d.oprs[0].sTime));
-        return xScale(new Date(d.oprs[0].sTime));
-      })
-      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10 + operationHeight)
-      .attr("width", (d) => xScale(new Date(d.oprs[0].sTime + d.oprs[0].duration_expected)) - xScale(new Date(d.oprs[0].sTime)))
+      .attr("x", d => {
+        console.log(new Date(d.sTime));
+        return xScale(new Date(d.sTime))
+    })
+      .attr("y", (yScale(op.oprName) ?? 0) + 10 + operationHeight)
+      .attr("width", d => xScale(new Date(d.sTime + d.duration_expected)) - xScale(new Date(d.sTime)))
       .attr("height", operationHeight)
       .attr("fill", "#FE6100");
+    })
 
     svg
       .selectAll(".operationName")

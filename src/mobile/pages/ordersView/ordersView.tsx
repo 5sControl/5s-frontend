@@ -9,7 +9,6 @@ import {
   IonSegmentButton,
   IonLabel,
   IonToggle,
-  IonChip,
   IonDatetime,
   IonModal,
 } from "@ionic/react";
@@ -23,9 +22,11 @@ import TimelineChart from "../../components/timelineChart/TimelineChart";
 import moment from "moment";
 import { TimeInterval } from "../../models/types/timeInterval";
 import "./styles.scss";
-import { getOrderViewOperations } from "../../api/ordersView";
+import { getOrderViewOperations, getOrderViewOrderList } from "../../api/ordersView";
 import { useCookies } from "react-cookie";
 import { OperationItem } from "../../models/interfaces/operationItem.interface";
+import { OrdersList } from "../../components/ordersList/OrdersList";
+import { OrderItem } from "../../models/interfaces/orderItem.interface";
 
 export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
@@ -36,60 +37,16 @@ export const OrdersView: React.FC = () => {
   const [showDatepicker, setShowDatepicker] = useState<boolean>(false);
   const [showScheduled, setShowScheduled] = useState<boolean>(false);
   const [data, setData] = useState<OperationItem[]>([]);
+  const [ordersList, setOrdersList] = useState<OrderItem[]>([]);
   const [selectedRange, setSelectedRange] = useState(
     moment()
       .set({ hour: 8, minute: 0, second: 0 })
       .format("YYYY-MM-DDTHH:mm:ss")
   );
-  // const data = [
-  //   {
-  //     category: "Category 1",
-  //     label: "Label 1",
-  //     start: 1727938837000,
-  //     end: 1727938859000,
-  //   },
-  //   {
-  //     category: "Category 2",
-  //     label: "Label 1",
-  //     start: 1727938837000,
-  //     end: 1727938859000,
-  //   },
-  //   {
-  //     category: "Category 3",
-  //     label: "Label 1",
-  //     start: 1727938837000,
-  //     end: 1727938859000,
-  //   },
-  //   {
-  //     category: "Category 4",
-  //     label: "Label 1",
-  //     start: 1727938837000,
-  //     end: 1727938859000,
-  //   },
-  //   {
-  //     category: "Category 5",
-  //     label: "Label 1",
-  //     start: 1727938837000,
-  //     end: 1727938859000,
-  //   },
-  //   {
-  //     category: "Category 6",
-  //     label: "Label 1",
-  //     start: 1727938837000,
-  //     end: 1727938859000,
-  //   },
-  //   {
-  //     category: "Category 7",
-  //     label: "Label 1",
-  //     start: 1727938837000,
-  //     end: 1727938859000,
-  //   },
-  // ];
 
   useEffect(() => {
+    const currentDay = selectedRange.split('T')[0];
     if (selectedRange) {
-      const currentDay = selectedRange.split('T')[0];
-      console.log(currentDay);
       const fetchData = async () => {
         try {
           const response = await getOrderViewOperations(
@@ -98,92 +55,18 @@ export const OrdersView: React.FC = () => {
             currentDay
           );
           console.log(response.data)
-          // setData(response.data);
-          setData(
-            [
-              {
-                "filtration_operation_id": 198,
-                "oprTypeID": 126,
-                "oprName": "weighing",
-                "oprs": [
-                  {
-                    "id": 198,
-                    "orId": "WH/MO/00036",
-                    "sTime": 1727938827000,
-                    "eTime": 1727938832000,
-                    "duration": 4800,
-                    "duration_expected": 60000
-                  }
-                ]
-              },
-              {
-                "filtration_operation_id": 199,
-                "oprTypeID": 127,
-                "oprName": "grindering",
-                "oprs": [
-                  {
-                    "id": 199,
-                    "orId": "WH/MO/00036",
-                    "sTime": 1727938833000,
-                    "eTime": 1727938836000,
-                    "duration": 3000,
-                    "duration_expected": 120000
-                  }
-                ]
-              },
-              {
-                "filtration_operation_id": 200,
-                "oprTypeID": 128,
-                "oprName": "tempering",
-                "oprs": [
-                  {
-                    "id": 200,
-                    "orId": "WH/MO/00036",
-                    "sTime": 1727945001000,
-                    "eTime": 1727945012000,
-                    "duration": 10800,
-                    "duration_expected": 180000
-                  }
-                ]
-              },
-              {
-                "filtration_operation_id": 201,
-                "oprTypeID": 129,
-                "oprName": "brewing",
-                "oprs": [
-                  {
-                    "id": 201,
-                    "orId": "WH/MO/00036",
-                    "sTime": 1727945018000,
-                    "eTime": 1727945025000,
-                    "duration": 7200,
-                    "duration_expected": 240000
-                  }
-                ]
-              },
-              {
-                "filtration_operation_id": 202,
-                "oprTypeID": 131,
-                "oprName": "quality control",
-                "oprs": [
-                  {
-                    "id": 202,
-                    "orId": "WH/MO/00036",
-                    "sTime": 1727945026000,
-                    "eTime": 1727945031000,
-                    "duration": 4800,
-                    "duration_expected": 60000
-                  }
-                ]
-              }
-            ]
-          )
+          setData(response.data);
         } catch (error) {
           console.log(error);
         }
       };
       fetchData();
     }
+
+    getOrderViewOrderList('', currentDay, currentDay)
+    .then((response) => {
+      setOrdersList(response.data)})
+      .catch((error) => console.log(error));
   }, [selectedRange]);
 
   const handleToggle = () => {
@@ -263,15 +146,7 @@ export const OrdersView: React.FC = () => {
 
       <div className="ion-padding ordersPanel">
         <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>Show scheduled time</IonToggle>
-        <div className="orders-container">
-          <div className="orders">
-            {[...Array(20).keys()].map((index) => (
-              <IonChip key={index} color="dark">
-                #{45872 + index}
-              </IonChip>
-            ))}
-          </div>
-        </div>
+        <OrdersList orders={ordersList}/>
       </div>
 
       <IonModal ref={modal} trigger="openDateTimePicker">
