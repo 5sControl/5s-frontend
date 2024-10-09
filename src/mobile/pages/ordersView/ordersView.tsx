@@ -11,6 +11,7 @@ import {
   IonToggle,
   IonDatetime,
   IonModal,
+  IonLoading,
 } from "@ionic/react";
 import { ROUTES } from "../../../shared/constants/routes";
 import { timeIntervals } from "../../constants/timeIntervals";
@@ -33,17 +34,22 @@ import {useTranslation} from "react-i18next";
 export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
   const [cookies] = useCookies(["token"]);
-  const [timeMode, setTimeMode] = useState<TimeMode>(TimeMode.hour);
-  const [selectedInterval, setSelectedInterval] = useState<string>("1h");
-  const [hourInterval, setHourInterval] = useState<TimeInterval>("1h");
-  const [minuteScaling, setMinuteScaling] = useState<MinuteScaling>("1min");
+  const [showLoading, setShowLoading] = useState(false);
+  const [timeMode, setTimeMode] = useState<TimeMode>(TimeMode.minute);
+  const [selectedInterval, setSelectedInterval] = useState<string>("6min");
+  const [hourInterval, setHourInterval] = useState<TimeInterval>("4h");
+  const [minuteScaling, setMinuteScaling] = useState<MinuteScaling>("6min");
   const [showScheduled, setShowScheduled] = useState<boolean>(false);
   const [data, setData] = useState<OperationItem[]>([]);
   const [ordersList, setOrdersList] = useState<OrderItem[]>([]);
   const [selectedRange, setSelectedRange] = useState(
     moment()
-      .set({ hour: 8, minute: 0, second: 0 })
+      .set({ year: 2024, month: 9, date: 8, hour: 14, minute: 55, second: 0 })
       .format("YYYY-MM-DDTHH:mm:ss")
+  );
+
+  const [prevRange, setPrevRange] = useState(
+    moment().format("YYYY-MM-DDTHH:mm:ss")
   );
   const {t} = useTranslation();
 
@@ -54,9 +60,11 @@ export const OrdersView: React.FC = () => {
 
   useEffect(() => {
     const currentDay = selectedRange.split('T')[0];
-    if (selectedRange) {
+    const prevDay = prevRange.split('T')[0];
+    if (selectedRange && currentDay !== prevDay) {
       const fetchData = async () => {
         try {
+          setShowLoading(true);
           const response = await getOrderViewOperations(
             cookies.token,
             currentDay,
@@ -73,8 +81,12 @@ export const OrdersView: React.FC = () => {
             item.oprs = newOprs;
           });
           setData(operations);
+          setPrevRange(selectedRange);
         } catch (error) {
           console.log(error);
+        }
+        finally{
+          setShowLoading(false);
         }
       };
       fetchData();
@@ -153,6 +165,11 @@ export const OrdersView: React.FC = () => {
         </div>
       </div>
 
+      <IonLoading
+        isOpen={showLoading}
+        spinner="circular"
+      />
+      
       <TimelineChart
         startTime={selectedRange}
         selectedInterval={hourInterval}
