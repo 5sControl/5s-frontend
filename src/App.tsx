@@ -22,7 +22,7 @@ import AiChatPage from "./pages/aiChat/AIChat";
 import CategoryPage from "./pages/aiChat/components/categoryPage/categoryPage";
 import { useAppDispatch } from "./store/hooks";
 import { getConnectionsToDB } from "./pages/configuration/connectionSlice";
-
+import './i18';
 import "./index.scss";
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/normalize.css";

@@ -11,14 +11,20 @@ const resources = {
         translation: RU
     }
 };
+const DETECTION_OPTIONS = {
+    order: ['localStorage', 'navigator'],
+    caches: ['localStorage'],
+};
+const savedLanguage = localStorage.getItem('i18nextLng') || 'en';
 i18n.use(initReactI18next)
     .init({
-        fallbackLng: 'en',
+        lng: savedLanguage,
+        detection: DETECTION_OPTIONS,
         resources,
-        debug: false,
-        interpolation: {
-            escapeValue: false,
-        },
+        fallbackLng: 'en',
     });
-
+export const changeI18Language = (language: string) => {
+    i18n.changeLanguage(language);
+    localStorage.setItem('i18nextLng', language);
+};
 export default i18n;
