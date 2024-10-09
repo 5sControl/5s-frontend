@@ -21,13 +21,14 @@ import { Header } from "../../components/header/Header";
 import TimelineChart from "../../components/timelineChart/TimelineChart";
 import moment from "moment";
 import { TimeInterval } from "../../models/types/timeInterval";
-import "./styles.scss";
 import { getOrderViewOperations, getOrderViewOrderList } from "../../api/ordersView";
 import { useCookies } from "react-cookie";
 import { OperationItem } from "../../models/interfaces/operationItem.interface";
 import { OrdersList } from "../../components/ordersList/OrdersList";
 import { OrderItem } from "../../models/interfaces/orderItem.interface";
 import { MinuteScaling } from "../../models/types/minuteScaling";
+import './styles.scss'
+import {useTranslation} from "react-i18next";
 
 export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
@@ -44,6 +45,7 @@ export const OrdersView: React.FC = () => {
       .set({ hour: 8, minute: 0, second: 0 })
       .format("YYYY-MM-DDTHH:mm:ss")
   );
+  const {t} = useTranslation();
 
   const getMillisecondsForInterval = (interval: string): number => {
     const hours = parseInt(interval.slice(0, -1));
@@ -100,7 +102,7 @@ export const OrdersView: React.FC = () => {
 
   return (
     <IonContent>
-      <Header title="OrdersView" backButtonHref={ROUTES.MENU} />
+      <Header title={t('text.ordersView')} backButtonHref={ROUTES.MENU} />
       <div className="ion-padding">
         <IonGrid>
           <IonRow className="ion-align-items-center dateTimeControls">
@@ -163,18 +165,19 @@ export const OrdersView: React.FC = () => {
       <div className="ion-padding ordersPanel">
         <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>Show scheduled time</IonToggle>
         <OrdersList orders={ordersList}/>
+
       </div>
 
       <IonModal ref={modal} trigger="openDateTimePicker">
           <IonDatetime
             id="datetime-picker"
             presentation="date-time"
-            placeholder="Select Date and Start Time"
             value={selectedRange}
+            placeholder={t('text.datePlaceholder')}
             onIonChange={handleDateTimeChange}
             className="dateTimePickerWrapper"
           >
-            <span slot="time-label">Start time</span>
+            <span slot="time-label">{t('text.startTime')}</span>
           </IonDatetime>
       </IonModal>
     </IonContent>

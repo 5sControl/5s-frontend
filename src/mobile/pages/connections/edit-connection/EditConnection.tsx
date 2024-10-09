@@ -7,6 +7,7 @@ import { capitalize } from "../../../utils/capitalize";
 import { Input } from "../../../components/input/Input";
 import { ConnectionItem } from "../../../models/interfaces/connectionItem.interface";
 import { ROUTES } from "../../../../shared/constants/routes";
+import {useTranslation} from "react-i18next";
 
 const EditConnection: React.FC = () => {
   const [cookies] = useCookies(["token"]);
@@ -15,6 +16,7 @@ const EditConnection: React.FC = () => {
   const [changed, setChanged] = useState<boolean>(false);
   const popover = useRef<HTMLIonPopoverElement>(null);
   const [errorPopoverOpen, setErrorPopoverOpen] = useState<boolean>(false);
+  const {t} = useTranslation();
 
   useEffect(() => {
     getConnectionsToDatabases("", cookies.token)
@@ -41,15 +43,15 @@ const EditConnection: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton text="" defaultHref={ROUTES.CONNECTIONS} color="medium" />
           </IonButtons>
-          <IonTitle>{capitalize(currentConnection?.erp_system || "")} connection</IonTitle>
-          <IonButton slot="end" size="small" color="primary" disabled={!changed} onClick={handleSaveClick}>Save</IonButton>
+          <IonTitle>{capitalize(currentConnection?.erp_system || "")} {t('text.connection')}</IonTitle>
+          <IonButton slot="end" size="small" color="primary" disabled={!changed} onClick={handleSaveClick}>{t('operations.save')}</IonButton>
           <IonPopover ref={popover} isOpen={errorPopoverOpen} onDidDismiss={() => setErrorPopoverOpen(false)}>
-            <IonContent className="ion-padding">Unable to save</IonContent>
+            <IonContent className="ion-padding">{t('messages.unableToSave')}</IonContent>
           </IonPopover>
         </IonToolbar>
       </IonHeader>
-      <Input label="Domain" value={currentConnection?.host || ""} required handleChange={() => setChanged(true)} />
-      <Input label="Name" value={currentConnection?.erp_system || ""} required handleChange={() => setChanged(true)} />
+      <Input label={t('newConnection.domain')} value={currentConnection?.host || ""} required handleChange={() => setChanged(true)} />
+      <Input label={t('newConnection.name')} value={currentConnection?.erp_system || ""} required handleChange={() => setChanged(true)} />
     </IonContent>
   );
 };

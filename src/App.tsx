@@ -45,10 +45,11 @@ import Database from "./mobile/pages/database/Database";
 import DatabaseTable from "./mobile/pages/database/database-table/DatabaseTable";
 import EditDatabaseEntry from "./mobile/pages/database/edit-database-entry/EditDatabaseEntry";
 import NewDatabaseEntry from "./mobile/pages/database/new-database-entry/NewDatabaseEntry";
-import ConfigurationMobile from "./mobile/pages/configuration/Configuration"; 
+import ConfigurationMobile from "./mobile/pages/configuration/Configuration";
 import { databaseTables } from "./shared/constants/databaseTables";
 import { OrdersView as OrdersViewMobile } from "./mobile/pages/ordersView/ordersView";
 import EditConnection from "./mobile/pages/connections/edit-connection/EditConnection";
+import TestLocalisation from "./mobile/components/testLocalization/testLocalisation";
 
 setupIonicReact();
 
@@ -85,6 +86,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/authorization" element={<Authorization />} />
+          <Route path="/testl" element={<TestLocalisation />} />
           {cookies.token ? (
             <Route element={<RoutesOutlet />}>
               <Route path="/" element={<Main />} />
