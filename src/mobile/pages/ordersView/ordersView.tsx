@@ -27,6 +27,7 @@ import { useCookies } from "react-cookie";
 import { OperationItem } from "../../models/interfaces/operationItem.interface";
 import { OrdersList } from "../../components/ordersList/OrdersList";
 import { OrderItem } from "../../models/interfaces/orderItem.interface";
+import { MinuteScaling } from "../../models/types/minuteScaling";
 
 export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
@@ -34,6 +35,7 @@ export const OrdersView: React.FC = () => {
   const [timeMode, setTimeMode] = useState<TimeMode>(TimeMode.hour);
   const [selectedInterval, setSelectedInterval] = useState<string>("1h");
   const [hourInterval, setHourInterval] = useState<TimeInterval>("1h");
+  const [minuteScaling, setMinuteScaling] = useState<MinuteScaling>("1min");
   const [showScheduled, setShowScheduled] = useState<boolean>(false);
   const [data, setData] = useState<OperationItem[]>([]);
   const [ordersList, setOrdersList] = useState<OrderItem[]>([]);
@@ -135,6 +137,9 @@ export const OrdersView: React.FC = () => {
               if (timeMode === TimeMode.hour) {
                 setHourInterval(value as TimeInterval);
               }
+              if (timeMode === TimeMode.minute) {
+                setMinuteScaling(value as MinuteScaling)
+              }
             }}
           >
             {timeIntervals[timeMode].map((interval) => (
@@ -149,7 +154,9 @@ export const OrdersView: React.FC = () => {
       <TimelineChart
         startTime={selectedRange}
         selectedInterval={hourInterval}
+        minuteScaling={minuteScaling}
         showScheduled={showScheduled}
+        timeMode={timeMode}
         data={data}
       />
 

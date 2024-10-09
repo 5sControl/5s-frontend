@@ -3,21 +3,29 @@ import * as d3 from "d3";
 import moment from "moment";
 import { TimeInterval } from "../../models/types/timeInterval";
 import { OperationItem } from "../../models/interfaces/operationItem.interface";
+import './TimelineChart.scss'
+import { MinuteScaling } from "../../models/types/minuteScaling";
+import { TimeMode } from "../../models/enums/timeMode.enum";
 
 type TimelineChartProps = {
   startTime: string;
   selectedInterval: TimeInterval;
+  minuteScaling: MinuteScaling
   showScheduled: boolean;
   data: OperationItem[];
+  timeMode: TimeMode;
 };
 
 export const TimelineChart: FC<TimelineChartProps> = ({
   startTime,
   selectedInterval,
+  minuteScaling,
   showScheduled,
-  data
+  data,
+  timeMode
 }) => {
   const chartRef = useRef<SVGSVGElement>(null);
+  const chartContainerRef = useRef<HTMLDivElement>(null);
   const operationHeight = 36;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [chartHeight, setChartHeight] = useState(showScheduled ? ((data.length * 2 + 10) * operationHeight) : ((data.length + 10) * operationHeight));
@@ -124,20 +132,39 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .text((d) => d.oprName);
     }
 
-    const margin = { top: 20, right: 30, bottom: 100, left: 20 };
-    const width = windowWidth - margin.left - margin.right;
+    const margin = { top: 20, right: 20, bottom: 100, left: 20 };
     const height = newChartHeight - margin.top - margin.bottom;
+    let width = windowWidth - margin.left - margin.right;
+    let tickParam: MinuteScaling | TimeInterval = selectedInterval;
+
+    switch (timeMode){
+      case TimeMode.hour: {
+        width = windowWidth - margin.left - margin.right;
+        tickParam = selectedInterval;
+        break;
+      }
+      case TimeMode.minute: {
+        width = (60 * displayedHours / parseInt(minuteScaling.slice(0, -3))) * (windowWidth - margin.left - margin.right);
+        tickParam = minuteScaling;
+        break;
+      }
+    }
 
     const svg = d3
       .select(chartRef.current)
-      .attr("width", windowWidth)
+      .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
     const intervalMapping: { [key: string]: number } = {
+      "1min": 1,
+      "6min": 1,
+      "12min": 2,
+      "20min": 3,
+      "30min": 5,
       "1h": 10,
-      "4h": 60,
+      "4h": 60, 
       "8h": 120,
       "12h": 240,
       "24h": 480,
@@ -162,17 +189,17 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .padding(0.1);
 
     const greyLinesData = Array.from(
-      { length: (displayedHours * 60) / intervalMapping[selectedInterval] + 1 },
+      { length: (displayedHours * 60) / intervalMapping[tickParam] + 1 },
       (_, i) => i
     );
 
     greyLinesData.forEach((index) => {
-      const minute = index * intervalMapping[selectedInterval];
+      const minute = index * intervalMapping[tickParam];
       let timeForLine = moment(startTime)
         .add(minute, "minutes")
         .startOf("hour");
 
-      if (selectedInterval === "1h") {
+      if (selectedInterval === "1h" || timeMode === TimeMode.minute) {
         timeForLine = moment(startTime).startOf("hour").add(minute, "minutes");
       }
 
@@ -199,9 +226,9 @@ export const TimelineChart: FC<TimelineChartProps> = ({
         d3
           .axisTop(xScale)
           .ticks(
-            selectedInterval === "1h"
-              ? d3.timeMinute.every(intervalMapping[selectedInterval])
-              : d3.timeHour.every(intervalMapping[selectedInterval] / 60)
+            (selectedInterval === "1h" || timeMode === TimeMode.minute)
+              ? d3.timeMinute.every(intervalMapping[tickParam])
+              : d3.timeHour.every(intervalMapping[tickParam] / 60)
           )
           .tickFormat((date: any) => moment(date).format("HH:mm"))
       )
@@ -219,9 +246,19 @@ export const TimelineChart: FC<TimelineChartProps> = ({
   else {
     drawOperations();
   }
-  }, [selectedInterval, startTime, data, showScheduled, windowWidth]);
 
-  return <svg ref={chartRef}></svg>;
+  if (chartContainerRef.current) {
+    chartContainerRef.current.style.overflowX = width > windowWidth ? 'scroll' : 'hidden';
+    chartContainerRef.current.style.width = `${windowWidth}px`;
+  }
+
+  }, [timeMode, minuteScaling, selectedInterval, startTime, data, showScheduled, windowWidth]);
+
+  return (
+    <div ref={chartContainerRef} className="chartWrapper">
+      <svg ref={chartRef}></svg>
+    </div>
+  );
 };
 
 export default TimelineChart;
