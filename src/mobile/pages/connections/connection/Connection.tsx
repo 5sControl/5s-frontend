@@ -65,8 +65,8 @@ const Connection: React.FC = () => {
       ) : (
         <>
           <IonList inset={true}>
-            <ItemButton label="Status" note={connected ? t('text.usedInOrdersView') : t('connected')} />
-            <ItemButton label="Domain" note={currentConnection?.host} />
+            <ItemButton label={t('newConnection.status')} note={connected ? t('text.usedInOrdersView') : t('text.connected')} />
+            <ItemButton label={t('newConnection.domain')} note={currentConnection?.host} />
           </IonList>
           <IonList inset={true}>
             <ItemButton label={`${currentConnection?.erp_system} ${t('text.database')}`} disabled={!connected} handleItemClick={() => handleDatabaseClick(ROUTES.DATABASE)}/>

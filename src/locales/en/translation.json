@@ -70,7 +70,8 @@
     "system": "ERP system",
     "domain": "Domain",
     "name": "Name",
-    "pwd": "Password"
+    "pwd": "Password",
+    "status": "Status"
   },
   "form" : {
     "name": "Name",
