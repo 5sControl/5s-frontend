@@ -11,6 +11,7 @@ import { createProduct } from "../../../api/product/productType";
 import { databaseTables } from "../../../../shared/constants/databaseTables";
 import TimePicker from "../../../components/timePickerInput/timePickerInput";
 import { Header } from "../../../components/header/Header";
+import {useTranslation} from "react-i18next";
 
 const NewDatabaseEntry: React.FC = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const NewDatabaseEntry: React.FC = () => {
   const [categoryId, setCategoryId] = useState<string>("");
   const { productCategoryId } = location.state || { productCategoryId: "-1" };
   const databaseTable = databaseTables[category as keyof typeof databaseTables];
+  const {t} = useTranslation();
 
   const [name, setName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -61,7 +63,7 @@ const NewDatabaseEntry: React.FC = () => {
   return (
     <IonContent>
       <Header
-        title={`New ${databaseTable.singularName}`}
+        title={`${t('text.new')} ${t(databaseTable.singularName)}`}
         backButtonHref={ROUTES.DATABASE_CATEGORY(databaseTable.path)}
         endButton={
           <IonButton
@@ -71,21 +73,21 @@ const NewDatabaseEntry: React.FC = () => {
             disabled={!name || loading}
             onClick={createEntry}
           >
-            Save
+            {t('operations.save')}
           </IonButton>
         }
       />
       <IonLoading isOpen={loading} spinner="circular" />
       <IonItem className="input__field">
-        <IonLabel position="stacked">Name</IonLabel>
+        <IonLabel position="stacked">{t('form.name')}</IonLabel>
         <IonInput
-          placeholder="Enter a name"
+          placeholder={t('form.namePlaceholder')}
           onIonInput={handleInputChange}
           className="input__wrapper"
         ></IonInput>
       </IonItem>
       {category === databaseTables.products.path && (
-        <AddItemList title="Operations" items={[]} categoryId={categoryId} typeId={"-1"} />
+        <AddItemList title={t('db.operations.title')} items={[]} categoryId={categoryId} typeId={"-1"} />
       )}
       {category === databaseTables.operations.path && <TimePicker />}
     </IonContent>

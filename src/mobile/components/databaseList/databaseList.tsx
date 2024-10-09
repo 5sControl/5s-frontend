@@ -8,6 +8,7 @@ import { Preloader } from "../../../components/preloader";
 import { databaseTables } from "../../../shared/constants/databaseTables";
 import { ItemButton } from "../itemButton/ItemButton";
 import { EmptyResultPrompt } from "../emptyResultPrompt/emptyResultPrompt";
+import {useTranslation} from "react-i18next";
 
 type DatabaseItem = {
   name: string;
@@ -28,6 +29,7 @@ const DatabaseList: React.FC<DatabaseListProps> = ({ category, searchQuery, hand
   const databaseTable = databaseTables[category as keyof typeof databaseTables];
   const location = useLocation();
   const { productCategoryId } = location.state || { productCategoryId: "-1" };
+  const {t} = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,7 +66,7 @@ const DatabaseList: React.FC<DatabaseListProps> = ({ category, searchQuery, hand
           <Preloader />
         </div>
       ) : !Array.isArray(items) || items.length === 0 ? (
-        <EmptyResultPrompt itemsCategory={databaseTable.singularName} addButton={true} path={databaseTable.path} />
+        <EmptyResultPrompt itemsCategory={t(databaseTable.singularName)} addButton={true} path={databaseTable.path} />
       ) : (
         <IonList inset={true}>
           {results.map((item) => (

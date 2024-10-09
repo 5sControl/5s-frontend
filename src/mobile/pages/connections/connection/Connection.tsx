@@ -11,6 +11,7 @@ import { Preloader } from "../../../../components/preloader";
 import { ConnectionItem } from "../../../models/interfaces/connectionItem.interface";
 import { Header } from "../../../components/header/Header";
 import { ItemButton } from "../../../components/itemButton/ItemButton";
+import {useTranslation} from "react-i18next";
 
 const Connection: React.FC = () => {
   const navigate = useNavigate();
@@ -19,8 +20,8 @@ const Connection: React.FC = () => {
   const [currentConnection, setCurrentConnection] = useState<ConnectionItem>();
   const [connected, setConnected] = useState<boolean>(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true); 
-
+  const [loading, setLoading] = useState<boolean>(true);
+  const {t} = useTranslation();
   const handleCloseModal = () => {
     setShowConfirmationModal(false);
   };
@@ -44,7 +45,7 @@ const Connection: React.FC = () => {
         console.error(error);
       })
       .finally(() => {
-        setLoading(false); 
+        setLoading(false);
       });
   }, []);
 
@@ -57,31 +58,31 @@ const Connection: React.FC = () => {
   return (
     <IonContent>
       <Header title={capitalize(currentConnection?.erp_system)} backButtonHref={ROUTES.CONNECTIONS} />
-      {loading ? ( 
+      {loading ? (
         <div className="preloader">
           <Preloader />
         </div>
       ) : (
         <>
           <IonList inset={true}>
-            <ItemButton label="Status" note={connected ? "Used in Orders View" : "Connected"} />
+            <ItemButton label="Status" note={connected ? t('text.usedInOrdersView') : t('connected')} />
             <ItemButton label="Domain" note={currentConnection?.host} />
           </IonList>
           <IonList inset={true}>
-            <ItemButton label={`${currentConnection?.erp_system} Database`} disabled={!connected} handleItemClick={() => handleDatabaseClick(ROUTES.DATABASE)}/>
+            <ItemButton label={`${currentConnection?.erp_system} ${t('text.database')}`} disabled={!connected} handleItemClick={() => handleDatabaseClick(ROUTES.DATABASE)}/>
           </IonList>
           <IonList inset={true}>
-            <ItemButton label="Edit" labelColor={connected ? "medium" : "primary"} icon={connected ? EditCover : EditOrangeIcon} handleItemClick={() => navigate(ROUTES.CONNECTIONS_EDIT(id))} />
-            <ItemButton label="Disconnect" labelColor={connected ? "medium" : "danger"} icon={connected ? DeleteCover : DeleteRedIcon}/>
+            <ItemButton label={t('operations.edit')} labelColor={connected ? "medium" : "primary"} icon={connected ? EditCover : EditOrangeIcon} handleItemClick={() => navigate(ROUTES.CONNECTIONS_EDIT(id))} />
+            <ItemButton label={t('operations.disconect')} labelColor={connected ? "medium" : "danger"} icon={connected ? DeleteCover : DeleteRedIcon}/>
           </IonList>
-          <ConfirmationModal 
-            isOpen={showConfirmationModal} 
-            onClose={handleCloseModal} 
+          <ConfirmationModal
+            isOpen={showConfirmationModal}
+            onClose={handleCloseModal}
             onConfirm={handleConfirmConfirm}
-            title="Disconnect from ERP?"
-            description="Disconnecting from database will result in inability to view orders in Orders View."
-            confirmText="Disconnect"
-            cancelText="Cancel"
+            title={t('messages.disconectFromERP')}
+            description={t('messages.disconectDescription')}
+            confirmText={t('operations.disconect')}
+            cancelText={t('operations.cancel')}
           />
         </>
       )}

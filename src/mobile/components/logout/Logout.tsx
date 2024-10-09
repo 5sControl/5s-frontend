@@ -1,5 +1,6 @@
 import React from "react";
 import "./Logout.scss";
+import {useTranslation} from "react-i18next";
 
 type LogoutProps = {
   username: string;
@@ -8,6 +9,7 @@ type LogoutProps = {
 };
 
 export const Logout: React.FC<LogoutProps> = ({ username, status, logout }) => {
+    const { t } = useTranslation();
   return (
     <div className="logout">
       <div className="logout_text">
@@ -16,7 +18,7 @@ export const Logout: React.FC<LogoutProps> = ({ username, status, logout }) => {
           {status}
         </span>
       </div>
-      <div onClick={logout}>Log out</div>
+      <div onClick={logout}>{t('text.logout')}</div>
     </div>
   );
 };
