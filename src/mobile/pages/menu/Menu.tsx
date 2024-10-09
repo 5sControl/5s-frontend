@@ -10,12 +10,12 @@ import { ItemButton } from "../../components/itemButton/ItemButton";
 import { MenuLogo, Orders, Settings } from "../../assets/svg/SVGcomponent";
 import { Logout } from "../../components/logout/Logout";
 import { useTranslation } from 'react-i18next';
-
+import i18n from './../../../i18'
 export const Menu: React.FC = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
   const [user, setUser] = useState<any>({});
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [language, setLanguage] = useState(i18n.language);
 
