@@ -71,7 +71,7 @@ export const OrdersView: React.FC = () => {
             currentDay
           );
           const operations: OperationItem[] = response.data;
-            
+
           operations.forEach((item: OperationItem) => {
             const newOprs = item.oprs.filter(opr => {
               const startTime = moment(opr.sTime);
@@ -169,7 +169,7 @@ export const OrdersView: React.FC = () => {
         isOpen={showLoading}
         spinner="circular"
       />
-      
+
       <TimelineChart
         startTime={selectedRange}
         selectedInterval={hourInterval}
@@ -180,7 +180,7 @@ export const OrdersView: React.FC = () => {
       />
 
       <div className="ion-padding ordersPanel">
-        <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>Show scheduled time</IonToggle>
+        <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>{t('text.scheduled')}</IonToggle>
         <OrdersList orders={ordersList}/>
 
       </div>
