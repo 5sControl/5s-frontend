@@ -7,6 +7,7 @@ import { FiveS } from '../../assets/svg/SVGcomponent';
 import logo from '../../assets/svg/icon.svg';
 
 import './Authorization.scss';
+import {useTranslation} from "react-i18next";
 
 export const Authorization = () => {
   const [email, setEmail] = useState('');
@@ -16,6 +17,7 @@ export const Authorization = () => {
   const [errorResponse, setErrorResponse] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
   const [, setCookie] = useCookies(['token']);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (password.length < 20) {
@@ -41,7 +43,7 @@ export const Authorization = () => {
             setCookie('token', `JWT ${response.data.access}`, { path: '/' });
           }
           if (!response.data.access) {
-            setErrorResponse('Incorrect email or password. Please, try again.');
+            setErrorResponse(t('messages.incorrectCredentials'));
           }
         })
         .catch((error) => {
@@ -62,22 +64,22 @@ export const Authorization = () => {
     <div className='authorization'>
       <FiveS className='authorization__logo' />
       {/* <img src={logo} alt='logo' className='authorization__logo' /> */}
-      <h2 className='authorization__title'>Sign in to 5S Control</h2>
+      <h2 className='authorization__title'>{`${t('form.auth.signin')} 5S Control`}</h2>
       <div className='authorization__container'>
-        <label>Username</label>
+        <label>{t('form.auth.login')}</label>
         <Input
           type='text'
-          placeholder='Enter Username'
+          placeholder={t('form.auth.loginPlaceholder')}
           className='authorization__input'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         {/* {!correctEmail && <span className='authorization__error'>Email isn't correct!</span>} */}
-        <label>Password</label>
+        <label>{t('form.auth.pwd')}</label>
         <Input
           type='password'
           className='authorization__input'
-          placeholder='Enter Password'
+          placeholder={t('form.auth.pwdPlaceholder')}
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
@@ -88,14 +90,14 @@ export const Authorization = () => {
         />
         {errorResponse && (
           <span className='authorization__error_response'>
-            Incorrect email or password. Please, try again.
+            {t('messages.incorrectCredentials')}
           </span>
         )}
         {errorPassword && (
-          <span className='authorization__error_password'>This field is required</span>
+          <span className='authorization__error_password'>{t('form.auth.required')}</span>
         )}
         <button className={'authorization__button'} onClick={post}>
-          Log In
+          {t('form.auth.submit')}
         </button>
       </div>
     </div>
