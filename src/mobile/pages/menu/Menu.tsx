@@ -55,6 +55,7 @@ export const Menu: React.FC = () => {
         >
           <IonSelectOption value="en">English</IonSelectOption>
           <IonSelectOption value="ru">Русский</IonSelectOption>
+          <IonSelectOption value="pl">Polski</IonSelectOption>
         </IonSelect>
       </IonList>
       {user && <Logout username={user.username} status={user.status} logout={logout} />}

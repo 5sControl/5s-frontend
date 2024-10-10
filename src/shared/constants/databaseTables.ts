@@ -1,16 +1,16 @@
 export const databaseTables = {
   productCategories: {
-    buttonTitle: "db.products.button",
-    pageTitle: "db.products.title",
-    singularName: "db.products.singular",
+    buttonTitle: "db.productsCategory.button",
+    pageTitle: "db.productsCategory.title",
+    singularName: "db.productsCategory.singular",
     path: "productCategories",
     pageDisplay: true,
     disabled: false,
   },
   products: {
-    buttonTitle: "",
-    pageTitle: "Products",
-    singularName: "product",
+    buttonTitle: "db.products.button",
+    pageTitle: "db.products.title",
+    singularName: "db.products.singular",
     path: "products",
     pageDisplay: false,
     disabled: false,
