@@ -9,7 +9,7 @@
   },
   "messages": {
     "noDatabases": "Нет доступных баз данных",
-    "used": "Используется в просмотре заказов",
+    "used": "Используется",
     "connected": "Подключено",
     "unableToSave": "Не удается сохранить",
     "disconectFromERP": "Отключиться от ERP?",
@@ -19,7 +19,7 @@
   "text": {
     "connection": "соединение",
     "select": "Выбрать",
-    "usedInOrdersView": "Используется в просмотре заказов",
+    "usedInOrdersView": "Используется",
     "connected": "Подключено",
     "database": "База данных",
     "no": "Нет",
