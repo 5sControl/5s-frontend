@@ -13,7 +13,8 @@
     "connected": "Connected",
     "unableToSave": "Unable to save",
     "disconectFromERP": "Disconnect from ERP?",
-    "disconectDescription": "Disconnecting from database will result in inability to view orders in Orders View."
+    "disconectDescription": "Disconnecting from database will result in inability to view orders in Orders View.",
+    "incorrectCredentials": "Incorrect email or password. Please, try again."
   },
   "text": {
     "connection": "connection",
@@ -45,6 +46,11 @@
   },
   "db": {
     "products": {
+      "button": "",
+      "title": "Products",
+      "singular": "product"
+    },
+    "productsCategory": {
       "button": "Products",
       "title": "Product Categories",
       "singular": "product category"
@@ -75,6 +81,15 @@
   },
   "form" : {
     "name": "Name",
-    "namePlaceholder": "Enter a name"
+    "namePlaceholder": "Enter a name",
+    "auth": {
+      "signin": "Sign in to",
+      "login": "Username",
+      "loginPlaceholder": "Enter Username",
+      "pwdPlaceholder": "Enter Password",
+      "pwd": "Password",
+      "submit": "Log In",
+      "required": "This field is required"
+    }
   }
 }

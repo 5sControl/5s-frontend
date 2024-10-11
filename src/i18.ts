@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import EN from './locales/en/translation.json'
 import RU from './locales/ru/translation.json'
+import PL from './locales/pl/translation.json'
 
 const resources = {
     en: {
@@ -9,6 +10,9 @@ const resources = {
     },
     ru: {
         translation: RU
+    },
+    pl: {
+        translation: PL
     }
 };
 const DETECTION_OPTIONS = {
