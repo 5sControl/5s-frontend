@@ -8,6 +8,7 @@ const API_CREATELICENSE = "api/company/create_license/";
 const API_REGISTRATION = "api/employees/create/";
 const API_AUTH = "api/auth/jwt/create/";
 const API_USERLIST = "api/employees/";
+const API_USERINFO = "api/employees/get-user-info/"
 const API_VERIFYTOKEN = "api/auth/jwt/verify/";
 const API_SYSTEMMESSAGE = "api/core/system-message/";
 const API_SUPPLIERS = "api/suppliers/company/";
@@ -114,6 +115,15 @@ export const registerNewUser = (hostname, cookies, email, password, role) => {
 
 export const getUserList = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_USERLIST}`, {
+    headers: {
+      Authorization: cookies,
+      "ngrok-skip-browser-warning": "true",
+    },
+  });
+};
+
+export const getUserInfo = (cookies) => {
+  return axios.get(`${process.env.REACT_APP_NGROK}${API_USERINFO}`, {
     headers: {
       Authorization: cookies,
       "ngrok-skip-browser-warning": "true",

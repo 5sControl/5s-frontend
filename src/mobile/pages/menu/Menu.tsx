@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import {IonContent, IonList, IonSelect, IonSelectOption} from "@ionic/react";
 import jwtDecode from "jwt-decode";
-import { getUserList } from "../../api/getUserList";
+import { getUserInfo, getUserList } from "../../api/getUserList";
 import { ROUTES } from "../../../shared/constants/routes";
 import { Header } from "../../components/header/Header";
 import { ItemButton } from "../../components/itemButton/ItemButton";
@@ -22,10 +22,14 @@ export const Menu: React.FC = () => {
   useEffect(() => {
     if (cookies.token) {
       const token = jwtDecode<any>(cookies.token.replace("JWT%220", ""));
-      getUserList(cookies.token).then((response: any) => {
-        if (token.user_id && response.data) {
-          setUser(response.data.find((user: any) => user.id === token.user_id));
+      getUserInfo(cookies.token)
+      .then((response: any) => {
+        if (response.data) {
+          setUser(response.data);
         }
+      })
+      .catch((error: any) => {
+        console.error('Error fetching user list:', error);
       });
     }
   }, []);
