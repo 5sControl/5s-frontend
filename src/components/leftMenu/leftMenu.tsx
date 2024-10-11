@@ -11,7 +11,7 @@ import {
   AIChat,
 } from '../../assets/svg/SVGcomponent';
 import { useEffect, useState } from 'react';
-import { getCompanySubsInfo, getUserList } from '../../api/companyRequest';
+import { getCompanySubsInfo, getUserInfo, getUserList } from '../../api/companyRequest';
 import { useCookies } from 'react-cookie';
 import { CompanyInfo } from './types';
 import './styles.scss';
@@ -69,10 +69,14 @@ export const LeftMenu = () => {
       });
 
     const token: any = jwt(cookies.token.replace('JWT%220', ''));
-    getUserList(window.location.hostname, cookies.token).then((response: any) => {
-      if (token.user_id && response.data) {
-        setUser(response.data.find((user: any) => user.id === token.user_id));
+    getUserInfo(cookies.token)
+    .then((response: any) => {
+      if (response.data) {
+        setUser(response.data);
       }
+    })
+    .catch((error: any) => {
+      console.error('Error fetching user list:', error);
     });
   }, []);
 
