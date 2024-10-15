@@ -26,7 +26,6 @@ import { OrdersList } from "../../components/ordersList/OrdersList";
 import { OrderItem } from "../../models/interfaces/orderItem.interface";
 import './styles.scss'
 import {useTranslation} from "react-i18next";
-import { TimeInterval } from "../../models/types/timeInterval";
 
 export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
@@ -49,6 +48,7 @@ export const OrdersView: React.FC = () => {
 
   useEffect(() => {
     const currentDay = selectedRange.split('T')[0];
+    const endDay = moment(selectedRange).add(7,'days').format("YYYY-MM-DD")
     const prevDay = prevRange.split('T')[0];
     if (selectedRange && currentDay !== prevDay) {
       const fetchData = async () => {
@@ -57,7 +57,7 @@ export const OrdersView: React.FC = () => {
           // const response = await getOrderViewOperations(
           //   cookies.token,
           //   currentDay,
-          //   currentDay
+          //   endDay
           // );
           // const operations: OperationItem[] = response.data;
 
@@ -84,7 +84,7 @@ export const OrdersView: React.FC = () => {
                     "sTime": 1727938827000,
                     "eTime": 1727986827000,
                     "duration": 48000,
-                    "duration_expected": 600000
+                    "duration_expected": 60000000
                   }
                 ]
               },
