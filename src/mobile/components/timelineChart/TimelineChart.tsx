@@ -3,27 +3,21 @@ import * as d3 from "d3";
 import moment from "moment";
 import { TimeInterval } from "../../models/types/timeInterval";
 import { OperationItem } from "../../models/interfaces/operationItem.interface";
-import './TimelineChart.scss'
-import { MinuteScaling } from "../../models/types/minuteScaling";
-import { TimeMode } from "../../models/enums/timeMode.enum";
+import './TimelineChart.scss';
 
 type TimelineChartProps = {
   startTime: string;
   selectedInterval: TimeInterval;
-  minuteScaling: MinuteScaling
   showScheduled: boolean;
   data: OperationItem[];
-  timeMode: TimeMode;
 };
 
-export const TimelineChart: FC<TimelineChartProps> = ({
-  startTime,
-  selectedInterval,
-  minuteScaling,
-  showScheduled,
-  data,
-  timeMode
-}) => {
+const TimelineChart: FC<TimelineChartProps> = ({
+    startTime,
+    selectedInterval,
+    showScheduled,
+    data,
+  }) => {
   const chartRef = useRef<SVGSVGElement>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const operationHeight = 36;
@@ -31,21 +25,18 @@ export const TimelineChart: FC<TimelineChartProps> = ({
   const [chartHeight, setChartHeight] = useState(showScheduled ? ((data.length * 2 + 10) * operationHeight) : ((data.length + 10) * operationHeight));
 
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
     d3.select(chartRef.current).selectAll("*").remove();
-    const displayedHours = parseInt(selectedInterval.slice(0, -1));
     const newChartHeight = showScheduled ? ((data.length * 2 + 10) * operationHeight) : ((data.length + 10) * operationHeight)
     setChartHeight(newChartHeight);
+
+    const margin = { top: 20, right: 20, bottom: 100, left: 20 };
+    const height = newChartHeight - margin.top - margin.bottom;
+    const width = windowWidth - margin.left - margin.right;
+    const initialStartDate = new Date(startTime);
+    const initialEndDate = new Date(initialStartDate.getTime() + selectedInterval.milliseconds);
+    const xScale = d3.scaleTime().range([0, width]).domain([initialStartDate, initialEndDate]);
+    const formatUnits = selectedInterval.timeFormat.units;
+    const formatFrequency = selectedInterval.timeFormat.frequency;
 
     const drawOperations = () => {
       svg
@@ -53,6 +44,7 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .data(data)
       .enter()
       .append("rect")
+      .attr("class", "greyRect")
       .attr("x", 0)
       .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10)
       .attr("width", width)
@@ -60,16 +52,25 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .attr("fill", "#C5C5C")
       .attr("opacity", 0.07);
 
-    data.forEach((op: OperationItem) => {
-      svg.selectAll(".greenRect")
-      .data(op.oprs)
-      .enter()
-      .append("rect")
-      .attr("x", d => xScale(new Date(d.sTime)))
-      .attr("y", (yScale(op.oprName) ?? 0 )+ 10)
-      .attr("width", d => xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)))
-      .attr("height", operationHeight)
-      .attr("fill", "#87BC45");
+      data.forEach((op: OperationItem) => {
+        svg.selectAll(".greenRect")
+          .data(op.oprs)
+          .enter()
+          .append("rect")
+          .attr("x", d => {
+            return xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) ? xScale(new Date(initialStartDate)) : xScale(new Date(d.sTime))
+          })
+          .attr("y", (yScale(op.oprName) ?? 0 )+ 10)
+          .attr("height", operationHeight)
+          .transition()
+          .duration(250)
+          .attr("width", d => {
+            if (xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) && xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))){
+              return 0;
+            }
+            return Math.min(xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)))
+          })
+          .attr("fill", "#87BC45");
     })
 
     svg
@@ -97,28 +98,48 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .attr("fill", "#C5C5C")
       .attr("opacity", 0.07);
 
-    data.forEach((op: OperationItem) => {
-      svg.selectAll(".greenRect")
-      .data(op.oprs)
-      .enter()
-      .append("rect")
-      .attr("x", d => xScale(new Date(d.sTime)))
-      .attr("y", (yScale(op.oprName) ?? 0) + 10)
-      .attr("width", d => xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)))
-      .attr("height", operationHeight)
-      .attr("fill", "#87BC45");
+      data.forEach((op: OperationItem) => {
+        svg.selectAll(".greenRect")
+          .data(op.oprs)
+          .enter()
+          .append("rect")
+          .attr("x", d => {
+            return xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) ? xScale(new Date(initialStartDate)) : xScale(new Date(d.sTime))
+          })
+          .attr("y", (yScale(op.oprName) ?? 0 )+ 10)
+          .attr("height", operationHeight)
+          .transition()
+          .duration(250)
+          .attr("width", d => {
+            if (xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) && xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))){
+              return 0;
+            }
+            return Math.min(xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)))
+          })
+          .attr("fill", "#87BC45");
 
       svg
-      .selectAll(".orangeRect")
-      .data(op.oprs)
-      .enter()
-      .append("rect")
-      .attr("x", d => xScale(new Date(d.sTime)))
-      .attr("y", (yScale(op.oprName) ?? 0) + 10 + operationHeight)
-      .attr("width", d => xScale(new Date(d.sTime + d.duration_expected)) - xScale(new Date(d.sTime)))
-      .attr("height", operationHeight)
-      .attr("fill", "#FE6100");
-    })
+        .selectAll(".orangeRect")
+        .data(op.oprs)
+        .enter()
+        .append("rect")
+        .attr("x", d => {
+          return xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) ? xScale(new Date(initialStartDate)) : xScale(new Date(d.sTime))
+        })
+        .attr("y", (yScale(op.oprName) ?? 0) + 10 + operationHeight)
+        .attr("height", operationHeight)
+        .transition()
+        .duration(250)
+        .attr("width", d => {
+          if (xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) && xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))){
+            return 0;
+          }
+          return Math.min(xScale(new Date(d.sTime + d.duration_expected)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)))
+        })
+        .attr("fill", "#FE6100")
+        .attr("data-start", d => d.sTime)
+        .attr("data-end", d => d.eTime);
+      })
 
     svg
       .selectAll(".operationName")
@@ -132,55 +153,12 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .text((d) => d.oprName);
     }
 
-    const margin = { top: 20, right: 20, bottom: 100, left: 20 };
-    const height = newChartHeight - margin.top - margin.bottom;
-    let width = windowWidth - margin.left - margin.right;
-    let tickParam: MinuteScaling | TimeInterval = selectedInterval;
-
-    switch (timeMode){
-      case TimeMode.hour: {
-        width = windowWidth - margin.left - margin.right;
-        tickParam = selectedInterval;
-        break;
-      }
-      case TimeMode.minute: {
-        width = (60 * displayedHours / parseInt(minuteScaling.slice(0, -3))) * (windowWidth - margin.left - margin.right);
-        tickParam = minuteScaling;
-        break;
-      }
-    }
-
     const svg = d3
       .select(chartRef.current)
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
-
-    const intervalMapping: { [key: string]: number } = {
-      "1min": 1,
-      "6min": 1,
-      "12min": 2,
-      "20min": 3,
-      "30min": 5,
-      "1h": 10,
-      "4h": 60, 
-      "8h": 120,
-      "12h": 240,
-      "24h": 480,
-    };
-
-    const xScale = d3
-      .scaleTime()
-      .domain([
-        new Date(startTime),
-        new Date(
-          moment(startTime)
-            .add(displayedHours, "hours")
-            .format("YYYY-MM-DDTHH:mm:ss")
-        ),
-      ])
-      .range([0, width]);
 
     const yScale = d3
       .scaleBand()
@@ -189,55 +167,75 @@ export const TimelineChart: FC<TimelineChartProps> = ({
       .padding(0.1);
 
     const greyLinesData = Array.from(
-      { length: (displayedHours * 60) / intervalMapping[tickParam] + 1 },
+      { length: 8 },
       (_, i) => i
     );
 
     greyLinesData.forEach((index) => {
-      const minute = index * intervalMapping[tickParam];
       let timeForLine = moment(startTime)
-        .add(minute, "minutes")
-        .startOf("hour");
-
-      if (selectedInterval === "1h" || timeMode === TimeMode.minute) {
-        timeForLine = moment(startTime).startOf("hour").add(minute, "minutes");
+      .add(index * formatFrequency, "hours")
+      .startOf("minute");
+      switch (formatUnits) {
+        case "minutes":
+          timeForLine = moment(startTime)
+          .add(index * formatFrequency, "minutes")
+          .startOf("minute");
+          break;
+        case "hours":
+          timeForLine = moment(startTime)
+          .add(index * formatFrequency, "hours")
+          .startOf("hour");
+          break;
+        case "days":
+          timeForLine = moment(startTime)
+          .add(index * formatFrequency, "days")
+          .startOf("day");
       }
 
       if (
         timeForLine.isSameOrAfter(moment(startTime)) &&
         timeForLine.isSameOrBefore(
-          moment(startTime).add(displayedHours, "hours")
+          moment(initialEndDate)
         )
       ) {
         svg
           .append("line")
-          .attr("x1", xScale(timeForLine.toDate()))
-          .attr("x2", xScale(timeForLine.toDate()))
+          .attr("class", "greyLine")
           .attr("y1", -15)
           .attr("y2", height)
+          .transition()
+          .duration(250)
+          .attr("x1", xScale(timeForLine.toDate()))
+          .attr("x2", xScale(timeForLine.toDate()))
           .attr("stroke", "lightgrey")
           .attr("stroke-width", 1);
       }
     });
 
-    svg
+      svg
       .append("g")
       .call(
         d3
           .axisTop(xScale)
           .ticks(
-            (selectedInterval === "1h" || timeMode === TimeMode.minute)
-              ? d3.timeMinute.every(intervalMapping[tickParam])
-              : d3.timeHour.every(intervalMapping[tickParam] / 60)
+            formatUnits === 'minutes' ? d3.timeMinute.every(formatFrequency) 
+         : formatUnits === 'hours' ? d3.timeHour.every(formatFrequency) : d3.timeDay.every(formatFrequency)
           )
-          .tickFormat((date: any) => moment(date).format("HH:mm"))
-      )
+          .tickFormat((date: any) => {
+                    if (formatUnits === 'minutes') {
+                        return d3.timeFormat('%H:%M')(date);
+                    } else if (formatUnits === 'hours') {
+                        return d3.timeFormat('%H:%M')(date);
+                    } else if (formatUnits === 'days') {
+                        return d3.timeFormat('%b %d')(date);
+                    }
+                    return d3.timeFormat('%H:%M')(date);
+                }))
       .selectAll("text")
       .attr("fill", "grey")
-      .attr("transform", "translate(15, 0)");
+      .attr("transform", "translate(15, 0)")
 
     svg.select(".domain").remove();
-
     svg.selectAll(".tick line").attr("stroke", "transparent");
 
   if (showScheduled){
@@ -251,8 +249,7 @@ export const TimelineChart: FC<TimelineChartProps> = ({
     chartContainerRef.current.style.overflowX = width > windowWidth ? 'scroll' : 'hidden';
     chartContainerRef.current.style.width = `${windowWidth}px`;
   }
-
-  }, [timeMode, minuteScaling, selectedInterval, startTime, data, showScheduled, windowWidth]);
+}, [selectedInterval, startTime, showScheduled, windowWidth]);
 
   return (
     <div ref={chartContainerRef} className="chartWrapper">

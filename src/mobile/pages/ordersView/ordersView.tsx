@@ -15,36 +15,30 @@ import {
 } from "@ionic/react";
 import { ROUTES } from "../../../shared/constants/routes";
 import { timeIntervals } from "../../constants/timeIntervals";
-import { HourMode, MinuteMode } from "../../assets/svg/SVGcomponent";
 import { parseInputDate } from "../../utils/parseInputDate";
-import { TimeMode } from "../../models/enums/timeMode.enum";
 import { Header } from "../../components/header/Header";
 import TimelineChart from "../../components/timelineChart/TimelineChart";
 import moment from "moment";
-import { TimeInterval } from "../../models/types/timeInterval";
 import { getOrderViewOperations, getOrderViewOrderList } from "../../api/ordersView";
 import { useCookies } from "react-cookie";
 import { OperationItem } from "../../models/interfaces/operationItem.interface";
 import { OrdersList } from "../../components/ordersList/OrdersList";
 import { OrderItem } from "../../models/interfaces/orderItem.interface";
-import { MinuteScaling } from "../../models/types/minuteScaling";
 import './styles.scss'
 import {useTranslation} from "react-i18next";
+import { TimeInterval } from "../../models/types/timeInterval";
 
 export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
   const [cookies] = useCookies(["token"]);
   const [showLoading, setShowLoading] = useState(false);
-  const [timeMode, setTimeMode] = useState<TimeMode>(TimeMode.minute);
-  const [selectedInterval, setSelectedInterval] = useState<string>("6min");
-  const [hourInterval, setHourInterval] = useState<TimeInterval>("4h");
-  const [minuteScaling, setMinuteScaling] = useState<MinuteScaling>("6min");
+  const [selectedInterval, setSelectedInterval] = useState<keyof typeof timeIntervals>("OneDay");
   const [showScheduled, setShowScheduled] = useState<boolean>(false);
   const [data, setData] = useState<OperationItem[]>([]);
   const [ordersList, setOrdersList] = useState<OrderItem[]>([]);
   const [selectedRange, setSelectedRange] = useState(
     moment()
-      .set({ year: 2024, month: 9, date: 8, hour: 14, minute: 55, second: 0 })
+      .set({ year: 2024, month: 9, date: 3, hour: 9, minute: 55, second: 0 })
       .format("YYYY-MM-DDTHH:mm:ss")
   );
 
@@ -53,11 +47,6 @@ export const OrdersView: React.FC = () => {
   );
   const {t} = useTranslation();
 
-  const getMillisecondsForInterval = (interval: string): number => {
-    const hours = parseInt(interval.slice(0, -1));
-    return hours * 3600 * 1000;
-  };
-
   useEffect(() => {
     const currentDay = selectedRange.split('T')[0];
     const prevDay = prevRange.split('T')[0];
@@ -65,22 +54,103 @@ export const OrdersView: React.FC = () => {
       const fetchData = async () => {
         try {
           setShowLoading(true);
-          const response = await getOrderViewOperations(
-            cookies.token,
-            currentDay,
-            currentDay
-          );
-          const operations: OperationItem[] = response.data;
+          // const response = await getOrderViewOperations(
+          //   cookies.token,
+          //   currentDay,
+          //   currentDay
+          // );
+          // const operations: OperationItem[] = response.data;
 
-          operations.forEach((item: OperationItem) => {
-            const newOprs = item.oprs.filter(opr => {
-              const startTime = moment(opr.sTime);
-              const selectedStartTime = moment(selectedRange);
-              return startTime.isSameOrAfter(selectedStartTime) && startTime.isBefore(selectedStartTime.add(getMillisecondsForInterval(selectedInterval), 'milliseconds'));
-            });
-            item.oprs = newOprs;
-          });
-          setData(operations);
+          // operations.forEach((item: OperationItem) => {
+          //   const newOprs = item.oprs.filter(opr => {
+          //     const startTime = moment(opr.sTime);
+          //     const selectedStartTime = moment(selectedRange);
+          //     return startTime.isSameOrAfter(selectedStartTime) && startTime.isBefore(selectedStartTime.add(selectedInterval, 'milliseconds'));
+          //   });
+          //   item.oprs = newOprs;
+          // });
+          // setData(operations);
+
+          setData(
+         [
+              {
+                "filtration_operation_id": 198,
+                "oprTypeID": 126,
+                "oprName": "weighing",
+                "oprs": [
+                  {
+                    "id": 198,
+                    "orId": "WH/MO/00036",
+                    "sTime": 1727938827000,
+                    "eTime": 1727986827000,
+                    "duration": 48000,
+                    "duration_expected": 600000
+                  }
+                ]
+              },
+              {
+                "filtration_operation_id": 199,
+                "oprTypeID": 127,
+                "oprName": "grindering",
+                "oprs": [
+                  {
+                    "id": 199,
+                    "orId": "WH/MO/00036",
+                    "sTime": 1727938833000,
+                    "eTime": 1727938836000,
+                    "duration": 3000,
+                    "duration_expected": 120000
+                  }
+                ]
+              },
+              {
+                "filtration_operation_id": 200,
+                "oprTypeID": 128,
+                "oprName": "tempering",
+                "oprs": [
+                  {
+                    "id": 200,
+                    "orId": "WH/MO/00036",
+                    "sTime": 1727945001000,
+                    "eTime": 1727945012000,
+                    "duration": 10800,
+                    "duration_expected": 180000
+                  }
+                ]
+              },
+              {
+                "filtration_operation_id": 201,
+                "oprTypeID": 129,
+                "oprName": "brewing",
+                "oprs": [
+                  {
+                    "id": 201,
+                    "orId": "WH/MO/00036",
+                    "sTime": 1727945018000,
+                    "eTime": 1727945025000,
+                    "duration": 7200,
+                    "duration_expected": 240000
+                  }
+                ]
+              },
+              {
+                "filtration_operation_id": 202,
+                "oprTypeID": 131,
+                "oprName": "quality control",
+                "oprs": [
+                  {
+                    "id": 202,
+                    "orId": "WH/MO/00036",
+                    "sTime": 1727945026000,
+                    "eTime": 1727945031000,
+                    "duration": 4800,
+                    "duration_expected": 60000
+                  }
+                ]
+              }
+            ]
+          )
+
           setPrevRange(selectedRange);
         } catch (error) {
           console.log(error);
@@ -102,11 +172,6 @@ export const OrdersView: React.FC = () => {
     setShowScheduled(prev => !prev);
 };
 
-  const handleTimeModeChange = (value: TimeMode) => {
-    setTimeMode(value);
-    setSelectedInterval(timeIntervals[value][0].value);
-  };
-
   const handleDateTimeChange = (e: CustomEvent<any>) => {
     const selectedDateTime = e.detail.value;
     setSelectedRange(selectedDateTime);
@@ -120,24 +185,8 @@ export const OrdersView: React.FC = () => {
           <IonRow className="ion-align-items-center dateTimeControls">
             <IonCol id="openDateTimePicker">
               <IonListHeader>
-                {parseInputDate(selectedRange, timeMode, selectedInterval)}
+                {parseInputDate(selectedRange, timeIntervals[selectedInterval].milliseconds)}
               </IonListHeader>
-            </IonCol>
-            <IonCol size="auto">
-              <IonSegment
-                className="timeMode"
-                value={timeMode}
-                onIonChange={(e) =>
-                  handleTimeModeChange(e.detail.value as TimeMode)
-                }
-              >
-                <IonSegmentButton value="hourMode">
-                  <img src={HourMode} alt="hour mode" />
-                </IonSegmentButton>
-                <IonSegmentButton value="minuteMode">
-                  <img src={MinuteMode} alt="minute mode" />
-                </IonSegmentButton>
-              </IonSegment>
             </IonCol>
           </IonRow>
         </IonGrid>
@@ -147,20 +196,14 @@ export const OrdersView: React.FC = () => {
             scrollable={false}
             onIonChange={(e) => {
               const value = e.detail.value;
-              setSelectedInterval(value?.toString() || "");
-              if (timeMode === TimeMode.hour) {
-                setHourInterval(value as TimeInterval);
-              }
-              if (timeMode === TimeMode.minute) {
-                setMinuteScaling(value as MinuteScaling)
-              }
+              setSelectedInterval(value as keyof typeof timeIntervals);
             }}
           >
-            {timeIntervals[timeMode].map((interval) => (
-              <IonSegmentButton key={interval.value} value={interval.value}>
-                <IonLabel>{interval.value}</IonLabel>
-              </IonSegmentButton>
-            ))}
+          {Object.entries(timeIntervals).map(([key, interval]) => (
+            <IonSegmentButton key={interval.milliseconds} value={key}>
+              <IonLabel>{interval.label}</IonLabel>
+            </IonSegmentButton>
+          ))}
           </IonSegment>
         </div>
       </div>
@@ -172,10 +215,8 @@ export const OrdersView: React.FC = () => {
 
       <TimelineChart
         startTime={selectedRange}
-        selectedInterval={hourInterval}
-        minuteScaling={minuteScaling}
+        selectedInterval={timeIntervals[selectedInterval]}
         showScheduled={showScheduled}
-        timeMode={timeMode}
         data={data}
       />
 
