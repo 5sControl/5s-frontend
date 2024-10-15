@@ -25,18 +25,21 @@ const TimelineChart: FC<TimelineChartProps> = ({
   const [chartHeight, setChartHeight] = useState(showScheduled ? ((data.length * 2 + 10) * operationHeight) : ((data.length + 10) * operationHeight));
 
   useEffect(() => {
+    const rangeCoeff = 2;
+
     d3.select(chartRef.current).selectAll("*").remove();
     const newChartHeight = showScheduled ? ((data.length * 2 + 10) * operationHeight) : ((data.length + 10) * operationHeight)
     setChartHeight(newChartHeight);
 
-    const margin = { top: 20, right: 20, bottom: 100, left: 20 };
+    const margin = { top: 20, right: 0, bottom: 100, left: 0 };
     const height = newChartHeight - margin.top - margin.bottom;
-    const width = windowWidth - margin.left - margin.right;
+    const width = (windowWidth - margin.left - margin.right) * rangeCoeff;
     const initialStartDate = new Date(startTime);
-    const initialEndDate = new Date(initialStartDate.getTime() + selectedInterval.milliseconds);
+    const initialEndDate = new Date(initialStartDate.getTime() + selectedInterval.milliseconds * rangeCoeff);
     const xScale = d3.scaleTime().range([0, width]).domain([initialStartDate, initialEndDate]);
     const formatUnits = selectedInterval.timeFormat.units;
     const formatFrequency = selectedInterval.timeFormat.frequency;
+
 
     const drawOperations = () => {
       svg
@@ -165,9 +168,9 @@ const TimelineChart: FC<TimelineChartProps> = ({
       .domain(data.map((d) => d.oprName))
       .range([0, height])
       .padding(0.1);
-
+ 
     const greyLinesData = Array.from(
-      { length: 8 },
+      { length: 20 },
       (_, i) => i
     );
 
@@ -252,8 +255,10 @@ const TimelineChart: FC<TimelineChartProps> = ({
 }, [selectedInterval, startTime, showScheduled, windowWidth]);
 
   return (
+    <div className="ion-padding chartContainer">
     <div ref={chartContainerRef} className="chartWrapper">
       <svg ref={chartRef}></svg>
+    </div>
     </div>
   );
 };

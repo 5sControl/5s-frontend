@@ -37,7 +37,7 @@ export const OrdersView: React.FC = () => {
   const [ordersList, setOrdersList] = useState<OrderItem[]>([]);
   const [selectedRange, setSelectedRange] = useState(
     moment()
-      .set({ year: 2024, month: 9, date: 3, hour: 9, minute: 55, second: 0 })
+      .set({ year: 2024, month: 9, date: 3, hour: 10, minute: 0, second: 0 })
       .format("YYYY-MM-DDTHH:mm:ss")
   );
 
