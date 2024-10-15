@@ -35,6 +35,7 @@ export const OrdersView: React.FC = () => {
   const [showScheduled, setShowScheduled] = useState<boolean>(false);
   const [data, setData] = useState<OperationItem[]>([]);
   const [ordersList, setOrdersList] = useState<OrderItem[]>([]);
+  const [selectedOrderId, setSelectedOrderId] = useState<string>('');
   const [selectedRange, setSelectedRange] = useState(
     moment()
       .set({ year: 2024, month: 9, date: 3, hour: 10, minute: 0, second: 0 })
@@ -177,6 +178,23 @@ export const OrdersView: React.FC = () => {
     setSelectedRange(selectedDateTime);
   };
 
+  const selectOrder = (orId: string) => {
+    if (orId === selectedOrderId){
+      setSelectedOrderId('')
+    }
+    else{
+      setSelectedOrderId(orId);
+      setSelectedInterval("OneWeek");
+      setTimeout(() => {
+        const timeline = document.querySelector('.chartWrapper');
+        const barElement = timeline?.querySelector(`[data-or-id='${orId}']`);
+        if (barElement) {
+          barElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
+    }
+  }
+
   return (
     <IonContent>
       <Header title={t('text.ordersView')} backButtonHref={ROUTES.MENU} />
@@ -218,12 +236,12 @@ export const OrdersView: React.FC = () => {
         selectedInterval={timeIntervals[selectedInterval]}
         showScheduled={showScheduled}
         data={data}
+        selectedOrderId={selectedOrderId}
       />
 
       <div className="ion-padding ordersPanel">
         <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>{t('text.scheduled')}</IonToggle>
-        <OrdersList orders={ordersList}/>
-
+        <OrdersList orders={ordersList} setSelectedOrderId={selectOrder} selectedOrderId={selectedOrderId}/>
       </div>
 
       <IonModal ref={modal} trigger="openDateTimePicker">
