@@ -10,6 +10,7 @@ type TimelineChartProps = {
   selectedInterval: TimeInterval;
   showScheduled: boolean;
   data: OperationItem[];
+  selectedOrderId: string
 };
 
 const TimelineChart: FC<TimelineChartProps> = ({
@@ -17,6 +18,7 @@ const TimelineChart: FC<TimelineChartProps> = ({
     selectedInterval,
     showScheduled,
     data,
+    selectedOrderId
   }) => {
   const chartRef = useRef<SVGSVGElement>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -73,7 +75,8 @@ const TimelineChart: FC<TimelineChartProps> = ({
             }
             return Math.min(xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)))
           })
-          .attr("fill", "#87BC45");
+          .attr("fill", "#87BC45")
+          .attr('data-or-id', (d) => d.orId);
     })
 
     svg
@@ -119,7 +122,9 @@ const TimelineChart: FC<TimelineChartProps> = ({
             }
             return Math.min(xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)))
           })
-          .attr("fill", "#87BC45");
+          .attr("fill", "#87BC45")
+          .attr('data-or-id', (d) => d.orId)
+          .attr('opacity', (d) => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4));
 
       svg
         .selectAll(".orangeRect")
@@ -140,8 +145,6 @@ const TimelineChart: FC<TimelineChartProps> = ({
           return Math.min(xScale(new Date(d.sTime + d.duration_expected)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)))
         })
         .attr("fill", "#FE6100")
-        .attr("data-start", d => d.sTime)
-        .attr("data-end", d => d.eTime);
       })
 
     svg
@@ -252,7 +255,7 @@ const TimelineChart: FC<TimelineChartProps> = ({
     chartContainerRef.current.style.overflowX = width > windowWidth ? 'scroll' : 'hidden';
     chartContainerRef.current.style.width = `${windowWidth}px`;
   }
-}, [selectedInterval, startTime, showScheduled, windowWidth]);
+}, [selectedInterval, startTime, showScheduled, selectedOrderId, windowWidth]);
 
   return (
     <div className="ion-padding chartContainer">
