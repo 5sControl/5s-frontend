@@ -76,7 +76,8 @@ const TimelineChart: FC<TimelineChartProps> = ({
             return Math.min(xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)))
           })
           .attr("fill", "#87BC45")
-          .attr('data-or-id', (d) => d.orId);
+          .attr('data-or-id', (d) => d.orId)
+          .attr('opacity', (d) => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4));
     })
 
     svg
@@ -145,6 +146,7 @@ const TimelineChart: FC<TimelineChartProps> = ({
           return Math.min(xScale(new Date(d.sTime + d.duration_expected)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)))
         })
         .attr("fill", "#FE6100")
+        .attr('opacity', (d) => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4));
       })
 
     svg

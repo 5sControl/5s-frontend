@@ -184,7 +184,6 @@ export const OrdersView: React.FC = () => {
     }
     else{
       setSelectedOrderId(orId);
-      setSelectedInterval("OneWeek");
       setTimeout(() => {
         const timeline = document.querySelector('.chartWrapper');
         const barElement = timeline?.querySelector(`[data-or-id='${orId}']`);
