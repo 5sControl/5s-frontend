@@ -73,7 +73,7 @@ const TimelineChart: FC<TimelineChartProps> = ({
             if (xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) && xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))){
               return 0;
             }
-            return Math.min(xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)))
+            return Math.min(xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)), Math.abs(width - xScale(new Date(d.sTime))))
           })
           .attr("fill", "#87BC45")
           .attr('data-or-id', (d) => d.orId)
