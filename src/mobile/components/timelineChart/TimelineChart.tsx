@@ -105,6 +105,18 @@ const TimelineChart: FC<TimelineChartProps> = ({
       .attr("fill", "#C5C5C")
       .attr("opacity", 0.07);
 
+      svg
+      .selectAll(".greyDivider")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("x", 0)
+      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10 + operationHeight)
+      .attr("width", width)
+      .attr("height", 1)
+      .attr("fill", "lightgrey")
+      .attr("opacity", 1);
+
       data.forEach((op: OperationItem) => {
         svg.selectAll(".greenRect")
           .data(op.oprs)
