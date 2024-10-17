@@ -73,10 +73,11 @@ const TimelineChart: FC<TimelineChartProps> = ({
             if (xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) && xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))){
               return 0;
             }
-            return Math.min(xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)))
+            return Math.min(xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)), Math.abs(width - xScale(new Date(d.sTime))))
           })
           .attr("fill", "#87BC45")
-          .attr('data-or-id', (d) => d.orId);
+          .attr('data-or-id', (d) => d.orId)
+          .attr('opacity', (d) => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4));
     })
 
     svg
@@ -103,6 +104,18 @@ const TimelineChart: FC<TimelineChartProps> = ({
       .attr("height", operationHeight * 2)
       .attr("fill", "#C5C5C")
       .attr("opacity", 0.07);
+
+      svg
+      .selectAll(".greyDivider")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("x", 0)
+      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10 + operationHeight)
+      .attr("width", width)
+      .attr("height", 1)
+      .attr("fill", "lightgrey")
+      .attr("opacity", 1);
 
       data.forEach((op: OperationItem) => {
         svg.selectAll(".greenRect")
@@ -145,6 +158,7 @@ const TimelineChart: FC<TimelineChartProps> = ({
           return Math.min(xScale(new Date(d.sTime + d.duration_expected)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)))
         })
         .attr("fill", "#FE6100")
+        .attr('opacity', (d) => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4));
       })
 
     svg
