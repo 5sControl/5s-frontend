@@ -49,6 +49,7 @@ import ConfigurationMobile from "./mobile/pages/configuration/Configuration";
 import { databaseTables } from "./shared/constants/databaseTables";
 import { OrdersView as OrdersViewMobile } from "./mobile/pages/ordersView/ordersView";
 import EditConnection from "./mobile/pages/connections/edit-connection/EditConnection";
+import { OperationDetail } from "./mobile/pages/ordersView/operationDetail/operationDetail";
 
 setupIonicReact();
 
@@ -114,7 +115,7 @@ function App() {
                   <Route path={ROUTES.CONNECTIONS_ITEM(":id")} element={<Connection />} />
                   <Route path={ROUTES.CONNECTIONS_EDIT(":id")} element={<EditConnection />} />
                   <Route path={ROUTES.DATABASE}  element={<Database />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY("productCategories")}  element={<DatabaseTable table={databaseTables["productCategories"]} />} />
+                  <Route path={ROUTES.DATABASE_CATEGORY("product-categories")}  element={<DatabaseTable table={databaseTables["productCategories"]} />} />
                   <Route path={ROUTES.DATABASE_CATEGORY("operations")}  element={<DatabaseTable table={databaseTables["operations"]} />} />
                   <Route path={ROUTES.DATABASE_CATEGORY("employees")}  element={<DatabaseTable table={databaseTables["employees"]} />} />
                   <Route path={ROUTES.DATABASE_CATEGORY("equipment")}  element={<DatabaseTable table={databaseTables["equipment"]} />} />
@@ -122,6 +123,7 @@ function App() {
                   <Route path={ROUTES.DATABASE_ADD_ENTRY(":category")} element={<NewDatabaseEntry />} />
                   <Route path={ROUTES.DATABASE_EDIT_ENTRY(":category", ":entry", ":id")} element={<EditDatabaseEntry />} />
                   <Route path={ROUTES.ORDERSVIEW} element={<OrdersViewMobile />} />
+                  <Route path={ROUTES.OPERATIONDETAIL(":id")} element={<OperationDetail />} />
             </Route>
           ) : (
             <Route path="/*" element={<Authorization />} />

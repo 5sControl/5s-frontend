@@ -14,6 +14,10 @@ import Orders from "./orders.svg";
 import RedirectIcon from "./redirect.svg";
 import SearchIcon from "./searchIcon.svg";
 import Settings from "./settings.svg";
+import GreenStatus from "./status/greenStatus.svg";
+import GreyStatus from "./status/greyStatus.svg";
+import OrangeStatus from "./status/orangeStatus.svg";
+import RedStatus from "./status/redStatus.svg";
 
 export {
   AddCover,
@@ -32,4 +36,8 @@ export {
   RedirectIcon,
   SearchIcon,
   Settings,
+  GreenStatus,
+  GreyStatus,
+  OrangeStatus,
+  RedStatus
 };
