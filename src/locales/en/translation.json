@@ -1,7 +1,9 @@
 {
  "menu" : {
    "ordersView": "Orders View",
-   "configuration": "Configuration"
+   "configuration": "Configuration",
+   "directories": "Directories",
+   "generalDirectories": "General directories"
  },
   "config": {
     "title": "Configuration",
@@ -16,6 +18,12 @@
     "disconectFromERP": "Disconnect from ERP?",
     "disconectDescription": "Disconnecting from database will result in inability to view orders in Orders View.",
     "incorrectCredentials": "Incorrect email or password. Please, try again."
+  },
+  "directory": {
+    "newDirectory": "New directory",
+    "NewCatalog": "New Catalog",
+    "editCard": "Edit card",
+    "card": "Card"
   },
   "text": {
     "connection": "connection",
