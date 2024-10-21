@@ -11,6 +11,7 @@
     "noDatabases": "Brak dostępnych baz danych",
     "used": "Używane w Widoku zamówień",
     "connected": "Połączono",
+    "disconnected": "Odłączono",
     "unableToSave": "Nie można zapisać",
     "disconectFromERP": "Odłączyć od ERP?",
     "disconectDescription": "Odłączenie od bazy danych uniemożliwi wyświetlanie zamówień w Widoku zamówień.",
