@@ -54,6 +54,7 @@ import NewDirectory from "./mobile/pages/directories/new-directory/NewDirectory"
 import DirectoryCard from "./mobile/pages/directories/directory/DirectoryCard";
 import EditDirectoryCard from "./mobile/pages/directories/edit-directory/EditDirectoryCard";
 import Directories from "./mobile/pages/directories/Directories";
+import { OperationDetail } from "./mobile/pages/ordersView/operationDetail/operationDetail";
 
 setupIonicReact();
 
@@ -119,29 +120,16 @@ function App() {
               <Route path={ROUTES.CONNECTIONS_ITEM(":id")} element={<Connection />} />
               <Route path={ROUTES.CONNECTIONS_EDIT(":id")} element={<EditConnection />} />
               <Route path={ROUTES.DATABASE} element={<Database />} />
-              <Route
-                path={ROUTES.DATABASE_CATEGORY("productCategories")}
-                element={<DatabaseTable table={databaseTables["productCategories"]} />}
-              />
-              <Route
-                path={ROUTES.DATABASE_CATEGORY("operations")}
-                element={<DatabaseTable table={databaseTables["operations"]} />}
-              />
-              <Route
-                path={ROUTES.DATABASE_CATEGORY("employees")}
-                element={<DatabaseTable table={databaseTables["employees"]} />}
-              />
-              <Route
-                path={ROUTES.DATABASE_CATEGORY("equipment")}
-                element={<DatabaseTable table={databaseTables["equipment"]} />}
-              />
-              <Route
-                path={ROUTES.DATABASE_CATEGORY("products")}
-                element={<DatabaseTable table={databaseTables["products"]} />}
-              />
+              <Route path={ROUTES.DATABASE_CATEGORY("product-categories")}  element={<DatabaseTable table={databaseTables["productCategories"]} />} />
+
+              <Route path={ROUTES.DATABASE_CATEGORY("operations")}  element={<DatabaseTable table={databaseTables["operations"]} />} />
+              <Route path={ROUTES.DATABASE_CATEGORY("employees")}  element={<DatabaseTable table={databaseTables["employees"]} />} />
+              <Route path={ROUTES.DATABASE_CATEGORY("equipment")}  element={<DatabaseTable table={databaseTables["equipment"]} />} />
+              <Route path={ROUTES.DATABASE_CATEGORY("products")}  element={<DatabaseTable table={databaseTables["products"]} />} />
               <Route path={ROUTES.DATABASE_ADD_ENTRY(":category")} element={<NewDatabaseEntry />} />
               <Route path={ROUTES.DATABASE_EDIT_ENTRY(":category", ":entry", ":id")} element={<EditDatabaseEntry />} />
               <Route path={ROUTES.ORDERSVIEW} element={<OrdersViewMobile />} />
+              <Route path={ROUTES.OPERATIONDETAIL(":id")} element={<OperationDetail />} />
               <Route path={ROUTES.GENEREAL_DIRECTORIES} element={<GeneralDirectories />} />
               <Route path={ROUTES.DIRECTORIES_ADD} element={<NewDirectory />} />
               <Route path={ROUTES.DIRECTORIES_ITEM_CARD(":id")} element={<DirectoryCard />} />

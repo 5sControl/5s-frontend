@@ -55,102 +55,14 @@ export const OrdersView: React.FC = () => {
       const fetchData = async () => {
         try {
           setShowLoading(true);
-          // const response = await getOrderViewOperations(
-          //   cookies.token,
-          //   currentDay,
-          //   endDay
-          // );
-          // const operations: OperationItem[] = response.data;
+          const response = await getOrderViewOperations(
+            cookies.token,
+            currentDay,
+            endDay
+          );
+          const operations: OperationItem[] = response.data;
 
-          // operations.forEach((item: OperationItem) => {
-          //   const newOprs = item.oprs.filter(opr => {
-          //     const startTime = moment(opr.sTime);
-          //     const selectedStartTime = moment(selectedRange);
-          //     return startTime.isSameOrAfter(selectedStartTime) && startTime.isBefore(selectedStartTime.add(selectedInterval, 'milliseconds'));
-          //   });
-          //   item.oprs = newOprs;
-          // });
-          // setData(operations);
-
-          setData(
-         [
-              {
-                "filtration_operation_id": 198,
-                "oprTypeID": 126,
-                "oprName": "weighing",
-                "oprs": [
-                  {
-                    "id": 198,
-                    "orId": "WH/MO/00036",
-                    "sTime": 1727938827000,
-                    "eTime": 1727986827000,
-                    "duration": 48000,
-                    "duration_expected": 60000000
-                  }
-                ]
-              },
-              {
-                "filtration_operation_id": 199,
-                "oprTypeID": 127,
-                "oprName": "grindering",
-                "oprs": [
-                  {
-                    "id": 199,
-                    "orId": "WH/MO/00036",
-                    "sTime": 1727938833000,
-                    "eTime": 1727938836000,
-                    "duration": 3000,
-                    "duration_expected": 120000
-                  }
-                ]
-              },
-              {
-                "filtration_operation_id": 200,
-                "oprTypeID": 128,
-                "oprName": "tempering",
-                "oprs": [
-                  {
-                    "id": 200,
-                    "orId": "WH/MO/00036",
-                    "sTime": 1727945001000,
-                    "eTime": 1727945012000,
-                    "duration": 10800,
-                    "duration_expected": 180000
-                  }
-                ]
-              },
-              {
-                "filtration_operation_id": 201,
-                "oprTypeID": 129,
-                "oprName": "brewing",
-                "oprs": [
-                  {
-                    "id": 201,
-                    "orId": "WH/MO/00036",
-                    "sTime": 1727945018000,
-                    "eTime": 1727945025000,
-                    "duration": 7200,
-                    "duration_expected": 240000
-                  }
-                ]
-              },
-              {
-                "filtration_operation_id": 202,
-                "oprTypeID": 131,
-                "oprName": "quality control",
-                "oprs": [
-                  {
-                    "id": 202,
-                    "orId": "WH/MO/00036",
-                    "sTime": 1727945026000,
-                    "eTime": 1727945031000,
-                    "duration": 4800,
-                    "duration_expected": 60000
-                  }
-                ]
-              }
-            ]
-          )
+          setData(operations);
 
           setPrevRange(selectedRange);
         } catch (error) {
@@ -163,7 +75,7 @@ export const OrdersView: React.FC = () => {
       fetchData();
     }
 
-    getOrderViewOrderList('', currentDay, currentDay)
+    getOrderViewOrderList('', currentDay, endDay)
     .then((response) => {
       setOrdersList(response.data)})
       .catch((error) => console.log(error));
@@ -184,7 +96,6 @@ export const OrdersView: React.FC = () => {
     }
     else{
       setSelectedOrderId(orId);
-      setSelectedInterval("OneWeek");
       setTimeout(() => {
         const timeline = document.querySelector('.chartWrapper');
         const barElement = timeline?.querySelector(`[data-or-id='${orId}']`);
