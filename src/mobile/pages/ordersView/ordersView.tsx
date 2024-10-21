@@ -34,6 +34,7 @@ export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
   const [cookies] = useCookies(["token"]);
   const [showLoading, setShowLoading] = useState(false);
+  const [orderListLoading, setOrderListLoading] = useState(true);
   const [openSettings, setOpenSettings] = useState(false);
   const [updateFilter, setUpdateFilter] = useState(false);
   const [selectedInterval, setSelectedInterval] = useState<keyof typeof timeIntervals>("OneDay");
@@ -83,7 +84,8 @@ export const OrdersView: React.FC = () => {
     getOrderViewOrderList('', currentDay, endDay)
     .then((response) => {
       setOrdersList(response.data)})
-      .catch((error) => console.log(error));
+    .catch((error) => console.log(error))
+    .finally(() => setOrderListLoading(false));
   }, [selectedRange, selectedInterval, updateFilter]);
 
   const handleToggle = () => {
@@ -160,7 +162,7 @@ export const OrdersView: React.FC = () => {
 
       <div className="ion-padding ordersPanel">
         <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>{t('text.scheduled')}</IonToggle>
-        <OrdersList orders={ordersList} setSelectedOrderId={selectOrder} selectedOrderId={selectedOrderId}/>
+        <OrdersList orders={ordersList} setSelectedOrderId={selectOrder} selectedOrderId={selectedOrderId} loading={orderListLoading}/>
       </div>
 
       <IonModal ref={modal} trigger="openDateTimePicker">
