@@ -7,18 +7,19 @@ import { Preloader } from "../../../components/preloader";
 import { ConnectionItem } from "../../models/interfaces/connectionItem.interface";
 import { ROUTES } from "../../../shared/constants/routes";
 import { Header } from "../../components/header/Header";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const Connections: React.FC = () => {
   const [cookies] = useCookies(["token"]);
   const [items, setItems] = useState<ConnectionItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setLoading(true);
     getConnectionsToDatabases("", cookies.token)
       .then(response => {
+        console.log(response.data);
         setItems(response.data);
       })
       .catch(error => {
@@ -31,19 +32,17 @@ const Connections: React.FC = () => {
 
   return (
     <IonContent>
-      <Header title={t('config.erp')} backButtonHref={ROUTES.CONFIGURATION} />
+      <Header title={t("config.erp")} backButtonHref={ROUTES.CONFIGURATION} />
       {loading ? (
         <div className="preloader">
           <Preloader />
         </div>
+      ) : items.length === 0 ? (
+        <IonList inset={true}>
+          <IonItem>{t("messages.noDatabases")}</IonItem>
+        </IonList>
       ) : (
-        items.length === 0 ? (
-          <IonList inset={true}>
-            <IonItem>{t('messages.noDatabases')}</IonItem>
-          </IonList>
-        ) : (
-          <ConnectionsList items={items} />
-        )
+        <ConnectionsList items={items} />
       )}
     </IonContent>
   );

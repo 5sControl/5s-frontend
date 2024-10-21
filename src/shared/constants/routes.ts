@@ -14,4 +14,9 @@ export const ROUTES = {
   DATABASE_EDIT_ENTRY: (category: string, entry: string, id: string) =>
     `/mobile/database/${category}/${entry}/${id}/edit`,
   ORDERSVIEW: "/mobile/ordersView",
+  GENEREAL_DIRECTORIES: "/mobile/generel-directories",
+  DIRECTORIES_ADD: "/mobile/general-directories/add",
+  DIRECTORIES_ITEM: (card: string) => `/mobile/general-directories/${card}`,
+  DIRECTORIES_EDIT: (card: string) => `/mobile/general-directories/${card}/edit`,
+  DIRECTORIES: "/mobile/directories"
 };

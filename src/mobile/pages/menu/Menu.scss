@@ -1,1 +1,7 @@
 @import '../../styles/common.scss';
+
+.main__header {
+  display: flex;
+  padding: 0 10px;
+  justify-content: space-between;
+}

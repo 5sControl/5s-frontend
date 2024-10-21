@@ -68,6 +68,30 @@ ion-list-header{
     margin-bottom: 12px;
 }
 
+ion-fab-button {
+    --border-radius: 15px;
+}
+
+ion-button.bottom-50 {
+    width: 100%; 
+    padding: 0 16px;
+    position: fixed;
+    bottom: 50px;
+}
+
+.card__wrapper {
+    padding: 24px 16px 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.fab-bottom-right {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+}
+
 .add-button{
     --background: #FFF;
 }

@@ -1,7 +1,9 @@
 {
   "menu": {
     "ordersView": "Просмотр заказов",
-    "configuration": "Конфигурация"
+    "configuration": "Конфигурация",
+    "directories": "Справочники",
+    "generalDirectories": "Универсальные справочники"
   },
   "config": {
     "title": "Конфигурация",
@@ -15,6 +17,12 @@
     "disconectFromERP": "Отключиться от ERP?",
     "disconectDescription": "Отключение от базы данных приведет к невозможности просмотра заказов в просмотре заказов.",
     "incorrectCredentials": "Неправильный email или пароль. Попробуйте снова."
+  },
+  "directory": {
+    "newDirectory": "Новый справочник",
+    "NewCatalog": "Новый каталог",
+    "editCard": "Редактировать карточку",
+    "card": "Карточка"
   },
   "text": {
     "connection": "соединение",

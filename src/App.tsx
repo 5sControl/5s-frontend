@@ -22,7 +22,7 @@ import AiChatPage from "./pages/aiChat/AIChat";
 import CategoryPage from "./pages/aiChat/components/categoryPage/categoryPage";
 import { useAppDispatch } from "./store/hooks";
 import { getConnectionsToDB } from "./pages/configuration/connectionSlice";
-import './i18';
+import "./i18";
 import "./index.scss";
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/normalize.css";
@@ -49,6 +49,10 @@ import ConfigurationMobile from "./mobile/pages/configuration/Configuration";
 import { databaseTables } from "./shared/constants/databaseTables";
 import { OrdersView as OrdersViewMobile } from "./mobile/pages/ordersView/ordersView";
 import EditConnection from "./mobile/pages/connections/edit-connection/EditConnection";
+import GeneralDirectories from "./mobile/pages/directories/GeneralDirecrtories";
+import NewDirectory from "./mobile/pages/directories/new-directory/NewDirectory";
+import DirectoryCard from "./mobile/pages/directories/directory/DirectoryCard";
+import EditDirectoryCard from "./mobile/pages/directories/edit-directory/EditDirectoryCard";
 
 setupIonicReact();
 
@@ -58,14 +62,14 @@ function App() {
 
   useEffect(() => {
     isVerifyToken(window.location.hostname, cookies.token)
-      .then((response) => {
+      .then(response => {
         if (Object.keys(response.data).length === 0) {
           // console.log("token is available");
         } else {
           removeCookie("token");
         }
       })
-      .catch((error) => {
+      .catch(error => {
         // console.log(error);
         removeCookie("token");
       });
@@ -107,21 +111,40 @@ function App() {
               <Route path="/ai-chat?" element={<AiChatPage />} />
               <Route path="/ai-chat/base/:category" element={<CategoryPage />} />
 
-              <Route path={ROUTES.MENU}  element={<Menu />} />
-                  <Route path={ROUTES.CONFIGURATION}  element={<ConfigurationMobile />} />
-                  <Route path={ROUTES.CONNECTIONS}  element={<Connections />} />
-                  <Route path={ROUTES.CONNECTIONS_ADD} element={<NewConnection />} />
-                  <Route path={ROUTES.CONNECTIONS_ITEM(":id")} element={<Connection />} />
-                  <Route path={ROUTES.CONNECTIONS_EDIT(":id")} element={<EditConnection />} />
-                  <Route path={ROUTES.DATABASE}  element={<Database />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY("productCategories")}  element={<DatabaseTable table={databaseTables["productCategories"]} />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY("operations")}  element={<DatabaseTable table={databaseTables["operations"]} />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY("employees")}  element={<DatabaseTable table={databaseTables["employees"]} />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY("equipment")}  element={<DatabaseTable table={databaseTables["equipment"]} />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY("products")}  element={<DatabaseTable table={databaseTables["products"]} />} />
-                  <Route path={ROUTES.DATABASE_ADD_ENTRY(":category")} element={<NewDatabaseEntry />} />
-                  <Route path={ROUTES.DATABASE_EDIT_ENTRY(":category", ":entry", ":id")} element={<EditDatabaseEntry />} />
-                  <Route path={ROUTES.ORDERSVIEW} element={<OrdersViewMobile />} />
+              <Route path={ROUTES.MENU} element={<Menu />} />
+              <Route path={ROUTES.CONFIGURATION} element={<ConfigurationMobile />} />
+              <Route path={ROUTES.CONNECTIONS} element={<Connections />} />
+              <Route path={ROUTES.CONNECTIONS_ADD} element={<NewConnection />} />
+              <Route path={ROUTES.CONNECTIONS_ITEM(":id")} element={<Connection />} />
+              <Route path={ROUTES.CONNECTIONS_EDIT(":id")} element={<EditConnection />} />
+              <Route path={ROUTES.DATABASE} element={<Database />} />
+              <Route
+                path={ROUTES.DATABASE_CATEGORY("productCategories")}
+                element={<DatabaseTable table={databaseTables["productCategories"]} />}
+              />
+              <Route
+                path={ROUTES.DATABASE_CATEGORY("operations")}
+                element={<DatabaseTable table={databaseTables["operations"]} />}
+              />
+              <Route
+                path={ROUTES.DATABASE_CATEGORY("employees")}
+                element={<DatabaseTable table={databaseTables["employees"]} />}
+              />
+              <Route
+                path={ROUTES.DATABASE_CATEGORY("equipment")}
+                element={<DatabaseTable table={databaseTables["equipment"]} />}
+              />
+              <Route
+                path={ROUTES.DATABASE_CATEGORY("products")}
+                element={<DatabaseTable table={databaseTables["products"]} />}
+              />
+              <Route path={ROUTES.DATABASE_ADD_ENTRY(":category")} element={<NewDatabaseEntry />} />
+              <Route path={ROUTES.DATABASE_EDIT_ENTRY(":category", ":entry", ":id")} element={<EditDatabaseEntry />} />
+              <Route path={ROUTES.ORDERSVIEW} element={<OrdersViewMobile />} />
+              <Route path={ROUTES.GENEREAL_DIRECTORIES} element={<GeneralDirectories />} />
+              <Route path={ROUTES.DIRECTORIES_ADD} element={<NewDirectory />} />
+              <Route path={ROUTES.DIRECTORIES_ITEM(":id")} element={<DirectoryCard />} />
+              <Route path={ROUTES.DIRECTORIES_EDIT(":id")} element={<EditDirectoryCard />} />
             </Route>
           ) : (
             <Route path="/*" element={<Authorization />} />
