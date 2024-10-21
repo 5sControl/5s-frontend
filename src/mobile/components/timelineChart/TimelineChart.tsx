@@ -4,13 +4,15 @@ import moment from "moment";
 import { TimeInterval } from "../../models/types/timeInterval";
 import { OperationItem } from "../../models/interfaces/operationItem.interface";
 import './TimelineChart.scss';
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../shared/constants/routes";
 
 type TimelineChartProps = {
   startTime: string;
   selectedInterval: TimeInterval;
   showScheduled: boolean;
   data: OperationItem[];
-  selectedOrderId: string
+  selectedOrderId: string;
 };
 
 const TimelineChart: FC<TimelineChartProps> = ({
@@ -22,9 +24,11 @@ const TimelineChart: FC<TimelineChartProps> = ({
   }) => {
   const chartRef = useRef<SVGSVGElement>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const operationHeight = 36;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [chartHeight, setChartHeight] = useState(showScheduled ? ((data.length * 2 + 10) * operationHeight) : ((data.length + 10) * operationHeight));
+  const [operation, setOperation] = useState({});
 
   useEffect(() => {
     const rangeCoeff = 2;
@@ -41,6 +45,11 @@ const TimelineChart: FC<TimelineChartProps> = ({
     const xScale = d3.scaleTime().range([0, width]).domain([initialStartDate, initialEndDate]);
     const formatUnits = selectedInterval.timeFormat.units;
     const formatFrequency = selectedInterval.timeFormat.frequency;
+
+    const clickHandler = ( oprId: number) => {
+      console.log(oprId);
+      navigate('operation-detail/' + oprId.toString());
+    }
 
 
     const drawOperations = () => {
@@ -62,6 +71,10 @@ const TimelineChart: FC<TimelineChartProps> = ({
           .data(op.oprs)
           .enter()
           .append("rect")
+          .on("click", function(event, d) {
+            console.log(event, d);
+            clickHandler(d.id);
+          })
           .attr("x", d => {
             return xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) ? xScale(new Date(initialStartDate)) : xScale(new Date(d.sTime))
           })
@@ -77,7 +90,7 @@ const TimelineChart: FC<TimelineChartProps> = ({
           })
           .attr("fill", "#87BC45")
           .attr('data-or-id', (d) => d.orId)
-          .attr('opacity', (d) => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4));
+          .attr('opacity', (d) => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4))
     })
 
     svg

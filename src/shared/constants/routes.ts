@@ -13,5 +13,6 @@ export const ROUTES = {
     `/mobile/database/${category}/addEntry`,
   DATABASE_EDIT_ENTRY: (category: string, entry: string, id: string) =>
     `/mobile/database/${category}/${entry}/${id}/edit`,
-  ORDERSVIEW: "/mobile/ordersView",
+  ORDERSVIEW: "/mobile/orders-view",
+  OPERATIONDETAIL: (id: string) => `mobile/orders-view/operation-detail/${id}`
 };

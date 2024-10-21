@@ -1,0 +1,10 @@
+.subtitle {
+    color: var(--MediumEmphasis);
+    margin: 10px 0;
+    &_value {
+        font-weight: 500;
+        color: var(--Orange);
+        cursor: pointer;
+    }
+}
+
