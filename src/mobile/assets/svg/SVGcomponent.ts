@@ -47,7 +47,7 @@ export {
   RedirectIcon,
   SearchIcon,
   Settings,
-  TrashBin
+  TrashBin,
   GreenStatus,
   GreyStatus,
   OrangeStatus,
