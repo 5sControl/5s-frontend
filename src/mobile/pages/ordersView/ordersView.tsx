@@ -29,6 +29,7 @@ import {useTranslation} from "react-i18next";
 import { Settings } from "../../assets/svg/SVGcomponent";
 import { SettingsModal } from "../../components/ordersView/settingsModal/SettingsModal";
 import { use } from "i18next";
+import { SearchModal } from "../../components/ordersView/searchModal/SearchModal";
 
 export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
@@ -42,6 +43,7 @@ export const OrdersView: React.FC = () => {
   const [data, setData] = useState<OperationItem[]>([]);
   const [ordersList, setOrdersList] = useState<OrderItem[]>([]);
   const [selectedOrderId, setSelectedOrderId] = useState<string>('');
+  const [openSearchModal, setOpenSearchModal] = useState<boolean>(false);
   const [selectedRange, setSelectedRange] = useState(
     moment()
       .set({ year: 2024, month: 9, date: 3, hour: 10, minute: 0, second: 0 })
@@ -162,7 +164,12 @@ export const OrdersView: React.FC = () => {
 
       <div className="ion-padding ordersPanel">
         <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>{t('text.scheduled')}</IonToggle>
-        <OrdersList orders={ordersList} setSelectedOrderId={selectOrder} selectedOrderId={selectedOrderId} loading={orderListLoading}/>
+        <OrdersList 
+        orders={ordersList} 
+        setSelectedOrderId={selectOrder} 
+        selectedOrderId={selectedOrderId} 
+        loading={orderListLoading}
+        setOpenSearchModal={setOpenSearchModal}/>
       </div>
 
       <IonModal ref={modal} trigger="openDateTimePicker">
@@ -179,6 +186,13 @@ export const OrdersView: React.FC = () => {
       </IonModal>
 
       <SettingsModal isOpen={openSettings} onClose={() => setOpenSettings(false)} onSave={() => setUpdateFilter(true)}/>
+
+      <SearchModal 
+        isOpen={openSearchModal} 
+        onClose={() => setOpenSearchModal(false)} 
+        onSelect={setSelectedOrderId}
+        orders={ordersList}/>
+
     </IonContent>
   );
 };
