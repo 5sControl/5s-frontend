@@ -16,7 +16,7 @@ export const SelectConnection = ({ changeHandler }: Props) => {
   const results = [...(databases?.results || [])].sort((a, b) => a.id - b.id);
 
   const changeActiveConnection = (id: number) => {
-    patchStatusData(id, cookies.token, { is_active: true }).then(() => {
+    patchStatusData(id, cookies.token, { used_in_orders_view: true }).then(() => {
       dispatch(
         getConnectionsToDB({
           token: cookies.token,
@@ -32,7 +32,7 @@ export const SelectConnection = ({ changeHandler }: Props) => {
       {results.map((connection) => (
         <span
           key={connection.id}
-          className={connection.is_active ? styles.select__active : styles.select__noActive}
+          className={connection.used_in_orders_view ? styles.select__active : styles.select__noActive}
           onClick={() => changeActiveConnection(connection.id)}
         >
           {connection.erp_system}
