@@ -27,7 +27,6 @@ export const patchStatusData = (id: number, cookies: string, body: any) => {
 };
 
 export const getConnectionsToDatabases = (
-  hostname: string,
   cookies: string
 ) => {
   return axios.get(constructUrl(GET_CONNECTIONS), axiosConfig(cookies));

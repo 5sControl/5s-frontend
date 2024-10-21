@@ -26,11 +26,16 @@ import { OrdersList } from "../../components/ordersList/OrdersList";
 import { OrderItem } from "../../models/interfaces/orderItem.interface";
 import './styles.scss'
 import {useTranslation} from "react-i18next";
+import { Settings } from "../../assets/svg/SVGcomponent";
+import { SettingsModal } from "../../components/ordersView/settingsModal/SettingsModal";
+import { use } from "i18next";
 
 export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
   const [cookies] = useCookies(["token"]);
   const [showLoading, setShowLoading] = useState(false);
+  const [openSettings, setOpenSettings] = useState(false);
+  const [updateFilter, setUpdateFilter] = useState(false);
   const [selectedInterval, setSelectedInterval] = useState<keyof typeof timeIntervals>("OneDay");
   const [showScheduled, setShowScheduled] = useState<boolean>(false);
   const [data, setData] = useState<OperationItem[]>([]);
@@ -79,7 +84,7 @@ export const OrdersView: React.FC = () => {
     .then((response) => {
       setOrdersList(response.data)})
       .catch((error) => console.log(error));
-  }, [selectedRange, selectedInterval]);
+  }, [selectedRange, selectedInterval, updateFilter]);
 
   const handleToggle = () => {
     setShowScheduled(prev => !prev);
@@ -108,7 +113,10 @@ export const OrdersView: React.FC = () => {
 
   return (
     <IonContent>
-      <Header title={t('text.ordersView')} backButtonHref={ROUTES.MENU} />
+      <Header 
+      title={t('text.ordersView')} 
+      backButtonHref={ROUTES.MENU} 
+      endButton={<img src={Settings} onClick={() => setOpenSettings(true)}/>}/>
       <div className="ion-padding">
         <IonGrid>
           <IonRow className="ion-align-items-center dateTimeControls">
@@ -167,6 +175,8 @@ export const OrdersView: React.FC = () => {
             <span slot="time-label">{t('text.startTime')}</span>
           </IonDatetime>
       </IonModal>
+
+      <SettingsModal isOpen={openSettings} onClose={() => setOpenSettings(false)} onSave={() => setUpdateFilter(true)}/>
     </IonContent>
   );
 };

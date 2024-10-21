@@ -28,7 +28,7 @@ const initialState: ConnectionState = {
 export const getConnectionsToDB = createAsyncThunk(
   "getConnectionsToDB",
   async (data: { token: string; hostname: string }) => {
-    const response = await getConnectionsToDatabases(data.hostname, data.token);
+    const response = await getConnectionsToDatabases(data.token);
     return response.data;
   }
 );
