@@ -12,7 +12,7 @@ import { getAllDirectories } from "../../api/directory/directory";
 import { Preloader } from "../../../components/preloader";
 import { Directory } from "../../models/interfaces/directory.interface";
 
-const GeneralDirectories = () => {
+const Directories = () => {
   const [cookies] = useCookies(["token"]);
   const [items, setItems] = useState<Directory[]>([]);
   const { t } = useTranslation();
@@ -45,8 +45,7 @@ const GeneralDirectories = () => {
 
   return (
     <IonContent>
-      <Header title={t("menu.generalDirectories")} backButtonHref={ROUTES.CONFIGURATION} />
-      <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.DIRECTORIES_ADD)} />
+      <Header title={t("menu.directories")} backButtonHref={ROUTES.CONFIGURATION} />
       {loading ? (
         <div className="preloader">
           <Preloader />
@@ -56,19 +55,32 @@ const GeneralDirectories = () => {
           <IonItem>{t("messages.noDatabases")}</IonItem>
         </IonList>
       ) : (
-        <IonList inset>
-          {items
-            .filter(({ isProtected }) => !isProtected)
-            .map(({ id, name }) => (
-              <MenuListButton
-                key={id}
-                title={name}
-                handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES_ITEM_CARD(String(id)))}
-              />
-            ))}
-        </IonList>
+        <>
+          <IonList inset>
+            {items
+              .filter(({ isProtected }) => isProtected)
+              .map(({ id, name }) => (
+                <MenuListButton
+                  key={id}
+                  title={name}
+                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES_ITEM_CARD(String(id)))}
+                />
+              ))}
+          </IonList>
+          <IonList inset>
+            {items
+              .filter(({ isProtected }) => !isProtected)
+              .map(({ id, name }) => (
+                <MenuListButton
+                  key={id}
+                  title={name}
+                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES_ITEM_CARD(String(id)))}
+                />
+              ))}
+          </IonList>
+        </>
       )}
     </IonContent>
   );
 };
-export default GeneralDirectories;
+export default Directories;

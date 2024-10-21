@@ -31,7 +31,7 @@ const DirectoryCard = () => {
     <Card
       title={t("directory.card")}
       backHref={ROUTES.GENEREAL_DIRECTORIES}
-      editHref={ROUTES.DIRECTORIES_EDIT(String(directory.id))}
+      editHref={ROUTES.DIRECTORIES_EDIT_CARD(String(directory.id))}
       itemTitle={directory.name}
     />
   ) : (

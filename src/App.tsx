@@ -53,6 +53,7 @@ import GeneralDirectories from "./mobile/pages/directories/GeneralDirecrtories";
 import NewDirectory from "./mobile/pages/directories/new-directory/NewDirectory";
 import DirectoryCard from "./mobile/pages/directories/directory/DirectoryCard";
 import EditDirectoryCard from "./mobile/pages/directories/edit-directory/EditDirectoryCard";
+import Directories from "./mobile/pages/directories/Directories";
 
 setupIonicReact();
 
@@ -143,8 +144,9 @@ function App() {
               <Route path={ROUTES.ORDERSVIEW} element={<OrdersViewMobile />} />
               <Route path={ROUTES.GENEREAL_DIRECTORIES} element={<GeneralDirectories />} />
               <Route path={ROUTES.DIRECTORIES_ADD} element={<NewDirectory />} />
-              <Route path={ROUTES.DIRECTORIES_ITEM(":id")} element={<DirectoryCard />} />
-              <Route path={ROUTES.DIRECTORIES_EDIT(":id")} element={<EditDirectoryCard />} />
+              <Route path={ROUTES.DIRECTORIES_ITEM_CARD(":id")} element={<DirectoryCard />} />
+              <Route path={ROUTES.DIRECTORIES_EDIT_CARD(":id")} element={<EditDirectoryCard />} />
+              <Route path={ROUTES.DIRECTORIES} element={<Directories />} />
             </Route>
           ) : (
             <Route path="/*" element={<Authorization />} />

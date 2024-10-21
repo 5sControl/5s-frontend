@@ -16,7 +16,7 @@ export const ROUTES = {
   ORDERSVIEW: "/mobile/ordersView",
   GENEREAL_DIRECTORIES: "/mobile/generel-directories",
   DIRECTORIES_ADD: "/mobile/general-directories/add",
-  DIRECTORIES_ITEM: (card: string) => `/mobile/general-directories/${card}`,
-  DIRECTORIES_EDIT: (card: string) => `/mobile/general-directories/${card}/edit`,
+  DIRECTORIES_ITEM_CARD: (card: string) => `/mobile/general-directories/${card}`,
+  DIRECTORIES_EDIT_CARD: (card: string) => `/mobile/general-directories/${card}/edit`,
   DIRECTORIES: "/mobile/directories"
 };

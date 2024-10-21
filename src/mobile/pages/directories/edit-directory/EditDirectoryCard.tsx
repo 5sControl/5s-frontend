@@ -25,7 +25,7 @@ const EditDirectoryCard = () => {
 
   const handleSave = () => {
     if (directoryName) {
-      updateDirectory(Number(id), directoryName, cookies.token).then(() => navigate(ROUTES.DIRECTORIES_ITEM(id!)));
+      updateDirectory(Number(id), directoryName, cookies.token).then(() => navigate(ROUTES.DIRECTORIES_ITEM_CARD(id!)));
       return;
     }
     console.error("empty input");
@@ -35,7 +35,7 @@ const EditDirectoryCard = () => {
   return (
     <SingleInputPage
       title={t("directory.editCard")}
-      backHref={ROUTES.DIRECTORIES_ITEM(id!)}
+      backHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}
       label={t("newConnection.name")}
       value={directoryName!}
       required
