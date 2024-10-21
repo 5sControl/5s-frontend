@@ -2,10 +2,11 @@ import { IonButton, IonContent, IonIcon, IonLabel, IonModal } from "@ionic/react
 import { Header } from "../../components/header/Header";
 import { EditWhiteIcon, TrashBin } from "../../assets/svg/SVGcomponent";
 import Fab from "../../components/fab/Fab";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteDirectory } from "../../api/directory/directory";
 import { useCookies } from "react-cookie";
+import { Preloader } from "../../../components/preloader";
 
 type CardsProps = {
   title: ReactNode;
@@ -19,20 +20,33 @@ const Card = ({ title, backHref, editHref, itemTitle }: CardsProps) => {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   const modal = useRef<HTMLIonModalElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleFabClick = (path: string) => {
     navigate(path);
   };
 
   const handleDeleteClick = () => {
-    deleteDirectory(Number(id), cookies.token).then(() => navigate(backHref));
+    setLoading(true);
+    deleteDirectory(Number(id), cookies.token)
+      .then(() => navigate(backHref))
+      .catch(error => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleCancelClick = () => {
     modal.current?.dismiss();
   };
 
-  return (
+  return loading ? (
+    <div className="preloader">
+      <Preloader />
+    </div>
+  ) : (
     <IonContent>
       <Header title={title} backButtonHref={backHref} endButton={<IonIcon id="open-modal" icon={TrashBin}></IonIcon>} />
       <div className="card__wrapper">
