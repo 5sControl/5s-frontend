@@ -12,6 +12,11 @@ import { getAllDirectories } from "../../api/directory/directory";
 import { Preloader } from "../../../components/preloader";
 import { Directory } from "../../models/interfaces/directory.interface";
 
+const mockedData = [
+  { id: 1, name: "mocked", isProtected: false },
+  { id: 2, name: "data", isProtected: false },
+];
+
 const GeneralDirectories = () => {
   const [cookies] = useCookies(["token"]);
   const [items, setItems] = useState<Directory[]>([]);
@@ -33,7 +38,6 @@ const GeneralDirectories = () => {
     getAllDirectories(cookies.token)
       .then(response => {
         setItems(response.data);
-        console.log(response.data);
       })
       .catch(error => {
         console.error(error);
@@ -43,15 +47,16 @@ const GeneralDirectories = () => {
       });
   }, [cookies.token]);
 
-  return (
+  return loading ? (
+    <div className="preloader">
+      <Preloader />
+    </div>
+  ) : (
     <IonContent>
-      <Header title={t("menu.generalDirectories")} backButtonHref={ROUTES.CONFIGURATION} />
+      {/* <Header title={t("menu.generalDirectories")} backButtonHref={ROUTES.CONFIGURATION} /> */}
+      <Header title={"Универсальные справочники"} backButtonHref={ROUTES.CONFIGURATION} />
       <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.DIRECTORIES_ADD)} />
-      {loading ? (
-        <div className="preloader">
-          <Preloader />
-        </div>
-      ) : items.length === 0 ? (
+      {items.length === 0 ? (
         <IonList inset={true}>
           <IonItem>{t("messages.noDatabases")}</IonItem>
         </IonList>

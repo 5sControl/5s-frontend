@@ -5,21 +5,26 @@ import SingleInputPage from "../../../ui/signleInputPage/SingleInputPage";
 import { useEffect, useState } from "react";
 import { getDirectory, updateDirectory } from "../../../api/directory/directory";
 import { useCookies } from "react-cookie";
+import { Preloader } from "../../../../components/preloader";
 
 const EditDirectoryCard = () => {
   const [cookies] = useCookies(["token"]);
   const { id } = useParams();
   const [directoryName, setDirectoryName] = useState(id);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     getDirectory(Number(id!), cookies.token)
       .then(response => {
         setDirectoryName(response.data.name);
-        console.log(response.data);
       })
       .catch(error => {
         console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [cookies.token]);
 
@@ -32,7 +37,11 @@ const EditDirectoryCard = () => {
   };
 
   const { t } = useTranslation();
-  return (
+  return loading ? (
+    <div className="preloader">
+      <Preloader />
+    </div>
+  ) : (
     <SingleInputPage
       title={t("directory.editCard")}
       backHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}

@@ -17,13 +17,14 @@ const Configuration = () => {
 
   return (
     <IonContent>
-      <Header title={t("config.title")} backButtonHref={ROUTES.MENU} />
-      <IonList inset={true}>
+      {/* <Header title={t("config.title")} backButtonHref={ROUTES.MENU} /> */}
+      <Header title={"Настройка данных"} backButtonHref={ROUTES.MENU} />
+      {/* <IonList inset={true}>
         <ItemButton label={t("config.erp")} handleItemClick={() => handleItemClick(ROUTES.CONNECTIONS)} />
-      </IonList>
+      </IonList> */}
       <IonList inset={true}>
         <MenuListButton
-          title={t("menu.generalDirectories")}
+          title={"Универсальные справочники"}
           handleItemClick={() => handleItemClick(ROUTES.GENEREAL_DIRECTORIES)}
         />
       </IonList>

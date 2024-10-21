@@ -15,19 +15,27 @@ const DirectoryCard = () => {
   const { id } = useParams();
   const { t } = useTranslation();
   const [directory, setDirectory] = useState<Directory>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     getDirectory(Number(id!), cookies.token)
       .then(response => {
         setDirectory(response.data);
-        console.log(response.data);
       })
       .catch(error => {
         console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [cookies.token]);
 
-  return directory ? (
+  return loading ? (
+    <div className="preloader">
+      <Preloader />
+    </div>
+  ) : directory ? (
     <Card
       title={t("directory.card")}
       backHref={ROUTES.GENEREAL_DIRECTORIES}
