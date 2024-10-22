@@ -1,6 +1,18 @@
 import React, { ReactNode } from "react";
-import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonSearchbar, IonIcon } from "@ionic/react";
+import {
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonBackButton,
+  IonTitle,
+  IonSearchbar,
+  IonIcon,
+  useIonViewWillLeave,
+  IonButton,
+} from "@ionic/react";
 import "./Header.scss";
+import { useNavigate } from "react-router-dom";
+import { Back } from "../../assets/svg/SVGcomponent";
 
 type HeaderProps = {
   title: ReactNode;
@@ -11,12 +23,17 @@ type HeaderProps = {
 };
 
 export const Header: React.FC<HeaderProps> = ({ title, backButtonHref, endButton, searchBar, settings }) => {
+  const navigate = useNavigate();
+
   return (
     <IonHeader className={searchBar ? "" : "ion-no-border"}>
       <IonToolbar>
         {backButtonHref && (
           <IonButtons slot="start" className="header__start">
-            <IonBackButton text="" defaultHref={backButtonHref} color="medium"></IonBackButton>
+            {/* <IonBackButton defaultHref={backButtonHref} text="" color="medium"></IonBackButton> */}
+            <IonButton onClick={() => navigate(backButtonHref)}>
+              <IonIcon style={{ fontSize: "18px" }} icon={Back} />
+            </IonButton>
           </IonButtons>
         )}
         <IonTitle className="header__title">{title}</IonTitle>

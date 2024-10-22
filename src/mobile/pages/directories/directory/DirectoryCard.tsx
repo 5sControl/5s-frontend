@@ -8,7 +8,10 @@ import { getDirectory } from "../../../api/directory/directory";
 import { useCookies } from "react-cookie";
 import { Directory } from "../../../models/interfaces/directory.interface";
 import { Preloader } from "../../../../components/preloader";
-import { IonItem, IonList } from "@ionic/react";
+import { IonContent, IonIcon, IonItem, IonList } from "@ionic/react";
+import { Header } from "../../../components/header/Header";
+import { TrashBin } from "../../../assets/svg/SVGcomponent";
+import { title } from "process";
 
 const DirectoryCard = () => {
   const [cookies] = useCookies(["token"]);
@@ -31,21 +34,25 @@ const DirectoryCard = () => {
       });
   }, [cookies.token]);
 
-  return loading ? (
-    <div className="preloader">
-      <Preloader />
-    </div>
-  ) : directory ? (
-    <Card
-      title={t("directory.card")}
-      backHref={ROUTES.GENEREAL_DIRECTORIES}
-      editHref={ROUTES.DIRECTORIES_EDIT_CARD(String(directory.id))}
-      itemTitle={directory.name}
-    />
-  ) : (
-    <IonList inset={true}>
-      <IonItem>{t("messages.noDatabases")}</IonItem>
-    </IonList>
+  return (
+    <IonContent>
+      <Header
+        title={t("directory.card")}
+        backButtonHref={ROUTES.GENEREAL_DIRECTORIES}
+        endButton={<IonIcon id="open-modal" icon={TrashBin}></IonIcon>}
+      />
+      {directory ? (
+        <Card
+          backHref={ROUTES.GENEREAL_DIRECTORIES}
+          editHref={ROUTES.DIRECTORIES_EDIT_CARD(String(id))}
+          itemTitle={directory.name}
+        />
+      ) : (
+        <div className="preloader">
+          <Preloader />
+        </div>
+      )}
+    </IonContent>
   );
 };
 export default DirectoryCard;

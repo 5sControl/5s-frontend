@@ -6,13 +6,16 @@ import { useEffect, useState } from "react";
 import { getDirectory, updateDirectory } from "../../../api/directory/directory";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../../components/preloader";
+import { IonContent } from "@ionic/react";
+import { Header } from "../../../components/header/Header";
 
 const EditDirectoryCard = () => {
   const [cookies] = useCookies(["token"]);
   const { id } = useParams();
-  const [directoryName, setDirectoryName] = useState(id);
+  const [directoryName, setDirectoryName] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [toastMessage, setToastMessage] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -29,30 +32,45 @@ const EditDirectoryCard = () => {
   }, [cookies.token]);
 
   const handleSave = () => {
-    if (directoryName) {
-      updateDirectory(Number(id), directoryName, cookies.token).then(() => navigate(ROUTES.DIRECTORIES_ITEM_CARD(id!)));
+    if (directoryName.trim()) {
+      setLoading(true);
+      updateDirectory(Number(id), directoryName.trim(), cookies.token)
+        .then(() => navigate(ROUTES.DIRECTORIES_ITEM_CARD(id!)))
+        .catch(error => {
+          console.error(error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+      setToastMessage("Directory Edited");
       return;
     }
+    setToastMessage("Empty Input");
     console.error("empty input");
   };
 
   const { t } = useTranslation();
-  return loading ? (
-    <div className="preloader">
-      <Preloader />
-    </div>
-  ) : (
-    <SingleInputPage
-      title={t("directory.editCard")}
-      backHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}
-      label={t("newConnection.name")}
-      value={directoryName!}
-      required
-      handleChange={e => {
-        setDirectoryName(e.target.value);
-      }}
-      handleSave={handleSave}
-    />
+  return (
+    <IonContent>
+      <Header title={t("directory.editCard")} backButtonHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}></Header>
+      {loading ? (
+        <div className="preloader">
+          <Preloader />
+        </div>
+      ) : (
+        <SingleInputPage
+          backHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}
+          label={t("newConnection.name")}
+          value={directoryName!}
+          toastMessage={toastMessage}
+          required
+          handleChange={e => {
+            setDirectoryName(e.target.value);
+          }}
+          handleSave={handleSave}
+        />
+      )}
+    </IonContent>
   );
 };
 export default EditDirectoryCard;

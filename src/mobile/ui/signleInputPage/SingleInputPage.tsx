@@ -1,14 +1,15 @@
-import { IonButton, IonContent, IonInput, IonLabel } from "@ionic/react";
+import { IonButton, IonContent, IonInput, IonLabel, IonToast } from "@ionic/react";
 import { Header } from "../../components/header/Header";
 import "./SingleInputPage.scss";
 import { ReactNode } from "react";
 
 type SingleInputPageProps = {
-  title: ReactNode;
+  title?: ReactNode;
   backHref?: string;
   label: string;
   value: string;
   required: boolean;
+  toastMessage?: string;
   placeholder?: string;
   handleChange: (e: any) => void;
   handleSave: () => void;
@@ -21,12 +22,13 @@ const SingleInputPage = ({
   value,
   placeholder,
   required,
+  toastMessage,
   handleChange,
   handleSave,
 }: SingleInputPageProps) => {
   return (
-    <IonContent>
-      <Header title={title} backButtonHref={backHref} />
+    <>
+      {title && <Header title={title} backButtonHref={backHref} />}
 
       <div className="input__container">
         <IonLabel position="stacked">{label}</IonLabel>
@@ -39,10 +41,12 @@ const SingleInputPage = ({
         ></IonInput>
       </div>
 
-      <IonButton className="bottom-50" expand="full" onClick={handleSave}>
+      <IonButton className="bottom-50" expand="full" id="open-toast" onClick={handleSave}>
         Save
       </IonButton>
-    </IonContent>
+
+      {/* <IonToast trigger="open-toast" message={toastMessage} duration={3000} /> */}
+    </>
   );
 };
 export default SingleInputPage;

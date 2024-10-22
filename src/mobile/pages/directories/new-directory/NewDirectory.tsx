@@ -6,6 +6,7 @@ import SingleInputPage from "../../../ui/signleInputPage/SingleInputPage";
 import { createDirectory } from "../../../api/directory/directory";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../../components/preloader";
+import { IonContent, IonToast } from "@ionic/react";
 
 const NewDirectory = () => {
   const { t } = useTranslation();
@@ -13,11 +14,12 @@ const NewDirectory = () => {
   const [cookies] = useCookies(["token"]);
   const [directoryName, setDirectoryName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const handleSave = () => {
-    if (directoryName) {
+    if (directoryName.trim()) {
       setLoading(true);
-      createDirectory(directoryName, false, cookies.token)
+      createDirectory(directoryName.trim(), false, cookies.token)
         .then(() => navigate(ROUTES.GENEREAL_DIRECTORIES))
         .catch(error => {
           console.error(error);
@@ -25,27 +27,28 @@ const NewDirectory = () => {
         .finally(() => {
           setLoading(false);
         });
+      setToastMessage("Directory Created");
       return;
     }
+    setToastMessage("Empty Input");
     console.error("empty input");
   };
 
-  return loading ? (
-    <div className="preloader">
-      <Preloader />
-    </div>
-  ) : (
-    <SingleInputPage
-      title={t("directory.newDirectory")}
-      backHref={ROUTES.GENEREAL_DIRECTORIES}
-      label={t("newConnection.name")}
-      value={directoryName}
-      required
-      handleChange={e => {
-        setDirectoryName(e.target.value);
-      }}
-      handleSave={handleSave}
-    />
+  return (
+    <IonContent>
+      <SingleInputPage
+        title={t("directory.newDirectory")}
+        backHref={ROUTES.GENEREAL_DIRECTORIES}
+        label={t("newConnection.name")}
+        value={directoryName}
+        toastMessage={toastMessage}
+        required
+        handleChange={e => {
+          setDirectoryName(e.target.value);
+        }}
+        handleSave={handleSave}
+      />
+    </IonContent>
   );
 };
 export default NewDirectory;
