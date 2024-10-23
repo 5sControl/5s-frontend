@@ -13,24 +13,14 @@ const NewDirectory = () => {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
   const [directoryName, setDirectoryName] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
 
   const handleSave = () => {
     if (directoryName.trim()) {
-      setLoading(true);
       createDirectory(directoryName.trim(), false, cookies.token)
         .then(() => navigate(ROUTES.GENEREAL_DIRECTORIES))
-        .catch(error => {
-          console.error(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-      setToastMessage("Directory Created");
+        .catch(error => console.error(error));
       return;
     }
-    setToastMessage("Empty Input");
     console.error("empty input");
   };
 
@@ -41,7 +31,6 @@ const NewDirectory = () => {
         backHref={ROUTES.GENEREAL_DIRECTORIES}
         label={t("newConnection.name")}
         value={directoryName}
-        toastMessage={toastMessage}
         required
         handleChange={e => {
           setDirectoryName(e.target.value);

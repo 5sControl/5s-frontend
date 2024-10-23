@@ -1,4 +1,4 @@
-import { IonContent, IonFab, IonFabButton, IonIcon, IonItem, IonList } from "@ionic/react";
+import { IonContent, IonItem, IonList } from "@ionic/react";
 import { Header } from "../../components/header/Header";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
@@ -47,31 +47,35 @@ const GeneralDirectories = () => {
       });
   }, [cookies.token]);
 
-  return loading ? (
-    <div className="preloader">
-      <Preloader />
-    </div>
-  ) : (
+  return (
     <IonContent>
       {/* <Header title={t("menu.generalDirectories")} backButtonHref={ROUTES.CONFIGURATION} /> */}
       <Header title={"Универсальные справочники"} backButtonHref={ROUTES.CONFIGURATION} />
-      <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.DIRECTORIES_ADD)} />
-      {items.length === 0 ? (
-        <IonList inset={true}>
-          <IonItem>{t("messages.noDatabases")}</IonItem>
-        </IonList>
+      {loading ? (
+        <div className="preloader">
+          <Preloader />
+        </div>
       ) : (
-        <IonList inset>
-          {items
-            .filter(({ isProtected }) => !isProtected)
-            .map(({ id, name }) => (
-              <MenuListButton
-                key={id}
-                title={name}
-                handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES_ITEM_CARD(String(id)))}
-              />
-            ))}
-        </IonList>
+        <>
+          <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.DIRECTORIES_ADD)} />
+          {items.length === 0 ? (
+            <IonList inset={true}>
+              <IonItem>{t("messages.noDatabases")}</IonItem>
+            </IonList>
+          ) : (
+            <IonList inset>
+              {items
+                .filter(({ isProtected }) => !isProtected)
+                .map(({ id, name }) => (
+                  <MenuListButton
+                    key={id}
+                    title={name}
+                    handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES_ITEM_CARD(String(id)))}
+                  />
+                ))}
+            </IonList>
+          )}
+        </>
       )}
     </IonContent>
   );

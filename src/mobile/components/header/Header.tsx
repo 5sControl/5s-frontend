@@ -22,12 +22,15 @@ interface ICustomBack {
 
 export const Header: React.FC<HeaderProps> = ({ title, backButtonHref, endButton, searchBar, searchText, onSearchChange, settings }) => {
     const navigate = useNavigate();
+    const handleBackButton = (backTo: string) => {
+      navigate(backTo);
+    };
     return (
         <IonHeader className={searchBar ? "" : "ion-no-border"}>
             <IonToolbar>
                 {backButtonHref &&
                     <IonButtons slot="start" className="header__start">
-                        <IonButton onClick={() => navigate(backButtonHref)}>
+                        <IonButton onClick={() => handleBackButton(backButtonHref) }>
                             <IonIcon style={{ fontSize: "18px" }} icon={Back} />
                         </IonButton>                    
 

@@ -1,9 +1,7 @@
-import { IonContent, IonFab, IonFabButton, IonIcon, IonItem, IonList } from "@ionic/react";
+import { IonContent, IonItem, IonList } from "@ionic/react";
 import { Header } from "../../components/header/Header";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
-import { Plus } from "../../assets/svg/SVGcomponent";
-import Fab from "../../components/fab/Fab";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
@@ -19,10 +17,6 @@ const Directories = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
-
-  const handleFabClick = (path: string) => {
-    navigate(path);
-  };
 
   const handleItemClick = (path: string) => {
     navigate(path);
@@ -45,7 +39,7 @@ const Directories = () => {
 
   return (
     <IonContent>
-      <Header title={t("menu.directories")} backButtonHref={ROUTES.CONFIGURATION} />
+      <Header title={t("menu.directories")} backButtonHref={ROUTES.MENU} />
       {loading ? (
         <div className="preloader">
           <Preloader />
@@ -63,7 +57,7 @@ const Directories = () => {
                 <MenuListButton
                   key={id}
                   title={name}
-                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES_ITEM_CARD(String(id)))}
+                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORY_CATEGORY(String(id)))}
                 />
               ))}
           </IonList>
@@ -74,7 +68,7 @@ const Directories = () => {
                 <MenuListButton
                   key={id}
                   title={name}
-                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES_ITEM_CARD(String(id)))}
+                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORY_CATEGORY(String(id)))}
                 />
               ))}
           </IonList>
