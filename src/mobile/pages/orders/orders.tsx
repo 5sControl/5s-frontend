@@ -11,7 +11,7 @@ import {ORDER_REQUEST} from "../../dispatcher";
 export const OrdersPage: React.FC = () => {
     const [orders, setOrders] = useState<IOrders[]>([])
     const [searchText, setSearchText] = useState<string>('');
-    const [isLoading, setLoading] = useState<boolean>(true)
+    const [isLoading, setLoading] = useState<boolean>(false)
     const [filteredItems, setFilteredItems] = useState<IOrders[]>([]);
     const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -30,8 +30,9 @@ export const OrdersPage: React.FC = () => {
     useEffect(() => {
         ORDER_REQUEST.getOrders(setOrders, setLoading, setToastMessage)
     }, []);
+   
 
-    const items = filteredItems.map(item => <ItemList key={item.id} label={`${item.name}`} to={`./mobile/order/${item.id}`}/>)
+    const items = filteredItems.map(item => <ItemList key={item.id} label={`${item.name}`} to={`../mobile/order/${item.id}`}/>)
     return (
         <IonContent color="light">
             {
