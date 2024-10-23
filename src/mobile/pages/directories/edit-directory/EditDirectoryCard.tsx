@@ -45,7 +45,7 @@ const EditDirectoryCard = () => {
   const { t } = useTranslation();
   return (
     <IonContent>
-      <Header title={t("directory.editCard")} backButtonHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)} isEdit></Header>
+      <Header title={t("directory.editCard")} backButtonHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}></Header>
       {loading ? (
         <div className="preloader">
           <Preloader />
