@@ -20,10 +20,15 @@ type HeaderProps = {
   endButton?: ReactNode;
   searchBar?: boolean;
   settings?: string;
+  isEdit?: boolean;
 };
 
-export const Header: React.FC<HeaderProps> = ({ title, backButtonHref, endButton, searchBar, settings }) => {
+export const Header: React.FC<HeaderProps> = ({ title, backButtonHref, endButton, searchBar, settings, isEdit }) => {
   const navigate = useNavigate();
+
+  const handleBackButton = (backTo: string) => {
+    navigate(backTo);
+  };
 
   return (
     <IonHeader className={searchBar ? "" : "ion-no-border"}>
@@ -31,7 +36,7 @@ export const Header: React.FC<HeaderProps> = ({ title, backButtonHref, endButton
         {backButtonHref && (
           <IonButtons slot="start" className="header__start">
             {/* <IonBackButton defaultHref={backButtonHref} text="" color="medium"></IonBackButton> */}
-            <IonButton onClick={() => navigate(backButtonHref)}>
+            <IonButton onClick={() => handleBackButton(backButtonHref)}>
               <IonIcon style={{ fontSize: "18px" }} icon={Back} />
             </IonButton>
           </IonButtons>

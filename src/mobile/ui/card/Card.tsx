@@ -13,9 +13,10 @@ type CardsProps = {
   backHref: string;
   editHref: string;
   itemTitle: string;
+  deleteCard: (id: number, token: string) => Promise<void>;
 };
 
-const Card = ({ title, backHref, editHref, itemTitle }: CardsProps) => {
+const Card = ({ title, backHref, editHref, itemTitle, deleteCard }: CardsProps) => {
   const { id } = useParams();
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const Card = ({ title, backHref, editHref, itemTitle }: CardsProps) => {
 
   const handleDeleteClick = () => {
     setLoading(true);
-    deleteDirectory(Number(id), cookies.token)
+    deleteCard(Number(id), cookies.token)
       .then(() => navigate(backHref))
       .catch(error => {
         console.error(error);
@@ -56,7 +57,7 @@ const Card = ({ title, backHref, editHref, itemTitle }: CardsProps) => {
       ></Fab>
       <IonModal ref={modal} trigger="open-modal" initialBreakpoint={1} breakpoints={[0, 1]}>
         <div className="modal__block">
-          <h1 className="modal__title">{`Delete "${itemTitle}"`}</h1>
+          <h1 className="modal__title">{`Delete "${itemTitle}" ?`}</h1>
           <IonButton size="small" className="modal__button modal__button-red" onClick={handleDeleteClick}>
             Delete
           </IonButton>
