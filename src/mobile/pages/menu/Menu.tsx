@@ -52,6 +52,7 @@ export const Menu: React.FC = () => {
       <IonList inset={true}>
         <ItemButton label={t('menu.ordersView')} icon={Settings} handleItemClick={() => handleItemClick(ROUTES.ORDERSVIEW)} />
         <ItemButton label={t('menu.configuration')} icon={Orders} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
+        <ItemButton label={'Orders'}  handleItemClick={() => handleItemClick(ROUTES.ORDERS)} />
         <IonSelect
             value={language}
             placeholder={t('language')}

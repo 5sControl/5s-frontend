@@ -49,6 +49,16 @@ import ConfigurationMobile from "./mobile/pages/configuration/Configuration";
 import { databaseTables } from "./shared/constants/databaseTables";
 import { OrdersView as OrdersViewMobile } from "./mobile/pages/ordersView/ordersView";
 import EditConnection from "./mobile/pages/connections/edit-connection/EditConnection";
+import NewOperation from "./mobile/pages/operation/newOperation";
+import {Guides} from "./mobile/pages/guide/guide";
+import {OrdersPage} from "./mobile/pages/orders/orders";
+import AddOrder from "./mobile/pages/order/addOrder/addOrder";
+import AddOrderOperation from "./mobile/pages/order/addOrderOperation/addOrderOperation";
+import Order from "./mobile/pages/order/order";
+import EditOrder from "./mobile/pages/order/editOrder/editOrder";
+import OrderOperations from "./mobile/pages/order/orderOperations/orderOperations";
+import NewTimespan from "./mobile/pages/timespan/newTimespan/newTimespan";
+import EditTimespan from "./mobile/pages/timespan/editTimespan/editTimespan";
 
 setupIonicReact();
 
@@ -111,6 +121,8 @@ function App() {
                   <Route path={ROUTES.CONFIGURATION}  element={<ConfigurationMobile />} />
                   <Route path={ROUTES.CONNECTIONS}  element={<Connections />} />
                   <Route path={ROUTES.CONNECTIONS_ADD} element={<NewConnection />} />
+                  <Route path={ROUTES.OPERATION_NEW} element={<NewOperation />} />
+                  <Route path={ROUTES.GUIDES} element={<Guides />} />
                   <Route path={ROUTES.CONNECTIONS_ITEM(":id")} element={<Connection />} />
                   <Route path={ROUTES.CONNECTIONS_EDIT(":id")} element={<EditConnection />} />
                   <Route path={ROUTES.DATABASE}  element={<Database />} />
@@ -122,6 +134,15 @@ function App() {
                   <Route path={ROUTES.DATABASE_ADD_ENTRY(":category")} element={<NewDatabaseEntry />} />
                   <Route path={ROUTES.DATABASE_EDIT_ENTRY(":category", ":entry", ":id")} element={<EditDatabaseEntry />} />
                   <Route path={ROUTES.ORDERSVIEW} element={<OrdersViewMobile />} />
+
+                <Route path={'/mobile/orders'} element={<OrdersPage />} />
+                <Route path={'/mobile/order/'} element={<AddOrder />} />
+                <Route path={'/mobile/order/operations'} element={<AddOrderOperation />} />
+                <Route path={'/mobile/order/:id'} element={<Order />} />
+                <Route path={'/mobile/order/:id/edit'} element={<EditOrder />} />
+                <Route path={'/mobile/order/:id/operation/:operationId'} element={<OrderOperations />} />
+                <Route path={'/mobile/order/:id/operation/:operationId/timespan'} element={<NewTimespan />} />
+                <Route path={'/mobile/order/:id/operation/:operationId/timespan/:timespanId/edit'} element={<EditTimespan />} />
             </Route>
           ) : (
             <Route path="/*" element={<Authorization />} />

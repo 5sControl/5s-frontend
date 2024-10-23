@@ -1,5 +1,8 @@
 export const ROUTES = {
   MENU: "/mobile/",
+  ORDERS: "/mobile/orders",
+  GUIDES: "/mobile/guides",
+  GUIDES_ADD: "mobile/guides/new",
   AUTHORIZATION: "/authorization",
   CONFIGURATION: "/mobile/configuration",
   CONNECTIONS: "/mobile/configuration/connections",
@@ -14,4 +17,5 @@ export const ROUTES = {
   DATABASE_EDIT_ENTRY: (category: string, entry: string, id: string) =>
     `/mobile/database/${category}/${entry}/${id}/edit`,
   ORDERSVIEW: "/mobile/ordersView",
+  OPERATION_NEW: "/mobile/newoperation"
 };
