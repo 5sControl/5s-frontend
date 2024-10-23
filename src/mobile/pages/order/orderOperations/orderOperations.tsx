@@ -21,6 +21,9 @@ import ItemList from "../../../components/itemList/itemList";
 import {formatDate} from "../../../utils/parseInputDate";
 import {ORDER_REQUEST} from "../../../dispatcher";
 import {add} from "ionicons/icons";
+import {formatTime} from './../../../utils/parseInputDate'
+
+
 
 
 
@@ -39,7 +42,10 @@ const OrderOperations = () => {
     }, []);
 
     const deleteIcon = <IonIcon icon={trashOutline} className={style.deleteIcon} onClick={onDeleteHandle}/>
-    const timespanItems = operation?.timespans?.map(timespan => <IonItem routerLink={`/mobile/order/${id}/operation/${operationId}/timespan/${timespan.id}/edit`}
+    const timespanItems = operation?.timespans?.map(timespan => {
+        const {hours,minutes} = formatTime(timespan.duration)
+        const timestring = `${hours ? hours + ' ч' : '' } ${minutes ? minutes + ' мин' : '' }` 
+    return <ItemList to={`/mobile/order/${id}/operation/${operationId}/timespan/${timespan.id}/edit`}
         key={timespan.id}>
         <IonGrid>
             <IonRow>
@@ -50,11 +56,11 @@ const OrderOperations = () => {
                     <IonLabel>{timespan.employeeName}</IonLabel>
                 </IonCol>
                 <IonCol className={style.itemLabel}>
-                    <IonLabel>{timespan.duration}</IonLabel>
+                    <IonLabel>{timestring}</IonLabel>
                 </IonCol>
             </IonRow>
         </IonGrid>
-    </IonItem>)
+    </ItemList>})
     if(!Object.values(operation)){
         return <IonLoading isOpen={true} message="Loading..."/>
     }
