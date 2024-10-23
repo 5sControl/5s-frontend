@@ -177,7 +177,6 @@ export const OrdersView: React.FC = () => {
             id="datetime-picker"
             presentation="date-time"
             value={selectedRange}
-            placeholder={t('text.datePlaceholder')}
             onIonChange={handleDateTimeChange}
             className="dateTimePickerWrapper"
           >
