@@ -51,7 +51,6 @@ const TimelineChart: FC<TimelineChartProps> = ({
       navigate('operation-detail/' + oprId.toString());
     }
 
-
     const drawOperations = () => {
       svg
       .selectAll(".greyRect")
@@ -282,7 +281,7 @@ const TimelineChart: FC<TimelineChartProps> = ({
     chartContainerRef.current.style.overflowX = width > windowWidth ? 'scroll' : 'hidden';
     chartContainerRef.current.style.width = `${windowWidth}px`;
   }
-}, [selectedInterval, startTime, showScheduled, selectedOrderId, windowWidth]);
+}, [selectedInterval, startTime, showScheduled, selectedOrderId, data, windowWidth]);
 
   return (
     <div className="ion-padding chartContainer">

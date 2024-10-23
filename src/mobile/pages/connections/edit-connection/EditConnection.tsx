@@ -19,7 +19,7 @@ const EditConnection: React.FC = () => {
   const {t} = useTranslation();
 
   useEffect(() => {
-    getConnectionsToDatabases("", cookies.token)
+    getConnectionsToDatabases(cookies.token)
       .then(response => {
         const connection = response.data.find((connection: ConnectionItem) => connection.id === parseInt(id));
         setCurrentConnection(connection);

@@ -9,12 +9,15 @@ import { getOrderViewOperation } from "../../../api/ordersView"
 import moment from "moment"
 import { GreenStatus, GreyStatus } from "../../../assets/svg/SVGcomponent"
 import './operationDetail.scss'
+import { Preloader } from "../../../../components/preloader"
+import '../../../styles/common.scss'
 
 export const OperationDetail = () => {
     const [cookies] = useCookies(["token"]);
     const { id } = useParams() as { id: string };
     const [detail, setDetail] = useState<OperationDetailItem>({} as OperationDetailItem);
     const [duration, setDuration] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getOrderViewOperation(cookies.token, parseInt(id))
@@ -29,13 +32,21 @@ export const OperationDetail = () => {
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }, [])
 
     return (
         <IonContent>
             <Header title='' backButtonHref={ROUTES.ORDERSVIEW}/>
-            <div className="ion-padding">
+            { 
+            loading 
+            ? <div className="preloader">
+                <Preloader />
+              </div> 
+            : <div className="ion-padding">
                 <h5 className="title">{detail.oprName}</h5>
                 <div className="subtitle">
                     <span>Time: </span>
@@ -50,6 +61,7 @@ export const OperationDetail = () => {
                     <img src={detail.status === null ? GreyStatus : GreenStatus} />
                 </div>
             </div>
+            }
         </IonContent>
     )
 }

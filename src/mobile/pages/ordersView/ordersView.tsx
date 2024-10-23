@@ -26,16 +26,24 @@ import { OrdersList } from "../../components/ordersList/OrdersList";
 import { OrderItem } from "../../models/interfaces/orderItem.interface";
 import './styles.scss'
 import {useTranslation} from "react-i18next";
+import { Settings } from "../../assets/svg/SVGcomponent";
+import { SettingsModal } from "../../components/ordersView/settingsModal/SettingsModal";
+import { use } from "i18next";
+import { SearchModal } from "../../components/ordersView/searchModal/SearchModal";
 
 export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
   const [cookies] = useCookies(["token"]);
   const [showLoading, setShowLoading] = useState(false);
+  const [orderListLoading, setOrderListLoading] = useState(true);
+  const [openSettings, setOpenSettings] = useState(false);
+  const [updateFilter, setUpdateFilter] = useState(false);
   const [selectedInterval, setSelectedInterval] = useState<keyof typeof timeIntervals>("OneDay");
   const [showScheduled, setShowScheduled] = useState<boolean>(false);
   const [data, setData] = useState<OperationItem[]>([]);
   const [ordersList, setOrdersList] = useState<OrderItem[]>([]);
   const [selectedOrderId, setSelectedOrderId] = useState<string>('');
+  const [openSearchModal, setOpenSearchModal] = useState<boolean>(false);
   const [selectedRange, setSelectedRange] = useState(
     moment()
       .set({ year: 2024, month: 9, date: 3, hour: 10, minute: 0, second: 0 })
@@ -78,8 +86,9 @@ export const OrdersView: React.FC = () => {
     getOrderViewOrderList('', currentDay, endDay)
     .then((response) => {
       setOrdersList(response.data)})
-      .catch((error) => console.log(error));
-  }, [selectedRange, selectedInterval]);
+    .catch((error) => console.log(error))
+    .finally(() => setOrderListLoading(false));
+  }, [selectedRange, selectedInterval, updateFilter]);
 
   const handleToggle = () => {
     setShowScheduled(prev => !prev);
@@ -108,7 +117,10 @@ export const OrdersView: React.FC = () => {
 
   return (
     <IonContent>
-      <Header title={t('text.ordersView')} backButtonHref={ROUTES.MENU} />
+      <Header 
+      title={t('text.ordersView')} 
+      backButtonHref={ROUTES.MENU} 
+      endButton={<img src={Settings} onClick={() => setOpenSettings(true)}/>}/>
       <div className="ion-padding">
         <IonGrid>
           <IonRow className="ion-align-items-center dateTimeControls">
@@ -152,7 +164,12 @@ export const OrdersView: React.FC = () => {
 
       <div className="ion-padding ordersPanel">
         <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>{t('text.scheduled')}</IonToggle>
-        <OrdersList orders={ordersList} setSelectedOrderId={selectOrder} selectedOrderId={selectedOrderId}/>
+        <OrdersList 
+        orders={ordersList} 
+        setSelectedOrderId={selectOrder} 
+        selectedOrderId={selectedOrderId} 
+        loading={orderListLoading}
+        setOpenSearchModal={setOpenSearchModal}/>
       </div>
 
       <IonModal ref={modal} trigger="openDateTimePicker">
@@ -167,6 +184,15 @@ export const OrdersView: React.FC = () => {
             <span slot="time-label">{t('text.startTime')}</span>
           </IonDatetime>
       </IonModal>
+
+      <SettingsModal isOpen={openSettings} onClose={() => setOpenSettings(false)} onSave={() => setUpdateFilter(true)}/>
+
+      <SearchModal 
+        isOpen={openSearchModal} 
+        onClose={() => setOpenSearchModal(false)} 
+        onSelect={setSelectedOrderId}
+        orders={ordersList}/>
+
     </IonContent>
   );
 };
