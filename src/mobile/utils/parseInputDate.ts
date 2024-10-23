@@ -1,49 +1,37 @@
+import { start } from "repl";
+import { timeIntervals } from "../constants/timeIntervals";
+
 export const parseInputDate = (
-  dateString: string,
-  timeMode: string,
-  selectedInterval: string
+  startDateString: string,
+  intervalMilliseconds: number
 ): string => {
   const months: string[] = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];
-  let date: Date;
-  let interval = 1;
 
-  if (dateString) {
-    date = new Date(dateString);
-  } else {
-    date = new Date();
+  const startDate = new Date(startDateString);
+
+  const startMonth: string = months[startDate.getMonth()];
+  const startDay: number = startDate.getDate();
+  const startHours: string = startDate.getHours().toString().padStart(2, "0");
+  const startMinutes: string = startDate.getMinutes().toString().padStart(2, "0");
+
+  const endMilliseconds = startDate.getTime() + intervalMilliseconds;
+  const endDate = new Date(endMilliseconds);
+  const endMonth: string = months[endDate.getMonth()];
+  const endDay: number = endDate.getDate();
+  const endHours: string = endDate.getHours().toString().padStart(2, "0");
+  const endMinutes: string = endDate.getMinutes().toString().padStart(2, "0");
+
+
+  if (endDate.getDate() !== startDate.getDate()) {
+    return `${startMonth} ${startDay} - ${endMonth} ${endDay}`
   }
 
-  const month: string = months[date.getMonth()];
-  const day: number = date.getDate();
-  const startHours: string = date.getHours().toString().padStart(2, "0");
-  const startMinutes: string = date.getMinutes().toString().padStart(2, "0");
-  if (timeMode === "hourMode") {
-    interval = parseInt(selectedInterval.slice(0, -1));
-  }
-  const endHours: string = (date.getHours() + interval)
-    .toString()
-    .padStart(2, "0");
-  const endMinutes: string = date.getMinutes().toString().padStart(2, "0");
 
-  if (
-    parseInt(endHours) > 24 ||
-    (parseInt(endHours) === 24 && parseInt(endMinutes) > 0)
-  ) {
-    return "Select correct time";
-  }
+  return `${startMonth} ${startDay} | ${startHours}:${startMinutes} - ${endHours}:${endMinutes}`;
+};
 
   return `${month} ${day} | ${startHours}:${startMinutes} - ${endHours}:${endMinutes}`;
 };
@@ -130,8 +118,3 @@ export const  mergeDateAndTime = (dateStr1: string, dateStr2: string) =>  {
   const mergedDateTime = `${datePart1}T${timePart2}`;
   return mergedDateTime;
 }
-
-
-
-
-

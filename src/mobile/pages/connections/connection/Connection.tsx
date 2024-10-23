@@ -32,7 +32,7 @@ const Connection: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    getConnectionsToDatabases("", cookies.token)
+    getConnectionsToDatabases(cookies.token)
       .then(response => {
         response.data.forEach((connection: ConnectionItem) => {
           connection.read_only = connection.erp_system !== "5s_control";

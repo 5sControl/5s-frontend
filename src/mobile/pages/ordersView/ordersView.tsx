@@ -15,36 +15,38 @@ import {
 } from "@ionic/react";
 import { ROUTES } from "../../../shared/constants/routes";
 import { timeIntervals } from "../../constants/timeIntervals";
-import { HourMode, MinuteMode } from "../../assets/svg/SVGcomponent";
 import { parseInputDate } from "../../utils/parseInputDate";
-import { TimeMode } from "../../models/enums/timeMode.enum";
 import { Header } from "../../components/header/Header";
 import TimelineChart from "../../components/timelineChart/TimelineChart";
 import moment from "moment";
-import { TimeInterval } from "../../models/types/timeInterval";
 import { getOrderViewOperations, getOrderViewOrderList } from "../../api/ordersView";
 import { useCookies } from "react-cookie";
 import { OperationItem } from "../../models/interfaces/operationItem.interface";
 import { OrdersList } from "../../components/ordersList/OrdersList";
 import { OrderItem } from "../../models/interfaces/orderItem.interface";
-import { MinuteScaling } from "../../models/types/minuteScaling";
 import './styles.scss'
 import {useTranslation} from "react-i18next";
+import { Settings } from "../../assets/svg/SVGcomponent";
+import { SettingsModal } from "../../components/ordersView/settingsModal/SettingsModal";
+import { use } from "i18next";
+import { SearchModal } from "../../components/ordersView/searchModal/SearchModal";
 
 export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
   const [cookies] = useCookies(["token"]);
   const [showLoading, setShowLoading] = useState(false);
-  const [timeMode, setTimeMode] = useState<TimeMode>(TimeMode.minute);
-  const [selectedInterval, setSelectedInterval] = useState<string>("6min");
-  const [hourInterval, setHourInterval] = useState<TimeInterval>("4h");
-  const [minuteScaling, setMinuteScaling] = useState<MinuteScaling>("6min");
+  const [orderListLoading, setOrderListLoading] = useState(true);
+  const [openSettings, setOpenSettings] = useState(false);
+  const [updateFilter, setUpdateFilter] = useState(false);
+  const [selectedInterval, setSelectedInterval] = useState<keyof typeof timeIntervals>("OneDay");
   const [showScheduled, setShowScheduled] = useState<boolean>(false);
   const [data, setData] = useState<OperationItem[]>([]);
   const [ordersList, setOrdersList] = useState<OrderItem[]>([]);
+  const [selectedOrderId, setSelectedOrderId] = useState<string>('');
+  const [openSearchModal, setOpenSearchModal] = useState<boolean>(false);
   const [selectedRange, setSelectedRange] = useState(
     moment()
-      .set({ year: 2024, month: 9, date: 8, hour: 14, minute: 55, second: 0 })
+      .set({ year: 2024, month: 9, date: 3, hour: 10, minute: 0, second: 0 })
       .format("YYYY-MM-DDTHH:mm:ss")
   );
 
@@ -53,13 +55,9 @@ export const OrdersView: React.FC = () => {
   );
   const {t} = useTranslation();
 
-  const getMillisecondsForInterval = (interval: string): number => {
-    const hours = parseInt(interval.slice(0, -1));
-    return hours * 3600 * 1000;
-  };
-
   useEffect(() => {
     const currentDay = selectedRange.split('T')[0];
+    const endDay = moment(selectedRange).add(7,'days').format("YYYY-MM-DD")
     const prevDay = prevRange.split('T')[0];
     if (selectedRange && currentDay !== prevDay) {
       const fetchData = async () => {
@@ -68,19 +66,12 @@ export const OrdersView: React.FC = () => {
           const response = await getOrderViewOperations(
             cookies.token,
             currentDay,
-            currentDay
+            endDay
           );
           const operations: OperationItem[] = response.data;
 
-          operations.forEach((item: OperationItem) => {
-            const newOprs = item.oprs.filter(opr => {
-              const startTime = moment(opr.sTime);
-              const selectedStartTime = moment(selectedRange);
-              return startTime.isSameOrAfter(selectedStartTime) && startTime.isBefore(selectedStartTime.add(getMillisecondsForInterval(selectedInterval), 'milliseconds'));
-            });
-            item.oprs = newOprs;
-          });
           setData(operations);
+
           setPrevRange(selectedRange);
         } catch (error) {
           console.log(error);
@@ -92,52 +83,51 @@ export const OrdersView: React.FC = () => {
       fetchData();
     }
 
-    getOrderViewOrderList('', currentDay, currentDay)
+    getOrderViewOrderList('', currentDay, endDay)
     .then((response) => {
       setOrdersList(response.data)})
-      .catch((error) => console.log(error));
-  }, [selectedRange, selectedInterval]);
+    .catch((error) => console.log(error))
+    .finally(() => setOrderListLoading(false));
+  }, [selectedRange, selectedInterval, updateFilter]);
 
   const handleToggle = () => {
     setShowScheduled(prev => !prev);
 };
-
-  const handleTimeModeChange = (value: TimeMode) => {
-    setTimeMode(value);
-    setSelectedInterval(timeIntervals[value][0].value);
-  };
 
   const handleDateTimeChange = (e: CustomEvent<any>) => {
     const selectedDateTime = e.detail.value;
     setSelectedRange(selectedDateTime);
   };
 
+  const selectOrder = (orId: string) => {
+    if (orId === selectedOrderId){
+      setSelectedOrderId('')
+    }
+    else{
+      setSelectedOrderId(orId);
+      setTimeout(() => {
+        const timeline = document.querySelector('.chartWrapper');
+        const barElement = timeline?.querySelector(`[data-or-id='${orId}']`);
+        if (barElement) {
+          barElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
+    }
+  }
+
   return (
     <IonContent>
-      <Header title={t('text.ordersView')} backButtonHref={ROUTES.MENU} />
+      <Header 
+      title={t('text.ordersView')} 
+      backButtonHref={ROUTES.MENU} 
+      endButton={<img src={Settings} onClick={() => setOpenSettings(true)}/>}/>
       <div className="ion-padding">
         <IonGrid>
           <IonRow className="ion-align-items-center dateTimeControls">
             <IonCol id="openDateTimePicker">
               <IonListHeader>
-                {parseInputDate(selectedRange, timeMode, selectedInterval)}
+                {parseInputDate(selectedRange, timeIntervals[selectedInterval].milliseconds)}
               </IonListHeader>
-            </IonCol>
-            <IonCol size="auto">
-              <IonSegment
-                className="timeMode"
-                value={timeMode}
-                onIonChange={(e) =>
-                  handleTimeModeChange(e.detail.value as TimeMode)
-                }
-              >
-                <IonSegmentButton value="hourMode">
-                  <img src={HourMode} alt="hour mode" />
-                </IonSegmentButton>
-                <IonSegmentButton value="minuteMode">
-                  <img src={MinuteMode} alt="minute mode" />
-                </IonSegmentButton>
-              </IonSegment>
             </IonCol>
           </IonRow>
         </IonGrid>
@@ -147,20 +137,14 @@ export const OrdersView: React.FC = () => {
             scrollable={false}
             onIonChange={(e) => {
               const value = e.detail.value;
-              setSelectedInterval(value?.toString() || "");
-              if (timeMode === TimeMode.hour) {
-                setHourInterval(value as TimeInterval);
-              }
-              if (timeMode === TimeMode.minute) {
-                setMinuteScaling(value as MinuteScaling)
-              }
+              setSelectedInterval(value as keyof typeof timeIntervals);
             }}
           >
-            {timeIntervals[timeMode].map((interval) => (
-              <IonSegmentButton key={interval.value} value={interval.value}>
-                <IonLabel>{interval.value}</IonLabel>
-              </IonSegmentButton>
-            ))}
+          {Object.entries(timeIntervals).map(([key, interval]) => (
+            <IonSegmentButton key={interval.milliseconds} value={key}>
+              <IonLabel>{interval.label}</IonLabel>
+            </IonSegmentButton>
+          ))}
           </IonSegment>
         </div>
       </div>
@@ -172,17 +156,20 @@ export const OrdersView: React.FC = () => {
 
       <TimelineChart
         startTime={selectedRange}
-        selectedInterval={hourInterval}
-        minuteScaling={minuteScaling}
+        selectedInterval={timeIntervals[selectedInterval]}
         showScheduled={showScheduled}
-        timeMode={timeMode}
         data={data}
+        selectedOrderId={selectedOrderId}
       />
 
       <div className="ion-padding ordersPanel">
         <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>{t('text.scheduled')}</IonToggle>
-        <OrdersList orders={ordersList}/>
-
+        <OrdersList 
+        orders={ordersList} 
+        setSelectedOrderId={selectOrder} 
+        selectedOrderId={selectedOrderId} 
+        loading={orderListLoading}
+        setOpenSearchModal={setOpenSearchModal}/>
       </div>
 
       <IonModal ref={modal} trigger="openDateTimePicker">
@@ -190,13 +177,21 @@ export const OrdersView: React.FC = () => {
             id="datetime-picker"
             presentation="date-time"
             value={selectedRange}
-            placeholder={t('text.datePlaceholder')}
             onIonChange={handleDateTimeChange}
             className="dateTimePickerWrapper"
           >
             <span slot="time-label">{t('text.startTime')}</span>
           </IonDatetime>
       </IonModal>
+
+      <SettingsModal isOpen={openSettings} onClose={() => setOpenSettings(false)} onSave={() => setUpdateFilter(true)}/>
+
+      <SearchModal 
+        isOpen={openSearchModal} 
+        onClose={() => setOpenSearchModal(false)} 
+        onSelect={setSelectedOrderId}
+        orders={ordersList}/>
+
     </IonContent>
   );
 };

@@ -22,7 +22,7 @@ import AiChatPage from "./pages/aiChat/AIChat";
 import CategoryPage from "./pages/aiChat/components/categoryPage/categoryPage";
 import { useAppDispatch } from "./store/hooks";
 import { getConnectionsToDB } from "./pages/configuration/connectionSlice";
-import './i18';
+import "./i18";
 import "./index.scss";
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/normalize.css";
@@ -49,8 +49,13 @@ import ConfigurationMobile from "./mobile/pages/configuration/Configuration";
 import { databaseTables } from "./shared/constants/databaseTables";
 import { OrdersView as OrdersViewMobile } from "./mobile/pages/ordersView/ordersView";
 import EditConnection from "./mobile/pages/connections/edit-connection/EditConnection";
-import NewOperation from "./mobile/pages/operation/newOperation";
-import {Guides} from "./mobile/pages/guide/guide";
+
+import GeneralDirectories from "./mobile/pages/directories/GeneralDirecrtories";
+import NewDirectory from "./mobile/pages/directories/new-directory/NewDirectory";
+import DirectoryCard from "./mobile/pages/directories/directory/DirectoryCard";
+import EditDirectoryCard from "./mobile/pages/directories/edit-directory/EditDirectoryCard";
+import Directories from "./mobile/pages/directories/Directories";
+import { OperationDetail } from "./mobile/pages/ordersView/operationDetail/operationDetail";
 import {OrdersPage} from "./mobile/pages/orders/orders";
 import AddOrder from "./mobile/pages/order/addOrder/addOrder";
 import AddOrderOperation from "./mobile/pages/order/addOrderOperation/addOrderOperation";
@@ -60,6 +65,7 @@ import OrderOperations from "./mobile/pages/order/orderOperations/orderOperation
 import NewTimespan from "./mobile/pages/timespan/newTimespan/newTimespan";
 import EditTimespan from "./mobile/pages/timespan/editTimespan/editTimespan";
 
+
 setupIonicReact();
 
 function App() {
@@ -68,14 +74,14 @@ function App() {
 
   useEffect(() => {
     isVerifyToken(window.location.hostname, cookies.token)
-      .then((response) => {
+      .then(response => {
         if (Object.keys(response.data).length === 0) {
           // console.log("token is available");
         } else {
           removeCookie("token");
         }
       })
-      .catch((error) => {
+      .catch(error => {
         // console.log(error);
         removeCookie("token");
       });
@@ -117,25 +123,30 @@ function App() {
               <Route path="/ai-chat?" element={<AiChatPage />} />
               <Route path="/ai-chat/base/:category" element={<CategoryPage />} />
 
-              <Route path={ROUTES.MENU}  element={<Menu />} />
-                  <Route path={ROUTES.CONFIGURATION}  element={<ConfigurationMobile />} />
-                  <Route path={ROUTES.CONNECTIONS}  element={<Connections />} />
-                  <Route path={ROUTES.CONNECTIONS_ADD} element={<NewConnection />} />
-                  <Route path={ROUTES.OPERATION_NEW} element={<NewOperation />} />
-                  <Route path={ROUTES.GUIDES} element={<Guides />} />
-                  <Route path={ROUTES.CONNECTIONS_ITEM(":id")} element={<Connection />} />
-                  <Route path={ROUTES.CONNECTIONS_EDIT(":id")} element={<EditConnection />} />
-                  <Route path={ROUTES.DATABASE}  element={<Database />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY("productCategories")}  element={<DatabaseTable table={databaseTables["productCategories"]} />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY("operations")}  element={<DatabaseTable table={databaseTables["operations"]} />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY("employees")}  element={<DatabaseTable table={databaseTables["employees"]} />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY("equipment")}  element={<DatabaseTable table={databaseTables["equipment"]} />} />
-                  <Route path={ROUTES.DATABASE_CATEGORY("products")}  element={<DatabaseTable table={databaseTables["products"]} />} />
-                  <Route path={ROUTES.DATABASE_ADD_ENTRY(":category")} element={<NewDatabaseEntry />} />
-                  <Route path={ROUTES.DATABASE_EDIT_ENTRY(":category", ":entry", ":id")} element={<EditDatabaseEntry />} />
-                  <Route path={ROUTES.ORDERSVIEW} element={<OrdersViewMobile />} />
 
-                <Route path={'/mobile/orders'} element={<OrdersPage />} />
+              <Route path={ROUTES.MENU} element={<Menu />} />
+              <Route path={ROUTES.CONFIGURATION} element={<ConfigurationMobile />} />
+              <Route path={ROUTES.CONNECTIONS} element={<Connections />} />
+              <Route path={ROUTES.CONNECTIONS_ADD} element={<NewConnection />} />
+              <Route path={ROUTES.CONNECTIONS_ITEM(":id")} element={<Connection />} />
+              <Route path={ROUTES.CONNECTIONS_EDIT(":id")} element={<EditConnection />} />
+              <Route path={ROUTES.DATABASE} element={<Database />} />
+              <Route path={ROUTES.DATABASE_CATEGORY("product-categories")}  element={<DatabaseTable table={databaseTables["productCategories"]} />} />
+
+              <Route path={ROUTES.DATABASE_CATEGORY("operations")}  element={<DatabaseTable table={databaseTables["operations"]} />} />
+              <Route path={ROUTES.DATABASE_CATEGORY("employees")}  element={<DatabaseTable table={databaseTables["employees"]} />} />
+              <Route path={ROUTES.DATABASE_CATEGORY("equipment")}  element={<DatabaseTable table={databaseTables["equipment"]} />} />
+              <Route path={ROUTES.DATABASE_CATEGORY("products")}  element={<DatabaseTable table={databaseTables["products"]} />} />
+              <Route path={ROUTES.DATABASE_ADD_ENTRY(":category")} element={<NewDatabaseEntry />} />
+              <Route path={ROUTES.DATABASE_EDIT_ENTRY(":category", ":entry", ":id")} element={<EditDatabaseEntry />} />
+              <Route path={ROUTES.ORDERSVIEW} element={<OrdersViewMobile />} />
+              <Route path={ROUTES.OPERATIONDETAIL(":id")} element={<OperationDetail />} />
+              <Route path={ROUTES.GENEREAL_DIRECTORIES} element={<GeneralDirectories />} />
+              <Route path={ROUTES.DIRECTORIES_ADD} element={<NewDirectory />} />
+              <Route path={ROUTES.DIRECTORIES_ITEM_CARD(":id")} element={<DirectoryCard />} />
+              <Route path={ROUTES.DIRECTORIES_EDIT_CARD(":id")} element={<EditDirectoryCard />} />
+              <Route path={ROUTES.DIRECTORIES} element={<Directories />} />
+              <Route path={'/mobile/orders'} element={<OrdersPage />} />
                 <Route path={'/mobile/order/'} element={<AddOrder />} />
                 <Route path={'/mobile/order/operations'} element={<AddOrderOperation />} />
                 <Route path={'/mobile/order/:id'} element={<Order />} />
@@ -143,6 +154,7 @@ function App() {
                 <Route path={'/mobile/order/:id/operation/:operationId'} element={<OrderOperations />} />
                 <Route path={'/mobile/order/:id/operation/:operationId/timespan'} element={<NewTimespan />} />
                 <Route path={'/mobile/order/:id/operation/:operationId/timespan/:timespanId/edit'} element={<EditTimespan />} />
+
             </Route>
           ) : (
             <Route path="/*" element={<Authorization />} />

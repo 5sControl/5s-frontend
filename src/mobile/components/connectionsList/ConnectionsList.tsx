@@ -28,7 +28,7 @@ export const ConnectionsList: React.FC<ConnectionsListProps> = ({ items }) => {
             <ItemButton
             key={item.erp_system}
             label={item.erp_system}
-            note={item.is_active ? t('messages.used') : t('messages.connected')}
+            note={item.used_in_orders_view ? t('messages.used') : item.is_active ? t('messages.connected') : t('messages.disconnected')}
             handleItemClick={() => navigate(ROUTES.CONNECTIONS_ITEM(item.id.toString()))} />
           ))}
             <IonItem onClick={handleAddConnection}><IonLabel color="primary">{`+ ${t('operations.add')}`}</IonLabel></IonItem>

@@ -7,6 +7,7 @@ export type DatabaseInfo = {
   erp_system: string;
   dbms: string;
   is_active: boolean;
+  used_in_orders_view: boolean;
   host: string;
   password: string;
   port: number | null;
