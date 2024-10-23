@@ -1,0 +1,76 @@
+
+.page-container {
+    padding: 16px 16px 40px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100vh - 56px);
+    gap: 25px;
+    overflow: hidden;
+  }
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+  .time {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .datetime button {
+    background: #7676803D;
+    border-radius: 5px;
+
+  }
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .sized {
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
+  }
+  .section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 6px;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .content-box {
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    background: white;
+  }
+  
+  .content-header {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .button {
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .ion-button-edit {
+    margin-left: 8px;
+  }
+  
+  .ion-button-save {
+    margin-top: auto;
+  }
+  

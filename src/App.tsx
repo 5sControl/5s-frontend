@@ -49,12 +49,22 @@ import ConfigurationMobile from "./mobile/pages/configuration/Configuration";
 import { databaseTables } from "./shared/constants/databaseTables";
 import { OrdersView as OrdersViewMobile } from "./mobile/pages/ordersView/ordersView";
 import EditConnection from "./mobile/pages/connections/edit-connection/EditConnection";
+
 import GeneralDirectories from "./mobile/pages/directories/GeneralDirecrtories";
 import NewDirectory from "./mobile/pages/directories/new-directory/NewDirectory";
 import DirectoryCard from "./mobile/pages/directories/directory/DirectoryCard";
 import EditDirectoryCard from "./mobile/pages/directories/edit-directory/EditDirectoryCard";
 import Directories from "./mobile/pages/directories/Directories";
 import { OperationDetail } from "./mobile/pages/ordersView/operationDetail/operationDetail";
+import {OrdersPage} from "./mobile/pages/orders/orders";
+import AddOrder from "./mobile/pages/order/addOrder/addOrder";
+import AddOrderOperation from "./mobile/pages/order/addOrderOperation/addOrderOperation";
+import Order from "./mobile/pages/order/order";
+import EditOrder from "./mobile/pages/order/editOrder/editOrder";
+import OrderOperations from "./mobile/pages/order/orderOperations/orderOperations";
+import NewTimespan from "./mobile/pages/timespan/newTimespan/newTimespan";
+import EditTimespan from "./mobile/pages/timespan/editTimespan/editTimespan";
+
 
 setupIonicReact();
 
@@ -113,6 +123,7 @@ function App() {
               <Route path="/ai-chat?" element={<AiChatPage />} />
               <Route path="/ai-chat/base/:category" element={<CategoryPage />} />
 
+
               <Route path={ROUTES.MENU} element={<Menu />} />
               <Route path={ROUTES.CONFIGURATION} element={<ConfigurationMobile />} />
               <Route path={ROUTES.CONNECTIONS} element={<Connections />} />
@@ -135,6 +146,15 @@ function App() {
               <Route path={ROUTES.DIRECTORIES_ITEM_CARD(":id")} element={<DirectoryCard />} />
               <Route path={ROUTES.DIRECTORIES_EDIT_CARD(":id")} element={<EditDirectoryCard />} />
               <Route path={ROUTES.DIRECTORIES} element={<Directories />} />
+              <Route path={'/mobile/orders'} element={<OrdersPage />} />
+                <Route path={'/mobile/order/'} element={<AddOrder />} />
+                <Route path={'/mobile/order/operations'} element={<AddOrderOperation />} />
+                <Route path={'/mobile/order/:id'} element={<Order />} />
+                <Route path={'/mobile/order/:id/edit'} element={<EditOrder />} />
+                <Route path={'/mobile/order/:id/operation/:operationId'} element={<OrderOperations />} />
+                <Route path={'/mobile/order/:id/operation/:operationId/timespan'} element={<NewTimespan />} />
+                <Route path={'/mobile/order/:id/operation/:operationId/timespan/:timespanId/edit'} element={<EditTimespan />} />
+
             </Route>
           ) : (
             <Route path="/*" element={<Authorization />} />
