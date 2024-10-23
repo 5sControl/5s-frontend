@@ -114,3 +114,9 @@ export const  mergeDateAndTime = (dateStr1: string, dateStr2: string) =>  {
   const mergedDateTime = `${datePart1}T${timePart2}`;
   return mergedDateTime;
 }
+
+export const formatTime = (seconds: number) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);  
+  return {hours, minutes};
+}

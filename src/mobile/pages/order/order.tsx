@@ -9,8 +9,6 @@ import { useParams } from "react-router";
 import { ORDER_REQUEST } from "../../dispatcher";
 import { formatDate } from "../../utils/parseInputDate";
 
-
-
 export interface IOrders {
     id: number
     name: string
@@ -33,7 +31,7 @@ const Order = () => {
     }, []);
 
     const items = order?.operations?.map(item => <ItemList key={item.id} label={item.name}
-        to={`mobile/order/${order.id}/operation/${item.id}`} />)
+        to={`/mobile/order/${order.id}/operation/${item.id}`} />)
 
 
     return (
