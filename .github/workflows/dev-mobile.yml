@@ -1,10 +1,10 @@
-name: dev
+name: dev-mobile
 
 on:
   push:
     branches: [development]
-    paths-ignore:
-     - 'mobile/**'
+    paths: 
+      - 'mobile/**'
 
 jobs:
   Build:
@@ -33,13 +33,13 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./mobile
           push: true
           tags: |
-            5scontrol/5scontrol_front:latest
-            5scontrol/5scontrol_front:${{ env.COMMIT_HASH }}
-          cache-from: type=registry,ref=5scontrol/5scontrol_front:cache
-          cache-to: type=registry,ref=5scontrol/5scontrol_front:cache,mode=max
+            5scontrol/5scontrol_front_mobile:latest
+            5scontrol/5scontrol_front_mobile:${{ env.COMMIT_HASH }}
+          cache-from: type=registry,ref=5scontrol/5scontrol_front_mobile:cache
+          cache-to: type=registry,ref=5scontrol/5scontrol_front_mobile:cache,mode=max
           
   Deploy:
     runs-on: self-hosted
@@ -47,13 +47,13 @@ jobs:
 
     steps:
       - name: Pull the latest Docker image
-        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml pull 5scontrol_front
+        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml pull 5scontrol_front_mobile
 
       - name: Stop the old server container
-        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml stop 5scontrol_front
+        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml stop 5scontrol_front_mobile
 
       - name: Stop and remove the old server container
-        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml rm -f 5scontrol_front
+        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml rm -f 5scontrol_front_mobile
 
       - name: Recreate and restart server container
-        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml up -d --no-deps 5scontrol_front 
+        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml up -d --no-deps 5scontrol_front_mobile 
