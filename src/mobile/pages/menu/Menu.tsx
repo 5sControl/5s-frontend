@@ -61,6 +61,7 @@ export const Menu: React.FC = () => {
         endButton={<IonIcon icon={Cog} />}
       />
       <IonList inset={true}>
+
         <MenuListButton title={user.username} account={true} />
       </IonList>
 
@@ -74,6 +75,8 @@ export const Menu: React.FC = () => {
         <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} /> */}
         <MenuListButton title={"Настройка данных"} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
         <MenuListButton title={"Справочники"} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} />
+        <MenuListButton title={"Заказы"} handleItemClick={() => handleItemClick(ROUTES.ORDERS)} />
+       
       </IonList>
 
       {/* <IonList inset={true}>
@@ -88,6 +91,7 @@ export const Menu: React.FC = () => {
           handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)}
         />
         <IonSelect value={language} placeholder={t("language")} onIonChange={e => handleLanguageChange(e.detail.value)}>
+
           <IonSelectOption value="en">English</IonSelectOption>
           <IonSelectOption value="ru">Русский</IonSelectOption>
           <IonSelectOption value="pl">Polski</IonSelectOption>

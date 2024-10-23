@@ -17,7 +17,7 @@ const Connections: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    getConnectionsToDatabases("", cookies.token)
+    getConnectionsToDatabases(cookies.token)
       .then(response => {
         console.log(response.data);
         setItems(response.data);

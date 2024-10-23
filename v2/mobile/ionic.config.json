@@ -1,0 +1,8 @@
+{
+  "name": "5sControl",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite",
+  "id": "00403ca6"
+}

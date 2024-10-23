@@ -1,0 +1,17 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.list {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.deleteIcon {
+  width: 19px;
+  height: 22px;
+}
+
+

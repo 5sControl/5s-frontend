@@ -49,6 +49,7 @@ import ConfigurationMobile from "./mobile/pages/configuration/Configuration";
 import { databaseTables } from "./shared/constants/databaseTables";
 import { OrdersView as OrdersViewMobile } from "./mobile/pages/ordersView/ordersView";
 import EditConnection from "./mobile/pages/connections/edit-connection/EditConnection";
+
 import GeneralDirectories from "./mobile/pages/directories/GeneralDirecrtories";
 import NewDirectory from "./mobile/pages/directories/new-directory/NewDirectory";
 import DirectoryCard from "./mobile/pages/directories/directory/DirectoryCard";
@@ -59,6 +60,14 @@ import DirectoryCategory from "./mobile/pages/directories/category/DirectoryCate
 import DirectoryCategoryCard from "./mobile/pages/directories/category/category-card/DirectoryCategoryCard";
 import NewDirectoryCategory from "./mobile/pages/directories/category/new-category/NewDirectoryCategory";
 import EditDirectoryCategory from "./mobile/pages/directories/category/edit-category/EditDirectoryCategory";
+import {OrdersPage} from "./mobile/pages/orders/orders";
+import AddOrder from "./mobile/pages/order/addOrder/addOrder";
+import AddOrderOperation from "./mobile/pages/order/addOrderOperation/addOrderOperation";
+import Order from "./mobile/pages/order/order";
+import EditOrder from "./mobile/pages/order/editOrder/editOrder";
+import OrderOperations from "./mobile/pages/order/orderOperations/orderOperations";
+import NewTimespan from "./mobile/pages/timespan/newTimespan/newTimespan";
+import EditTimespan from "./mobile/pages/timespan/editTimespan/editTimespan";
 
 setupIonicReact();
 
@@ -117,6 +126,7 @@ function App() {
               <Route path="/ai-chat?" element={<AiChatPage />} />
               <Route path="/ai-chat/base/:category" element={<CategoryPage />} />
 
+
               <Route path={ROUTES.MENU} element={<Menu />} />
               <Route path={ROUTES.CONFIGURATION} element={<ConfigurationMobile />} />
               <Route path={ROUTES.CONNECTIONS} element={<Connections />} />
@@ -158,6 +168,14 @@ function App() {
               <Route path={ROUTES.DIRECTORY_CATEGORY_ADD(":refId")} element={<NewDirectoryCategory />} />
               <Route path={ROUTES.DIRECTORY_CATEGORY_CARD(":refId", ":id")} element={<DirectoryCategoryCard />} />
               <Route path={ROUTES.DIRECTORY_CATEGORY_EDIT(":refId", ":id")} element={<EditDirectoryCategory />} />
+              <Route path={'/mobile/orders'} element={<OrdersPage />} />
+                <Route path={'/mobile/order/'} element={<AddOrder />} />
+                <Route path={'/mobile/order/operations'} element={<AddOrderOperation />} />
+                <Route path={'/mobile/order/:id'} element={<Order />} />
+                <Route path={'/mobile/order/:id/edit'} element={<EditOrder />} />
+                <Route path={'/mobile/order/:id/operation/:operationId'} element={<OrderOperations />} />
+                <Route path={'/mobile/order/:id/operation/:operationId/timespan'} element={<NewTimespan />} />
+                <Route path={'/mobile/order/:id/operation/:operationId/timespan/:timespanId/edit'} element={<EditTimespan />} />
             </Route>
           ) : (
             <Route path="/*" element={<Authorization />} />
