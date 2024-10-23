@@ -29,11 +29,7 @@ export const parseInputDate = (
     return `${startMonth} ${startDay} - ${endMonth} ${endDay}`
   }
 
-
   return `${startMonth} ${startDay} | ${startHours}:${startMinutes} - ${endHours}:${endMinutes}`;
-};
-
-  return `${month} ${day} | ${startHours}:${startMinutes} - ${endHours}:${endMinutes}`;
 };
 
 export const formatDate = (dateString: string): string => {
