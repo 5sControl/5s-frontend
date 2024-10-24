@@ -1,11 +1,15 @@
-ion-toolbar{
-    --min-height: 56px !important;
-    padding: 0 16px;
-}
-
 ion-item::part(detail-icon) {
     color: #666666;
     opacity: 1;
+}
+
+ion-button::part(native) {
+    border-radius: 4px;
+}
+
+ion-toolbar{
+    --min-height: 56px !important;
+    padding: 0 16px;
 }
 
 ion-input.input__wrapper{
@@ -19,6 +23,13 @@ ion-input.input__wrapper{
     }
 }
 
+ion-button.bottom-50 {
+    width: 100%; 
+    padding: 0 16px;
+    position: fixed;
+    bottom: 50px;
+}
+
 ion-select{
     border: #9E9E9E 1px solid;
     border-radius: 4px;
@@ -27,27 +38,20 @@ ion-select{
     min-height: 44px;
 }
 
-ion-button::part(native) {
-    border-radius: 4px;
+ion-modal.selectModal, ion-modal.settingsModal{
+    --height: 100% !important;
 }
 
-ion-searchbar{
-    --background: #FFF !important;
-    --border-radius: 4px;
-    padding: 0 !important;
-    min-height: fit-content !important;
+ion-loading{
+    --spinner-color: #fe6100 !important;
 }
 
-.searchContainer {
-    background-color: #FFF;
-    border-bottom: 1px solid #ddd;
-    padding: 8px 12px;
-    background-color: #fff;
+ion-segment-button{
+    min-width: auto;
 }
 
-.searchbar-input{
-    border-bottom: 1px solid rgba(158, 158, 158, 1) !important;
-    border-radius: 0 !important;
+ion-item ion-icon{
+    margin-right: 12px;
 }
 
 ion-item.input__field::part(native) {
@@ -72,11 +76,23 @@ ion-fab-button {
     --border-radius: 15px;
 }
 
-ion-button.bottom-50 {
-    width: 100%; 
-    padding: 0 16px;
-    position: fixed;
-    bottom: 50px;
+ion-searchbar{
+    --background: #FFF !important;
+    --border-radius: 4px;
+    padding: 0 !important;
+    min-height: fit-content !important;
+}
+
+.searchContainer {
+    background-color: #FFF;
+    border-bottom: 1px solid #ddd;
+    padding: 8px 12px;
+    background-color: #fff;
+}
+
+.searchbar-input{
+    border-bottom: 1px solid rgba(158, 158, 158, 1) !important;
+    border-radius: 0 !important;
 }
 
 .card__wrapper {
@@ -110,18 +126,3 @@ ion-button.bottom-50 {
     --border-color: #666666;
 }
 
-ion-modal.selectModal, ion-modal.settingsModal{
-    --height: 100% !important;
-}
-
-ion-loading{
-    --spinner-color: #fe6100 !important;
-}
-
-ion-segment-button{
-    min-width: auto;
-}
-
-ion-item ion-icon{
-    margin-right: 12px;
-}

@@ -32,7 +32,7 @@ const NewDirectory = () => {
         <SingleInputPage
           title={t("directory.newDirectory")}
           backHref={ROUTES.GENEREAL_DIRECTORIES}
-          label={t("newConnection.name")}
+          label={t("directory.name")}
           value={directoryName}
           required
           handleChange={e => {

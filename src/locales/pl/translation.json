@@ -1,7 +1,13 @@
 {
   "menu": {
     "ordersView": "Widok zamówień",
-    "configuration": "Konfiguracja"
+    "configuration": "Konfiguracja",
+    "dataConfiguration": "Konfiguracja danych",
+    "directories": "Katalogi",
+    "generalDirectories": "Ogólne katalogi",
+    "accountSettings": "Ustawienia konta",
+    "orders": "Zamówienia",
+    "reports": "Raporty"
   },
   "config": {
     "title": "Konfiguracja",
@@ -9,24 +15,31 @@
   },
   "messages": {
     "noDatabases": "Brak dostępnych baz danych",
-    "used": "Używane w Widoku zamówień",
+    "used": "Używane w widoku zamówień",
     "connected": "Połączono",
-    "disconnected": "Odłączono",
+    "disconnected": "Rozłączono",
     "unableToSave": "Nie można zapisać",
-    "disconectFromERP": "Odłączyć od ERP?",
-    "disconectDescription": "Odłączenie od bazy danych uniemożliwi wyświetlanie zamówień w Widoku zamówień.",
+    "disconectFromERP": "Rozłączyć z ERP?",
+    "disconectDescription": "Rozłączenie z bazą danych spowoduje utratę możliwości przeglądania zamówień w widoku zamówień.",
     "incorrectCredentials": "Nieprawidłowy e-mail lub hasło. Spróbuj ponownie."
+  },
+  "directory": {
+    "newDirectory": "Nowy katalog",
+    "newEntry": "Nowy wpis w",
+    "edit": "Edytuj",
+    "card": "Karta",
+    "name": "Nazwa"
   },
   "text": {
     "connection": "połączenie",
     "select": "Wybierz",
-    "usedInOrdersView": "Używane w Widoku zamówień",
+    "usedInOrdersView": "Używane w widoku zamówień",
     "connected": "Połączono",
     "database": "Baza danych",
     "no": "Nie",
-    "added": "dodane przez Ciebie pojawią się tutaj.",
-    "new": "Nowe",
-    "time": "Planowany czas",
+    "added": "które dodałeś, pojawi się tutaj.",
+    "new": "Nowy",
+    "time": "Zaplanowany czas",
     "name": "nazwa",
     "ordersView": "Widok zamówień",
     "scheduled": "Pokaż zaplanowany czas",
@@ -38,10 +51,10 @@
     "add": "Dodaj",
     "save": "Zapisz",
     "edit": "Edytuj",
-    "disconect": "Odłącz",
+    "disconect": "Rozłącz",
     "cancel": "Anuluj",
     "search": "Szukaj",
-    "done": "Gotowe",
+    "done": "Zrobione",
     "delete": "Usuń"
   },
   "db": {
@@ -81,12 +94,12 @@
   },
   "form": {
     "name": "Nazwa",
-    "namePlaceholder": "Wpisz nazwę",
+    "namePlaceholder": "Wprowadź nazwę",
     "auth": {
       "signin": "Zaloguj się do",
       "login": "Nazwa użytkownika",
-      "loginPlaceholder": "Wpisz nazwę użytkownika",
-      "pwdPlaceholder": "Wpisz hasło",
+      "loginPlaceholder": "Wprowadź nazwę użytkownika",
+      "pwdPlaceholder": "Wprowadź hasło",
       "pwd": "Hasło",
       "submit": "Zaloguj się",
       "required": "To pole jest wymagane"

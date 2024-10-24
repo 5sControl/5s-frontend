@@ -3,7 +3,11 @@
     "ordersView": "Просмотр заказов",
     "configuration": "Конфигурация",
     "directories": "Справочники",
-    "generalDirectories": "Универсальные справочники"
+    "dataConfiguration": "Настройка данных",
+    "generalDirectories": "Универсальные справочники",
+    "accountSettings": "Настройки учетной записи",
+    "orders": "Заказы",
+    "reports": "Отчеты"
   },
   "config": {
     "title": "Конфигурация",
@@ -21,9 +25,10 @@
   },
   "directory": {
     "newDirectory": "Новый справочник",
-    "NewCatalog": "Новый каталог",
-    "editCard": "Редактировать карточку",
-    "card": "Карточка"
+    "newEntry": "Новая запись в",
+    "edit": "Редактирование",
+    "card": "Карточка",
+    "name": "Название"
   },
   "text": {
     "connection": "соединение",
