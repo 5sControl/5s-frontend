@@ -4,7 +4,7 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 ARG BASE_URL
-ENV BASE_URL ${BASE_URL}
+ENV BASE_URL=${BASE_URL}
 RUN npm run build
 
 FROM nginx:latest AS production
