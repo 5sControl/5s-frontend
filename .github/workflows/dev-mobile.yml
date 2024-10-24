@@ -35,7 +35,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./mobile
-          push: true\
+          push: true
           build-args: |
             VITE_API_BASE_URL=${{secrets.API_BASE_URL}},
             BASE_URL=${{secrets.BASE_URL}}
