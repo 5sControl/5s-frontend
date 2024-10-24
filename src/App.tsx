@@ -164,18 +164,21 @@ function App() {
               <Route path={ROUTES.DIRECTORIES_ITEM_CARD(":id")} element={<DirectoryCard />} />
               <Route path={ROUTES.DIRECTORIES_EDIT_CARD(":id")} element={<EditDirectoryCard />} />
               <Route path={ROUTES.DIRECTORIES} element={<Directories />} />
+
               <Route path={ROUTES.DIRECTORY_CATEGORY(":refId")} element={<DirectoryCategory />} />
               <Route path={ROUTES.DIRECTORY_CATEGORY_ADD(":refId")} element={<NewDirectoryCategory />} />
               <Route path={ROUTES.DIRECTORY_CATEGORY_CARD(":refId", ":id")} element={<DirectoryCategoryCard />} />
               <Route path={ROUTES.DIRECTORY_CATEGORY_EDIT(":refId", ":id")} element={<EditDirectoryCategory />} />
-              <Route path={'/mobile/orders'} element={<OrdersPage />} />
-                <Route path={'/mobile/order/'} element={<AddOrder />} />
-                <Route path={'/mobile/order/operations'} element={<AddOrderOperation />} />
-                <Route path={'/mobile/order/:id'} element={<Order />} />
-                <Route path={'/mobile/order/:id/edit'} element={<EditOrder />} />
-                <Route path={'/mobile/order/:id/operation/:operationId'} element={<OrderOperations />} />
-                <Route path={'/mobile/order/:id/operation/:operationId/timespan'} element={<NewTimespan />} />
-                <Route path={'/mobile/order/:id/operation/:operationId/timespan/:timespanId/edit'} element={<EditTimespan />} />
+              <Route path={ROUTES.ORDERS} element={<OrdersPage />} />
+              <Route path={ROUTES.ORDER} element={<AddOrder />} />
+              <Route path={ROUTES.ORDER_OPERATIONS} element={<AddOrderOperation />} />
+              <Route path={ROUTES.ORDER_ITEM(":id")} element={<Order />} />
+              <Route path={ROUTES.ORDER_ITEM_EDIT(":id")} element={<EditOrder />} />
+              <Route path={ROUTES.ORDER_OPERATION(':id', ':operationId')} element={<OrderOperations />} />
+              <Route path={ROUTES.ORDER_TIMESPAN(':id', ':operationId')} element={<NewTimespan />} />
+              <Route path={ROUTES.ORDER_TIMESPAN_EDIT(':id', ':operationId',':timespanId')} element={<EditTimespan />} />
+            
+
             </Route>
           ) : (
             <Route path="/*" element={<Authorization />} />

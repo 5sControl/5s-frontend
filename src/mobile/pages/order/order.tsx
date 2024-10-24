@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IonButton, IonContent, IonFooter, IonIcon, IonLabel, IonList, IonLoading, IonPage, IonText, IonToast } from "@ionic/react";
+import Chip from './../../components/chip/chip'
 import { Header } from "../../components/header/Header";
 import style from "./order.module.scss";
 import ItemList from "../../components/itemList/itemList";
@@ -8,7 +9,7 @@ import PencilIcon from "./../../assets/svg/editOutlined.svg"
 import { useParams } from "react-router";
 import { ORDER_REQUEST } from "../../dispatcher";
 import { formatDate } from "../../utils/parseInputDate";
-
+import { ROUTES } from "./../../../shared/constants/routes";
 export interface IOrders {
     id: number
     name: string
@@ -31,7 +32,10 @@ const Order = () => {
     }, []);
 
     const items = order?.operations?.map(item => <ItemList key={item.id} label={item.name}
-        to={`/mobile/order/${order.id}/operation/${item.id}`} />)
+        to={ROUTES.ORDER_OPERATION(String(order.id), String(item.id)) } >
+            <IonLabel>{item.name}</IonLabel>
+            <Chip name={item.status}></Chip>
+        </ItemList>)
 
 
     return (
@@ -39,7 +43,7 @@ const Order = () => {
             {
                 isLoading ?  <IonLoading isOpen={isLoading} message="Loading..." /> :
                     <>
-                        <Header title={order?.name} backButtonHref="/mobile/orders" />
+                        <Header title={order?.name} backButtonHref={ROUTES.ORDERS} />
                         <IonContent className="ion-padding">                           
                             <IonList className={style.list}>
                                 <IonLabel>Name</IonLabel>
@@ -67,7 +71,7 @@ const Order = () => {
                         </IonContent>
                         <IonFooter style={{ paddingBottom: '115px', display: 'flex', justifyContent: 'flex-end' }}
                             className="ion-padding">
-                            <IonButton routerLink={`./mobile/order/${order.id}/edit`}>
+                            <IonButton routerLink={ROUTES.ORDER_ITEM_EDIT(String( order.id))}>
                                 <IonIcon icon={PencilIcon}></IonIcon>
                             </IonButton>
                         </IonFooter>

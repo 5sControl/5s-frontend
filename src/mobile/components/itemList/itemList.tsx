@@ -3,11 +3,10 @@ import {IonIcon, IonItem, IonLabel} from "@ionic/react";
 import { chevronForward} from 'ionicons/icons';
 import { useNavigate } from 'react-router-dom';
 
-const ItemList = ({label, to, disabled, children }:IItemList) => {
-    const navigate = useNavigate();
+const ItemList = ({label, to, disabled, children }:IItemList) => {   
 
     return (
-        <IonItem onClick={()=>navigate(to)}  disabled={disabled}>
+        <IonItem routerLink={to}  disabled={disabled}>
             {
                 children ? children : <IonLabel>{label}</IonLabel>
             }
