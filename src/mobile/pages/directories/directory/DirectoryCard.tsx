@@ -37,7 +37,7 @@ const DirectoryCard = () => {
       <Header
         title={t("directory.card")}
         backButtonHref={ROUTES.GENEREAL_DIRECTORIES}
-        endButton={<IonIcon id="open-modal" icon={TrashBin}></IonIcon>}
+        endButton={<IonIcon id="open-modal" style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
       />
       {directory ? (
         <Card

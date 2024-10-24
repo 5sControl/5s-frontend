@@ -7,6 +7,7 @@ import { createDirectory } from "../../../api/directory/directory";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../../components/preloader";
 import { IonContent, IonToast } from "@ionic/react";
+import { Header } from "../../../components/header/Header";
 
 const NewDirectory = () => {
   const { t } = useTranslation();
@@ -26,6 +27,7 @@ const NewDirectory = () => {
 
   return (
     <IonContent>
+      <Header title={t("directory.newDirectory")} backButtonHref={ROUTES.GENEREAL_DIRECTORIES}></Header>
       <SingleInputPage
         title={t("directory.newDirectory")}
         backHref={ROUTES.GENEREAL_DIRECTORIES}

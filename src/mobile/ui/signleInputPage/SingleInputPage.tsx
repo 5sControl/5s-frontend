@@ -28,8 +28,6 @@ const SingleInputPage = ({
 }: SingleInputPageProps) => {
   return (
     <>
-      {title && <Header title={title} backButtonHref={backHref} />}
-
       <div className="input__container">
         <IonLabel position="stacked">{label}</IonLabel>
         <IonInput

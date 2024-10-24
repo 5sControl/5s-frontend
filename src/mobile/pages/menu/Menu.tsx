@@ -58,16 +58,15 @@ export const Menu: React.FC = () => {
             <img src={MenuLogo} alt="Menu Logo" />
           </div>
         }
-        endButton={<IonIcon icon={Cog} />}
+        endButton={<IonIcon style={{ fontSize: "24px" }} icon={Cog} />}
       />
       <IonList inset={true}>
-
         <MenuListButton title={user.username} account={true} />
       </IonList>
 
       <IonList inset={true} lines="none">
-        <MenuListButton icon={DollarSign} title="Orders" />
-        <MenuListButton icon={DollarSign} title="Reports" />
+        <MenuListButton icon={DollarSign} title={"Заказы"} handleItemClick={() => handleItemClick(ROUTES.ORDERS)} />
+        <MenuListButton icon={DollarSign} title={"Отчеты"} />
       </IonList>
 
       <IonList inset={true}>
@@ -75,8 +74,6 @@ export const Menu: React.FC = () => {
         <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} /> */}
         <MenuListButton title={"Настройка данных"} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
         <MenuListButton title={"Справочники"} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} />
-        <MenuListButton title={"Заказы"} handleItemClick={() => handleItemClick(ROUTES.ORDERS)} />
-       
       </IonList>
 
       {/* <IonList inset={true}>
