@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Card from "../../../../ui/card/Card";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { IonContent, IonIcon, IonItem, IonList } from "@ionic/react";
+import { IonContent, IonIcon, IonItem, IonList, IonPage } from "@ionic/react";
 import { DirectoryCategory } from "../../../../models/interfaces/directoryCategory.interface";
 import { deleteDirectoryCategory, getDirectoryCategory } from "../../../../api/directory/directoryCategories";
 import { Header } from "../../../../components/header/Header";
@@ -32,26 +32,28 @@ const DirectoryCategoryCard = () => {
   };
 
   return (
-    <IonContent>
-      <Header
-        title={t("directory.card")}
-        backButtonHref={ROUTES.DIRECTORY_CATEGORY(refId)}
-        endButton={<IonIcon id="open-modal" style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
-      />
-      {directory ? (
-        <Card
+    <IonPage>
+      <IonContent>
+        <Header
           title={t("directory.card")}
-          deleteCard={deleteCard}
-          backHref={ROUTES.DIRECTORY_CATEGORY(refId)}
-          editHref={ROUTES.DIRECTORY_CATEGORY_EDIT(refId, String(directory.id))}
-          itemTitle={directory.name}
+          backButtonHref={ROUTES.DIRECTORY_CATEGORY(refId)}
+          endButton={<IonIcon id="open-modal" style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
         />
-      ) : (
-        <div className="preloader">
-          <Preloader />
-        </div>
-      )}
-    </IonContent>
+        {directory ? (
+          <Card
+            title={t("directory.card")}
+            deleteCard={deleteCard}
+            backHref={ROUTES.DIRECTORY_CATEGORY(refId)}
+            editHref={ROUTES.DIRECTORY_CATEGORY_EDIT(refId, String(directory.id))}
+            itemTitle={directory.name}
+          />
+        ) : (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        )}
+      </IonContent>
+    </IonPage>
   );
 };
 export default DirectoryCategoryCard;

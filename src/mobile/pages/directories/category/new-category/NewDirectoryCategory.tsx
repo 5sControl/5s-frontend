@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import SingleInputPage from "../../../../ui/signleInputPage/SingleInputPage";
 import { useCookies } from "react-cookie";
 import { createDirectoryCategory } from "../../../../api/directory/directoryCategories";
-import { IonContent } from "@ionic/react";
+import { IonContent, IonPage } from "@ionic/react";
 import { Header } from "../../../../components/header/Header";
 
 const NewDirectoryCategory = () => {
@@ -27,20 +27,22 @@ const NewDirectoryCategory = () => {
   };
 
   return (
-    <IonContent>
-      <Header title={t("directory.newDirectory")} backButtonHref={ROUTES.DIRECTORY_CATEGORY(refId!)}></Header>
-      <SingleInputPage
-        title={t("directory.newDirectory")}
-        backHref={ROUTES.DIRECTORY_CATEGORY(refId!)}
-        label={t("newConnection.name")}
-        value={directoryName}
-        required
-        handleChange={e => {
-          setDirectoryName(e.target.value);
-        }}
-        handleSave={handleSave}
-      />
-    </IonContent>
+    <IonPage>
+      <IonContent>
+        <Header title={t("directory.newDirectory")} backButtonHref={ROUTES.DIRECTORY_CATEGORY(refId!)}></Header>
+        <SingleInputPage
+          title={t("directory.newDirectory")}
+          backHref={ROUTES.DIRECTORY_CATEGORY(refId!)}
+          label={t("newConnection.name")}
+          value={directoryName}
+          required
+          handleChange={e => {
+            setDirectoryName(e.target.value);
+          }}
+          handleSave={handleSave}
+        />
+      </IonContent>
+    </IonPage>
   );
 };
 export default NewDirectoryCategory;
