@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { ROUTES } from "../../../shared/constants/routes";
+import { ROUTES } from "../../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
 import "./DirectoryCard.scss";
 import Card from "../../../ui/card/Card";
