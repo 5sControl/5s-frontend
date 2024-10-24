@@ -28,7 +28,7 @@ export const ROUTES = {
   DIRECTORY_CATEGORY_CARD: (refId: string, card: string) => `/v1/mobile/directories/${refId}/${card}`,
   DIRECTORY_CATEGORY_EDIT: (refId: string, card: string) => `/v1/mobile/directories/${refId}/${card}/edit`,
   ORDERSVIEW: "/v1/mobile/orders-view",
-  OPERATIONDETAIL: (id: string) => `/v1/mobile/orders-view/operation-detail/${id}`
+  OPERATIONDETAIL: (id: string) => `/v1/mobile/orders-view/operation-detail/${id}`,
   ORDERS: "/v1/mobile/orders",
   ORDER: "/v1/mobile/order",
   ORDER_OPERATIONS: "/v1/mobile/order/operations",
