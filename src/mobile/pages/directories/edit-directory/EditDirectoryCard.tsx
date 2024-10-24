@@ -15,7 +15,6 @@ const EditDirectoryCard = () => {
   const [directoryName, setDirectoryName] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [toastMessage, setToastMessage] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -33,19 +32,13 @@ const EditDirectoryCard = () => {
 
   const handleSave = () => {
     if (directoryName.trim()) {
-      setLoading(true);
       updateDirectory(Number(id), directoryName.trim(), cookies.token)
         .then(() => navigate(ROUTES.DIRECTORIES_ITEM_CARD(id!)))
         .catch(error => {
           console.error(error);
-        })
-        .finally(() => {
-          setLoading(false);
         });
-      setToastMessage("Directory Edited");
       return;
     }
-    setToastMessage("Empty Input");
     console.error("empty input");
   };
 
@@ -62,7 +55,6 @@ const EditDirectoryCard = () => {
           backHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}
           label={t("newConnection.name")}
           value={directoryName!}
-          toastMessage={toastMessage}
           required
           handleChange={e => {
             setDirectoryName(e.target.value);

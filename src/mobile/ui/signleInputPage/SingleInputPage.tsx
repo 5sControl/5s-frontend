@@ -41,11 +41,11 @@ const SingleInputPage = ({
         ></IonInput>
       </div>
 
-      <IonButton className="bottom-50" expand="full" id="open-toast" onClick={handleSave}>
+      <IonButton className="bottom-50" expand="full" id="open-toast" onClick={handleSave} disabled={!value.trim()}>
         Save
       </IonButton>
 
-      {/* <IonToast trigger="open-toast" message={toastMessage} duration={3000} /> */}
+      {value.trim().length === 0 && <IonToast trigger="open-toast" message={"Empty Input"} duration={3000} />}
     </>
   );
 };
