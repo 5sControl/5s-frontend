@@ -1,8 +1,12 @@
-FROM node:latest
+FROM node:20.17 AS build
 WORKDIR /app
-COPY package.json ./
-RUN npm install
+COPY package*.json ./
+RUN npm ci
 COPY . .
-CMD ["npm","run", "dev"]
+ARG BASE_URL
+ENV BASE_URL ${BASE_URL}
+RUN npm run build
 
-
+FROM nginx:latest AS production
+COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /usr/app/dist /usr/share/nginx/html
