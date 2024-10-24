@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL: string = import.meta.env.VITE_NGROK;
+const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
 const API_OPERATIONS = 'api/new-order/operations/';
 const API_ORDERLIST = 'api/new-order/orders/';
 const API_OPERATION = 'api/new-order/order-detail/';

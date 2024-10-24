@@ -6,20 +6,20 @@ import {IOrderOperation, IProductOperation, IOrderWithAllOperations} from "../mo
 
 const BASE = 'api/erp-reference'
 const URLS = {
-    ORDERS: `${import.meta.env.VITE_NGROK}${BASE}/order/`,
-    ADD_ORDER: `${import.meta.env.VITE_NGROK}${BASE}/order/`,
-    UPDATE_ORDER: `${import.meta.env.VITE_NGROK}${BASE}/order/`,
-    GET_ORDER: `${import.meta.env.VITE_NGROK}${BASE}/order/`,
-    GET_REFERENCES: `${import.meta.env.VITE_NGROK}${BASE}/reference/`,
-    GET_OPERATIONS: `${import.meta.env.VITE_NGROK}${BASE}/reference-operation/`,
-    UPDATE_OPERATION: `${import.meta.env.VITE_NGROK}${BASE}/order/`,
-    GET_ORDER_OPERATION: `${import.meta.env.VITE_NGROK}${BASE}/order-operation/order/`,
-    ADD_TIMESPAN: `${import.meta.env.VITE_NGROK}${BASE}/order-operation/{id}/timespan/`,
-    UPDATE_TIMESPAN: `${import.meta.env.VITE_NGROK}${BASE}/order-operation-timespan/`,
-    GET_TIMESPAN: `${import.meta.env.VITE_NGROK}${BASE}/order-operation-timespan/`
+    ORDERS: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order/`,
+    ADD_ORDER: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order/`,
+    UPDATE_ORDER: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order/`,
+    GET_ORDER: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order/`,
+    GET_REFERENCES: `${import.meta.env.VITE_API_BASE_URL}${BASE}/reference/`,
+    GET_OPERATIONS: `${import.meta.env.VITE_API_BASE_URL}${BASE}/reference-operation/`,
+    UPDATE_OPERATION: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order/`,
+    GET_ORDER_OPERATION: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation/order/`,
+    ADD_TIMESPAN: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation/{id}/timespan/`,
+    UPDATE_TIMESPAN: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation-timespan/`,
+    GET_TIMESPAN: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation-timespan/`
 }
 const request = axios.create({
-    baseURL: import.meta.env.VITE_NGROK,
+    baseURL: import.meta.env.VITE_API_BASE_URL,
     headers: {
         'Authorization': getCookieValueByName('token'),
         "ngrok-skip-browser-warning": "true",
