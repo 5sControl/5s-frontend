@@ -1,0 +1,95 @@
+{
+  "menu": {
+    "ordersView": "Widok zamówień",
+    "configuration": "Konfiguracja"
+  },
+  "config": {
+    "title": "Konfiguracja",
+    "erp": "Połączenia ERP"
+  },
+  "messages": {
+    "noDatabases": "Brak dostępnych baz danych",
+    "used": "Używane w Widoku zamówień",
+    "connected": "Połączono",
+    "disconnected": "Odłączono",
+    "unableToSave": "Nie można zapisać",
+    "disconectFromERP": "Odłączyć od ERP?",
+    "disconectDescription": "Odłączenie od bazy danych uniemożliwi wyświetlanie zamówień w Widoku zamówień.",
+    "incorrectCredentials": "Nieprawidłowy e-mail lub hasło. Spróbuj ponownie."
+  },
+  "text": {
+    "connection": "połączenie",
+    "select": "Wybierz",
+    "usedInOrdersView": "Używane w Widoku zamówień",
+    "connected": "Połączono",
+    "database": "Baza danych",
+    "no": "Nie",
+    "added": "dodane przez Ciebie pojawią się tutaj.",
+    "new": "Nowe",
+    "time": "Planowany czas",
+    "name": "nazwa",
+    "ordersView": "Widok zamówień",
+    "scheduled": "Pokaż zaplanowany czas",
+    "startTime": "Czas rozpoczęcia",
+    "datePlaceholder": "Wybierz datę i czas rozpoczęcia",
+    "logout": "Wyloguj się"
+  },
+  "operations": {
+    "add": "Dodaj",
+    "save": "Zapisz",
+    "edit": "Edytuj",
+    "disconect": "Odłącz",
+    "cancel": "Anuluj",
+    "search": "Szukaj",
+    "done": "Gotowe",
+    "delete": "Usuń"
+  },
+  "db": {
+    "products": {
+      "button": "",
+      "title": "Produkty",
+      "singular": "produkt"
+    },
+    "productsCategory": {
+      "button": "Produkty",
+      "title": "Kategorie produktów",
+      "singular": "kategoria produktu"
+    },
+    "operations": {
+      "button": "Operacje",
+      "title": "Operacje",
+      "singular": "operacja"
+    },
+    "employes": {
+      "button": "Pracownicy",
+      "title": "Pracownicy",
+      "singular": "pracownik"
+    },
+    "equipment": {
+      "button": "Sprzęt",
+      "title": "Sprzęt",
+      "singular": "sprzęt"
+    }
+  },
+  "newConnection": {
+    "title": "Nowe połączenie",
+    "system": "System ERP",
+    "domain": "Domena",
+    "name": "Nazwa",
+    "pwd": "Hasło",
+    "status": "Status"
+  },
+  "form": {
+    "name": "Nazwa",
+    "namePlaceholder": "Wpisz nazwę",
+    "auth": {
+      "signin": "Zaloguj się do",
+      "login": "Nazwa użytkownika",
+      "loginPlaceholder": "Wpisz nazwę użytkownika",
+      "pwdPlaceholder": "Wpisz hasło",
+      "pwd": "Hasło",
+      "submit": "Zaloguj się",
+      "required": "To pole jest wymagane"
+    }
+  }
+}

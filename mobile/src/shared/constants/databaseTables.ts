@@ -1,0 +1,42 @@
+export const databaseTables = {
+  productCategories: {
+    buttonTitle: "db.productsCategory.button",
+    pageTitle: "db.productsCategory.title",
+    singularName: "db.productsCategory.singular",
+    path: "productCategories",
+    pageDisplay: true,
+    disabled: false,
+  },
+  products: {
+    buttonTitle: "db.products.button",
+    pageTitle: "db.products.title",
+    singularName: "db.products.singular",
+    path: "products",
+    pageDisplay: false,
+    disabled: false,
+  },
+  operations: {
+    buttonTitle: "db.operations.button",
+    pageTitle: "db.operations.title",
+    singularName: "db.operations.singular",
+    path: "operations",
+    pageDisplay: true,
+    disabled: false,
+  },
+  employees: {
+    buttonTitle: "db.employes.button",
+    pageTitle: "db.employes.title",
+    singularName: "db.employes.singular",
+    path: "employees",
+    pageDisplay: true,
+    disabled: true,
+  },
+  equipment: {
+    buttonTitle: "db.equipment.button",
+    pageTitle: "db.equipment.title",
+    singularName: "db.equipment.singular",
+    path: "equipment",
+    pageDisplay: true,
+    disabled: true,
+  },
+};

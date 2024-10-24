@@ -4,7 +4,7 @@ import { fetchDatabaseParam } from "../../utils/fetchDatabaseParam";
 import "./styles.module.css";
 import { useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { Preloader } from "../../../components/preloader";
+import { Preloader } from "../../components/preloader/preloader"
 import { databaseTables } from "../../../shared/constants/databaseTables";
 import { ItemButton } from "../itemButton/ItemButton";
 import { EmptyResultPrompt } from "../emptyResultPrompt/emptyResultPrompt";

@@ -1,0 +1,10 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px
+}
+.label {
+    margin-top: 16px;
+    font-weight: 600;
+    text-align: center;
+}

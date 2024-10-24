@@ -1,4 +1,4 @@
-import { ROUTES } from "../../../../shared/constants/routes";
+import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
