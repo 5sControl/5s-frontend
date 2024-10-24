@@ -1,11 +1,12 @@
-FROM node:latest
-WORKDIR /app
-COPY package.json ./
-RUN npm install
-RUN npm i -g serve
+FROM node:20.17 AS build
+WORKDIR /usr/app/
+COPY package*.json ./
+RUN npm ci
 COPY . .
+ARG BASE_URL
+ENV BASE_URL ${BASE_URL}
 RUN npm run build
-EXPOSE 5173
-CMD [ "serve", "-s", "dist", "-l", "5173" ]
 
-
+FROM nginx:latest AS production
+COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /usr/app/dist /usr/share/nginx/html

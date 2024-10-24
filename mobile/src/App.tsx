@@ -38,16 +38,16 @@ setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <IonReactRouter>
+    <IonReactRouter basename={import.meta.env.BASE_URL ?? '/'}>
       <IonRouterOutlet>
-        <Route path="/" exact={true}>
-          <Redirect to="/home" />
+        <Route path='/' exact={true}>
+          <Redirect to='/home' />
         </Route>
-        <Route path="/home" exact={true}>
+        <Route path='/home' exact={true}>
           <Home />
         </Route>
-        <Route path="/message/:id">
-           <ViewMessage />
+        <Route path='/message/:id'>
+          <ViewMessage />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
