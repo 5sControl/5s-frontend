@@ -6,7 +6,7 @@ import { ReactNode, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteDirectory } from "../../api/directory/directory";
 import { useCookies } from "react-cookie";
-import { Preloader } from "../../components/preloader/preloader"
+import { Preloader } from "../../../components/preloader";
 
 type CardsProps = {
   title?: ReactNode;

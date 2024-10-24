@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { getDirectory, updateDirectory } from "../../../../api/directory/directory";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../../../components/preloader";
-import { IonContent } from "@ionic/react";
+import { IonContent, IonPage } from "@ionic/react";
 import { Header } from "../../../../components/header/Header";
 import { DirectoryCategory } from "../../../../models/interfaces/directoryCategory.interface";
 import { getDirectoryCategory, updateDirectoryCategory } from "../../../../api/directory/directoryCategories";
@@ -48,25 +48,27 @@ const EditDirectoryCategory = () => {
 
   const { t } = useTranslation();
   return (
-    <IonContent>
-      <Header title={t("directory.editCard")} backButtonHref={ROUTES.DIRECTORY_CATEGORY_CARD(refId, id)}></Header>
-      {loading ? (
-        <div className="preloader">
-          <Preloader />
-        </div>
-      ) : (
-        <SingleInputPage
-          backHref={ROUTES.DIRECTORY_CATEGORY_CARD(refId, id)}
-          label={t("newConnection.name")}
-          value={directoryName!}
-          required
-          handleChange={e => {
-            setDirectoryName(e.target.value);
-          }}
-          handleSave={handleSave}
-        />
-      )}
-    </IonContent>
+    <IonPage>
+      <IonContent>
+        <Header title={t("directory.editCard")} backButtonHref={ROUTES.DIRECTORY_CATEGORY_CARD(refId, id)}></Header>
+        {loading ? (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        ) : (
+          <SingleInputPage
+            backHref={ROUTES.DIRECTORY_CATEGORY_CARD(refId, id)}
+            label={t("newConnection.name")}
+            value={directoryName!}
+            required
+            handleChange={e => {
+              setDirectoryName(e.target.value);
+            }}
+            handleSave={handleSave}
+          />
+        )}
+      </IonContent>
+    </IonPage>
   );
 };
 export default EditDirectoryCategory;

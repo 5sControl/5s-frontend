@@ -3,7 +3,7 @@ import { IonButton, IonContent, IonSearchbar } from "@ionic/react";
 import DatabaseList from "../../../components/databaseList/databaseList";
 import "./styles.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ROUTES } from "../../../shared/constants/routes";
+import { ROUTES } from "../../../../shared/constants/routes";
 import { DatabaseTableInfo } from "../../../models/interfaces/databaseTableInfo.interface";
 import { databaseTables } from "../../../../shared/constants/databaseTables";
 import "../../../styles/common.scss";

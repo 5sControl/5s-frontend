@@ -1,6 +1,6 @@
-import { IonContent, IonFab, IonFabButton, IonIcon, IonItem, IonList } from "@ionic/react";
+import { IonContent, IonFab, IonFabButton, IonIcon, IonItem, IonList, IonPage } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
-import { ROUTES } from "../../../shared/constants/routes";
+import { ROUTES } from "../../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
 import { Plus } from "../../../assets/svg/SVGcomponent";
 import Fab from "../../../components/fab/Fab";
@@ -55,31 +55,33 @@ const DirectoryCategory = () => {
   }, [cookies.token]);
 
   return (
-    <IonContent>
-      <Header title={catalogTitle} backButtonHref={ROUTES.DIRECTORIES} />
-      <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.DIRECTORY_CATEGORY_ADD(refId!))} />
-      {loading ? (
-        <div className="preloader">
-          <Preloader />
-        </div>
-      ) : items.length === 0 ? (
-        <IonList inset={true}>
-          <IonItem>{t("messages.noDatabases")}</IonItem>
-        </IonList>
-      ) : (
-        <IonList inset>
-          {items
-            .filter(({ isProtected }) => !isProtected)
-            .map(({ id, name }) => (
-              <MenuListButton
-                key={id}
-                title={name}
-                handleItemClick={() => handleItemClick(ROUTES.DIRECTORY_CATEGORY_CARD(refId, String(id)))}
-              />
-            ))}
-        </IonList>
-      )}
-    </IonContent>
+    <IonPage>
+      <IonContent>
+        <Header title={catalogTitle} backButtonHref={ROUTES.DIRECTORIES} />
+        <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.DIRECTORY_CATEGORY_ADD(refId!))} />
+        {loading ? (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        ) : items.length === 0 ? (
+          <IonList inset={true}>
+            <IonItem>{t("messages.noDatabases")}</IonItem>
+          </IonList>
+        ) : (
+          <IonList inset>
+            {items
+              .filter(({ isProtected }) => !isProtected)
+              .map(({ id, name }) => (
+                <MenuListButton
+                  key={id}
+                  title={name}
+                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORY_CATEGORY_CARD(refId, String(id)))}
+                />
+              ))}
+          </IonList>
+        )}
+      </IonContent>
+    </IonPage>
   );
 };
 export default DirectoryCategory;

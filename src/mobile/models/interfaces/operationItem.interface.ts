@@ -1,4 +1,5 @@
 import {OrdersStatus} from "../types/ordersStatus";
+import { OperationStatus } from "../types/ordersStatus";
 
 export interface OperationItem {
     filtration_operation_id: number,
@@ -41,8 +42,8 @@ export interface IOperationSpan {
 export interface IOrderOperation {
     id: number
     name: string
-  
-    status: string
+    referenceOperationId: number;
+    status: OperationStatus
     totalDuration: number
     extensions: Extension[]
     timespans: Timespan[]
@@ -70,6 +71,8 @@ export interface IOrderWithAllOperations {
     name: string
     operations: IOrderOperation[]
 }
+
+
 
 
 
