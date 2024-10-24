@@ -1,6 +1,5 @@
 export const ROUTES = {
-  MENU: "/mobile/",
-  ORDERS: "/mobile/orders",
+  MENU: "/mobile/", 
   GUIDES: "/mobile/guides",
   GUIDES_ADD: "mobile/guides/new",
   AUTHORIZATION: "/authorization",
@@ -27,6 +26,16 @@ export const ROUTES = {
   DIRECTORY_CATEGORY_CARD: (card: string) => `/mobile/directories/${card}`,
   DIRECTORY_CATEGORY_EDIT: (card: string) => `/mobile/directories/${card}/edit`,
   ORDERSVIEW: "/mobile/orders-view",
-  OPERATIONDETAIL: (id: string) => `mobile/orders-view/operation-detail/${id}`
+  OPERATIONDETAIL: (id: string) => `mobile/orders-view/operation-detail/${id}`,
+
+  ORDERS: "/mobile/orders",
+  ORDER: "/mobile/order",
+  ORDER_OPERATIONS: "/mobile/order/operations",
+  ORDER_ITEM: (id: string) =>  `/mobile/order/${id}`,
+  ORDER_ITEM_EDIT: (id: string) =>  `/mobile/order/${id}/edit`,
+  ORDER_OPERATION: (id: string, operationId: string) => `/mobile/order/${id}/operation/${operationId}`,
+  ORDER_TIMESPAN: (id: string, operationId: string) => `/mobile/order/${id}/operation/${operationId}/timespan`,
+  ORDER_TIMESPAN_EDIT: (id: string, operationId: string, timespanId: string) => `/mobile/order/${id}/operation/${operationId}/timespan/${timespanId}/edit`
+
 
 };

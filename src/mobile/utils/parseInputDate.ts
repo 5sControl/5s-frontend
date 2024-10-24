@@ -41,15 +41,24 @@ export const formatDate = (dateString: string): string => {
   return `${day}.${month}.${year}`;
 }
 
-export const localDateString = (now: Date) => { 
+export const formatDateUTC = (dateString: string): string => {
+  const date = new Date(dateString);
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const year = String(date.getUTCFullYear()).slice(2);
+
+  return `${day}.${month}.${year}`;
+}
+
+export const localDateString = (now: Date) => {
   const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0'); 
+  const month = String(now.getMonth() + 1).padStart(2, '0');
   const day = String(now.getDate()).padStart(2, '0');
   const hours = String(now.getHours()).padStart(2, '0');
   const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');  
+  const seconds = String(now.getSeconds()).padStart(2, '0');
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-} 
+}
 export const getLocalDateString = () => {
   const now = new Date();
   return localDateString(now)
@@ -65,10 +74,10 @@ export const updateDateTime = (originalDateTime: string, newDate: string) => {
   const newDateObj = new Date(newDate);
   const hours = originalDateObj.getHours();
   const minutes = originalDateObj.getMinutes();
-  const seconds = originalDateObj.getSeconds();  
+  const seconds = originalDateObj.getSeconds();
   newDateObj.setHours(hours);
   newDateObj.setMinutes(minutes);
-  newDateObj.setSeconds(seconds);  
+  newDateObj.setSeconds(seconds);
 
   return localDateString(newDateObj);
 }
@@ -84,18 +93,18 @@ export const updateTime = (originalDateTime: string, newTime: string) => {
   originalDateObj.setHours(newTimeObj.getHours());
   originalDateObj.setMinutes(newTimeObj.getMinutes());
   originalDateObj.setSeconds(newTimeObj.getSeconds());
-  
-  
+
+
   return localDateString(originalDateObj);
 }
 
 export const getTimeDifference = (date1: string, date2: string) => {
-  let hours = 0, minutes = 0; 
+  let hours = 0, minutes = 0;
   const dateObj1 = new Date(date1);
   const dateObj2 = new Date(date2);
 
   if (!isNaN(dateObj1.getTime()) && !isNaN(dateObj2.getTime())) {
-  
+
     dateObj1.setSeconds(0, 0);
     dateObj2.setSeconds(0, 0);
 
@@ -107,16 +116,65 @@ export const getTimeDifference = (date1: string, date2: string) => {
   return { hours, minutes };
 }
 
-export const  mergeDateAndTime = (dateStr1: string, dateStr2: string) =>  {
-  
+export const mergeDateAndTime = (dateStr1: string, dateStr2: string) => {
+
   const [datePart1] = dateStr1.split('T');
-  const [, timePart2] = dateStr2.split('T');  
+  const [, timePart2] = dateStr2.split('T');
   const mergedDateTime = `${datePart1}T${timePart2}`;
   return mergedDateTime;
 }
 
 export const formatTime = (seconds: number) => {
   const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);  
-  return {hours, minutes};
+  const minutes = Math.floor((seconds % 3600) / 60);
+  return { hours, minutes };
 }
+
+export const updateTimeInDate = (dateString: string): string => {
+
+  const [datePart] = dateString.split('T');
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+
+  return `${datePart}T${hours}:${minutes}`;
+}
+
+export const getCurrentDateTimeISO = (): string => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+}
+
+export const  formatYMD = (dateString: string):string => {
+  const date = new Date(dateString);  
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+ 
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+}
+
+export const convertToCustomFormat = (dateString: string): string => {
+
+  const dateObj = new Date(dateString);  
+  const year = dateObj.getUTCFullYear();
+  const month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(dateObj.getUTCDate()).padStart(2, '0');
+  const hours = String(dateObj.getUTCHours()).padStart(2, '0');
+  const minutes = String(dateObj.getUTCMinutes()).padStart(2, '0');
+  return `${year}-${month}-${day}T${hours}:${minutes}:00`;
+}
+
+export const truncateDate = (dateString: string): string=> {
+  return dateString.split('.')[0];
+};

@@ -31,7 +31,7 @@ const getOrders = async (setItems: React.Dispatch<React.SetStateAction<IOrders[]
     setLoading?: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage?: React.Dispatch<React.SetStateAction<string | null>>): Promise<void> => {
     try {
-       
+       setLoading && setLoading(true)
         const orders = await ORDERS_API.getOrders();
         if (orders.status === STATUS.OK) {
             setItems(orders.data)
@@ -200,7 +200,7 @@ const getTimespan = async (id: number, setTimespan: React.Dispatch<React.SetStat
     try {
         setLoading(true)
         const operation = await TIMESPAN_API.getTimespan(id)
-        if (operation.status === STATUS.OK) {
+        if (operation.status === STATUS.OK) {            
             setTimespan(operation.data)
         } else {
             setMessage && setMessage('Something went wrong')

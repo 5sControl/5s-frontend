@@ -32,27 +32,23 @@ export const OrdersPage: React.FC = () => {
     }, []);
    
 
-    const items = filteredItems.map(item => <ItemList key={item.id} label={`${item.name}`} to={`../mobile/order/${item.id}`}/>)
+    const items = filteredItems.map(item => <ItemList key={item.id} label={`${item.name}`} to={ROUTES.ORDER_ITEM(String(item.id))}> 
+    </ItemList>)
     return (
         <IonContent color="light">
-            {
-                isLoading ? <IonLoading isOpen={isLoading} message="Loading..."/> :
-                <>
-                <Header title="Orders" backButtonHref={'/mobile/'} searchBar searchText={searchText} onSearchChange={handleSetSearch}/>
+           
+                <IonLoading isOpen={isLoading} message="Loading..."/>
+                <Header title="Orders" backButtonHref={ROUTES.MENU} searchBar searchText={searchText} onSearchChange={handleSetSearch}/>
                 <IonContent className="ion-padding">                    
                     <IonList>
                         {items}
                     </IonList>
                     <IonFab className={style.button} slot="fixed" horizontal="end" vertical="bottom">
-                        <IonFabButton routerLink="./mobile/order/" style={{'--border-radius': '15px'}}>
+                        <IonFabButton routerLink={ROUTES.ORDER} style={{'--border-radius': '15px'}}>
                             <IonIcon icon={add}></IonIcon>
                         </IonFabButton>
                     </IonFab>
                 </IonContent>
-                </>
-            }
-         
-
             <IonToast
                     isOpen={!!toastMessage}
                     message={toastMessage || undefined}
