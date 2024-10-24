@@ -4,7 +4,8 @@ on:
   push:
     branches: [development]
     paths-ignore:
-     - 'mobile/**'
+      - 'mobile/**'
+      - '.github/workflows/dev-mobile.yml'
 
 jobs:
   Build:
@@ -16,7 +17,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Get the short Git commit hash 
+      - name: Get the short Git commit hash
         id: vars
         run: |
           echo "COMMIT_HASH=${GITHUB_SHA::7}" >> $GITHUB_ENV
@@ -24,12 +25,12 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-            username: ${{ fromJson(secrets.DOCKER_CREDS).USERNAME }}
-            password: ${{ fromJson(secrets.DOCKER_CREDS).PASSWORD }} 
+          username: ${{ fromJson(secrets.DOCKER_CREDS).USERNAME }}
+          password: ${{ fromJson(secrets.DOCKER_CREDS).PASSWORD }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-          
+
       - name: Build and push Docker images
         uses: docker/build-push-action@v4
         with:
@@ -40,7 +41,7 @@ jobs:
             5scontrol/5scontrol_front:${{ env.COMMIT_HASH }}
           cache-from: type=registry,ref=5scontrol/5scontrol_front:cache
           cache-to: type=registry,ref=5scontrol/5scontrol_front:cache,mode=max
-          
+
   Deploy:
     runs-on: self-hosted
     needs: Build
@@ -56,4 +57,4 @@ jobs:
         run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml rm -f 5scontrol_front
 
       - name: Recreate and restart server container
-        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml up -d --no-deps 5scontrol_front 
+        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml up -d --no-deps 5scontrol_front

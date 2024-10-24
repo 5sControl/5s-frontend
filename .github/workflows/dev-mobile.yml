@@ -5,6 +5,7 @@ on:
     branches: [development]
     paths:
       - 'mobile/**'
+      - '.github/workflows/dev-mobile.yml'
 
 jobs:
   Build:
