@@ -93,9 +93,9 @@
     "namePlaceholder": "Enter a name",
     "auth": {
       "signin": "Sign in to",
-      "login": "Username",
-      "loginPlaceholder": "Enter Username",
-      "pwdPlaceholder": "Enter Password",
+      "login": "User",
+      "loginPlaceholder": "Enter user",
+      "pwdPlaceholder": "Enter password",
       "pwd": "Password",
       "submit": "Log In",
       "required": "This field is required"

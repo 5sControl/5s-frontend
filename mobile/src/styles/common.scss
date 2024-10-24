@@ -59,6 +59,7 @@ ion-searchbar{
 ion-item.input__field::part(native) {
     background-color: transparent;
     margin-top: 12px;
+    --border-color: #00000000;
 }
 
 ion-list.button__wrapper{
