@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { getDirectory, updateDirectory } from "../../../api/directory/directory";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../../components/preloader";
-import { IonContent } from "@ionic/react";
+import { IonContent, IonPage } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 
 const EditDirectoryCard = () => {
@@ -44,25 +44,27 @@ const EditDirectoryCard = () => {
 
   const { t } = useTranslation();
   return (
-    <IonContent>
-      <Header title={t("directory.editCard")} backButtonHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}></Header>
-      {loading ? (
-        <div className="preloader">
-          <Preloader />
-        </div>
-      ) : (
-        <SingleInputPage
-          backHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}
-          label={t("newConnection.name")}
-          value={directoryName!}
-          required
-          handleChange={e => {
-            setDirectoryName(e.target.value);
-          }}
-          handleSave={handleSave}
-        />
-      )}
-    </IonContent>
+    <IonPage>
+      <IonContent>
+        <Header title={t("directory.editCard")} backButtonHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}></Header>
+        {loading ? (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        ) : (
+          <SingleInputPage
+            backHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}
+            label={t("newConnection.name")}
+            value={directoryName!}
+            required
+            handleChange={e => {
+              setDirectoryName(e.target.value);
+            }}
+            handleSave={handleSave}
+          />
+        )}
+      </IonContent>
+    </IonPage>
   );
 };
 export default EditDirectoryCard;

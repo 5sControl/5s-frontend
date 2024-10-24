@@ -1,9 +1,10 @@
 import {IOperation} from "./operationItem.interface";
+import { OperationStatus } from "../types/ordersStatus";
 
 export interface IOrders {
     id: number
     name: string
-    status: string
+    status: OperationStatus
     createdAt: string
     updatedAt: string
     operations: IOperation[]
