@@ -24,6 +24,7 @@ import GreenStatus from "./status/greenStatus.svg";
 import GreyStatus from "./status/greyStatus.svg";
 import OrangeStatus from "./status/orangeStatus.svg";
 import RedStatus from "./status/redStatus.svg";
+import FiveS from "./5S.svg";
 
 export {
   ArrowRight,
@@ -51,5 +52,6 @@ export {
   GreenStatus,
   GreyStatus,
   OrangeStatus,
-  RedStatus
+  RedStatus,
+  FiveS
 };

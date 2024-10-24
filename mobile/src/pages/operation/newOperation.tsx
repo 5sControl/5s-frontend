@@ -4,7 +4,7 @@ import {
     IonContent, IonDatetime, IonDatetimeButton, IonHeader, IonLabel,
     IonModal, IonText, IonTitle, IonToolbar, IonToast
 } from '@ionic/react';
-import { ROUTES } from "../../../shared/constants/routes";
+import { ROUTES } from "../../shared/constants/routes";
 import { useHistory } from 'react-router-dom';
 import style from './newOperation.module.scss';
 

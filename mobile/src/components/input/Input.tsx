@@ -8,9 +8,10 @@ type InputProps = {
     handleChange: (e: any) => void,
     placeholder?: string,
     type?: "text" | "password" | "email" | "number" | "search" | "tel" | "url";
+    onKeyDown?: (e: any) => void
 }
 
-export const Input: React.FC<InputProps> = ({label, value, required, handleChange, placeholder, type="text"}) => {
+export const Input: React.FC<InputProps> = ({label, value, required, handleChange, placeholder, onKeyDown, type="text"}) => {
   return (
     <IonItem className="input__field">
         <IonLabel position="stacked">{label}</IonLabel>
@@ -20,6 +21,7 @@ export const Input: React.FC<InputProps> = ({label, value, required, handleChang
         className="input__wrapper"
         onIonChange={handleChange}
         required={required}
+        onKeyDown={onKeyDown}
         type={type}>
         {type === "password" && <IonInputPasswordToggle slot="end" color="medium"></IonInputPasswordToggle>}
         </IonInput>

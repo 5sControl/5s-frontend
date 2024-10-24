@@ -3,7 +3,6 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { useAppDispatch } from "./store/hooks";
 import "./i18";
 import "./index.scss";
 import "@ionic/react/css/core.css";
@@ -24,7 +23,6 @@ import Connection from "./pages/connections/connection/Connection";
 import Connections from "./pages/connections/Connections";
 import NewConnection from "./pages/connections/new-connection/NewConnection";
 import ConfigurationMobile from "./pages/configuration/Configuration";
-import { databaseTables } from "./shared/constants/databaseTables";
 import { OrdersView as OrdersViewMobile } from "./pages/ordersView/ordersView";
 import EditConnection from "./pages/connections/edit-connection/EditConnection";
 
@@ -46,130 +44,119 @@ import EditOrder from "./pages/order/editOrder/editOrder";
 import OrderOperations from "./pages/order/orderOperations/orderOperations";
 import NewTimespan from "./pages/timespan/newTimespan/newTimespan";
 import EditTimespan from "./pages/timespan/editTimespan/editTimespan";
+import { Authorization } from './components/authorization/Authorization';
+import { isVerifyToken } from './api/authorization';
 
 setupIonicReact();
 
 function App() {
   const [cookies, , removeCookie] = useCookies(["token"]);
-  // const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   isVerifyToken(window.location.hostname, cookies.token)
-  //     .then(response => {
-  //       if (Object.keys(response.data).length === 0) {
-  //         // console.log("token is available");
-  //       } else {
-  //         removeCookie("token");
-  //       }
-  //     })
-  //     .catch(error => {
-  //       // console.log(error);
-  //       removeCookie("token");
-  //     });
-  // }, [cookies]);
-
-  // useEffect(() => {
-  //   dispatch(
-  //     getConnectionsToDB({
-  //       token: cookies.token,
-  //       hostname: window.location.hostname,
-  //     })
-  //   );
-  // }, []);
+  useEffect(() => {
+    if (cookies.token) {
+      isVerifyToken(cookies.token)
+        .then(response => {
+          if (Object.keys(response.data).length === 0) {
+            // console.log("token is available");
+          } else {
+            removeCookie("token");
+          }
+        })
+        .catch(error => {
+          removeCookie("token");
+        });
+    }
+  }, [cookies]);
 
   return (
     <IonApp>
       <IonReactRouter>
-        <IonRouterOutlet>
-          {/* <Route path="/authorization">
+          <Route path="/authorization">
             <Authorization/>
-          </Route> */}
-
-          {cookies.token ? (
-            <>
-              <Route path={ROUTES.MENU}>
+          </Route>
+          {cookies.token ? ( 
+            <IonRouterOutlet>
+              <Route exact path={ROUTES.MENU}>
                   <Menu />
               </Route>
-              <Route path={ROUTES.CONFIGURATION}>
+              <Route exact path={ROUTES.CONFIGURATION}>
                   <ConfigurationMobile />
               </Route>
-              <Route path={ROUTES.CONNECTIONS}>
+              <Route exact path={ROUTES.CONNECTIONS}>
                   <Connections />
               </Route>
-              <Route path={ROUTES.CONNECTIONS_ADD}>
+              <Route exact path={ROUTES.CONNECTIONS_ADD}>
                   <NewConnection />
               </Route>
-              <Route path={ROUTES.CONNECTIONS_ITEM(":id")}>
+              <Route exact path={ROUTES.CONNECTIONS_ITEM(":id")}>
                   <Connection />
               </Route>
-              <Route path={ROUTES.CONNECTIONS_EDIT(":id")}>
+              <Route exact path={ROUTES.CONNECTIONS_EDIT(":id")}>
                   <EditConnection />
               </Route>
-              <Route path={ROUTES.ORDERSVIEW}>
+              <Route exact path={ROUTES.ORDERSVIEW}>
                   <OrdersViewMobile />
               </Route>
-              <Route path={ROUTES.OPERATIONDETAIL(":id")}>
+              <Route exact path={ROUTES.OPERATIONDETAIL(":id")}>
                   <OperationDetail />
               </Route>
-              <Route path={ROUTES.GENEREAL_DIRECTORIES}>
+              <Route exact path={ROUTES.GENEREAL_DIRECTORIES}>
                   <GeneralDirectories />
               </Route>
-              <Route path={ROUTES.DIRECTORIES_ADD}>
+              <Route exact path={ROUTES.DIRECTORIES_ADD}>
                   <NewDirectory />
               </Route>
-              <Route path={ROUTES.DIRECTORIES_ITEM_CARD(":id")}>
+              <Route exact path={ROUTES.DIRECTORIES_ITEM_CARD(":id")}>
                   <DirectoryCard />
               </Route>
-              <Route path={ROUTES.DIRECTORIES_EDIT_CARD(":id")}>
+              <Route exact path={ROUTES.DIRECTORIES_EDIT_CARD(":id")}>
                   <EditDirectoryCard />
               </Route>
-              <Route path={ROUTES.DIRECTORIES}>
+              <Route exact path={ROUTES.DIRECTORIES}>
                   <Directories />
               </Route>
-              <Route path={ROUTES.DIRECTORY_CATEGORY(":refId")}>
+              <Route exact path={ROUTES.DIRECTORY_CATEGORY(":refId")}>
                   <DirectoryCategory />
               </Route>
-              <Route path={ROUTES.DIRECTORY_CATEGORY_ADD(":refId")}>
+              <Route exact path={ROUTES.DIRECTORY_CATEGORY_ADD(":refId")}>
                   <NewDirectoryCategory />
               </Route>
-              <Route path={ROUTES.DIRECTORY_CATEGORY_CARD(":refId", ":id")}>
+              <Route exact path={ROUTES.DIRECTORY_CATEGORY_CARD(":refId", ":id")}>
                   <DirectoryCategoryCard />
               </Route>
-              <Route path={ROUTES.DIRECTORY_CATEGORY_EDIT(":refId", ":id")}>
+              <Route exact path={ROUTES.DIRECTORY_CATEGORY_EDIT(":refId", ":id")}>
                   <EditDirectoryCategory />
               </Route>
-              <Route path={'/orders'}>
+              <Route exact path={'/orders'}>
                   <OrdersPage />
               </Route>
-              <Route path={'/order/'}>
+              <Route exact path={'/order/'}>
                   <AddOrder />
               </Route>
-              <Route path={'/order/operations'}>
+              <Route exact path={'/order/operations'}>
                   <AddOrderOperation />
               </Route>
-              <Route path={'/order/:id'}>
+              <Route exact path={'/order/:id'}>
                   <Order />
               </Route>
-              <Route path={'/order/:id/edit'}>
+              <Route exact path={'/order/:id/edit'}>
                   <EditOrder />
               </Route>
-              <Route path={'/order/:id/operation/:operationId'}>
+              <Route exact path={'/order/:id/operation/:operationId'}>
                   <OrderOperations />
               </Route>
-              <Route path={'/order/:id/operation/:operationId/timespan'}>
+              <Route exact path={'/order/:id/operation/:operationId/timespan'}>
                   <NewTimespan />
               </Route>
-              <Route path={'/order/:id/operation/:operationId/timespan/:timespanId/edit'}>
+              <Route exact path={'/order/:id/operation/:operationId/timespan/:timespanId/edit'}>
                   <EditTimespan />
               </Route>
-                </>
+            </IonRouterOutlet>
           ) : (
             <Route path="/*">
-              <Menu/>
-              {/* <Authorization /> */}
+              <Authorization />
             </Route>
           )}
-        </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
   );
