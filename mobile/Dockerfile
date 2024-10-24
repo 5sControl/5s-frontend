@@ -1,5 +1,5 @@
 FROM node:20.17 AS build
-WORKDIR /usr/app/
+WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
