@@ -1,0 +1,49 @@
+.dateWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+ion-chip{
+    padding: 6px 10px;
+    margin: 4px;
+}
+
+.orders-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.orders-container::-webkit-scrollbar {
+    display: none;
+}
+  
+.orders {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    padding: 10px 0;
+    width: fit-content;
+}
+
+.dateTimePickerWrapper{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: fit-content;
+    margin: auto;
+}
+
+.dateTimeControls{
+    margin-bottom: 12px;
+}
+
+.ordersPanel {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--ion-background-color);
+}

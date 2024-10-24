@@ -1,6 +1,6 @@
 import { IonContent, IonFab, IonFabButton, IonIcon, IonItem, IonList } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
-import { ROUTES } from "../../../../shared/constants/routes";
+import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
 import { Plus } from "../../../assets/svg/SVGcomponent";
 import Fab from "../../../components/fab/Fab";

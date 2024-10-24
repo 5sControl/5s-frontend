@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
 import { useCookies } from "react-cookie";
 import { getAllDirectories } from "../../api/directory/directory";
-import { Preloader } from "../../../components/preloader";
+import { Preloader } from "../../components/preloader/preloader"
 import { Directory } from "../../models/interfaces/directory.interface";
 
 const mockedData = [

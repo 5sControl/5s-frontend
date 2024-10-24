@@ -1,0 +1,104 @@
+{
+ "menu" : {
+   "ordersView": "Orders View",
+   "configuration": "Configuration",
+   "directories": "Directories",
+   "generalDirectories": "General directories"
+ },
+  "config": {
+    "title": "Configuration",
+    "erp": "ERP Connections"
+  },
+  "messages": {
+    "noDatabases": "No databases available",
+    "used": "Used in Orders View",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "unableToSave": "Unable to save",
+    "disconectFromERP": "Disconnect from ERP?",
+    "disconectDescription": "Disconnecting from database will result in inability to view orders in Orders View.",
+    "incorrectCredentials": "Incorrect email or password. Please, try again."
+  },
+  "directory": {
+    "newDirectory": "New directory",
+    "NewCatalog": "New Catalog",
+    "editCard": "Edit card",
+    "card": "Card"
+  },
+  "text": {
+    "connection": "connection",
+    "select": "Select",
+    "usedInOrdersView": "Used in Orders View",
+    "connected": "Connected",
+    "database": "Database",
+    "no": "No",
+    "added": "you've added will appear here.",
+    "new": "New",
+    "time": "Planned Time",
+    "name": "name",
+    "ordersView": "Orders View",
+    "scheduled": "Show scheduled time",
+    "startTime": "Start time",
+    "datePlaceholder": "Select Date and Start Time",
+    "logout": "Log out"
+
+  },
+  "operations": {
+    "add": "Add",
+    "save": "Save",
+    "edit": "Edit",
+    "disconect": "Disconnect",
+    "cancel": "Cancel",
+    "search": "Search",
+    "done": "Done",
+    "delete": "Delete"
+  },
+  "db": {
+    "products": {
+      "button": "",
+      "title": "Products",
+      "singular": "product"
+    },
+    "productsCategory": {
+      "button": "Products",
+      "title": "Product Categories",
+      "singular": "product category"
+    },
+    "operations": {
+      "button": "Operations",
+      "title": "Operations",
+      "singular": "operation"
+    },
+    "employes": {
+      "button": "Employees",
+      "title": "Employees",
+      "singular": "employee"
+    },
+    "equipment": {
+      "button": "Equipment",
+      "title": "Equipment",
+      "singular": "equipment"
+    }
+  },
+  "newConnection": {
+    "title": "New connection",
+    "system": "ERP system",
+    "domain": "Domain",
+    "name": "Name",
+    "pwd": "Password",
+    "status": "Status"
+  },
+  "form" : {
+    "name": "Name",
+    "namePlaceholder": "Enter a name",
+    "auth": {
+      "signin": "Sign in to",
+      "login": "Username",
+      "loginPlaceholder": "Enter Username",
+      "pwdPlaceholder": "Enter Password",
+      "pwd": "Password",
+      "submit": "Log In",
+      "required": "This field is required"
+    }
+  }
+}
