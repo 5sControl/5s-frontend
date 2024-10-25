@@ -1,7 +1,7 @@
 FROM node:20.17 AS build
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci
+COPY package.json ./
+RUN npm install
 COPY . .
 ARG BASE_URL
 ENV BASE_URL ${BASE_URL}
