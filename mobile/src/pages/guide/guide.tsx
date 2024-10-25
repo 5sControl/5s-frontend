@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useCookies} from "react-cookie";
 import {useHistory} from "react-router-dom";
 import {IonButton, IonContent, IonList, IonPage} from "@ionic/react";
-import jwtDecode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import {getUserInfo} from "../../api/getUserList";
 import {ROUTES} from "../../shared/constants/routes";
 import {Header} from "../../components/header/Header";
