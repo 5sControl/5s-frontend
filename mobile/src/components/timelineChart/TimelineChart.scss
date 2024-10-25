@@ -1,0 +1,14 @@
+.chartContainer{
+   //  overflow-x: hidden;
+}
+
+.chartWrapper{
+    overflow-x: hidden;
+    width: 100% !important; 
+    margin: 0;
+    padding: 0;
+
+    &::-webkit-scrollbar{ 
+        display: none; 
+    }
+}
