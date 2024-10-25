@@ -43,7 +43,6 @@ export const Menu: React.FC = () => {
   };
 
   const handleItemClick = (path: string) => {
-    console.log('handleItemClick', path);
     history.push(path);
   };
 
