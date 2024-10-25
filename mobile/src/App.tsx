@@ -70,7 +70,7 @@ function App() {
 
   return (
     <IonApp>
-      <IonReactRouter>
+      <IonReactRouter basename={import.meta.env.BASE_URL ?? '/'}>
           <Route path="/authorization">
             <Authorization/>
           </Route>
