@@ -20,17 +20,23 @@ interface ICustomBack {
 }
 
 
-export const Header: React.FC<HeaderProps> = ({ title, backButtonHref, endButton, searchBar, searchText, onSearchChange, settings }) => {
-    const history =useHistory();
+export const Header: React.FC<HeaderProps> = ({ title, backButtonHref, endButton, searchBar, searchText, onSearchChange, settings, onBackClick }) => {
+    const history = useHistory();
+
     const handleBackButton = (backTo: string) => {
       history.push(backTo);
     };
+    const backHandler = () => {
+        onBackClick ? onBackClick() : history.push(backButtonHref || '')
+    }
     return (
         <IonHeader className={searchBar ? "" : "ion-no-border"}>
             <IonToolbar>
                 {backButtonHref &&
                     <IonButtons slot="start" className="header__start">
-                        <IonButton onClick={() => handleBackButton(backButtonHref) }>
+
+                        <IonButton onClick={backHandler}>
+
                             <IonIcon style={{ fontSize: "18px" }} icon={Back} />
                         </IonButton>                    
 
@@ -46,4 +52,3 @@ export const Header: React.FC<HeaderProps> = ({ title, backButtonHref, endButton
         </IonHeader>
     );
 };
-

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
-import { IonButton, IonContent, IonIcon, IonList, IonSelect, IonSelectOption } from "@ionic/react";
+import { IonButton, IonContent, IonIcon, IonList, IonPage, IonSelect, IonSelectOption } from "@ionic/react";
 import jwtDecode from "jwt-decode";
 import { getUserInfo, getUserList } from "../../api/getUserList";
 import { ROUTES } from "../../shared/constants/routes";
@@ -17,7 +17,7 @@ import "./Menu.scss";
 export const Menu: React.FC = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
   const [user, setUser] = useState<any>({});
-  const history =useHistory();
+  const history = useHistory();
   const { t, i18n } = useTranslation();
 
   const [language, setLanguage] = useState(i18n.language);
@@ -43,6 +43,7 @@ export const Menu: React.FC = () => {
   };
 
   const handleItemClick = (path: string) => {
+    console.log('handleItemClick', path);
     history.push(path);
   };
 
@@ -51,35 +52,33 @@ export const Menu: React.FC = () => {
   };
 
   return (
-    <IonContent color="light">
-      <Header
-        title={
-          <div className="main__header">
-            <img src={MenuLogo} alt="Menu Logo" />
-          </div>
-        }
-        endButton={<IonIcon icon={Cog} />}
-      />
-      <IonList inset={true}>
+    <IonPage>
+      <IonContent color="light">
+        <Header
+          title={
+            <div className="main__header">
+              <img src={MenuLogo} alt="Menu Logo" />
+            </div>
+          }
+          endButton={<IonIcon style={{ fontSize: "24px" }} icon={Cog} />}
+        />
+        <IonList inset={true}>
+          <MenuListButton title={user.username} account={true} />
+        </IonList>
 
-        <MenuListButton title={user.username} account={true} />
-      </IonList>
+        <IonList inset={true} lines="none">
+          <MenuListButton icon={DollarSign} title={"Заказы"} handleItemClick={() => handleItemClick(ROUTES.ORDERS)} />
+          <MenuListButton icon={DollarSign} title={"Отчеты"} />
+        </IonList>
 
-      <IonList inset={true} lines="none">
-        <MenuListButton icon={DollarSign} title="Orders" />
-        <MenuListButton icon={DollarSign} title="Reports" />
-      </IonList>
-
-      <IonList inset={true}>
-        {/* <MenuListButton title={t("menu.configuration")} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
+        <IonList inset={true}>
+          {/* <MenuListButton title={t("menu.configuration")} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
         <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} /> */}
-        <MenuListButton title={"Настройка данных"} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
-        <MenuListButton title={"Справочники"} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} />
-        <MenuListButton title={"Заказы"} handleItemClick={() => handleItemClick(ROUTES.ORDERS)} />
-       
-      </IonList>
+          <MenuListButton title={"Настройка данных"} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
+          <MenuListButton title={"Справочники"} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} />
+        </IonList>
 
-      {/* <IonList inset={true}>
+        {/* <IonList inset={true}>
         <ItemButton
           label={t("menu.ordersView")}
           icon={Settings}
@@ -97,7 +96,8 @@ export const Menu: React.FC = () => {
           <IonSelectOption value="pl">Polski</IonSelectOption>
         </IonSelect>
       </IonList> */}
-      {/* {user && <Logout username={user.username} status={user.status} logout={logout} />} */}
-    </IonContent>
+        {/* {user && <Logout username={user.username} status={user.status} logout={logout} />} */}
+      </IonContent>
+    </IonPage>
   );
 };

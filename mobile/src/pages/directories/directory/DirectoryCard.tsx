@@ -8,7 +8,7 @@ import { deleteDirectory, getDirectory } from "../../../api/directory/directory"
 import { useCookies } from "react-cookie";
 import { Directory } from "../../../models/interfaces/directory.interface";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IonContent, IonIcon, IonItem, IonList } from "@ionic/react";
+import { IonContent, IonIcon, IonItem, IonList, IonPage } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { TrashBin } from "../../../assets/svg/SVGcomponent";
 import { title } from "process";
@@ -18,7 +18,7 @@ const DirectoryCard = () => {
   const { id } : any = useParams();
   const { t } = useTranslation();
   const [directory, setDirectory] = useState<Directory>();
-  const history =useHistory();
+  const history = useHistory();
 
   useEffect(() => {
     getDirectory(Number(id!), cookies.token)
@@ -33,25 +33,27 @@ const DirectoryCard = () => {
   };
 
   return (
-    <IonContent>
-      <Header
-        title={t("directory.card")}
-        backButtonHref={ROUTES.GENEREAL_DIRECTORIES}
-        endButton={<IonIcon id="open-modal" icon={TrashBin}></IonIcon>}
-      />
-      {directory ? (
-        <Card
-          deleteCard={deleteCard}
-          backHref={ROUTES.GENEREAL_DIRECTORIES}
-          editHref={ROUTES.DIRECTORIES_EDIT_CARD(String(id))}
-          itemTitle={directory.name}
+    <IonPage>
+      <IonContent>
+        <Header
+          title={t("directory.card")}
+          backButtonHref={ROUTES.GENEREAL_DIRECTORIES}
+          endButton={<IonIcon id="open-modal" style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
         />
-      ) : (
-        <div className="preloader">
-          <Preloader />
-        </div>
-      )}
-    </IonContent>
+        {directory ? (
+          <Card
+            deleteCard={deleteCard}
+            backHref={ROUTES.GENEREAL_DIRECTORIES}
+            editHref={ROUTES.DIRECTORIES_EDIT_CARD(String(id))}
+            itemTitle={directory.name}
+          />
+        ) : (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        )}
+      </IonContent>
+    </IonPage>
   );
 };
 export default DirectoryCard;

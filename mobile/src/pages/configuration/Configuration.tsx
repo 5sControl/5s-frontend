@@ -1,4 +1,4 @@
-import { IonContent, IonList } from "@ionic/react";
+import { IonContent, IonList, IonPage } from "@ionic/react";
 import React from "react";
 import { ROUTES } from "../../shared/constants/routes";
 import { useHistory } from "react-router-dom";
@@ -16,19 +16,21 @@ const Configuration = () => {
   };
 
   return (
-    <IonContent>
-      {/* <Header title={t("config.title")} backButtonHref={ROUTES.MENU} /> */}
-      <Header title={"Настройка данных"} backButtonHref={ROUTES.MENU} />
-      {/* <IonList inset={true}>
-        <ItemButton label={t("config.erp")} handleItemClick={() => handleItemClick(ROUTES.CONNECTIONS)} />
-      </IonList> */}
-      <IonList inset={true}>
-        <MenuListButton
-          title={"Универсальные справочники"}
-          handleItemClick={() => handleItemClick(ROUTES.GENEREAL_DIRECTORIES)}
-        />
-      </IonList>
-    </IonContent>
+    <IonPage>
+      <IonContent>
+        {/* <Header title={t("config.title")} backButtonHref={ROUTES.MENU} /> */}
+        <Header title={"Настройка данных"} backButtonHref={ROUTES.MENU} />
+        {/* <IonList inset={true}>
+          <ItemButton label={t("config.erp")} handleItemClick={() => handleItemClick(ROUTES.CONNECTIONS)} />
+        </IonList> */}
+        <IonList inset={true}>
+          <MenuListButton
+            title={"Универсальные справочники"}
+            handleItemClick={() => handleItemClick(ROUTES.GENEREAL_DIRECTORIES)}
+          />
+        </IonList>
+      </IonContent>
+    </IonPage>
   );
 };
 

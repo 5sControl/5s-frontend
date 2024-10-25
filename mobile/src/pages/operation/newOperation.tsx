@@ -15,7 +15,7 @@ const NewOperation: React.FC = () => {
     const [toastMessage, setToastMessage] = useState<string | null>(null);
     const [showToast, setShowToast] = useState<boolean>(false);
 
-    const history =useHistory();
+    const history = useHistory();
     const startModalRef = useRef<HTMLIonModalElement>(null);
     const finishModalRef = useRef<HTMLIonModalElement>(null);
     const now = new Date().toISOString();
