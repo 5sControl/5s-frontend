@@ -1,7 +1,7 @@
 import { getAllProductCategories } from "../api/product/productCategories";
 import { getAllOperations } from "../api/product/productOperation";
 import { getAllProducts } from "../api/product/productType";
-import { databaseTables } from "../../shared/constants/databaseTables";
+import { databaseTables } from "../shared/constants/databaseTables";
 
 export async function fetchDatabaseParam(
   param: string,
