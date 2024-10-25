@@ -1,243 +1,263 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-    IonBackButton, IonButton, IonButtons,
-    IonContent, IonDatetime, IonDatetimeButton, IonHeader, IonLabel,
-    IonModal, IonText, IonTitle, IonToolbar, IonToast, IonIcon, IonPage, IonFooter, IonList, IonLoading
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonDatetime,
+  IonDatetimeButton,
+  IonHeader,
+  IonLabel,
+  IonModal,
+  IonText,
+  IonTitle,
+  IonToolbar,
+  IonToast,
+  IonIcon,
+  IonPage,
+  IonFooter,
+  IonList,
+  IonLoading,
 } from '@ionic/react';
 import { useNavigate } from 'react-router-dom';
-import { useParams } from "react-router";
+import { useParams } from 'react-router';
 import InputDate from '../../../components/inputDate/inputDate';
-import { formatDate, getTimeDifference, mergeDateAndTime, updateTimeInDate, getCurrentDateTimeISO } from './../../../utils/parseInputDate'
-import { TIMESPAN_REQUEST } from './../../../dispatcher'
-import ModalSave from "../../../components/modalSave/modalSave";
-import style from './style.module.scss'
-import { Back } from './../../../assets/svg/SVGcomponent'
-import { ROUTES } from "../../../../shared/constants/routes";
-
-
+import {
+  formatDate,
+  getTimeDifference,
+  mergeDateAndTime,
+  updateTimeInDate,
+  getCurrentDateTimeISO,
+} from './../../../utils/parseInputDate';
+import { TIMESPAN_REQUEST } from './../../../dispatcher';
+import ModalSave from '../../../components/modalSave/modalSave';
+import style from './style.module.scss';
+import { Back } from './../../../assets/svg/SVGcomponent';
+import { ROUTES } from '../../../../shared/constants/routes';
+import { useTranslation } from 'react-i18next';
+import { TOAST_DELAY } from './../../../constants/toastDelay';
 
 const NewTimespan: React.FC = () => {
-    const { id, operationId } = useParams<{ id: string, operationId: string }>();
-    const [isDateChange, setIsDateChange] = useState<boolean>(false)
-    const [startDateTime, setStartDateTime] = useState<string>(getCurrentDateTimeISO());
-    const [isStart, setIsStart] = useState<boolean>(false)
-    const [finishDateTime, setFinishDateTime] = useState<string>('');
-    const [isSave, setSave] = useState<boolean>(false);
-    const [toastMessage, setToastMessage] = useState<string | null>(null);
-    const [showToast, setShowToast] = useState<boolean>(false);
-    const [isLoading, setLoading] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const navigate = useNavigate();
-    const startModalRef = useRef<HTMLIonModalElement>(null);
-    const finishModalRef = useRef<HTMLIonModalElement>(null);
+  const { id, operationId } = useParams<{ id: string; operationId: string }>();
+  const [isDateChange, setIsDateChange] = useState<boolean>(false);
+  const [startDateTime, setStartDateTime] = useState<string>(getCurrentDateTimeISO());
+  const [isStart, setIsStart] = useState<boolean>(false);
+  const [finishDateTime, setFinishDateTime] = useState<string>('');
+  const [isSave, setSave] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const startModalRef = useRef<HTMLIonModalElement>(null);
+  const finishModalRef = useRef<HTMLIonModalElement>(null);
+  const { t } = useTranslation();
 
+  const showToastMessage = (message: string) => {
+    setToastMessage(message);
+    setShowToast(true);
+  };
 
-    const showToastMessage = (message: string) => {
-        setToastMessage(message);
-        setShowToast(true);
-    };
+  const handleStartNow = () => {
+    setStartDateTime(updateTimeInDate(startDateTime));
+    setIsStart(true);
+  };
 
-    const handleStartNow = () => {
-        setStartDateTime(updateTimeInDate(startDateTime));
-        setIsStart(true)
-    };
+  const handleFinishNow = () => {
+    setFinishDateTime(startDateTime);
+  };
 
-    const handleFinishNow = () => {
-        setFinishDateTime(startDateTime);
-    };
+  const handleNavigate = () => {
+    navigate(ROUTES.ORDER_OPERATION(String(id), String(operationId)));
+  };
 
-    const handleNavigate = () => {
-        navigate(ROUTES.ORDER_OPERATION(String(id), String(operationId)));
-    };
-
-    const handleSave = () => {
-        if (!startDateTime) {
-            showToastMessage('Please set a valid start date.');
-        } else {
-            setSave(true);
-            operationId && TIMESPAN_REQUEST.addTimespan(parseInt(operationId), { startedAt: startDateTime, finishedAt: finishDateTime || '' }, setLoading, setToastMessage, handleNavigate)
-        }
-    };
-
-
-    const handleStartDateChange = (date: string | string[]) => {
-        if (Array.isArray(date)) return;
-        if (finishDateTime) {
-            setFinishDateTime(mergeDateAndTime(date, finishDateTime));
-        }
-        setStartDateTime(date);
+  const handleSave = () => {
+    if (!startDateTime) {
+      showToastMessage(t('messages.validDate'));
+    } else {
+      setSave(true);
+      const payload = {
+        startedAt: startDateTime,
+        ...(finishDateTime && { finishedAt: finishDateTime }),
+      };
+      operationId &&
+        TIMESPAN_REQUEST.addTimespan(parseInt(operationId), payload, setLoading, setToastMessage, handleNavigate);
     }
+  };
 
-    const handleCustomTime = (time: string | string[]) => {
-        if (Array.isArray(time)) return;
-        if (finishDateTime && time > finishDateTime) {
-            setToastMessage('The start time cannot be greater than the end time')
-            return;
-        }
-        setStartDateTime(time);
+  const handleStartDateChange = (date: string | string[]) => {
+    if (Array.isArray(date)) return;
+    if (finishDateTime) {
+      setFinishDateTime(mergeDateAndTime(date, finishDateTime));
     }
-    const handleCustomFinishTime = (time: string | string[]) => {
-        if (Array.isArray(time)) return;
+    setStartDateTime(date);
+  };
 
-        if (time < startDateTime) {
-            setToastMessage('The finish date cannot be earlier than the start date. ')
-            return;
-        }
-        setFinishDateTime(time);
+  const handleCustomTime = (time: string | string[]) => {
+    if (Array.isArray(time)) return;
+    if (finishDateTime && time > finishDateTime) {
+      setToastMessage(t('messages.startTime'));
+      return;
     }
+    setStartDateTime(time);
+  };
+  const handleCustomFinishTime = (time: string | string[]) => {
+    if (Array.isArray(time)) return;
 
-    useEffect(() => {
-        isSave && setSave(false);
-    }, [finishDateTime, startDateTime]);
+    if (time < startDateTime) {
+      setToastMessage(t('messages.finishDate'));
+      return;
+    }
+    setFinishDateTime(time);
+  };
 
-    const backClick = () => {
-        if (isSave || (!isStart && !finishDateTime)) {
-            handleNavigate()
-        } else {
-            showToastMessage('Please save your data!');
-        }
-    };
+  useEffect(() => {
+    isSave && setSave(false);
+  }, [finishDateTime, startDateTime]);
 
+  const backClick = () => {
+    if (isSave || (!isStart && !finishDateTime)) {
+      handleNavigate();
+    } else {
+      showToastMessage(t('messages.saveData'));
+    }
+  };
 
-    const { hours, minutes } = getTimeDifference(finishDateTime, startDateTime)
+  const { hours, minutes } = getTimeDifference(finishDateTime, startDateTime);
 
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
 
-    return (
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start" className="header__start">
+            <IonButton onClick={backClick}>
+              <IonIcon style={{ fontSize: '18px' }} icon={Back} />
+            </IonButton>
+          </IonButtons>
+          <IonTitle>{t('orders.implementationTime')}</IonTitle>
+        </IonToolbar>
+      </IonHeader>
 
-        <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonButtons slot="start" className="header__start">
-                        <IonButton onClick={backClick}>
-                            <IonIcon style={{ fontSize: "18px" }} icon={Back} />
-                        </IonButton>
-
-                    </IonButtons>
-                    <IonTitle>Implementation Time</IonTitle>
-                </IonToolbar>
-            </IonHeader>
-
-            <IonContent className="ion-padding">
-                <IonLoading isOpen={isLoading} message="Loading..." />
-                <IonList className={style.page}>
-                    <IonList className={style.list}>
-                        <IonLabel>Date</IonLabel>
-                        <InputDate value={formatDate(startDateTime)} onClick={() => setIsDateChange(true)}></InputDate>
-                    </IonList>
-                    <IonList className={style.sized}>
-                        <IonLabel>Start Of Operation</IonLabel>
-                        <div className={style.container}>
-                            {isStart ? (
-                                <IonDatetimeButton datetime="start-datetime" slot="time-target" onClick={(e) => { e.preventDefault }} />
-                            ) : (
-                                <IonText className="ion-button-edit">Data</IonText>
-                            )}
-                            {isStart && (
-                                <IonButton size="small" onClick={() => startModalRef.current?.present()}>
-                                    Edit
-                                </IonButton>
-                            )}
-                        </div>
-
-                        <IonModal isOpen={isDateChange} onDidDismiss={() => setIsDateChange(false)}>
-                            <IonDatetime
-                                presentation="date"
-                                value={startDateTime}
-                                onIonChange={(e) => handleStartDateChange(e.detail.value!)}
-                            />
-                        </IonModal>
-
-                        <IonModal trigger="start-datetime" keepContentsMounted={true} style={{ display: 'none' }}>
-                            <IonDatetime
-                                id="start-datetime"
-                                presentation="time"
-                                value={startDateTime}
-                                onIonChange={(e) => handleCustomTime(e.detail.value!)}
-                            />
-                        </IonModal>
-
-                        <IonModal ref={startModalRef}>
-                            <IonDatetime
-                                id="start-datetime"
-                                presentation="time"
-                                value={startDateTime}
-                                onIonChange={(e) => handleCustomTime(e.detail.value!)}
-                            />
-                        </IonModal>
-
-                        <IonButton expand="block" onClick={handleStartNow} disabled={isStart}>
-                            Start
-                        </IonButton>
-                    </IonList>
-
-
-                    <IonList className={style.sized}>
-                        <IonLabel>Finish Of Operation</IonLabel>
-                        <div className={style.container}>
-                            {finishDateTime ? (
-                                <IonDatetimeButton datetime="finish-datetime" />
-                            ) : (
-                                <IonText className="ion-button-edit">Data</IonText>
-                            )}
-                            {finishDateTime && (
-                                <IonButton size="small" onClick={() => finishModalRef.current?.present()}>
-                                    Edit
-                                </IonButton>
-                            )}
-                        </div>
-
-
-                        <IonModal trigger="finish-datetime" keepContentsMounted={true} style={{ display: 'none' }}>
-                            <IonDatetime
-                                id="finish-datetime"
-                                presentation="time"
-                                value={finishDateTime || undefined}
-                                onIonChange={(e) => handleCustomFinishTime(e.detail.value!)}
-                            />
-                        </IonModal>
-                        <IonModal ref={finishModalRef}>
-                            <IonDatetime
-                                id="finish-datetime"
-                                presentation="time"
-                                value={finishDateTime || undefined}
-                                onIonChange={(e) => handleCustomFinishTime(e.detail.value!)}
-                            />
-                        </IonModal>
-
-                        <IonButton expand="block" onClick={handleFinishNow} disabled={!isStart || !!finishDateTime}>
-                            Finish
-                        </IonButton>
-                    </IonList>
-                    <div className={style.time}>
-                        <IonLabel>Operation time:</IonLabel>
-                        <IonLabel>{`${hours}h ${minutes ? minutes + ' min' : ''}`}</IonLabel>
-                    </div>
-                    <IonToast
-                        position="top"
-                        isOpen={!!toastMessage}
-                        message={toastMessage || undefined}
-                        duration={3000}
-                        onDidDismiss={() => setToastMessage(null)}
-                    />
-                </IonList>
-            </IonContent>
-            <IonFooter style={{ paddingBottom: '50px' }} className="ion-padding">
-                <IonButton
-                    expand="block"
-                    onClick={openModal}
-                    disabled={isSave || !isStart}
-                >
-                    Save
+      <IonContent className="ion-padding">
+        <IonLoading isOpen={isLoading} />
+        <IonList className={style.page}>
+          <IonList className={style.list}>
+            <IonLabel>{t('form.date')}</IonLabel>
+            <InputDate value={formatDate(startDateTime)} onClick={() => setIsDateChange(true)}></InputDate>
+          </IonList>
+          <IonList className={style.sized}>
+            <IonLabel>{t('orders.startOperation')}</IonLabel>
+            <div className={style.container}>
+              {isStart ? (
+                <IonDatetimeButton
+                  datetime="start-datetime"
+                  slot="time-target"
+                  onClick={(e) => {
+                    e.preventDefault;
+                  }}
+                />
+              ) : (
+                <IonText className="ion-button-edit">Data</IonText>
+              )}
+              {isStart && (
+                <IonButton size="small" onClick={() => startModalRef.current?.present()}>
+                  {t('operations.edit')}
                 </IonButton>
+              )}
+            </div>
 
-            </IonFooter>
-            <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSave} ></ModalSave>
+            <IonModal isOpen={isDateChange} onDidDismiss={() => setIsDateChange(false)}>
+              <IonDatetime
+                presentation="date"
+                value={startDateTime}
+                onIonChange={(e) => handleStartDateChange(e.detail.value!)}
+              />
+            </IonModal>
 
-        </IonPage>
-    );
+            <IonModal trigger="start-datetime" keepContentsMounted={true} style={{ display: 'none' }}>
+              <IonDatetime
+                id="start-datetime"
+                presentation="time"
+                value={startDateTime}
+                onIonChange={(e) => handleCustomTime(e.detail.value!)}
+              />
+            </IonModal>
+
+            <IonModal ref={startModalRef}>
+              <IonDatetime
+                id="start-datetime"
+                presentation="time"
+                value={startDateTime}
+                onIonChange={(e) => handleCustomTime(e.detail.value!)}
+              />
+            </IonModal>
+
+            <IonButton expand="block" onClick={handleStartNow} disabled={isStart}>
+              {t('operations.start')}
+            </IonButton>
+          </IonList>
+
+          <IonList className={style.sized}>
+            <IonLabel>{t('orders.finishOperation')}</IonLabel>
+            <div className={style.container}>
+              {finishDateTime ? (
+                <IonDatetimeButton datetime="finish-datetime" />
+              ) : (
+                <IonText className="ion-button-edit">Data</IonText>
+              )}
+              {finishDateTime && (
+                <IonButton size="small" onClick={() => finishModalRef.current?.present()}>
+                  {t('operations.edit')}
+                </IonButton>
+              )}
+            </div>
+
+            <IonModal trigger="finish-datetime" keepContentsMounted={true} style={{ display: 'none' }}>
+              <IonDatetime
+                id="finish-datetime"
+                presentation="time"
+                value={finishDateTime || undefined}
+                onIonChange={(e) => handleCustomFinishTime(e.detail.value!)}
+              />
+            </IonModal>
+            <IonModal ref={finishModalRef}>
+              <IonDatetime
+                id="finish-datetime"
+                presentation="time"
+                value={finishDateTime || undefined}
+                onIonChange={(e) => handleCustomFinishTime(e.detail.value!)}
+              />
+            </IonModal>
+
+            <IonButton expand="block" onClick={handleFinishNow} disabled={!isStart || !!finishDateTime}>
+              {t('operations.finish')}
+            </IonButton>
+          </IonList>
+          <div className={style.time}>
+            <IonLabel>Operation time:</IonLabel>
+            <IonLabel>{`${hours}${t('time.hour')} ${minutes ? minutes + ' ' + t('time.min') : ''}`}</IonLabel>
+          </div>
+          <IonToast
+            position="top"
+            isOpen={!!toastMessage}
+            message={toastMessage || undefined}
+            duration={TOAST_DELAY}
+            onDidDismiss={() => setToastMessage(null)}
+          />
+        </IonList>
+      </IonContent>
+      <IonFooter style={{ paddingBottom: '50px' }} className="ion-padding">
+        <IonButton expand="block" onClick={openModal} disabled={isSave || !isStart}>
+          {t('operations.save')}
+        </IonButton>
+      </IonFooter>
+      <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSave}></ModalSave>
+    </IonPage>
+  );
 };
 
 export default NewTimespan;
