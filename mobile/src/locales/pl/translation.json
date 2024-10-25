@@ -1,7 +1,9 @@
 {
   "menu": {
     "ordersView": "Widok zamówień",
-    "configuration": "Konfiguracja"
+    "configuration": "Konfiguracja",
+    "directories": "Katalogi",
+    "generalDirectories": "Ogólne katalogi"
   },
   "config": {
     "title": "Konfiguracja",
@@ -9,30 +11,43 @@
   },
   "messages": {
     "noDatabases": "Brak dostępnych baz danych",
-    "used": "Używane w Widoku zamówień",
+    "used": "Używane w widoku zamówień",
     "connected": "Połączono",
     "disconnected": "Odłączono",
     "unableToSave": "Nie można zapisać",
     "disconectFromERP": "Odłączyć od ERP?",
-    "disconectDescription": "Odłączenie od bazy danych uniemożliwi wyświetlanie zamówień w Widoku zamówień.",
-    "incorrectCredentials": "Nieprawidłowy e-mail lub hasło. Spróbuj ponownie."
+    "disconectDescription": "Odłączenie od bazy danych uniemożliwi przeglądanie zamówień w widoku zamówień.",
+    "incorrectCredentials": "Nieprawidłowy email lub hasło. Spróbuj ponownie.",
+    "orderName": "Utwórz nazwę zamówienia i spróbuj ponownie",
+    "validDate": "Proszę ustawić poprawną datę początkową.",
+    "startTime": "Czas rozpoczęcia nie może być większy niż czas zakończenia",
+    "finishDate": "Data zakończenia nie może być wcześniejsza niż data rozpoczęcia.",
+    "saveData": "Proszę zapisać swoje dane!"
+  },
+  "directory": {
+    "newDirectory": "Nowy katalog",
+    "NewCatalog": "Nowy katalog",
+    "editCard": "Edytuj kartę",
+    "card": "Karta"
   },
   "text": {
     "connection": "połączenie",
     "select": "Wybierz",
-    "usedInOrdersView": "Używane w Widoku zamówień",
+    "usedInOrdersView": "Używane w widoku zamówień",
     "connected": "Połączono",
     "database": "Baza danych",
     "no": "Nie",
-    "added": "dodane przez Ciebie pojawią się tutaj.",
-    "new": "Nowe",
+    "added": "dodane przez ciebie pojawi się tutaj.",
+    "new": "Nowy",
     "time": "Planowany czas",
     "name": "nazwa",
     "ordersView": "Widok zamówień",
     "scheduled": "Pokaż zaplanowany czas",
     "startTime": "Czas rozpoczęcia",
     "datePlaceholder": "Wybierz datę i czas rozpoczęcia",
-    "logout": "Wyloguj się"
+    "logout": "Wyloguj się",
+    "norecords": "Brak rekordów",
+    "noOperations": "Brak operacji"
   },
   "operations": {
     "add": "Dodaj",
@@ -42,7 +57,10 @@
     "cancel": "Anuluj",
     "search": "Szukaj",
     "done": "Gotowe",
-    "delete": "Usuń"
+    "delete": "Usuń",
+    "submit": "Zatwierdź",
+    "start": "Start",
+    "finish": "Zakończ"
   },
   "db": {
     "products": {
@@ -81,7 +99,10 @@
   },
   "form": {
     "name": "Nazwa",
+    "date": "Data",
+    "duration": "Czas trwania",
     "namePlaceholder": "Wpisz nazwę",
+    "selectOperation": "Wybierz operację",
     "auth": {
       "signin": "Zaloguj się do",
       "login": "Nazwa użytkownika",
@@ -91,5 +112,27 @@
       "submit": "Zaloguj się",
       "required": "To pole jest wymagane"
     }
+  },
+  "orders": {
+    "orders": "Zamówienia",
+    "newOrder": "Nowe zamówienie",
+    "newOperations": "Nowe operacje",
+    "operations": "Operacje",
+    "operation": "Operacja",
+    "parts": "Części",
+    "place": "Miejsce",
+    "equipment": "Sprzęt",
+    "implementation": "Realizacja",
+    "nameparts": "Nazwa części",
+    "namepPlace": "Nazwa miejsca",
+    "nameEquipment": "Nazwa sprzętu",
+    "implementationTime": "Czas realizacji",
+    "startOperation": "Początek operacji",
+    "operationTime": "Czas operacji:",
+    "finishOperation": "Koniec operacji"
+  },
+  "time": {
+    "hour": "godz.",
+    "min": "min"
   }
 }

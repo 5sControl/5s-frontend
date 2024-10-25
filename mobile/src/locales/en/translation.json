@@ -17,7 +17,12 @@
     "unableToSave": "Unable to save",
     "disconectFromERP": "Disconnect from ERP?",
     "disconectDescription": "Disconnecting from database will result in inability to view orders in Orders View.",
-    "incorrectCredentials": "Incorrect email or password. Please, try again."
+    "incorrectCredentials": "Incorrect email or password. Please, try again.",
+    "orderName": "Create order name and try again",
+    "validDate": "Please set a valid start date.",
+    "startTime": "The start time cannot be greater than the end time",
+    "finishDate": "The finish date cannot be earlier than the start date.",
+    "saveData": "Please save your data!"
   },
   "directory": {
     "newDirectory": "New directory",
@@ -40,8 +45,9 @@
     "scheduled": "Show scheduled time",
     "startTime": "Start time",
     "datePlaceholder": "Select Date and Start Time",
-    "logout": "Log out"
-
+    "logout": "Log out",
+    "norecords": "No records",
+    "noOperations": "No Operations"
   },
   "operations": {
     "add": "Add",
@@ -51,7 +57,10 @@
     "cancel": "Cancel",
     "search": "Search",
     "done": "Done",
-    "delete": "Delete"
+    "delete": "Delete",
+    "submit": "Submit",
+    "start": "Start",
+    "finish": "Finish"
   },
   "db": {
     "products": {
@@ -88,17 +97,42 @@
     "pwd": "Password",
     "status": "Status"
   },
-  "form" : {
+  "form": {
     "name": "Name",
+    "date": "Date",
+    "duration": "Duration",
     "namePlaceholder": "Enter a name",
+    "selectOperation": "Select Operation",
     "auth": {
       "signin": "Sign in to",
-      "login": "User",
-      "loginPlaceholder": "Enter user",
-      "pwdPlaceholder": "Enter password",
+      "login": "Username",
+      "loginPlaceholder": "Enter Username",
+      "pwdPlaceholder": "Enter Password",
       "pwd": "Password",
       "submit": "Log In",
       "required": "This field is required"
     }
+  },
+  "orders": {
+    "orders": "Orders",
+    "newOrder": "New Order",
+    "newOperations": "New Operations",
+    "operations": "Operations",
+    "operation": "Operation",
+    "parts": "Parts",
+    "place": "Place",
+    "equipment": "Equipment",
+    "implementation": "Implementation",
+    "nameparts": "Name Parts",
+    "namepPlace": "Name Place",
+    "nameEquipment": "Name Equipment",
+    "implementationTime": "Implementation Time",
+    "startOperation": "Start of Operation",
+    "operationTime": "Operation time:",
+    "finishOperation": "Finish of Operation"
+  },
+  "time": {
+    "hour": "h",
+    "min": "min"
   }
 }
