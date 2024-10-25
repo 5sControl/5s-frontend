@@ -54,10 +54,7 @@ jobs:
         run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml pull 5scontrol_front_mobile
 
       - name: Stop the old server container
-        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml stop 5scontrol_front_mobile
-
-      - name: Stop and remove the old server container
-        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml rm -f 5scontrol_front_mobile
+        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml down nginx 5scontrol_front_mobile
 
       - name: Recreate and restart server container
-        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml up -d --no-deps 5scontrol_front_mobile
+        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml up -d --no-deps nginx 5scontrol_front_mobile
