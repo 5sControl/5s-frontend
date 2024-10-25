@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     IonButton,
     IonButtons,
@@ -8,17 +8,17 @@ import {
     IonItem,
     IonLabel,
     IonList,
-    IonLoading, 
+    IonLoading,
     IonPage,
     IonToast,
-   
-} from '@ionic/react';
-import {Header} from "../../../components/header/Header";
-import {useLocation, useHistory} from 'react-router-dom';
-import {OPERATION_REQUEST, ORDER_REQUEST} from "../../../dispatcher";
-import {IProductOperation} from "../../../models/interfaces/operationItem.interface";
-import  ModalSave from  "../../../components/modalSave/modalSave";
 
+} from '@ionic/react';
+import { Header } from "../../../components/header/Header";
+import { useLocation, useHistory } from 'react-router-dom';
+import { OPERATION_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
+import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
+import ModalSave from "../../../components/modalSave/modalSave";
+import { ROUTES } from "../../../shared/constants/routes";
 
 
 
@@ -31,9 +31,9 @@ const addOrderOperation: React.FC = () => {
     const [isLoading, setLoading] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string | null>(null);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const history =useHistory();
+    const history = useHistory();
     const location = useLocation();
-    const name = location.state?.message || '';
+    const name = (location.state as { message: string })?.message || '';
 
 
     useEffect(() => {
@@ -58,16 +58,16 @@ const addOrderOperation: React.FC = () => {
         }
     };
     const navigateTo = () => {
-        history.push('../mobile/orders')
+        history.push(ROUTES.ORDERS)
     }
 
     const handleSubmit = async () => {
         setIsModalOpen(false);
-        if(!name){
+        if (!name) {
             setToastMessage('Error with order name, try again')
             return;
         }
-        ORDER_REQUEST.addOrder({name, operationIds: selectedIds }, setLoading, setToastMessage, navigateTo )
+        ORDER_REQUEST.addOrder({ name, operationIds: selectedIds }, setLoading, setToastMessage, navigateTo)
 
     };
     const handleSetSearch = (v: string) => setSearchText(v)
@@ -75,18 +75,25 @@ const addOrderOperation: React.FC = () => {
         setIsModalOpen(true);
     };
 
+    const backHandler = () => {
+        // const location = {
+        //     pathname: ROUTES.ORDER,
+        //     state: {message: name}
+        // }
+        history.push(ROUTES.ORDER, { state: { message: name } })
+    }
     return (
         <IonPage>
-            <Header title="Select Operation" backButtonHref="/mobile/order/" searchBar searchText={searchText}
-                    onSearchChange={handleSetSearch}/>
+            <Header title="Select Operation" onBackClick={backHandler} backButtonHref='#' searchBar searchText={searchText}
+                onSearchChange={handleSetSearch} />
             <IonContent className="ion-padding">
                 <IonList>
                     {filteredItems.map((item) => (
                         <IonItem key={item.id}>
                             <IonLabel>{item.name}</IonLabel>
-                            <IonCheckbox style={{'--border-radius': 'none'}}
-                                         slot="end"
-                                         onIonChange={(e) => handleCheckboxChange(item.id, e.detail.checked)}
+                            <IonCheckbox style={{ '--border-radius': 'none' }}
+                                slot="end"
+                                onIonChange={(e) => handleCheckboxChange(item.id, e.detail.checked)}
                             />
                         </IonItem>
                     ))}
@@ -100,7 +107,7 @@ const addOrderOperation: React.FC = () => {
                 />
             </IonContent>
 
-            <IonFooter style={{paddingBottom: '50px'}} className="ion-padding">
+            <IonFooter style={{ paddingBottom: '50px' }} className="ion-padding">
                 <IonButton
                     expand="block"
                     onClick={openModal}
@@ -110,9 +117,9 @@ const addOrderOperation: React.FC = () => {
                 </IonButton>
             </IonFooter>
 
-            <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSubmit} ></ModalSave>           
+            <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSubmit} ></ModalSave>
 
-            <IonLoading isOpen={isLoading} message="Loading..."/>
+            <IonLoading isOpen={isLoading} message="Loading..." />
         </IonPage>
     );
 };

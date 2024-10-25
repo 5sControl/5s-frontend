@@ -1,5 +1,5 @@
 import React from "react";
-import {IonContent, IonList} from "@ionic/react";
+import {IonContent, IonList, IonPage} from "@ionic/react";
 import {useHistory} from "react-router-dom";
 import { ROUTES } from "../../shared/constants/routes";
 import {databaseTables} from "../../shared/constants/databaseTables";
@@ -15,16 +15,18 @@ const Database: React.FC = () => {
     };
 
     return (
-        <IonContent>
-            <Header title={t('text.database')} backButtonHref={ROUTES.CONNECTIONS}/>
-            <IonList inset={true}>
-                {Object.values(databaseTables).map((table) => (
-                    table.pageDisplay &&
-                    <ItemButton key={table.buttonTitle} disabled={table.disabled} label={t(table.buttonTitle)}
-                                handleItemClick={() => handleItemClick(ROUTES.DATABASE_CATEGORY(table.path))}/>
-                ))}
-            </IonList>
-        </IonContent>
+        <IonPage>
+            <IonContent>
+                <Header title={t('text.database')} backButtonHref={ROUTES.CONNECTIONS}/>
+                <IonList inset={true}>
+                    {Object.values(databaseTables).map((table) => (
+                        table.pageDisplay &&
+                        <ItemButton key={table.buttonTitle} disabled={table.disabled} label={t(table.buttonTitle)}
+                                    handleItemClick={() => handleItemClick(ROUTES.DATABASE_CATEGORY(table.path))}/>
+                    ))}
+                </IonList>
+            </IonContent>
+        </IonPage>
     );
 };
 

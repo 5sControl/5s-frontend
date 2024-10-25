@@ -12,6 +12,7 @@ import {
   IonDatetime,
   IonModal,
   IonLoading,
+  IonPage,
 } from "@ionic/react";
 import { ROUTES } from "../../shared/constants/routes";
 import { timeIntervals } from "../../constants/timeIntervals";
@@ -116,82 +117,84 @@ export const OrdersView: React.FC = () => {
   }
 
   return (
-    <IonContent>
-      <Header 
-      title={t('text.ordersView')} 
-      backButtonHref={ROUTES.MENU} 
-      endButton={<img src={Settings} onClick={() => setOpenSettings(true)}/>}/>
-      <div className="ion-padding">
-        <IonGrid>
-          <IonRow className="ion-align-items-center dateTimeControls">
-            <IonCol id="openDateTimePicker">
-              <IonListHeader>
-                {parseInputDate(selectedRange, timeIntervals[selectedInterval].milliseconds)}
-              </IonListHeader>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-        <div>
-          <IonSegment
-            value={selectedInterval}
-            scrollable={false}
-            onIonChange={(e) => {
-              const value = e.detail.value;
-              setSelectedInterval(value as keyof typeof timeIntervals);
-            }}
-          >
-          {Object.entries(timeIntervals).map(([key, interval]) => (
-            <IonSegmentButton key={interval.milliseconds} value={key}>
-              <IonLabel>{interval.label}</IonLabel>
-            </IonSegmentButton>
-          ))}
-          </IonSegment>
+    <IonPage>
+      <IonContent>
+        <Header 
+        title={t('text.ordersView')} 
+        backButtonHref={ROUTES.MENU} 
+        endButton={<img src={Settings} onClick={() => setOpenSettings(true)}/>}/>
+        <div className="ion-padding">
+          <IonGrid>
+            <IonRow className="ion-align-items-center dateTimeControls">
+              <IonCol id="openDateTimePicker">
+                <IonListHeader>
+                  {parseInputDate(selectedRange, timeIntervals[selectedInterval].milliseconds)}
+                </IonListHeader>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+          <div>
+            <IonSegment
+              value={selectedInterval}
+              scrollable={false}
+              onIonChange={(e) => {
+                const value = e.detail.value;
+                setSelectedInterval(value as keyof typeof timeIntervals);
+              }}
+            >
+            {Object.entries(timeIntervals).map(([key, interval]) => (
+              <IonSegmentButton key={interval.milliseconds} value={key}>
+                <IonLabel>{interval.label}</IonLabel>
+              </IonSegmentButton>
+            ))}
+            </IonSegment>
+          </div>
         </div>
-      </div>
 
-      <IonLoading
-        isOpen={showLoading}
-        spinner="circular"
-      />
+        <IonLoading
+          isOpen={showLoading}
+          spinner="circular"
+        />
 
-      <TimelineChart
-        startTime={selectedRange}
-        selectedInterval={timeIntervals[selectedInterval]}
-        showScheduled={showScheduled}
-        data={data}
-        selectedOrderId={selectedOrderId}
-      />
+        <TimelineChart
+          startTime={selectedRange}
+          selectedInterval={timeIntervals[selectedInterval]}
+          showScheduled={showScheduled}
+          data={data}
+          selectedOrderId={selectedOrderId}
+        />
 
-      <div className="ion-padding ordersPanel">
-        <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>{t('text.scheduled')}</IonToggle>
-        <OrdersList 
-        orders={ordersList} 
-        setSelectedOrderId={selectOrder} 
-        selectedOrderId={selectedOrderId} 
-        loading={orderListLoading}
-        setOpenSearchModal={setOpenSearchModal}/>
-      </div>
+        <div className="ion-padding ordersPanel">
+          <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>{t('text.scheduled')}</IonToggle>
+          <OrdersList 
+          orders={ordersList} 
+          setSelectedOrderId={selectOrder} 
+          selectedOrderId={selectedOrderId} 
+          loading={orderListLoading}
+          setOpenSearchModal={setOpenSearchModal}/>
+        </div>
 
-      <IonModal ref={modal} trigger="openDateTimePicker">
-          <IonDatetime
-            id="datetime-picker"
-            presentation="date-time"
-            value={selectedRange}
-            onIonChange={handleDateTimeChange}
-            className="dateTimePickerWrapper"
-          >
-            <span slot="time-label">{t('text.startTime')}</span>
-          </IonDatetime>
-      </IonModal>
+        <IonModal ref={modal} trigger="openDateTimePicker">
+            <IonDatetime
+              id="datetime-picker"
+              presentation="date-time"
+              value={selectedRange}
+              onIonChange={handleDateTimeChange}
+              className="dateTimePickerWrapper"
+            >
+              <span slot="time-label">{t('text.startTime')}</span>
+            </IonDatetime>
+        </IonModal>
 
-      <SettingsModal isOpen={openSettings} onClose={() => setOpenSettings(false)} onSave={() => setUpdateFilter(true)}/>
+        <SettingsModal isOpen={openSettings} onClose={() => setOpenSettings(false)} onSave={() => setUpdateFilter(true)}/>
 
-      <SearchModal 
-        isOpen={openSearchModal} 
-        onClose={() => setOpenSearchModal(false)} 
-        onSelect={setSelectedOrderId}
-        orders={ordersList}/>
+        <SearchModal 
+          isOpen={openSearchModal} 
+          onClose={() => setOpenSearchModal(false)} 
+          onSelect={setSelectedOrderId}
+          orders={ordersList}/>
 
-    </IonContent>
+      </IonContent>
+    </IonPage>
   );
 };

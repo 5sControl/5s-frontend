@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IonContent, IonList, IonItem } from "@ionic/react";
+import { IonContent, IonList, IonItem, IonPage } from "@ionic/react";
 import { getConnectionsToDatabases } from "../../api/connections";
 import { useCookies } from "react-cookie";
 import { ConnectionsList } from "../../components/connectionsList/ConnectionsList";
@@ -31,20 +31,22 @@ const Connections: React.FC = () => {
   }, [cookies.token]);
 
   return (
-    <IonContent>
-      <Header title={t("config.erp")} backButtonHref={ROUTES.CONFIGURATION} />
-      {loading ? (
-        <div className="preloader">
-          <Preloader />
-        </div>
-      ) : items.length === 0 ? (
-        <IonList inset={true}>
-          <IonItem>{t("messages.noDatabases")}</IonItem>
-        </IonList>
-      ) : (
-        <ConnectionsList items={items} />
-      )}
-    </IonContent>
+    <IonPage>
+      <IonContent>
+        <Header title={t("config.erp")} backButtonHref={ROUTES.CONFIGURATION} />
+        {loading ? (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        ) : items.length === 0 ? (
+          <IonList inset={true}>
+            <IonItem>{t("messages.noDatabases")}</IonItem>
+          </IonList>
+        ) : (
+          <ConnectionsList items={items} />
+        )}
+      </IonContent>
+    </IonPage>
   );
 };
 
