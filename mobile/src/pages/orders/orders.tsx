@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {IonContent, IonFab, IonFabButton, IonIcon, IonList, IonLoading, IonToast} from "@ionic/react";
-import {ROUTES} from "../../../shared/constants/routes";
+import {IonContent, IonFab, IonFabButton, IonIcon, IonList, IonLoading, IonPage, IonToast} from "@ionic/react";
+import {ROUTES} from "../../shared/constants/routes";
 import {Header} from "../../components/header/Header";
 import ItemList from "../../components/itemList/itemList";
 import style from './orders.module.scss'
@@ -32,35 +32,32 @@ export const OrdersPage: React.FC = () => {
     }, []);
    
 
-    const items = filteredItems.map(item => <ItemList key={item.id} label={`${item.name}`} to={`../mobile/order/${item.id}`}/>)
+    const items = filteredItems.map(item => <ItemList key={item.id} label={`${item.name}`} to={ROUTES.ORDER_ITEM(String(item.id))}> 
+    </ItemList>)
     return (
-        <IonContent color="light">
-            {
-                isLoading ? <IonLoading isOpen={isLoading} message="Loading..."/> :
-                <>
-                <Header title="Orders" backButtonHref={'/mobile/'} searchBar searchText={searchText} onSearchChange={handleSetSearch}/>
-                <IonContent className="ion-padding">                    
-                    <IonList>
-                        {items}
-                    </IonList>
-                    <IonFab className={style.button} slot="fixed" horizontal="end" vertical="bottom">
-                        <IonFabButton routerLink="./mobile/order/" style={{'--border-radius': '15px'}}>
-                            <IonIcon icon={add}></IonIcon>
-                        </IonFabButton>
-                    </IonFab>
-                </IonContent>
-                </>
-            }
-         
-
-            <IonToast
-                    isOpen={!!toastMessage}
-                    message={toastMessage || undefined}
-                    duration={3000}
-                    onDidDismiss={() => setToastMessage(null)}
-                />
-        </IonContent>
+        <IonPage>
+            <IonContent color="light">
+            
+                    <IonLoading isOpen={isLoading} message="Loading..."/>
+                    <Header title="Orders" backButtonHref={ROUTES.MENU} searchBar searchText={searchText} onSearchChange={handleSetSearch}/>
+                    <IonContent className="ion-padding">
+                        <IonList>
+                            {items}
+                        </IonList>
+                        <IonFab className={style.button} slot="fixed" horizontal="end" vertical="bottom">
+                            <IonFabButton routerLink={ROUTES.ORDER} style={{'--border-radius': '15px'}}>
+                                <IonIcon icon={add}></IonIcon>
+                            </IonFabButton>
+                        </IonFab>
+                    </IonContent>
+                <IonToast
+                        isOpen={!!toastMessage}
+                        message={toastMessage || undefined}
+                        duration={3000}
+                        onDidDismiss={() => setToastMessage(null)}
+                    />
+            </IonContent>
+        </IonPage>
     );
 };
-
 

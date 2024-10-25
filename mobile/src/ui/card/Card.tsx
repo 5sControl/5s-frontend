@@ -6,7 +6,6 @@ import { ReactNode, useRef, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { deleteDirectory } from "../../api/directory/directory";
 import { useCookies } from "react-cookie";
-import { Preloader } from "../../components/preloader/preloader"
 
 type CardsProps = {
   title?: ReactNode;
@@ -17,9 +16,9 @@ type CardsProps = {
 };
 
 const Card = ({ title, backHref, editHref, itemTitle, deleteCard }: CardsProps) => {
-  const { id } = useParams();
+  const { id } : any = useParams();
   const [cookies] = useCookies(["token"]);
-  const history =useHistory();
+  const history = useHistory();
   const modal = useRef<HTMLIonModalElement>(null);
   const [loading, setLoading] = useState(false);
 

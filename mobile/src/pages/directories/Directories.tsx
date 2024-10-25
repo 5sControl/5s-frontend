@@ -1,4 +1,4 @@
-import { IonContent, IonItem, IonList } from "@ionic/react";
+import { IonContent, IonItem, IonList, IonPage } from "@ionic/react";
 import { Header } from "../../components/header/Header";
 import { ROUTES } from "../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
@@ -14,7 +14,7 @@ const Directories = () => {
   const [cookies] = useCookies(["token"]);
   const [items, setItems] = useState<Directory[]>([]);
   const { t } = useTranslation();
-  const history =useHistory();
+  const history = useHistory();
 
   const [loading, setLoading] = useState(true);
 
@@ -27,7 +27,6 @@ const Directories = () => {
     getAllDirectories(cookies.token)
       .then(response => {
         setItems(response.data);
-        console.log(response.data);
       })
       .catch(error => {
         console.error(error);
@@ -38,43 +37,45 @@ const Directories = () => {
   }, [cookies.token]);
 
   return (
-    <IonContent>
-      <Header title={t("menu.directories")} backButtonHref={ROUTES.MENU} />
-      {loading ? (
-        <div className="preloader">
-          <Preloader />
-        </div>
-      ) : items.length === 0 ? (
-        <IonList inset={true}>
-          <IonItem>{t("messages.noDatabases")}</IonItem>
-        </IonList>
-      ) : (
-        <>
-          <IonList inset>
-            {items
-              .filter(({ isProtected }) => isProtected)
-              .map(({ id, name }) => (
-                <MenuListButton
-                  key={id}
-                  title={name}
-                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORY_CATEGORY(String(id)))}
-                />
-              ))}
+    <IonPage>
+      <IonContent>
+        <Header title={t("menu.directories")} backButtonHref={ROUTES.MENU} />
+        {loading ? (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        ) : items.length === 0 ? (
+          <IonList inset={true}>
+            <IonItem>{t("messages.noDatabases")}</IonItem>
           </IonList>
-          <IonList inset>
-            {items
-              .filter(({ isProtected }) => !isProtected)
-              .map(({ id, name }) => (
-                <MenuListButton
-                  key={id}
-                  title={name}
-                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORY_CATEGORY(String(id)))}
-                />
-              ))}
-          </IonList>
-        </>
-      )}
-    </IonContent>
+        ) : (
+          <>
+            <IonList inset>
+              {items
+                .filter(({ isProtected }) => isProtected)
+                .map(({ id, name }) => (
+                  <MenuListButton
+                    key={id}
+                    title={name}
+                    handleItemClick={() => handleItemClick(ROUTES.DIRECTORY_CATEGORY(String(id)))}
+                  />
+                ))}
+            </IonList>
+            <IonList inset>
+              {items
+                .filter(({ isProtected }) => !isProtected)
+                .map(({ id, name }) => (
+                  <MenuListButton
+                    key={id}
+                    title={name}
+                    handleItemClick={() => handleItemClick(ROUTES.DIRECTORY_CATEGORY(String(id)))}
+                  />
+                ))}
+            </IonList>
+          </>
+        )}
+      </IonContent>
+    </IonPage>
   );
 };
 export default Directories;

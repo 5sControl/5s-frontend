@@ -22,7 +22,7 @@ import {formatDate} from "../../../utils/parseInputDate";
 import {ORDER_REQUEST} from "../../../dispatcher";
 import {add} from "ionicons/icons";
 import {formatTime} from './../../../utils/parseInputDate'
-
+import { ROUTES } from "../../../shared/constants/routes";
 
 
 
@@ -44,8 +44,10 @@ const OrderOperations = () => {
     const deleteIcon = <IonIcon icon={trashOutline} className={style.deleteIcon} onClick={onDeleteHandle}/>
     const timespanItems = operation?.timespans?.map(timespan => {
         const {hours,minutes} = formatTime(timespan.duration)
-        const timestring = `${hours ? hours + ' ч' : '' } ${minutes ? minutes + ' мин' : '' }` 
-    return <ItemList to={`/mobile/order/${id}/operation/${operationId}/timespan/${timespan.id}/edit`}
+       
+        const timestring = `${hours ? hours + ' h' : '' } ${minutes ? minutes + ' min' : '' }` 
+    return <ItemList to={ROUTES.ORDER_TIMESPAN_EDIT(String(id), String(operationId), String(timespan.id))}
+
         key={timespan.id}>
         <IonGrid>
             <IonRow>
@@ -64,9 +66,10 @@ const OrderOperations = () => {
     if(!Object.values(operation)){
         return <IonLoading isOpen={true} message="Loading..."/>
     }
+   
     return (
         <IonPage>
-            <Header title={operation.name} backButtonHref={`/mobile/order/${id}/`} />
+            <Header title={operation.name} backButtonHref={ROUTES.ORDER_ITEM(String(id))} />
             <IonContent className={"ion-padding"}>
                 <IonLoading isOpen={isLoading} message="Loading..."/>
                 <IonList className={style.page}>
@@ -114,7 +117,7 @@ const OrderOperations = () => {
                     </IonList>
                 </IonList>
                 <IonFab className={style.button} slot="fixed" horizontal="end" vertical="bottom">
-                    <IonFabButton routerLink={`./mobile/order/${id}/operation/${operation.id}/timespan`} style={{'--border-radius': '15px'}}>
+                    <IonFabButton routerLink={ROUTES.ORDER_TIMESPAN(String(id),String(operation.id))} style={{'--border-radius': '15px'}}>
                         <IonIcon icon={add}></IonIcon>
                     </IonFabButton>
                 </IonFab>

@@ -1,4 +1,4 @@
-import { IonContent, IonItem, IonList } from "@ionic/react";
+import { IonContent, IonItem, IonList, IonPage } from "@ionic/react";
 import { Header } from "../../components/header/Header";
 import { ROUTES } from "../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
@@ -21,7 +21,7 @@ const GeneralDirectories = () => {
   const [cookies] = useCookies(["token"]);
   const [items, setItems] = useState<Directory[]>([]);
   const { t } = useTranslation();
-  const history =useHistory();
+  const history = useHistory();
 
   const [loading, setLoading] = useState(true);
 
@@ -48,36 +48,38 @@ const GeneralDirectories = () => {
   }, [cookies.token]);
 
   return (
-    <IonContent>
-      {/* <Header title={t("menu.generalDirectories")} backButtonHref={ROUTES.CONFIGURATION} /> */}
-      <Header title={"Универсальные справочники"} backButtonHref={ROUTES.CONFIGURATION} />
-      {loading ? (
-        <div className="preloader">
-          <Preloader />
-        </div>
-      ) : (
-        <>
-          <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.DIRECTORIES_ADD)} />
-          {items.length === 0 ? (
-            <IonList inset={true}>
-              <IonItem>{t("messages.noDatabases")}</IonItem>
-            </IonList>
-          ) : (
-            <IonList inset>
-              {items
-                .filter(({ isProtected }) => !isProtected)
-                .map(({ id, name }) => (
-                  <MenuListButton
-                    key={id}
-                    title={name}
-                    handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES_ITEM_CARD(String(id)))}
-                  />
-                ))}
-            </IonList>
-          )}
-        </>
-      )}
-    </IonContent>
+    <IonPage>
+      <IonContent>
+        {/* <Header title={t("menu.generalDirectories")} backButtonHref={ROUTES.CONFIGURATION} /> */}
+        <Header title={"Универсальные справочники"} backButtonHref={ROUTES.CONFIGURATION} />
+        {loading ? (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        ) : (
+          <>
+            <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.DIRECTORIES_ADD)} />
+            {items.length === 0 ? (
+              <IonList inset={true}>
+                <IonItem>{t("messages.noDatabases")}</IonItem>
+              </IonList>
+            ) : (
+              <IonList inset>
+                {items
+                  .filter(({ isProtected }) => !isProtected)
+                  .map(({ id, name }) => (
+                    <MenuListButton
+                      key={id}
+                      title={name}
+                      handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES_ITEM_CARD(String(id)))}
+                    />
+                  ))}
+              </IonList>
+            )}
+          </>
+        )}
+      </IonContent>
+    </IonPage>
   );
 };
 export default GeneralDirectories;

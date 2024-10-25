@@ -12,20 +12,25 @@ import {
 } from '@ionic/react';
 import { Header } from "../../../components/header/Header";
 import ItemList from "../../../components/itemList/itemList";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import  ModalSave from  "../../../components/modalSave/modalSave";
 import styles from './style.module.scss'
 import { ORDER_REQUEST } from "../../../dispatcher";
+import { ROUTES } from './../../../shared/constants/routes'
 
 const AddOrder: React.FC = () => {
-    const [inputValue, setInputValue] = useState<string>('');
+    const history = useHistory();
+    const location = useLocation();
+    const name = (location.state as { message: string })?.message || '';
+    const [inputValue, setInputValue] = useState<string>(name);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [isLoading, setLoading] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string | null>(null);
-    const history =useHistory();
+
+    
 
     const navigateTo = () => {
-        history.push('../mobile/orders')
+        history.push(ROUTES.ORDERS)
     }
 
     const handleSubmit = async () => {
@@ -36,13 +41,13 @@ const AddOrder: React.FC = () => {
         setIsModalOpen(true);
     };
 
-
     const handleClick = () => {
-        history.push('./operations/', { state: { message: inputValue } });
+        history.push(ROUTES.ORDER_OPERATIONS, { state: { message: inputValue } });
     };
+
     return (
         <IonPage color="light">
-            <Header title="New Order" backButtonHref="../orders/" />
+            <Header title="New Order" backButtonHref={ROUTES.ORDERS} />
             <IonContent className="ion-padding">
                 <IonLoading isOpen={isLoading} message="Submit..." />
                 <IonList className={styles.page}>

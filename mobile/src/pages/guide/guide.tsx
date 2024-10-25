@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {useCookies} from "react-cookie";
 import {useHistory} from "react-router-dom";
-import {IonButton, IonContent, IonList} from "@ionic/react";
+import {IonButton, IonContent, IonList, IonPage} from "@ionic/react";
 import jwtDecode from "jwt-decode";
 import {getUserInfo} from "../../api/getUserList";
-import {ROUTES} from "../../../shared/constants/routes";
+import {ROUTES} from "../../shared/constants/routes";
 import {Header} from "../../components/header/Header";
 import {ItemButton} from "../../components/itemButton/ItemButton";
 import {MenuLogo, Orders, Settings} from "../../assets/svg/SVGcomponent";
@@ -18,7 +18,7 @@ export const Guides: React.FC = () => {
     const [cookies, , removeCookie] = useCookies(["token"]);
     const [user, setUser] = useState<any>({})
     const [guides, setGuides] = useState(MOCK)
-    const history =useHistory();
+    const history = useHistory();
     const { t} = useTranslation();
 
 
@@ -47,14 +47,16 @@ export const Guides: React.FC = () => {
 
 
     return (
-        <IonContent color="light">
-            <Header title={<img src={MenuLogo} alt="Menu Logo" />}/>
-            <ItemButton label="User Account Settings"  handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
-            <IonList inset={true}>
-                <ItemButton label={"Orders"} icon={Orders} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
-                {guidesList}
-            </IonList>
-            <IonButton expand="block" onClick={() => handleItemClick(ROUTES.CONFIGURATION)}>+</IonButton>
-        </IonContent>
+        <IonPage>
+            <IonContent color="light">
+                <Header title={<img src={MenuLogo} alt="Menu Logo" />}/>
+                <ItemButton label="User Account Settings"  handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
+                <IonList inset={true}>
+                    <ItemButton label={"Orders"} icon={Orders} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
+                    {guidesList}
+                </IonList>
+                <IonButton expand="block" onClick={() => handleItemClick(ROUTES.CONFIGURATION)}>+</IonButton>
+            </IonContent>
+        </IonPage>
     );
 };
