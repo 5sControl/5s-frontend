@@ -32,7 +32,7 @@ export const ROUTES = {
   ORDERS: "/v1/mobile/orders",
   ORDER: "/v1/mobile/order",
   ORDER_OPERATIONS: "/v1/mobile/order/operations",
-  ORDER_ITEM: (id: string) =>  `/mobile/order/${id}`,
+  ORDER_ITEM: (id: string) =>  `/v1/mobile/order/${id}`,
   ORDER_ITEM_EDIT: (id: string) =>  `/v1/mobile/order/${id}/edit`,
   ORDER_OPERATION: (id: string, operationId: string) => `/v1/mobile/order/${id}/operation/${operationId}`,
   ORDER_TIMESPAN: (id: string, operationId: string) => `/v1/mobile/order/${id}/operation/${operationId}/timespan`,

@@ -1,0 +1,83 @@
+@mixin h1 {
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 150%;
+}
+
+@mixin h2 {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 150%;
+}
+
+@mixin h3 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+@mixin h4 {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+@mixin h5 {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+}
+
+@mixin h6 {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 150%;
+}
+
+@mixin body1 {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+@mixin body2 {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+@mixin body3 {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+@mixin link1 {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+@mixin link2 {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+}
+
+@mixin caption {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+@mixin title {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 150%;
+}
+
+@mixin button {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+}
