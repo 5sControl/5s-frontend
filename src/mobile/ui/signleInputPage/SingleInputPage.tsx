@@ -2,6 +2,7 @@ import { IonButton, IonContent, IonInput, IonLabel, IonToast } from "@ionic/reac
 import { Header } from "../../components/header/Header";
 import "./SingleInputPage.scss";
 import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 
 type SingleInputPageProps = {
   title?: ReactNode;
@@ -26,6 +27,7 @@ const SingleInputPage = ({
   handleChange,
   handleSave,
 }: SingleInputPageProps) => {
+  const { t } = useTranslation();
   return (
     <>
       <div className="input__container">
@@ -40,7 +42,7 @@ const SingleInputPage = ({
       </div>
 
       <IonButton className="bottom-50" expand="full" id="open-toast" onClick={handleSave} disabled={!value.trim()}>
-        Save
+        {t("operations.save")}
       </IonButton>
 
       {value.trim().length === 0 && <IonToast trigger="open-toast" message={"Empty Input"} duration={3000} />}

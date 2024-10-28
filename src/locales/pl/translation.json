@@ -2,8 +2,12 @@
   "menu": {
     "ordersView": "Widok zamówień",
     "configuration": "Konfiguracja",
+    "dataConfiguration": "Konfiguracja danych",
     "directories": "Katalogi",
-    "generalDirectories": "Ogólne katalogi"
+    "generalDirectories": "Ogólne katalogi",
+    "accountSettings": "Ustawienia konta",
+    "orders": "Zamówienia",
+    "reports": "Raporty"
   },
   "config": {
     "title": "Konfiguracja",
@@ -13,7 +17,7 @@
     "noDatabases": "Brak dostępnych baz danych",
     "used": "Używane w widoku zamówień",
     "connected": "Połączono",
-    "disconnected": "Odłączono",
+    "disconnected": "Rozłączono",
     "unableToSave": "Nie można zapisać",
     "disconectFromERP": "Odłączyć od ERP?",
     "disconectDescription": "Odłączenie od bazy danych uniemożliwi przeglądanie zamówień w widoku zamówień.",
@@ -29,6 +33,13 @@
     "NewCatalog": "Nowy katalog",
     "editCard": "Edytuj kartę",
     "card": "Karta"
+  },
+  "directory": {
+    "newDirectory": "Nowy katalog",
+    "newEntry": "Nowy wpis w",
+    "edit": "Edytuj",
+    "card": "Karta",
+    "name": "Nazwa"
   },
   "text": {
     "connection": "połączenie",
@@ -53,7 +64,7 @@
     "add": "Dodaj",
     "save": "Zapisz",
     "edit": "Edytuj",
-    "disconect": "Odłącz",
+    "disconect": "Rozłącz",
     "cancel": "Anuluj",
     "search": "Szukaj",
     "done": "Gotowe",
@@ -106,8 +117,8 @@
     "auth": {
       "signin": "Zaloguj się do",
       "login": "Nazwa użytkownika",
-      "loginPlaceholder": "Wpisz nazwę użytkownika",
-      "pwdPlaceholder": "Wpisz hasło",
+      "loginPlaceholder": "Wprowadź nazwę użytkownika",
+      "pwdPlaceholder": "Wprowadź hasło",
       "pwd": "Hasło",
       "submit": "Zaloguj się",
       "required": "To pole jest wymagane"

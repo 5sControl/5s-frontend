@@ -1,10 +1,14 @@
 {
-  "menu": {
-    "ordersView": "Orders View",
-    "configuration": "Configuration",
-    "directories": "Directories",
-    "generalDirectories": "General directories"
-  },
+ "menu" : {
+   "ordersView": "Orders View",
+   "configuration": "Configuration",
+   "dataConfiguration": "Data Configuration",
+   "directories": "Directories",
+   "generalDirectories": "General directories",
+   "accountSettings": "Account Settings",
+   "orders": "Orders",
+   "reports": "Reports"
+ },
   "config": {
     "title": "Configuration",
     "erp": "ERP Connections"
@@ -26,9 +30,10 @@
   },
   "directory": {
     "newDirectory": "New directory",
-    "NewCatalog": "New Catalog",
-    "editCard": "Edit card",
-    "card": "Card"
+    "newEntry": "New entry in",
+    "edit": "Edit",
+    "card": "Card",
+    "name": "Name"
   },
   "text": {
     "connection": "connection",

@@ -50,8 +50,7 @@ const GeneralDirectories = () => {
   return (
     <IonPage>
       <IonContent>
-        {/* <Header title={t("menu.generalDirectories")} backButtonHref={ROUTES.CONFIGURATION} /> */}
-        <Header title={"Универсальные справочники"} backButtonHref={ROUTES.CONFIGURATION} />
+        <Header title={t("menu.generalDirectories")} backButtonHref={ROUTES.CONFIGURATION} />
         {loading ? (
           <div className="preloader">
             <Preloader />

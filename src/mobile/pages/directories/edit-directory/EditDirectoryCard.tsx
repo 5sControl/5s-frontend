@@ -46,7 +46,7 @@ const EditDirectoryCard = () => {
   return (
     <IonPage>
       <IonContent>
-        <Header title={t("directory.editCard")} backButtonHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}></Header>
+        <Header title={t("directory.edit")} backButtonHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}></Header>
         {loading ? (
           <div className="preloader">
             <Preloader />
@@ -54,7 +54,7 @@ const EditDirectoryCard = () => {
         ) : (
           <SingleInputPage
             backHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}
-            label={t("newConnection.name")}
+            label={t("directory.name")}
             value={directoryName!}
             required
             handleChange={e => {

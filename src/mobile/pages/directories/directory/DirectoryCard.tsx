@@ -36,7 +36,7 @@ const DirectoryCard = () => {
     <IonPage>
       <IonContent>
         <Header
-          title={t("directory.card")}
+          title={directory?.name}
           backButtonHref={ROUTES.GENEREAL_DIRECTORIES}
           endButton={<IonIcon id="open-modal" style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
         />

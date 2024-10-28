@@ -66,35 +66,44 @@ export const Menu: React.FC = () => {
         </IonList>
 
         <IonList inset={true} lines="none">
-          <MenuListButton icon={DollarSign} title={"Заказы"} handleItemClick={() => handleItemClick(ROUTES.ORDERS)} />
-          <MenuListButton icon={DollarSign} title={"Отчеты"} />
+          <MenuListButton
+            icon={DollarSign}
+            title={t("menu.orders")}
+            handleItemClick={() => handleItemClick(ROUTES.ORDERS)}
+          />
+          <MenuListButton icon={DollarSign} title={t("menu.reports")} />
         </IonList>
 
         <IonList inset={true}>
-          {/* <MenuListButton title={t("menu.configuration")} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
-        <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} /> */}
-          <MenuListButton title={"Настройка данных"} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
-          <MenuListButton title={"Справочники"} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} />
+          {/* <MenuListButton title={t("menu.configuration")} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} /> */}
+          <MenuListButton
+            title={t("menu.dataConfiguration")}
+            handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)}
+          />
+          <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} />
         </IonList>
 
         {/* <IonList inset={true}>
-        <ItemButton
-          label={t("menu.ordersView")}
-          icon={Settings}
-          handleItemClick={() => handleItemClick(ROUTES.ORDERSVIEW)}
-        />
-        <ItemButton
-          label={t("menu.configuration")}
-          icon={Orders}
-          handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)}
-        />
-        <IonSelect value={language} placeholder={t("language")} onIonChange={e => handleLanguageChange(e.detail.value)}>
-
-          <IonSelectOption value="en">English</IonSelectOption>
-          <IonSelectOption value="ru">Русский</IonSelectOption>
-          <IonSelectOption value="pl">Polski</IonSelectOption>
-        </IonSelect>
-      </IonList> */}
+          <ItemButton
+            label={t("menu.ordersView")}
+            icon={Settings}
+            handleItemClick={() => handleItemClick(ROUTES.ORDERSVIEW)}
+          />
+          <ItemButton
+            label={t("menu.configuration")}
+            icon={Orders}
+            handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)}
+          />
+          <IonSelect
+            value={language}
+            placeholder={t("language")}
+            onIonChange={e => handleLanguageChange(e.detail.value)}
+          >
+            <IonSelectOption value="en">English</IonSelectOption>
+            <IonSelectOption value="ru">Русский</IonSelectOption>
+            <IonSelectOption value="pl">Polski</IonSelectOption>
+          </IonSelect>
+        </IonList> */}
         {/* {user && <Logout username={user.username} status={user.status} logout={logout} />} */}
       </IonContent>
     </IonPage>
