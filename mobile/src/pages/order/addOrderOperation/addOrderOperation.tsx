@@ -19,6 +19,7 @@ import ModalSave from '../../../components/modalSave/modalSave';
 import { ROUTES } from '../../../shared/constants/routes';
 import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
+import { IReference } from '../../../models/interfaces/orders.interface';
 
 const addOrderOperation: React.FC = () => {
   const [searchText, setSearchText] = useState<string>('');
@@ -28,6 +29,7 @@ const addOrderOperation: React.FC = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [operationReferences, setOperationReferences] = useState<IReference[]>([]);
   const history = useHistory();
   const location = useLocation();
   const { t } = useTranslation();
@@ -45,7 +47,7 @@ const addOrderOperation: React.FC = () => {
   }, [operations]);
 
   useEffect(() => {
-    OPERATION_REQUEST.getOperations(setOperations, setLoading, setToastMessage);
+    OPERATION_REQUEST.getOperations(setOperations, setOperationReferences, setLoading, setToastMessage);
   }, []);
   const handleCheckboxChange = (id: number, checked: boolean) => {
     if (checked) {

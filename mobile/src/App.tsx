@@ -46,6 +46,7 @@ import NewTimespan from "./pages/timespan/newTimespan/newTimespan";
 import EditTimespan from "./pages/timespan/editTimespan/editTimespan";
 import { Authorization } from './components/authorization/Authorization';
 import { isVerifyToken } from './api/authorization';
+import AddOrderOperationReference from './pages/order/addOrderOperationReference/addOrderOperationRerefence';
 
 setupIonicReact();
 
@@ -144,6 +145,9 @@ function App() {
               </Route>
               <Route exact path={'/order/:id/operation/:operationId'}>
                   <OrderOperations />
+              </Route>
+              <Route exact path={'/order/:id/operation/:operationId/reference/:refId'}>
+                  <AddOrderOperationReference />
               </Route>
               <Route exact path={'/order/:id/operation/:operationId/timespan'}>
                   <NewTimespan />

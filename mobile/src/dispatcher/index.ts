@@ -1,7 +1,7 @@
 import { ORDERS_API, TIMESPAN_API } from "../api/orders";
 import { STATUS } from "../models/enums/statuses.enum";
 import { AxiosError } from "axios";
-import { IOrders } from "../models/interfaces/orders.interface";
+import { IOrders, IReference } from "../models/interfaces/orders.interface";
 import {
     IOrderOperation,
     IOrderWithAllOperations,
@@ -9,6 +9,7 @@ import {
 } from "../models/interfaces/operationItem.interface";
 import { ITimespan } from "./../models/interfaces/orders.interface"
 import { ITimespanAddBody } from './../api/orders'
+import React from "react";
 
 
 const updateOrder = async (id: number, body: any, setLoading: React.Dispatch<React.SetStateAction<boolean>>, setMessage: React.Dispatch<React.SetStateAction<string | null>>, callback: () => void): Promise<void> => {
@@ -103,14 +104,16 @@ const addOrder = async ({
     }
 }
 const getOperations = async (setItems: React.Dispatch<React.SetStateAction<IProductOperation[]>>,
+    setReferences: React.Dispatch<React.SetStateAction<IReference[]>>,
     setLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
     try {
         setLoading(true)
         const references = await ORDERS_API.getReferences();
-        const operations = await ORDERS_API.getOperations(6)
+        const operations = await ORDERS_API.getOperations(6);
         if (operations.status === STATUS.OK) {
-            setItems(operations.data)
+            setItems(operations.data);
+            setReferences(references.data);
         } else {
             setMessage && setMessage('Something went wrong')
         }
@@ -150,6 +153,24 @@ const getOrderOperationsById = async (id: number, operationId: number, setItems:
             const filtered = operation.data.operations.find(e => e.id === operationId)
             filtered && setItems(filtered)
 
+        } else {
+            setMessage && setMessage('Something went wrong')
+        }
+    } catch (e) {
+        const err = e as AxiosError
+        setMessage && setMessage(err.message)
+    } finally {
+        setLoading && setLoading(false)
+    }
+}
+const getOrderParams = async (id: number, setItems: React.Dispatch<React.SetStateAction<IOrderOperation[]>>,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
+    try {
+        setLoading(true)
+        const operation = await ORDERS_API.getOrderOperation(id)
+        if (operation.status === STATUS.OK) {
+            setItems(operation.data)
         } else {
             setMessage && setMessage('Something went wrong')
         }
@@ -213,6 +234,25 @@ const getTimespan = async (id: number, setTimespan: React.Dispatch<React.SetStat
     }
 }
 
+const getOperationReferenceItems = async (id: number, setOperationReferenceItems: React.Dispatch<React.SetStateAction<IReference[]>>, 
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
+    try {
+        setLoading(true)
+        const referenceItems = await ORDERS_API.getOperationReferenceItems(id);
+        if (referenceItems.status === STATUS.OK) {            
+            setOperationReferenceItems(referenceItems.data)
+        } else {
+            setMessage && setMessage('Something went wrong')
+        }
+    } catch (e) {
+        const err = e as AxiosError
+        setMessage && setMessage(err.message)
+    } finally {
+        setLoading && setLoading(false)
+    }
+}
+
 export const ORDER_REQUEST = {
     updateOrder,
     getOrders,
@@ -220,10 +260,12 @@ export const ORDER_REQUEST = {
     addOrder,
     getOrderOperations,
     getOrderWithOperations,
-    getOrderOperationsById
+    getOrderOperationsById,
+    getOrderParams
 }
 export const OPERATION_REQUEST = {
-    getOperations
+    getOperations,
+    getOperationReferenceItems
 }
 export const TIMESPAN_REQUEST = {
     addTimespan,

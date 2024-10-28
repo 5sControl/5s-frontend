@@ -14,20 +14,22 @@ import {
   IonFab,
   IonFabButton,
   IonToast,
+  IonNote,
 } from '@ionic/react';
 import { Header } from '../../../components/header/Header';
 import trashOutline from '../../../assets/svg/deleteRedOutlined.svg';
 import style from './orderOperations.module.scss';
-import { useParams } from 'react-router-dom';
-import { IOrderOperation } from '../../../models/interfaces/operationItem.interface';
+import { useHistory, useParams } from 'react-router-dom';
+import { IOrderOperation, IProductOperation } from '../../../models/interfaces/operationItem.interface';
 import ItemList from '../../../components/itemList/itemList';
 import { formatDate } from '../../../utils/parseInputDate';
-import { ORDER_REQUEST } from '../../../dispatcher';
+import { OPERATION_REQUEST, ORDER_REQUEST } from '../../../dispatcher';
 import { add } from 'ionicons/icons';
 import { formatTime } from './../../../utils/parseInputDate';
 import { ROUTES } from '../../../shared/constants/routes';
 import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
+import { IReference } from '../../../models/interfaces/orders.interface';
 const RADIX = 10;
 
 const OrderOperations = () => {
@@ -40,6 +42,9 @@ const OrderOperations = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const isLoaded = Boolean(Object.values(operation)?.length);
+  const [operationReferences, setOperationReferences] = useState<IReference[]>([]);
+  const [newOperations, setNewOperations] = useState<IProductOperation[]>([]);
+  const history = useHistory();
 
   const onDeleteHandle = () => {
     console.log('Delete');
@@ -53,6 +58,7 @@ const OrderOperations = () => {
       setLoading,
       setToastMessage
     );
+    OPERATION_REQUEST.getOperations(setNewOperations, setOperationReferences, setLoading, setToastMessage);
   }, []);
 
   const deleteIcon = <IonIcon icon={trashOutline} className={style.deleteIcon} onClick={onDeleteHandle} />;
@@ -94,18 +100,19 @@ const OrderOperations = () => {
                 <IonLabel>{t('orders.operation')}</IonLabel>
                 <IonText>{operation.name}</IonText>
               </IonList>
-              <IonList className={style.list}>
-                <IonLabel>{t('orders.parts')}</IonLabel>
-                <ItemList label={t('orders.nameparts')} to={`#`}></ItemList>
-              </IonList>
-              <IonList className={style.list}>
-                <IonLabel>{t('orders.place')}</IonLabel>
-                <ItemList label={t('orders.namepPlace')} to={`#`}></ItemList>
-              </IonList>
-              <IonList className={style.list}>
-                <IonLabel>{t('orders.equipment')}</IonLabel>
-                <ItemList label={t('orders.nameEquipment')} to={`#`}></ItemList>
-              </IonList>
+                {
+                    operationReferences.map((param: IReference) => 
+                        <IonList className={style.list}>
+                            <IonLabel>{param.name}</IonLabel>
+                            <IonItem button onClick={() => history.push(ROUTES.ADD_ORDER_OPERATION_REFERENCE(String(id), String(operationId), String(param.id)))}>
+                                <IonLabel>{param.name}</IonLabel>
+                                <IonNote slot="end">Add</IonNote>
+                            </IonItem>
+                        </IonList>
+                    )
+                }
+
+
               <IonList className={style.list}>
                 <IonLabel>{t('orders.implementation')}</IonLabel>
                 {timespanItems?.length ? (
