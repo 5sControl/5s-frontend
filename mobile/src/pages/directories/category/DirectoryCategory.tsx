@@ -1,4 +1,13 @@
-import { IonContent, IonFab, IonFabButton, IonIcon, IonItem, IonList, IonPage } from "@ionic/react";
+import {
+  IonContent,
+  IonFab,
+  IonFabButton,
+  IonIcon,
+  IonItem,
+  IonList,
+  IonPage,
+  useIonViewWillEnter,
+} from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
@@ -31,7 +40,7 @@ const DirectoryCategory = () => {
     history.push(path);
   };
 
-  useEffect(() => {
+  useIonViewWillEnter(() => {
     setLoading(true);
 
     getDirectory(Number(refId), cookies.token)
@@ -52,7 +61,30 @@ const DirectoryCategory = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [cookies.token]);
+  });
+
+  // useEffect(() => {
+  //   setLoading(true);
+
+  //   getDirectory(Number(refId), cookies.token)
+  //     .then(response => {
+  //       setCatalogTitle(response.data.name);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+
+  //   getDirectoryCategory(Number(refId), cookies.token)
+  //     .then(response => {
+  //       setItems(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // }, [cookies.token]);
 
   return (
     <IonPage>

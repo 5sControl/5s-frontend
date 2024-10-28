@@ -6,6 +6,7 @@ import { ReactNode, useRef, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { deleteDirectory } from "../../api/directory/directory";
 import { useCookies } from "react-cookie";
+import { useTranslation } from "react-i18next";
 
 type CardsProps = {
   title?: ReactNode;
@@ -16,7 +17,8 @@ type CardsProps = {
 };
 
 const Card = ({ title, backHref, editHref, itemTitle, deleteCard }: CardsProps) => {
-  const { id } : any = useParams();
+  const { id }: any = useParams();
+  const { t } = useTranslation();
   const [cookies] = useCookies(["token"]);
   const history = useHistory();
   const modal = useRef<HTMLIonModalElement>(null);
@@ -29,7 +31,10 @@ const Card = ({ title, backHref, editHref, itemTitle, deleteCard }: CardsProps) 
   const handleDeleteClick = () => {
     setLoading(true);
     deleteCard(Number(id), cookies.token)
-      .then(() => history.push(backHref))
+      .then(() => {
+        handleCancelClick();
+        history.push(backHref, { direction: "back" });
+      })
       .catch(error => {
         console.error(error);
       })
@@ -45,7 +50,7 @@ const Card = ({ title, backHref, editHref, itemTitle, deleteCard }: CardsProps) 
   return (
     <>
       <div className="card__wrapper">
-        <IonLabel>Name</IonLabel>
+        <IonLabel>{t("directory.name")}</IonLabel>
         <IonLabel className="card__item">{itemTitle}</IonLabel>
       </div>
       <Fab
@@ -56,12 +61,12 @@ const Card = ({ title, backHref, editHref, itemTitle, deleteCard }: CardsProps) 
       ></Fab>
       <IonModal ref={modal} trigger="open-modal" initialBreakpoint={1} breakpoints={[0, 1]}>
         <div className="modal__block">
-          <h1 className="modal__title">{`Delete "${itemTitle}" ?`}</h1>
+          <h1 className="modal__title">{`${t("operations.delete")} "${itemTitle}" ?`}</h1>{" "}
           <IonButton size="small" className="modal__button modal__button-red" onClick={handleDeleteClick}>
-            Delete
+            {t("operations.delete")}
           </IonButton>
           <IonButton size="small" className="modal__button modal__button-white" onClick={handleCancelClick}>
-            Cancel
+            {t("operations.cancel")}
           </IonButton>
         </div>
       </IonModal>

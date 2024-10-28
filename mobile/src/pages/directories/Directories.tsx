@@ -1,4 +1,4 @@
-import { IonContent, IonItem, IonList, IonPage } from "@ionic/react";
+import { IonContent, IonItem, IonList, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../components/header/Header";
 import { ROUTES } from "../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
 import { useCookies } from "react-cookie";
 import { getAllDirectories } from "../../api/directory/directory";
-import { Preloader } from "../../components/preloader/preloader"
+import { Preloader } from "../../components/preloader/preloader";
 import { Directory } from "../../models/interfaces/directory.interface";
 
 const Directories = () => {
@@ -22,7 +22,7 @@ const Directories = () => {
     history.push(path);
   };
 
-  useEffect(() => {
+  useIonViewWillEnter(() => {
     setLoading(true);
     getAllDirectories(cookies.token)
       .then(response => {
@@ -34,7 +34,21 @@ const Directories = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [cookies.token]);
+  });
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   getAllDirectories(cookies.token)
+  //     .then(response => {
+  //       setItems(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // }, [cookies.token]);
 
   return (
     <IonPage>

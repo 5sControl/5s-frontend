@@ -17,7 +17,7 @@ const NewDirectory = () => {
   const handleSave = () => {
     if (directoryName.trim()) {
       createDirectory(directoryName.trim(), false, cookies.token)
-        .then(() => history.push(ROUTES.GENEREAL_DIRECTORIES))
+        .then(() => history.push(ROUTES.GENEREAL_DIRECTORIES, { direction: "back" }))
         .catch(error => console.error(error));
       return;
     }
@@ -31,7 +31,7 @@ const NewDirectory = () => {
         <SingleInputPage
           title={t("directory.newDirectory")}
           backHref={ROUTES.GENEREAL_DIRECTORIES}
-          label={t("newConnection.name")}
+          label={t("directory.name")}
           value={directoryName}
           required
           handleChange={e => {
