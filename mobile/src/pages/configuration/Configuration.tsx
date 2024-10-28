@@ -19,13 +19,13 @@ const Configuration = () => {
     <IonPage>
       <IonContent>
         {/* <Header title={t("config.title")} backButtonHref={ROUTES.MENU} /> */}
-        <Header title={"Настройка данных"} backButtonHref={ROUTES.MENU} />
+        <Header title={t("menu.dataConfiguration")} backButtonHref={ROUTES.MENU} />
         {/* <IonList inset={true}>
           <ItemButton label={t("config.erp")} handleItemClick={() => handleItemClick(ROUTES.CONNECTIONS)} />
         </IonList> */}
         <IonList inset={true}>
           <MenuListButton
-            title={"Универсальные справочники"}
+            title={t("menu.generalDirectories")}
             handleItemClick={() => handleItemClick(ROUTES.GENEREAL_DIRECTORIES)}
           />
         </IonList>

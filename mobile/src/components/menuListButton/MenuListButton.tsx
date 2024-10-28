@@ -1,5 +1,6 @@
 import { IonIcon, IonItem, IonLabel, IonTitle } from "@ionic/react";
 import { ArrowRight } from "../../assets/svg/SVGcomponent";
+import { useTranslation } from "react-i18next";
 
 type MenuListButtonProps = {
   title: string;
@@ -9,12 +10,13 @@ type MenuListButtonProps = {
 };
 
 const MenuListButton = ({ title, icon, account, handleItemClick }: MenuListButtonProps) => {
+  const { t } = useTranslation();
   return (
     <IonItem button onClick={handleItemClick}>
       {icon && <IonIcon icon={icon} />}
       {account ? (
         <IonLabel>
-          <b>{title}</b> <p>Account Settings</p>
+          <b>{title}</b> <p>{t("menu.accountSettings")}</p>
         </IonLabel>
       ) : (
         <IonLabel>{title}</IonLabel>

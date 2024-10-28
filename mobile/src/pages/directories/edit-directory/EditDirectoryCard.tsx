@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { getDirectory, updateDirectory } from "../../../api/directory/directory";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IonContent, IonPage } from "@ionic/react";
+import { IonContent, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 
 const EditDirectoryCard = () => {
@@ -16,7 +16,7 @@ const EditDirectoryCard = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  useIonViewWillEnter(() => {
     setLoading(true);
     getDirectory(Number(id!), cookies.token)
       .then(response => {
@@ -28,12 +28,26 @@ const EditDirectoryCard = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [cookies.token]);
+  });
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   getDirectory(Number(id!), cookies.token)
+  //     .then(response => {
+  //       setDirectoryName(response.data.name);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // }, [cookies.token]);
 
   const handleSave = () => {
     if (directoryName.trim()) {
       updateDirectory(Number(id), directoryName.trim(), cookies.token)
-        .then(() => history.push(ROUTES.DIRECTORIES_ITEM_CARD(id!)))
+        .then(() => history.push(ROUTES.DIRECTORIES_ITEM_CARD(id!), { direction: "back" }))
         .catch(error => {
           console.error(error);
         });
@@ -46,7 +60,7 @@ const EditDirectoryCard = () => {
   return (
     <IonPage>
       <IonContent>
-        <Header title={t("directory.editCard")} backButtonHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}></Header>
+        <Header title={t("directory.edit")} backButtonHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}></Header>
         {loading ? (
           <div className="preloader">
             <Preloader />
@@ -54,7 +68,7 @@ const EditDirectoryCard = () => {
         ) : (
           <SingleInputPage
             backHref={ROUTES.DIRECTORIES_ITEM_CARD(id!)}
-            label={t("newConnection.name")}
+            label={t("directory.name")}
             value={directoryName!}
             required
             handleChange={e => {

@@ -8,25 +8,32 @@ import { deleteDirectory, getDirectory } from "../../../api/directory/directory"
 import { useCookies } from "react-cookie";
 import { Directory } from "../../../models/interfaces/directory.interface";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IonContent, IonIcon, IonItem, IonList, IonPage } from "@ionic/react";
+import { IonContent, IonIcon, IonItem, IonList, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { TrashBin } from "../../../assets/svg/SVGcomponent";
-import { title } from "process";
 
 const DirectoryCard = () => {
   const [cookies] = useCookies(["token"]);
-  const { id } : any = useParams();
+  const { id }: any = useParams();
   const { t } = useTranslation();
   const [directory, setDirectory] = useState<Directory>();
   const history = useHistory();
 
-  useEffect(() => {
+  useIonViewWillEnter(() => {
     getDirectory(Number(id!), cookies.token)
       .then(response => {
         setDirectory(response.data);
       })
       .catch(error => console.error(error));
-  }, [cookies.token]);
+  });
+
+  // useEffect(() => {
+  //   getDirectory(Number(id!), cookies.token)
+  //     .then(response => {
+  //       setDirectory(response.data);
+  //     })
+  //     .catch(error => console.error(error));
+  // }, [cookies.token]);
 
   const deleteCard = async (id: number, token: string) => {
     deleteDirectory(id, token);
@@ -36,7 +43,7 @@ const DirectoryCard = () => {
     <IonPage>
       <IonContent>
         <Header
-          title={t("directory.card")}
+          title={directory?.name}
           backButtonHref={ROUTES.GENEREAL_DIRECTORIES}
           endButton={<IonIcon id="open-modal" style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
         />

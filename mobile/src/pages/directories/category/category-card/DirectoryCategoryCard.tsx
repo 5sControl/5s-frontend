@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Card from "../../../../ui/card/Card";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { IonContent, IonIcon, IonItem, IonList, IonPage } from "@ionic/react";
+import { IonContent, IonIcon, IonItem, IonList, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { DirectoryCategory } from "../../../../models/interfaces/directoryCategory.interface";
 import { deleteDirectoryCategory, getDirectoryCategory } from "../../../../api/directory/directoryCategories";
 import { Header } from "../../../../components/header/Header";
@@ -18,14 +18,23 @@ const DirectoryCategoryCard = () => {
   const { t } = useTranslation();
   const [directory, setDirectory] = useState<DirectoryCategory>();
 
-  useEffect(() => {
+  useIonViewWillEnter(() => {
     getDirectoryCategory(Number(refId), cookies.token)
       .then(response => {
         const currentCatalog = response.data.find((catalog: Directory) => catalog.id === Number(id));
         setDirectory(currentCatalog);
       })
       .catch(err => console.error(err));
-  }, [cookies.token]);
+  });
+
+  // useEffect(() => {
+  //   getDirectoryCategory(Number(refId), cookies.token)
+  //     .then(response => {
+  //       const currentCatalog = response.data.find((catalog: Directory) => catalog.id === Number(id));
+  //       setDirectory(currentCatalog);
+  //     })
+  //     .catch(err => console.error(err));
+  // }, [cookies.token]);
 
   const deleteCard = async (refId: number, token: string) => {
     deleteDirectoryCategory(refId, token);
@@ -35,13 +44,12 @@ const DirectoryCategoryCard = () => {
     <IonPage>
       <IonContent>
         <Header
-          title={t("directory.card")}
+          title={directory?.name}
           backButtonHref={ROUTES.DIRECTORY_CATEGORY(refId)}
           endButton={<IonIcon id="open-modal" style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
         />
         {directory ? (
           <Card
-            title={t("directory.card")}
             deleteCard={deleteCard}
             backHref={ROUTES.DIRECTORY_CATEGORY(refId)}
             editHref={ROUTES.DIRECTORY_CATEGORY_EDIT(refId, String(directory.id))}
