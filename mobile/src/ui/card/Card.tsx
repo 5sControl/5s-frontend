@@ -7,6 +7,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { deleteDirectory } from "../../api/directory/directory";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
+import ReadOnlyInput from "../../components/readOnlyInput/ReadOnlyInput";
 
 type CardsProps = {
   title?: ReactNode;
@@ -49,10 +50,12 @@ const Card = ({ title, backHref, editHref, itemTitle, deleteCard }: CardsProps) 
 
   return (
     <>
-      <div className="card__wrapper">
+      {/* <div className="card__wrapper">
         <IonLabel>{t("directory.name")}</IonLabel>
         <IonLabel className="card__item">{itemTitle}</IonLabel>
-      </div>
+      </div> */}
+
+      <ReadOnlyInput label={t("directory.name")} value={itemTitle} />
       <Fab
         icon={EditWhiteIcon}
         handleFabClick={() => {
