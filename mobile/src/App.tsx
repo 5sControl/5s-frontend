@@ -44,8 +44,9 @@ import EditOrder from "./pages/order/editOrder/editOrder";
 import OrderOperations from "./pages/order/orderOperations/orderOperations";
 import NewTimespan from "./pages/timespan/newTimespan/newTimespan";
 import EditTimespan from "./pages/timespan/editTimespan/editTimespan";
-import { Authorization } from "./components/authorization/Authorization";
-import { isVerifyToken } from "./api/authorization";
+import { Authorization } from './components/authorization/Authorization';
+import { isVerifyToken } from './api/authorization';
+import AddOrderOperationReference from './pages/order/addOrderOperationReference/addOrderOperationRerefence';
 
 setupIonicReact();
 
@@ -74,89 +75,92 @@ function App() {
         <Route path="/authorization">
           <Authorization />
         </Route>
-        {cookies.token ? (
-          <IonRouterOutlet>
-            <Route exact path={ROUTES.MENU}>
-              <Menu />
+          {cookies.token ? ( 
+            <IonRouterOutlet>
+              <Route exact path={ROUTES.MENU}>
+                  <Menu />
+              </Route>
+              <Route exact path={ROUTES.CONFIGURATION}>
+                  <ConfigurationMobile />
+              </Route>
+              <Route exact path={ROUTES.CONNECTIONS}>
+                  <Connections />
+              </Route>
+              <Route exact path={ROUTES.CONNECTIONS_ADD}>
+                  <NewConnection />
+              </Route>
+              <Route exact path={ROUTES.CONNECTIONS_ITEM(":id")}>
+                  <Connection />
+              </Route>
+              <Route exact path={ROUTES.CONNECTIONS_EDIT(":id")}>
+                  <EditConnection />
+              </Route>
+              <Route exact path={ROUTES.ORDERSVIEW}>
+                  <OrdersViewMobile />
+              </Route>
+              <Route exact path={ROUTES.OPERATIONDETAIL(":id")}>
+                  <OperationDetail />
+              </Route>
+              <Route exact path={ROUTES.GENEREAL_DIRECTORIES}>
+                  <GeneralDirectories />
+              </Route>
+              <Route exact path={ROUTES.DIRECTORIES_ADD}>
+                  <NewDirectory />
+              </Route>
+              <Route exact path={ROUTES.DIRECTORIES_ITEM_CARD(":id")}>
+                  <DirectoryCard />
+              </Route>
+              <Route exact path={ROUTES.DIRECTORIES_EDIT_CARD(":id")}>
+                  <EditDirectoryCard />
+              </Route>
+              <Route exact path={ROUTES.DIRECTORIES}>
+                  <Directories />
+              </Route>
+              <Route exact path={ROUTES.DIRECTORY_CATEGORY(":refId")}>
+                  <DirectoryCategory />
+              </Route>
+              <Route exact path={ROUTES.DIRECTORY_CATEGORY_ADD(":refId")}>
+                  <NewDirectoryCategory />
+              </Route>
+              <Route exact path={ROUTES.DIRECTORY_CATEGORY_CARD(":refId", ":id")}>
+                  <DirectoryCategoryCard />
+              </Route>
+              <Route exact path={ROUTES.DIRECTORY_CATEGORY_EDIT(":refId", ":id")}>
+                  <EditDirectoryCategory />
+              </Route>
+              <Route exact path={'/orders'}>
+                  <OrdersPage />
+              </Route>
+              <Route exact path={'/order/'}>
+                  <AddOrder />
+              </Route>
+              <Route exact path={'/order/operations'}>
+                  <AddOrderOperation />
+              </Route>
+              <Route exact path={'/order/:id'}>
+                  <Order />
+              </Route>
+              <Route exact path={'/order/:id/edit'}>
+                  <EditOrder />
+              </Route>
+              <Route exact path={'/order/:id/operation/:operationId'}>
+                  <OrderOperations />
+              </Route>
+              <Route exact path={'/order/:id/operation/:operationId/reference/:refId'}>
+                  <AddOrderOperationReference />
+              </Route>
+              <Route exact path={'/order/:id/operation/:operationId/timespan'}>
+                  <NewTimespan />
+              </Route>
+              <Route exact path={'/order/:id/operation/:operationId/timespan/:timespanId/edit'}>
+                  <EditTimespan />
+              </Route>
+            </IonRouterOutlet>
+          ) : (
+            <Route path="/*">
+              <Authorization />
             </Route>
-            <Route exact path={ROUTES.CONFIGURATION}>
-              <ConfigurationMobile />
-            </Route>
-            <Route exact path={ROUTES.CONNECTIONS}>
-              <Connections />
-            </Route>
-            <Route exact path={ROUTES.CONNECTIONS_ADD}>
-              <NewConnection />
-            </Route>
-            <Route exact path={ROUTES.CONNECTIONS_ITEM(":id")}>
-              <Connection />
-            </Route>
-            <Route exact path={ROUTES.CONNECTIONS_EDIT(":id")}>
-              <EditConnection />
-            </Route>
-            <Route exact path={ROUTES.ORDERSVIEW}>
-              <OrdersViewMobile />
-            </Route>
-            <Route exact path={ROUTES.OPERATIONDETAIL(":id")}>
-              <OperationDetail />
-            </Route>
-            <Route exact path={ROUTES.GENEREAL_DIRECTORIES}>
-              <GeneralDirectories />
-            </Route>
-            <Route exact path={ROUTES.DIRECTORIES_ADD}>
-              <NewDirectory />
-            </Route>
-            <Route exact path={ROUTES.DIRECTORIES_ITEM_CARD(":id")}>
-              <DirectoryCard />
-            </Route>
-            <Route exact path={ROUTES.DIRECTORIES_EDIT_CARD(":id")}>
-              <EditDirectoryCard />
-            </Route>
-            <Route exact path={ROUTES.DIRECTORIES}>
-              <Directories />
-            </Route>
-            <Route exact path={ROUTES.DIRECTORY_CATEGORY(":refId")}>
-              <DirectoryCategory />
-            </Route>
-            <Route exact path={ROUTES.DIRECTORY_CATEGORY_ADD(":refId")}>
-              <NewDirectoryCategory />
-            </Route>
-            <Route exact path={ROUTES.DIRECTORY_CATEGORY_CARD(":refId", ":id")}>
-              <DirectoryCategoryCard />
-            </Route>
-            <Route exact path={ROUTES.DIRECTORY_CATEGORY_EDIT(":refId", ":id")}>
-              <EditDirectoryCategory />
-            </Route>
-            <Route exact path={"/orders"}>
-              <OrdersPage />
-            </Route>
-            <Route exact path={"/order/"}>
-              <AddOrder />
-            </Route>
-            <Route exact path={"/order/operations"}>
-              <AddOrderOperation />
-            </Route>
-            <Route exact path={"/order/:id"}>
-              <Order />
-            </Route>
-            <Route exact path={"/order/:id/edit"}>
-              <EditOrder />
-            </Route>
-            <Route exact path={"/order/:id/operation/:operationId"}>
-              <OrderOperations />
-            </Route>
-            <Route exact path={"/order/:id/operation/:operationId/timespan"}>
-              <NewTimespan />
-            </Route>
-            <Route exact path={"/order/:id/operation/:operationId/timespan/:timespanId/edit"}>
-              <EditTimespan />
-            </Route>
-          </IonRouterOutlet>
-        ) : (
-          <Route path="/*">
-            <Authorization />
-          </Route>
-        )}
+          )}
       </IonReactRouter>
     </IonApp>
   );

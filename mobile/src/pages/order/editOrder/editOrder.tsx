@@ -25,6 +25,8 @@ import { OPERATION_REQUEST, ORDER_REQUEST } from '../../../dispatcher';
 import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { isEquals } from './../../../utils/helpers';
+import { use } from 'i18next';
+import { IReference } from '../../../models/interfaces/orders.interface';
 
 const EditOrder: React.FC = () => {
   const history = useHistory();
@@ -38,6 +40,7 @@ const EditOrder: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [operationReferences, setOperationReferences] = useState<IReference[]>([]);
   const initIds = useRef([] as number[]);
 
   useEffect(() => {
@@ -58,7 +61,7 @@ const EditOrder: React.FC = () => {
       setLoading,
       setToastMessage
     );
-    OPERATION_REQUEST.getOperations(setOperations, setLoading, setToastMessage);
+    OPERATION_REQUEST.getOperations(setOperations, setOperationReferences, setLoading, setToastMessage);
   }, []);
 
   const handleCheckboxChange = (id: number, checked: boolean) => {

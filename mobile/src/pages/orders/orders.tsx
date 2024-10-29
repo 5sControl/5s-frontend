@@ -4,14 +4,17 @@ import { ROUTES } from '../../shared/constants/routes';
 import { Header } from '../../components/header/Header';
 import ItemList from '../../components/itemList/itemList';
 import style from './orders.module.scss';
-import { add } from 'ionicons/icons';
+import { Plus } from '../../assets/svg/SVGcomponent';
 import { IOrders } from '../../models/interfaces/orders.interface';
 import { ORDER_REQUEST } from '../../dispatcher';
 import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../constants/toastDelay';
+import Fab from '../../components/fab/Fab';
+import { useHistory } from 'react-router';
 
 export const OrdersPage: React.FC = () => {
   const { t } = useTranslation();
+  const history = useHistory(); 
   const [orders, setOrders] = useState<IOrders[]>([]);
   const [searchText, setSearchText] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -19,6 +22,11 @@ export const OrdersPage: React.FC = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const handleSetSearch = (v: string) => setSearchText(v);
+
+  const handleFabClick = (path: string) => {
+    history.push(path);
+  };
+
   useEffect(() => {
     const filtered = orders.filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()));
     setFilteredItems(filtered);
@@ -38,7 +46,6 @@ export const OrdersPage: React.FC = () => {
 
   return (
     <IonPage>
-        <IonContent color="light">
         <IonLoading isOpen={isLoading} />
         <Header
             title={t('orders.orders')}
@@ -47,14 +54,9 @@ export const OrdersPage: React.FC = () => {
             searchText={searchText}
             onSearchChange={handleSetSearch}
         />
-        <IonContent className="ion-padding">
+        <IonContent color="light" className="ion-padding">
             <IonList>{items}</IonList>
-            <IonFab className={style.button} slot="fixed" horizontal="end" vertical="bottom">
-            <IonFabButton routerLink={ROUTES.ORDER} style={{ '--border-radius': '15px' }}>
-                <IonIcon icon={add}></IonIcon>
-            </IonFabButton>
-            </IonFab>
-        </IonContent>
+            <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER)}/>
         <IonToast
             isOpen={!!toastMessage}
             message={toastMessage || undefined}

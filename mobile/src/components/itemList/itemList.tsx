@@ -1,10 +1,12 @@
 import React from 'react';
 import {IonIcon, IonItem, IonLabel} from "@ionic/react";
+import { useHistory } from 'react-router';
 
-const ItemList = ({label, to, disabled, children }:IItemList) => {   
+const ItemList = ({label, to, disabled, children }:IItemList) => { 
+    const history = useHistory();  
 
     return (
-        <IonItem routerLink={to}  disabled={disabled}>
+        <IonItem disabled={disabled} onClick={() => history.push(to)}>
             {
                 children ? children : <IonLabel>{label}</IonLabel>
             }
