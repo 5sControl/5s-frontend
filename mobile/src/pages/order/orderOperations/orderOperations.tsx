@@ -31,6 +31,7 @@ import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { IReference } from '../../../models/interfaces/orders.interface';
 import { InputRedirector } from '../../../components/inputRedirector/inputRedirector';
+import { Table } from '../../../components/table/Table';
 const RADIX = 10;
 
 const OrderOperations = () => {
@@ -74,14 +75,14 @@ const OrderOperations = () => {
       <ItemList to={ROUTES.ORDER_TIMESPAN_EDIT(String(id), String(operationId), String(timespan.id))} key={timespan.id}>
         <IonGrid>
           <IonRow>
-            <IonCol className={style.itemLabel}>
-              <IonLabel>{formatDate(timespan.startedAt)}</IonLabel>
+            <IonCol className={style.itemLabel} class="ion-text-center">
+              {formatDate(timespan.startedAt)}
             </IonCol>
-            <IonCol className={style.itemLabel}>
-              <IonLabel>{timespan.employeeName}</IonLabel>
+            <IonCol className={style.itemLabel} class="ion-text-center">
+              {timespan.employeeName}
             </IonCol>
-            <IonCol className={style.itemLabel}>
-              <IonLabel>{timestring || 0}</IonLabel>
+            <IonCol className={style.itemLabel} class="ion-text-center">
+              {timestring || 0}
             </IonCol>
           </IonRow>
         </IonGrid>
@@ -117,26 +118,7 @@ const OrderOperations = () => {
               <IonList className={style.list}>
                 <IonLabel>{t('orders.implementation')}</IonLabel>
                 {timespanItems?.length ? (
-                  <>
-                    <IonList>
-                      <IonItem>
-                        <IonGrid>
-                          <IonRow>
-                            <IonCol className={style.itemLabel}>
-                              <IonLabel>{t('form.date')}</IonLabel>
-                            </IonCol>
-                            <IonCol className={style.itemLabel}>
-                              <IonLabel>{t('form.name')}</IonLabel>
-                            </IonCol>
-                            <IonCol className={style.itemLabel}>
-                              <IonLabel>{t('form.duration')}</IonLabel>
-                            </IonCol>
-                          </IonRow>
-                        </IonGrid>
-                      </IonItem>
-                      {timespanItems}
-                    </IonList>
-                  </>
+                  <Table cols={[t('form.date'), t('form.name'), t('form.duration')]} items={timespanItems} />
                 ) : (
                   <IonLabel slot="center">{t('text.norecords')}</IonLabel>
                 )}
