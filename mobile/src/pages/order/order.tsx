@@ -64,10 +64,10 @@ const Order = () => {
   return (
     <IonPage color="light">
       <Header title={order?.name} backButtonHref={ROUTES.ORDERS} />
-      <IonLoading isOpen={isLoading} />
-      {isLoaded && (
-        <>
-          <IonContent className="ion-padding">
+        <IonContent className="ion-padding">
+          <IonLoading isOpen={isLoading} />
+          {isLoaded && (
+            <>
             <IonList className={style.list}>
               <IonLabel>{t('form.name')}</IonLabel>
               <IonText color="medium">
@@ -91,9 +91,9 @@ const Order = () => {
               )}
             </IonList>
             <Fab icon={PencilIcon} handleFabClick={() => handleFabClick(ROUTES.ORDER_ITEM_EDIT(String(order.id)))} />
-          </IonContent>
-        </>
-      )}
+            </>
+          )}
+      </IonContent>
 
       <IonToast
         isOpen={!!toastMessage}
