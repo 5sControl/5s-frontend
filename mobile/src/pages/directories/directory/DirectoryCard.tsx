@@ -16,8 +16,9 @@ const DirectoryCard = () => {
   const [cookies] = useCookies(["token"]);
   const { id }: any = useParams();
   const { t } = useTranslation();
-  const [directory, setDirectory] = useState<Directory>();
   const history = useHistory();
+  const [directory, setDirectory] = useState<Directory>();
+  const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
 
   useIonViewWillEnter(() => {
     getDirectory(Number(id!), cookies.token)
@@ -26,6 +27,14 @@ const DirectoryCard = () => {
       })
       .catch(error => console.error(error));
   });
+
+  const handleCloseModal = () => {
+    setShowConfirmationModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setShowConfirmationModal(true);
+  };
 
   // useEffect(() => {
   //   getDirectory(Number(id!), cookies.token)
@@ -44,15 +53,17 @@ const DirectoryCard = () => {
       <Header
         title={directory?.name}
         backButtonHref={ROUTES.GENEREAL_DIRECTORIES}
-        endButton={<IonIcon id="open-modal" style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
+        endButton={<IonIcon onClick={handleOpenModal} style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
       />
       <IonContent>
         {directory ? (
           <Card
             deleteCard={deleteCard}
+            itemTitle={directory.name}
             backHref={ROUTES.GENEREAL_DIRECTORIES}
             editHref={ROUTES.DIRECTORIES_EDIT_CARD(String(id))}
-            itemTitle={directory.name}
+            showConfirmationModal={showConfirmationModal}
+            handleCloseModal={handleCloseModal}
           />
         ) : (
           <div className="preloader">

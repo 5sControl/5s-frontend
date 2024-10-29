@@ -51,20 +51,19 @@ const DirectoryCategory = () => {
     getDirectory(Number(refId), cookies.token)
       .then(response => {
         setCatalogTitle(response.data.name);
+        getDirectoryCategory(Number(refId), cookies.token)
+          .then(response => {
+            setItems(response.data);
+          })
+          .catch(error => {
+            console.error(error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       })
       .catch(error => {
         console.error(error);
-      });
-
-    getDirectoryCategory(Number(refId), cookies.token)
-      .then(response => {
-        setItems(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      })
-      .finally(() => {
-        setLoading(false);
       });
   });
 
