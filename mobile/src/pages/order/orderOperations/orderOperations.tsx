@@ -30,6 +30,7 @@ import { ROUTES } from '../../../shared/constants/routes';
 import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { IReference } from '../../../models/interfaces/orders.interface';
+import { InputRedirector } from '../../../components/inputRedirector/inputRedirector';
 const RADIX = 10;
 
 const OrderOperations = () => {
@@ -100,19 +101,19 @@ const OrderOperations = () => {
                 <IonLabel>{t('orders.operation')}</IonLabel>
                 <IonText>{operation.name}</IonText>
               </IonList>
+              <IonList>
                 {
                     operationReferences.map((param: IReference) => 
-                        <IonList className={style.list}>
-                            <IonLabel>{param.name}</IonLabel>
-                            <IonItem button onClick={() => history.push(ROUTES.ADD_ORDER_OPERATION_REFERENCE(String(id), String(operationId), String(param.id)))}>
-                                <IonLabel>{param.name}</IonLabel>
-                                <IonNote slot="end">Add</IonNote>
-                            </IonItem>
-                        </IonList>
+                      !param.isProtected &&
+                        <InputRedirector
+                          key={param.id}
+                          label={param.name}
+                          value={param.name}
+                          note={"Add"}
+                          onSelect={() => history.push(ROUTES.ADD_ORDER_OPERATION_REFERENCE(String(id), String(operationId), String(param.id)))}/>
                     )
                 }
-
-
+              </IonList>
               <IonList className={style.list}>
                 <IonLabel>{t('orders.implementation')}</IonLabel>
                 {timespanItems?.length ? (

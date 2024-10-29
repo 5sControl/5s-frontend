@@ -83,7 +83,7 @@ const AddOrder: React.FC = () => {
       />
       <IonFooter style={{ paddingBottom: '50px' }} className="ion-padding">
         <IonButton expand="block" onClick={openModal} disabled={!inputValue}>
-          {t('form.save')}
+          {t('operations.save')}
         </IonButton>
       </IonFooter>
       <ModalSave
