@@ -19,6 +19,8 @@ import { ORDER_REQUEST } from '../../../dispatcher';
 import { ROUTES } from '../../../shared/constants/routes';
 import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
+import { Input } from '../../../components/input/Input';
+import { values } from 'lodash';
 
 const AddOrder: React.FC = () => {
   const history = useHistory();
@@ -54,43 +56,29 @@ const AddOrder: React.FC = () => {
   return (
     <IonPage color="light">
       <Header title={t('orders.newOrder')} backButtonHref={ROUTES.ORDERS} />
-      <IonContent className="ion-padding">
+      <IonContent>
         <IonLoading isOpen={isLoading} />
-        <IonList className={styles.page}>
-          <IonList className={styles.list}>
-            <IonLabel>{t('form.name')}</IonLabel>
-            <IonInput
-              fill="outline"
-              value={inputValue}
-              className="input__wrapper"
-              maxlength={50}
-              onIonInput={(e) => setInputValue(e.detail.value!)}
-            ></IonInput>
-          </IonList>
-          <IonList className={styles.list}>
-            <IonLabel>{t('orders.operations')}</IonLabel>
-            <IonItem onClick={handleClick}>
-              <IonLabel>{t('orders.newOperations')}</IonLabel>
-            </IonItem>
-          </IonList>
-        </IonList>
-      </IonContent>
-      <IonToast
+        <Input 
+          label={t('form.name')}
+          value={inputValue}
+          required={true} 
+          handleChange={(e) => setInputValue(e.detail.value!)}
+          />
+        <IonButton onClick={openModal} disabled={!inputValue} className="bottom-50" expand="full">
+          {t('operations.save')}
+        </IonButton>
+        <IonToast
         isOpen={!!toastMessage}
         message={toastMessage || undefined}
         duration={TOAST_DELAY}
         onDidDismiss={() => setToastMessage(null)}
       />
-      <IonFooter style={{ paddingBottom: '50px' }} className="ion-padding">
-        <IonButton expand="block" onClick={openModal} disabled={!inputValue}>
-          {t('operations.save')}
-        </IonButton>
-      </IonFooter>
       <ModalSave
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         handleSubmit={handleSubmit}
       ></ModalSave>
+      </IonContent>
     </IonPage>
   );
 };

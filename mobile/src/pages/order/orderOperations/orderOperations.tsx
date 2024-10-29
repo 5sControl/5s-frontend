@@ -32,6 +32,8 @@ import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { IReference } from '../../../models/interfaces/orders.interface';
 import { InputRedirector } from '../../../components/inputRedirector/inputRedirector';
 import { Table } from '../../../components/table/Table';
+import { Plus } from '../../../assets/svg/SVGcomponent';
+import Fab from '../../../components/fab/Fab';
 const RADIX = 10;
 
 const OrderOperations = () => {
@@ -51,6 +53,10 @@ const OrderOperations = () => {
   const onDeleteHandle = () => {
     console.log('Delete');
   };
+
+  const handleFabClick = (path: string) => {
+    history.push(path);
+  }
 
   useEffect(() => {
     ORDER_REQUEST.getOrderOperationsById(
@@ -124,14 +130,7 @@ const OrderOperations = () => {
                 )}
               </IonList>
             </IonList>
-            <IonFab className={style.button} slot="fixed" horizontal="end" vertical="bottom">
-              <IonFabButton
-                routerLink={ROUTES.ORDER_TIMESPAN(String(id), String(operation.id))}
-                style={{ '--border-radius': '15px' }}
-              >
-                <IonIcon icon={add}></IonIcon>
-              </IonFabButton>
-            </IonFab>
+            <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(id), String(operation.id)))}/>
           </IonContent>
         </>
       )}

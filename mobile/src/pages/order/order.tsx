@@ -17,12 +17,13 @@ import style from './order.module.scss';
 import ItemList from '../../components/itemList/itemList';
 import { IOperation, IOrderWithAllOperations } from '../../models/interfaces/operationItem.interface';
 import PencilIcon from './../../assets/svg/editOutlined.svg';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { ORDER_REQUEST } from '../../dispatcher';
 import { formatDate } from '../../utils/parseInputDate';
 import { ROUTES } from '../../shared/constants/routes';
 import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../constants/toastDelay';
+import Fab from '../../components/fab/Fab';
 const RADIX = 10;
 
 export interface IOrders {
@@ -37,6 +38,7 @@ export interface IOrders {
 const Order = () => {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
+  const history = useHistory();
   const [order, setOrder] = useState<IOrderWithAllOperations>({} as IOrderWithAllOperations);
 
   const [isLoading, setLoading] = useState(true);
@@ -54,6 +56,10 @@ const Order = () => {
       <Chip name={item.status}></Chip>
     </ItemList>
   ));
+
+  const handleFabClick = (path: string) => {
+    history.push(path);
+  };
 
   return (
     <IonPage color="light">
@@ -84,15 +90,8 @@ const Order = () => {
                 <IonLabel>{t('text.noOperations')}</IonLabel>
               )}
             </IonList>
+            <Fab icon={PencilIcon} handleFabClick={() => handleFabClick(ROUTES.ORDER_ITEM_EDIT(String(order.id)))} />
           </IonContent>
-          <IonFooter
-            style={{ paddingBottom: '115px', display: 'flex', justifyContent: 'flex-end' }}
-            className="ion-padding"
-          >
-            <IonButton routerLink={ROUTES.ORDER_ITEM_EDIT(String(order.id))}>
-              <IonIcon icon={PencilIcon}></IonIcon>
-            </IonButton>
-          </IonFooter>
         </>
       )}
 
