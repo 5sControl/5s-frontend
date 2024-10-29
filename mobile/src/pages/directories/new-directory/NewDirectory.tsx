@@ -26,8 +26,8 @@ const NewDirectory = () => {
 
   return (
     <IonPage>
+      <Header title={t("directory.newDirectory")} backButtonHref={ROUTES.GENEREAL_DIRECTORIES}></Header>
       <IonContent>
-        <Header title={t("directory.newDirectory")} backButtonHref={ROUTES.GENEREAL_DIRECTORIES}></Header>
         <SingleInputPage
           title={t("directory.newDirectory")}
           backHref={ROUTES.GENEREAL_DIRECTORIES}

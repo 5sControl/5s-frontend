@@ -20,10 +20,15 @@ const mockedData = [
 const GeneralDirectories = () => {
   const [cookies] = useCookies(["token"]);
   const [items, setItems] = useState<Directory[]>([]);
+  const [filteredItems, setFilteredItems] = useState<Directory[]>([]);
+  const [searchText, setSearchText] = useState<string>("");
+
   const { t } = useTranslation();
   const history = useHistory();
 
   const [loading, setLoading] = useState(true);
+
+  const handleSetSearch = (value: string) => setSearchText(value);
 
   const handleFabClick = (path: string) => {
     history.push(path);
@@ -34,6 +39,7 @@ const GeneralDirectories = () => {
   };
 
   useIonViewWillEnter(() => {
+    setSearchText("");
     setLoading(true);
     getAllDirectories(cookies.token)
       .then(response => {
@@ -46,6 +52,15 @@ const GeneralDirectories = () => {
         setLoading(false);
       });
   });
+
+  useEffect(() => {
+    const filtered = items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
+    setFilteredItems(filtered);
+  }, [searchText]);
+
+  useEffect(() => {
+    items.length && setFilteredItems(items);
+  }, [items]);
 
   // useEffect(() => {
   //   setLoading(true);
@@ -63,9 +78,14 @@ const GeneralDirectories = () => {
 
   return (
     <IonPage>
+      <Header
+        title={t("menu.generalDirectories")}
+        backButtonHref={ROUTES.CONFIGURATION}
+        searchBar={Boolean(items?.length)}
+        searchText={searchText}
+        onSearchChange={handleSetSearch}
+      />
       <IonContent>
-        {/* <Header title={t("menu.generalDirectories")} backButtonHref={ROUTES.CONFIGURATION} /> */}
-        <Header title={t("menu.generalDirectories")} backButtonHref={ROUTES.CONFIGURATION} />
         {loading ? (
           <div className="preloader">
             <Preloader />
@@ -79,7 +99,7 @@ const GeneralDirectories = () => {
               </IonList>
             ) : (
               <IonList inset>
-                {items
+                {filteredItems
                   .filter(({ isProtected }) => !isProtected)
                   .map(({ id, name }) => (
                     <MenuListButton

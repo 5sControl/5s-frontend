@@ -65,7 +65,7 @@ export const Header: React.FC<HeaderProps> = ({
         )}
       </IonToolbar>
       {searchBar && (
-        <IonToolbar>
+        <IonToolbar className="search__toolbar">
           <IonSearchbar
             placeholder="Search"
             debounce={300}

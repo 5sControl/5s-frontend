@@ -64,8 +64,8 @@ const EditDirectoryCategory = () => {
   const { t } = useTranslation();
   return (
     <IonPage>
+      <Header title={t("directory.edit")} backButtonHref={ROUTES.DIRECTORY_CATEGORY_CARD(refId, id)}></Header>
       <IonContent>
-        <Header title={t("directory.edit")} backButtonHref={ROUTES.DIRECTORY_CATEGORY_CARD(refId, id)}></Header>
         {loading ? (
           <div className="preloader">
             <Preloader />

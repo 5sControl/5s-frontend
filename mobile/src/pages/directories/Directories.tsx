@@ -13,17 +13,23 @@ import { Directory } from "../../models/interfaces/directory.interface";
 const Directories = () => {
   const [cookies] = useCookies(["token"]);
   const [items, setItems] = useState<Directory[]>([]);
+  const [filteredItems, setFilteredItems] = useState<Directory[]>([]);
+  const [searchText, setSearchText] = useState<string>("");
   const { t } = useTranslation();
   const history = useHistory();
 
   const [loading, setLoading] = useState(true);
+
+  const handleSetSearch = (value: string) => setSearchText(value);
 
   const handleItemClick = (path: string) => {
     history.push(path);
   };
 
   useIonViewWillEnter(() => {
+    setSearchText("");
     setLoading(true);
+
     getAllDirectories(cookies.token)
       .then(response => {
         setItems(response.data);
@@ -35,6 +41,15 @@ const Directories = () => {
         setLoading(false);
       });
   });
+
+  useEffect(() => {
+    const filtered = items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
+    setFilteredItems(filtered);
+  }, [searchText]);
+
+  useEffect(() => {
+    items.length && setFilteredItems(items);
+  }, [items]);
 
   // useEffect(() => {
   //   setLoading(true);
@@ -52,8 +67,14 @@ const Directories = () => {
 
   return (
     <IonPage>
+      <Header
+        title={t("menu.directories")}
+        backButtonHref={ROUTES.MENU}
+        searchBar={Boolean(items?.length)}
+        searchText={searchText}
+        onSearchChange={handleSetSearch}
+      />
       <IonContent>
-        <Header title={t("menu.directories")} backButtonHref={ROUTES.MENU} />
         {loading ? (
           <div className="preloader">
             <Preloader />
@@ -65,7 +86,7 @@ const Directories = () => {
         ) : (
           <>
             <IonList inset>
-              {items
+              {filteredItems
                 .filter(({ isProtected }) => isProtected)
                 .map(({ id, name }) => (
                   <MenuListButton
@@ -76,7 +97,7 @@ const Directories = () => {
                 ))}
             </IonList>
             <IonList inset>
-              {items
+              {filteredItems
                 .filter(({ isProtected }) => !isProtected)
                 .map(({ id, name }) => (
                   <MenuListButton
