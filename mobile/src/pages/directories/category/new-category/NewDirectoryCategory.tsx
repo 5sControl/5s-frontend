@@ -42,11 +42,8 @@ const NewDirectoryCategory = () => {
 
   return (
     <IonPage>
+      <Header title={`${t("directory.newEntry")} "${headerName}"`} backButtonHref={ROUTES.DIRECTORY_CATEGORY(refId!)} />
       <IonContent>
-        <Header
-          title={`${t("directory.newEntry")} "${headerName}"`}
-          backButtonHref={ROUTES.DIRECTORY_CATEGORY(refId!)}
-        ></Header>
         <SingleInputPage
           backHref={ROUTES.DIRECTORY_CATEGORY(refId!)}
           label={t("directory.name")}

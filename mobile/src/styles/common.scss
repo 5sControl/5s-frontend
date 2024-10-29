@@ -41,7 +41,11 @@ ion-searchbar{
     --background: #FFF !important;
     --border-radius: 4px;
     padding: 0 !important;
-    min-height: fit-content !important;
+    min-height: fit-content !important;    
+}
+
+.search__toolbar {
+    margin-top: -1rem;
 }
 
 .searchContainer {
