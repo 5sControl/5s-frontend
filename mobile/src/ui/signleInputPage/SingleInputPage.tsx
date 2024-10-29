@@ -1,7 +1,7 @@
-import { IonButton, IonContent, IonInput, IonLabel, IonToast } from "@ionic/react";
-import { Header } from "../../components/header/Header";
-import "./SingleInputPage.scss";
 import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { Input } from "../../components/input/Input";
+import BottomButton from "../../components/bottomButton/BottomButton";
 
 type SingleInputPageProps = {
   title?: ReactNode;
@@ -15,35 +15,12 @@ type SingleInputPageProps = {
   handleSave: () => void;
 };
 
-const SingleInputPage = ({
-  title,
-  backHref,
-  label,
-  value,
-  placeholder,
-  required,
-  toastMessage,
-  handleChange,
-  handleSave,
-}: SingleInputPageProps) => {
+const SingleInputPage = ({ label, value, required, handleChange, handleSave }: SingleInputPageProps) => {
+  const { t } = useTranslation();
   return (
     <>
-      <div className="input__container">
-        <IonLabel position="stacked">{label}</IonLabel>
-        <IonInput
-          value={value}
-          placeholder={placeholder}
-          className="input__wrapper"
-          onIonInput={handleChange}
-          required={required}
-        ></IonInput>
-      </div>
-
-      <IonButton className="bottom-50" expand="full" id="open-toast" onClick={handleSave} disabled={!value.trim()}>
-        Save
-      </IonButton>
-
-      {value.trim().length === 0 && <IonToast trigger="open-toast" message={"Empty Input"} duration={3000} />}
+      <Input label={label} value={value} required={required} handleChange={handleChange}></Input>
+      <BottomButton handleClick={handleSave} label={t("operations.save")} disabled={!value.trim()} />
     </>
   );
 };

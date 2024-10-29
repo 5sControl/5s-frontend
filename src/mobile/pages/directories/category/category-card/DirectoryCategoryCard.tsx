@@ -35,13 +35,12 @@ const DirectoryCategoryCard = () => {
     <IonPage>
       <IonContent>
         <Header
-          title={t("directory.card")}
+          title={directory?.name}
           backButtonHref={ROUTES.DIRECTORY_CATEGORY(refId)}
           endButton={<IonIcon id="open-modal" style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
         />
         {directory ? (
           <Card
-            title={t("directory.card")}
             deleteCard={deleteCard}
             backHref={ROUTES.DIRECTORY_CATEGORY(refId)}
             editHref={ROUTES.DIRECTORY_CATEGORY_EDIT(refId, String(directory.id))}

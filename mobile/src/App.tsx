@@ -1,6 +1,6 @@
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
+import { Redirect, Route } from "react-router-dom";
+import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
+import { IonReactRouter } from "@ionic/react-router";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import "./i18";
@@ -17,7 +17,7 @@ import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import "./styles/common.scss";
-import { ROUTES } from './shared/constants/routes'; 
+import { ROUTES } from "./shared/constants/routes";
 import { Menu } from "./pages/menu/Menu";
 import Connection from "./pages/connections/connection/Connection";
 import Connections from "./pages/connections/Connections";
@@ -36,7 +36,7 @@ import DirectoryCategory from "./pages/directories/category/DirectoryCategory";
 import DirectoryCategoryCard from "./pages/directories/category/category-card/DirectoryCategoryCard";
 import NewDirectoryCategory from "./pages/directories/category/new-category/NewDirectoryCategory";
 import EditDirectoryCategory from "./pages/directories/category/edit-category/EditDirectoryCategory";
-import {OrdersPage} from "./pages/orders/orders";
+import { OrdersPage } from "./pages/orders/orders";
 import AddOrder from "./pages/order/addOrder/addOrder";
 import AddOrderOperation from "./pages/order/addOrderOperation/addOrderOperation";
 import Order from "./pages/order/order";
@@ -71,10 +71,10 @@ function App() {
 
   return (
     <IonApp>
-      <IonReactRouter basename={import.meta.env.BASE_URL ?? '/'}>
-          <Route path="/authorization">
-            <Authorization/>
-          </Route>
+      <IonReactRouter basename={import.meta.env.BASE_URL ?? "/"}>
+        <Route path="/authorization">
+          <Authorization />
+        </Route>
           {cookies.token ? ( 
             <IonRouterOutlet>
               <Route exact path={ROUTES.MENU}>
