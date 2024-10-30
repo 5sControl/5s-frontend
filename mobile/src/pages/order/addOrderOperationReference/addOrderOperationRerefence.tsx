@@ -21,6 +21,7 @@ import { IReference } from '../../../models/interfaces/orders.interface';
 import { OPERATION_REQUEST } from '../../../dispatcher';
 import { TOAST_DELAY } from '../../../constants/toastDelay';
 import './addOrderOperationReference.scss'
+import BottomButton from '../../../components/bottomButton/BottomButton';
 
 const AddOrderOperationReference: React.FC = () => {
   const history = useHistory();
@@ -78,12 +79,12 @@ const AddOrderOperationReference: React.FC = () => {
 
   return (
     <IonPage color="light">
-      <Header title="Добавить" 
+      <Header title={t('operations.add')} 
         backButtonHref={ROUTES.ORDERS} 
         searchBar={true} 
         searchText={searchText}
         onSearchChange={setSearchText}/>
-      <IonContent className="ion-padding">
+      <IonContent>
         <IonLoading isOpen={isLoading} />
         <IonList>
           {filteredItems.map((item) => (
@@ -100,22 +101,13 @@ const AddOrderOperationReference: React.FC = () => {
             </IonItem>
           ))}
         </IonList>
-      </IonContent>
+        <BottomButton handleClick={openModal} disabled={selectedIds.length === 0} label={t('operations.save')} />
       <IonToast
         isOpen={!!toastMessage}
         message={toastMessage || undefined}
         duration={TOAST_DELAY}
         onDidDismiss={() => setToastMessage(null)}
       />
-      <IonFooter style={{ paddingBottom: '50px' }} className="ion-padding">
-        <IonButton
-          expand="block"
-          onClick={openModal}
-          disabled={selectedIds.length === 0}
-        >
-          {t('operations.save')}
-        </IonButton>
-      </IonFooter>
 
       <ModalSave
         isModalOpen={isModalOpen}
@@ -124,6 +116,7 @@ const AddOrderOperationReference: React.FC = () => {
       ></ModalSave>
 
       <IonLoading isOpen={isLoading} />
+      </IonContent>
     </IonPage>
   );
 };

@@ -36,6 +36,7 @@ import { Back } from './../../../assets/svg/SVGcomponent';
 import { ROUTES } from '../../../shared/constants/routes';
 import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
+import BottomButton from '../../../components/bottomButton/BottomButton';
 
 const NewTimespan: React.FC = () => {
   const { id, operationId } = useParams<{ id: string; operationId: string }>();
@@ -82,6 +83,7 @@ const NewTimespan: React.FC = () => {
       };
       operationId &&
         TIMESPAN_REQUEST.addTimespan(parseInt(operationId), payload, setLoading, setToastMessage, handleNavigate);
+      setIsModalOpen(false);
     }
   };
 
@@ -142,9 +144,9 @@ const NewTimespan: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding">
-        <IonLoading isOpen={isLoading} />
-        <IonList className={style.page}>
+      <IonContent>
+        <IonLoading isOpen={isLoading}/>
+        <IonList className={`${style.page} ion-padding`}>
           <IonList className={style.list}>
             <IonLabel>{t('form.date')}</IonLabel>
             <InputDate value={formatDate(startDateTime)} onClick={() => setIsDateChange(true)}></InputDate>
@@ -249,13 +251,9 @@ const NewTimespan: React.FC = () => {
             onDidDismiss={() => setToastMessage(null)}
           />
         </IonList>
+        <BottomButton handleClick={openModal} disabled={isSave || !isStart} label={t('operations.save')} />
+        <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSave}></ModalSave>
       </IonContent>
-      <IonFooter style={{ paddingBottom: '50px' }} className="ion-padding">
-        <IonButton expand="block" onClick={openModal} disabled={isSave || !isStart}>
-          {t('operations.save')}
-        </IonButton>
-      </IonFooter>
-      <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSave}></ModalSave>
     </IonPage>
   );
 };

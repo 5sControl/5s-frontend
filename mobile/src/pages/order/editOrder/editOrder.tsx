@@ -27,6 +27,7 @@ import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { isEquals } from './../../../utils/helpers';
 import { use } from 'i18next';
 import { IReference } from '../../../models/interfaces/orders.interface';
+import BottomButton from '../../../components/bottomButton/BottomButton';
 
 const EditOrder: React.FC = () => {
   const history = useHistory();
@@ -112,8 +113,8 @@ const EditOrder: React.FC = () => {
         title={`${t('operations.edit')} ${order.name}`}
         backButtonHref={ROUTES.ORDERS}
       />
-      <IonContent className="ion-padding">
-        <IonList className={styles.page}>
+      <IonContent>
+        <IonList className={`${styles.page} ion-padding`}>
           <IonList className={styles.list}>
             <IonLabel>{t('form.name')}</IonLabel>
             <IonText color="medium">{order.name}</IonText>
@@ -123,18 +124,9 @@ const EditOrder: React.FC = () => {
             <IonList>{operationList}</IonList>
           </IonList>
         </IonList>
-      </IonContent>
-      <IonFooter style={{ paddingBottom: '50px' }} className="ion-padding">
-        <IonButton
-          expand="block"
-          onClick={openModal}
-          disabled={isEquals(selectedIds, initIds.current)}
-        >
-          {t('operations.save')}
-        </IonButton>
-      </IonFooter>
+        <BottomButton handleClick={openModal} disabled={isEquals(selectedIds, initIds.current)} label={t('operations.save')} />
 
-      <ModalSave
+        <ModalSave
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         handleSubmit={handleSubmit}
@@ -146,6 +138,7 @@ const EditOrder: React.FC = () => {
         duration={TOAST_DELAY}
         onDidDismiss={() => setToastMessage(null)}
       />
+      </IonContent>
     </IonPage>
   );
 };
