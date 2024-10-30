@@ -28,7 +28,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       <div className="block ion-padding">
         <h5 className="ion-text-center">{title}</h5>
         {description && <p className="modal__description ion-text-center">{description}</p>}
-        <IonButton expand="full" size="small" color={type} className="modal__button" onClick={onConfirm}>
+        <IonButton expand="full" size="small" color={type} className="modal__button" onClick={() => onConfirm()}>
           {confirmText}
         </IonButton>
         <IonButton
@@ -37,7 +37,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           fill="outline"
           className="modal__button outlined"
           shape="round"
-          onClick={onClose}
+          onClick={() => onClose()}
         >
           {cancelText}
         </IonButton>
