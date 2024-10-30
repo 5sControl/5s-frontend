@@ -134,7 +134,8 @@
     "implementationTime": "Время выполнения",
     "startOperation": "Начало операции",
     "operationTime": "Время операции:",
-    "finishOperation": "Окончание операции"
+    "finishOperation": "Окончание операции",
+    "date": "Дата"
   },
   "time": {
     "hour": "ч",

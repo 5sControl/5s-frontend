@@ -163,7 +163,7 @@ const NewTimespan: React.FC = () => {
                   }}
                 />
               ) : (
-                <IonText className="ion-button-edit">Data</IonText>
+                <IonText className="ion-button-edit">{t("orders.date")}</IonText>
               )}
               {isStart && (
                 <IonButton size="small" onClick={() => startModalRef.current?.present()}>
@@ -209,7 +209,7 @@ const NewTimespan: React.FC = () => {
               {finishDateTime ? (
                 <IonDatetimeButton datetime="finish-datetime" />
               ) : (
-                <IonText className="ion-button-edit">Data</IonText>
+                <IonText className="ion-button-edit">{t("orders.date")}</IonText>
               )}
               {finishDateTime && (
                 <IonButton size="small" onClick={() => finishModalRef.current?.present()}>
@@ -240,7 +240,7 @@ const NewTimespan: React.FC = () => {
             </IonButton>
           </IonList>
           <div className={style.time}>
-            <IonLabel>Operation time:</IonLabel>
+            <IonLabel> {t('orders.operationTime')}</IonLabel>
             <IonLabel>{`${hours}${t('time.hour')} ${minutes ? minutes + ' ' + t('time.min') : ''}`}</IonLabel>
           </div>
           <IonToast

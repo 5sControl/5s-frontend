@@ -134,7 +134,8 @@
     "implementationTime": "Czas realizacji",
     "startOperation": "Początek operacji",
     "operationTime": "Czas operacji:",
-    "finishOperation": "Koniec operacji"
+    "finishOperation": "Koniec operacji",
+    "date": "Data"
   },
   "time": {
     "hour": "godz.",

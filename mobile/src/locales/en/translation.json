@@ -134,7 +134,8 @@
      "implementationTime": "Implementation Time",
      "startOperation": "Start of Operation",
      "operationTime": "Operation time:",
-     "finishOperation": "Finish of Operation"
+     "finishOperation": "Finish of Operation",
+     "date": "Date"
    },
    "time": {
      "hour": "h",

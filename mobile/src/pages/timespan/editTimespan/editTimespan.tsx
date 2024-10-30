@@ -214,7 +214,7 @@ const EditTimespan: React.FC = () => {
                   {finishDateTime ? (
                     <IonDatetimeButton datetime="finish-datetime" />
                   ) : (
-                    <IonText className="ion-button-edit">Data</IonText>
+                    <IonText className="ion-button-edit">{t("orders.date")}</IonText>
                   )}
                   {finishDateTime && (
                     <IonButton size="small" onClick={() => finishModalRef.current?.present()}>
@@ -245,7 +245,7 @@ const EditTimespan: React.FC = () => {
                 </IonButton>
               </IonList>
               <div className={style.time}>
-                <IonLabel> {t('orders.operationTime')}</IonLabel>
+                <IonLabel>{t('orders.operationTime')}</IonLabel>
                 <IonLabel>{`${hours}${t('time.hour')} ${minutes ? minutes + ' ' + t('time.min') : ''}`}</IonLabel>
               </div>
               <IonToast
