@@ -52,15 +52,15 @@ export const Menu: React.FC = () => {
 
   return (
     <IonPage>
+      <Header
+        title={
+          <div className="main__header">
+            <img src={MenuLogo} alt="Menu Logo" />
+          </div>
+        }
+        endButton={<IonIcon style={{ fontSize: "24px" }} icon={Cog} />}
+      />
       <IonContent color="light">
-        <Header
-          title={
-            <div className="main__header">
-              <img src={MenuLogo} alt="Menu Logo" />
-            </div>
-          }
-          endButton={<IonIcon style={{ fontSize: "24px" }} icon={Cog} />}
-        />
         <IonList inset={true}>
           <MenuListButton title={user.username} account={true} />
         </IonList>
