@@ -36,6 +36,7 @@ import { Back } from './../../../assets/svg/SVGcomponent';
 import { ROUTES } from '../../../shared/constants/routes';
 import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
+import BottomButton from '../../../components/bottomButton/BottomButton';
 const RADIX = 10;
 
 const EditTimespan: React.FC = () => {
@@ -153,10 +154,10 @@ const EditTimespan: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonLoading isOpen={isLoading} />
-      {startDateTime && (
-        <>
-          <IonContent className="ion-padding">
-            <IonList className={style.page}>
+          <IonContent>
+          {startDateTime && (
+            <>
+            <IonList className={`${style.page} ion-padding`}>
               <IonList className={style.list}>
                 <IonLabel>{t('form.date')}</IonLabel>
                 <InputDate value={formatDateUTC(startDateTime)} onClick={() => setIsDateChange(true)}></InputDate>
@@ -213,7 +214,7 @@ const EditTimespan: React.FC = () => {
                   {finishDateTime ? (
                     <IonDatetimeButton datetime="finish-datetime" />
                   ) : (
-                    <IonText className="ion-button-edit">Data</IonText>
+                    <IonText className="ion-button-edit">{t("orders.date")}</IonText>
                   )}
                   {finishDateTime && (
                     <IonButton size="small" onClick={() => finishModalRef.current?.present()}>
@@ -244,7 +245,7 @@ const EditTimespan: React.FC = () => {
                 </IonButton>
               </IonList>
               <div className={style.time}>
-                <IonLabel> {t('orders.operationTime')}</IonLabel>
+                <IonLabel>{t('orders.operationTime')}</IonLabel>
                 <IonLabel>{`${hours}${t('time.hour')} ${minutes ? minutes + ' ' + t('time.min') : ''}`}</IonLabel>
               </div>
               <IonToast
@@ -255,16 +256,11 @@ const EditTimespan: React.FC = () => {
                 onDidDismiss={() => setToastMessage(null)}
               />
             </IonList>
+            <BottomButton handleClick={openModal} disabled={isSave} label={t('operations.save')} />
+            <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSave}></ModalSave>
+            </>
+          )}
           </IonContent>
-
-          <IonFooter style={{ paddingBottom: '50px' }} className="ion-padding">
-            <IonButton expand="block" onClick={openModal} disabled={isSave}>
-              Save
-            </IonButton>
-          </IonFooter>
-          <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSave}></ModalSave>
-        </>
-      )}
     </IonPage>
   );
 };

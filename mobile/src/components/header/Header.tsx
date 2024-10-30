@@ -12,6 +12,7 @@ import {
 } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import { Back } from "../../assets/svg/SVGcomponent";
+import { useTranslation } from "react-i18next";
 
 type HeaderProps = {
   title: ReactNode;
@@ -39,6 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
   onBackClick,
 }) => {
   const history = useHistory();
+  const { t } = useTranslation();
 
   const handleBackButton = (backTo: string) => {
     history.push(backTo);
@@ -67,7 +69,7 @@ export const Header: React.FC<HeaderProps> = ({
       {searchBar && (
         <IonToolbar className="search__toolbar">
           <IonSearchbar
-            placeholder="Search"
+            placeholder={t("operations.search")}
             debounce={300}
             value={searchText}
             onIonInput={e => onSearchChange && onSearchChange(e.detail.value!)}

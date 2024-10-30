@@ -21,6 +21,7 @@ import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { Input } from '../../../components/input/Input';
 import { values } from 'lodash';
+import BottomButton from '../../../components/bottomButton/BottomButton';
 
 const AddOrder: React.FC = () => {
   const history = useHistory();
@@ -63,10 +64,8 @@ const AddOrder: React.FC = () => {
           value={inputValue}
           required={true} 
           handleChange={(e) => setInputValue(e.detail.value!)}
-          />
-        <IonButton onClick={openModal} disabled={!inputValue} className="bottom-50" expand="full">
-          {t('operations.save')}
-        </IonButton>
+        />
+        <BottomButton handleClick={openModal} disabled={!inputValue} label={t('operations.save')} />
         <IonToast
         isOpen={!!toastMessage}
         message={toastMessage || undefined}

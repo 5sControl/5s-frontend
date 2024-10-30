@@ -98,11 +98,12 @@ const OrderOperations = () => {
 
   return (
     <IonPage>
-      <IonLoading isOpen={isLoading} />
-      {isLoaded && (
         <>
           <Header title={operation.name} backButtonHref={ROUTES.ORDER_ITEM(String(id))} />
           <IonContent className={'ion-padding'}>
+           <IonLoading isOpen={isLoading} />
+           {isLoaded && (
+            <>
             <IonList className={style.page}>
               <IonList className={style.list}>
                 <IonLabel>{t('orders.operation')}</IonLabel>
@@ -116,8 +117,8 @@ const OrderOperations = () => {
                           key={param.id}
                           label={param.name}
                           value={param.name}
-                          note={"Add"}
-                          onSelect={() => history.push(ROUTES.ADD_ORDER_OPERATION_REFERENCE(String(id), String(operationId), String(param.id)))}/>
+                          note={t('operations.add')}
+                          onSelect={() => history.push(ROUTES.ORDER_OPERATION_ADD_REFERENCE(String(id), String(operationId), String(param.id)))}/>
                     )
                 }
               </IonList>
@@ -131,15 +132,16 @@ const OrderOperations = () => {
               </IonList>
             </IonList>
             <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(id), String(operation.id)))}/>
+            <IonToast
+              isOpen={!!toastMessage}
+              message={toastMessage || undefined}
+              duration={TOAST_DELAY}
+              onDidDismiss={() => setToastMessage(null)}
+            />
+            </>
+          )}
           </IonContent>
         </>
-      )}
-      <IonToast
-        isOpen={!!toastMessage}
-        message={toastMessage || undefined}
-        duration={TOAST_DELAY}
-        onDidDismiss={() => setToastMessage(null)}
-      />
     </IonPage>
   );
 };

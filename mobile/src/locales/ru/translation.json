@@ -134,10 +134,18 @@
     "implementationTime": "Время выполнения",
     "startOperation": "Начало операции",
     "operationTime": "Время операции:",
-    "finishOperation": "Окончание операции"
+    "finishOperation": "Окончание операции",
+    "date": "Дата"
   },
   "time": {
     "hour": "ч",
     "min": "мин"
+  },
+  "ordersView": {
+    "orderSearch": "Поиск заказа",
+    "settings": "Настройки просмотра заказов",
+    "workday": "Рабочий день",
+    "erp": "Используемая ERP",
+    "displayedOperations": "Отображаемые операции"
   }
 }

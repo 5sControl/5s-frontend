@@ -2,6 +2,7 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonItem, IonList, IonModa
 import { OrderItem } from "../../../models/interfaces/orderItem.interface";
 import { useEffect, useState } from "react";
 import "./SearchModal.scss";
+import { useTranslation } from "react-i18next";
 
 type SearchModalProps = {
     isOpen: boolean;
@@ -11,6 +12,7 @@ type SearchModalProps = {
 };
 
 export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSelect, orders }) => {
+    const {t} = useTranslation();
     const [searchResult, setSearchResult] = useState<OrderItem[]>(orders);
 
     useEffect(() => {
@@ -27,9 +29,9 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSel
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonButton onClick={onClose}>Cancel</IonButton>
+                        <IonButton onClick={onClose}>{t("operations.cancel")}</IonButton>
                     </IonButtons>
-                    <IonTitle>Order Search</IonTitle>
+                    <IonTitle>{t("ordersView.orderSearch")}</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
