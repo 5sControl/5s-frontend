@@ -5,6 +5,7 @@ import { OperationsCheckbox } from '../operationsCheckbox/operationsCheckbox';
 import { getFiltrationData, patchFiltrationData } from '../../../api/ordersView';
 import { FiltrationData } from '../../../models/interfaces/filtrationData.interface';
 import { useCookies } from 'react-cookie';
+import { useTranslation } from 'react-i18next';
 
 type SettingsModalProps = {
     isOpen: boolean;
@@ -14,6 +15,7 @@ type SettingsModalProps = {
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSave }) => {
     const [cookies] = useCookies(['token']);
+    const {t} = useTranslation();
     const [operations, setOperations] = useState<FiltrationData[]>([]);
     const [changeConnectionHandler, setChangeConnectionHandler] = useState<boolean>(false);
 
@@ -49,24 +51,24 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, o
           <IonHeader>
             <IonToolbar>
               <IonButtons slot="start">
-                <IonButton onClick={onClose}>Cancel</IonButton>
+                <IonButton onClick={onClose}>{t("operations.cancel")}</IonButton>
               </IonButtons>
-              <IonTitle>Orders View settings</IonTitle>
+              <IonTitle>{t("ordersView.settings")}</IonTitle>
               <IonButtons slot="end">
-                <IonButton onClick={submitHandler}>Done</IonButton>
+                <IonButton onClick={submitHandler}>{t("operations.done")}</IonButton>
               </IonButtons>
             </IonToolbar>
           </IonHeader>
           <IonContent className="ion-padding">
             <div>
-                <h6>Work day</h6>
+                <h6>{t("ordersView.workday")}</h6>
             </div>
             <div>
-                <h6>Used ERP</h6>
+                <h6>{t("ordersView.erp")}</h6>
                 <SelectConnection changeHandler={setChangeConnectionHandler}/>
             </div>
             <div>
-                <h6>Displayed operations ({operations.length})</h6>
+                <h6>{t("ordersView.displayedOperations")} ({operations.length})</h6>
                 <OperationsCheckbox items={operations} handleSelectItem={changeHandler}/>
             </div>          
           </IonContent>

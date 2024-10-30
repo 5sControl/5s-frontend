@@ -140,5 +140,12 @@
   "time": {
     "hour": "ч",
     "min": "мин"
+  },
+  "ordersView": {
+    "orderSearch": "Поиск заказа",
+    "settings": "Настройки просмотра заказов",
+    "workday": "Рабочий день",
+    "erp": "Используемая ERP",
+    "displayedOperations": "Отображаемые операции"
   }
 }
