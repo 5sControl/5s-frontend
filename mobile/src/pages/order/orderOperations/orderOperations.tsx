@@ -118,7 +118,7 @@ const OrderOperations = () => {
                           label={param.name}
                           value={param.name}
                           note={t('operations.add')}
-                          onSelect={() => history.push(ROUTES.ADD_ORDER_OPERATION_REFERENCE(String(id), String(operationId), String(param.id)))}/>
+                          onSelect={() => history.push(ROUTES.ORDER_OPERATION_ADD_REFERENCE(String(id), String(operationId), String(param.id)))}/>
                     )
                 }
               </IonList>
