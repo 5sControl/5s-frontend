@@ -64,9 +64,8 @@ const AddOrderOperationReference: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    console.log('op', operation);
-    OPERATION_REQUEST.updateOperationReferenceItem(
-      operation.referenceOperationId,
+    OPERATION_REQUEST.addOperationReferenceItem(
+      parseInt(operationId),
       { referenceItemIds: selectedIds },
       setLoading,
       setToastMessage,
@@ -105,6 +104,7 @@ const AddOrderOperationReference: React.FC = () => {
                 onIonChange={(e) =>
                   handleCheckboxChange(item.id, e.detail.checked)
                 }
+                checked={(operation.extensions?.find(ref => ref.name === item.name) === undefined ? false : true) || selectedIds.includes(item.id)}
               >
                 {item.name}
               </IonCheckbox>
