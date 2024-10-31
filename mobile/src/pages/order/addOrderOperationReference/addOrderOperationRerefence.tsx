@@ -26,7 +26,7 @@ import BottomButton from '../../../components/bottomButton/BottomButton';
 const AddOrderOperationReference: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
-  const { refId } = useParams<{ refId: string }>();
+  const { operationId, refId } = useParams<{ operationId: string; refId: string }>();
   const location = useLocation();
   const [searchText, setSearchText] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -44,7 +44,6 @@ const AddOrderOperationReference: React.FC = () => {
   }, [searchText]);
 
   useEffect(() => {
-    console.log(references);
     references.length && setFilteredItems(references);
   }, [references]);
 
@@ -57,14 +56,16 @@ const AddOrderOperationReference: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    setIsModalOpen(false);
-    // ORDER_REQUEST.addOrder(
-    //   { name: inputValue, operationIds: [] },
-    //   setLoading,
-    //   setToastMessage,
-    //   navigateTo
-    // );
+    OPERATION_REQUEST.updateOperationReferenceItem(
+      parseInt(operationId),
+      { referenceItemIds: selectedIds },
+      setLoading,
+      setToastMessage,
+      navigateTo
+      );
+      setIsModalOpen(false);
   };
+
   const openModal = () => {
     setIsModalOpen(true);
   };

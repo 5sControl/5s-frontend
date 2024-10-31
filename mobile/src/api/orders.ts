@@ -18,6 +18,7 @@ const URLS = {
   UPDATE_OPERATION: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order/`,
   GET_ORDER_OPERATION: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation/order/`,
   GET_OPERATION_REFERENCE_ITEMS: `${import.meta.env.VITE_API_BASE_URL}${BASE}/reference-items/`,
+  UPDATE_OPERATION_REFERENCE_ITEMS: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation/{id}/extension/`,
   ADD_TIMESPAN: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation/{id}/timespan/`,
   UPDATE_TIMESPAN: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation-timespan/`,
   GET_TIMESPAN: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation-timespan/`,
@@ -55,6 +56,8 @@ export const ORDERS_API = {
     request.get<IOrderOperation[]>(URLS.GET_ORDER_OPERATION + id + "/"),
   getOperationReferenceItems: (id: number) =>
     request.get<IReference[]>(URLS.GET_OPERATION_REFERENCE_ITEMS + id + "/"),
+  updateOperationReferenceItem: (id: number, body: any) =>
+    request.patch(URLS.UPDATE_OPERATION_REFERENCE_ITEMS.replace("{id}", String(id)), body)
 };
 export const TIMESPAN_API = {
   addTimespan: (id: number, body: ITimespanAddBody) =>
@@ -68,4 +71,8 @@ export const TIMESPAN_API = {
 export interface ITimespanAddBody {
   startedAt: string;
   finishedAt?: string;
+}
+
+export interface IOperationReferenceUpdateBody {
+  referenceItemIds: number[];
 }
