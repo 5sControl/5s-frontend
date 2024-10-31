@@ -34,6 +34,7 @@ import { InputRedirector } from '../../../components/inputRedirector/inputRedire
 import { Table } from '../../../components/table/Table';
 import { Plus } from '../../../assets/svg/SVGcomponent';
 import Fab from '../../../components/fab/Fab';
+import { ROLE } from '../../../models/enums/roles.enum';
 const RADIX = 10;
 
 const OrderOperations = () => {
@@ -58,6 +59,10 @@ const OrderOperations = () => {
     history.push(path);
   }
 
+  const getUserRole = () => {
+    return localStorage.getItem('userRole');
+  };
+
   useEffect(() => {
     ORDER_REQUEST.getOrderOperationsById(
       parseInt(id, RADIX),
@@ -69,8 +74,6 @@ const OrderOperations = () => {
     OPERATION_REQUEST.getOperations(setNewOperations, setOperationReferences, setLoading, setToastMessage);
   }, []);
 
-  const deleteIcon = <IonIcon icon={trashOutline} className={style.deleteIcon} onClick={onDeleteHandle} />;
-
   const timespanItems = operation?.timespans?.map((timespan) => {
     const { hours, minutes } = formatTime(timespan.duration);
     const timestring = [hours && `${hours} ${t('time.hour')}`, minutes && `${minutes} ${t('time.min')}`]
@@ -78,7 +81,10 @@ const OrderOperations = () => {
       .join(' ');
 
     return (
-      <ItemList to={ROUTES.ORDER_TIMESPAN_EDIT(String(id), String(operationId), String(timespan.id))} key={timespan.id}>
+      <ItemList 
+        to={ROUTES.ORDER_TIMESPAN_EDIT(String(id), String(operationId), String(timespan.id))} 
+        key={timespan.id} 
+        navigationAllowed={getUserRole() === ROLE.WORKER }>
         <IonGrid>
           <IonRow>
             <IonCol className={style.itemLabel} class="ion-text-center">
@@ -117,7 +123,7 @@ const OrderOperations = () => {
                           key={param.id}
                           label={param.name}
                           value={param.name}
-                          note={t('operations.add')}
+                          note={operation.extensions.find(ext => ext.id === param.id)?.name || t('operations.add')}
                           onSelect={() => history.push(ROUTES.ORDER_OPERATION_ADD_REFERENCE(String(id), String(operationId), String(param.id)))}/>
                     )
                 }
@@ -131,7 +137,9 @@ const OrderOperations = () => {
                 )}
               </IonList>
             </IonList>
-            <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(id), String(operation.id)))}/>
+            {
+              getUserRole() === ROLE.WORKER 
+              && <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(id), String(operation.id)))}/>}
             <IonToast
               isOpen={!!toastMessage}
               message={toastMessage || undefined}

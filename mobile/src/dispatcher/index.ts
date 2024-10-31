@@ -8,7 +8,7 @@ import {
     IProductOperation
 } from "../models/interfaces/operationItem.interface";
 import { ITimespan } from "./../models/interfaces/orders.interface"
-import { ITimespanAddBody } from './../api/orders'
+import { ITimespanAddBody, IOperationReferenceUpdateBody } from './../api/orders'
 import React from "react";
 
 
@@ -234,6 +234,24 @@ const getTimespan = async (id: number, setTimespan: React.Dispatch<React.SetStat
     }
 }
 
+const updateOperationReferenceItem = async (id: number, body: IOperationReferenceUpdateBody, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setMessage: React.Dispatch<React.SetStateAction<string | null>>, callback: () => void) => {
+    try {
+        setLoading(true)
+        const operation = await ORDERS_API.updateOperationReferenceItem(id, body)
+        if (operation.status === STATUS.OK) {
+            callback()
+        } else {
+            setMessage && setMessage('Something went wrong')
+        }
+    } catch (e) {
+        const err = e as AxiosError
+        setMessage && setMessage(err.message)
+    } finally {
+        setLoading && setLoading(false)
+    }
+}
+
 const getOperationReferenceItems = async (id: number, setOperationReferenceItems: React.Dispatch<React.SetStateAction<IReference[]>>, 
     setLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
@@ -265,7 +283,8 @@ export const ORDER_REQUEST = {
 }
 export const OPERATION_REQUEST = {
     getOperations,
-    getOperationReferenceItems
+    getOperationReferenceItems,
+    updateOperationReferenceItem
 }
 export const TIMESPAN_REQUEST = {
     addTimespan,
