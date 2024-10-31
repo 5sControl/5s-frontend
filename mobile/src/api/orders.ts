@@ -16,7 +16,7 @@ const URLS = {
   GET_REFERENCES: `${import.meta.env.VITE_API_BASE_URL}${BASE}/reference/`,
   GET_OPERATIONS: `${import.meta.env.VITE_API_BASE_URL}${BASE}/reference-operation/`,
   UPDATE_OPERATION: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order/`,
-  GET_ORDER_OPERATION: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation/order/`,
+  GET_ORDER_OPERATION: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation/`,
   GET_OPERATION_REFERENCE_ITEMS: `${import.meta.env.VITE_API_BASE_URL}${BASE}/reference-items/`,
   UPDATE_OPERATION_REFERENCE_ITEMS: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation/{id}/extension/`,
   ADD_TIMESPAN: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation/{id}/timespan/`,
@@ -53,7 +53,7 @@ export const ORDERS_API = {
   updateOrder: (id: number, body: any) =>
     request.patch(URLS.UPDATE_OPERATION + id + "/", body),
   getOrderOperation: (id: number) =>
-    request.get<IOrderOperation[]>(URLS.GET_ORDER_OPERATION + id + "/"),
+    request.get<IOrderOperation>(URLS.GET_ORDER_OPERATION + id + "/"),
   getOperationReferenceItems: (id: number) =>
     request.get<IReference[]>(URLS.GET_OPERATION_REFERENCE_ITEMS + id + "/"),
   updateOperationReferenceItem: (id: number, body: any) =>

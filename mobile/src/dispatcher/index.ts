@@ -64,26 +64,6 @@ const getOrder = async (id: number, setItems: React.Dispatch<React.SetStateActio
         setLoading && setLoading(false)
     }
 }
-const getOrderWithOperations = async (id: number, setItems: React.Dispatch<React.SetStateAction<IOrderWithAllOperations>>,
-    setLoading?: React.Dispatch<React.SetStateAction<boolean>>,
-    setMessage?: React.Dispatch<React.SetStateAction<string | null>>): Promise<void> => {
-    try {
-        setLoading && setLoading(true)
-        const order = await ORDERS_API.getOrder(id);
-        const operatrions = await ORDERS_API.getOrderOperation(id)
-        if (order.status === STATUS.OK && operatrions.status === STATUS.OK) {
-            console.log({ ...order.data, operations: operatrions.data })
-            setItems({ ...order.data, operations: operatrions.data })
-        } else {
-            setMessage && setMessage('Something went wrong')
-        }
-    } catch (e) {
-        const err = e as AxiosError
-        setMessage && setMessage(err.message)
-    } finally {
-        setLoading && setLoading(false)
-    }
-}
 const addOrder = async ({
     name,
     operationIds
@@ -124,14 +104,14 @@ const getOperations = async (setItems: React.Dispatch<React.SetStateAction<IProd
         setLoading && setLoading(false)
     }
 }
-const getOrderOperations = async (id: number, setItems: React.Dispatch<React.SetStateAction<IOrderOperation[]>>,
+const getOrderOperations = async (id: number, setOperation: React.Dispatch<React.SetStateAction<IOrderOperation>>,
     setLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
     try {
         setLoading(true)
         const operation = await ORDERS_API.getOrderOperation(id)
         if (operation.status === STATUS.OK) {
-            setItems(operation.data)
+            setOperation(operation.data)
         } else {
             setMessage && setMessage('Something went wrong')
         }
@@ -163,7 +143,7 @@ const getOrderOperationsById = async (id: number, operationId: number, setItems:
         setLoading && setLoading(false)
     }
 }
-const getOrderParams = async (id: number, setItems: React.Dispatch<React.SetStateAction<IOrderOperation[]>>,
+const getOrderParams = async (id: number, setItems: React.Dispatch<React.SetStateAction<IOrderOperation>>,
     setLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
     try {
@@ -277,7 +257,6 @@ export const ORDER_REQUEST = {
     getOrder,
     addOrder,
     getOrderOperations,
-    getOrderWithOperations,
     getOrderOperationsById,
     getOrderParams
 }

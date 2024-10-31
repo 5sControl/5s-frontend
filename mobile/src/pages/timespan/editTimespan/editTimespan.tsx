@@ -90,6 +90,7 @@ const EditTimespan: React.FC = () => {
           handleNavigate
         );
       setSave(true);
+      setIsModalOpen(false);
     }
   };
 
