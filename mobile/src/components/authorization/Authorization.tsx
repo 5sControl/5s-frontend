@@ -8,6 +8,7 @@ import logo from '../../assets/svg/icon.svg';
 
 import './Authorization.scss';
 import {useTranslation} from "react-i18next";
+import { getUserInfo } from '../../api/getUserList';
 
 export const Authorization = () => {
   const [email, setEmail] = useState('');
@@ -41,9 +42,13 @@ export const Authorization = () => {
         .then((response) => {
           if (response.status === 200 && response.data.access) {
             setCookie('token', `JWT ${response.data.access}`, { path: '/' });
+            return response.data.access;
           }
-          if (!response.data.access) {
-            setErrorResponse(t('messages.incorrectCredentials'));
+        })
+        .then(token => getUserInfo(`JWT ${token}`))
+        .then((response: any) => {
+          if (response.data) {
+            localStorage.setItem('userRole', response.data.status);
           }
         })
         .catch((error) => {
