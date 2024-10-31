@@ -214,12 +214,12 @@ const getTimespan = async (id: number, setTimespan: React.Dispatch<React.SetStat
     }
 }
 
-const updateOperationReferenceItem = async (id: number, body: IOperationReferenceUpdateBody, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+const addOperationReferenceItem = async (id: number, body: IOperationReferenceUpdateBody, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage: React.Dispatch<React.SetStateAction<string | null>>, callback: () => void) => {
     try {
         setLoading(true)
-        const operation = await ORDERS_API.updateOperationReferenceItem(id, body)
-        if (operation.status === STATUS.OK) {
+        const operation = await ORDERS_API.addOperationReferenceItem(id, body);
+        if (operation.status === STATUS.CREATED) {
             callback()
         } else {
             setMessage && setMessage('Something went wrong')
@@ -263,7 +263,7 @@ export const ORDER_REQUEST = {
 export const OPERATION_REQUEST = {
     getOperations,
     getOperationReferenceItems,
-    updateOperationReferenceItem
+    addOperationReferenceItem
 }
 export const TIMESPAN_REQUEST = {
     addTimespan,

@@ -56,8 +56,8 @@ export const ORDERS_API = {
     request.get<IOrderOperation>(URLS.GET_ORDER_OPERATION + id + "/"),
   getOperationReferenceItems: (id: number) =>
     request.get<IReference[]>(URLS.GET_OPERATION_REFERENCE_ITEMS + id + "/"),
-  updateOperationReferenceItem: (id: number, body: any) =>
-    request.patch(URLS.UPDATE_OPERATION_REFERENCE_ITEMS.replace("{id}", String(id)), body)
+  addOperationReferenceItem: (id: number, body: any) =>
+    request.post(URLS.UPDATE_OPERATION_REFERENCE_ITEMS.replace("{id}", String(id)), body)
 };
 export const TIMESPAN_API = {
   addTimespan: (id: number, body: ITimespanAddBody) =>
