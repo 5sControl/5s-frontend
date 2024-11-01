@@ -1,7 +1,7 @@
 import React from 'react';
 import {IonButton, IonContent, IonFooter, IonIcon, IonLabel, IonList, IonLoading, IonPage, IonText, IonItem} from "@ionic/react";
 
-import DateIcon from './../../assets/svg/calendar.svg'
+import DateIcon from '../../../assets/svg/calendar.svg'
 import style from './style.module.scss'
 
 const InputDate = ({value, onClick}:IInputDate) => {

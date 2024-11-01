@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { useCookies } from "react-cookie";
 import { getConnectionsToDatabases } from "../../../api/connections";
 import { capitalize } from "../../../utils/capitalize";
-import { Input } from "../../../components/input/Input";
+import { Input } from "../../../components/inputs/input/Input";
 import { ConnectionItem } from "../../../models/interfaces/connectionItem.interface";
 import { ROUTES } from "../../../shared/constants/routes";
 import {useTranslation} from "react-i18next";
