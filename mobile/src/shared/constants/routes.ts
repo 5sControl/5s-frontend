@@ -31,10 +31,10 @@ export const ROUTES = {
   OPERATIONDETAIL: (id: string) => `/orders-view/operation-detail/${id}`,
   ORDERS: "/orders",
   ORDER: "/order",
-  ORDER_OPERATIONS: "/order/operations",
   ORDER_ITEM: (id: string) => `/order/${id}`,
   ORDER_ITEM_EDIT: (id: string) => `/order/${id}/edit`,
   ORDER_OPERATION: (id: string, operationId: string) => `/order/${id}/operation/${operationId}`,
+  ORDER_ADD_OPERATION: "/order/operations/add",
   ORDER_OPERATION_ADD_REFERENCE: (id: string, operationId: string, refId: string) => `/order/${id}/operation/${operationId}/reference/${refId}`,
   ORDER_TIMESPAN: (id: string, operationId: string) => `/order/${id}/operation/${operationId}/timespan`,
   ORDER_TIMESPAN_EDIT: (id: string, operationId: string, timespanId: string) => `/order/${id}/operation/${operationId}/timespan/${timespanId}/edit`

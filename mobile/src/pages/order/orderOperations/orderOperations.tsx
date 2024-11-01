@@ -129,9 +129,8 @@ const OrderOperations = () => {
                 }
               </IonList>
               <IonList className={style.list}>
-                <IonLabel>{t('orders.implementation')}</IonLabel>
                 {timespanItems?.length ? (
-                  <Table cols={[t('form.date'), t('form.name'), t('form.duration')]} items={timespanItems} />
+                  <Table label={t('orders.implementation')} cols={[t('form.date'), t('form.name'), t('form.duration')]} items={timespanItems} />
                 ) : (
                   <IonLabel slot="center">{t('text.norecords')}</IonLabel>
                 )}
