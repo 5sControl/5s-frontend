@@ -129,7 +129,7 @@ const OrderOperations = () => {
                     {label: t('form.duration'), size: 4}]} 
                     rows={timespanItems} />
                 ) : (
-                  <IonLabel slot="center">{t('text.norecords')}</IonLabel>
+                  <IonLabel slot="center" className="ion-padding">{t('text.norecords')}</IonLabel>
                 )}
               </IonList>
               {getUserRole() === ROLE.WORKER && (
@@ -144,6 +144,7 @@ const OrderOperations = () => {
                 duration={TOAST_DELAY}
                 onDidDismiss={() => setToastMessage(null)}
               />
+              </IonList>
             </>
           )}
         </IonContent>
