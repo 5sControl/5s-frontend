@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   IonButton,
   IonCheckbox,
@@ -10,6 +10,7 @@ import {
   IonLoading,
   IonPage,
   IonToast,
+  useIonViewDidEnter,
 } from '@ionic/react';
 import { Header } from '../../../components/header/Header';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -37,9 +38,7 @@ const AddOrderOperation: React.FC = () => {
   const name = (location.state as any)?.state.message || '';
 
   useEffect(() => {
-    const filtered = operations.filter((item) =>
-      item.name.toLowerCase().includes(searchText.toLowerCase())
-    );
+    const filtered = operations.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
     setFilteredItems(filtered);
   }, [searchText]);
 
@@ -47,9 +46,10 @@ const AddOrderOperation: React.FC = () => {
     operations.length && setFilteredItems(operations);
   }, [operations]);
 
-  useEffect(() => {
+  useIonViewDidEnter(() => {
     OPERATION_REQUEST.getOperations(setOperations, setOperationReferences, setLoading, setToastMessage);
-  }, []);
+  });
+
   const handleCheckboxChange = (id: number, name: string, checked: boolean) => {
     if (checked) {
       setSelectedOperations((prev) => [...prev, {id: id, name: name}]);
@@ -64,7 +64,7 @@ const AddOrderOperation: React.FC = () => {
   const handleSubmit = async () => {
     setIsModalOpen(false);
     if (!name) {
-      setToastMessage(t('messages.orderName'));
+      setToastMessage(t("messages.orderName"));
       return;
     }
     const selectedIds = selectedOperations.map((item) => item.id);
@@ -96,7 +96,7 @@ const AddOrderOperation: React.FC = () => {
             <IonItem key={item.id}>
               <IonLabel>{item.name}</IonLabel>
               <IonCheckbox
-                style={{ '--border-radius': 'none' }}
+                style={{ "--border-radius": "none" }}
                 slot="end"
                 onIonChange={(e) =>
                   handleCheckboxChange(item.id, item.name, e.detail.checked)
@@ -112,12 +112,10 @@ const AddOrderOperation: React.FC = () => {
           duration={TOAST_DELAY}
           onDidDismiss={() => setToastMessage(null)}
         />
-
         <ModalSave
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         handleSubmit={handleSubmit}/>
-
         <IonLoading isOpen={isLoading} />
         <BottomButton handleClick={openModal} label={t('operations.save')} disabled={selectedOperations.length === 0}/>
       </IonContent>
