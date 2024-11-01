@@ -7,7 +7,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { deleteDirectory } from "../../api/directory/directory";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
-import ReadOnlyInput from "../../components/inputs/readOnlyInput/ReadOnlyInput";
+import InputReadonly from "../../components/inputs/inputReadonly/inputReadonly";
 import { ConfirmationModal } from "../../components/confirmationModal/confirmationModal";
 
 type CardsProps = {
@@ -55,7 +55,7 @@ const Card = ({
 
   return (
     <>
-      <ReadOnlyInput label={t("directory.name")} value={itemTitle} />
+      <InputReadonly label={t("directory.name")} value={itemTitle} />
       <Fab
         icon={EditWhiteIcon}
         handleFabClick={() => {

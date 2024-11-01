@@ -23,18 +23,19 @@ import { IReference } from '../../../models/interfaces/orders.interface';
 import BottomButton from '../../../components/bottomButton/BottomButton';
 
 const AddOrderOperation: React.FC = () => {
+  const history = useHistory();
+  const { t } = useTranslation();
+  const location = useLocation();
+  const state = (location.state as any)?.state;
+  const name = state?.message || '';
   const [searchText, setSearchText] = useState<string>('');
   const [operations, setOperations] = useState<IProductOperation[]>([]);
   const [filteredItems, setFilteredItems] = useState<IProductOperation[]>([]);
-  const [selectedOperations, setSelectedOperations] = useState<{id: number, name: string}[]>([]);
+  const [selectedOperations, setSelectedOperations] = useState<{id: number, name: string}[]>(state?.selectedOperations || []);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [operationReferences, setOperationReferences] = useState<IReference[]>([]);
-  const history = useHistory();
-  const location = useLocation();
-  const { t } = useTranslation();
-  const name = (location.state as any)?.state.message || '';
 
   useEffect(() => {
     const filtered = operations.filter((item) =>
@@ -101,6 +102,7 @@ const AddOrderOperation: React.FC = () => {
                 onIonChange={(e) =>
                   handleCheckboxChange(item.id, item.name, e.detail.checked)
                 }
+                checked={selectedOperations.some((operation) => operation.id === item.id)}
               />
             </IonItem>
           ))}

@@ -35,6 +35,9 @@ import { Table } from '../../../components/table/Table';
 import { Plus } from '../../../assets/svg/SVGcomponent';
 import Fab from '../../../components/fab/Fab';
 import { ROLE } from '../../../models/enums/roles.enum';
+import { TableRow } from '../../../models/interfaces/table.interface';
+import { Input } from '../../../components/inputs/input/Input';
+import InputReadonly from '../../../components/inputs/inputReadonly/inputReadonly';
 const RADIX = 10;
 
 const OrderOperations = () => {
@@ -74,48 +77,35 @@ const OrderOperations = () => {
     OPERATION_REQUEST.getOperations(setNewOperations, setOperationReferences, setLoading, setToastMessage);
   }, []);
 
-  const timespanItems = operation?.timespans?.map((timespan) => {
+  const timespanItems: TableRow[] = operation?.timespans?.map((timespan) => {
     const { hours, minutes } = formatTime(timespan.duration);
     const timestring = [hours && `${hours} ${t('time.hour')}`, minutes && `${minutes} ${t('time.min')}`]
       .filter(Boolean)
       .join(' ');
 
-    return (
-      <ItemList 
-        to={ROUTES.ORDER_TIMESPAN_EDIT(String(id), String(operationId), String(timespan.id))} 
-        key={timespan.id} 
-        navigationAllowed={getUserRole() === ROLE.WORKER }>
-        <IonGrid>
-          <IonRow>
-            <IonCol className={style.itemLabel} class="ion-text-center">
-              {formatDate(timespan.startedAt)}
-            </IonCol>
-            <IonCol className={style.itemLabel} class="ion-text-center">
-              {timespan.employeeName}
-            </IonCol>
-            <IonCol className={style.itemLabel} class="ion-text-center">
-              {timestring || 0}
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </ItemList>
-    );
-  });
+    return {
+      id: timespan.id,
+      navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(String(id), String(operationId), String(timespan.id)),
+      navigationAllowed: getUserRole() === ROLE.WORKER,
+      values: [
+        formatDate(timespan.startedAt),
+        timespan.employeeName,
+        timestring || 0
+      ]
+    };
+  }) || [];
 
   return (
     <IonPage>
         <>
           <Header title={operation.name} backButtonHref={ROUTES.ORDER_ITEM(String(id))} />
-          <IonContent className={'ion-padding'}>
+          <IonContent>
            <IonLoading isOpen={isLoading} />
            {isLoaded && (
             <>
             <IonList className={style.page}>
-              <IonList className={style.list}>
-                <IonLabel>{t('orders.operation')}</IonLabel>
-                <IonText>{operation.name}</IonText>
-              </IonList>
-              <IonList>
+              <InputReadonly label={t('orders.operation')} value={operation.name} />
+              <IonList className='ion-padding'>
                 {
                     operationReferences.map((param: IReference) => 
                       !param.isProtected &&
@@ -130,7 +120,12 @@ const OrderOperations = () => {
               </IonList>
               <IonList className={style.list}>
                 {timespanItems?.length ? (
-                  <Table label={t('orders.implementation')} cols={[t('form.date'), t('form.name'), t('form.duration')]} items={timespanItems} />
+                  <Table label={t('orders.implementation')} 
+                    cols={[
+                    {label:t('form.date'), size: 4}, 
+                    {label: t('form.name'), size: 4}, 
+                    {label: t('form.duration'), size: 4}]} 
+                    rows={timespanItems} />
                 ) : (
                   <IonLabel slot="center">{t('text.norecords')}</IonLabel>
                 )}

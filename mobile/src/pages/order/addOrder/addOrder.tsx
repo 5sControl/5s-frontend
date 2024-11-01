@@ -30,6 +30,7 @@ import AddButton from '../../../components/addButton/AddButton';
 import ItemList from '../../../components/itemList/itemList';
 import Chip from '../../../components/chip/chip';
 import { OPERATION_STATUS_ENUM } from '../../../models/enums/statuses.enum';
+import { TableRow } from '../../../models/interfaces/table.interface';
 
 const AddOrder: React.FC = () => {
   const history = useHistory();
@@ -62,31 +63,21 @@ const AddOrder: React.FC = () => {
   };
 
   const handleAddClick = () => {
-    history.push(ROUTES.ORDER_ADD_OPERATION, { state: { message: inputValue } });
+    history.push(ROUTES.ORDER_ADD_OPERATION, { state: { message: inputValue, selectedOperations: selectedOperations } });
   };
 
-  const operationItems = selectedOperations?.map((operation: {id: number, name: string}, index: number) => {
-    return (
-      <ItemList 
-        to=''
-        key={operation.id}
-        navigationAllowed={false}>
-        <IonGrid>
-          <IonRow>
-            <IonCol class="ion-text-center">
-              {index + 1}
-            </IonCol>
-            <IonCol class="ion-text-center">
-              {operation.name}
-            </IonCol>
-            <IonCol class="ion-text-center">
-              <Chip name={OPERATION_STATUS_ENUM.PENDING}></Chip>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </ItemList>
-    );
-  });
+  const operationItems: TableRow[] = selectedOperations?.map((operation: {id: number, name: string}, index: number) => {
+    return {
+      id: operation.id,
+      navigateTo: '',
+      navigationAllowed: false,
+      values: [
+        index + 1,
+        operation.name,
+        <Chip name={OPERATION_STATUS_ENUM.PENDING}></Chip>
+      ]
+    };
+  }) || [];
 
   return (
     <IonPage color="light">
@@ -99,7 +90,12 @@ const AddOrder: React.FC = () => {
           required={true} 
           handleChange={(e) => setInputValue(e.detail.value!)}
         />
-        <Table label={t('orders.operations')} cols={[t('orders.number'), t('orders.name'), t('orders.status')]} items={operationItems} />
+        <Table label={t('orders.operations')} 
+          cols={[
+            {label: t('orders.number'), size: 1}, 
+            {label: t('orders.name'), size: 7}, 
+            {label: t('orders.status'), size: 4}]} 
+          rows={operationItems} />
         <AddButton handleClick={handleAddClick} label={t('operations.add')}></AddButton>
         {/* <BottomButton handleClick={openModal} disabled={!inputValue} label={t('operations.save')}/> */}
         <IonToast
