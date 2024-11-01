@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { IonContent, IonFab, IonFabButton, IonIcon, IonList, IonLoading, IonPage, IonToast } from "@ionic/react";
+import {
+  IonContent,
+  IonFab,
+  IonFabButton,
+  IonIcon,
+  IonList,
+  IonLoading,
+  IonPage,
+  IonToast,
+  useIonViewDidEnter,
+} from "@ionic/react";
 import { ROUTES } from "../../shared/constants/routes";
 import { Header } from "../../components/header/Header";
 import ItemList from "../../components/itemList/itemList";
-import style from "./orders.module.scss";
 import { Plus } from "../../assets/svg/SVGcomponent";
 import { IOrders } from "../../models/interfaces/orders.interface";
 import { ORDER_REQUEST } from "../../dispatcher";
@@ -11,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import { TOAST_DELAY } from "./../../constants/toastDelay";
 import Fab from "../../components/fab/Fab";
 import { useHistory } from "react-router";
+import MenuListButton from "../../components/menuListButton/MenuListButton";
 
 export const OrdersPage: React.FC = () => {
   const { t } = useTranslation();
@@ -27,6 +37,10 @@ export const OrdersPage: React.FC = () => {
     history.push(path);
   };
 
+  const handleItemClick = (path: string) => {
+    history.push(path);
+  };
+
   useEffect(() => {
     const filtered = orders.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
     setFilteredItems(filtered);
@@ -36,12 +50,16 @@ export const OrdersPage: React.FC = () => {
     orders.length && setFilteredItems(orders);
   }, [orders]);
 
-  useEffect(() => {
+  useIonViewDidEnter(() => {
     ORDER_REQUEST.getOrders(setOrders, setLoading, setToastMessage);
-  }, []);
+  });
 
   const items = filteredItems.map(item => (
-    <ItemList key={item.id} label={`${item.name}`} to={ROUTES.ORDER_ITEM(String(item.id))}></ItemList>
+    <MenuListButton
+      key={item.id}
+      title={item.name}
+      handleItemClick={() => handleItemClick(ROUTES.ORDER_ITEM(String(item.id)))}
+    />
   ));
 
   return (
@@ -54,8 +72,8 @@ export const OrdersPage: React.FC = () => {
         searchText={searchText}
         onSearchChange={handleSetSearch}
       />
-      <IonContent color="light" className="ion-padding">
-        <IonList>{items}</IonList>
+      <IonContent color="light">
+        <IonList inset>{items}</IonList>
         <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER)} />
         <IonToast
           isOpen={!!toastMessage}

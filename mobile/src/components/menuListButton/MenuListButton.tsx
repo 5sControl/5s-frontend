@@ -1,5 +1,4 @@
-import { IonIcon, IonItem, IonLabel, IonTitle } from "@ionic/react";
-import { ArrowRight } from "../../assets/svg/SVGcomponent";
+import { IonIcon, IonItem, IonLabel } from "@ionic/react";
 import { useTranslation } from "react-i18next";
 
 type MenuListButtonProps = {
@@ -15,7 +14,7 @@ const MenuListButton = ({ title, icon, account, handleItemClick }: MenuListButto
     <IonItem button onClick={handleItemClick}>
       {icon && <IonIcon icon={icon} />}
       {account ? (
-        <IonLabel>
+        <IonLabel className="label__account">
           <b>{title}</b> <p>{t("menu.accountSettings")}</p>
         </IonLabel>
       ) : (
