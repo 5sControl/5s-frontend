@@ -30,7 +30,7 @@ import { ROUTES } from '../../../shared/constants/routes';
 import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { IReference } from '../../../models/interfaces/orders.interface';
-import { InputRedirector } from '../../../components/inputRedirector/inputRedirector';
+import { InputLookup } from '../../../components/inputs/inputLookup/inputLookup';
 import { Table } from '../../../components/table/Table';
 import { Plus } from '../../../assets/svg/SVGcomponent';
 import Fab from '../../../components/fab/Fab';
@@ -119,12 +119,12 @@ const OrderOperations = () => {
                 {
                     operationReferences.map((param: IReference) => 
                       !param.isProtected &&
-                        <InputRedirector
+                        <InputLookup
                           key={param.id}
                           label={param.name}
                           value={param.name}
                           note={operation.extensions.find(ext => ext.id === param.id)?.name || t('operations.add')}
-                          onSelect={() => history.push(ROUTES.ORDER_OPERATION_ADD_REFERENCE(String(id), String(operationId), String(param.id)))}/>
+                          handleNavigateClick={() => history.push(ROUTES.ORDER_OPERATION_ADD_REFERENCE(String(id), String(operationId), String(param.id)))}/>
                     )
                 }
               </IonList>

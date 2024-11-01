@@ -7,7 +7,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { deleteDirectory } from "../../api/directory/directory";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
-import ReadOnlyInput from "../../components/readOnlyInput/ReadOnlyInput";
+import ReadOnlyInput from "../../components/inputs/readOnlyInput/ReadOnlyInput";
 import { ConfirmationModal } from "../../components/confirmationModal/confirmationModal";
 
 type CardsProps = {

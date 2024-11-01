@@ -1,18 +1,18 @@
 import { IonLabel, IonItem, IonNote, IonList } from "@ionic/react"
-import './inputRedirector.scss'
+import './inputLookup.scss'
 
-type InputRedirectorProps = {
+type InputLookupProps = {
     label: string,
     value: string,
     note: string,
-    onSelect: () => void,
+    handleNavigateClick: () => void,
 }
 
-export const InputRedirector: React.FC<InputRedirectorProps> = ({label, value, note, onSelect}) => {
+export const InputLookup: React.FC<InputLookupProps> = ({label, value, note, handleNavigateClick}) => {
     return (
-        <div className="inputRedirector">
+        <div className="inputLookup">
             <IonLabel className="label">{label}</IonLabel>
-            <IonItem button onClick={onSelect}>
+            <IonItem button onClick={handleNavigateClick}>
                 <IonLabel>{value}</IonLabel>
                 <IonNote slot="end">{note}</IonNote>
             </IonItem>

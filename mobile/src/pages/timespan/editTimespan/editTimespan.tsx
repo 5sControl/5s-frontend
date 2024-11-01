@@ -20,7 +20,7 @@ import {
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
-import InputDate from '../../../components/inputDate/inputDate';
+import InputDate from '../../../components/inputs/inputDate/inputDate';
 import {
   formatDateUTC,
   getTimeDifference,

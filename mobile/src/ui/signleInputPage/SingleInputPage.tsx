@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Input } from "../../components/input/Input";
+import { Input } from "../../components/inputs/input/Input";
 import BottomButton from "../../components/bottomButton/BottomButton";
 
 type SingleInputPageProps = {

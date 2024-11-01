@@ -22,7 +22,7 @@ import { ORDER_REQUEST } from '../../../dispatcher';
 import { ROUTES } from '../../../shared/constants/routes';
 import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
-import { Input } from '../../../components/input/Input';
+import { Input } from '../../../components/inputs/input/Input';
 import { values } from 'lodash';
 import BottomButton from '../../../components/bottomButton/BottomButton';
 import { Table } from '../../../components/table/Table';
