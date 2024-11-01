@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { IReference } from '../../../models/interfaces/orders.interface';
 
-const addOrderOperation: React.FC = () => {
+const AddOrderOperation: React.FC = () => {
   const [searchText, setSearchText] = useState<string>('');
   const [operations, setOperations] = useState<IProductOperation[]>([]);
   const [filteredItems, setFilteredItems] = useState<IProductOperation[]>([]);
@@ -140,4 +140,4 @@ const addOrderOperation: React.FC = () => {
   );
 };
 
-export default addOrderOperation;
+export default AddOrderOperation;

@@ -22,12 +22,14 @@ import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { Input } from '../../../components/input/Input';
 import { values } from 'lodash';
 import BottomButton from '../../../components/bottomButton/BottomButton';
+import { Table } from '../../../components/table/Table';
+import AddButton from '../../../components/addButton/AddButton';
 
 const AddOrder: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const location = useLocation();
-    const name = (location.state as { message: string })?.message || '';
+  const name = (location.state as { message: string })?.message || '';
   const [inputValue, setInputValue] = useState<string>(name);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -50,8 +52,8 @@ const AddOrder: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleClick = () => {
-    history.push(ROUTES.ORDER_OPERATIONS, { state: { message: inputValue } });
+  const handleAddClick = () => {
+    history.push(ROUTES.ORDER_ADD_OPERATION, { state: { message: inputValue } });
   };
 
   return (
@@ -65,7 +67,9 @@ const AddOrder: React.FC = () => {
           required={true} 
           handleChange={(e) => setInputValue(e.detail.value!)}
         />
-        <BottomButton handleClick={openModal} disabled={!inputValue} label={t('operations.save')} />
+        <Table label={t('orders.operations')} cols={[t('orders.number'), t('orders.name'), t('orders.status')]} items={undefined} />
+        <AddButton handleClick={handleAddClick} label={t('operations.add')}></AddButton>
+        <BottomButton handleClick={openModal} disabled={!inputValue} label={t('operations.save')}/>
         <IonToast
         isOpen={!!toastMessage}
         message={toastMessage || undefined}
