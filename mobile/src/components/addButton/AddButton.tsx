@@ -13,7 +13,7 @@ const AddButton: React.FC<AddButtonProps> = ({ handleClick, label }) => {
             <IonButton 
                 fill="clear" 
                 onClick={handleClick} 
-                style={{ '--padding-start': 0, '--padding-top': 0, 'min-height': 'auto' }}
+                style={{ '--padding-start': 0, '--padding-top': 0, 'minHeight': 'auto' }}
             >
                 {label}
             </IonButton>

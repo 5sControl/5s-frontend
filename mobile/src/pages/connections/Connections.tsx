@@ -19,7 +19,6 @@ const Connections: React.FC = () => {
     setLoading(true);
     getConnectionsToDatabases(cookies.token)
       .then(response => {
-        console.log(response.data);
         setItems(response.data);
       })
       .catch(error => {

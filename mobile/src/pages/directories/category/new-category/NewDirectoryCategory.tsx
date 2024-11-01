@@ -31,7 +31,6 @@ const NewDirectoryCategory = () => {
 
   const handleSave = () => {
     if (directoryName) {
-      console.log(directoryName);
       createDirectoryCategory(directoryName, Number(refId), false, cookies.token)
         .then(() => history.push(ROUTES.DIRECTORY_CATEGORY(refId!), { direction: "back" }))
         .catch(error => console.log(error));
