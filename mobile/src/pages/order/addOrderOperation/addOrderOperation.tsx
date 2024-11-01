@@ -11,22 +11,23 @@ import {
   IonPage,
   IonToast,
   useIonViewDidEnter,
-} from "@ionic/react";
-import { Header } from "../../../components/header/Header";
-import { useLocation, useHistory } from "react-router-dom";
-import { OPERATION_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
-import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
-import ModalSave from "../../../components/modalSave/modalSave";
-import { ROUTES } from "../../../shared/constants/routes";
-import { useTranslation } from "react-i18next";
-import { TOAST_DELAY } from "./../../../constants/toastDelay";
-import { IReference } from "../../../models/interfaces/orders.interface";
+} from '@ionic/react';
+import { Header } from '../../../components/header/Header';
+import { useLocation, useHistory } from 'react-router-dom';
+import { OPERATION_REQUEST, ORDER_REQUEST } from '../../../dispatcher';
+import { IProductOperation } from '../../../models/interfaces/operationItem.interface';
+import ModalSave from '../../../components/modalSave/modalSave';
+import { ROUTES } from '../../../shared/constants/routes';
+import { useTranslation } from 'react-i18next';
+import { TOAST_DELAY } from './../../../constants/toastDelay';
+import { IReference } from '../../../models/interfaces/orders.interface';
+import BottomButton from '../../../components/bottomButton/BottomButton';
 
-const addOrderOperation: React.FC = () => {
-  const [searchText, setSearchText] = useState<string>("");
+const AddOrderOperation: React.FC = () => {
+  const [searchText, setSearchText] = useState<string>('');
   const [operations, setOperations] = useState<IProductOperation[]>([]);
   const [filteredItems, setFilteredItems] = useState<IProductOperation[]>([]);
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [selectedOperations, setSelectedOperations] = useState<{id: number, name: string}[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -34,7 +35,7 @@ const addOrderOperation: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
   const { t } = useTranslation();
-  const name = (location.state as { message: string })?.message || "";
+  const name = (location.state as any)?.state.message || '';
 
   useEffect(() => {
     const filtered = operations.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
@@ -49,16 +50,16 @@ const addOrderOperation: React.FC = () => {
     OPERATION_REQUEST.getOperations(setOperations, setOperationReferences, setLoading, setToastMessage);
   });
 
-  const handleCheckboxChange = (id: number, checked: boolean) => {
+  const handleCheckboxChange = (id: number, name: string, checked: boolean) => {
     if (checked) {
-      setSelectedIds(prev => [...prev, id]);
+      setSelectedOperations((prev) => [...prev, {id: id, name: name}]);
     } else {
-      setSelectedIds(prev => prev.filter(item => item !== id));
+      setSelectedOperations((prev) => prev.filter((item) => item.id !== id));
     }
   };
   const navigateTo = () => {
-    history.push(ROUTES.ORDERS);
-  };
+    history.push(ROUTES.ORDER, { state: { selectedOperations: selectedOperations, message: name }, direction: 'back' });
+  }
 
   const handleSubmit = async () => {
     setIsModalOpen(false);
@@ -66,39 +67,40 @@ const addOrderOperation: React.FC = () => {
       setToastMessage(t("messages.orderName"));
       return;
     }
-    ORDER_REQUEST.addOrder({ name, operationIds: selectedIds }, setLoading, setToastMessage, navigateTo);
+    const selectedIds = selectedOperations.map((item) => item.id);
+    ORDER_REQUEST.addOrder(
+      { name, operationIds: selectedIds },
+      setLoading,
+      setToastMessage,
+      navigateTo
+    );
   };
   const handleSetSearch = (v: string) => setSearchText(v);
   const openModal = () => {
     setIsModalOpen(true);
   };
 
-  const backHandler = () => {
-    // const location = {
-    //     pathname: ROUTES.ORDER,
-    //     state: {message: name}
-    // }
-    history.push(ROUTES.ORDER, { state: { message: name } });
-  };
   return (
     <IonPage>
       <Header
-        title={t("form.selectOperation")}
-        onBackClick={backHandler}
+        title={t('form.selectOperation')}
+        onBackClick={navigateTo}
         backButtonHref="#"
         searchBar
         searchText={searchText}
         onSearchChange={handleSetSearch}
       />
-      <IonContent className="ion-padding">
-        <IonList>
-          {filteredItems.map(item => (
+      <IonContent>
+        <IonList className="ion-padding">
+          {filteredItems.map((item) => (
             <IonItem key={item.id}>
               <IonLabel>{item.name}</IonLabel>
               <IonCheckbox
                 style={{ "--border-radius": "none" }}
                 slot="end"
-                onIonChange={e => handleCheckboxChange(item.id, e.detail.checked)}
+                onIonChange={(e) =>
+                  handleCheckboxChange(item.id, item.name, e.detail.checked)
+                }
               />
             </IonItem>
           ))}
@@ -110,19 +112,15 @@ const addOrderOperation: React.FC = () => {
           duration={TOAST_DELAY}
           onDidDismiss={() => setToastMessage(null)}
         />
+        <ModalSave
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        handleSubmit={handleSubmit}/>
+        <IonLoading isOpen={isLoading} />
+        <BottomButton handleClick={openModal} label={t('operations.save')} disabled={selectedOperations.length === 0}/>
       </IonContent>
-
-      <IonFooter style={{ paddingBottom: "50px" }} className="ion-padding">
-        <IonButton expand="block" onClick={openModal} disabled={selectedIds.length === 0}>
-          {t("operations.save")}
-        </IonButton>
-      </IonFooter>
-
-      <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSubmit}></ModalSave>
-
-      <IonLoading isOpen={isLoading} />
     </IonPage>
   );
 };
 
-export default addOrderOperation;
+export default AddOrderOperation;

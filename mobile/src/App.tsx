@@ -137,9 +137,6 @@ function App() {
               <Route exact path={ROUTES.ORDER}>
                   <AddOrder />
               </Route>
-              <Route exact path={ROUTES.ORDER_OPERATIONS}>
-                  <AddOrderOperation />
-              </Route>
               <Route exact path={ROUTES.ORDER_ITEM(":id")}>
                   <Order />
               </Route>
@@ -148,6 +145,9 @@ function App() {
               </Route>
               <Route exact path={ROUTES.ORDER_OPERATION(":id", ":operationId")}>
                   <OrderOperations />
+              </Route>
+              <Route exact path={ROUTES.ORDER_ADD_OPERATION}>
+                  <AddOrderOperation />
               </Route>
               <Route exact path={ROUTES.ORDER_OPERATION_ADD_REFERENCE(":id", ":operationId", ":refId")}>
                   <AddOrderOperationReference />

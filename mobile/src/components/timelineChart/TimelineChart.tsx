@@ -47,7 +47,6 @@ const TimelineChart: FC<TimelineChartProps> = ({
     const formatFrequency = selectedInterval.timeFormat.frequency;
 
     const clickHandler = ( oprId: number) => {
-      console.log(oprId);
       history.push('operation-detail/' + oprId.toString());
     }
 
@@ -71,7 +70,6 @@ const TimelineChart: FC<TimelineChartProps> = ({
           .enter()
           .append("rect")
           .on("click", function(event, d) {
-            console.log(event, d);
             clickHandler(d.id);
           })
           .attr("x", d => {
