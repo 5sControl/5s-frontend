@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import {
   IonBackButton,
   IonButton,
@@ -28,22 +28,23 @@ import {
   mergeDateAndTime,
   updateTimeInDate,
   getCurrentDateTimeISO,
-} from './../../../utils/parseInputDate';
-import { TIMESPAN_REQUEST } from './../../../dispatcher';
-import ModalSave from '../../../components/modalSave/modalSave';
-import style from './style.module.scss';
-import { Back } from './../../../assets/svg/SVGcomponent';
-import { ROUTES } from '../../../shared/constants/routes';
-import { useTranslation } from 'react-i18next';
-import { TOAST_DELAY } from './../../../constants/toastDelay';
-import BottomButton from '../../../components/bottomButton/BottomButton';
+} from "./../../../utils/parseInputDate";
+import { TIMESPAN_REQUEST } from "./../../../dispatcher";
+import ModalSave from "../../../components/modalSave/modalSave";
+import style from "./style.module.scss";
+import { Back } from "./../../../assets/svg/SVGcomponent";
+import { ROUTES } from "../../../shared/constants/routes";
+import { useTranslation } from "react-i18next";
+import { TOAST_DELAY } from "./../../../constants/toastDelay";
+import BottomButton from "../../../components/bottomButton/BottomButton";
+import { Header } from "../../../components/header/Header";
 
 const NewTimespan: React.FC = () => {
   const { id, operationId } = useParams<{ id: string; operationId: string }>();
   const [isDateChange, setIsDateChange] = useState<boolean>(false);
   const [startDateTime, setStartDateTime] = useState<string>(getCurrentDateTimeISO());
   const [isStart, setIsStart] = useState<boolean>(false);
-  const [finishDateTime, setFinishDateTime] = useState<string>('');
+  const [finishDateTime, setFinishDateTime] = useState<string>("");
   const [isSave, setSave] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [showToast, setShowToast] = useState<boolean>(false);
@@ -74,7 +75,7 @@ const NewTimespan: React.FC = () => {
 
   const handleSave = () => {
     if (!startDateTime) {
-      showToastMessage(t('messages.validDate'));
+      showToastMessage(t("messages.validDate"));
     } else {
       setSave(true);
       const payload = {
@@ -98,7 +99,7 @@ const NewTimespan: React.FC = () => {
   const handleCustomTime = (time: string | string[]) => {
     if (Array.isArray(time)) return;
     if (finishDateTime && time > finishDateTime) {
-      setToastMessage(t('messages.startTime'));
+      setToastMessage(t("messages.startTime"));
       return;
     }
     setStartDateTime(time);
@@ -107,7 +108,7 @@ const NewTimespan: React.FC = () => {
     if (Array.isArray(time)) return;
 
     if (time < startDateTime) {
-      setToastMessage(t('messages.finishDate'));
+      setToastMessage(t("messages.finishDate"));
       return;
     }
     setFinishDateTime(time);
@@ -121,7 +122,7 @@ const NewTimespan: React.FC = () => {
     if (isSave || (!isStart && !finishDateTime)) {
       handleNavigate();
     } else {
-      showToastMessage(t('messages.saveData'));
+      showToastMessage(t("messages.saveData"));
     }
   };
 
@@ -133,32 +134,26 @@ const NewTimespan: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start" className="header__start">
-            <IonButton onClick={backClick}>
-              <IonIcon style={{ fontSize: '18px' }} icon={Back} />
-            </IonButton>
-          </IonButtons>
-          <IonTitle>{t('orders.implementationTime')}</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header
+        title={t("orders.implementationTime")}
+        backButtonHref={ROUTES.ORDER_OPERATION(String(id), String(operationId))}
+      />
 
       <IonContent>
-        <IonLoading isOpen={isLoading}/>
+        <IonLoading isOpen={isLoading} />
         <IonList className={`${style.page} ion-padding`}>
           <IonList className={style.list}>
-            <IonLabel>{t('form.date')}</IonLabel>
+            <IonLabel>{t("form.date")}</IonLabel>
             <InputDate value={formatDate(startDateTime)} onClick={() => setIsDateChange(true)}></InputDate>
           </IonList>
           <IonList className={style.sized}>
-            <IonLabel>{t('orders.startOperation')}</IonLabel>
+            <IonLabel>{t("orders.startOperation")}</IonLabel>
             <div className={style.container}>
               {isStart ? (
                 <IonDatetimeButton
                   datetime="start-datetime"
                   slot="time-target"
-                  onClick={(e) => {
+                  onClick={e => {
                     e.preventDefault;
                   }}
                 />
@@ -167,7 +162,7 @@ const NewTimespan: React.FC = () => {
               )}
               {isStart && (
                 <IonButton size="small" onClick={() => startModalRef.current?.present()}>
-                  {t('operations.edit')}
+                  {t("operations.edit")}
                 </IonButton>
               )}
             </div>
@@ -176,16 +171,16 @@ const NewTimespan: React.FC = () => {
               <IonDatetime
                 presentation="date"
                 value={startDateTime}
-                onIonChange={(e) => handleStartDateChange(e.detail.value!)}
+                onIonChange={e => handleStartDateChange(e.detail.value!)}
               />
             </IonModal>
 
-            <IonModal trigger="start-datetime" keepContentsMounted={true} style={{ display: 'none' }}>
+            <IonModal trigger="start-datetime" keepContentsMounted={true} style={{ display: "none" }}>
               <IonDatetime
                 id="start-datetime"
                 presentation="time"
                 value={startDateTime}
-                onIonChange={(e) => handleCustomTime(e.detail.value!)}
+                onIonChange={e => handleCustomTime(e.detail.value!)}
               />
             </IonModal>
 
@@ -194,17 +189,17 @@ const NewTimespan: React.FC = () => {
                 id="start-datetime"
                 presentation="time"
                 value={startDateTime}
-                onIonChange={(e) => handleCustomTime(e.detail.value!)}
+                onIonChange={e => handleCustomTime(e.detail.value!)}
               />
             </IonModal>
 
             <IonButton expand="block" onClick={handleStartNow} disabled={isStart}>
-              {t('operations.start')}
+              {t("operations.start")}
             </IonButton>
           </IonList>
 
           <IonList className={style.sized}>
-            <IonLabel>{t('orders.finishOperation')}</IonLabel>
+            <IonLabel>{t("orders.finishOperation")}</IonLabel>
             <div className={style.container}>
               {finishDateTime ? (
                 <IonDatetimeButton datetime="finish-datetime" />
@@ -213,17 +208,17 @@ const NewTimespan: React.FC = () => {
               )}
               {finishDateTime && (
                 <IonButton size="small" onClick={() => finishModalRef.current?.present()}>
-                  {t('operations.edit')}
+                  {t("operations.edit")}
                 </IonButton>
               )}
             </div>
 
-            <IonModal trigger="finish-datetime" keepContentsMounted={true} style={{ display: 'none' }}>
+            <IonModal trigger="finish-datetime" keepContentsMounted={true} style={{ display: "none" }}>
               <IonDatetime
                 id="finish-datetime"
                 presentation="time"
                 value={finishDateTime || undefined}
-                onIonChange={(e) => handleCustomFinishTime(e.detail.value!)}
+                onIonChange={e => handleCustomFinishTime(e.detail.value!)}
               />
             </IonModal>
             <IonModal ref={finishModalRef}>
@@ -231,17 +226,17 @@ const NewTimespan: React.FC = () => {
                 id="finish-datetime"
                 presentation="time"
                 value={finishDateTime || undefined}
-                onIonChange={(e) => handleCustomFinishTime(e.detail.value!)}
+                onIonChange={e => handleCustomFinishTime(e.detail.value!)}
               />
             </IonModal>
 
             <IonButton expand="block" onClick={handleFinishNow} disabled={!isStart || !!finishDateTime}>
-              {t('operations.finish')}
+              {t("operations.finish")}
             </IonButton>
           </IonList>
           <div className={style.time}>
-            <IonLabel> {t('orders.operationTime')}</IonLabel>
-            <IonLabel>{`${hours}${t('time.hour')} ${minutes ? minutes + ' ' + t('time.min') : ''}`}</IonLabel>
+            <IonLabel> {t("orders.operationTime")}</IonLabel>
+            <IonLabel>{`${hours}${t("time.hour")} ${minutes ? minutes + " " + t("time.min") : ""}`}</IonLabel>
           </div>
           <IonToast
             position="top"
@@ -251,7 +246,7 @@ const NewTimespan: React.FC = () => {
             onDidDismiss={() => setToastMessage(null)}
           />
         </IonList>
-        <BottomButton handleClick={openModal} disabled={isSave || !isStart} label={t('operations.save')} />
+        <BottomButton handleClick={openModal} disabled={isSave || !isStart} label={t("operations.save")} />
         <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSave}></ModalSave>
       </IonContent>
     </IonPage>

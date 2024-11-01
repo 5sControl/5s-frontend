@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   IonContent,
   IonIcon,
@@ -15,6 +15,7 @@ import {
   IonFabButton,
   IonToast,
   IonNote,
+  useIonViewDidEnter,
 } from '@ionic/react';
 import { Header } from '../../../components/header/Header';
 import trashOutline from '../../../assets/svg/deleteRedOutlined.svg';
@@ -38,6 +39,7 @@ import { ROLE } from '../../../models/enums/roles.enum';
 import { TableRow } from '../../../models/interfaces/table.interface';
 import { Input } from '../../../components/inputs/input/Input';
 import InputReadonly from '../../../components/inputs/inputReadonly/inputReadonly';
+
 const RADIX = 10;
 
 const OrderOperations = () => {
@@ -55,18 +57,18 @@ const OrderOperations = () => {
   const history = useHistory();
 
   const onDeleteHandle = () => {
-    console.log('Delete');
+    console.log("Delete");
   };
 
   const handleFabClick = (path: string) => {
     history.push(path);
-  }
-
-  const getUserRole = () => {
-    return localStorage.getItem('userRole');
   };
 
-  useEffect(() => {
+  const getUserRole = () => {
+    return localStorage.getItem("userRole");
+  };
+
+  useIonViewDidEnter(() => {
     ORDER_REQUEST.getOrderOperationsById(
       parseInt(id, RADIX),
       parseInt(operationId, RADIX),
@@ -75,14 +77,14 @@ const OrderOperations = () => {
       setToastMessage
     );
     OPERATION_REQUEST.getOperations(setNewOperations, setOperationReferences, setLoading, setToastMessage);
-  }, []);
+  });
 
   const timespanItems: TableRow[] = operation?.timespans?.map((timespan) => {
     const { hours, minutes } = formatTime(timespan.duration);
-    const timestring = [hours && `${hours} ${t('time.hour')}`, minutes && `${minutes} ${t('time.min')}`]
+    const timestring = [hours && `${hours} ${t("time.hour")}`, minutes && `${minutes} ${t("time.min")}`]
       .filter(Boolean)
-      .join(' ');
-
+      .join(" ");
+    
     return {
       id: timespan.id,
       navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(String(id), String(operationId), String(timespan.id)),
@@ -130,20 +132,22 @@ const OrderOperations = () => {
                   <IonLabel slot="center">{t('text.norecords')}</IonLabel>
                 )}
               </IonList>
-            </IonList>
-            {
-              getUserRole() === ROLE.WORKER 
-              && <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(id), String(operation.id)))}/>}
-            <IonToast
-              isOpen={!!toastMessage}
-              message={toastMessage || undefined}
-              duration={TOAST_DELAY}
-              onDidDismiss={() => setToastMessage(null)}
-            />
+              {getUserRole() === ROLE.WORKER && (
+                <Fab
+                  icon={Plus}
+                  handleFabClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(id), String(operation.id)))}
+                />
+              )}
+              <IonToast
+                isOpen={!!toastMessage}
+                message={toastMessage || undefined}
+                duration={TOAST_DELAY}
+                onDidDismiss={() => setToastMessage(null)}
+              />
             </>
           )}
-          </IonContent>
-        </>
+        </IonContent>
+      </>
     </IonPage>
   );
 };

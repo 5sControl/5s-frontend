@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   IonButton,
   IonContent,
@@ -10,6 +10,7 @@ import {
   IonPage,
   IonText,
   IonToast,
+  useIonViewDidEnter,
 } from '@ionic/react';
 import Chip from './../../components/chip/chip';
 import { Header } from '../../components/header/Header';
@@ -27,6 +28,7 @@ import Fab from '../../components/fab/Fab';
 import InputReadonly from '../../components/inputs/inputReadonly/inputReadonly';
 import { Table } from '../../components/table/Table';
 import { TableRow } from '../../models/interfaces/table.interface';
+
 const RADIX = 10;
 
 export interface IOrders {
@@ -49,9 +51,9 @@ const Order = () => {
 
   const isLoaded = Boolean(Object.values(order)?.length);
 
-  useEffect(() => {
+  useIonViewDidEnter(() => {
     id && ORDER_REQUEST.getOrder(parseInt(id, RADIX), setOrder, setLoading, setToastMessage);
-  }, []);
+  });
 
   const items: TableRow[] = order?.operations?.map((item, index) => {
     return {
@@ -85,8 +87,8 @@ const Order = () => {
                 {label: t('orders.status'), size: 4}]} 
               rows={items} />
             <Fab icon={PencilIcon} handleFabClick={() => handleFabClick(ROUTES.ORDER_ITEM_EDIT(String(order.id)))} />
-            </>
-          )}
+          </>
+        )}
       </IonContent>
 
       <IonToast
