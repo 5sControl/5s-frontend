@@ -70,7 +70,7 @@ const NewTimespan: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    history.push(ROUTES.ORDER_OPERATION(String(id), String(operationId)));
+    history.push(ROUTES.ORDER_OPERATION(String(id), String(operationId)), { direction: 'back' });
   };
 
   const handleSave = () => {

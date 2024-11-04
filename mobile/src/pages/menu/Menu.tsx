@@ -62,10 +62,10 @@ export const Menu: React.FC = () => {
       />
       <IonContent color="light">
         <IonList inset={true}>
-          <MenuListButton title={user.username} account={true} />
+          <MenuListButton title={user.username} account={true} height="70px" />
         </IonList>
 
-        <IonList inset={true} lines="none">
+        <IonList inset={true}>
           <MenuListButton
             icon={DollarSign}
             title={t("menu.orders")}

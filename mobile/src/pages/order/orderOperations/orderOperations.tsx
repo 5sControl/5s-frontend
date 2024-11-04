@@ -33,9 +33,8 @@ import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { IReference } from '../../../models/interfaces/orders.interface';
 import { InputLookup } from '../../../components/inputs/inputLookup/inputLookup';
 import { Table } from '../../../components/table/Table';
-import { Plus } from '../../../assets/svg/SVGcomponent';
-import Fab from '../../../components/fab/Fab';
 import { ROLE } from '../../../models/enums/roles.enum';
+import AddButton from '../../../components/addButton/AddButton';
 import { TableRow } from '../../../models/interfaces/table.interface';
 import { Input } from '../../../components/inputs/input/Input';
 import InputReadonly from '../../../components/inputs/inputReadonly/inputReadonly';
@@ -131,13 +130,8 @@ const OrderOperations = () => {
                 ) : (
                   <IonLabel slot="center" className="ion-padding">{t('text.norecords')}</IonLabel>
                 )}
+                <AddButton handleClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(id), String(operation.id)))} label={t('operations.add')}></AddButton>
               </IonList>
-              {getUserRole() === ROLE.WORKER && (
-                <Fab
-                  icon={Plus}
-                  handleFabClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(id), String(operation.id)))}
-                />
-              )}
               <IonToast
                 isOpen={!!toastMessage}
                 message={toastMessage || undefined}
