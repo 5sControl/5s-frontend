@@ -37,6 +37,6 @@ export const ROUTES = {
   ORDER_ADD_OPERATION: "/order/operations/add",
   ORDER_OPERATION_ADD_REFERENCE: (id: string, operationId: string, refId: string) => `/order/${id}/operation/${operationId}/reference/${refId}`,
   ORDER_TIMESPAN: (id: string, operationId: string) => `/order/${id}/operation/${operationId}/timespan`,
-  ORDER_TIMESPAN_EDIT: (id: string, operationId: string, timespanId: string) => `/order/${id}/operation/${operationId}/timespan/${timespanId}/edit`
-
+  ORDER_TIMESPAN_EDIT: (id: string, operationId: string, timespanId: string) => `/order/${id}/operation/${operationId}/timespan/${timespanId}/edit`,
+  SCANNER: "/scanner"
 };

@@ -49,6 +49,7 @@ import EditTimespan from "./pages/timespan/editTimespan/editTimespan";
 import { Authorization } from './components/authorization/Authorization';
 import { isVerifyToken } from './api/authorization';
 import { OperationDetail } from "./pages/ordersView/operationDetail/operationDetail";
+import Scanner from "./pages/scanner/Scanner";
 
 
 setupIonicReact();
@@ -158,6 +159,10 @@ function App() {
               <Route exact path={ROUTES.ORDER_TIMESPAN_EDIT(":id", ":operationId", ":timespanId")}>
                   <EditTimespan />
               </Route>
+              <Route exact path={ROUTES.SCANNER}>
+                <Scanner />
+              </Route>
+
             </IonRouterOutlet>
           ) : (
             <Route path="/*">
