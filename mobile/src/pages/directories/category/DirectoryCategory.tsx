@@ -25,12 +25,16 @@ import { getDirectoryCategory } from "../../../api/directory/directoryCategories
 const DirectoryCategory = () => {
   const [cookies] = useCookies(["token"]);
   const [items, setItems] = useState<Directory[]>([]);
+  const [filteredItems, setFilteredItems] = useState<Directory[]>([]);
+  const [searchText, setSearchText] = useState<string>("");
   const [catalogTitle, setCatalogTitle] = useState();
   const { t } = useTranslation();
   const history = useHistory();
   const { refId } = useParams() as { refId: string };
 
   const [loading, setLoading] = useState(true);
+
+  const handleSetSearch = (value: string) => setSearchText(value);
 
   const handleFabClick = (path: string) => {
     history.push(path);
@@ -41,27 +45,36 @@ const DirectoryCategory = () => {
   };
 
   useIonViewWillEnter(() => {
+    setSearchText("");
     setLoading(true);
 
     getDirectory(Number(refId), cookies.token)
       .then(response => {
         setCatalogTitle(response.data.name);
+        getDirectoryCategory(Number(refId), cookies.token)
+          .then(response => {
+            setItems(response.data);
+          })
+          .catch(error => {
+            console.error(error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       })
       .catch(error => {
         console.error(error);
-      });
-
-    getDirectoryCategory(Number(refId), cookies.token)
-      .then(response => {
-        setItems(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      })
-      .finally(() => {
-        setLoading(false);
       });
   });
+
+  useEffect(() => {
+    const filtered = items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
+    setFilteredItems(filtered);
+  }, [searchText]);
+
+  useEffect(() => {
+    items.length && setFilteredItems(items);
+  }, [items]);
 
   // useEffect(() => {
   //   setLoading(true);
@@ -88,8 +101,14 @@ const DirectoryCategory = () => {
 
   return (
     <IonPage>
+      <Header
+        title={catalogTitle}
+        backButtonHref={ROUTES.DIRECTORIES}
+        searchBar={Boolean(items?.length)}
+        searchText={searchText}
+        onSearchChange={handleSetSearch}
+      />
       <IonContent>
-        <Header title={catalogTitle} backButtonHref={ROUTES.DIRECTORIES} />
         <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.DIRECTORY_CATEGORY_ADD(refId!))} />
         {loading ? (
           <div className="preloader">
@@ -101,15 +120,13 @@ const DirectoryCategory = () => {
           </IonList>
         ) : (
           <IonList inset>
-            {items
-              .filter(({ isProtected }) => !isProtected)
-              .map(({ id, name }) => (
-                <MenuListButton
-                  key={id}
-                  title={name}
-                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORY_CATEGORY_CARD(refId, String(id)))}
-                />
-              ))}
+            {filteredItems.map(({ id, name }) => (
+              <MenuListButton
+                key={id}
+                title={name}
+                handleItemClick={() => handleItemClick(ROUTES.DIRECTORY_CATEGORY_CARD(refId, String(id)))}
+              />
+            ))}
           </IonList>
         )}
       </IonContent>

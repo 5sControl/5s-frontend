@@ -11,15 +11,21 @@ import { Header } from "../../../../components/header/Header";
 import { DirectoryCategory } from "../../../../models/interfaces/directoryCategory.interface";
 import { getDirectoryCategory, updateDirectoryCategory } from "../../../../api/directory/directoryCategories";
 import { Directory } from "../../../../models/interfaces/directory.interface";
+import { ConfirmationModal } from "../../../../components/confirmationModal/confirmationModal";
 
 const EditDirectoryCategory = () => {
+  const { t } = useTranslation();
   const [cookies] = useCookies(["token"]);
   const { refId, id } = useParams() as { refId: string; id: string };
   const [directoryName, setDirectoryName] = useState("");
   const history = useHistory();
   const [loading, setLoading] = useState(true);
+  const [initialValue, setInitialValue] = useState(directoryName);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [valueIsChanged, setValueIsChanged] = useState(false);
 
   useIonViewWillEnter(() => {
+    setInitialValue(directoryName);
     setLoading(true);
     getDirectoryCategory(Number(refId), cookies.token)
       .then(response => {
@@ -33,6 +39,47 @@ const EditDirectoryCategory = () => {
         setLoading(false);
       });
   });
+
+  const navigateBack = () => {
+    history.push(ROUTES.DIRECTORY_CATEGORY_CARD(refId, id), { direction: "back" });
+  };
+
+  const handleSave = async () => {
+    if (directoryName.trim()) {
+      updateDirectoryCategory(Number(id), Number(refId), directoryName.trim(), false, cookies.token)
+        .then(() => navigateBack())
+        .catch(error => {
+          console.error(error);
+        });
+      return;
+    }
+    console.error("empty input");
+  };
+
+  const handleBackClick = () => {
+    if (valueIsChanged) {
+      setIsOpenModal(true);
+    } else {
+      navigateBack();
+    }
+  };
+
+  const handleChangeInput = e => {
+    setDirectoryName(e.target.value);
+    if (e.target.value.trim() !== initialValue.trim()) {
+      setValueIsChanged(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsOpenModal(false);
+    navigateBack();
+  };
+
+  const handleConfirmModal = () => {
+    setIsOpenModal(false);
+    handleSave();
+  };
 
   // useEffect(() => {
   //   setLoading(true);
@@ -49,23 +96,14 @@ const EditDirectoryCategory = () => {
   //     });
   // }, [cookies.token]);
 
-  const handleSave = () => {
-    if (directoryName.trim()) {
-      updateDirectoryCategory(Number(id), Number(refId), directoryName.trim(), false, cookies.token)
-        .then(() => history.push(ROUTES.DIRECTORY_CATEGORY_CARD(refId, id), { direction: "back" }))
-        .catch(error => {
-          console.error(error);
-        });
-      return;
-    }
-    console.error("empty input");
-  };
-
-  const { t } = useTranslation();
   return (
     <IonPage>
+      <Header
+        title={t("directory.edit")}
+        onBackClick={handleBackClick}
+        backButtonHref={ROUTES.DIRECTORY_CATEGORY_CARD(refId, id)}
+      ></Header>
       <IonContent>
-        <Header title={t("directory.edit")} backButtonHref={ROUTES.DIRECTORY_CATEGORY_CARD(refId, id)}></Header>
         {loading ? (
           <div className="preloader">
             <Preloader />
@@ -76,13 +114,20 @@ const EditDirectoryCategory = () => {
             label={t("directory.name")}
             value={directoryName!}
             required
-            handleChange={e => {
-              setDirectoryName(e.target.value);
-            }}
+            handleChange={handleChangeInput}
             handleSave={handleSave}
           />
         )}
       </IonContent>
+      <ConfirmationModal
+        type="primary"
+        isOpen={isOpenModal}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmModal}
+        title={`${t("operations.saveChanges")}?`}
+        confirmText={t("operations.save")}
+        cancelText={t("operations.cancel")}
+      />
     </IonPage>
   );
 };

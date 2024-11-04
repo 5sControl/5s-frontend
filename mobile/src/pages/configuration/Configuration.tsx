@@ -17,12 +17,8 @@ const Configuration = () => {
 
   return (
     <IonPage>
+      <Header title={t("menu.dataConfiguration")} backButtonHref={ROUTES.MENU} />
       <IonContent>
-        {/* <Header title={t("config.title")} backButtonHref={ROUTES.MENU} /> */}
-        <Header title={t("menu.dataConfiguration")} backButtonHref={ROUTES.MENU} />
-        {/* <IonList inset={true}>
-          <ItemButton label={t("config.erp")} handleItemClick={() => handleItemClick(ROUTES.CONNECTIONS)} />
-        </IonList> */}
         <IonList inset={true}>
           <MenuListButton
             title={t("menu.generalDirectories")}

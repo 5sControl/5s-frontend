@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import {
   IonPage,
   IonContent,
@@ -11,31 +11,26 @@ import {
   IonLoading,
   IonFooter,
   IonText,
-} from '@ionic/react';
-import { Header } from '../../../components/header/Header';
-import { ROUTES } from '../../../shared/constants/routes';
-import { useParams, useHistory } from 'react-router-dom';
-import ModalSave from '../../../components/modalSave/modalSave';
-import {
-  IOrderWithAllOperations,
-  IProductOperation,
-} from '../../../models/interfaces/operationItem.interface';
-import styles from './editOrder.module.scss';
-import { OPERATION_REQUEST, ORDER_REQUEST } from '../../../dispatcher';
-import { useTranslation } from 'react-i18next';
-import { TOAST_DELAY } from './../../../constants/toastDelay';
-import { isEquals } from './../../../utils/helpers';
-import { use } from 'i18next';
-import { IReference } from '../../../models/interfaces/orders.interface';
-import BottomButton from '../../../components/bottomButton/BottomButton';
+  useIonViewDidEnter,
+} from "@ionic/react";
+import { Header } from "../../../components/header/Header";
+import { ROUTES } from "../../../shared/constants/routes";
+import { useParams, useHistory } from "react-router-dom";
+import ModalSave from "../../../components/modalSave/modalSave";
+import { IOrderWithAllOperations, IProductOperation } from "../../../models/interfaces/operationItem.interface";
+import styles from "./editOrder.module.scss";
+import { OPERATION_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
+import { useTranslation } from "react-i18next";
+import { TOAST_DELAY } from "./../../../constants/toastDelay";
+import { isEquals } from "./../../../utils/helpers";
+import { IReference } from "../../../models/interfaces/orders.interface";
+import BottomButton from "../../../components/bottomButton/BottomButton";
 
 const EditOrder: React.FC = () => {
   const history = useHistory();
   const { id } = useParams() as { id: string };
   const { t } = useTranslation();
-  const [order, setOrder] = useState<IOrderWithAllOperations>(
-    {} as IOrderWithAllOperations
-  );
+  const [order, setOrder] = useState<IOrderWithAllOperations>({} as IOrderWithAllOperations);
   const [operations, setOperations] = useState<IProductOperation[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -46,7 +41,7 @@ const EditOrder: React.FC = () => {
 
   useEffect(() => {
     if (order?.operations) {
-      const ids = order.operations.map((item) => item.referenceOperationId);
+      const ids = order.operations.map(item => item.referenceOperationId);
       setSelectedIds(ids);
       if (!initIds.current.length) {
         initIds.current = ids;
@@ -54,22 +49,17 @@ const EditOrder: React.FC = () => {
     }
   }, [order]);
 
-  useEffect(() => {
+  useIonViewDidEnter(() => {
     if (!id) return;
-    ORDER_REQUEST.getOrder(
-      parseInt(id, 10),
-      setOrder,
-      setLoading,
-      setToastMessage
-    );
+    ORDER_REQUEST.getOrder(parseInt(id, 10), setOrder, setLoading, setToastMessage);
     OPERATION_REQUEST.getOperations(setOperations, setOperationReferences, setLoading, setToastMessage);
-  }, []);
+  });
 
   const handleCheckboxChange = (id: number, checked: boolean) => {
     if (checked) {
-      setSelectedIds((prev) => [...prev, id]);
+      setSelectedIds(prev => [...prev, id]);
     } else {
-      setSelectedIds((prev) => prev.filter((item) => item !== id));
+      setSelectedIds(prev => prev.filter(item => item !== id));
     }
   };
 
@@ -90,18 +80,16 @@ const EditOrder: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    history.push(ROUTES.ORDERS);
+    history.push(ROUTES.ORDER_ITEM(id));
   };
 
-  const operationList = operations.map((operation) => (
+  const operationList = operations.map(operation => (
     <IonItem key={operation.id}>
       <IonLabel>{operation.name}</IonLabel>
       <IonCheckbox
-        style={{ '--border-radius': 'none' }}
+        style={{ "--border-radius": "none" }}
         slot="end"
-        onIonChange={(e) =>
-          handleCheckboxChange(operation.id, e.detail.checked)
-        }
+        onIonChange={e => handleCheckboxChange(operation.id, e.detail.checked)}
         checked={selectedIds.includes(operation.id)}
       />
     </IonItem>
@@ -109,35 +97,32 @@ const EditOrder: React.FC = () => {
 
   return (
     <IonPage>
-      <Header
-        title={`${t('operations.edit')} ${order.name}`}
-        backButtonHref={ROUTES.ORDERS}
-      />
+      <Header title={`${t("operations.edit")} ${order.name}`} backButtonHref={ROUTES.ORDER_ITEM(id)} />
       <IonContent>
         <IonList className={`${styles.page} ion-padding`}>
           <IonList className={styles.list}>
-            <IonLabel>{t('form.name')}</IonLabel>
+            <IonLabel>{t("form.name")}</IonLabel>
             <IonText color="medium">{order.name}</IonText>
           </IonList>
           <IonList className={styles.list}>
-            <IonLabel>{t('orders.operations')}</IonLabel>
+            <IonLabel>{t("orders.operations")}</IonLabel>
             <IonList>{operationList}</IonList>
           </IonList>
         </IonList>
-        <BottomButton handleClick={openModal} disabled={isEquals(selectedIds, initIds.current)} label={t('operations.save')} />
+        <BottomButton
+          handleClick={openModal}
+          disabled={isEquals(selectedIds, initIds.current)}
+          label={t("operations.save")}
+        />
 
-        <ModalSave
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        handleSubmit={handleSubmit}
-      ></ModalSave>
-      <IonLoading isOpen={loading} />
-      <IonToast
-        isOpen={!!toastMessage}
-        message={toastMessage || undefined}
-        duration={TOAST_DELAY}
-        onDidDismiss={() => setToastMessage(null)}
-      />
+        <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSubmit}></ModalSave>
+        <IonLoading isOpen={loading} />
+        <IonToast
+          isOpen={!!toastMessage}
+          message={toastMessage || undefined}
+          duration={TOAST_DELAY}
+          onDidDismiss={() => setToastMessage(null)}
+        />
       </IonContent>
     </IonPage>
   );

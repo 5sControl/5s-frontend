@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { authorizationRequest } from '../../api/authorization';
-import { Input } from '../input/Input';
+import { Input } from '../inputs/input/Input';
 
 import { FiveS } from '../../assets/svg/SVGcomponent';
 import logo from '../../assets/svg/icon.svg';

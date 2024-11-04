@@ -25,6 +25,10 @@ ion-input.input__wrapper{
     }
 }
 
+ion-label.label__account {
+    padding: 1rem 0;
+}
+
 ion-select{
     border: #9E9E9E 1px solid;
     border-radius: 4px;
@@ -41,7 +45,11 @@ ion-searchbar{
     --background: #FFF !important;
     --border-radius: 4px;
     padding: 0 !important;
-    min-height: fit-content !important;
+    min-height: fit-content !important;    
+}
+
+.search__toolbar {
+    margin-top: -1rem;
 }
 
 .searchContainer {

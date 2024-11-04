@@ -17,6 +17,7 @@ const DirectoryCategoryCard = () => {
   const { refId, id } = useParams() as { refId: string; id: string };
   const { t } = useTranslation();
   const [directory, setDirectory] = useState<DirectoryCategory>();
+  const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
 
   useIonViewWillEnter(() => {
     getDirectoryCategory(Number(refId), cookies.token)
@@ -27,6 +28,13 @@ const DirectoryCategoryCard = () => {
       .catch(err => console.error(err));
   });
 
+  const handleCloseModal = () => {
+    setShowConfirmationModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setShowConfirmationModal(true);
+  };
   // useEffect(() => {
   //   getDirectoryCategory(Number(refId), cookies.token)
   //     .then(response => {
@@ -42,18 +50,20 @@ const DirectoryCategoryCard = () => {
 
   return (
     <IonPage>
+      <Header
+        title={directory?.name}
+        backButtonHref={ROUTES.DIRECTORY_CATEGORY(refId)}
+        endButton={<IonIcon onClick={handleOpenModal} style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
+      />
       <IonContent>
-        <Header
-          title={directory?.name}
-          backButtonHref={ROUTES.DIRECTORY_CATEGORY(refId)}
-          endButton={<IonIcon id="open-modal" style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
-        />
         {directory ? (
           <Card
             deleteCard={deleteCard}
             backHref={ROUTES.DIRECTORY_CATEGORY(refId)}
             editHref={ROUTES.DIRECTORY_CATEGORY_EDIT(refId, String(directory.id))}
             itemTitle={directory.name}
+            showConfirmationModal={showConfirmationModal}
+            handleCloseModal={handleCloseModal}
           />
         ) : (
           <div className="preloader">

@@ -3,6 +3,7 @@ import { IonButton, IonModal } from "@ionic/react";
 import "./ConfirmationModal.scss";
 
 type ConfirmationModalProps = {
+  type: "primary" | "danger";
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -17,16 +18,17 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   onClose,
   onConfirm,
   title,
+  type,
   confirmText,
   cancelText,
   description,
 }) => {
   return (
-    <IonModal isOpen={isOpen} onDidDismiss={onClose}>
+    <IonModal isOpen={isOpen} onDidDismiss={onClose} initialBreakpoint={1} breakpoints={[0, 1]}>
       <div className="block ion-padding">
         <h5 className="ion-text-center">{title}</h5>
         {description && <p className="modal__description ion-text-center">{description}</p>}
-        <IonButton expand="full" size="small" color="danger" className="modal__button" onClick={onConfirm}>
+        <IonButton expand="full" size="small" color={type} className="modal__button" onClick={() => onConfirm()}>
           {confirmText}
         </IonButton>
         <IonButton
@@ -35,7 +37,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           fill="outline"
           className="modal__button outlined"
           shape="round"
-          onClick={onClose}
+          onClick={() => onClose()}
         >
           {cancelText}
         </IonButton>
