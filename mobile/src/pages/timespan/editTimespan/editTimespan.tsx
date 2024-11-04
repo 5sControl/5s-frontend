@@ -17,11 +17,12 @@ import {
   IonFooter,
   IonList,
   IonLoading,
-  useIonViewDidEnter
-} from '@ionic/react';
-import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router';
-import InputDate from '../../../components/inputs/inputDate/inputDate';
+  useIonViewDidEnter,
+  useIonViewWillEnter,
+} from "@ionic/react";
+import { useHistory } from "react-router-dom";
+import { useParams } from "react-router";
+import InputDate from "../../../components/inputs/inputDate/inputDate";
 import {
   formatDateUTC,
   getTimeDifference,
@@ -39,6 +40,7 @@ import { useTranslation } from "react-i18next";
 import { TOAST_DELAY } from "./../../../constants/toastDelay";
 import BottomButton from "../../../components/bottomButton/BottomButton";
 import { Header } from "../../../components/header/Header";
+import { Preloader } from "../../../components/preloader/preloader";
 const RADIX = 10;
 
 const EditTimespan: React.FC = () => {
@@ -60,7 +62,7 @@ const EditTimespan: React.FC = () => {
 
   const { hours, minutes } = getTimeDifference(finishDateTime, startDateTime);
 
-  useIonViewDidEnter(() => {
+  useIonViewWillEnter(() => {
     timespanId && TIMESPAN_REQUEST.getTimespan(parseInt(timespanId, RADIX), setTimespan, setLoading, setToastMessage);
   });
 
@@ -76,7 +78,7 @@ const EditTimespan: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    history.push(ROUTES.ORDER_OPERATION(String(id), String(operationId)));
+    history.push(ROUTES.ORDER_OPERATION(String(id), String(operationId)), { direction: "back" });
   };
 
   const handleSave = () => {
@@ -150,111 +152,122 @@ const EditTimespan: React.FC = () => {
         title={t("orders.implementationTime")}
         backButtonHref={ROUTES.ORDER_OPERATION(String(id), String(operationId))}
       />
-      <IonLoading isOpen={isLoading} />
       <IonContent>
-        {startDateTime && (
+        {isLoading ? (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        ) : (
           <>
-            <IonList className={`${style.page} ion-padding`}>
-              <IonList className={style.list}>
-                <IonLabel>{t("form.date")}</IonLabel>
-                <InputDate value={formatDateUTC(startDateTime)} onClick={() => setIsDateChange(true)}></InputDate>
-              </IonList>
-              <IonList className={style.sized}>
-                <IonLabel>{t("orders.startOperation")}</IonLabel>
-                <div className={style.container}>
-                  {isStart ? (
-                    <IonDatetimeButton datetime="start-datetime" slot="time-target" />
-                  ) : (
-                    <IonText className="ion-button-edit">{t("form.date")}</IonText>
-                  )}
-                  {isStart && (
-                    <IonButton size="small" onClick={() => startModalRef.current?.present()}>
-                      {t("operations.edit")}
+            {startDateTime && (
+              <>
+                <IonList className={`${style.page} ion-padding`}>
+                  <IonList className={style.list}>
+                    <IonLabel>{t("form.date")}</IonLabel>
+                    <InputDate value={formatDateUTC(startDateTime)} onClick={() => setIsDateChange(true)}></InputDate>
+                  </IonList>
+                  <IonList className={style.sized}>
+                    <IonLabel>{t("orders.startOperation")}</IonLabel>
+                    <div className={style.container}>
+                      {isStart ? (
+                        <IonDatetimeButton datetime="start-datetime" slot="time-target" />
+                      ) : (
+                        <IonText className="ion-button-edit">{t("form.date")}</IonText>
+                      )}
+                      {isStart && (
+                        <IonButton size="small" onClick={() => startModalRef.current?.present()}>
+                          {t("operations.edit")}
+                        </IonButton>
+                      )}
+                    </div>
+
+                    <IonModal isOpen={isDateChange} onDidDismiss={() => setIsDateChange(false)}>
+                      <IonDatetime
+                        presentation="date"
+                        value={startDateTime}
+                        onIonChange={e => handleStartDateChange(e.detail.value!)}
+                      />
+                    </IonModal>
+
+                    <IonModal trigger="start-datetime" keepContentsMounted={true} style={{ display: "none" }}>
+                      <IonDatetime
+                        id="start-datetime"
+                        presentation="time"
+                        value={startDateTime || undefined}
+                        onIonChange={e => handleCustomTime(e.detail.value!)}
+                      />
+                    </IonModal>
+
+                    <IonModal ref={startModalRef}>
+                      <IonDatetime
+                        id="start-datetime"
+                        presentation="time"
+                        value={startDateTime || undefined}
+                        onIonChange={e => handleCustomTime(e.detail.value!)}
+                      />
+                    </IonModal>
+
+                    <IonButton expand="block" disabled={true}>
+                      {t("operations.start")}
                     </IonButton>
-                  )}
-                </div>
+                  </IonList>
 
-                <IonModal isOpen={isDateChange} onDidDismiss={() => setIsDateChange(false)}>
-                  <IonDatetime
-                    presentation="date"
-                    value={startDateTime}
-                    onIonChange={e => handleStartDateChange(e.detail.value!)}
-                  />
-                </IonModal>
+                  <IonList className={style.sized}>
+                    <IonLabel>{t("orders.finishOperation")}</IonLabel>
+                    <div className={style.container}>
+                      {finishDateTime ? (
+                        <IonDatetimeButton datetime="finish-datetime" />
+                      ) : (
+                        <IonText className="ion-button-edit">{t("orders.date")}</IonText>
+                      )}
+                      {finishDateTime && (
+                        <IonButton size="small" onClick={() => finishModalRef.current?.present()}>
+                          {t("operations.edit")}
+                        </IonButton>
+                      )}
+                    </div>
 
-                <IonModal trigger="start-datetime" keepContentsMounted={true} style={{ display: "none" }}>
-                  <IonDatetime
-                    id="start-datetime"
-                    presentation="time"
-                    value={startDateTime || undefined}
-                    onIonChange={e => handleCustomTime(e.detail.value!)}
-                  />
-                </IonModal>
+                    <IonModal trigger="finish-datetime" keepContentsMounted={true} style={{ display: "none" }}>
+                      <IonDatetime
+                        id="finish-datetime"
+                        presentation="time"
+                        value={finishDateTime || undefined}
+                        onIonChange={e => handleCustomFinishTime(e.detail.value!)}
+                      />
+                    </IonModal>
+                    <IonModal ref={finishModalRef}>
+                      <IonDatetime
+                        id="finish-datetime"
+                        presentation="time"
+                        value={finishDateTime || undefined}
+                        onIonChange={e => handleCustomFinishTime(e.detail.value!)}
+                      />
+                    </IonModal>
 
-                <IonModal ref={startModalRef}>
-                  <IonDatetime
-                    id="start-datetime"
-                    presentation="time"
-                    value={startDateTime || undefined}
-                    onIonChange={e => handleCustomTime(e.detail.value!)}
-                  />
-                </IonModal>
-
-                <IonButton expand="block" disabled={true}>
-                  {t("operations.start")}
-                </IonButton>
-              </IonList>
-
-              <IonList className={style.sized}>
-                <IonLabel>{t("orders.finishOperation")}</IonLabel>
-                <div className={style.container}>
-                  {finishDateTime ? (
-                    <IonDatetimeButton datetime="finish-datetime" />
-                  ) : (
-                    <IonText className="ion-button-edit">{t("orders.date")}</IonText>
-                  )}
-                  {finishDateTime && (
-                    <IonButton size="small" onClick={() => finishModalRef.current?.present()}>
-                      {t("operations.edit")}
+                    <IonButton expand="block" onClick={handleFinishNow} disabled={!!finishDateTime}>
+                      {t("operations.finish")}
                     </IonButton>
-                  )}
-                </div>
-
-                <IonModal trigger="finish-datetime" keepContentsMounted={true} style={{ display: "none" }}>
-                  <IonDatetime
-                    id="finish-datetime"
-                    presentation="time"
-                    value={finishDateTime || undefined}
-                    onIonChange={e => handleCustomFinishTime(e.detail.value!)}
+                  </IonList>
+                  <div className={style.time}>
+                    <IonLabel>{t("orders.operationTime")}</IonLabel>
+                    <IonLabel>{`${hours}${t("time.hour")} ${minutes ? minutes + " " + t("time.min") : ""}`}</IonLabel>
+                  </div>
+                  <IonToast
+                    position="top"
+                    isOpen={!!toastMessage}
+                    message={toastMessage || undefined}
+                    duration={TOAST_DELAY}
+                    onDidDismiss={() => setToastMessage(null)}
                   />
-                </IonModal>
-                <IonModal ref={finishModalRef}>
-                  <IonDatetime
-                    id="finish-datetime"
-                    presentation="time"
-                    value={finishDateTime || undefined}
-                    onIonChange={e => handleCustomFinishTime(e.detail.value!)}
-                  />
-                </IonModal>
-
-                <IonButton expand="block" onClick={handleFinishNow} disabled={!!finishDateTime}>
-                  {t("operations.finish")}
-                </IonButton>
-              </IonList>
-              <div className={style.time}>
-                <IonLabel>{t("orders.operationTime")}</IonLabel>
-                <IonLabel>{`${hours}${t("time.hour")} ${minutes ? minutes + " " + t("time.min") : ""}`}</IonLabel>
-              </div>
-              <IonToast
-                position="top"
-                isOpen={!!toastMessage}
-                message={toastMessage || undefined}
-                duration={TOAST_DELAY}
-                onDidDismiss={() => setToastMessage(null)}
-              />
-            </IonList>
-            <BottomButton handleClick={openModal} disabled={isSave} label={t("operations.save")} />
-            <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSave}></ModalSave>
+                </IonList>
+                <BottomButton handleClick={openModal} disabled={isSave} label={t("operations.save")} />
+                <ModalSave
+                  isModalOpen={isModalOpen}
+                  setIsModalOpen={setIsModalOpen}
+                  handleSubmit={handleSave}
+                ></ModalSave>
+              </>
+            )}
           </>
         )}
       </IonContent>

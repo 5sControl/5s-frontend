@@ -12,6 +12,7 @@ import {
   IonFooter,
   IonText,
   useIonViewDidEnter,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ROUTES } from "../../../shared/constants/routes";
@@ -25,6 +26,7 @@ import { TOAST_DELAY } from "./../../../constants/toastDelay";
 import { isEquals } from "./../../../utils/helpers";
 import { IReference } from "../../../models/interfaces/orders.interface";
 import BottomButton from "../../../components/bottomButton/BottomButton";
+import { Preloader } from "../../../components/preloader/preloader";
 
 const EditOrder: React.FC = () => {
   const history = useHistory();
@@ -39,6 +41,13 @@ const EditOrder: React.FC = () => {
   const [operationReferences, setOperationReferences] = useState<IReference[]>([]);
   const initIds = useRef([] as number[]);
 
+  useIonViewWillEnter(() => {
+    if (!id) return;
+    ORDER_REQUEST.getOrder(parseInt(id, 10), setOrder, setLoading, setToastMessage).then(() => {
+      OPERATION_REQUEST.getOperations(setOperations, setOperationReferences, setLoading, setToastMessage);
+    });
+  });
+
   useEffect(() => {
     if (order?.operations) {
       const ids = order.operations.map(item => item.referenceOperationId);
@@ -48,12 +57,6 @@ const EditOrder: React.FC = () => {
       }
     }
   }, [order]);
-
-  useIonViewDidEnter(() => {
-    if (!id) return;
-    ORDER_REQUEST.getOrder(parseInt(id, 10), setOrder, setLoading, setToastMessage);
-    OPERATION_REQUEST.getOperations(setOperations, setOperationReferences, setLoading, setToastMessage);
-  });
 
   const handleCheckboxChange = (id: number, checked: boolean) => {
     if (checked) {
@@ -80,7 +83,7 @@ const EditOrder: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    history.push(ROUTES.ORDER_ITEM(id));
+    history.push(ROUTES.ORDER_ITEM(id), { direction: "back" });
   };
 
   const operationList = operations.map(operation => (
@@ -97,32 +100,46 @@ const EditOrder: React.FC = () => {
 
   return (
     <IonPage>
-      <Header title={`${t("operations.edit")} ${order.name}`} backButtonHref={ROUTES.ORDER_ITEM(id)} />
+      <Header
+        title={`${t("operations.edit")} ${order?.name ? `"${order.name}"` : ""}`}
+        backButtonHref={ROUTES.ORDER_ITEM(id)}
+      />
       <IonContent>
-        <IonList className={`${styles.page} ion-padding`}>
-          <IonList className={styles.list}>
-            <IonLabel>{t("form.name")}</IonLabel>
-            <IonText color="medium">{order.name}</IonText>
-          </IonList>
-          <IonList className={styles.list}>
-            <IonLabel>{t("orders.operations")}</IonLabel>
-            <IonList>{operationList}</IonList>
-          </IonList>
-        </IonList>
-        <BottomButton
-          handleClick={openModal}
-          disabled={isEquals(selectedIds, initIds.current)}
-          label={t("operations.save")}
-        />
+        {loading ? (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        ) : (
+          <>
+            <IonList className={`${styles.page} ion-padding`}>
+              <IonList className={styles.list}>
+                <IonLabel>{t("form.name")}</IonLabel>
+                <IonText color="medium">{order.name}</IonText>
+              </IonList>
+              <IonList className={styles.list}>
+                <IonLabel>{t("orders.operations")}</IonLabel>
+                <IonList>{operationList}</IonList>
+              </IonList>
+            </IonList>
+            <BottomButton
+              handleClick={openModal}
+              disabled={isEquals(selectedIds, initIds.current)}
+              label={t("operations.save")}
+            />
 
-        <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSubmit}></ModalSave>
-        <IonLoading isOpen={loading} />
-        <IonToast
-          isOpen={!!toastMessage}
-          message={toastMessage || undefined}
-          duration={TOAST_DELAY}
-          onDidDismiss={() => setToastMessage(null)}
-        />
+            <ModalSave
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              handleSubmit={handleSubmit}
+            ></ModalSave>
+            <IonToast
+              isOpen={!!toastMessage}
+              message={toastMessage || undefined}
+              duration={TOAST_DELAY}
+              onDidDismiss={() => setToastMessage(null)}
+            />
+          </>
+        )}
       </IonContent>
     </IonPage>
   );
