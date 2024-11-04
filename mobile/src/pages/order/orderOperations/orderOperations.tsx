@@ -32,9 +32,8 @@ import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { IReference } from '../../../models/interfaces/orders.interface';
 import { InputRedirector } from '../../../components/inputRedirector/inputRedirector';
 import { Table } from '../../../components/table/Table';
-import { Plus } from '../../../assets/svg/SVGcomponent';
-import Fab from '../../../components/fab/Fab';
 import { ROLE } from '../../../models/enums/roles.enum';
+import AddButton from '../../../components/addButton/AddButton';
 const RADIX = 10;
 
 const OrderOperations = () => {
@@ -106,16 +105,16 @@ const OrderOperations = () => {
     <IonPage>
         <>
           <Header title={operation.name} backButtonHref={ROUTES.ORDER_ITEM(String(id))} />
-          <IonContent className={'ion-padding'}>
+          <IonContent>
            <IonLoading isOpen={isLoading} />
            {isLoaded && (
             <>
             <IonList className={style.page}>
-              <IonList className={style.list}>
+              <IonList className={style.list} inset={true}>
                 <IonLabel>{t('orders.operation')}</IonLabel>
                 <IonText>{operation.name}</IonText>
               </IonList>
-              <IonList>
+              <IonList inset={true}>
                 {
                     operationReferences.map((param: IReference) => 
                       !param.isProtected &&
@@ -134,11 +133,9 @@ const OrderOperations = () => {
                 ) : (
                   <IonLabel slot="center">{t('text.norecords')}</IonLabel>
                 )}
+                <AddButton handleClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(id), String(operation.id)))} label={t('operations.add')}></AddButton>
               </IonList>
             </IonList>
-            {
-              getUserRole() === ROLE.WORKER 
-              && <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(id), String(operation.id)))}/>}
             <IonToast
               isOpen={!!toastMessage}
               message={toastMessage || undefined}
