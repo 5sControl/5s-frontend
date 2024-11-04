@@ -76,7 +76,7 @@ const NewDirectoryCategory = () => {
   return (
     <IonPage>
       <Header
-        title={`${t("directory.newEntry")} "${headerName}"`}
+        title={`${t("directory.newEntry")} ${headerName ? `"${headerName}"` : ""}`}
         onBackClick={handleBackClick}
         backButtonHref={ROUTES.DIRECTORY_CATEGORY(refId!)}
       />

@@ -12,6 +12,7 @@ import {
   IonPage,
   IonToast,
   useIonViewDidEnter,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { useHistory, useLocation, useParams } from "react-router-dom";
@@ -24,6 +25,7 @@ import { TOAST_DELAY } from "../../../constants/toastDelay";
 import "./addOrderOperationReference.scss";
 import BottomButton from "../../../components/bottomButton/BottomButton";
 import { IOrderOperation } from "../../../models/interfaces/operationItem.interface";
+import { Preloader } from "../../../components/preloader/preloader";
 
 const AddOrderOperationReference: React.FC = () => {
   const history = useHistory();
@@ -48,7 +50,7 @@ const AddOrderOperationReference: React.FC = () => {
     references.length && setFilteredItems(references);
   }, [references]);
 
-  useIonViewDidEnter(() => {
+  useIonViewWillEnter(() => {
     OPERATION_REQUEST.getOperationReferenceItems(parseInt(refId), setReferences, setLoading, setToastMessage);
     ORDER_REQUEST.getOrderOperations(parseInt(operationId), setOperation, setLoading, setToastMessage);
   });
@@ -90,35 +92,44 @@ const AddOrderOperationReference: React.FC = () => {
         onSearchChange={setSearchText}
       />
       <IonContent>
-        <IonLoading isOpen={isLoading} />
-        <IonList className="ion-padding">
-          {filteredItems.map(item => (
-            <IonItem key={item.id}>
-              <IonCheckbox
-                className="reference-item"
-                justify="space-between"
-                onIonChange={e => handleCheckboxChange(item.id, e.detail.checked)}
-                checked={
-                  (operation.extensions?.find(ref => ref.name === item.name) === undefined ? false : true) ||
-                  selectedIds.includes(item.id)
-                }
-              >
-                {item.name}
-              </IonCheckbox>
-            </IonItem>
-          ))}
-        </IonList>
-        <BottomButton handleClick={openModal} disabled={selectedIds.length === 0} label={t("operations.save")} />
-        <IonToast
-          isOpen={!!toastMessage}
-          message={toastMessage || undefined}
-          duration={TOAST_DELAY}
-          onDidDismiss={() => setToastMessage(null)}
-        />
+        {isLoading ? (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        ) : (
+          <>
+            <IonList className="ion-padding">
+              {filteredItems.map(item => (
+                <IonItem key={item.id}>
+                  <IonCheckbox
+                    className="reference-item"
+                    justify="space-between"
+                    onIonChange={e => handleCheckboxChange(item.id, e.detail.checked)}
+                    checked={
+                      (operation.extensions?.find(ref => ref.name === item.name) === undefined ? false : true) ||
+                      selectedIds.includes(item.id)
+                    }
+                  >
+                    {item.name}
+                  </IonCheckbox>
+                </IonItem>
+              ))}
+            </IonList>
+            <BottomButton handleClick={openModal} disabled={selectedIds.length === 0} label={t("operations.save")} />
+            <IonToast
+              isOpen={!!toastMessage}
+              message={toastMessage || undefined}
+              duration={TOAST_DELAY}
+              onDidDismiss={() => setToastMessage(null)}
+            />
 
-        <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSubmit}></ModalSave>
-
-        <IonLoading isOpen={isLoading} />
+            <ModalSave
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              handleSubmit={handleSubmit}
+            ></ModalSave>
+          </>
+        )}
       </IonContent>
     </IonPage>
   );

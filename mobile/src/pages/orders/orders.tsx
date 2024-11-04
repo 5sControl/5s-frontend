@@ -8,7 +8,7 @@ import {
   IonLoading,
   IonPage,
   IonToast,
-  useIonViewDidEnter,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { ROUTES } from "../../shared/constants/routes";
 import { Header } from "../../components/header/Header";
@@ -21,6 +21,7 @@ import { TOAST_DELAY } from "./../../constants/toastDelay";
 import Fab from "../../components/fab/Fab";
 import { useHistory } from "react-router";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
+import { Preloader } from "../../components/preloader/preloader";
 
 export const OrdersPage: React.FC = () => {
   const { t } = useTranslation();
@@ -50,7 +51,7 @@ export const OrdersPage: React.FC = () => {
     orders.length && setFilteredItems(orders);
   }, [orders]);
 
-  useIonViewDidEnter(() => {
+  useIonViewWillEnter(() => {
     ORDER_REQUEST.getOrders(setOrders, setLoading, setToastMessage);
   });
 
@@ -64,7 +65,6 @@ export const OrdersPage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonLoading isOpen={isLoading} />
       <Header
         title={t("orders.orders")}
         backButtonHref={ROUTES.MENU}
@@ -73,14 +73,22 @@ export const OrdersPage: React.FC = () => {
         onSearchChange={handleSetSearch}
       />
       <IonContent color="light">
-        <IonList inset>{items}</IonList>
-        <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER)} />
-        <IonToast
-          isOpen={!!toastMessage}
-          message={toastMessage || undefined}
-          duration={TOAST_DELAY}
-          onDidDismiss={() => setToastMessage(null)}
-        />
+        {isLoading ? (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        ) : (
+          <>
+            <IonList inset>{items}</IonList>
+            <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER)} />
+            <IonToast
+              isOpen={!!toastMessage}
+              message={toastMessage || undefined}
+              duration={TOAST_DELAY}
+              onDidDismiss={() => setToastMessage(null)}
+            />
+          </>
+        )}
       </IonContent>
     </IonPage>
   );

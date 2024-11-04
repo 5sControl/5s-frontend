@@ -77,20 +77,6 @@ const EditDirectoryCard = () => {
     handleSave();
   };
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   getDirectory(Number(id!), cookies.token)
-  //     .then(response => {
-  //       setDirectoryName(response.data.name);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // }, [cookies.token]);
-
   return (
     <IonPage>
       <Header

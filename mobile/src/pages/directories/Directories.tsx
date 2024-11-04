@@ -51,20 +51,6 @@ const Directories = () => {
     items.length && setFilteredItems(items);
   }, [items]);
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   getAllDirectories(cookies.token)
-  //     .then(response => {
-  //       setItems(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // }, [cookies.token]);
-
   return (
     <IonPage>
       <Header

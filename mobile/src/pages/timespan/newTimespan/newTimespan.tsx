@@ -18,10 +18,10 @@ import {
   IonFooter,
   IonList,
   IonLoading,
-} from '@ionic/react';
-import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router';
-import InputDate from '../../../components/inputs/inputDate/inputDate';
+} from "@ionic/react";
+import { useHistory } from "react-router-dom";
+import { useParams } from "react-router";
+import InputDate from "../../../components/inputs/inputDate/inputDate";
 import {
   formatDate,
   getTimeDifference,
@@ -70,7 +70,7 @@ const NewTimespan: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    history.push(ROUTES.ORDER_OPERATION(String(id), String(operationId)), { direction: 'back' });
+    history.push(ROUTES.ORDER_OPERATION(String(id), String(operationId)), { direction: "back" });
   };
 
   const handleSave = () => {
@@ -140,7 +140,6 @@ const NewTimespan: React.FC = () => {
       />
 
       <IonContent>
-        <IonLoading isOpen={isLoading} />
         <IonList className={`${style.page} ion-padding`}>
           <IonList className={style.list}>
             <IonLabel>{t("form.date")}</IonLabel>
