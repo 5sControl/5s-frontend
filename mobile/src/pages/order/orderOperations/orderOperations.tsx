@@ -13,9 +13,8 @@ import { TOAST_DELAY } from "./../../../constants/toastDelay";
 import { IReference } from "../../../models/interfaces/orders.interface";
 import { InputLookup } from "../../../components/inputs/inputLookup/inputLookup";
 import { Table } from "../../../components/table/Table";
-import { Plus } from "../../../assets/svg/SVGcomponent";
-import Fab from "../../../components/fab/Fab";
 import { ROLE } from "../../../models/enums/roles.enum";
+import AddButton from '../../../components/addButton/AddButton';
 import { TableRow } from "../../../models/interfaces/table.interface";
 import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
 import { Preloader } from "../../../components/preloader/preloader";
@@ -88,53 +87,40 @@ const OrderOperations = () => {
             <>
               {isLoaded && (
                 <>
-                  <IonList className={style.page}>
-                    <InputReadonly label={t("orders.operation")} value={operation.name} />
-                    <IonList className="ion-padding">
-                      {operationReferences.map(
-                        (param: IReference) =>
-                          !param.isProtected && (
+                <IonList className={style.page}>
+                  <InputReadonly label={t('orders.operation')} value={operation.name} />
+                  <IonList className='ion-padding'>
+                    {
+                        operationReferences.map((param: IReference) => 
+                          !param.isProtected &&
                             <InputLookup
                               key={param.id}
                               label={param.name}
                               value={param.name}
-                              note={operation.extensions.find(ext => ext.id === param.id)?.name || t("operations.add")}
-                              handleNavigateClick={() =>
-                                history.push(
-                                  ROUTES.ORDER_OPERATION_ADD_REFERENCE(
-                                    String(id),
-                                    String(operationId),
-                                    String(param.id)
-                                  )
-                                )
-                              }
-                            />
-                          )
-                      )}
-                    </IonList>
-                    <IonList className={style.list}>
-                      <Table
-                        label={t("orders.implementation")}
+                              note={operation.extensions.find(ext => ext.id === param.id)?.name || t('operations.add')}
+                              handleNavigateClick={() => history.push(ROUTES.ORDER_OPERATION_ADD_REFERENCE(String(id), String(operationId), String(param.id)))}/>
+                        )
+                    }
+                  </IonList>
+                  <IonList className={style.list}>
+                    {timespanItems?.length ? (
+                      <Table label={t('orders.implementation')} 
                         cols={[
-                          { label: t("form.date"), size: 4 },
-                          { label: t("form.name"), size: 4 },
-                          { label: t("form.duration"), size: 4 },
-                        ]}
-                        rows={timespanItems}
-                      />
-                    </IonList>
-                    {getUserRole() === ROLE.WORKER && (
-                      <Fab
-                        icon={Plus}
-                        handleFabClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(id), String(operation.id)))}
-                      />
+                        {label:t('form.date'), size: 4}, 
+                        {label: t('form.name'), size: 4}, 
+                        {label: t('form.duration'), size: 4}]} 
+                        rows={timespanItems} />
+                    ) : (
+                      <IonLabel slot="center" className="ion-padding">{t('text.norecords')}</IonLabel>
                     )}
-                    <IonToast
-                      isOpen={!!toastMessage}
-                      message={toastMessage || undefined}
-                      duration={TOAST_DELAY}
-                      onDidDismiss={() => setToastMessage(null)}
-                    />
+                    <AddButton handleClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(id), String(operation.id)))} label={t('operations.add')}></AddButton>
+                  </IonList>
+                  <IonToast
+                    isOpen={!!toastMessage}
+                    message={toastMessage || undefined}
+                    duration={TOAST_DELAY}
+                    onDidDismiss={() => setToastMessage(null)}
+                  />
                   </IonList>
                 </>
               )}

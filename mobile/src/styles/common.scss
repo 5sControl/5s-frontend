@@ -70,6 +70,10 @@ ion-item.input__field::part(native) {
     --border-color: #00000000;
 }
 
+ion-list{
+    border-radius: 5px !important;
+}
+
 ion-list.button__wrapper{
     margin-top: 24px !important;
 }
