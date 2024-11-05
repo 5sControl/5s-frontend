@@ -152,21 +152,21 @@ export const getCurrentDateTimeISO = (): string => {
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 }
 
-export const  formatYMD = (dateString: string):string => {
-  const date = new Date(dateString);  
+export const formatYMD = (dateString: string): string => {
+  const date = new Date(dateString);
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
+  const hours = String(date.getUTCHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
   const seconds = String(date.getSeconds()).padStart(2, '0');
- 
+
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 }
 
 export const convertToCustomFormat = (dateString: string): string => {
 
-  const dateObj = new Date(dateString);  
+  const dateObj = new Date(dateString);
   const year = dateObj.getUTCFullYear();
   const month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
   const day = String(dateObj.getUTCDate()).padStart(2, '0');
@@ -175,6 +175,6 @@ export const convertToCustomFormat = (dateString: string): string => {
   return `${year}-${month}-${day}T${hours}:${minutes}:00`;
 }
 
-export const truncateDate = (dateString: string): string=> {
+export const truncateDate = (dateString: string): string => {
   return dateString.split('.')[0];
 };

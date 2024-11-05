@@ -67,6 +67,8 @@ const EditTimespan: React.FC = () => {
   });
 
   useEffect(() => {
+    console.log(formatYMD(timespan.startedAt));
+
     if (timespan) {
       timespan.createdAt && setStartDateTime(formatYMD(timespan.startedAt));
       timespan.finishedAt && setFinishDateTime(formatYMD(timespan.finishedAt));
@@ -134,7 +136,7 @@ const EditTimespan: React.FC = () => {
   };
 
   const handleFinishNow = () => {
-    setFinishDateTime(startDateTime);
+    setFinishDateTime(getCurrentDateTimeISO());
     setSave(false);
   };
 
