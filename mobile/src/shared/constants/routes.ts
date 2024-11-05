@@ -11,12 +11,6 @@ export const ROUTES = {
   CONNECTIONS_ITEM: (erp: string) => `/configuration/connections/${erp}`,
   CONNECTIONS_EDIT: (erp: string) =>
     `/configuration/connections/${erp}/edit`,
-  DATABASE: "/database",
-  DATABASE_CATEGORY: (category: string) => `/database/${category}`,
-  DATABASE_ADD_ENTRY: (category: string) =>
-    `/database/${category}/addEntry`,
-  DATABASE_EDIT_ENTRY: (category: string, entry: string, id: string) =>
-    `/database/${category}/${entry}/${id}/edit`,
 
   GENEREAL_DIRECTORIES: "/general-directories",
   DIRECTORIES_ADD: "/general-directories/add",
