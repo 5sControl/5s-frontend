@@ -6,13 +6,14 @@ import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
 import { useCookies } from "react-cookie";
-import { getAllDirectories } from "../../api/directory/directory";
+import { getAllDirectories, getAllStaticDirectories } from "../../api/directory/directory";
 import { Preloader } from "../../components/preloader/preloader";
 import { Directory } from "../../models/interfaces/directory.interface";
 
 const Directories = () => {
   const [cookies] = useCookies(["token"]);
   const [items, setItems] = useState<Directory[]>([]);
+  const [staticItems, setStaticItems] = useState<string[]>([]);
   const [filteredItems, setFilteredItems] = useState<Directory[]>([]);
   const [searchText, setSearchText] = useState<string>("");
   const { t } = useTranslation();
@@ -40,12 +41,23 @@ const Directories = () => {
       .finally(() => {
         setLoading(false);
       });
+
+      getAllStaticDirectories(cookies.token)
+      .then(response => {
+        setStaticItems(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      }); 
   });
 
   useEffect(() => {
     const filtered = items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
     setFilteredItems(filtered);
-  }, [searchText]);
+  }, [searchText]);    // TODO: implement filtration for static directories
 
   useEffect(() => {
     items.length && setFilteredItems(items);
@@ -72,19 +84,17 @@ const Directories = () => {
         ) : (
           <>
             <IonList inset>
-              {filteredItems
-                .filter(({ isProtected }) => isProtected)
-                .map(({ id, name }) => (
+              {staticItems
+                .map((itemName) => (
                   <MenuListButton
-                    key={id}
-                    title={name}
-                    handleItemClick={() => handleItemClick(ROUTES.DIRECTORY_CATEGORY(String(id)))}
+                    key={itemName}
+                    title={itemName}
+                    handleItemClick={() => {}} // TODO: implement navigation to static directories
                   />
                 ))}
             </IonList>
             <IonList inset>
               {filteredItems
-                .filter(({ isProtected }) => !isProtected)
                 .map(({ id, name }) => (
                   <MenuListButton
                     key={id}

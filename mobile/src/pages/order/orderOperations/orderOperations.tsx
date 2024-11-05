@@ -92,7 +92,6 @@ const OrderOperations = () => {
                   <IonList className='ion-padding'>
                     {
                         operationReferences.map((param: IReference) => 
-                          !param.isProtected &&
                             <InputLookup
                               key={param.id}
                               label={param.name}

@@ -13,7 +13,6 @@ export interface IReference {
     id: number
     name: string
     createdAt: string
-    isProtected: boolean
 }
  export interface ITimespan {
     timespanId: number

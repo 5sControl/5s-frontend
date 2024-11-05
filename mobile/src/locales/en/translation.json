@@ -65,7 +65,8 @@
      "delete": "Delete",
      "submit": "Submit",
      "start": "Start",
-     "finish": "Finish"
+     "finish": "Finish",
+     "saveChanges": "Save changes"
    },
    "db": {
      "products": {

@@ -24,7 +24,7 @@ const NewDirectory = () => {
 
   const handleSave = () => {
     if (directoryName.trim()) {
-      createDirectory(directoryName.trim(), false, cookies.token)
+      createDirectory(directoryName.trim(), cookies.token)
         .then(() => history.push(ROUTES.GENEREAL_DIRECTORIES, { direction: "back" }))
         .catch(error => console.error(error));
       return;

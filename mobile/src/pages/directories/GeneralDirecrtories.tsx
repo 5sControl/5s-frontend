@@ -100,7 +100,6 @@ const GeneralDirectories = () => {
             ) : (
               <IonList inset>
                 {filteredItems
-                  .filter(({ isProtected }) => !isProtected)
                   .map(({ id, name }) => (
                     <MenuListButton
                       key={id}
