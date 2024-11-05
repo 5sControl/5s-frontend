@@ -1,8 +1,6 @@
 export const ROUTES = {
 
   MENU: "/",
-  GUIDES: "/guides",
-  GUIDES_ADD: "/guides/new",
 
   AUTHORIZATION: "/authorization",
   CONFIGURATION: "/configuration",
