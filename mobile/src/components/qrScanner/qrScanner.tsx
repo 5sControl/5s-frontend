@@ -12,7 +12,6 @@ type Html5QrcodePluginProps = {
 }
 
 const qrcodeRegionId = "html5qr-code-full-region";
-
 const createConfig = (props: Html5QrcodePluginProps) => {
     let config: Html5QrcodeCameraScanConfig = {
         fps: undefined
