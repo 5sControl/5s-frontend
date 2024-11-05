@@ -76,7 +76,7 @@ const Connection: React.FC = () => {
               <ItemButton
                 label={`${currentConnection?.erp_system} ${t("text.database")}`}
                 disabled={!connected}
-                handleItemClick={() => handleDatabaseClick(ROUTES.DATABASE)}
+                handleItemClick={() => handleDatabaseClick('/')}
               />
             </IonList>
             <IonList inset={true}>

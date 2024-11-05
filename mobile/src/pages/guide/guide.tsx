@@ -44,8 +44,6 @@ export const Guides: React.FC = () => {
     };
    const guidesList = guides.map(guide => <ItemButton key={guide.id} label={guide.name}/>)
 
-
-
     return (
         <IonPage>
             <IonContent color="light">
