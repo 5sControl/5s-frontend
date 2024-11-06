@@ -50,6 +50,10 @@ import { Authorization } from "./components/authorization/Authorization";
 import { isVerifyToken } from "./api/authorization";
 import { OperationDetail } from "./pages/ordersView/operationDetail/operationDetail";
 import Scanner from "./pages/scanner/Scanner";
+import Operation from "./pages/operations/operation/Operation";
+import Operations from "./pages/operations/Operations";
+import NewOperation from "./pages/operations/new-operation/NewOperation";
+import EditOperation from "./pages/operations/edit-operation/EditOperation";
 
 setupIonicReact();
 
@@ -104,6 +108,7 @@ function App() {
             <Route exact path={ROUTES.OPERATIONDETAIL(":id")}>
               <OperationDetail />
             </Route>
+
             <Route exact path={ROUTES.GENEREAL_DIRECTORIES}>
               <GeneralDirectories />
             </Route>
@@ -116,6 +121,7 @@ function App() {
             <Route exact path={ROUTES.DIRECTORIES_EDIT_CARD(":id")}>
               <EditDirectoryCard />
             </Route>
+
             <Route exact path={ROUTES.DIRECTORIES}>
               <Directories />
             </Route>
@@ -131,6 +137,20 @@ function App() {
             <Route exact path={ROUTES.DIRECTORY_CATEGORY_EDIT(":refId", ":id")}>
               <EditDirectoryCategory />
             </Route>
+
+            <Route exact path={ROUTES.OPERATIONS}>
+              <Operations />
+            </Route>
+            <Route exact path={ROUTES.OPERATION_ADD}>
+              <NewOperation />
+            </Route>
+            <Route exact path={ROUTES.OPERATION(":id")}>
+              <Operation />
+            </Route>
+            <Route exact path={ROUTES.OPERATION_EDIT(":id")}>
+              <EditOperation />
+            </Route>
+
             <Route exact path={ROUTES.ORDERS}>
               <OrdersPage />
             </Route>
