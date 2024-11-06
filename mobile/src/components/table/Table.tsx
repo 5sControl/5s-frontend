@@ -20,7 +20,7 @@ export const Table: React.FC<TableProps> = ({ label, cols, rows }) => {
           <IonGrid>
             <IonRow class="text-bold">
               {cols.map((col, index) => (
-                <IonCol className="ion-text-center" key={col.label + index} size={col.size.toString()}>
+                <IonCol key={col.label + index} size={col.size.toString()}>
                   {col.label}
                 </IonCol>
               ))}
@@ -34,7 +34,6 @@ export const Table: React.FC<TableProps> = ({ label, cols, rows }) => {
                 {cols.map((col, index) => (
                   <IonCol
                     key={`${item.id}${col.label}`}
-                    className="ion-text-center"
                     size={col.size.toString()}
                     style={{ justifyItems: "center" }}
                   >
