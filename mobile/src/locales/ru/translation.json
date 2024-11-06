@@ -139,7 +139,10 @@
     "startOperation": "Начало операции",
     "operationTime": "Время операции:",
     "finishOperation": "Окончание операции",
-    "date": "Дата"
+    "date": "Дата",
+    "orderItems": "Узлы / Продукции",
+    "suffix": "Суффикс",
+    "id": "Id"
   },
   "time": {
     "hour": "ч",
