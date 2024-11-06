@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_SCANNER = "api/scanner/";
+const API_SCANNER = "api/erp-reference/order-operations/qr-code/";
 
 const axiosConfig = (cookies: string) => ({
     headers: {
@@ -9,10 +9,10 @@ const axiosConfig = (cookies: string) => ({
     },
   });
 
-export const createOrderFromQr = (qrInfo: string, cookies: string) => {
+export const createOrderFromQr = (body: any, cookies: string) => {
     return axios.post(
       `${import.meta.env.VITE_API_BASE_URL}${API_SCANNER}`,
-      { qr_info: qrInfo },
+      body,
       axiosConfig(cookies)
     );
 };

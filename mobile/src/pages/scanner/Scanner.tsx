@@ -11,7 +11,7 @@ const Scanner = () => {
 
     const onNewScanResult = (decodedText: string, decodedResult: any) => {
         setQrInfo(decodedText);
-        createOrderFromQr(decodedText, cookies.token);
+        createOrderFromQr({ qrCode: decodedText, operationId: 3 }, cookies.token);
     };
 
     return (
