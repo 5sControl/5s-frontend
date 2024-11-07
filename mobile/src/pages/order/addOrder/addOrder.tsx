@@ -18,7 +18,7 @@ import { Header } from '../../../components/header/Header';
 import { useHistory, useLocation } from 'react-router-dom';
 import ModalSave from '../../../components/modalSave/modalSave';
 import styles from './style.module.scss';
-import { ORDER_REQUEST } from '../../../dispatcher';
+import { ITEM_REQUEST, ORDER_ITEM_REQUEST, ORDER_REQUEST } from '../../../dispatcher';
 import { ROUTES } from '../../../shared/constants/routes';
 import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
@@ -51,6 +51,7 @@ const AddOrder: React.FC = () => {
   const handleSubmit = async () => {
     setIsModalOpen(false);
     const selectedIds = selectedItems.map((item: {id: number, name: string}) => item.id);
+    ORDER_REQUEST.addOrder({name: inputValue, additionalInfo: '', estimatedTime: 10, estimatedTimeUnit: 'minutes'}, setLoading, setToastMessage, navigateTo);
     // TODO
   };
   const openModal = () => {
@@ -85,14 +86,14 @@ const AddOrder: React.FC = () => {
           required={true} 
           handleChange={(e) => setInputValue(e.detail.value!)}
         />
-        <Table label={t('orders.operations')} 
+        {/* <Table label={t('orders.operations')} 
           cols={[
             {label: t('orders.id'), size: 1}, 
             {label: t('orders.name'), size: 7}, 
             {label: t('orders.suffix'), size: 4}]} 
           rows={operationItems} />
-        <AddButton handleClick={handleAddClick} label={t('operations.add')}></AddButton>
-        {/* <BottomButton handleClick={openModal} disabled={!inputValue} label={t('operations.save')}/> */}
+        <AddButton handleClick={handleAddClick} label={t('operations.add')}></AddButton> */}
+        <BottomButton handleClick={openModal} disabled={!inputValue} label={t('operations.save')}/>
         <IonToast
         isOpen={!!toastMessage}
         message={toastMessage || undefined}

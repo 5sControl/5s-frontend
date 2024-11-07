@@ -20,7 +20,7 @@ import { useParams, useHistory } from "react-router-dom";
 import ModalSave from "../../../components/modalSave/modalSave";
 import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
 import styles from "./editOrder.module.scss";
-import { ITEM_REQUEST, OPERATION_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
+import { ITEM_REQUEST, OPERATION_REQUEST, ORDER_ITEM_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
 import { useTranslation } from "react-i18next";
 import { TOAST_DELAY } from "./../../../constants/toastDelay";
 import { isEquals } from "./../../../utils/helpers";
@@ -68,6 +68,8 @@ const EditOrder: React.FC = () => {
   const handleSubmit = async () => {
     setLoading(true);
     setIsModalOpen(false);
+    setLoading(false);
+    handleNavigate();
     // TODO
   };
 

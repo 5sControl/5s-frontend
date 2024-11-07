@@ -36,8 +36,6 @@ const OrderOperations = () => {
   const [newOperations, setNewOperations] = useState<IProductOperation[]>([]);
   const history = useHistory();
 
-  console.log('orderId', orderId, 'itemId', itemId, 'operationId', operationId);
-
   const onDeleteHandle = () => {
     console.log("Delete");
   };
