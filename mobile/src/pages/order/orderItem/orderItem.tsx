@@ -54,7 +54,7 @@ const OrderItem = () => {
       return {
         id: op.id,
         navigateTo: ROUTES.ORDER_OPERATION(String(orderId), String(itemId), String(op.id)),
-        values: [item.name, <Chip name={op.status}></Chip>],
+        values: [op.name, <Chip name={op.status}></Chip>],
       };
     }) || [];
 
