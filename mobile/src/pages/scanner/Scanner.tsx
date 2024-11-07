@@ -2,12 +2,16 @@ import React from "react";
 import { IonPage, IonContent, IonText, IonLabel, IonListHeader } from "@ionic/react";
 import { Header } from "../../components/header/Header";
 import Html5QrcodePlugin from "../../components/qrScanner/qrScanner";
+import { createOrderFromQr } from "../../api/scanner";
+import { useCookies } from "react-cookie";
 
 const Scanner = () => {
+    const [cookies] = useCookies(["token"]);
     const [qrInfo, setQrInfo] = React.useState('');
 
     const onNewScanResult = (decodedText: string, decodedResult: any) => {
         setQrInfo(decodedText);
+        createOrderFromQr({ qrCode: decodedText, operationId: 3 }, cookies.token);
     };
 
     return (
