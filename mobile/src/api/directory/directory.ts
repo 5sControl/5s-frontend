@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const API_DIRECTORY = "api/erp-reference/reference/";
+const API_DIRECTORY = "api/erp-reference/references/";
+const API_STATIC_DIRECTORY = "api/erp-reference/references/static/";
 
 const axiosConfig = (cookies: string) => ({
   headers: {
@@ -16,10 +17,14 @@ export const getAllDirectories = (cookies: string) => {
   return axios.get(constructUrl(API_DIRECTORY), axiosConfig(cookies));
 };
 
-export const createDirectory = (name: string, is_protected: boolean, cookies: string) => {
+export const getAllStaticDirectories = (cookies: string) => {
+  return axios.get(constructUrl(API_STATIC_DIRECTORY), axiosConfig(cookies));
+};
+
+export const createDirectory = (name: string, cookies: string) => {
   return axios.post(
     constructUrl(API_DIRECTORY),
-    { name, is_protected },
+    { name },
     axiosConfig(cookies)
   );
 };

@@ -3,26 +3,25 @@ import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
 import Card from "../../../ui/card/Card";
 import { useState } from "react";
-import { deleteDirectory, getDirectory } from "../../../api/directory/directory";
 import { useCookies } from "react-cookie";
-import { Directory } from "../../../models/interfaces/directory.interface";
 import { Preloader } from "../../../components/preloader/preloader";
 import { IonContent, IonIcon, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { TrashBin } from "../../../assets/svg/SVGcomponent";
+import { getOperation } from "../../../api/operations";
+import { IOperation } from "../../../models/interfaces/operationItem.interface";
 
-const DirectoryCard = () => {
+const Operation = () => {
   const [cookies] = useCookies(["token"]);
-  const { id }: any = useParams();
+  const { id }: { id: string } = useParams();
   const { t } = useTranslation();
-  const history = useHistory();
-  const [directory, setDirectory] = useState<Directory>();
+  const [operation, setOperation] = useState<IOperation>();
   const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
 
   useIonViewWillEnter(() => {
-    getDirectory(Number(id!), cookies.token)
+    getOperation(Number(id), cookies.token)
       .then(response => {
-        setDirectory(response.data);
+        setOperation(response.data);
       })
       .catch(error => console.error(error));
   });
@@ -36,23 +35,23 @@ const DirectoryCard = () => {
   };
 
   const deleteCard = async (id: number, token: string) => {
-    deleteDirectory(id, token);
+    //! delete operation
   };
 
   return (
     <IonPage>
       <Header
-        title={directory?.name}
-        backButtonHref={ROUTES.GENEREAL_DIRECTORIES}
+        title={operation?.name}
+        backButtonHref={ROUTES.OPERATIONS}
         endButton={<IonIcon onClick={handleOpenModal} style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
       />
       <IonContent>
-        {directory ? (
+        {operation ? (
           <Card
             deleteCard={deleteCard}
-            itemTitle={directory.name}
-            backHref={ROUTES.GENEREAL_DIRECTORIES}
-            editHref={ROUTES.DIRECTORIES_EDIT_CARD(String(id))}
+            itemTitle={operation.name}
+            backHref={ROUTES.OPERATIONS}
+            editHref={ROUTES.OPERATION_EDIT(id)}
             showConfirmationModal={showConfirmationModal}
             handleCloseModal={handleCloseModal}
           />
@@ -65,4 +64,4 @@ const DirectoryCard = () => {
     </IonPage>
   );
 };
-export default DirectoryCard;
+export default Operation;

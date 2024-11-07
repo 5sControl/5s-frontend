@@ -4,16 +4,16 @@ import { OperationStatus } from "../types/ordersStatus";
 export interface IOrders {
     id: number
     name: string
-    status: OperationStatus
     createdAt: string
     updatedAt: string
-    operations: IOperation[]
+    estimatedTime: number,
+    estimatedTimeUnit: string,
+    additionalInfo: string,
 }
 export interface IReference {
     id: number
     name: string
     createdAt: string
-    isProtected: boolean
 }
  export interface ITimespan {
     timespanId: number

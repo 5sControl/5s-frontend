@@ -65,7 +65,8 @@
     "delete": "Usuń",
     "submit": "Zatwierdź",
     "start": "Start",
-    "finish": "Zakończ"
+    "finish": "Zakończ",
+    "saveChanges": "Zapisz zmiany"
   },
   "db": {
     "products": {
@@ -138,7 +139,11 @@
     "startOperation": "Początek operacji",
     "operationTime": "Czas operacji:",
     "finishOperation": "Koniec operacji",
-    "date": "Data"
+    "date": "Data",
+    "orderItems": "Węzły",
+    "orderItem": "Węzeł",
+    "suffix": "Przyrostek",
+    "id": "Id"
   },
   "time": {
     "hour": "godz.",

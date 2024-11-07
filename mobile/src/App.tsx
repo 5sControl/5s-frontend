@@ -50,6 +50,12 @@ import { Authorization } from "./components/authorization/Authorization";
 import { isVerifyToken } from "./api/authorization";
 import { OperationDetail } from "./pages/ordersView/operationDetail/operationDetail";
 import Scanner from "./pages/scanner/Scanner";
+import OrderItems from "./pages/order/orderItem/orderItem";
+import AddOrderItem from "./pages/order/addOrderItem/addOrderItem";
+import Operation from "./pages/operations/operation/Operation";
+import Operations from "./pages/operations/Operations";
+import NewOperation from "./pages/operations/new-operation/NewOperation";
+import EditOperation from "./pages/operations/edit-operation/EditOperation";
 
 setupIonicReact();
 
@@ -104,6 +110,7 @@ function App() {
             <Route exact path={ROUTES.OPERATIONDETAIL(":id")}>
               <OperationDetail />
             </Route>
+
             <Route exact path={ROUTES.GENEREAL_DIRECTORIES}>
               <GeneralDirectories />
             </Route>
@@ -116,6 +123,7 @@ function App() {
             <Route exact path={ROUTES.DIRECTORIES_EDIT_CARD(":id")}>
               <EditDirectoryCard />
             </Route>
+
             <Route exact path={ROUTES.DIRECTORIES}>
               <Directories />
             </Route>
@@ -131,31 +139,51 @@ function App() {
             <Route exact path={ROUTES.DIRECTORY_CATEGORY_EDIT(":refId", ":id")}>
               <EditDirectoryCategory />
             </Route>
+
+            <Route exact path={ROUTES.OPERATIONS}>
+              <Operations />
+            </Route>
+            <Route exact path={ROUTES.OPERATION_ADD}>
+              <NewOperation />
+            </Route>
+            <Route exact path={ROUTES.OPERATION(":id")}>
+              <Operation />
+            </Route>
+            <Route exact path={ROUTES.OPERATION_EDIT(":id")}>
+              <EditOperation />
+            </Route>
+
             <Route exact path={ROUTES.ORDERS}>
               <OrdersPage />
             </Route>
-            <Route exact path={ROUTES.ORDER}>
+            <Route exact path={ROUTES.ORDER_ADD}>
               <AddOrder />
             </Route>
-            <Route exact path={ROUTES.ORDER_ITEM(":id")}>
+            <Route exact path={ROUTES.ORDER(":id")}>
               <Order />
             </Route>
-            <Route exact path={ROUTES.ORDER_ITEM_EDIT(":id")}>
+            <Route exact path={ROUTES.ORDER_EDIT(":id")}>
               <EditOrder />
             </Route>
-            <Route exact path={ROUTES.ORDER_OPERATION(":id", ":operationId")}>
+            <Route exact path={ROUTES.ORDER_ITEM(":orderId", ":itemId")}>
+              <OrderItems />
+            </Route>
+            <Route exact path={ROUTES.ORDER_OPERATION(":orderId", ":itemId", ":operationId")}>
               <OrderOperations />
+            </Route>
+            <Route exact path={ROUTES.ORDER_ADD_ITEM}>
+              <AddOrderItem/>
             </Route>
             <Route exact path={ROUTES.ORDER_ADD_OPERATION}>
               <AddOrderOperation />
             </Route>
-            <Route exact path={ROUTES.ORDER_OPERATION_ADD_REFERENCE(":id", ":operationId", ":refId")}>
+            {/* <Route exact path={ROUTES.ORDER_OPERATION_ADD_REFERENCE(":id", ":operationId", ":refId")}>
               <AddOrderOperationReference />
-            </Route>
-            <Route exact path={ROUTES.ORDER_TIMESPAN(":id", ":operationId")}>
+            </Route> */}
+            <Route exact path={ROUTES.ORDER_TIMESPAN(":orderId", ":itemId", ":operationId")}>
               <NewTimespan />
             </Route>
-            <Route exact path={ROUTES.ORDER_TIMESPAN_EDIT(":id", ":operationId", ":timespanId")}>
+            <Route exact path={ROUTES.ORDER_TIMESPAN_EDIT(":orderId", ":itemId", ":operationId", ":timespanId")}>
               <EditTimespan />
             </Route>
             <Route exact path={ROUTES.SCANNER}>

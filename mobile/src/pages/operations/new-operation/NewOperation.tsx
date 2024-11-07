@@ -8,32 +8,36 @@ import { useCookies } from "react-cookie";
 import { IonContent, IonPage, IonToast, useIonViewWillLeave } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
+import { createOperation } from "../../../api/operations";
+import { TimeUnit } from "../../../models/types/timeUnit";
 
-const NewDirectory = () => {
+const NewOperation = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const [cookies] = useCookies(["token"]);
-  const [directoryName, setDirectoryName] = useState("");
-  const [initialValue, setInitialValue] = useState(directoryName);
+  const [operationName, setOperationName] = useState("");
+  const [initialValue, setInitialValue] = useState(operationName);
+  const [estimatedTime, setEstimatedTime] = useState<number>(30);
+  const [estimatedTimeUnit, setEstimatedTimeUnit] = useState<TimeUnit>("minutes");
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [valueIsChanged, setValueIsChanged] = useState(false);
 
   useEffect(() => {
-    setInitialValue(directoryName);
+    setInitialValue(operationName);
   }, []);
 
+  const navigateBack = () => {
+    history.push(ROUTES.OPERATIONS, { direction: "back" });
+  };
+
   const handleSave = () => {
-    if (directoryName.trim()) {
-      createDirectory(directoryName.trim(), cookies.token)
-        .then(() => history.push(ROUTES.GENEREAL_DIRECTORIES, { direction: "back" }))
+    if (operationName.trim()) {
+      createOperation(operationName.trim(), estimatedTime, estimatedTimeUnit, cookies.token)
+        .then(() => navigateBack())
         .catch(error => console.error(error));
       return;
     }
     console.error("empty input");
-  };
-
-  const navigateBack = () => {
-    history.push(ROUTES.GENEREAL_DIRECTORIES, { direction: "back" });
   };
 
   const handleBackClick = () => {
@@ -45,7 +49,7 @@ const NewDirectory = () => {
   };
 
   const handleChangeInput = e => {
-    setDirectoryName(e.target.value);
+    setOperationName(e.target.value);
     if (e.target.value.trim() !== initialValue.trim()) {
       setValueIsChanged(true);
     }
@@ -63,17 +67,13 @@ const NewDirectory = () => {
 
   return (
     <IonPage>
-      <Header
-        title={t("directory.newDirectory")}
-        onBackClick={handleBackClick}
-        backButtonHref={ROUTES.GENEREAL_DIRECTORIES}
-      ></Header>
+      <Header title={t("new Operation")} onBackClick={handleBackClick} backButtonHref={ROUTES.OPERATIONS}></Header>
       <IonContent>
         <SingleInputPage
-          title={t("directory.newDirectory")}
-          backHref={ROUTES.GENEREAL_DIRECTORIES}
-          label={t("directory.name")}
-          value={directoryName}
+          title={t("new Operation")}
+          backHref={ROUTES.OPERATIONS}
+          label={t("operation Name")}
+          value={operationName}
           required
           handleChange={handleChangeInput}
           handleSave={handleSave}
@@ -91,4 +91,4 @@ const NewDirectory = () => {
     </IonPage>
   );
 };
-export default NewDirectory;
+export default NewOperation;

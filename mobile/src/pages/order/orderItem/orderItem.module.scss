@@ -1,0 +1,18 @@
+.page {
+  display: flex;
+  flex-direction: column;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.custom-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.item-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const API_DIRECTORY = "api/erp-reference/reference-items/";
+const REFERENCE = 'reference/';
 
 const axiosConfig = (cookies: string) => ({
   headers: {
@@ -22,7 +23,7 @@ export const createDirectoryCategory = (name: string, referenceId: number, is_pr
 
 export const getDirectoryCategory = (referenceId: number, cookies: string) => {
   return axios.get(
-    constructUrl(`${API_DIRECTORY}${referenceId}/`),
+    constructUrl(`${API_DIRECTORY}${REFERENCE}${referenceId}/`),
     axiosConfig(cookies)
   );
 };

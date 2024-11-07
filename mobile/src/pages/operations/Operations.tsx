@@ -8,19 +8,19 @@ import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
 import { useCookies } from "react-cookie";
-import { getAllDirectories } from "../../api/directory/directory";
 import { Preloader } from "../../components/preloader/preloader";
-import { Directory } from "../../models/interfaces/directory.interface";
+import { getAllOperations } from "../../api/operations";
+import { IOperation } from "../../models/interfaces/operation.interface";
 
 const mockedData = [
   { id: 1, name: "mocked", isProtected: false },
   { id: 2, name: "data", isProtected: false },
 ];
 
-const GeneralDirectories = () => {
+const Operations = () => {
   const [cookies] = useCookies(["token"]);
-  const [items, setItems] = useState<Directory[]>([]);
-  const [filteredItems, setFilteredItems] = useState<Directory[]>([]);
+  const [items, setItems] = useState<IOperation[]>([]);
+  const [filteredItems, setFilteredItems] = useState<IOperation[]>([]);
   const [searchText, setSearchText] = useState<string>("");
 
   const { t } = useTranslation();
@@ -41,7 +41,7 @@ const GeneralDirectories = () => {
   useIonViewWillEnter(() => {
     setSearchText("");
     setLoading(true);
-    getAllDirectories(cookies.token)
+    getAllOperations(cookies.token)
       .then(response => {
         setItems(response.data);
       })
@@ -62,25 +62,11 @@ const GeneralDirectories = () => {
     items.length && setFilteredItems(items);
   }, [items]);
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   getAllDirectories(cookies.token)
-  //     .then(response => {
-  //       setItems(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // }, [cookies.token]);
-
   return (
     <IonPage>
       <Header
-        title={t("menu.generalDirectories")}
-        backButtonHref={ROUTES.CONFIGURATION}
+        title={t("Operations")}
+        backButtonHref={ROUTES.DIRECTORIES}
         searchBar={Boolean(items?.length)}
         searchText={searchText}
         onSearchChange={handleSetSearch}
@@ -92,21 +78,20 @@ const GeneralDirectories = () => {
           </div>
         ) : (
           <>
-            <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.DIRECTORIES_ADD)} />
+            <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.OPERATION_ADD)} />
             {items.length === 0 ? (
               <IonList inset={true}>
                 <IonItem>{t("messages.noDatabases")}</IonItem>
               </IonList>
             ) : (
               <IonList inset>
-                {filteredItems
-                  .map(({ id, name }) => (
-                    <MenuListButton
-                      key={id}
-                      title={name}
-                      handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES_ITEM_CARD(String(id)))}
-                    />
-                  ))}
+                {filteredItems.map(({ id, name }) => (
+                  <MenuListButton
+                    key={id}
+                    title={name}
+                    handleItemClick={() => handleItemClick(ROUTES.OPERATION(String(id)))}
+                  />
+                ))}
               </IonList>
             )}
           </>
@@ -115,4 +100,4 @@ const GeneralDirectories = () => {
     </IonPage>
   );
 };
-export default GeneralDirectories;
+export default Operations;

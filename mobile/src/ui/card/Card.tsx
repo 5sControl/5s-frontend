@@ -11,7 +11,6 @@ import InputReadonly from "../../components/inputs/inputReadonly/inputReadonly";
 import { ConfirmationModal } from "../../components/confirmationModal/confirmationModal";
 
 type CardsProps = {
-  title?: ReactNode;
   backHref: string;
   editHref: string;
   itemTitle: string;
@@ -20,15 +19,7 @@ type CardsProps = {
   deleteCard: (id: number, token: string) => Promise<void>;
 };
 
-const Card = ({
-  title,
-  backHref,
-  editHref,
-  itemTitle,
-  showConfirmationModal,
-  deleteCard,
-  handleCloseModal,
-}: CardsProps) => {
+const Card = ({ backHref, editHref, itemTitle, showConfirmationModal, deleteCard, handleCloseModal }: CardsProps) => {
   const { id }: any = useParams();
   const { t } = useTranslation();
   const [cookies] = useCookies(["token"]);

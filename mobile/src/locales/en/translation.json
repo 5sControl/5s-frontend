@@ -65,7 +65,8 @@
      "delete": "Delete",
      "submit": "Submit",
      "start": "Start",
-     "finish": "Finish"
+     "finish": "Finish",
+     "saveChanges": "Save changes"
    },
    "db": {
      "products": {
@@ -138,7 +139,11 @@
      "startOperation": "Start of Operation",
      "operationTime": "Operation time:",
      "finishOperation": "Finish of Operation",
-     "date": "Date"
+     "date": "Date",
+     "orderItems": "Order Items",
+     "orderItem": "Order Item",
+     "suffix": "Suffix",
+     "id": "Id"
    },
    "time": {
      "hour": "h",
