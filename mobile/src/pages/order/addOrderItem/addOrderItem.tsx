@@ -14,25 +14,26 @@ import {
 } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { useLocation, useHistory } from "react-router-dom";
-import { OPERATION_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
+import { ITEM_REQUEST, OPERATION_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
 import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
 import ModalSave from "../../../components/modalSave/modalSave";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
-import { TOAST_DELAY } from "./../../../constants/toastDelay";
+import { TOAST_DELAY } from "../../../constants/toastDelay";
 import { IReference } from "../../../models/interfaces/orders.interface";
 import BottomButton from "../../../components/bottomButton/BottomButton";
 import { Preloader } from "../../../components/preloader/preloader";
+import { IItem } from "../../../models/interfaces/item.interface";
 
-const AddOrderOperation: React.FC = () => {
+const AddOrderItem: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const location = useLocation();
   const state = (location.state as any)?.state;
   const name = state?.message || "";
   const [searchText, setSearchText] = useState<string>("");
-  const [operations, setOperations] = useState<IProductOperation[]>([]);
-  const [filteredItems, setFilteredItems] = useState<IProductOperation[]>([]);
+  const [orderItems, setOrderItems] = useState<IItem[]>([]);
+  const [filteredItems, setFilteredItems] = useState<IItem[]>([]);
   const [selectedItems, setSelectedItems] = useState<{ id: number; name: string }[]>(
     state?.selectedItems || []
   );
@@ -42,16 +43,16 @@ const AddOrderOperation: React.FC = () => {
   const [operationReferences, setOperationReferences] = useState<IReference[]>([]);
 
   useEffect(() => {
-    const filtered = operations.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
+    const filtered = orderItems.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
     setFilteredItems(filtered);
   }, [searchText]);
 
   useEffect(() => {
-    operations.length && setFilteredItems(operations);
-  }, [operations]);
+    orderItems.length && setFilteredItems(orderItems);
+  }, [orderItems]);
 
   useIonViewWillEnter(() => {
-    OPERATION_REQUEST.getOperations(setOperations, setLoading, setToastMessage);
+    ITEM_REQUEST.getItems(setOrderItems, setLoading, setToastMessage);
   });
 
   const handleCheckboxChange = (id: number, name: string, checked: boolean) => {
@@ -72,7 +73,8 @@ const AddOrderOperation: React.FC = () => {
       return;
     }
     const selectedIds = selectedItems.map(item => item.id);
-    // TODO
+    navigateTo();
+   // ITEM_REQUEST.addItem({ name, operationIds: selectedIds }, setLoading, setToastMessage, navigateTo);
   };
   const handleSetSearch = (v: string) => setSearchText(v);
   const openModal = () => {
@@ -119,7 +121,7 @@ const AddOrderOperation: React.FC = () => {
             <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSubmit} />
             <BottomButton
               handleClick={openModal}
-              label={t("operations.save")}
+              label={t("orderItems.save")}
               disabled={selectedItems.length === 0}
             />
           </>
@@ -129,4 +131,4 @@ const AddOrderOperation: React.FC = () => {
   );
 };
 
-export default AddOrderOperation;
+export default AddOrderItem;

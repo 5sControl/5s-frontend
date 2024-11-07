@@ -141,6 +141,7 @@
      "finishOperation": "Finish of Operation",
      "date": "Date",
      "orderItems": "Order Items",
+     "orderItem": "Order Item",
      "suffix": "Suffix",
      "id": "Id"
    },

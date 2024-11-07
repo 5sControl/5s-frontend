@@ -140,7 +140,8 @@
     "operationTime": "Czas operacji:",
     "finishOperation": "Koniec operacji",
     "date": "Data",
-    "orderItems": "Pozycje zamówienia",
+    "orderItems": "Węzły",
+    "orderItem": "Węzeł",
     "suffix": "Przyrostek",
     "id": "Id"
   },

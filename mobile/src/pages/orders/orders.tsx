@@ -59,7 +59,7 @@ export const OrdersPage: React.FC = () => {
     <MenuListButton
       key={item.id}
       title={item.name}
-      handleItemClick={() => handleItemClick(ROUTES.ORDER_ITEM(String(item.id)))}
+      handleItemClick={() => handleItemClick(ROUTES.ORDER(String(item.id)))}
     />
   ));
 
@@ -80,7 +80,7 @@ export const OrdersPage: React.FC = () => {
         ) : (
           <>
             <IonList inset>{items}</IonList>
-            <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER)} />
+            <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER_ADD)} />
             <IonToast
               isOpen={!!toastMessage}
               message={toastMessage || undefined}

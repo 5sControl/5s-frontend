@@ -141,6 +141,7 @@
     "finishOperation": "Окончание операции",
     "date": "Дата",
     "orderItems": "Узлы / Продукции",
+    "orderItem": "Узел",
     "suffix": "Суффикс",
     "id": "Id"
   },

@@ -5,11 +5,11 @@ import style from "./orderOperations.module.scss";
 import { useHistory, useParams } from "react-router-dom";
 import { IOrderOperation, IProductOperation } from "../../../models/interfaces/operationItem.interface";
 import { formatDate } from "../../../utils/parseInputDate";
-import { OPERATION_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
-import { formatTime } from "./../../../utils/parseInputDate";
+import { OPERATION_REQUEST, ORDER_REQUEST, TIMESPAN_REQUEST } from "../../../dispatcher";
+import { formatTime } from "../../../utils/parseInputDate";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
-import { TOAST_DELAY } from "./../../../constants/toastDelay";
+import { TOAST_DELAY } from "../../../constants/toastDelay";
 import { IReference } from "../../../models/interfaces/orders.interface";
 import { InputLookup } from "../../../components/inputs/inputLookup/inputLookup";
 import { Table } from "../../../components/table/Table";
@@ -23,8 +23,9 @@ const RADIX = 10;
 
 const OrderOperations = () => {
   const { t } = useTranslation();
-  const { id, operationId } = useParams() as {
-    id: string;
+  const { orderId, itemId, operationId } = useParams() as {
+    orderId: string;
+    itemId: string;
     operationId: string;
   };
   const [operation, setOperation] = useState<IOrderOperation>({} as IOrderOperation);
@@ -34,6 +35,8 @@ const OrderOperations = () => {
   const [operationReferences, setOperationReferences] = useState<IReference[]>([]);
   const [newOperations, setNewOperations] = useState<IProductOperation[]>([]);
   const history = useHistory();
+
+  console.log('orderId', orderId, 'itemId', itemId, 'operationId', operationId);
 
   const onDeleteHandle = () => {
     console.log("Delete");
@@ -48,15 +51,12 @@ const OrderOperations = () => {
   };
 
   useIonViewWillEnter(() => {
-    ORDER_REQUEST.getOrderOperationsById(
-      parseInt(id, RADIX),
+    ORDER_REQUEST.getOrderOperationById(
       parseInt(operationId, RADIX),
       setOperation,
       setLoading,
       setToastMessage
-    ).then(() => {
-      OPERATION_REQUEST.getOperations(setNewOperations, setOperationReferences, setLoading, setToastMessage);
-    });
+    );
   });
 
   const timespanItems: TableRow[] =
@@ -68,7 +68,7 @@ const OrderOperations = () => {
 
       return {
         id: timespan.id,
-        navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(String(id), String(operationId), String(timespan.id)),
+        navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(String(orderId), String(itemId), String(operationId), String(timespan.id)),
         navigationAllowed: getUserRole() === ROLE.WORKER,
         values: [formatDate(timespan.startedAt), timespan.employeeName, timestring || 0],
       };
@@ -77,7 +77,7 @@ const OrderOperations = () => {
   return (
     <IonPage>
       <>
-        <Header title={operation.name} backButtonHref={ROUTES.ORDER_ITEM(String(id))} />
+        <Header title={operation.name} backButtonHref={ROUTES.ORDER_ITEM(String(orderId), String(itemId))} />
         <IonContent>
           {isLoading ? (
             <div className="preloader">
@@ -89,7 +89,7 @@ const OrderOperations = () => {
                 <>
                 <IonList className={style.page}>
                   <InputReadonly label={t('orders.operation')} value={operation.name} />
-                  <IonList className='ion-padding'>
+                  {/* <IonList className='ion-padding'>
                     {
                         operationReferences.map((param: IReference) => 
                             <InputLookup
@@ -100,7 +100,7 @@ const OrderOperations = () => {
                               handleNavigateClick={() => history.push(ROUTES.ORDER_OPERATION_ADD_REFERENCE(String(id), String(operationId), String(param.id)))}/>
                         )
                     }
-                  </IonList>
+                  </IonList> */}
                   <IonList className={style.list}>
                     {timespanItems?.length ? (
                       <Table label={t('orders.implementation')} 
@@ -112,7 +112,7 @@ const OrderOperations = () => {
                     ) : (
                       <IonLabel slot="center" className="ion-padding">{t('text.norecords')}</IonLabel>
                     )}
-                    <AddButton handleClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(id), String(operation.id)))} label={t('operations.add')}></AddButton>
+                    <AddButton handleClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(orderId), String(itemId), String(operationId)))} label={t('operations.add')}></AddButton>
                   </IonList>
                   <IonToast
                     isOpen={!!toastMessage}

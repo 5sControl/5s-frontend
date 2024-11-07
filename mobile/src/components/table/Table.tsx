@@ -35,7 +35,6 @@ export const Table: React.FC<TableProps> = ({ label, cols, rows }) => {
                   <IonCol
                     key={`${item.id}${col.label}`}
                     size={col.size.toString()}
-                    style={{ justifyItems: "center" }}
                   >
                     {item.values[index]}
                   </IonCol>

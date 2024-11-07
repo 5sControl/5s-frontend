@@ -19,32 +19,32 @@ import { ROUTES } from "../../../shared/constants/routes";
 import { useParams, useHistory } from "react-router-dom";
 import ModalSave from "../../../components/modalSave/modalSave";
 import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
-import styles from "./editOrder.module.scss";
-import { ITEM_REQUEST, OPERATION_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
+import styles from "./EditOrderItem.module.scss";
+import { OPERATION_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
 import { useTranslation } from "react-i18next";
 import { TOAST_DELAY } from "./../../../constants/toastDelay";
 import { isEquals } from "./../../../utils/helpers";
 import { IOrders, IReference } from "../../../models/interfaces/orders.interface";
 import BottomButton from "../../../components/bottomButton/BottomButton";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IItem } from "../../../models/interfaces/item.interface";
 
-const EditOrder: React.FC = () => {
+const EditOrderItem: React.FC = () => {
   const history = useHistory();
   const { id } = useParams() as { id: string };
   const { t } = useTranslation();
   const [order, setOrder] = useState<IOrders>({} as IOrders);
-  const [orderItems, setOrderItems] = useState<IItem[]>([]);
+  const [operations, setOperations] = useState<IProductOperation[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [operationReferences, setOperationReferences] = useState<IReference[]>([]);
   const initIds = useRef([] as number[]);
 
   useIonViewWillEnter(() => {
     if (!id) return;
     ORDER_REQUEST.getOrderById(parseInt(id, 10), setOrder, setLoading, setToastMessage);
-    ITEM_REQUEST.getItems(setOrderItems, setLoading, setToastMessage);
+    OPERATION_REQUEST.getOperations(setOperations, setLoading, setToastMessage);
   });
 
   // useEffect(() => {
@@ -68,7 +68,13 @@ const EditOrder: React.FC = () => {
   const handleSubmit = async () => {
     setLoading(true);
     setIsModalOpen(false);
-    // TODO
+    ORDER_REQUEST.updateOrder(
+      parseInt(id),
+      { ...order },
+      setLoading,
+      setToastMessage,
+      handleNavigate
+    );
   };
 
   const openModal = () => {
@@ -79,14 +85,14 @@ const EditOrder: React.FC = () => {
     history.push(ROUTES.ORDER(id), { direction: "back" });
   };
 
-  const itemsList = orderItems.map(item => (
-    <IonItem key={item.id}>
-      <IonLabel>{item.name}</IonLabel>
+  const operationList = operations.map(operation => (
+    <IonItem key={operation.id}>
+      <IonLabel>{operation.name}</IonLabel>
       <IonCheckbox
         style={{ "--border-radius": "none" }}
         slot="end"
-        onIonChange={e => handleCheckboxChange(item.id, e.detail.checked)}
-        checked={selectedIds.includes(item.id)}
+        onIonChange={e => handleCheckboxChange(operation.id, e.detail.checked)}
+        checked={selectedIds.includes(operation.id)}
       />
     </IonItem>
   ));
@@ -110,8 +116,8 @@ const EditOrder: React.FC = () => {
                 <IonText color="medium">{order.name}</IonText>
               </IonList>
               <IonList className={styles.list}>
-                <IonLabel>{t("orders.orderItems")}</IonLabel>
-                <IonList>{itemsList}</IonList>
+                <IonLabel>{t("orders.operations")}</IonLabel>
+                <IonList>{operationList}</IonList>
               </IonList>
             </IonList>
             <BottomButton
@@ -138,4 +144,4 @@ const EditOrder: React.FC = () => {
   );
 };
 
-export default EditOrder;
+export default EditOrderItem;
