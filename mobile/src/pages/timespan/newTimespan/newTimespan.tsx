@@ -40,7 +40,7 @@ import BottomButton from "../../../components/bottomButton/BottomButton";
 import { Header } from "../../../components/header/Header";
 
 const NewTimespan: React.FC = () => {
-  const { id, operationId } = useParams<{ id: string; operationId: string }>();
+  const { orderId, itemId, operationId } = useParams<{ orderId: string; itemId: string; operationId: string }>();
   const [isDateChange, setIsDateChange] = useState<boolean>(false);
   const [startDateTime, setStartDateTime] = useState<string>(getCurrentDateTimeISO());
   const [isStart, setIsStart] = useState<boolean>(false);
@@ -70,7 +70,7 @@ const NewTimespan: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    history.push(ROUTES.ORDER_OPERATION(String(id), String(operationId)), { direction: "back" });
+    history.push(ROUTES.ORDER_OPERATION(String(orderId), String(itemId), String(operationId)), { direction: "back" });
   };
 
   const handleSave = () => {
@@ -79,11 +79,12 @@ const NewTimespan: React.FC = () => {
     } else {
       setSave(true);
       const payload = {
+        orderOperationId: parseInt(operationId),
         startedAt: startDateTime,
         ...(finishDateTime && { finishedAt: finishDateTime }),
       };
       operationId &&
-        TIMESPAN_REQUEST.addTimespan(parseInt(operationId), payload, setLoading, setToastMessage, handleNavigate);
+        TIMESPAN_REQUEST.addTimespan(payload, setLoading, setToastMessage, handleNavigate);
       setIsModalOpen(false);
     }
   };
@@ -136,7 +137,7 @@ const NewTimespan: React.FC = () => {
     <IonPage>
       <Header
         title={t("orders.implementationTime")}
-        backButtonHref={ROUTES.ORDER_OPERATION(String(id), String(operationId))}
+        backButtonHref={ROUTES.ORDER_OPERATION(String(orderId), String(itemId), String(operationId))}
       />
 
       <IonContent>

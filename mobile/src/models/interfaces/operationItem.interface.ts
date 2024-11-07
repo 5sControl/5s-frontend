@@ -14,7 +14,6 @@ export interface OperationItem {
         duration_expected: number
     }[]
 }
-
 export interface IOperation {
     id: number
     status: string
@@ -31,6 +30,13 @@ export interface IProductOperation {
     estimatedTime: number
     estimatedTimeUnit: string
 }
+
+export interface IProductOperationAddBody {
+    name: string
+    estimatedTime: number
+    estimatedTimeUnit: string
+}
+
 export interface IOperationSpan {
     timespanId: number
     name: string;
@@ -42,7 +48,7 @@ export interface IOperationSpan {
 export interface IOrderOperation {
     id: number
     name: string
-    referenceOperationId: number;
+    operationId: number;
     status: OperationStatus
     totalDuration: number
     extensions: Extension[]
@@ -63,15 +69,9 @@ export interface Timespan {
     duration: number
     employeeName: string;
 }
-export interface IOrderWithAllOperations {
-    id: number
-    status: string
-    createdAt: string
-    updatedAt: string
-    name: string
-    operations: IOrderOperation[]
+
+export interface IOrderOperationAddBody {
+    operationIds: number[]
+    orderItemId: number
 }
-
-
-
 

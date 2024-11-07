@@ -139,7 +139,11 @@
     "startOperation": "Początek operacji",
     "operationTime": "Czas operacji:",
     "finishOperation": "Koniec operacji",
-    "date": "Data"
+    "date": "Data",
+    "orderItems": "Węzły",
+    "orderItem": "Węzeł",
+    "suffix": "Przyrostek",
+    "id": "Id"
   },
   "time": {
     "hour": "godz.",

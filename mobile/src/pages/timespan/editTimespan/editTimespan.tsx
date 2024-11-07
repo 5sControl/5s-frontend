@@ -45,7 +45,7 @@ const RADIX = 10;
 
 const EditTimespan: React.FC = () => {
   const { t } = useTranslation();
-  const { timespanId, id, operationId } = useParams<{ timespanId: string; id: string; operationId: string }>();
+  const { orderId, itemId, operationId, timespanId } = useParams<{ orderId: string; itemId: string; operationId: string; timespanId: string }>();
   const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
   const [isDateChange, setIsDateChange] = useState<boolean>(false);
   const [startDateTime, setStartDateTime] = useState<string>("");
@@ -80,7 +80,7 @@ const EditTimespan: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    history.push(ROUTES.ORDER_OPERATION(String(id), String(operationId)), { direction: "back" });
+    history.push(ROUTES.ORDER_OPERATION(String(orderId), String(itemId), String(operationId)), { direction: "back" });
   };
 
   const handleSave = () => {
@@ -152,7 +152,7 @@ const EditTimespan: React.FC = () => {
     <IonPage>
       <Header
         title={t("orders.implementationTime")}
-        backButtonHref={ROUTES.ORDER_OPERATION(String(id), String(operationId))}
+        backButtonHref={ROUTES.ORDER_OPERATION(String(orderId), String(itemId), String(operationId))}
       />
       <IonContent>
         {isLoading ? (

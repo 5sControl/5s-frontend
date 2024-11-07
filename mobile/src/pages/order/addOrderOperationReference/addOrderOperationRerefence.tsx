@@ -51,22 +51,18 @@ const AddOrderOperationReference: React.FC = () => {
   }, [references]);
 
   useIonViewWillEnter(() => {
-    OPERATION_REQUEST.getOperationReferenceItems(parseInt(refId), setReferences, setLoading, setToastMessage);
-    ORDER_REQUEST.getOrderOperations(parseInt(operationId), setOperation, setLoading, setToastMessage);
+    // TODO
+    // OPERATION_REQUEST.getOperationReferenceItems(parseInt(refId), setReferences, setLoading, setToastMessage);
+    // ORDER_REQUEST.getOrderOperations(parseInt(operationId), setOperation, setLoading, setToastMessage);
   });
 
   const navigateTo = () => {
-    history.push(ROUTES.ORDER_OPERATION(id, operationId), { direction: "back" });
+    // history.push(ROUTES.ORDER_OPERATION(id, operationId), { direction: "back" });
+    // TODO
   };
 
   const handleSubmit = async () => {
-    OPERATION_REQUEST.addOperationReferenceItem(
-      parseInt(operationId),
-      { referenceItemIds: selectedIds },
-      setLoading,
-      setToastMessage,
-      navigateTo
-    );
+    // TODO
     setIsModalOpen(false);
   };
 
@@ -86,7 +82,7 @@ const AddOrderOperationReference: React.FC = () => {
     <IonPage color="light">
       <Header
         title={t("operations.add")}
-        backButtonHref={ROUTES.ORDER_OPERATION(id, operationId)}
+        // backButtonHref={ROUTES.ORDER_OPERATION(id, operationId)}
         searchBar={true}
         searchText={searchText}
         onSearchChange={setSearchText}
