@@ -19,6 +19,22 @@ export const ROUTES = {
   DIRECTORY_CATEGORY_ADD: (refId: string) => `/directories/${refId}/add`,
   DIRECTORY_CATEGORY_CARD: (refId: string, card: string) => `/directory/${refId}/${card}`,
   DIRECTORY_CATEGORY_EDIT: (refId: string, card: string) => `/directory/${refId}/${card}/edit`,
+
+  OPERATIONS: "/operations",
+  OPERATION_ADD: "/operations/add",
+  OPERATION: (operationId: string) => `/operation/${operationId}`,
+  OPERATION_EDIT: (operationId: string) => `/operation/${operationId}/edit`,
+
+  ITEMS: "/items",
+  ITEM_ADD: "/items/add",
+  ITEM: (operationId: string) => `/item/${operationId}`,
+  ITEM_EDIT: (operationId: string) => `/item/${operationId}/edit`,
+
+  EMPLOYEES: "/employees",
+  EMPLOYEE_ADD: "/employees/add",
+  EMPLOYEE: (employeeId: string) => `/employee/${employeeId}`,
+  EMPLOYEE_EDIT: (employeeId: string) => `/employee/${employeeId}/edit`,
+
   ORDERSVIEW: "/orders-view",
   OPERATIONDETAIL: (id: string) => `/orders-view/operation-detail/${id}`,
   ORDERS: "/orders",

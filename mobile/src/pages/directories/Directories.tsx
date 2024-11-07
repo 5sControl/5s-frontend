@@ -14,6 +14,7 @@ const Directories = () => {
   const [cookies] = useCookies(["token"]);
   const [items, setItems] = useState<Directory[]>([]);
   const [staticItems, setStaticItems] = useState<string[]>([]);
+  const [filteredStaticItems, setFilteredStaticItems] = useState<string[]>([]);
   const [filteredItems, setFilteredItems] = useState<Directory[]>([]);
   const [searchText, setSearchText] = useState<string>("");
   const { t } = useTranslation();
@@ -31,9 +32,10 @@ const Directories = () => {
     setSearchText("");
     setLoading(true);
 
-    getAllDirectories(cookies.token)
-      .then(response => {
-        setItems(response.data);
+    Promise.all([getAllDirectories(cookies.token), getAllStaticDirectories(cookies.token)])
+      .then(([responseDirectories, responseStaticDirectories]) => {
+        setItems(responseDirectories.data);
+        setStaticItems(responseStaticDirectories.data);
       })
       .catch(error => {
         console.error(error);
@@ -41,27 +43,22 @@ const Directories = () => {
       .finally(() => {
         setLoading(false);
       });
-
-      getAllStaticDirectories(cookies.token)
-      .then(response => {
-        setStaticItems(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      }); 
   });
 
   useEffect(() => {
+    const filteredStatic = staticItems.filter(itemName => itemName.toLowerCase().includes(searchText.toLowerCase()));
     const filtered = items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
+    setFilteredStaticItems(filteredStatic);
     setFilteredItems(filtered);
-  }, [searchText]);    // TODO: implement filtration for static directories
+  }, [searchText]);
 
   useEffect(() => {
     items.length && setFilteredItems(items);
   }, [items]);
+
+  useEffect(() => {
+    staticItems.length && setFilteredStaticItems(staticItems);
+  }, [staticItems]);
 
   return (
     <IonPage>
@@ -84,24 +81,24 @@ const Directories = () => {
         ) : (
           <>
             <IonList inset>
-              {staticItems
-                .map((itemName) => (
-                  <MenuListButton
-                    key={itemName}
-                    title={itemName}
-                    handleItemClick={() => {}} // TODO: implement navigation to static directories
-                  />
-                ))}
+              {filteredStaticItems.map(itemName => (
+                <MenuListButton
+                  key={itemName}
+                  title={itemName}
+                  handleItemClick={() => {
+                    handleItemClick(ROUTES[itemName.toUpperCase()]);
+                  }}
+                />
+              ))}
             </IonList>
             <IonList inset>
-              {filteredItems
-                .map(({ id, name }) => (
-                  <MenuListButton
-                    key={id}
-                    title={name}
-                    handleItemClick={() => handleItemClick(ROUTES.DIRECTORY_CATEGORY(String(id)))}
-                  />
-                ))}
+              {filteredItems.map(({ id, name }) => (
+                <MenuListButton
+                  key={id}
+                  title={name}
+                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORY_CATEGORY(String(id)))}
+                />
+              ))}
             </IonList>
           </>
         )}
