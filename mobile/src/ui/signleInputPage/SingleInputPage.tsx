@@ -11,16 +11,17 @@ type SingleInputPageProps = {
   required: boolean;
   toastMessage?: string;
   placeholder?: string;
+  disabled?: boolean;
   handleChange: (e: any) => void;
   handleSave: () => void;
 };
 
-const SingleInputPage = ({ label, value, required, handleChange, handleSave }: SingleInputPageProps) => {
+const SingleInputPage = ({ label, value, required, handleChange, handleSave, disabled }: SingleInputPageProps) => {
   const { t } = useTranslation();
   return (
     <>
       <Input label={label} value={value} required={required} handleChange={handleChange}></Input>
-      <BottomButton handleClick={handleSave} label={t("operations.save")} disabled={!value.trim()} />
+      <BottomButton handleClick={handleSave} label={t("operations.save")} disabled={disabled || !value.trim()} />
     </>
   );
 };

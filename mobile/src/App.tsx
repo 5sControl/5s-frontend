@@ -56,6 +56,10 @@ import Operation from "./pages/operations/operation/Operation";
 import Operations from "./pages/operations/Operations";
 import NewOperation from "./pages/operations/new-operation/NewOperation";
 import EditOperation from "./pages/operations/edit-operation/EditOperation";
+import Items from "./pages/items/Items";
+import NewItem from "./pages/items/new-item/NewItem";
+import Item from "./pages/items/item/Item";
+import EditItem from "./pages/items/edit-item/EditItem";
 
 setupIonicReact();
 
@@ -153,6 +157,19 @@ function App() {
               <EditOperation />
             </Route>
 
+            <Route exact path={ROUTES.ITEMS}>
+              <Items />
+            </Route>
+            <Route exact path={ROUTES.ITEM_ADD}>
+              <NewItem />
+            </Route>
+            <Route exact path={ROUTES.ITEM(":id")}>
+              <Item />
+            </Route>
+            <Route exact path={ROUTES.ITEM_EDIT(":id")}>
+              <EditItem />
+            </Route>
+
             <Route exact path={ROUTES.ORDERS}>
               <OrdersPage />
             </Route>
@@ -172,7 +189,7 @@ function App() {
               <OrderOperations />
             </Route>
             <Route exact path={ROUTES.ORDER_ADD_ITEM}>
-              <AddOrderItem/>
+              <AddOrderItem />
             </Route>
             <Route exact path={ROUTES.ORDER_ADD_OPERATION}>
               <AddOrderOperation />

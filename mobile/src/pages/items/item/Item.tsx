@@ -8,21 +8,20 @@ import { Preloader } from "../../../components/preloader/preloader";
 import { IonContent, IonIcon, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { TrashBin } from "../../../assets/svg/SVGcomponent";
-import { getOperation } from "../../../api/operations";
-import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
-import { IOperation } from "../../../models/interfaces/operation.interface";
+import { getItem } from "../../../api/items";
+import { IItem } from "../../../models/interfaces/item.interface";
 
-const Operation = () => {
+const Item = () => {
   const [cookies] = useCookies(["token"]);
   const { id }: { id: string } = useParams();
   const { t } = useTranslation();
-  const [operation, setOperation] = useState<IOperation>();
+  const [item, setItem] = useState<IItem>();
   const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
 
   useIonViewWillEnter(() => {
-    getOperation(Number(id), cookies.token)
+    getItem(Number(id), cookies.token)
       .then(response => {
-        setOperation(response.data);
+        setItem(response.data);
       })
       .catch(error => console.error(error));
   });
@@ -36,28 +35,22 @@ const Operation = () => {
   };
 
   const deleteCard = async (id: number, token: string) => {
-    //! delete operation
+    //! delete item
   };
 
   return (
     <IonPage>
-      <Header title={operation?.name} backButtonHref={ROUTES.OPERATIONS} />
+      <Header title={item?.name} backButtonHref={ROUTES.ITEMS} />
       <IonContent>
-        {operation ? (
-          <>
-            <Card
-              deleteCard={deleteCard}
-              itemTitle={operation.name}
-              backHref={ROUTES.OPERATIONS}
-              editHref={ROUTES.OPERATION_EDIT(id)}
-              showConfirmationModal={showConfirmationModal}
-              handleCloseModal={handleCloseModal}
-            />
-            <InputReadonly
-              label={t("Estimated Time")}
-              value={`${operation.estimatedTime} ${operation.estimatedTimeUnit}`}
-            />
-          </>
+        {item ? (
+          <Card
+            deleteCard={deleteCard}
+            itemTitle={item.name}
+            backHref={ROUTES.ITEMS}
+            editHref={ROUTES.ITEM_EDIT(id)}
+            showConfirmationModal={showConfirmationModal}
+            handleCloseModal={handleCloseModal}
+          />
         ) : (
           <div className="preloader">
             <Preloader />
@@ -67,4 +60,4 @@ const Operation = () => {
     </IonPage>
   );
 };
-export default Operation;
+export default Item;

@@ -11,16 +11,13 @@ import { useCookies } from "react-cookie";
 import { getAllDirectories } from "../../api/directory/directory";
 import { Preloader } from "../../components/preloader/preloader";
 import { Directory } from "../../models/interfaces/directory.interface";
+import { IItem } from "../../models/interfaces/item.interface";
+import { getAllItems } from "../../api/items";
 
-const mockedData = [
-  { id: 1, name: "mocked", isProtected: false },
-  { id: 2, name: "data", isProtected: false },
-];
-
-const GeneralDirectories = () => {
+const Items = () => {
   const [cookies] = useCookies(["token"]);
-  const [items, setItems] = useState<Directory[]>([]);
-  const [filteredItems, setFilteredItems] = useState<Directory[]>([]);
+  const [items, setItems] = useState<IItem[]>([]);
+  const [filteredItems, setFilteredItems] = useState<IItem[]>([]);
   const [searchText, setSearchText] = useState<string>("");
 
   const { t } = useTranslation();
@@ -41,7 +38,7 @@ const GeneralDirectories = () => {
   useIonViewWillEnter(() => {
     setSearchText("");
     setLoading(true);
-    getAllDirectories(cookies.token)
+    getAllItems(cookies.token)
       .then(response => {
         setItems(response.data);
       })
@@ -65,8 +62,8 @@ const GeneralDirectories = () => {
   return (
     <IonPage>
       <Header
-        title={t("menu.generalDirectories")}
-        backButtonHref={ROUTES.CONFIGURATION}
+        title={t("items")}
+        backButtonHref={ROUTES.DIRECTORIES}
         searchBar={Boolean(items?.length)}
         searchText={searchText}
         onSearchChange={handleSetSearch}
@@ -78,7 +75,7 @@ const GeneralDirectories = () => {
           </div>
         ) : (
           <>
-            <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.DIRECTORIES_ADD)} />
+            <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ITEM_ADD)} />
             {items.length === 0 ? (
               <IonList inset={true}>
                 <IonItem>{t("messages.noDatabases")}</IonItem>
@@ -89,7 +86,7 @@ const GeneralDirectories = () => {
                   <MenuListButton
                     key={id}
                     title={name}
-                    handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES_ITEM_CARD(String(id)))}
+                    handleItemClick={() => handleItemClick(ROUTES.ITEM(String(id)))}
                   />
                 ))}
               </IonList>
@@ -100,4 +97,4 @@ const GeneralDirectories = () => {
     </IonPage>
   );
 };
-export default GeneralDirectories;
+export default Items;
