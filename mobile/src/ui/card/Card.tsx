@@ -12,7 +12,7 @@ import { ConfirmationModal } from "../../components/confirmationModal/confirmati
 
 type CardsProps = {
   backHref: string;
-  editHref: string;
+  editHref?: string;
   itemTitle: string;
   showConfirmationModal: boolean;
   handleCloseModal: () => void;
@@ -47,12 +47,14 @@ const Card = ({ backHref, editHref, itemTitle, showConfirmationModal, deleteCard
   return (
     <>
       <InputReadonly label={t("directory.name")} value={itemTitle} />
-      <Fab
-        icon={EditWhiteIcon}
-        handleFabClick={() => {
-          handleFabClick(editHref);
-        }}
-      ></Fab>
+      {editHref && (
+        <Fab
+          icon={EditWhiteIcon}
+          handleFabClick={() => {
+            handleFabClick(editHref);
+          }}
+        />
+      )}
       <ConfirmationModal
         type="danger"
         isOpen={showConfirmationModal}

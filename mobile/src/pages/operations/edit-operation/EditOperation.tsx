@@ -3,14 +3,16 @@ import { ROUTES } from "../../../shared/constants/routes";
 import { useHistory, useParams } from "react-router-dom";
 import SingleInputPage from "../../../ui/signleInputPage/SingleInputPage";
 import { useEffect, useState } from "react";
-import { getDirectory, updateDirectory } from "../../../api/directory/directory";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IonContent, IonPage, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonItem, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 import { getOperation, updateOperation } from "../../../api/operations";
 import { TimeUnit } from "../../../models/types/timeUnit";
+import Select from "../../../components/select/Select";
+import { SelectItem } from "../../../models/types/selectItem";
+import { Input } from "../../../components/inputs/input/Input";
 
 const EditDirectoryCard = () => {
   const { t } = useTranslation();
@@ -19,18 +21,37 @@ const EditDirectoryCard = () => {
   const [cookies] = useCookies(["token"]);
   const [loading, setLoading] = useState(true);
   const [operationName, setOperationName] = useState("");
-  const [estimatedTime, setEstimatedTime] = useState<number>(30);
-  const [estimatedTimeUnit, setEstimatedTimeUnit] = useState<TimeUnit>("minutes");
-  const [initialValue, setInitialValue] = useState(operationName);
+  const [estimatedTime, setEstimatedTime] = useState();
+  const [timeUnit, setTimeUnit] = useState<TimeUnit>();
+  const [initialOperationName, setInitialOperationName] = useState(operationName);
+  const [initialEstimatedTime, setInitialEstimatedTime] = useState(estimatedTime);
+  const [initialTimeUnit, setInitialTimeUnit] = useState(timeUnit);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [valueIsChanged, setValueIsChanged] = useState(false);
+  const [operationNameIsChanged, setOperationNameIsChanged] = useState(false);
+  const [estimatedTimeIsChanged, setEstimatedTimeIsChanged] = useState(false);
+  const [timeUnitIsChanged, setTimeUnitIsChanged] = useState(false);
+
+  const selectItems: SelectItem[] = [
+    {
+      label: t("timeUnit.minutes"),
+      value: "minutes",
+    },
+    {
+      label: t("timeUnit.hours"),
+      value: "hours",
+    },
+  ];
 
   useIonViewWillEnter(() => {
-    setInitialValue(operationName);
+    setInitialOperationName(operationName);
+    setInitialEstimatedTime(estimatedTime);
+    setInitialTimeUnit(timeUnit);
     setLoading(true);
     getOperation(Number(id), cookies.token)
       .then(response => {
         setOperationName(response.data.name);
+        setTimeUnit(response.data.estimatedTimeUnit);
+        setEstimatedTime(response.data.estimatedTime);
       })
       .catch(error => {
         console.error(error);
@@ -45,8 +66,8 @@ const EditDirectoryCard = () => {
   };
 
   const handleSave = () => {
-    if (operationName.trim()) {
-      updateOperation(Number(id), operationName.trim(), estimatedTime, estimatedTimeUnit, cookies.token)
+    if (operationName.trim() && String(estimatedTime).trim()) {
+      updateOperation(Number(id), operationName.trim(), estimatedTime!, timeUnit!, cookies.token)
         .then(() => navigateBack())
         .catch(error => {
           console.error(error);
@@ -57,17 +78,31 @@ const EditDirectoryCard = () => {
   };
 
   const handleBackClick = () => {
-    if (valueIsChanged) {
+    if (operationNameIsChanged || estimatedTimeIsChanged || timeUnitIsChanged) {
       setIsOpenModal(true);
     } else {
       navigateBack();
     }
   };
 
-  const handleChangeInput = e => {
+  const handleChangeOperationName = e => {
     setOperationName(e.target.value);
-    if (e.target.value.trim() !== initialValue.trim()) {
-      setValueIsChanged(true);
+    if (e.target.value.trim() !== initialOperationName.trim()) {
+      setOperationNameIsChanged(true);
+    }
+  };
+
+  const handleChangeEstimatedTime = e => {
+    setEstimatedTime(e.target.value);
+    if (e.target.value.trim() !== String(initialEstimatedTime).trim()) {
+      setEstimatedTimeIsChanged(true);
+    }
+  };
+
+  const handleChangeTimeUnit = e => {
+    setTimeUnit(e.target.value);
+    if (e.target.value !== initialTimeUnit) {
+      setTimeUnitIsChanged(true);
     }
   };
 
@@ -83,21 +118,38 @@ const EditDirectoryCard = () => {
 
   return (
     <IonPage>
-      <Header title={t("edit Operation")} onBackClick={handleBackClick} backButtonHref={ROUTES.OPERATION(id)}></Header>
+      <Header title={t("directory.edit")} onBackClick={handleBackClick} backButtonHref={ROUTES.OPERATION(id)}></Header>
       <IonContent>
         {loading ? (
           <div className="preloader">
             <Preloader />
           </div>
         ) : (
-          <SingleInputPage
-            backHref={ROUTES.OPERATION(id)}
-            label={t("operation name")}
-            value={operationName}
-            required
-            handleChange={handleChangeInput}
-            handleSave={handleSave}
-          />
+          <>
+            <SingleInputPage
+              backHref={ROUTES.OPERATION(id)}
+              label={t("directory.name")}
+              value={operationName}
+              required
+              handleChange={handleChangeOperationName}
+              handleSave={handleSave}
+              disabled={!operationName.trim() || !String(estimatedTime).trim() || estimatedTime! <= 0}
+            />
+            <Select
+              value={timeUnit!}
+              label={t("timeUnit.title")}
+              placeholder="Select Time Unit"
+              selectList={selectItems}
+              handleChange={handleChangeTimeUnit}
+            />
+            <Input
+              label={t("directory.operations.estimatedTime")}
+              type="number"
+              value={estimatedTime!}
+              required
+              handleChange={handleChangeEstimatedTime}
+            />
+          </>
         )}
       </IonContent>
       <ConfirmationModal

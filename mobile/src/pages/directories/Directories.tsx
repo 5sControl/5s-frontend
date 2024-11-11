@@ -84,7 +84,7 @@ const Directories = () => {
               {filteredStaticItems.map(itemName => (
                 <MenuListButton
                   key={itemName}
-                  title={itemName}
+                  title={t(`directory.${itemName}.title`)}
                   handleItemClick={() => {
                     handleItemClick(ROUTES[itemName.toUpperCase()]);
                   }}

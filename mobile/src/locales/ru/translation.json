@@ -34,7 +34,26 @@
     "newEntry": "Новая запись в",
     "edit": "Редактирование",
     "card": "Карточка",
-    "name": "Название"
+    "name": "Название",
+    "operations": {
+      "title": "Операции",
+      "newOperation": "Новая операция",
+      "estimatedTime": "Ориентировочное время выполнения"
+    },
+    "items": {
+      "title": "Узлы",
+      "newItem": "Новый узел"
+    },
+    "employees": {
+      "title": "Сотрудники",
+      "newEmployee": "Новый сотрудник"
+    }
+  },
+  "timeUnit": {
+   "title": "Единица времени",
+   "hours": "Час",
+   "minutes": "Минута",
+   "selectTimeUnit": "Выберите единицу времени"
   },
   "text": {
     "connection": "соединение",

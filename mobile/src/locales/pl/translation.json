@@ -34,7 +34,26 @@
     "newEntry": "Nowy wpis w",
     "edit": "Edytuj",
     "card": "Karta",
-    "name": "Nazwa"
+    "name": "Nazwa",
+    "operations": {
+      "title": "Operacje",
+      "newOperation": "Nowa operacja",
+      "estimatedTime": "Szacowany czas"
+    },
+    "items": {
+      "title": "Przedmioty",
+      "newItem": "Nowy przedmiot"
+    },
+    "employees": {
+      "title": "Pracownicy",
+      "newEmployee": "Nowy pracownik"
+    }
+  },
+  "timeUnit": {
+    "title": "Jednostka czasu",
+    "hours": "Godziny",
+    "minutes": "Minuty",
+    "selectTimeUnit": "Wybierz jednostkę czasu"
   },
   "text": {
     "connection": "połączenie",
