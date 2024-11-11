@@ -60,6 +60,8 @@ import Items from "./pages/items/Items";
 import NewItem from "./pages/items/new-item/NewItem";
 import Item from "./pages/items/item/Item";
 import EditItem from "./pages/items/edit-item/EditItem";
+import Employees from "./pages/employees/Employees";
+import Employee from "./pages/employees/employee/Employee";
 
 setupIonicReact();
 
@@ -168,6 +170,13 @@ function App() {
             </Route>
             <Route exact path={ROUTES.ITEM_EDIT(":id")}>
               <EditItem />
+            </Route>
+
+            <Route exact path={ROUTES.EMPLOYEES}>
+              <Employees />
+            </Route>
+            <Route exact path={ROUTES.EMPLOYEE(":id")}>
+              <Employee />
             </Route>
 
             <Route exact path={ROUTES.ORDERS}>
