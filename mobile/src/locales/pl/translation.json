@@ -7,7 +7,8 @@
     "generalDirectories": "Ogólne katalogi",
     "accountSettings": "Ustawienia konta",
     "orders": "Zamówienia",
-    "reports": "Raporty"
+    "reports": "Raporty",
+    "scanner": "Skaner QR"
   },
   "config": {
     "title": "Konfiguracja",
