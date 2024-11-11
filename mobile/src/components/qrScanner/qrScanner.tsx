@@ -19,7 +19,6 @@ const Html5QrcodePlugin: React.FC<Html5QrcodePluginProps> = (props) => {
 
     useEffect(() => {
 
-        console.log(isMounted)
         if (!isMounted) {
             const config: Html5QrcodeCameraScanConfig = {
                 fps: props.fps,
@@ -40,8 +39,6 @@ const Html5QrcodePlugin: React.FC<Html5QrcodePluginProps> = (props) => {
             setIsMounted(true);
 
             return () => {
-                console.log('return');
-                html5QrcodeScanner.pause();
                 html5QrcodeScanner.clear().catch(error => {
                     console.error("Failed to clear html5QrcodeScanner. ", error);
                 });
