@@ -72,7 +72,9 @@ const addOrder = async (body: IAddOrder, setLoading?: React.Dispatch<React.SetSt
     try {
         setLoading && setLoading(true)
         const order = await ORDERS_API.addOrder(body);
-        if (order.status !== STATUS.CREATED) {
+        if (order.status === STATUS.CREATED) {
+            return order.data;
+        } else {
             setMessage && setMessage('Something went wrong')
         }
     } catch (e) {

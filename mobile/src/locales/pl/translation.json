@@ -7,7 +7,8 @@
     "generalDirectories": "Ogólne katalogi",
     "accountSettings": "Ustawienia konta",
     "orders": "Zamówienia",
-    "reports": "Raporty"
+    "reports": "Raporty",
+    "scanner": "Skaner QR"
   },
   "config": {
     "title": "Konfiguracja",
@@ -128,6 +129,7 @@
     "duration": "Czas trwania",
     "namePlaceholder": "Wpisz nazwę",
     "selectOperation": "Wybierz operację",
+    "selectOrderItem": "Wybierz węzeł",
     "auth": {
       "signin": "Zaloguj się do",
       "login": "Nazwa użytkownika",
@@ -162,7 +164,8 @@
     "orderItems": "Węzły",
     "orderItem": "Węzeł",
     "suffix": "Przyrostek",
-    "id": "Id"
+    "id": "Id",
+    "worker": "Pracownik"
   },
   "time": {
     "hour": "godz.",

@@ -104,7 +104,7 @@ const OrderOperations = () => {
                       <Table label={t('orders.implementation')} 
                         cols={[
                         {label:t('form.date'), size: 4}, 
-                        {label: t('form.name'), size: 4}, 
+                        {label: t('orders.worker'), size: 4}, 
                         {label: t('form.duration'), size: 4}]} 
                         rows={timespanItems} />
                     ) : (

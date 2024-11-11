@@ -45,10 +45,13 @@ export const ROUTES = {
   ORDER_ITEM_EDIT: (orderId: string, itemId: string) => `/order/${orderId}/item/${itemId}/edit`,
   ORDER_ITEM_ADD: (orderId: string, itemId: string) => `/order/${orderId}/item/${itemId}/add`,
   ORDER_OPERATION: (orderId: string, itemId: string, operationId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}`,
-  ORDER_ADD_ITEM: "/order/items/add",
-  ORDER_ADD_OPERATION: "/order/operations/add",
+  ORDER_ADD_ITEM: `/order/items/add`,
+  ORDER_ADD_ITEM_INFO: `/order/items/add/info`,
+  ORDER_ADD_OPERATION: `/order/items/add/info/operations`,
   ORDER_OPERATION_ADD_REFERENCE: (orderId: string, itemId: string, operationId: string, refId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}/reference/${refId}`,
   ORDER_TIMESPAN: (orderId: string, itemId: string, operationId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}/timespan`,
   ORDER_TIMESPAN_EDIT: (orderId: string, itemId: string, operationId: string, timespanId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}/timespan/${timespanId}/edit`,
-  SCANNER: "/scanner"
+  
+  SCANNER_CONFIGURATION: "/scanner",
+  SCANNER_QR: `/scanner/new`,
 };

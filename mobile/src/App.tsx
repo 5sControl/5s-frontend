@@ -62,6 +62,8 @@ import Item from "./pages/items/item/Item";
 import EditItem from "./pages/items/edit-item/EditItem";
 import Employees from "./pages/employees/Employees";
 import Employee from "./pages/employees/employee/Employee";
+import PreScannerConfiguration from "./pages/scanner/preScannerConfiguration/preScannerConfiguration";
+import AddOrderItemInfo from "./pages/order/addOrderItem/addOrderItemInfo";
 
 setupIonicReact();
 
@@ -200,6 +202,9 @@ function App() {
             <Route exact path={ROUTES.ORDER_ADD_ITEM}>
               <AddOrderItem />
             </Route>
+            <Route exact path={ROUTES.ORDER_ADD_ITEM_INFO}>
+              <AddOrderItemInfo/>
+            </Route>
             <Route exact path={ROUTES.ORDER_ADD_OPERATION}>
               <AddOrderOperation />
             </Route>
@@ -212,7 +217,10 @@ function App() {
             <Route exact path={ROUTES.ORDER_TIMESPAN_EDIT(":orderId", ":itemId", ":operationId", ":timespanId")}>
               <EditTimespan />
             </Route>
-            <Route exact path={ROUTES.SCANNER}>
+            <Route exact path={ROUTES.SCANNER_CONFIGURATION}>
+              <PreScannerConfiguration />
+            </Route>
+            <Route exact path={ROUTES.SCANNER_QR}>
               <Scanner />
             </Route>
           </IonRouterOutlet>
