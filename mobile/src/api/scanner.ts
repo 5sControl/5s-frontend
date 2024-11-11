@@ -10,9 +10,11 @@ const axiosConfig = (cookies: string) => ({
   });
 
 export const createOrderFromQr = (body: any, cookies: string) => {
-    return axios.post(
+  return axios.post(
       `${import.meta.env.VITE_API_BASE_URL}${API_SCANNER}`,
       body,
       axiosConfig(cookies)
-    );
+    ).catch(error => {
+      throw error;
+  });
 };

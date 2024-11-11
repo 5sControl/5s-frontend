@@ -1,30 +1,36 @@
-import React from "react";
-import { IonPage, IonContent, IonText, IonLabel, IonListHeader } from "@ionic/react";
+import React, { useState } from "react";
+import { IonPage, IonContent, IonText, IonLabel, IonListHeader, IonToast } from "@ionic/react";
 import { Header } from "../../components/header/Header";
 import Html5QrcodePlugin from "../../components/qrScanner/qrScanner";
 import { createOrderFromQr } from "../../api/scanner";
 import { useCookies } from "react-cookie";
 import { useHistory, useParams } from "react-router";
 import { ROUTES } from "../../shared/constants/routes";
+import { TOAST_DELAY } from "../../constants/toastDelay";
+import { set } from "lodash";
 
 const Scanner = () => {
     const [cookies] = useCookies(["token"]);
     const [qrInfo, setQrInfo] = React.useState('');
     const history = useHistory();
+    const [toastMessage, setToastMessage] = useState<string | null>(null);
 
     const redirectToOrder = (orderId: string, orderItemId: string, operationId: string) => {
         history.push(ROUTES.ORDER_TIMESPAN(orderId, orderItemId, operationId));
     };
-
-    const onNewScanResult = (decodedText: string, decodedResult: any) => {
+    const onNewScanResult = (decodedText, decodedResult) => {
         setQrInfo(decodedText);
-        createOrderFromQr({ qrCode: decodedText, operationId: 3 }, cookies.token).then(response => {
-            const data = response.data;
-            const operationId = data.id;
-            const orderItemId = data.orderItem.id;
-            const orderId = data.orderItem.order.id;
-            redirectToOrder(orderId.toString(), orderItemId.toString(), operationId.toString());
-        })
+        createOrderFromQr({ qrCode: decodedText, operationId: 3 }, cookies.token)
+            .then(response => {
+                const data = response.data;
+                const operationId = data.id;
+                const orderItemId = data.orderItem.id;
+                const orderId = data.orderItem.order.id;
+                redirectToOrder(orderId.toString(), orderItemId.toString(), operationId.toString());
+            })
+            .catch(error => {
+                setToastMessage("Incorrect QR. Please try again.");
+            });
     };
 
     return (
@@ -37,16 +43,12 @@ const Scanner = () => {
                 disableFlip={false}
                 qrCodeSuccessCallback={onNewScanResult}
             />
-            {/* {qrInfo && 
-            <>
-                <IonListHeader>
-                    Info from QR:
-                </IonListHeader>
-                <IonText>
-                    {qrInfo}
-                </IonText>
-            </>
-            } */}
+            <IonToast
+                isOpen={!!toastMessage}
+                message={toastMessage || undefined}
+                duration={TOAST_DELAY}
+                onDidDismiss={() => setToastMessage(null)}
+            />
           </IonContent>
         </IonPage>
       );
