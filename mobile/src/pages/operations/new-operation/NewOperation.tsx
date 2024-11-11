@@ -107,26 +107,36 @@ const NewOperation = () => {
 
   return (
     <IonPage>
-      <Header title={t("new Operation")} onBackClick={handleBackClick} backButtonHref={ROUTES.OPERATIONS}></Header>
+      <Header
+        title={t("directory.operations.newOperation")}
+        onBackClick={handleBackClick}
+        backButtonHref={ROUTES.OPERATIONS}
+      ></Header>
       <IonContent>
         <SingleInputPage
-          title={t("new Operation")}
+          title={t("directory.operations.newOperation")}
           backHref={ROUTES.OPERATIONS}
-          label={t("operation Name")}
+          label={t("directory.name")}
           value={operationName}
           required
           handleChange={handleChangeInput}
           handleSave={handleSave}
-          disabled={!operationName.trim() || !String(estimatedTime).trim() || !timeUnit}
+          disabled={!operationName.trim() || !String(estimatedTime).trim() || !timeUnit || estimatedTime! <= 0}
         />
         <Select
           value={timeUnit!}
-          label="Time Unit"
-          placeholder="Select Time Unit"
+          label={t("timeUnit.title")}
+          placeholder={t("timeUnit.selectTimeUnit")}
           selectList={selectItems}
           handleChange={handleChangeTimeUnit}
         />
-        <Input label={"Estimated Time"} value={estimatedTime!} required handleChange={handleChangeEstimatedTime} />
+        <Input
+          label={t("directory.operations.estimatedTime")}
+          type="number"
+          value={estimatedTime!}
+          required
+          handleChange={handleChangeEstimatedTime}
+        />
       </IonContent>
       <ConfirmationModal
         type="primary"

@@ -64,12 +64,16 @@ const NewItem = () => {
 
   return (
     <IonPage>
-      <Header title={t("new Item")} onBackClick={handleBackClick} backButtonHref={ROUTES.OPERATIONS}></Header>
+      <Header
+        title={t("directory.items.newItem")}
+        onBackClick={handleBackClick}
+        backButtonHref={ROUTES.OPERATIONS}
+      ></Header>
       <IonContent>
         <SingleInputPage
-          title={t("new Item")}
+          title={t("directory.items.newItem")}
           backHref={ROUTES.ITEMS}
-          label={t("Item Name")}
+          label={t("directory.name")}
           value={itemName}
           required
           handleChange={handleChangeInput}

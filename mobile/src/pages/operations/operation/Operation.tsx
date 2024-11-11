@@ -54,7 +54,7 @@ const Operation = () => {
               handleCloseModal={handleCloseModal}
             />
             <InputReadonly
-              label={t("Estimated Time")}
+              label={t("directory.operations.estimatedTime")}
               value={`${operation.estimatedTime} ${operation.estimatedTimeUnit}`}
             />
           </>

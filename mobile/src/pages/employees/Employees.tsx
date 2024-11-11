@@ -63,7 +63,7 @@ const Employees = () => {
   return (
     <IonPage>
       <Header
-        title={t("employees")}
+        title={t("directory.employees.title")}
         backButtonHref={ROUTES.DIRECTORIES}
         searchBar={Boolean(items?.length)}
         searchText={searchText}

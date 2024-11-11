@@ -65,7 +65,7 @@ const Operations = () => {
   return (
     <IonPage>
       <Header
-        title={t("Operations")}
+        title={t("directory.operations.title")}
         backButtonHref={ROUTES.DIRECTORIES}
         searchBar={Boolean(items?.length)}
         searchText={searchText}

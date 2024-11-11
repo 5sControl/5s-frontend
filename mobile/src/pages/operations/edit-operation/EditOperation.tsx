@@ -21,7 +21,7 @@ const EditDirectoryCard = () => {
   const [cookies] = useCookies(["token"]);
   const [loading, setLoading] = useState(true);
   const [operationName, setOperationName] = useState("");
-  const [estimatedTime, setEstimatedTime] = useState<number>();
+  const [estimatedTime, setEstimatedTime] = useState();
   const [timeUnit, setTimeUnit] = useState<TimeUnit>();
   const [initialOperationName, setInitialOperationName] = useState(operationName);
   const [initialEstimatedTime, setInitialEstimatedTime] = useState(estimatedTime);
@@ -33,11 +33,11 @@ const EditDirectoryCard = () => {
 
   const selectItems: SelectItem[] = [
     {
-      label: "Minutes",
+      label: t("timeUnit.minutes"),
       value: "minutes",
     },
     {
-      label: "Hours",
+      label: t("timeUnit.hours"),
       value: "hours",
     },
   ];
@@ -118,7 +118,7 @@ const EditDirectoryCard = () => {
 
   return (
     <IonPage>
-      <Header title={t("edit Operation")} onBackClick={handleBackClick} backButtonHref={ROUTES.OPERATION(id)}></Header>
+      <Header title={t("directory.edit")} onBackClick={handleBackClick} backButtonHref={ROUTES.OPERATION(id)}></Header>
       <IonContent>
         {loading ? (
           <div className="preloader">
@@ -128,23 +128,24 @@ const EditDirectoryCard = () => {
           <>
             <SingleInputPage
               backHref={ROUTES.OPERATION(id)}
-              label={t("operation name")}
+              label={t("directory.name")}
               value={operationName}
               required
               handleChange={handleChangeOperationName}
               handleSave={handleSave}
-              disabled={!operationName.trim() || !String(estimatedTime).trim()}
+              disabled={!operationName.trim() || !String(estimatedTime).trim() || estimatedTime! <= 0}
             />
             <Select
               value={timeUnit!}
-              label="Time Unit"
+              label={t("timeUnit.title")}
               placeholder="Select Time Unit"
               selectList={selectItems}
               handleChange={handleChangeTimeUnit}
             />
             <Input
-              label={"Estimated Time"}
-              value={String(estimatedTime)}
+              label={t("directory.operations.estimatedTime")}
+              type="number"
+              value={estimatedTime!}
               required
               handleChange={handleChangeEstimatedTime}
             />

@@ -62,7 +62,7 @@ const Items = () => {
   return (
     <IonPage>
       <Header
-        title={t("items")}
+        title={t("directory.items.title")}
         backButtonHref={ROUTES.DIRECTORIES}
         searchBar={Boolean(items?.length)}
         searchText={searchText}

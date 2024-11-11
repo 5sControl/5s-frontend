@@ -33,7 +33,26 @@
      "newEntry": "New entry in",
      "edit": "Edit",
      "card": "Card",
-     "name": "Name"
+     "name": "Name",
+     "operations": {
+       "title": "Operations",
+       "newOperation": "New Operation",
+       "estimatedTime": "Estimated Time"
+     },
+     "items": {
+       "title": "Items",
+       "newItem": "New Item"
+     },
+     "employees": {
+       "title": "Employees",
+       "newEmployee": "New employee"
+     }
+   },
+   "timeUnit": {
+    "title": "Time Unit",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "selectTimeUnit": "Select Time Unit"
    },
    "text": {
      "connection": "connection",
