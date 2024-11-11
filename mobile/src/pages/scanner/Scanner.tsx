@@ -7,7 +7,6 @@ import { useCookies } from "react-cookie";
 import { useHistory, useParams } from "react-router";
 import { ROUTES } from "../../shared/constants/routes";
 import { TOAST_DELAY } from "../../constants/toastDelay";
-import { set } from "lodash";
 
 const Scanner = () => {
     const [cookies] = useCookies(["token"]);
