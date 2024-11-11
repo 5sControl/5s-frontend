@@ -194,7 +194,7 @@ function App() {
             <Route exact path={ROUTES.SCANNER_CONFIGURATION}>
               <PreScannerConfiguration />
             </Route>
-            <Route exact path={ROUTES.SCANNER_QR(":operationId")}>
+            <Route exact path={ROUTES.SCANNER_QR}>
               <Scanner />
             </Route>
           </IonRouterOutlet>

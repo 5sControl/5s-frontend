@@ -47,7 +47,7 @@ const PreScannerConfiguration: React.FC = () => {
   const handleSubmit = async () => {
     if (selectedOperation){
         setIsModalOpen(false);
-        history.push(ROUTES.SCANNER_QR(selectedOperation.toString()));
+        history.push(ROUTES.SCANNER_QR);
     }
   };
   const openModal = () => {
