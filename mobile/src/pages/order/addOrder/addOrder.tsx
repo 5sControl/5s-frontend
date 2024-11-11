@@ -1,35 +1,22 @@
 import React, { useState } from 'react';
 import {
-  IonButton,
-  IonCol,
   IonContent,
-  IonFooter,
-  IonGrid,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
   IonLoading,
   IonPage,
-  IonRow,
   IonToast,
 } from '@ionic/react';
 import { Header } from '../../../components/header/Header';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import ModalSave from '../../../components/modalSave/modalSave';
 import styles from './style.module.scss';
-import { ITEM_REQUEST, ORDER_ITEM_REQUEST, ORDER_REQUEST } from '../../../dispatcher';
+import { ORDER_ITEM_REQUEST, ORDER_REQUEST } from '../../../dispatcher';
 import { ROUTES } from '../../../shared/constants/routes';
 import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { Input } from '../../../components/inputs/input/Input';
-import { set, values } from 'lodash';
 import BottomButton from '../../../components/bottomButton/BottomButton';
 import { Table } from '../../../components/table/Table';
 import AddButton from '../../../components/addButton/AddButton';
-import ItemList from '../../../components/itemList/itemList';
-import Chip from '../../../components/chip/chip';
-import { OPERATION_STATUS_ENUM } from '../../../models/enums/statuses.enum';
 import { TableRow } from '../../../models/interfaces/table.interface';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMaxOrderItemId, setOrderItems, setOrderName, setTempOrderItemId } from '../../../store/orderSlice';
@@ -45,7 +32,6 @@ const AddOrder: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [order, setOrder] = useState<IOrders>({} as IOrders);
   const orderItems = useSelector((state: RootState) => state.order.orderItems);
   const maxOrderItemId: any = useSelector((state: RootState) => state.order.maxOrderItemId);
 

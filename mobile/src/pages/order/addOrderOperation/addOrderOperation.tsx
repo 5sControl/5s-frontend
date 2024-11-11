@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
-  IonButton,
   IonCheckbox,
   IonContent,
-  IonFooter,
   IonItem,
   IonLabel,
   IonList,
-  IonLoading,
   IonPage,
   IonToast,
   useIonViewWillEnter,
 } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
-import { useLocation, useHistory, useParams } from "react-router-dom";
-import { ITEM_REQUEST, OPERATION_REQUEST, ORDER_ITEM_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
+import { useHistory } from "react-router-dom";
+import { OPERATION_REQUEST, ORDER_ITEM_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
 import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
 import ModalSave from "../../../components/modalSave/modalSave";
 import { ROUTES } from "../../../shared/constants/routes";
@@ -23,11 +20,10 @@ import { TOAST_DELAY } from "../../../constants/toastDelay";
 import { IReference } from "../../../models/interfaces/orders.interface";
 import BottomButton from "../../../components/bottomButton/BottomButton";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IItem, IOrderItemAddBody } from "../../../models/interfaces/item.interface";
+import { IOrderItemAddBody } from "../../../models/interfaces/item.interface";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { setOrderItems as setStoreOrderItems,setMaxOrderItemId, setOrderName, setOrderItems, setTempOrderItemId } from "../../../store/orderSlice";
-import { id } from "date-fns/locale";
 
 const AddOrderOperation: React.FC = () => {
   const history = useHistory();

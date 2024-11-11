@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { IonContent, IonLabel, IonList, IonPage, IonLoading, IonToast, useIonViewWillEnter } from "@ionic/react";
+import React, { useState } from "react";
+import { IonContent, IonList, IonPage, IonToast } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
-import { useHistory, useParams } from "react-router-dom";
-import { IItem, Item } from "../../../models/interfaces/item.interface";
-import { ITEM_REQUEST, OPERATION_REQUEST, ORDER_ITEM_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
+import { useHistory } from "react-router-dom";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
 import { TOAST_DELAY } from "../../../constants/toastDelay";
 import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IOrderOperation, IProductOperation } from "../../../models/interfaces/operationItem.interface";
+import { IOrderOperation } from "../../../models/interfaces/operationItem.interface";
 import { TableRow } from "../../../models/interfaces/table.interface";
 import Chip from "../../../components/chip/chip";
 import { Table } from "../../../components/table/Table";
@@ -33,7 +31,6 @@ const AddOrderItemInfo = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>(item?.suffix || '');
-  // const isLoaded = Boolean(Object.values(item)?.length);
   const history = useHistory();
   
   const tableItems: TableRow[] =
@@ -78,8 +75,6 @@ const AddOrderItemInfo = () => {
             </div>
           ) : (
             <>
-              {/* {isLoaded && ( */}
-                <>
                 <IonList>
                   <InputReadonly label={t('orders.orderItem')} value={item.name} />
                   <Input label={t('orders.suffix')} value={inputValue} handleChange={(e) => setInputValue(e.detail.value!)} required={false}/>
@@ -99,8 +94,6 @@ const AddOrderItemInfo = () => {
                     onDidDismiss={() => setToastMessage(null)}
                   />
                   </IonList>
-                </>
-              {/* )} */}
             </>
           )}
           <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={() => navigateTo(ROUTES.ORDER_ADD_OPERATION, { direction: "forward" })} />

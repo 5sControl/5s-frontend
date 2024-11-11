@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
-  IonButton,
   IonCheckbox,
   IonContent,
-  IonFooter,
   IonItem,
   IonLabel,
   IonList,
-  IonLoading,
   IonPage,
   IonToast,
   useIonViewWillEnter,
 } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
-import { useLocation, useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { ITEM_REQUEST, OPERATION_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
-import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
 import ModalSave from "../../../components/modalSave/modalSave";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
@@ -27,7 +23,6 @@ import { IItem } from "../../../models/interfaces/item.interface";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { setOrderItems as setStoreOrderItems,setMaxOrderItemId } from "../../../store/orderSlice";
-import { id } from "date-fns/locale";
 
 const AddOrderItem: React.FC = () => {
   const history = useHistory();
@@ -40,7 +35,6 @@ const AddOrderItem: React.FC = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [operationReferences, setOperationReferences] = useState<IReference[]>([]);
   const storedItems: any = useSelector((state: RootState) => state.order.orderItems);
   const tempItemId: any = useSelector((state: RootState) => state.order.tempOrderItemId);
   const initialSuffix  = storedItems[tempItemId]?.suffix || '';
