@@ -1,5 +1,6 @@
 import { Html5QrcodeCameraScanConfig, Html5QrcodeScanner } from 'html5-qrcode';
 import { useEffect } from 'react';
+import './qrScanner.scss'
 
 type Html5QrcodePluginProps = {
     fps?: number;
@@ -55,3 +56,4 @@ const Html5QrcodePlugin: React.FC<Html5QrcodePluginProps> = (props) => {
 };
 
 export default Html5QrcodePlugin;
+

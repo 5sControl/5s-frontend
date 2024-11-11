@@ -1,0 +1,19 @@
+#html5-qrcode-anchor-scan-type-change,#html5qr-code-full-region div:first-child img {
+    display: none !important;
+}
+
+#html5qr-code-full-region__scan_region, #html5qr-code-full-region__dashboard{
+    background-color: #FFF;
+}
+
+#html5-qrcode-button-camera-permission, #html5-qrcode-button-camera-stop, #html5-qrcode-button-camera-start{
+    background: var(--Orange);
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin: 12px;
+    color: white;
+    width: calc(100% - 24px);
+}

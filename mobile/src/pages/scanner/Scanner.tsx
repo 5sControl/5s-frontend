@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IonPage, IonContent, IonText, IonLabel, IonListHeader, IonToast } from "@ionic/react";
+import { IonPage, IonContent, IonToast } from "@ionic/react";
 import { Header } from "../../components/header/Header";
 import Html5QrcodePlugin from "../../components/qrScanner/qrScanner";
 import { createOrderFromQr } from "../../api/scanner";
@@ -7,7 +7,6 @@ import { useCookies } from "react-cookie";
 import { useHistory, useParams } from "react-router";
 import { ROUTES } from "../../shared/constants/routes";
 import { TOAST_DELAY } from "../../constants/toastDelay";
-import { set } from "lodash";
 
 const Scanner = () => {
     const [cookies] = useCookies(["token"]);
@@ -35,7 +34,7 @@ const Scanner = () => {
 
     return (
         <IonPage>
-          <Header title="Qr Scanner" />
+          <Header title="Qr Scanner" backButtonHref={ROUTES.SCANNER_CONFIGURATION}/>
           <IonContent className="ion-padding">
           <Html5QrcodePlugin
                 fps={10}
