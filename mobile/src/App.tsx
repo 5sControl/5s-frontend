@@ -56,6 +56,7 @@ import Operation from "./pages/operations/operation/Operation";
 import Operations from "./pages/operations/Operations";
 import NewOperation from "./pages/operations/new-operation/NewOperation";
 import EditOperation from "./pages/operations/edit-operation/EditOperation";
+import PreScannerConfiguration from "./pages/scanner/preScannerConfiguration/preScannerConfiguration";
 import AddOrderItemInfo from "./pages/order/addOrderItem/addOrderItemInfo";
 
 setupIonicReact();
@@ -190,7 +191,10 @@ function App() {
             <Route exact path={ROUTES.ORDER_TIMESPAN_EDIT(":orderId", ":itemId", ":operationId", ":timespanId")}>
               <EditTimespan />
             </Route>
-            <Route exact path={ROUTES.SCANNER}>
+            <Route exact path={ROUTES.SCANNER_CONFIGURATION}>
+              <PreScannerConfiguration />
+            </Route>
+            <Route exact path={ROUTES.SCANNER_QR(":operationId")}>
               <Scanner />
             </Route>
           </IonRouterOutlet>

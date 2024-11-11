@@ -4,14 +4,27 @@ import { Header } from "../../components/header/Header";
 import Html5QrcodePlugin from "../../components/qrScanner/qrScanner";
 import { createOrderFromQr } from "../../api/scanner";
 import { useCookies } from "react-cookie";
+import { useHistory, useParams } from "react-router";
+import { ROUTES } from "../../shared/constants/routes";
 
 const Scanner = () => {
     const [cookies] = useCookies(["token"]);
     const [qrInfo, setQrInfo] = React.useState('');
+    const history = useHistory();
+
+    const redirectToOrder = (orderId: string, orderItemId: string, operationId: string) => {
+        history.push(ROUTES.ORDER_TIMESPAN(orderId, orderItemId, operationId));
+    };
 
     const onNewScanResult = (decodedText: string, decodedResult: any) => {
         setQrInfo(decodedText);
-        createOrderFromQr({ qrCode: decodedText, operationId: 3 }, cookies.token);
+        createOrderFromQr({ qrCode: decodedText, operationId: 3 }, cookies.token).then(response => {
+            const data = response.data;
+            const operationId = data.id;
+            const orderItemId = data.orderItem.id;
+            const orderId = data.orderItem.order.id;
+            redirectToOrder(orderId.toString(), orderItemId.toString(), operationId.toString());
+        })
     };
 
     return (
@@ -24,7 +37,7 @@ const Scanner = () => {
                 disableFlip={false}
                 qrCodeSuccessCallback={onNewScanResult}
             />
-            {qrInfo && 
+            {/* {qrInfo && 
             <>
                 <IonListHeader>
                     Info from QR:
@@ -33,7 +46,7 @@ const Scanner = () => {
                     {qrInfo}
                 </IonText>
             </>
-            }
+            } */}
           </IonContent>
         </IonPage>
       );
