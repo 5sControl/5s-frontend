@@ -84,6 +84,10 @@ export const Menu: React.FC = () => {
           <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} />
         </IonList>
 
+        <IonList inset={true}>
+          <MenuListButton title={t("menu.scanner")} handleItemClick={() => handleItemClick(ROUTES.SCANNER_CONFIGURATION)} />
+        </IonList>
+
         {/* <IonList inset={true}>
           <ItemButton
             label={t("menu.ordersView")}

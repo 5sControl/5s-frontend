@@ -7,7 +7,8 @@
     "generalDirectories": "General directories",
     "accountSettings": "Account Settings",
     "orders": "Orders",
-    "reports": "Reports"
+    "reports": "Reports",
+    "scanner": "QR Scanner"
   },
    "config": {
      "title": "Configuration",
@@ -109,6 +110,7 @@
      "duration": "Duration",
      "namePlaceholder": "Enter a name",
      "selectOperation": "Select Operation",
+     "selectOrderItem": "Select Order Item",
      "auth": {
        "signin": "Sign in to",
        "login": "Username",

@@ -1,53 +1,54 @@
 import React, { useEffect, useState } from "react";
 import {
-  IonButton,
   IonCheckbox,
   IonContent,
-  IonFooter,
   IonItem,
   IonLabel,
   IonList,
-  IonLoading,
   IonPage,
   IonToast,
   useIonViewWillEnter,
 } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
-import { useLocation, useHistory } from "react-router-dom";
-import { OPERATION_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
+import { useHistory } from "react-router-dom";
+import { OPERATION_REQUEST, ORDER_ITEM_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
 import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
 import ModalSave from "../../../components/modalSave/modalSave";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
-import { TOAST_DELAY } from "./../../../constants/toastDelay";
+import { TOAST_DELAY } from "../../../constants/toastDelay";
 import { IReference } from "../../../models/interfaces/orders.interface";
 import BottomButton from "../../../components/bottomButton/BottomButton";
 import { Preloader } from "../../../components/preloader/preloader";
+import { IOrderItemAddBody } from "../../../models/interfaces/item.interface";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { setOrderItems as setStoreOrderItems,setMaxOrderItemId, setOrderName, setOrderItems, setTempOrderItemId } from "../../../store/orderSlice";
 
 const AddOrderOperation: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
-  const location = useLocation();
-  const state = (location.state as any)?.state;
-  const name = state?.message || "";
+  const dispatch = useDispatch();
   const [searchText, setSearchText] = useState<string>("");
   const [operations, setOperations] = useState<IProductOperation[]>([]);
-  const [filteredItems, setFilteredItems] = useState<IProductOperation[]>([]);
-  const [selectedItems, setSelectedItems] = useState<{ id: number; name: string }[]>(
-    state?.selectedItems || []
-  );
+  const [filteredOperations, setFilteredOperations] = useState<IProductOperation[]>([]);
+  const [selectedOperations, setSelectedOperations] = useState<{id: number, name: string}[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [operationReferences, setOperationReferences] = useState<IReference[]>([]);
+  const storedItems: any = useSelector((state: RootState) => state.order.orderItems);
+  const tempItemId: any = useSelector((state: RootState) => state.order.tempOrderItemId);
+  const item: any = storedItems[tempItemId];
+  const orderName: any = useSelector((state: RootState) => state.order.orderName);
 
   useEffect(() => {
     const filtered = operations.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
-    setFilteredItems(filtered);
+    setFilteredOperations(filtered);
   }, [searchText]);
 
   useEffect(() => {
-    operations.length && setFilteredItems(operations);
+    operations.length && setFilteredOperations(operations);
   }, [operations]);
 
   useIonViewWillEnter(() => {
@@ -56,24 +57,60 @@ const AddOrderOperation: React.FC = () => {
 
   const handleCheckboxChange = (id: number, name: string, checked: boolean) => {
     if (checked) {
-      setSelectedItems(prev => [...prev, { id: id, name: name }]);
+      setSelectedOperations(prev => [...prev, { id: id, name: name, status: 'pending' }]);
     } else {
-      setSelectedItems(prev => prev.filter(item => item.id !== id));
+      setSelectedOperations(prev => prev.filter(item => item.id !== id));
     }
   };
-  const navigateTo = () => {
-    history.push(ROUTES.ORDER_ADD, { state: { selectedItems: selectedItems, message: name }, direction: "back" });
+
+  const navigateTo = (path: string, state?: any) => {
+    history.push(path, state);
+  };
+
+  const handleBackClick = () => {
+    setIsModalOpen(false);
+    const updatedItems = {...storedItems,  [tempItemId.toString()]: { ...item, operations: selectedOperations }};
+    dispatch(setStoreOrderItems(updatedItems));
+    navigateTo(ROUTES.ORDER_ADD_ITEM_INFO, { direction: "back" });
   };
 
   const handleSubmit = async () => {
+    const updatedItems = {...storedItems,  [tempItemId.toString()]: { ...item, operations: selectedOperations }};
+    console.log('updatedItems', updatedItems);
+    dispatch(setStoreOrderItems(updatedItems));
     setIsModalOpen(false);
-    if (!name) {
-      setToastMessage(t("messages.orderName"));
-      return;
-    }
-    const selectedIds = selectedItems.map(item => item.id);
-    // TODO
+    setLoading(true);
+    ORDER_REQUEST.addOrder({name: orderName, additionalInfo: '', estimatedTime: 0, estimatedTimeUnit: 'minutes'}, setLoading, setToastMessage, () => {})
+    .then((res: any) => {
+      console.log(res);
+      Object.values(updatedItems).forEach((item: any) => {
+        const newItem: IOrderItemAddBody = {
+          orderId: res.id,
+          name: item.name,
+          additionalInfo: item.suffix,
+          quantity: 1,
+          itemId: item.id
+        }
+        ORDER_ITEM_REQUEST.createOrderItem(newItem, setLoading, setToastMessage, () => {
+            const newOperation = {
+              orderItemId: item.id,
+              operationIds: item.operations.map(operation => operation.id)
+            };
+
+            ORDER_REQUEST.addOrderItemOperation(newOperation, setLoading, setToastMessage);
+          })
+      })
+    })
+    .finally(() => {
+      navigateTo(ROUTES.ORDERS);
+      setLoading(false);
+      dispatch(setOrderName(''));
+      dispatch(setOrderItems({}));
+      dispatch(setMaxOrderItemId(1))
+      dispatch(setTempOrderItemId(1));
+    })
   };
+
   const handleSetSearch = (v: string) => setSearchText(v);
   const openModal = () => {
     setIsModalOpen(true);
@@ -82,8 +119,8 @@ const AddOrderOperation: React.FC = () => {
   return (
     <IonPage>
       <Header
-        title={t("form.selectOperation")}
-        onBackClick={navigateTo}
+        title={t("form.selectOrderItem")}
+        onBackClick={handleBackClick}
         backButtonHref="#"
         searchBar
         searchText={searchText}
@@ -97,14 +134,14 @@ const AddOrderOperation: React.FC = () => {
         ) : (
           <>
             <IonList className="ion-padding">
-              {filteredItems.map(item => (
+              {filteredOperations.map(item => (
                 <IonItem key={item.id}>
                   <IonLabel>{item.name}</IonLabel>
                   <IonCheckbox
                     style={{ "--border-radius": "none" }}
                     slot="end"
                     onIonChange={e => handleCheckboxChange(item.id, item.name, e.detail.checked)}
-                    checked={selectedItems.some(operation => operation.id === item.id)}
+                    checked={selectedOperations.some(operation => operation.id === item.id)}
                   />
                 </IonItem>
               ))}
@@ -120,7 +157,7 @@ const AddOrderOperation: React.FC = () => {
             <BottomButton
               handleClick={openModal}
               label={t("operations.save")}
-              disabled={selectedItems.length === 0}
+              disabled={selectedOperations.length === 0}
             />
           </>
         )}

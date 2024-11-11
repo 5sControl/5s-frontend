@@ -7,7 +7,8 @@
     "generalDirectories": "Универсальные справочники",
     "accountSettings": "Настройки учетной записи",
     "orders": "Заказы",
-    "reports": "Отчеты"
+    "reports": "Отчеты",
+    "scanner": "QR-сканер"
   },
   "config": {
     "title": "Конфигурация",
@@ -109,6 +110,7 @@
     "duration": "Продолжительность",
     "namePlaceholder": "Введите имя",
     "selectOperation": "Выберите операцию",
+    "selectOrderItem": "Выберите узел",
     "auth": {
       "signin": "Войти в",
       "login": "Имя пользователя",
