@@ -109,6 +109,7 @@
     "duration": "Czas trwania",
     "namePlaceholder": "Wpisz nazwę",
     "selectOperation": "Wybierz operację",
+    "selectOrderItem": "Wybierz węzeł",
     "auth": {
       "signin": "Zaloguj się do",
       "login": "Nazwa użytkownika",

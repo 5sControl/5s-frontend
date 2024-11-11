@@ -109,6 +109,7 @@
      "duration": "Duration",
      "namePlaceholder": "Enter a name",
      "selectOperation": "Select Operation",
+     "selectOrderItem": "Select Order Item",
      "auth": {
        "signin": "Sign in to",
        "login": "Username",

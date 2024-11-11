@@ -109,6 +109,7 @@
     "duration": "Продолжительность",
     "namePlaceholder": "Введите имя",
     "selectOperation": "Выберите операцию",
+    "selectOrderItem": "Выберите узел",
     "auth": {
       "signin": "Войти в",
       "login": "Имя пользователя",
