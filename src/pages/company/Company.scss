@@ -79,7 +79,7 @@
     line-height: 24px;
     &_owner {
       margin-top: 8px;
-      width: 66px;
+      width: fit-content;
       height: 24px;
       padding: 1px 10px;
       background: #ffd1b4;
@@ -91,7 +91,7 @@
     }
     &_worker {
       margin-top: 8px;
-      width: 66px;
+      width: fit-content;
       height: 24px;
       padding: 1px 10px;
       background: #dbd4e1;
@@ -103,7 +103,7 @@
     }
     &_staff {
       margin-top: 8px;
-      width: 66px;
+      width: fit-content;
       height: 24px;
       padding: 1px 10px;
       background: #b5f1b9;
