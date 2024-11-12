@@ -9,6 +9,9 @@ type InputProps = {
   placeholder?: string;
   type?: "text" | "password" | "email" | "number" | "search" | "tel" | "url";
   onKeyDown?: (e: any) => void;
+  state?: "error" | "active" | "neutral";
+  errorMessage?: string;
+  description?: string;
 };
 
 export const Input: React.FC<InputProps> = ({
@@ -19,6 +22,9 @@ export const Input: React.FC<InputProps> = ({
   placeholder,
   onKeyDown,
   type = "text",
+  state = "neutral",
+  errorMessage,
+  description,
 }) => {
   return (
     <IonItem className="input__field">

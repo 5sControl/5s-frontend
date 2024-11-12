@@ -141,6 +141,7 @@
     }
   },
   "orders": {
+    "order": "Zamówienie",
     "orders": "Zamówienia",
     "newOrder": "Nowe zamówienie",
     "newOperations": "Nowe operacje",
