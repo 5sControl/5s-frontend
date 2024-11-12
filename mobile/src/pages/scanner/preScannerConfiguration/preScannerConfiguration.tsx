@@ -81,6 +81,7 @@ const PreScannerConfiguration: React.FC = () => {
                   <IonLabel>{item.name}</IonLabel>
                   <IonCheckbox
                     style={{ "--border-radius": "none" }}
+                    className="single-checkbox"
                     slot="end"
                     onIonChange={e => handleCheckboxChange(item.id)}
                     checked={selectedOperation === item.id}

@@ -134,6 +134,15 @@ ion-button.bottom-50 {
     --border-color: #666666;
 }
 
+ion-checkbox.single-checkbox{
+    --size: 32px;
+    --border-radius: none;
+    --checkbox-background-checked: #00000000;
+    --border-color-checked: #00000000;
+    --checkmark-color: var(--Orange);
+    --border-color: #00000000;
+}
+
 ion-modal.selectModal, ion-modal.settingsModal{
     --height: 100% !important;
 }
