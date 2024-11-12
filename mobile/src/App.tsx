@@ -89,9 +89,6 @@ function App() {
   return (
     <IonApp>
       <IonReactRouter basename={import.meta.env.BASE_URL ?? "/"}>
-        <Route path="/authorization">
-          <Authorization />
-        </Route>
         {cookies.token ? (
           <IonRouterOutlet>
             <Route exact path={ROUTES.MENU}>
