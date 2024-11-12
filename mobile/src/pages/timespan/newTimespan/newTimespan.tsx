@@ -166,8 +166,8 @@ const NewTimespan: React.FC = () => {
             <InputDate value={formatDate(startDateTime)} onClick={() => setIsDateChange(true)}></InputDate>
           </IonList>
           <IonList className={style.sized}>
-            <IonLabel>{t("orders.startOperation")}</IonLabel>
             <div className={style.container}>
+              <IonLabel>{t("orders.startOperation")}</IonLabel>
               {isStart && (
                 <IonButton
                   size="small"
@@ -215,9 +215,8 @@ const NewTimespan: React.FC = () => {
           </IonList>
 
           <IonList className={style.sized}>
-            <IonLabel>{t("orders.finishOperation")}</IonLabel>
-
             <div className={style.container}>
+              <IonLabel>{t("orders.finishOperation")}</IonLabel>
               {finishDateTime && (
                 <IonButton
                   size="small"
@@ -266,8 +265,8 @@ const NewTimespan: React.FC = () => {
             onDidDismiss={() => setToastMessage(null)}
           />
         </IonList>
-        <BottomButton handleClick={openModal} disabled={isSave || !isStart} label={t("operations.save")} />
-        <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSave}></ModalSave>
+        {/* <BottomButton handleClick={openModal} disabled={isSave || !isStart} label={t("operations.save")} /> */}
+        {/* <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSave}></ModalSave> */}
       </IonContent>
     </IonPage>
   );
