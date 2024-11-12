@@ -141,6 +141,7 @@
     }
   },
   "orders": {
+    "order": "Заказ",
     "orders": "Заказы",
     "newOrder": "Новый заказ",
     "newOperations": "Новые операции",

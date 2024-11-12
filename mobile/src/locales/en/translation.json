@@ -141,6 +141,7 @@
      }
    },
    "orders": {
+     "order": "Order",
      "orders": "Orders",
      "newOrder": "New Order",
      "newOperations": "New Operations",
