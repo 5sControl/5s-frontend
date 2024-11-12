@@ -68,7 +68,7 @@ const PreScannerConfiguration: React.FC = () => {
           </div>
         ) : (
           <>
-            <IonList className="ion-padding">
+            <IonList className="ion-padding scrollable">
               {operations.map(item => (
                 <IonItem key={item.id}>
                   <IonLabel>{item.name}</IonLabel>

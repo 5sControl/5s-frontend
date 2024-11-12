@@ -87,6 +87,11 @@ ion-list-header{
     margin-bottom: 12px;
 }
 
+ion-list.scrollable{
+    overflow-y: scroll;
+    max-height: calc(100% - 116px)
+}
+
 ion-fab-button {
     --border-radius: 15px;
 }

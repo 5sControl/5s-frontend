@@ -16,8 +16,10 @@ import { RootState } from "../../../store";
 import { Input } from "../../../components/inputs/input/Input";
 import BottomButton from "../../../components/bottomButton/BottomButton";
 import ModalSave from "../../../components/modalSave/modalSave";
-import { setOrderItems as setStoreOrderItems } from "../../../store/orderSlice";
+import { setMaxOrderItemId, setOrderItems, setOrderName, setOrderItems as setStoreOrderItems, setTempOrderItemId } from "../../../store/orderSlice";
 import AddButton from "../../../components/addButton/AddButton";
+import { ORDER_ITEM_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
+import { IOrderItemAddBody } from "../../../models/interfaces/item.interface";
 
 const RADIX = 10;
 
@@ -26,7 +28,10 @@ const AddOrderItemInfo = () => {
   const dispatch = useDispatch();
   const storedItems: any = useSelector((state: RootState) => state.order.orderItems);
   const tempItemId: any = useSelector((state: RootState) => state.order.tempOrderItemId);
+  const orderName: any = useSelector((state: RootState) => state.order.orderName);
   const item: any = storedItems[tempItemId];
+  console.log('storedItems', storedItems);
+  console.log('item', item);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -34,10 +39,11 @@ const AddOrderItemInfo = () => {
   const history = useHistory();
   
   const tableItems: TableRow[] =
-    item.operations?.map((op: IOrderOperation, index) => {
+    item?.operations?.map((op: IOrderOperation, index) => {
       return {
         id: op.id,
-        navigateTo: ROUTES.ORDER_ADD_OPERATION,
+        navigationAllowed: false,
+        navigateTo: '',
         values: [op.name, <Chip name={op.status}></Chip>],
       };
     }) || [];
@@ -64,45 +70,76 @@ const AddOrderItemInfo = () => {
         history.push(ROUTES.ORDER_ADD_OPERATION);
     };
 
+    const handleSubmit = async () => {
+      setIsModalOpen(false);
+      setLoading(true);
+      ORDER_REQUEST.addOrder({name: orderName, additionalInfo: '', estimatedTime: 0, estimatedTimeUnit: 'minutes'}, setLoading, setToastMessage, () => {})
+      .then((res: any) => {
+        Object.values(storedItems).forEach((item: any) => {
+          const newItem: IOrderItemAddBody = {
+            orderId: res.id,
+            name: item.name,
+            additionalInfo: item.suffix,
+            quantity: 1,
+            itemId: item.id
+          }
+          ORDER_ITEM_REQUEST.createOrderItem(newItem, setLoading, setToastMessage, () => {
+              const newOperation = {
+                orderItemId: item.id,
+                operationIds: item.operations.map(operation => operation.id)
+              };
+  
+              ORDER_REQUEST.addOrderItemOperation(newOperation, setLoading, setToastMessage);
+            })
+        })
+      })
+      .finally(() => {
+        navigateTo(ROUTES.ORDER_ADD_ITEM_INFO, { direction: "forward" });
+        setLoading(false);
+      })
+    };
+
     return (
     <IonPage>
-      <>
-        <Header title={item.name} onBackClick={() => navigateTo(ROUTES.ORDER_ADD_ITEM, { direction: "back" })} backButtonHref="#"/>
-        <IonContent>
-          {isLoading ? (
-            <div className="preloader">
-              <Preloader />
-            </div>
-          ) : (
-            <>
-                <IonList>
-                  <InputReadonly label={t('orders.orderItem')} value={item.name} />
-                  <Input label={t('orders.suffix')} value={inputValue} handleChange={(e) => setInputValue(e.detail.value!)} required={false}/>
-                  <Table
-                    label={t("orders.operations")}
-                    cols={[
-                      { label: t("orders.name"), size: 8 },
-                      { label: t("orders.status"), size: 4 },
-                    ]}
-                    rows={tableItems}
-                  />
-                  <AddButton handleClick={handleAddClick} label={t('operations.add')}></AddButton>
-                  <IonToast
-                    isOpen={!!toastMessage}
-                    message={toastMessage || undefined}
-                    duration={TOAST_DELAY}
-                    onDidDismiss={() => setToastMessage(null)}
-                  />
-                  </IonList>
-            </>
-          )}
-          <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={() => navigateTo(ROUTES.ORDER_ADD_OPERATION, { direction: "forward" })} />
-            <BottomButton
-              handleClick={openModal}
-              label={t("operations.save")}
-            />
-        </IonContent>
-      </>
+      {item &&
+        <>
+          <Header title={item.name} onBackClick={() => navigateTo(ROUTES.ORDER_ADD_ITEM, { direction: "back" })} backButtonHref="#"/>
+          <IonContent>
+            {isLoading ? (
+              <div className="preloader">
+                <Preloader />
+              </div>
+            ) : (
+              <>
+                  <IonList>
+                    <InputReadonly label={t('orders.orderItem')} value={item.name} />
+                    <Input label={t('orders.suffix')} value={inputValue} handleChange={(e) => setInputValue(e.detail.value!)} required={false}/>
+                    <Table
+                      label={t("orders.operations")}
+                      cols={[
+                        { label: t("orders.name"), size: 8 },
+                        { label: t("orders.status"), size: 4 },
+                      ]}
+                      rows={tableItems}
+                    />
+                    <AddButton handleClick={handleAddClick} label={t('operations.add')}></AddButton>
+                    <IonToast
+                      isOpen={!!toastMessage}
+                      message={toastMessage || undefined}
+                      duration={TOAST_DELAY}
+                      onDidDismiss={() => setToastMessage(null)}
+                    />
+                    </IonList>
+              </>
+            )}
+            <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSubmit} />
+              <BottomButton
+                handleClick={openModal}
+                label={t("operations.save")}
+              />
+          </IonContent>
+        </>
+        }
     </IonPage>
   );
 };

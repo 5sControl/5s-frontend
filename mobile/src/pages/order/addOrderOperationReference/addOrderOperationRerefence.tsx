@@ -94,7 +94,7 @@ const AddOrderOperationReference: React.FC = () => {
           </div>
         ) : (
           <>
-            <IonList className="ion-padding">
+            <IonList className="ion-padding scrollable">
               {filteredItems.map(item => (
                 <IonItem key={item.id}>
                   <IonCheckbox
