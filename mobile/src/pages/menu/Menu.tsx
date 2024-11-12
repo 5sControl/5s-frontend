@@ -62,7 +62,7 @@ export const Menu: React.FC = () => {
       />
       <IonContent color="light">
         <IonList inset={true}>
-          <MenuListButton title={user.username} account={true} height="70px" />
+          <MenuListButton title={user.username} account={true} note={t("menu.accountSettings")} height="70px" />
         </IonList>
 
         <IonList inset={true}>
