@@ -152,6 +152,13 @@ export const getCurrentDateTimeISO = (): string => {
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 }
 
+export const extractTime = (dateString: string): string => {
+  const date = new Date(dateString);
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
+
 export const formatYMD = (dateString: string): string => {
   const date = new Date(dateString);
   const year = date.getFullYear();
