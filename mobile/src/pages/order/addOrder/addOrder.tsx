@@ -78,6 +78,10 @@ const AddOrder: React.FC = () => {
   };
 
   const handleAddClick = () => {
+    if (!inputValue) {
+      setToastMessage(t('messages.orderName'));
+      return;
+    }
     dispatch(setOrderName(inputValue));
     dispatch(setTempOrderItemId(maxOrderItemId));
     history.push(ROUTES.ORDER_ADD_ITEM);
