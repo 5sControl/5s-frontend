@@ -97,7 +97,7 @@ const PreScannerConfiguration: React.FC = () => {
               onDidDismiss={() => setToastMessage(null)}
             />
             <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSubmit} />
-            <BottomButton handleClick={openModal} label={t("operations.save")} disabled={operations.length === 0} />
+            <BottomButton handleClick={handleSubmit} label={t("operations.save")} disabled={operations.length === 0} />
           </>
         )}
       </IonContent>
