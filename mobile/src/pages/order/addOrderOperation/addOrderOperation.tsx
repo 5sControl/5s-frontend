@@ -65,50 +65,23 @@ const AddOrderOperation: React.FC = () => {
 
   const navigateTo = (path: string, state?: any) => {
     history.push(path, state);
+    setSelectedOperations([]);
   };
 
   const handleBackClick = () => {
     setIsModalOpen(false);
-    const updatedItems = {...storedItems,  [tempItemId.toString()]: { ...item, operations: selectedOperations }};
+    const updatedItems = {...storedItems,  [tempItemId.toString()]: { ...item, operations: storedItems[tempItemId].operations.concat(selectedOperations) }};
     dispatch(setStoreOrderItems(updatedItems));
     navigateTo(ROUTES.ORDER_ADD_ITEM_INFO, { direction: "back" });
   };
 
   const handleSubmit = async () => {
-    const updatedItems = {...storedItems,  [tempItemId.toString()]: { ...item, operations: selectedOperations }};
+    const updatedItems = {...storedItems,  [tempItemId.toString()]: { ...item, operations: storedItems[tempItemId].operations.concat(selectedOperations) }};
     console.log('updatedItems', updatedItems);
     dispatch(setStoreOrderItems(updatedItems));
     setIsModalOpen(false);
-    setLoading(true);
-    ORDER_REQUEST.addOrder({name: orderName, additionalInfo: '', estimatedTime: 0, estimatedTimeUnit: 'minutes'}, setLoading, setToastMessage, () => {})
-    .then((res: any) => {
-      console.log(res);
-      Object.values(updatedItems).forEach((item: any) => {
-        const newItem: IOrderItemAddBody = {
-          orderId: res.id,
-          name: item.name,
-          additionalInfo: item.suffix,
-          quantity: 1,
-          itemId: item.id
-        }
-        ORDER_ITEM_REQUEST.createOrderItem(newItem, setLoading, setToastMessage, () => {
-            const newOperation = {
-              orderItemId: item.id,
-              operationIds: item.operations.map(operation => operation.id)
-            };
-
-            ORDER_REQUEST.addOrderItemOperation(newOperation, setLoading, setToastMessage);
-          })
-      })
-    })
-    .finally(() => {
-      navigateTo(ROUTES.ORDERS);
-      setLoading(false);
-      dispatch(setOrderName(''));
-      dispatch(setOrderItems({}));
-      dispatch(setMaxOrderItemId(1))
-      dispatch(setTempOrderItemId(1));
-    })
+    navigateTo(ROUTES.ORDER_ADD_ITEM_INFO);
+    setLoading(false);
   };
 
   const handleSetSearch = (v: string) => setSearchText(v);
@@ -133,7 +106,7 @@ const AddOrderOperation: React.FC = () => {
           </div>
         ) : (
           <>
-            <IonList className="ion-padding">
+            <IonList className="ion-padding scrollable">
               {filteredOperations.map(item => (
                 <IonItem key={item.id}>
                   <IonLabel>{item.name}</IonLabel>

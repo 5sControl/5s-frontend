@@ -23,6 +23,8 @@ import { TOAST_DELAY } from "./../../../constants/toastDelay";
 import { IReference } from "../../../models/interfaces/orders.interface";
 import BottomButton from "../../../components/bottomButton/BottomButton";
 import { Preloader } from "../../../components/preloader/preloader";
+import UserInfo from "../../../components/userInfo/userInfo";
+import { ROLE } from "../../../models/enums/roles.enum";
 
 const PreScannerConfiguration: React.FC = () => {
   const history = useHistory();
@@ -54,6 +56,10 @@ const PreScannerConfiguration: React.FC = () => {
     setIsModalOpen(true);
   };
 
+  const getUserRole = () => {
+    return localStorage.getItem("userRole");
+  };
+
   return (
     <IonPage>
       <Header
@@ -68,7 +74,8 @@ const PreScannerConfiguration: React.FC = () => {
           </div>
         ) : (
           <>
-            <IonList className="ion-padding">
+            {getUserRole() === ROLE.WORKER &&<UserInfo/>}
+            <IonList className="ion-padding scrollable">
               {operations.map(item => (
                 <IonItem key={item.id}>
                   <IonLabel>{item.name}</IonLabel>

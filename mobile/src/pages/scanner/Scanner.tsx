@@ -13,23 +13,27 @@ const Scanner = () => {
     const [qrInfo, setQrInfo] = React.useState('');
     const history = useHistory();
     const [toastMessage, setToastMessage] = useState<string | null>(null);
+    let isProcessing: boolean = false;
 
     const redirectToOrder = (orderId: string, orderItemId: string, operationId: string) => {
         history.push(ROUTES.ORDER_TIMESPAN(orderId, orderItemId, operationId));
     };
     const onNewScanResult = (decodedText, decodedResult) => {
-        setQrInfo(decodedText);
-        createOrderFromQr({ qrCode: decodedText, operationId: 3 }, cookies.token)
-            .then(response => {
-                const data = response.data;
-                const operationId = data.id;
-                const orderItemId = data.orderItem.id;
-                const orderId = data.orderItem.order.id;
-                redirectToOrder(orderId.toString(), orderItemId.toString(), operationId.toString());
-            })
-            .catch(error => {
-                setToastMessage("Incorrect QR. Please try again.");
-            });
+        if (!isProcessing){
+            isProcessing = true; 
+            setQrInfo(decodedText);
+            createOrderFromQr({ qrCode: decodedText, operationId: 3 }, cookies.token)
+                .then(response => {
+                    const data = response.data;
+                    const operationId = data.id;
+                    const orderItemId = data.orderItem.id;
+                    const orderId = data.orderItem.order.id;
+                    redirectToOrder(orderId.toString(), orderItemId.toString(), operationId.toString());
+                })
+                .catch(error => {
+                    setToastMessage("Incorrect QR. Please try again.");
+                });
+        }
     };
 
     return (
