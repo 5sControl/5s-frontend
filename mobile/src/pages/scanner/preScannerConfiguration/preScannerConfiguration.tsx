@@ -40,16 +40,16 @@ const PreScannerConfiguration: React.FC = () => {
   });
 
   const handleCheckboxChange = (id: number) => {
-      setSelectedOperation(id);
+    setSelectedOperation(id);
   };
   const navigateTo = () => {
-    history.push(ROUTES.MENU, {direction: "back" });
+    history.push(ROUTES.MENU, { direction: "back" });
   };
 
   const handleSubmit = async () => {
-    if (selectedOperation){
-        setIsModalOpen(false);
-        history.push(ROUTES.SCANNER_QR);
+    if (selectedOperation) {
+      setIsModalOpen(false);
+      history.push(ROUTES.SCANNER_QR);
     }
   };
   const openModal = () => {
@@ -65,7 +65,7 @@ const PreScannerConfiguration: React.FC = () => {
       <Header
         title={t("form.selectOperation")}
         onBackClick={navigateTo}
-        backButtonHref="#"
+        // backButtonHref="#"
       />
       <IonContent>
         {isLoading ? (
@@ -74,7 +74,7 @@ const PreScannerConfiguration: React.FC = () => {
           </div>
         ) : (
           <>
-            {getUserRole() === ROLE.WORKER &&<UserInfo/>}
+            {getUserRole() === ROLE.WORKER && <UserInfo />}
             <IonList className="ion-padding scrollable">
               {operations.map(item => (
                 <IonItem key={item.id}>
@@ -96,11 +96,7 @@ const PreScannerConfiguration: React.FC = () => {
               onDidDismiss={() => setToastMessage(null)}
             />
             <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSubmit} />
-            <BottomButton
-              handleClick={openModal}
-              label={t("operations.save")}
-              disabled={operations.length === 0}
-            />
+            <BottomButton handleClick={openModal} label={t("operations.save")} disabled={operations.length === 0} />
           </>
         )}
       </IonContent>

@@ -85,10 +85,13 @@ export const Menu: React.FC = () => {
         </IonList>
 
         <IonList inset={true}>
-          <MenuListButton title={t("menu.scanner")} handleItemClick={() => handleItemClick(ROUTES.SCANNER_CONFIGURATION)} />
+          <MenuListButton
+            title={t("menu.scanner")}
+            handleItemClick={() => handleItemClick(ROUTES.SCANNER_CONFIGURATION)}
+          />
         </IonList>
 
-        {/* <IonList inset={true}>
+        <IonList inset={true}>
           <ItemButton
             label={t("menu.ordersView")}
             icon={Settings}
@@ -108,7 +111,7 @@ export const Menu: React.FC = () => {
             <IonSelectOption value="ru">Русский</IonSelectOption>
             <IonSelectOption value="pl">Polski</IonSelectOption>
           </IonSelect>
-        </IonList> */}
+        </IonList>
         {/* {user && <Logout username={user.username} status={user.status} logout={logout} />} */}
       </IonContent>
     </IonPage>
