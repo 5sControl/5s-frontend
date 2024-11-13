@@ -72,7 +72,10 @@
      "datePlaceholder": "Select Date and Start Time",
      "logout": "Log out",
      "norecords": "No records",
-     "noOperations": "No Operations"
+     "noOperations": "No Operations",
+     "finishedIn": "Finished in",
+     "startOfOperation": "Start of operation",
+     "endOfOperation": "End of operation"
    },
    "operations": {
      "add": "Add",

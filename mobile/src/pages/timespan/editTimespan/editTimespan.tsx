@@ -45,7 +45,12 @@ const RADIX = 10;
 
 const EditTimespan: React.FC = () => {
   const { t } = useTranslation();
-  const { orderId, itemId, operationId, timespanId } = useParams<{ orderId: string; itemId: string; operationId: string; timespanId: string }>();
+  const { orderId, itemId, operationId, timespanId } = useParams<{
+    orderId: string;
+    itemId: string;
+    operationId: string;
+    timespanId: string;
+  }>();
   const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
   const [isDateChange, setIsDateChange] = useState<boolean>(false);
   const [startDateTime, setStartDateTime] = useState<string>("");
@@ -67,7 +72,8 @@ const EditTimespan: React.FC = () => {
   });
 
   useEffect(() => {
-    console.log(formatYMD(timespan.startedAt));
+    // console.log(formatYMD(timespan.startedAt));
+    console.log(timespan);
 
     if (timespan) {
       timespan.createdAt && setStartDateTime(formatYMD(timespan.startedAt));

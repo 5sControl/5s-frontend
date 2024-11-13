@@ -72,7 +72,10 @@
     "datePlaceholder": "Выберите дату и время начала",
     "logout": "Выйти",
     "norecords": "Нет записей",
-    "noOperations": "Нет операций"
+    "noOperations": "Нет операций",
+    "finishedIn": "Закончил за",
+    "startOfOperation": "Начало операции",
+    "endOfOperation": "Конец операции"
   },
   "operations": {
     "add": "Добавить",
