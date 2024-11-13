@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { changeI18Language } from "../../i18";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
 import "./Menu.scss";
+import Select from "../../components/select/Select";
 
 export const Menu: React.FC = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
@@ -21,6 +22,12 @@ export const Menu: React.FC = () => {
   const { t, i18n } = useTranslation();
 
   const [language, setLanguage] = useState(i18n.language);
+
+  const selectList = [
+    { label: "English", value: "en" },
+    { label: "Русский", value: "ru" },
+    { label: "Polski", value: "pl" },
+  ];
 
   useEffect(() => {
     if (cookies.token) {
@@ -91,27 +98,12 @@ export const Menu: React.FC = () => {
           />
         </IonList>
 
-        <IonList inset={true}>
-          <ItemButton
-            label={t("menu.ordersView")}
-            icon={Settings}
-            handleItemClick={() => handleItemClick(ROUTES.ORDERSVIEW)}
-          />
-          <ItemButton
-            label={t("menu.configuration")}
-            icon={Orders}
-            handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)}
-          />
-          <IonSelect
-            value={language}
-            placeholder={t("language")}
-            onIonChange={e => handleLanguageChange(e.detail.value)}
-          >
-            <IonSelectOption value="en">English</IonSelectOption>
-            <IonSelectOption value="ru">Русский</IonSelectOption>
-            <IonSelectOption value="pl">Polski</IonSelectOption>
-          </IonSelect>
-        </IonList>
+        <Select
+          value={language}
+          placeholder={t("language")}
+          handleChange={e => handleLanguageChange(e.detail.value)}
+          selectList={selectList}
+        />
         {/* {user && <Logout username={user.username} status={user.status} logout={logout} />} */}
       </IonContent>
     </IonPage>

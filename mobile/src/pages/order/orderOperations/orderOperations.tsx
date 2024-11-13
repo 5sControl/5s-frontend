@@ -14,7 +14,7 @@ import { IReference } from "../../../models/interfaces/orders.interface";
 import { InputLookup } from "../../../components/inputs/inputLookup/inputLookup";
 import { Table } from "../../../components/table/Table";
 import { ROLE } from "../../../models/enums/roles.enum";
-import AddButton from '../../../components/addButton/AddButton';
+import AddButton from "../../../components/addButton/AddButton";
 import { TableRow } from "../../../models/interfaces/table.interface";
 import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
 import { Preloader } from "../../../components/preloader/preloader";
@@ -49,12 +49,7 @@ const OrderOperations = () => {
   };
 
   useIonViewWillEnter(() => {
-    ORDER_REQUEST.getOrderOperationById(
-      parseInt(operationId, RADIX),
-      setOperation,
-      setLoading,
-      setToastMessage
-    );
+    ORDER_REQUEST.getOrderOperationById(parseInt(operationId, RADIX), setOperation, setLoading, setToastMessage);
   });
 
   const timespanItems: TableRow[] =
@@ -66,7 +61,12 @@ const OrderOperations = () => {
 
       return {
         id: timespan.id,
-        navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(String(orderId), String(itemId), String(operationId), String(timespan.id)),
+        navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(
+          String(orderId),
+          String(itemId),
+          String(operationId),
+          String(timespan.id)
+        ),
         navigationAllowed: getUserRole() === ROLE.WORKER,
         values: [formatDate(timespan.startedAt), timespan.employeeName, timestring || 0],
       };
@@ -85,9 +85,9 @@ const OrderOperations = () => {
             <>
               {isLoaded && (
                 <>
-                <IonList className={style.page}>
-                  <InputReadonly label={t('orders.operation')} value={operation.name} />
-                  {/* <IonList className='ion-padding'>
+                  <IonList className={style.page}>
+                    <InputReadonly label={t("orders.operation")} value={operation.name} />
+                    {/* <IonList className='ion-padding'>
                     {
                         operationReferences.map((param: IReference) => 
                             <InputLookup
@@ -99,25 +99,35 @@ const OrderOperations = () => {
                         )
                     }
                   </IonList> */}
-                  <IonList className={style.list}>
-                    {timespanItems?.length ? (
-                      <Table label={t('orders.implementation')} 
-                        cols={[
-                        {label:t('form.date'), size: 4}, 
-                        {label: t('orders.worker'), size: 4}, 
-                        {label: t('form.duration'), size: 4}]} 
-                        rows={timespanItems} />
-                    ) : (
-                      <IonLabel slot="center" className="ion-padding">{t('text.norecords')}</IonLabel>
-                    )}
-                    <AddButton handleClick={() => handleFabClick(ROUTES.ORDER_TIMESPAN(String(orderId), String(itemId), String(operationId)))} label={t('operations.add')}></AddButton>
-                  </IonList>
-                  <IonToast
-                    isOpen={!!toastMessage}
-                    message={toastMessage || undefined}
-                    duration={TOAST_DELAY}
-                    onDidDismiss={() => setToastMessage(null)}
-                  />
+                    <IonList className={style.list}>
+                      {timespanItems?.length ? (
+                        <Table
+                          label={t("orders.implementation")}
+                          cols={[
+                            { label: t("form.date"), size: 4 },
+                            { label: t("orders.worker"), size: 4 },
+                            { label: t("form.duration"), size: 4 },
+                          ]}
+                          rows={timespanItems}
+                        />
+                      ) : (
+                        <IonLabel slot="center" className="ion-padding">
+                          {t("text.norecords")}
+                        </IonLabel>
+                      )}
+                      <AddButton
+                        handleClick={() =>
+                          handleFabClick(ROUTES.ORDER_TIMESPAN(String(orderId), String(itemId), String(operationId)))
+                        }
+                        label={t("operations.add")}
+                      ></AddButton>
+                    </IonList>
+                    <IonToast
+                      isOpen={!!toastMessage}
+                      message={toastMessage || undefined}
+                      duration={TOAST_DELAY}
+                      onDidDismiss={() => setToastMessage(null)}
+                    />
                   </IonList>
                 </>
               )}

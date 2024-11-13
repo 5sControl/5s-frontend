@@ -22,7 +22,6 @@ type HeaderProps = {
   searchText?: string;
   onSearchChange?: (v: string) => void;
   onBackClick?: () => void;
-  settings?: string;
 };
 interface ICustomBack {
   onBackClick?: () => void;
@@ -36,7 +35,6 @@ export const Header: React.FC<HeaderProps> = ({
   searchBar,
   searchText,
   onSearchChange,
-  settings,
   onBackClick,
 }) => {
   const history = useHistory();
@@ -59,7 +57,6 @@ export const Header: React.FC<HeaderProps> = ({
           </IonButtons>
         )}
         <IonTitle className="header__title">{title}</IonTitle>
-        {settings && <IonIcon icon={settings} />}
         {endButton && (
           <IonButtons slot="end" className="header__end">
             {endButton}
