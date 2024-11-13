@@ -41,7 +41,6 @@ const OrderOperations = () => {
   };
 
   const handleFabClick = (path: string) => {
-    console.log(operation);
     history.push(path);
   };
 
