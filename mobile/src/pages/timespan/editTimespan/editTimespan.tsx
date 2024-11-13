@@ -198,6 +198,7 @@ const EditTimespan: React.FC = () => {
                 <InputReadonly label={t("orders.order")} value={order.name} />
                 <InputReadonly label={t("orders.orderItem")} value={item.name} />
                 <InputReadonly label={t("orders.operation")} value={operation.name} />
+
                 <IonList className={`${style.page} ion-padding`}>
                   <IonList className={style.list}>
                     <IonLabel className={style.label}>{t("form.date")}</IonLabel>
@@ -218,23 +219,6 @@ const EditTimespan: React.FC = () => {
                         </IonButton>
                       )}
                     </div>
-
-                    <IonModal isOpen={isDateChange} onDidDismiss={() => setIsDateChange(false)}>
-                      <IonDatetime
-                        presentation="date"
-                        value={startDateTime}
-                        onIonChange={e => handleStartDateChange(e.detail.value!)}
-                      />
-                    </IonModal>
-
-                    <IonModal trigger="start-datetime" keepContentsMounted={true} style={{ display: "none" }}>
-                      <IonDatetime
-                        id="start-datetime"
-                        presentation="time"
-                        value={startDateTime || undefined}
-                        onIonChange={e => handleCustomTime(e.detail.value!)}
-                      />
-                    </IonModal>
 
                     <IonModal ref={startModalRef}>
                       <IonDatetime
@@ -262,14 +246,6 @@ const EditTimespan: React.FC = () => {
                       )}
                     </div>
 
-                    <IonModal trigger="finish-datetime" keepContentsMounted={true} style={{ display: "none" }}>
-                      <IonDatetime
-                        id="finish-datetime"
-                        presentation="time"
-                        value={finishDateTime || undefined}
-                        onIonChange={e => handleCustomFinishTime(e.detail.value!)}
-                      />
-                    </IonModal>
                     <IonModal ref={finishModalRef}>
                       <IonDatetime
                         id="finish-datetime"
@@ -284,12 +260,14 @@ const EditTimespan: React.FC = () => {
                       </IonButton>
                     )}
                   </IonList>
+
                   <div className={style.time}>
                     <IonLabel className={style.label}>{t("orders.operationTime")}</IonLabel>
                     <IonLabel className={style.timeLabel}>{`${hours}${t("time.hour")} ${
                       minutes ? minutes + " " + t("time.min") : ""
                     }`}</IonLabel>
                   </div>
+
                   <IonToast
                     position="top"
                     isOpen={!!toastMessage}
@@ -298,6 +276,7 @@ const EditTimespan: React.FC = () => {
                     onDidDismiss={() => setToastMessage(null)}
                   />
                 </IonList>
+
                 <IonModal initialBreakpoint={1} breakpoints={[0, 1]} isOpen={isModalOpen} onWillDismiss={handleSave}>
                   <div className={style.modalContainer}>
                     <IonLabel className={style.modalTitle}>{`${t("text.finishedIn")} ${hours}${t("time.hour")} ${
@@ -311,6 +290,7 @@ const EditTimespan: React.FC = () => {
                     )}`}</IonLabel>
                   </div>
                 </IonModal>
+
                 <ConfirmationModal
                   type="primary"
                   isOpen={isSaveModalOpen}
@@ -320,12 +300,6 @@ const EditTimespan: React.FC = () => {
                   confirmText={t("operations.save")}
                   cancelText={t("operations.cancel")}
                 />
-                {/* <BottomButton handleClick={openModal} disabled={isSave} label={t("operations.save")} /> */}
-                {/* <ModalSave
-                  isModalOpen={isModalOpen}
-                  setIsModalOpen={setIsModalOpen}
-                  handleSubmit={handleSave}
-                ></ModalSave> */}
               </>
             )}
           </>
