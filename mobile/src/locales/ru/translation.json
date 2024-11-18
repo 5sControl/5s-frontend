@@ -75,7 +75,8 @@
     "noOperations": "Нет операций",
     "finishedIn": "Закончил за",
     "startOfOperation": "Начало операции",
-    "endOfOperation": "Конец операции"
+    "endOfOperation": "Конец операции",
+    "startNewOperation": "Перейти к новой операции"
   },
   "operations": {
     "add": "Добавить",

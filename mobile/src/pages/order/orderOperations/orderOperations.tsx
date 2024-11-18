@@ -53,30 +53,15 @@ const OrderOperations = () => {
     ORDER_REQUEST.getOrderOperationById(parseInt(operationId, RADIX), setOperation, setLoading, setToastMessage);
   });
 
-  // window.addEventListener("beforeunload", event => {
-  //   if (true) {
-  //     event.preventDefault();
-  //   }
-  // });
-
-  // useEffect(() => {
-  //   const unblock = history.block(location => {
-  //     if (true) {
-  //       return false; // Блокируем навигацию
-  //     }
-  //   });
-
-  //   return () => {
-  //     unblock();
-  //   };
-  // }, [history]);
-
   const timespanItems: TableRow[] =
     operation?.timespans
       ?.sort((a, b) => {
         if (a.duration === null && b.duration !== null) return -1;
         if (a.duration !== null && b.duration === null) return 1;
-        return 0;
+
+        const dateA = new Date(a.startedAt);
+        const dateB = new Date(b.startedAt);
+        return dateA.getTime() - dateB.getTime();
       })
       .map(timespan => {
         const { hours, minutes } = formatTime(timespan.duration);
