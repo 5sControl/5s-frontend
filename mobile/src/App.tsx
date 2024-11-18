@@ -116,137 +116,135 @@ function App() {
         <PermissionProvider role={role}>
           {cookies.token ? (
             <IonRouterOutlet>
-              <Route exact path={ROUTES.MENU}>
-                <Menu />
-              </Route>
-              <Route exact path={ROUTES.CONFIGURATION}>
-                <ConfigurationMobile />
-              </Route>
-              
-              <Route exact path={ROUTES.CONNECTIONS}>
-                <Connections />
-              </Route>
-              <Route exact path={ROUTES.CONNECTIONS_ADD}>
-                <NewConnection />
-              </Route>
-              <Route exact path={ROUTES.CONNECTIONS_ITEM(":id")}>
-                <Connection />
-              </Route>
-              <Route exact path={ROUTES.CONNECTIONS_EDIT(":id")}>
-                <EditConnection />
-              </Route>
-              <Route exact path={ROUTES.OPERATIONDETAIL(":id")}>
-                <OperationDetail />
-              </Route>
-              <Route exact path={ROUTES.ORDERSVIEW}>
-                <OrdersViewMobile />
-              </Route>
+             <Route exact path={ROUTES.MENU}>
+              <Menu />
+            </Route>
+            <Route exact path={ROUTES.CONFIGURATION}>
+              <ConfigurationMobile />
+            </Route>
+            <Route exact path={ROUTES.CONNECTIONS}>
+              <Connections />
+            </Route>
+            <Route exact path={ROUTES.CONNECTIONS_ADD}>
+              <NewConnection />
+            </Route>
+            <Route exact path={ROUTES.CONNECTIONS_ITEM(":id")}>
+              <Connection />
+            </Route>
+            <Route exact path={ROUTES.CONNECTIONS_EDIT(":id")}>
+              <EditConnection />
+            </Route>
+            <Route exact path={ROUTES.ORDERSVIEW}>
+              <OrdersViewMobile />
+            </Route>
+            <Route exact path={ROUTES.OPERATIONDETAIL(":id")}>
+              <OperationDetail />
+            </Route>
 
+            <Route exact path={ROUTES.GENEREAL_DIRECTORIES}>
+              <GeneralDirectories />
+            </Route>
+            <Route exact path={ROUTES.DIRECTORIES_ADD}>
+              <NewDirectory />
+            </Route>
+            <Route exact path={ROUTES.DIRECTORIES_ITEM_CARD(":id")}>
+              <DirectoryCard />
+            </Route>
+            <Route exact path={ROUTES.DIRECTORIES_EDIT_CARD(":id")}>
+              <EditDirectoryCard />
+            </Route>
 
-              <Route exact path={ROUTES.GENEREAL_DIRECTORIES}>
-                <GeneralDirectories />
-              </Route>
-              <Route exact path={ROUTES.DIRECTORIES_ADD}>
-                <NewDirectory />
-              </Route>
-              <Route exact path={ROUTES.DIRECTORIES_ITEM_CARD(":id")}>
-                <DirectoryCard />
-              </Route>
-              <Route exact path={ROUTES.DIRECTORIES_EDIT_CARD(":id")}>
-                <EditDirectoryCard />
-              </Route>
+            <Route exact path={ROUTES.DIRECTORIES}>
+              <Directories />
+            </Route>
+            <Route exact path={ROUTES.DIRECTORY_CATEGORY(":refId")}>
+              <DirectoryCategory />
+            </Route>
+            <Route exact path={ROUTES.DIRECTORY_CATEGORY_ADD(":refId")}>
+              <NewDirectoryCategory />
+            </Route>
+            <Route exact path={ROUTES.DIRECTORY_CATEGORY_CARD(":refId", ":id")}>
+              <DirectoryCategoryCard />
+            </Route>
+            <Route exact path={ROUTES.DIRECTORY_CATEGORY_EDIT(":refId", ":id")}>
+              <EditDirectoryCategory />
+            </Route>
 
-              <Route exact path={ROUTES.DIRECTORIES}>
-                <Directories />
-              </Route>
-              <Route exact path={ROUTES.DIRECTORY_CATEGORY(":refId")}>
-                <DirectoryCategory />
-              </Route>
-              <Route exact path={ROUTES.DIRECTORY_CATEGORY_ADD(":refId")}>
-                <NewDirectoryCategory />
-              </Route>
-              <Route exact path={ROUTES.DIRECTORY_CATEGORY_CARD(":refId", ":id")}>
-                <DirectoryCategoryCard />
-              </Route>
-              <Route exact path={ROUTES.DIRECTORY_CATEGORY_EDIT(":refId", ":id")}>
-                <EditDirectoryCategory />
-              </Route>
+            <Route exact path={ROUTES.OPERATIONS}>
+              <Operations />
+            </Route>
+            <Route exact path={ROUTES.OPERATION_ADD}>
+              <NewOperation />
+            </Route>
+            <Route exact path={ROUTES.OPERATION(":id")}>
+              <Operation />
+            </Route>
+            <Route exact path={ROUTES.OPERATION_EDIT(":id")}>
+              <EditOperation />
+            </Route>
 
-              <Route exact path={ROUTES.OPERATIONS}>
-                <Operations />
-              </Route>
-              <Route exact path={ROUTES.OPERATION_ADD}>
-                <NewOperation />
-              </Route>
-              <Route exact path={ROUTES.OPERATION(":id")}>
-                <Operation />
-              </Route>
-              <Route exact path={ROUTES.OPERATION_EDIT(":id")}>
-                <EditOperation />
-              </Route>
+            <Route exact path={ROUTES.ITEMS}>
+              <Items />
+            </Route>
+            <Route exact path={ROUTES.ITEM_ADD}>
+              <NewItem />
+            </Route>
+            <Route exact path={ROUTES.ITEM(":id")}>
+              <Item />
+            </Route>
+            <Route exact path={ROUTES.ITEM_EDIT(":id")}>
+              <EditItem />
+            </Route>
 
-              <Route exact path={ROUTES.ITEMS}>
-                <Items />
-              </Route>
-              <Route exact path={ROUTES.ITEM_ADD}>
-                <NewItem />
-              </Route>
-              <Route exact path={ROUTES.ITEM(":id")}>
-                <Item />
-              </Route>
-              <Route exact path={ROUTES.ITEM_EDIT(":id")}>
-                <EditItem />
-              </Route>
+            <Route exact path={ROUTES.EMPLOYEES}>
+              <Employees />
+            </Route>
+            <Route exact path={ROUTES.EMPLOYEE(":id")}>
+              <Employee />
+            </Route>
 
-              <Route exact path={ROUTES.EMPLOYEES}>
-                <Employees />
-              </Route>
-              <Route exact path={ROUTES.EMPLOYEE(":id")}>
-                <Employee />
-              </Route>
-
-              <Route exact path={ROUTES.ORDERS}>
-                <OrdersPage />
-              </Route>
-              <Route exact path={ROUTES.ORDER_ADD}>
-                <AddOrder />
-              </Route>
-              <Route exact path={ROUTES.ORDER(":id")}>
-                <Order />
-              </Route>
-              <Route exact path={ROUTES.ORDER_EDIT(":id")}>
-                <EditOrder />
-              </Route>
-              <Route exact path={ROUTES.ORDER_ITEM(":orderId", ":itemId")}>
-                <OrderItems />
-              </Route>
-              <Route exact path={ROUTES.ORDER_OPERATION(":orderId", ":itemId", ":operationId")}>
-                <OrderOperations />
-              </Route>
-              <Route exact path={ROUTES.ORDER_ADD_ITEM}>
-                <AddOrderItem />
-              </Route>
-              <Route exact path={ROUTES.ORDER_ADD_ITEM_INFO}>
-                <AddOrderItemInfo/>
-              </Route>
-              <Route exact path={ROUTES.ORDER_ADD_OPERATION}>
-                <AddOrderOperation />
-              </Route>
-              {/* <Route exact path={ROUTES.ORDER_OPERATION_ADD_REFERENCE(":id", ":operationId", ":refId")}>
-                <AddOrderOperationReference />
-              </Route> */}
-              <Route exact path={ROUTES.ORDER_TIMESPAN(":orderId", ":itemId", ":operationId")}>
-                <NewTimespan />
-              </Route>
-              <Route exact path={ROUTES.ORDER_TIMESPAN_EDIT(":orderId", ":itemId", ":operationId", ":timespanId")}>
-                <EditTimespan />
-              </Route>
-              <Route exact path={ROUTES.SCANNER_CONFIGURATION}>
-                <PreScannerConfiguration />
-              </Route>
-              <Route exact path={ROUTES.SCANNER_QR}>
-                <Scanner />
-              </Route>
+            <Route exact path={ROUTES.ORDERS}>
+              <OrdersPage />
+            </Route>
+            <Route exact path={ROUTES.ORDER_ADD}>
+              <AddOrder />
+            </Route>
+            <Route exact path={ROUTES.ORDER(":id")}>
+              <Order />
+            </Route>
+            <Route exact path={ROUTES.ORDER_EDIT(":id")}>
+              <EditOrder />
+            </Route>
+            <Route exact path={ROUTES.ORDER_ITEM(":orderId", ":itemId")}>
+              <OrderItems />
+            </Route>
+            <Route exact path={ROUTES.ORDER_OPERATION(":orderId", ":itemId", ":operationId")}>
+              <OrderOperations />
+            </Route>
+            <Route exact path={ROUTES.ORDER_ADD_ITEM}>
+              <AddOrderItem />
+            </Route>
+            <Route exact path={ROUTES.ORDER_ADD_ITEM_INFO}>
+              <AddOrderItemInfo/>
+            </Route>
+            <Route exact path={ROUTES.ORDER_ADD_OPERATION}>
+              <AddOrderOperation />
+            </Route>
+            {/* <Route exact path={ROUTES.ORDER_OPERATION_ADD_REFERENCE(":id", ":operationId", ":refId")}>
+              <AddOrderOperationReference />
+            </Route> */}
+            <Route exact path={ROUTES.ORDER_TIMESPAN(":orderId", ":itemId", ":operationId")}>
+              <NewTimespan />
+            </Route>
+            <Route exact path={ROUTES.ORDER_TIMESPAN_EDIT(":orderId", ":itemId", ":operationId", ":timespanId")}>
+              <EditTimespan />
+            </Route>
+            <Route exact path={ROUTES.SCANNER_CONFIGURATION}>
+              <PreScannerConfiguration />
+            </Route>
+            <Route exact path={ROUTES.SCANNER_QR}>
+              <Scanner />
+            </Route>
             </IonRouterOutlet>
           ) : (
             <Route path="/*">

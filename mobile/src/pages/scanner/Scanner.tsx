@@ -38,7 +38,7 @@ const Scanner = () => {
 
     return (
         <IonPage>
-          <Header title="Qr Scanner" backButtonHref={ROUTES.SCANNER_CONFIGURATION}/>
+          <Header title="Qr Scanner" backButtonHref={ROUTES.MENU}/>
           <IonContent className="ion-padding">
           <Html5QrcodePlugin
                 fps={10}
