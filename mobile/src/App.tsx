@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
@@ -64,12 +64,29 @@ import Employees from "./pages/employees/Employees";
 import Employee from "./pages/employees/employee/Employee";
 import PreScannerConfiguration from "./pages/scanner/preScannerConfiguration/preScannerConfiguration";
 import AddOrderItemInfo from "./pages/order/addOrderItem/addOrderItemInfo";
+import { Permission } from "./models/types/permission";
+import PermissionProvider from "./providers/permissionProvider/PermissionProvider";
+import Restricted from "./providers/permissionProvider/Restricted";
+import { User } from "./models/types/user";
+import { useDispatch, useSelector } from "react-redux";
+import { Preloader } from "./components/preloader/preloader";
+import { setUserRole } from "./store/userSlice";
 
 setupIonicReact();
 
 function App() {
   const [cookies, , removeCookie] = useCookies(["token"]);
+  const dispatch = useDispatch();
+  const [role, setRole] = useState<string>('');
 
+  useEffect(() => {
+    const storedRole = localStorage.getItem('userRole');
+    if (storedRole) {
+        dispatch(setUserRole(storedRole));
+        setRole(storedRole);
+    }
+  }, [dispatch]);
+  
   useEffect(() => {
     if (cookies.token) {
       isVerifyToken(cookies.token)
@@ -86,12 +103,19 @@ function App() {
     }
   }, [cookies]);
 
+  const notAllowed = (
+    <div className="ion-padding">
+      <h4>Not Allowed</h4>
+      You are not allowed to access this page
+    </div>);
+
   return (
     <IonApp>
       <IonReactRouter basename={import.meta.env.BASE_URL ?? "/"}>
-        {cookies.token ? (
-          <IonRouterOutlet>
-            <Route exact path={ROUTES.MENU}>
+        <PermissionProvider role={role}>
+          {cookies.token ? (
+            <IonRouterOutlet>
+             <Route exact path={ROUTES.MENU}>
               <Menu />
             </Route>
             <Route exact path={ROUTES.CONFIGURATION}>
@@ -214,18 +238,16 @@ function App() {
             <Route exact path={ROUTES.ORDER_TIMESPAN_EDIT(":orderId", ":itemId", ":operationId", ":timespanId")}>
               <EditTimespan />
             </Route>
-            <Route exact path={ROUTES.SCANNER_CONFIGURATION}>
-              <PreScannerConfiguration />
-            </Route>
             <Route exact path={ROUTES.SCANNER_QR}>
               <Scanner />
             </Route>
-          </IonRouterOutlet>
-        ) : (
-          <Route path="/*">
-            <Authorization />
-          </Route>
-        )}
+            </IonRouterOutlet>
+          ) : (
+            <Route path="/*">
+              <Authorization />
+            </Route>
+          )}
+        </PermissionProvider>
       </IonReactRouter>
     </IonApp>
   );

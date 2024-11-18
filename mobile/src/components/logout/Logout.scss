@@ -6,10 +6,13 @@
     padding: 16px;
     margin: 12px 16px;
     justify-content: space-between;
+    border-radius: 4px;
+    height: 70px;
 
     &_username{
         font-size: 1rem;
     }
+
     &_text {
       display: flex;
       flex-direction: column;
@@ -21,14 +24,14 @@
       color: #000;
     }
     &_statusOwner {
-      padding: 2px 10px;
+      padding: 2px 6px;
       border-radius: 2px;
       background: #ffdbbe;
       color:#FE6100;
       margin-top: 3px;
     }
     &_statusWorker{
-      padding: 2px 10px;
+      padding: 2px 6px;
       background: #dbd4e1;
       border-radius: 2px;
       color: #735b8a;

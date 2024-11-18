@@ -52,6 +52,5 @@ export const ROUTES = {
   ORDER_TIMESPAN: (orderId: string, itemId: string, operationId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}/timespan`,
   ORDER_TIMESPAN_EDIT: (orderId: string, itemId: string, operationId: string, timespanId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}/timespan/${timespanId}/edit`,
   
-  SCANNER_CONFIGURATION: "/scanner",
-  SCANNER_QR: `/scanner/new`,
+  SCANNER_QR: `/scanner`,
 };

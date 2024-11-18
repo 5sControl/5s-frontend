@@ -9,8 +9,11 @@ import logo from '../../assets/svg/icon.svg';
 import './Authorization.scss';
 import {useTranslation} from "react-i18next";
 import { getUserInfo } from '../../api/getUserList';
+import { setUserRole } from '../../store/userSlice';
+import { useDispatch } from 'react-redux';
 
 export const Authorization = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [correctEmail, setCorrectEmail] = useState(true);
@@ -48,7 +51,10 @@ export const Authorization = () => {
         .then(token => getUserInfo(`JWT ${token}`))
         .then((response: any) => {
           if (response.data) {
-            localStorage.setItem('userRole', response.data.status);
+            const role = response.data.status; 
+            localStorage.setItem('userRole', role);
+            dispatch(setUserRole(role));
+            history.go(0);
           }
         })
         .catch((error) => {

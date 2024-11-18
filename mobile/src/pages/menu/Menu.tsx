@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { changeI18Language } from "../../i18";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
 import "./Menu.scss";
+import Restricted from "../../providers/permissionProvider/Restricted";
 import Select from "../../components/select/Select";
 
 export const Menu: React.FC = () => {
@@ -68,35 +69,40 @@ export const Menu: React.FC = () => {
         endButton={<IonIcon style={{ fontSize: "24px" }} icon={Cog} />}
       />
       <IonContent color="light">
-        <IonList inset={true}>
-          <MenuListButton title={user.username} account={true} note={t("menu.accountSettings")} height="70px" />
-        </IonList>
 
-        <IonList inset={true}>
-          <MenuListButton
-            icon={DollarSign}
-            title={t("menu.orders")}
-            handleItemClick={() => handleItemClick(ROUTES.ORDERS)}
-          />
-          <MenuListButton icon={DollarSign} title={t("menu.reports")} />
-        </IonList>
+        <Logout username={user.username} logout={logout} />
 
-        <IonList inset={true}>
-          {/* <MenuListButton title={t("menu.configuration")} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
-        <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} /> */}
-          <MenuListButton
-            title={t("menu.dataConfiguration")}
-            handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)}
-          />
-          <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} />
-        </IonList>
+        <Restricted to="view_order">
+          <IonList inset={true}>
+            <MenuListButton
+              icon={DollarSign}
+              title={t("menu.orders")}
+              handleItemClick={() => handleItemClick(ROUTES.ORDERS)}
+            />
+            <MenuListButton icon={DollarSign} title={t("menu.reports")} />
+          </IonList>
+        </Restricted>
 
-        <IonList inset={true}>
-          <MenuListButton
-            title={t("menu.scanner")}
-            handleItemClick={() => handleItemClick(ROUTES.SCANNER_CONFIGURATION)}
-          />
-        </IonList>
+        <Restricted to="view_reference">
+          <IonList inset={true}>
+            {/* <MenuListButton title={t("menu.configuration")} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
+          <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} /> */}
+            <MenuListButton
+              title={t("menu.dataConfiguration")}
+              handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)}
+            />
+            <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} />
+          </IonList>
+        </Restricted>
+
+        <Restricted to="proccess_qr_code_order_operation">
+          <IonList inset={true}>
+            <MenuListButton
+              title={t("menu.scanner")}
+              handleItemClick={() => handleItemClick(ROUTES.SCANNER_QR)}
+            />
+          </IonList>
+        </Restricted>
 
         <Select
           value={language}
