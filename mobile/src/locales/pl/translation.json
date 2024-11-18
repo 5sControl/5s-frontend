@@ -72,7 +72,10 @@
     "datePlaceholder": "Wybierz datę i czas rozpoczęcia",
     "logout": "Wyloguj się",
     "norecords": "Brak rekordów",
-    "noOperations": "Brak operacji"
+    "noOperations": "Brak operacji",
+    "finishedIn": "Zakończono w",
+    "startOfOperation": "Początek operacji",
+    "endOfOperation": "Koniec operacji"
   },
   "operations": {
     "add": "Dodaj",

@@ -4,7 +4,7 @@ import { SelectItem } from "../../models/types/selectItem";
 
 type SelectProps = {
   value: string;
-  label: string;
+  label?: string;
   placeholder: string;
   selectList: SelectItem[];
   handleChange: (e: any) => void;
