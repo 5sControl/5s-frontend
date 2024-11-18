@@ -9,6 +9,10 @@
     border-radius: 4px;
     height: 70px;
 
+    &_username{
+        font-size: 1rem;
+    }
+
     &_text {
       display: flex;
       flex-direction: column;

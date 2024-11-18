@@ -110,7 +110,6 @@ export const Menu: React.FC = () => {
           handleChange={e => handleLanguageChange(e.detail.value)}
           selectList={selectList}
         />
-        {/* {user && <Logout username={user.username} status={user.status} logout={logout} />} */}
       </IonContent>
     </IonPage>
   );
