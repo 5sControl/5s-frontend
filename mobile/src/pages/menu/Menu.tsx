@@ -66,7 +66,6 @@ export const Menu: React.FC = () => {
             <img src={MenuLogo} alt="Menu Logo" />
           </div>
         }
-        endButton={<IonIcon style={{ fontSize: "24px" }} icon={Cog} />}
       />
       <IonContent color="light">
 
