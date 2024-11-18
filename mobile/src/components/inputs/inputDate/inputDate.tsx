@@ -1,21 +1,32 @@
-import React from 'react';
-import {IonButton, IonContent, IonFooter, IonIcon, IonLabel, IonList, IonLoading, IonPage, IonText, IonItem} from "@ionic/react";
+import React from "react";
+import {
+  IonButton,
+  IonContent,
+  IonFooter,
+  IonIcon,
+  IonLabel,
+  IonList,
+  IonLoading,
+  IonPage,
+  IonText,
+  IonItem,
+} from "@ionic/react";
 
-import DateIcon from '../../../assets/svg/calendar.svg'
-import style from './style.module.scss'
+import DateIcon from "../../../assets/svg/calendar.svg";
+import style from "./style.module.scss";
 
-const InputDate = ({value, onClick}:IInputDate) => {
-    return (
-        <div className={style.date} onClick={onClick}>
-            <IonLabel>{value}</IonLabel>
-            <IonIcon icon={DateIcon}></IonIcon>
-        </div>
-    )
-}
+const InputDate = ({ value, onClick }: IInputDate) => {
+  return (
+    <div className={style.date} onClick={onClick}>
+      <IonLabel>{value}</IonLabel>
+      <IonIcon icon={DateIcon}></IonIcon>
+    </div>
+  );
+};
 
 interface IInputDate {
-    value: string;
-    onClick: () => void
+  value: string;
+  onClick: () => void;
 }
 
 export default InputDate;

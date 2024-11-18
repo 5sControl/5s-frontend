@@ -11,7 +11,7 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 15px;
 }
 .time {
   display: flex;
@@ -67,4 +67,31 @@
 
 .ion-button-save {
   margin-top: auto;
+}
+
+.modalContainer {
+  display: flex;
+  padding: 2rem;
+  gap: .2rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalTitle {
+  font-weight: 600;
+  margin-bottom: .3rem;
+}
+
+.modalDescription {
+  font-weight: 300;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.timeLabel {
+  font-weight: 600;
+  font-size: 1.5rem;
 }
