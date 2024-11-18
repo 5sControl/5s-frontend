@@ -54,6 +54,7 @@ export const Authorization = () => {
             const role = response.data.status; 
             localStorage.setItem('userRole', role);
             dispatch(setUserRole(role));
+            history.go(0);
           }
         })
         .catch((error) => {
