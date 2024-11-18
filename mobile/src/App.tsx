@@ -239,9 +239,6 @@ function App() {
             <Route exact path={ROUTES.ORDER_TIMESPAN_EDIT(":orderId", ":itemId", ":operationId", ":timespanId")}>
               <EditTimespan />
             </Route>
-            <Route exact path={ROUTES.SCANNER_CONFIGURATION}>
-              <PreScannerConfiguration />
-            </Route>
             <Route exact path={ROUTES.SCANNER_QR}>
               <Scanner />
             </Route>
