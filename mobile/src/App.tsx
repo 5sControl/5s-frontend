@@ -85,7 +85,6 @@ function App() {
         dispatch(setUserRole(storedRole));
         setRole(storedRole);
     }
-    console.log(storedRole);
   }, [dispatch]);
   
   useEffect(() => {

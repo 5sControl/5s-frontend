@@ -6,10 +6,9 @@
     padding: 16px;
     margin: 12px 16px;
     justify-content: space-between;
+    border-radius: 4px;
+    height: 70px;
 
-    &_username{
-        font-size: 20px;
-    }
     &_text {
       display: flex;
       flex-direction: column;

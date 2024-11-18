@@ -69,9 +69,8 @@ export const Menu: React.FC = () => {
         endButton={<IonIcon style={{ fontSize: "24px" }} icon={Cog} />}
       />
       <IonContent color="light">
-        <IonList inset={true}>
-          <MenuListButton title={user.username} account={true} note={t("menu.accountSettings")} height="70px" />
-        </IonList>
+
+        <Logout username={user.username} logout={logout} />
 
         <Restricted to="view_order">
           <IonList inset={true}>
