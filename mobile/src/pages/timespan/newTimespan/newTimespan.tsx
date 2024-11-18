@@ -31,7 +31,6 @@ import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonl
 import { IOrders } from "../../../models/interfaces/orders.interface";
 import { IItem } from "../../../models/interfaces/item.interface";
 import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
-import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 import { Preloader } from "../../../components/preloader/preloader";
 
 const NewTimespan: React.FC = () => {
@@ -46,8 +45,6 @@ const NewTimespan: React.FC = () => {
   const [isSave, setSave] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
   const history = useHistory();
   const startModalRef = useRef<HTMLIonModalElement>(null);
   const finishModalRef = useRef<HTMLIonModalElement>(null);
@@ -72,12 +69,11 @@ const NewTimespan: React.FC = () => {
 
   const handleFinishNow = () => {
     setFinishDateTime(updateTimeInDate(getCurrentDateTimeISO()));
-    openModal();
+    // openModal();
   };
 
   const handleNavigate = () => {
-    history.push(ROUTES.ORDER_OPERATION(String(orderId), String(itemId), String(operationId)), { direction: "back" });
-    setIsSaveModalOpen(false);
+    history.push(ROUTES.SCANNER_QR);
   };
 
   const handleSave = () => {
@@ -91,7 +87,6 @@ const NewTimespan: React.FC = () => {
         ...(finishDateTime && { finishedAt: finishDateTime }),
       };
       operationId && TIMESPAN_REQUEST.addTimespan(payload, setLoading, setToastMessage, handleNavigate);
-      setIsModalOpen(false);
       setIsStart(false);
       setFinishDateTime("");
     }
@@ -127,36 +122,24 @@ const NewTimespan: React.FC = () => {
     isSave && setSave(false);
   }, [finishDateTime, startDateTime]);
 
-  useEffect(() => {
-    if (isModalOpen) {
-      const timer = setTimeout(() => {
-        setIsModalOpen(false);
-      }, 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [isModalOpen]);
-
-  const backClick = () => {
-    if (isSave || (!isStart && !finishDateTime)) {
-      handleNavigate();
-    } else {
-      setIsSaveModalOpen(true);
-    }
-  };
-
   const { hours, minutes } = getTimeDifference(finishDateTime, startDateTime);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  // Block navigation
+  useEffect(() => {
+    const unblock = history.block(location => {
+      if (isStart) {
+        return false;
+      }
+    });
+
+    return () => {
+      unblock();
+    };
+  }, [history, isStart]);
 
   return (
     <IonPage>
-      <Header
-        title={t("orders.implementationTime")}
-        backButtonHref={ROUTES.ORDER_OPERATION(String(orderId), String(itemId), String(operationId))}
-        onBackClick={backClick}
-      />
+      <Header title={t("orders.implementationTime")} backButtonHref={isStart ? "" : ROUTES.SCANNER_QR} />
       <IonContent>
         {isLoading ? (
           <div className="preloader">
@@ -241,6 +224,12 @@ const NewTimespan: React.FC = () => {
                   minutes ? minutes + " " + t("time.min") : ""
                 }`}</IonLabel>
               </div>
+
+              {finishDateTime && (
+                <IonButton expand="block" onClick={handleSave}>
+                  {t("text.startNewOperation")}
+                </IonButton>
+              )}
               <IonToast
                 position="top"
                 isOpen={!!toastMessage}
@@ -249,28 +238,6 @@ const NewTimespan: React.FC = () => {
                 onDidDismiss={() => setToastMessage(null)}
               />
             </IonList>
-            <IonModal initialBreakpoint={1} breakpoints={[0, 1]} isOpen={isModalOpen} onWillDismiss={handleSave}>
-              <div className={style.modalContainer}>
-                <IonLabel className={style.modalTitle}>{`${t("text.finishedIn")} ${hours}${t("time.hour")} ${
-                  minutes ? minutes + " " + t("time.min") : ""
-                }`}</IonLabel>
-                <IonLabel className={style.modalDescription}>{`${t("text.startOfOperation")}: ${extractTime(
-                  startDateTime
-                )}`}</IonLabel>
-                <IonLabel className={style.modalDescription}>{`${t("text.endOfOperation")}: ${extractTime(
-                  finishDateTime
-                )}`}</IonLabel>
-              </div>
-            </IonModal>
-            <ConfirmationModal
-              type="primary"
-              isOpen={isSaveModalOpen}
-              onClose={handleNavigate}
-              onConfirm={handleSave}
-              title={`${t("operations.saveChanges")}?`}
-              confirmText={t("operations.save")}
-              cancelText={t("operations.cancel")}
-            />
           </>
         )}
       </IonContent>
