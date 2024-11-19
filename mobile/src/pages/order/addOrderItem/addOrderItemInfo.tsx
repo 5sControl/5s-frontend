@@ -72,31 +72,32 @@ const AddOrderItemInfo = () => {
 
     const handleSubmit = async () => {
       setIsModalOpen(false);
-      setLoading(true);
-      ORDER_REQUEST.addOrder({name: orderName, additionalInfo: '', estimatedTime: 0, estimatedTimeUnit: 'minutes'}, setLoading, setToastMessage, () => {})
-      .then((res: any) => {
-        Object.values(storedItems).forEach((item: any) => {
-          const newItem: IOrderItemAddBody = {
-            orderId: res.id,
-            name: item.name,
-            additionalInfo: item.suffix,
-            quantity: 1,
-            itemId: item.id
-          }
-          ORDER_ITEM_REQUEST.createOrderItem(newItem, setLoading, setToastMessage, () => {
-              const newOperation = {
-                orderItemId: item.id,
-                operationIds: item.operations.map(operation => operation.id)
-              };
+      setToastMessage("Failed to save");
+      // setLoading(true);
+      // ORDER_REQUEST.addOrder({name: orderName, additionalInfo: '', estimatedTime: 0, estimatedTimeUnit: 'minutes'}, setLoading, setToastMessage, () => {})
+      // .then((res: any) => {
+      //   Object.values(storedItems).forEach((item: any) => {
+      //     const newItem: IOrderItemAddBody = {
+      //       orderId: res.id,
+      //       name: item.name,
+      //       additionalInfo: item.suffix,
+      //       quantity: 1,
+      //       itemId: item.id
+      //     }
+      //     ORDER_ITEM_REQUEST.createOrderItem(newItem, setLoading, setToastMessage, () => {
+      //         const newOperation = {
+      //           orderItemId: item.id,
+      //           operationIds: item.operations.map(operation => operation.id)
+      //         };
   
-              ORDER_REQUEST.addOrderItemOperation(newOperation, setLoading, setToastMessage);
-            })
-        })
-      })
-      .finally(() => {
-        navigateTo(ROUTES.ORDER_ADD_ITEM_INFO, { direction: "forward" });
-        setLoading(false);
-      })
+      //         ORDER_REQUEST.addOrderItemOperation(newOperation, setLoading, setToastMessage);
+      //       })
+      //   })
+      // })
+      // .finally(() => {
+      //   navigateTo(ROUTES.ORDER_ADD_ITEM_INFO, { direction: "forward" });
+      //   setLoading(false);
+      // })
     };
 
     return (

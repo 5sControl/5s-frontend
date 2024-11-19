@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   IonContent,
+  IonDatetime,
+  IonLabel,
+  IonList,
   IonLoading,
+  IonModal,
   IonPage,
   IonToast,
 } from '@ionic/react';
@@ -15,23 +19,26 @@ import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { Input } from '../../../components/inputs/input/Input';
 import BottomButton from '../../../components/bottomButton/BottomButton';
-import { Table } from '../../../components/table/Table';
-import AddButton from '../../../components/addButton/AddButton';
 import { TableRow } from '../../../models/interfaces/table.interface';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMaxOrderItemId, setOrderItems, setOrderName, setTempOrderItemId } from '../../../store/orderSlice';
+import { setMaxOrderItemId, setOrderItems, setTempOrderItemId } from '../../../store/orderSlice';
 import { RootState } from '../../../store';
 import { IOrderItemAddBody } from '../../../models/interfaces/item.interface';
 import { IOrders } from '../../../models/interfaces/orders.interface';
+import InputDate from '../../../components/inputs/inputDate/inputDate';
+import { formatDate, getCurrentDateTimeISO } from '../../../utils/parseInputDate';
 
 const AddOrder: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { t } = useTranslation()
-  const [inputValue, setInputValue] = useState<string>('');
+  const { t } = useTranslation();
+  const [orderNumber, setOrderNumber] = useState<string>('');
+  const [orderName, setOrderName] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [estimatedAt, setEstimatedAt] = useState<string>(getCurrentDateTimeISO());
+  const estimatedModalRef = useRef<HTMLIonModalElement>(null);
   const orderItems = useSelector((state: RootState) => state.order.orderItems);
   const maxOrderItemId: any = useSelector((state: RootState) => state.order.maxOrderItemId);
 
@@ -42,7 +49,7 @@ const AddOrder: React.FC = () => {
   const handleSubmit = async () => {
     setIsModalOpen(false);
     setLoading(true);
-    ORDER_REQUEST.addOrder({name: inputValue, additionalInfo: '', estimatedTime: 0, estimatedTimeUnit: 'minutes'}, setLoading, setToastMessage, () => {})
+    ORDER_REQUEST.addOrder({orderNumber: orderNumber, name: orderName, additionalInfo: '', estimatedTime: 0, estimatedTimeUnit: 'minutes'}, setLoading, setToastMessage, () => {})
     .then((res: any) => {
       console.log(res);
       Object.values(orderItems).forEach((item: any) => {
@@ -67,7 +74,6 @@ const AddOrder: React.FC = () => {
     .finally(() => {
       navigateTo();
       setLoading(false);
-      dispatch(setOrderName(''));
       dispatch(setOrderItems({}));
       dispatch(setMaxOrderItemId(1))
       dispatch(setTempOrderItemId(1));
@@ -75,16 +81,6 @@ const AddOrder: React.FC = () => {
   };
   const openModal = () => {
     setIsModalOpen(true);
-  };
-
-  const handleAddClick = () => {
-    if (!inputValue) {
-      setToastMessage(t('messages.orderName'));
-      return;
-    }
-    dispatch(setOrderName(inputValue));
-    dispatch(setTempOrderItemId(maxOrderItemId));
-    history.push(ROUTES.ORDER_ADD_ITEM);
   };
 
   const operationItems: TableRow[] = Object.values(orderItems)?.map((item: any, index: number) => {
@@ -106,25 +102,36 @@ const AddOrder: React.FC = () => {
       <IonContent>
         <IonLoading isOpen={isLoading} />
         <Input 
-          label={t('form.name')}
-          value={inputValue}
+          label={t('orders.orderNumber')}
+          value={orderNumber}
           required={true} 
-          handleChange={(e) => setInputValue(e.detail.value!)}
+          handleChange={(e) => setOrderNumber(e.detail.value!)}
         />
-        <Table label={t('orders.orderItems')} 
-          cols={[
-            {label: t('orders.id'), size: 1}, 
-            {label: t('orders.name'), size: 7}, 
-            {label: t('orders.suffix'), size: 4}]} 
-          rows={operationItems} />
-        <AddButton handleClick={handleAddClick} label={t('operations.add')}></AddButton>
-        <BottomButton handleClick={openModal} disabled={!inputValue} label={t('operations.save')}/>
+        <Input 
+          label={t('orders.orderName')}
+          value={orderName}
+          required={true} 
+          handleChange={(e) => setOrderName(e.detail.value!)}
+        />
+        <IonList className='ion-padding' style={{ gap: ".5rem" }}>
+          <IonLabel className='text-bold'>{t("orders.estimatedAt")}</IonLabel>
+          <InputDate value={formatDate(estimatedAt)} onClick={() => estimatedModalRef.current?.present()}></InputDate>
+        </IonList>
+        <BottomButton handleClick={openModal} disabled={!orderName && !orderNumber} label={t('operations.save')}/>
         <IonToast
         isOpen={!!toastMessage}
         message={toastMessage || undefined}
         duration={TOAST_DELAY}
         onDidDismiss={() => setToastMessage(null)}
       />
+        <IonModal ref={estimatedModalRef}>
+          <IonDatetime
+            id="estimated-datetime"
+            presentation="date-time"
+            value={estimatedAt}
+            onIonChange={e => setEstimatedAt(e.detail.value!.toString())}
+          />
+        </IonModal>
       <ModalSave
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
