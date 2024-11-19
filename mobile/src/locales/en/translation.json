@@ -173,6 +173,7 @@
      "worker": "Worker",
      "orderName": "Order Name",
      "orderNumber": "Order Number",
+     "orderYear": "Order Year",
      "estimatedAt": "Estimated at"
    },
    "time": {
