@@ -55,7 +55,9 @@ const Operation = () => {
             />
             <InputReadonly
               label={t("directory.operations.estimatedTime")}
-              value={`${operation.estimatedTime} ${operation.estimatedTimeUnit}`}
+              value={`${operation.estimatedTime} ${
+                operation.estimatedTimeUnit === "hours" ? t("time.hour") : t("time.min")
+              }`}
             />
           </>
         ) : (

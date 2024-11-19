@@ -3,7 +3,7 @@ import { IonContent, IonLabel, IonList, IonPage, IonLoading, IonToast, useIonVie
 import { Header } from "../../../components/header/Header";
 import style from "./orderOperations.module.scss";
 import { useHistory, useParams } from "react-router-dom";
-import { IOrderOperation, IProductOperation } from "../../../models/interfaces/operationItem.interface";
+import { IOrderOperation, IProductOperation, Timespan } from "../../../models/interfaces/operationItem.interface";
 import { formatDate } from "../../../utils/parseInputDate";
 import { OPERATION_REQUEST, ORDER_REQUEST, TIMESPAN_REQUEST } from "../../../dispatcher";
 import { formatTime } from "../../../utils/parseInputDate";
@@ -18,6 +18,7 @@ import AddButton from "../../../components/addButton/AddButton";
 import { TableRow } from "../../../models/interfaces/table.interface";
 import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
 import { Preloader } from "../../../components/preloader/preloader";
+import Chip from "../../../components/chip/chip";
 
 const RADIX = 10;
 
@@ -53,24 +54,38 @@ const OrderOperations = () => {
   });
 
   const timespanItems: TableRow[] =
-    operation?.timespans?.map(timespan => {
-      const { hours, minutes } = formatTime(timespan.duration);
-      const timestring = [hours && `${hours} ${t("time.hour")}`, minutes && `${minutes} ${t("time.min")}`]
-        .filter(Boolean)
-        .join(" ");
+    operation?.timespans
+      ?.sort((a, b) => {
+        if (a.duration === null && b.duration !== null) return -1;
+        if (a.duration !== null && b.duration === null) return 1;
 
-      return {
-        id: timespan.id,
-        navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(
-          String(orderId),
-          String(itemId),
-          String(operationId),
-          String(timespan.id)
-        ),
-        navigationAllowed: getUserRole() === ROLE.WORKER,
-        values: [formatDate(timespan.startedAt), timespan.employeeName, timestring || 0],
-      };
-    }) || [];
+        const dateA = new Date(a.startedAt);
+        const dateB = new Date(b.startedAt);
+        return dateA.getTime() - dateB.getTime();
+      })
+      .map(timespan => {
+        const { hours, minutes } = formatTime(timespan.duration);
+        let timestring;
+        if (timespan.duration === null) {
+          timestring = <Chip name="in_progress" />;
+        } else {
+          timestring = [hours && `${hours} ${t("time.hour")}`, minutes && `${minutes} ${t("time.min")}`]
+            .filter(Boolean)
+            .join(" ");
+        }
+
+        return {
+          id: timespan.id,
+          navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(
+            String(orderId),
+            String(itemId),
+            String(operationId),
+            String(timespan.id)
+          ),
+          navigationAllowed: getUserRole() === ROLE.WORKER,
+          values: [formatDate(timespan.startedAt), timespan.employeeName, timestring || 0],
+        };
+      }) || [];
 
   return (
     <IonPage>
@@ -87,18 +102,6 @@ const OrderOperations = () => {
                 <>
                   <IonList className={style.page}>
                     <InputReadonly label={t("orders.operation")} value={operation.name} />
-                    {/* <IonList className='ion-padding'>
-                    {
-                        operationReferences.map((param: IReference) => 
-                            <InputLookup
-                              key={param.id}
-                              label={param.name}
-                              value={param.name}
-                              note={operation.extensions.find(ext => ext.id === param.id)?.name || t('operations.add')}
-                              handleNavigateClick={() => history.push(ROUTES.ORDER_OPERATION_ADD_REFERENCE(String(id), String(operationId), String(param.id)))}/>
-                        )
-                    }
-                  </IonList> */}
                     <IonList className={style.list}>
                       {timespanItems?.length ? (
                         <Table

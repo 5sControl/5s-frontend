@@ -31,11 +31,11 @@ const NewOperation = () => {
 
   const selectItems: SelectItem[] = [
     {
-      label: "Minutes",
+      label: t("timeUnit.minutes"),
       value: "minutes",
     },
     {
-      label: "Hours",
+      label: t("timeUnit.hours"),
       value: "hours",
     },
   ];

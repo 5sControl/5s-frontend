@@ -1,0 +1,57 @@
+.input {
+  margin-top: .3rem;
+  border: var(--LowEmphasis) 1px solid;
+  border-radius: 4px;
+  padding: 0 0 0 12px !important;
+  background-color: #FFF;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #fff inset; /* Цвет фона при автозаполнении */
+  -webkit-text-fill-color: #000 !important; /* Цвет текста при автозаполнении */
+}
+
+.label {
+  font-weight: 600;
+}
+
+.description {
+  font-weight: 300;
+  color: var(--MediumEmphasis);
+  text-transform: capitalize;
+}
+
+.footer {
+  margin-top: .2rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .9rem;
+  font-weight: 300;
+  text-transform: capitalize;
+
+  .errorMessage {
+    color: var(--Red);
+  }
+
+  .hint {
+    color: var(--MediumEmphasis);
+  }
+
+}
+
+.neutral {
+  border-color: var(--LowEmphasis);
+}
+
+.focus {
+  border-color: var(--Orange);
+  background-color: #FFF;
+}
+
+.error {
+  border-color: var(--StockRed);
+  color: var(--Red);
+}
+

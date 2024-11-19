@@ -75,7 +75,8 @@
      "noOperations": "No Operations",
      "finishedIn": "Finished in",
      "startOfOperation": "Start of operation",
-     "endOfOperation": "End of operation"
+     "endOfOperation": "End of operation",
+     "startNewOperation": "Start new operation"
    },
    "operations": {
      "add": "Add",
