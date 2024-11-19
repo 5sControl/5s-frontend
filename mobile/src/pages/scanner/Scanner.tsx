@@ -7,11 +7,14 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router";
 import { ROUTES } from "../../shared/constants/routes";
 import { TOAST_DELAY } from "../../constants/toastDelay";
+import { setTimespan } from "../../store/timespanSlice";
+import { useDispatch } from "react-redux";
 
 const Scanner = () => {
     const [cookies] = useCookies(["token"]);
     const [qrInfo, setQrInfo] = useState('');
     const history = useHistory();
+    const dispatch = useDispatch();
     const [toastMessage, setToastMessage] = useState<string | null>(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [hasScanned, setHasScanned] = useState(false);
@@ -27,7 +30,6 @@ const Scanner = () => {
         if (debounceTimeout) return; 
     
         if (!isProcessing && !hasScanned) {
-            console.log('decodedText', decodedText);
             setIsProcessing(true);
             setQrInfo(decodedText);
             setHasScanned(true);
@@ -44,15 +46,17 @@ const Scanner = () => {
                     const operationId = data.id;
                     const orderItemId = data.orderItem.id;
                     const orderId = data.orderItem.order.id;
+                    const timespanData = {
+                        orderName: data.orderItem.order.name,
+                        orderYear: data.orderItem.order.orderYear,
+                        orderItem: data.orderItem.item.name
+                    }
+                    dispatch(setTimespan(timespanData));
                     redirectToOrder(orderId.toString(), orderItemId.toString(), operationId.toString());
                 })
                 .catch(error => {
                     setToastMessage("Incorrect QR. Please try again.");
                 })
-                .finally(() => {
-                    console.log('finally');
-
-                });
         }
     };
 

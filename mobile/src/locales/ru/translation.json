@@ -173,6 +173,7 @@
     "worker": "Работник",
     "orderName": "Название заказа",
     "orderNumber": "Номер заказа",
+    "orderYear": "Год заказа",
     "estimatedAt": "Срок исполнения"
   },
   "time": {

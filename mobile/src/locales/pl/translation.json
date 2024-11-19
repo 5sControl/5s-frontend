@@ -173,6 +173,7 @@
     "worker": "Pracownik",
     "orderName": "Nazwa zamówienia",
     "orderNumber": "Numer zamówienia",
+    "orderYear": "Rok zamówienia",
     "estimatedAt": "Termin"
   },
   "time": {
