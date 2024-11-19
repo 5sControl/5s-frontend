@@ -38,7 +38,7 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <IonItem className="input__field">
-      <IonLabel position="stacked" className={styles.label}>
+      <IonLabel className={styles.label}>
         {label}
       </IonLabel>
       {description && (
