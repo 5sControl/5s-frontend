@@ -8,7 +8,8 @@
     "accountSettings": "Настройки учетной записи",
     "orders": "Заказы",
     "reports": "Отчеты",
-    "scanner": "QR-сканер"
+    "scanner": "QR-сканер",
+    "language": "Язык интерфейса"
   },
   "config": {
     "title": "Конфигурация",

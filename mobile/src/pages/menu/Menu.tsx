@@ -14,21 +14,13 @@ import { changeI18Language } from "../../i18";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
 import "./Menu.scss";
 import Restricted from "../../providers/permissionProvider/Restricted";
-import Select from "../../components/select/Select";
+import Select from "../../components/selects/select/Select";
 
 export const Menu: React.FC = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
   const [user, setUser] = useState<any>({});
   const history = useHistory();
-  const { t, i18n } = useTranslation();
-
-  const [language, setLanguage] = useState(i18n.language);
-
-  const selectList = [
-    { label: "English", value: "en" },
-    { label: "Русский", value: "ru" },
-    { label: "Polski", value: "pl" },
-  ];
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (cookies.token) {
@@ -44,11 +36,6 @@ export const Menu: React.FC = () => {
         });
     }
   }, []);
-
-  const handleLanguageChange = (lang: string) => {
-    setLanguage(lang);
-    changeI18Language(lang);
-  };
 
   const handleItemClick = (path: string) => {
     history.push(path);
@@ -68,13 +55,12 @@ export const Menu: React.FC = () => {
         }
       />
       <IonContent color="light">
-
         <Logout username={user.username} logout={logout} />
 
         <Restricted to="view_order">
           <IonList inset={true}>
             <MenuListButton
-              icon={DollarSign}
+              icon={Orders}
               title={t("menu.orders")}
               handleItemClick={() => handleItemClick(ROUTES.ORDERS)}
             />
@@ -84,8 +70,6 @@ export const Menu: React.FC = () => {
 
         <Restricted to="view_reference">
           <IonList inset={true}>
-            {/* <MenuListButton title={t("menu.configuration")} handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)} />
-          <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} /> */}
             <MenuListButton
               title={t("menu.dataConfiguration")}
               handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)}
@@ -96,19 +80,20 @@ export const Menu: React.FC = () => {
 
         <Restricted to="proccess_qr_code_order_operation">
           <IonList inset={true}>
-            <MenuListButton
-              title={t("menu.scanner")}
-              handleItemClick={() => handleItemClick(ROUTES.SCANNER_QR)}
-            />
+            <MenuListButton title={t("menu.scanner")} handleItemClick={() => handleItemClick(ROUTES.SCANNER_QR)} />
           </IonList>
         </Restricted>
 
-        <Select
+        <IonList inset={true}>
+          <MenuListButton title={t("menu.language")} handleItemClick={() => handleItemClick(ROUTES.LANGUAGE)} />
+        </IonList>
+
+        {/* <Select
           value={language}
           placeholder={t("language")}
           handleChange={e => handleLanguageChange(e.detail.value)}
           selectList={selectList}
-        />
+        /> */}
       </IonContent>
     </IonPage>
   );

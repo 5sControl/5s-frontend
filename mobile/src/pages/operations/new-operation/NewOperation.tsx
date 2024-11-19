@@ -10,7 +10,7 @@ import { Header } from "../../../components/header/Header";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 import { createOperation } from "../../../api/operations";
 import { TimeUnit } from "../../../models/types/timeUnit";
-import Select from "../../../components/select/Select";
+import Select from "../../../components/selects/select/Select";
 import { Input } from "../../../components/inputs/input/Input";
 import { SelectItem } from "../../../models/types/selectItem";
 

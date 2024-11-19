@@ -63,7 +63,7 @@ export const Input: React.FC<InputProps> = ({
         {type === "password" && <IonInputPasswordToggle slot="end" color="medium"></IonInputPasswordToggle>}
       </IonInput>
       <div className={styles.footer}>
-        {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
+        {errorMessage && state === "error" && <p className={styles.errorMessage}>{errorMessage}</p>}
         {hint && <p className={styles.hint}>{hint}</p>}
       </div>
     </IonItem>

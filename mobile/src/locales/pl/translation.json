@@ -8,7 +8,8 @@
     "accountSettings": "Ustawienia konta",
     "orders": "Zamówienia",
     "reports": "Raporty",
-    "scanner": "Skaner QR"
+    "scanner": "Skaner QR",
+    "language": "Język interfejsu"
   },
   "config": {
     "title": "Konfiguracja",
