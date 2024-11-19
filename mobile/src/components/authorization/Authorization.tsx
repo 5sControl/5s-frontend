@@ -77,7 +77,8 @@ export const Authorization = () => {
       <h2 className="authorization__title">{`${t("form.auth.signin")} 5S Control`}</h2>
       <div className="authorization__container">
         <Input
-          label={t("form.auth.login")}
+          label={t('form.auth.login')}
+          bold={false}
           value={email}
           required={true}
           type="text"
@@ -86,7 +87,8 @@ export const Authorization = () => {
           handleChange={e => setEmail(e.target.value)}
         />
         <Input
-          label={t("form.auth.pwd")}
+          label={t('form.auth.pwd')}
+          bold={false}
           value={password}
           required={true}
           type="password"

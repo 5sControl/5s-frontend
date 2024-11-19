@@ -33,6 +33,8 @@ import { IItem } from "../../../models/interfaces/item.interface";
 import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
 import { Preloader } from "../../../components/preloader/preloader";
 import { LocationState } from "../../../models/types/locationState";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 const NewTimespan: React.FC = () => {
   const { orderId, itemId, operationId } = useParams<{ orderId: string; itemId: string; operationId: string }>();
@@ -46,20 +48,33 @@ const NewTimespan: React.FC = () => {
   const [isSave, setSave] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(false);
+  const [qrOrderName, setQrOrderName] = useState<string>("");
+  const [qrOrderYear, setQrOrderYear] = useState<string>("");
+  const [qrOrderItem, setQrOrderItem] = useState<string>("");
   const history = useHistory();
   const location = useLocation<LocationState>();
   const startModalRef = useRef<HTMLIonModalElement>(null);
   const finishModalRef = useRef<HTMLIonModalElement>(null);
   const { t } = useTranslation();
+  const qrTimespan = useSelector((state: RootState) => state.currentTimespan);
 
   const { from } = location.state || { from: "" };
 
   useIonViewWillEnter(() => {
-    ORDER_REQUEST.getOrderById(parseInt(orderId, 10), setOrder, setLoading, setToastMessage)
+    console.log(qrTimespan)
+    if (qrTimespan){
+      const { orderName, orderYear, orderItem } = qrTimespan;
+      setQrOrderName(orderName || "");
+      setQrOrderYear(orderYear || "");
+      setQrOrderItem(orderItem || "");
+    }
+    else {
+      ORDER_REQUEST.getOrderById(parseInt(orderId, 10), setOrder, setLoading, setToastMessage)
       .then(() => ITEM_REQUEST.getItemById(parseInt(itemId, 10), setItem, setLoading, setToastMessage))
       .then(() =>
         OPERATION_REQUEST.getOperationById(parseInt(operationId, 10), setOperation, setLoading, setToastMessage)
       );
+    }
   });
 
   const showToastMessage = (message: string) => {
@@ -152,9 +167,9 @@ const NewTimespan: React.FC = () => {
           </div>
         ) : (
           <>
-            <InputReadonly label={t("orders.order")} value={order.name} />
-            <InputReadonly label={t("orders.orderItem")} value={item.name} />
-            <InputReadonly label={t("orders.operation")} value={operation.name} />
+            <InputReadonly label={t("orders.orderName")} value={qrOrderName ||order.name} />
+            <InputReadonly label={t("orders.orderYear")} value={qrOrderYear || '-'} />
+            <InputReadonly label={t("orders.orderItem")} value={qrOrderItem ||item.name} />
             <IonList className={`${style.page} ion-padding`}>
               <IonList className={style.list}>
                 <IonLabel className={style.label}>{t("form.date")}</IonLabel>

@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import orderReducer from './orderSlice'
 import userReducer from './userSlice'
+import timespanReducer from './timespanSlice'
 
 const store = configureStore({
     reducer: {
         order: orderReducer,
-        user: userReducer
+        user: userReducer,
+        currentTimespan: timespanReducer
     }
 })
 

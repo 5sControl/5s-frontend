@@ -1,60 +1,84 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IonPage, IonContent, IonToast } from "@ionic/react";
 import { Header } from "../../components/header/Header";
 import Html5QrcodePlugin from "../../components/qrScanner/qrScanner";
 import { createOrderFromQr } from "../../api/scanner";
 import { useCookies } from "react-cookie";
-import { useHistory, useParams } from "react-router";
+import { useHistory } from "react-router";
 import { ROUTES } from "../../shared/constants/routes";
 import { TOAST_DELAY } from "../../constants/toastDelay";
+import { setTimespan } from "../../store/timespanSlice";
+import { useDispatch } from "react-redux";
 
 const Scanner = () => {
     const [cookies] = useCookies(["token"]);
-    const [qrInfo, setQrInfo] = React.useState('');
+    const [qrInfo, setQrInfo] = useState('');
     const history = useHistory();
+    const dispatch = useDispatch();
     const [toastMessage, setToastMessage] = useState<string | null>(null);
-    let isProcessing: boolean = false;
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [hasScanned, setHasScanned] = useState(false);
+    const tempOperationId = 10;
 
     const redirectToOrder = (orderId: string, orderItemId: string, operationId: string) => {
         history.push(ROUTES.ORDER_TIMESPAN(orderId, orderItemId, operationId));
     };
+
+    let debounceTimeout;
+
     const onNewScanResult = (decodedText, decodedResult) => {
-        if (!isProcessing){
-            isProcessing = true; 
+        if (debounceTimeout) return; 
+    
+        if (!isProcessing && !hasScanned) {
+            setIsProcessing(true);
             setQrInfo(decodedText);
-            createOrderFromQr({ qrCode: decodedText, operationId: 3 }, cookies.token)
+            setHasScanned(true);
+
+            debounceTimeout = setTimeout(() => {
+                setIsProcessing(false);
+                setHasScanned(false);
+                debounceTimeout = null;
+            }, 2000);
+    
+            createOrderFromQr({ qrCode: decodedText, operationId: tempOperationId }, cookies.token)
                 .then(response => {
                     const data = response.data;
                     const operationId = data.id;
                     const orderItemId = data.orderItem.id;
                     const orderId = data.orderItem.order.id;
+                    const timespanData = {
+                        orderName: data.orderItem.order.name,
+                        orderYear: data.orderItem.order.orderYear,
+                        orderItem: data.orderItem.item.name
+                    }
+                    dispatch(setTimespan(timespanData));
                     redirectToOrder(orderId.toString(), orderItemId.toString(), operationId.toString());
                 })
                 .catch(error => {
                     setToastMessage("Incorrect QR. Please try again.");
-                });
+                })
         }
     };
 
     return (
         <IonPage>
-          <Header title="Qr Scanner" backButtonHref={ROUTES.MENU}/>
-          <IonContent className="ion-padding">
-          <Html5QrcodePlugin
-                fps={10}
-                qrbox={250}
-                disableFlip={false}
-                qrCodeSuccessCallback={onNewScanResult}
-            />
-            <IonToast
-                isOpen={!!toastMessage}
-                message={toastMessage || undefined}
-                duration={TOAST_DELAY}
-                onDidDismiss={() => setToastMessage(null)}
-            />
-          </IonContent>
+            <Header title="QR Scanner" backButtonHref={ROUTES.MENU} />
+            <IonContent className="ion-padding">
+                <Html5QrcodePlugin
+                    fps={10}
+                    qrbox={250}
+                    disableFlip={false}
+                    qrCodeSuccessCallback={onNewScanResult}
+                />
+                <IonToast
+                    isOpen={!!toastMessage}
+                    message={toastMessage || undefined}
+                    duration={TOAST_DELAY}
+                    onDidDismiss={() => setToastMessage(null)}
+                />
+            </IonContent>
         </IonPage>
-      );
+    );
 };
 
 export default Scanner;
