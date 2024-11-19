@@ -78,6 +78,7 @@ export const Authorization = () => {
       <div className='authorization__container'>
         <Input
           label={t('form.auth.login')}
+          bold={false}
           value={email}
           required={true}
           type='text'
@@ -86,6 +87,7 @@ export const Authorization = () => {
         />
         <Input
           label={t('form.auth.pwd')}
+          bold={false}
           value={password}
           required={true}
           type='password'

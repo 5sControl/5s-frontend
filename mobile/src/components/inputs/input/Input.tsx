@@ -8,6 +8,7 @@ type InputProps = {
   required: boolean;
   handleChange: (e: any) => void;
   placeholder?: string;
+  bold?: boolean;
   type?: "text" | "password" | "email" | "number" | "search" | "tel" | "url";
   onKeyDown?: (e: any) => void;
   state?: "error" | "neutral";
@@ -24,6 +25,7 @@ export const Input: React.FC<InputProps> = ({
   handleChange,
   placeholder,
   onKeyDown,
+  bold = true,
   type = "text",
   state = "neutral",
   disabled,
@@ -38,7 +40,7 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <IonItem className="input__field">
-      <IonLabel className={styles.label}>
+      <IonLabel className={bold ? styles.label__bold : styles.label}>
         {label}
       </IonLabel>
       {description && (
