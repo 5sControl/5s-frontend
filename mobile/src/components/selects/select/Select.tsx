@@ -1,6 +1,6 @@
 import { IonItem, IonLabel, IonSelect, IonSelectOption } from "@ionic/react";
 import "./Select.scss";
-import { SelectItem } from "../../models/types/selectItem";
+import { SelectItem } from "../../../models/types/selectItem";
 
 type SelectProps = {
   value: string;

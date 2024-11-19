@@ -11,7 +11,7 @@ import {
   useIonViewWillEnter,
 } from "@ionic/react";
 import { useHistory } from "react-router-dom";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import InputDate from "../../../components/inputs/inputDate/inputDate";
 import {
   formatDate,
@@ -32,6 +32,7 @@ import { IOrders } from "../../../models/interfaces/orders.interface";
 import { IItem } from "../../../models/interfaces/item.interface";
 import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
 import { Preloader } from "../../../components/preloader/preloader";
+import { LocationState } from "../../../models/types/locationState";
 
 const NewTimespan: React.FC = () => {
   const { orderId, itemId, operationId } = useParams<{ orderId: string; itemId: string; operationId: string }>();
@@ -46,9 +47,12 @@ const NewTimespan: React.FC = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(false);
   const history = useHistory();
+  const location = useLocation<LocationState>();
   const startModalRef = useRef<HTMLIonModalElement>(null);
   const finishModalRef = useRef<HTMLIonModalElement>(null);
   const { t } = useTranslation();
+
+  const { from } = location.state || { from: "" };
 
   useIonViewWillEnter(() => {
     ORDER_REQUEST.getOrderById(parseInt(orderId, 10), setOrder, setLoading, setToastMessage)
@@ -73,6 +77,7 @@ const NewTimespan: React.FC = () => {
   };
 
   const handleNavigate = () => {
+    // if (from === "scanner")
     history.push(ROUTES.SCANNER_QR);
   };
 

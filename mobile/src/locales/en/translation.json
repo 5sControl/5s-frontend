@@ -8,7 +8,8 @@
     "accountSettings": "Account Settings",
     "orders": "Orders",
     "reports": "Reports",
-    "scanner": "QR Scanner"
+    "scanner": "QR Scanner",
+    "language": "Interface language"
   },
    "config": {
      "title": "Configuration",
