@@ -169,7 +169,10 @@
     "orderItem": "Узел",
     "suffix": "Суффикс",
     "id": "Id",
-    "worker": "Работник"
+    "worker": "Работник",
+    "orderName": "Название заказа",
+    "orderNumber": "Номер заказа",
+    "estimatedAt": "Срок исполнения"
   },
   "time": {
     "hour": "ч",

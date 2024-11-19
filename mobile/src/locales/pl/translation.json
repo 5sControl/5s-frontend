@@ -169,7 +169,10 @@
     "orderItem": "Węzeł",
     "suffix": "Przyrostek",
     "id": "Id",
-    "worker": "Pracownik"
+    "worker": "Pracownik",
+    "orderName": "Nazwa zamówienia",
+    "orderNumber": "Numer zamówienia",
+    "estimatedAt": "Termin"
   },
   "time": {
     "hour": "godz.",

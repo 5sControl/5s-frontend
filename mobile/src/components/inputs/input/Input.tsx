@@ -28,7 +28,7 @@ export const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <IonItem className="input__field">
-      <IonLabel position="stacked" style={{ marginBottom: ".5rem" }}>
+      <IonLabel style={{ marginBottom: ".5rem", fontWeight: 600, width: "100%" }}>
         {label}
       </IonLabel>
       <IonInput

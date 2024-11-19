@@ -169,7 +169,10 @@
      "orderItem": "Order Item",
      "suffix": "Suffix",
      "id": "Id",
-     "worker": "Worker"
+     "worker": "Worker",
+     "orderName": "Order Name",
+     "orderNumber": "Order Number",
+     "estimatedAt": "Estimated at"
    },
    "time": {
      "hour": "h",
