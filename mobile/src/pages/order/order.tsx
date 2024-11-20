@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import {
   IonContent,
+  IonLabel,
   IonPage,
+  IonSegment,
+  IonSegmentButton,
   IonToast,
+  SegmentChangeEventDetail,
   useIonViewWillEnter,
 } from "@ionic/react";
 import { Header } from "../../components/header/Header";
@@ -21,6 +25,7 @@ import { TableRow } from "../../models/interfaces/table.interface";
 import { Preloader } from "../../components/preloader/preloader";
 import { IOrders } from "../../models/interfaces/orders.interface";
 import { Item } from "../../models/interfaces/item.interface";
+import { ORDER_STEPS } from "../../models/enums/orderSteps.enum";
 
 const RADIX = 10;
 
@@ -30,7 +35,7 @@ const Order = () => {
   const history = useHistory();
   const [order, setOrder] = useState<IOrders>({} as IOrders);
   const [orderItems, setOrderItems] = useState<Item[]>([]);
-
+  const [selectedSegment, setSelectedSegment] = useState<string>(ORDER_STEPS.BLANK);
   const [isLoading, setLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -41,7 +46,7 @@ const Order = () => {
       ORDER_ITEM_REQUEST.getOrderItems(parseInt(id, RADIX), setOrderItems, setLoading, setToastMessage)});
   });
 
-  const items: TableRow[] =
+  const assemblyItems: TableRow[] =
     orderItems.map((item, index) => {
       return {
         id: item.id,
@@ -50,8 +55,14 @@ const Order = () => {
       };
     }) || [];
 
+  const blankItems: TableRow[] = [];
+
   const handleFabClick = (path: string) => {
     history.push(path);
+  };
+
+  const handleSegmentChange = (event: CustomEvent<SegmentChangeEventDetail>) => {
+    setSelectedSegment(event.detail.value as string);
   };
 
   return (
@@ -67,15 +78,26 @@ const Order = () => {
             {isLoaded && (
               <>
                 <InputReadonly label={t("form.name")} value={order?.name} />
-                <InputReadonly label={t("form.date")} value={formatDate(order?.createdAt)} />
+                <InputReadonly label={t("orders.estimatedAt")} value={order?.estimatedAt ? formatDate(order?.estimatedAt) : "-"} />
+                <InputReadonly label={t("orders.startedAt")} value={formatDate(order?.createdAt)} />
+                <div className="segment-wrapper ion-padding">
+                  <IonSegment value={selectedSegment} onIonChange={handleSegmentChange}>
+                    <IonSegmentButton value={ORDER_STEPS.BLANK}>
+                      <IonLabel>{t("orders.blank")}</IonLabel>
+                    </IonSegmentButton>
+                    <IonSegmentButton value={ORDER_STEPS.ASSEMLY}>
+                      <IonLabel>{t("orders.assembly")}</IonLabel>
+                    </IonSegmentButton>
+                  </IonSegment>
+                </div>
                 <Table
-                  label={t("orders.orderItems")}
+                  label={selectedSegment === ORDER_STEPS.BLANK ? t("orders.operations") : t("orders.orderItems")}
                   cols={[
                     { label: t("orders.id"), size: 1 },
                     { label: t("orders.name"), size: 7 },
-                    { label: t("orders.suffix"), size: 4 },
+                    { label: t("form.duration"), size: 4 },
                   ]}
-                  rows={items}
+                  rows={selectedSegment === ORDER_STEPS.BLANK ? blankItems : assemblyItems}
                 />
                 <Fab
                   icon={PencilIcon}

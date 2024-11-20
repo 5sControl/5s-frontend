@@ -175,12 +175,15 @@
     "orderName": "Nazwa zamówienia",
     "orderNumber": "Numer zamówienia",
     "orderYear": "Rok zamówienia",
+    "startedAt": "Data startu",
     "estimatedAt": "Termin",
     "statusValues": {
       "pending": "Nie rozpoczęty",
       "inProgress": "W trakcie",
       "done": "Zakończony"
-    }
+    },
+    "assembly": "Montaż",
+    "blank": "Zagotowanie"
   },
   "time": {
     "hour": "godz.",
