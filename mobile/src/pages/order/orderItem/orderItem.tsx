@@ -39,14 +39,9 @@ const OrderItem = () => {
   };
 
   useIonViewWillEnter(() => {
-    ITEM_REQUEST.getItemById(
-      parseInt(orderId, RADIX),
-      setItem,
-      setLoading,
-      setToastMessage
-    ).then(() => {
+    ITEM_REQUEST.getItemById(parseInt(itemId, RADIX), setItem, setLoading, setToastMessage).then(() => {
       ORDER_REQUEST.getOrderItemOperations(parseInt(itemId, RADIX), setItemOperations, setLoading, setToastMessage);
-    })
+    });
   });
 
   const tableItems: TableRow[] =
@@ -71,22 +66,22 @@ const OrderItem = () => {
             <>
               {isLoaded && (
                 <>
-                <IonList className={style.page}>
-                  <InputReadonly label={t('orders.orderItem')} value={item.name} />
-                  <Table
-                    label={t("orders.operations")}
-                    cols={[
-                      { label: t("orders.name"), size: 8 },
-                      { label: t("orders.status"), size: 4 },
-                    ]}
-                    rows={tableItems}
-                  />
-                  <IonToast
-                    isOpen={!!toastMessage}
-                    message={toastMessage || undefined}
-                    duration={TOAST_DELAY}
-                    onDidDismiss={() => setToastMessage(null)}
-                  />
+                  <IonList className={style.page}>
+                    <InputReadonly label={t("orders.orderItem")} value={item.name} />
+                    <Table
+                      label={t("orders.operations")}
+                      cols={[
+                        { label: t("orders.name"), size: 8 },
+                        { label: t("orders.status"), size: 4 },
+                      ]}
+                      rows={tableItems}
+                    />
+                    <IonToast
+                      isOpen={!!toastMessage}
+                      message={toastMessage || undefined}
+                      duration={TOAST_DELAY}
+                      onDidDismiss={() => setToastMessage(null)}
+                    />
                   </IonList>
                 </>
               )}

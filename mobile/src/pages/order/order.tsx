@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  IonContent,
-  IonPage,
-  IonToast,
-  useIonViewWillEnter,
-} from "@ionic/react";
+import { IonContent, IonPage, IonToast, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../components/header/Header";
 import style from "./order.module.scss";
 import PencilIcon from "./../../assets/svg/editOutlined.svg";
@@ -37,15 +32,17 @@ const Order = () => {
   const isLoaded = Boolean(Object.values(order)?.length);
 
   useIonViewWillEnter(() => {
-    id && ORDER_REQUEST.getOrderById(parseInt(id, RADIX), setOrder, setLoading, setToastMessage).then(() => {
-      ORDER_ITEM_REQUEST.getOrderItems(parseInt(id, RADIX), setOrderItems, setLoading, setToastMessage)});
+    id &&
+      ORDER_REQUEST.getOrderById(parseInt(id, RADIX), setOrder, setLoading, setToastMessage).then(() => {
+        ORDER_ITEM_REQUEST.getOrderItems(parseInt(id, RADIX), setOrderItems, setLoading, setToastMessage);
+      });
   });
 
   const items: TableRow[] =
     orderItems.map((item, index) => {
       return {
         id: item.id,
-        navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.id)),
+        navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.itemId)),
         values: [index + 1, item.name, item.additionalInfo],
       };
     }) || [];
@@ -77,10 +74,7 @@ const Order = () => {
                   ]}
                   rows={items}
                 />
-                <Fab
-                  icon={PencilIcon}
-                  handleFabClick={() => handleFabClick(ROUTES.ORDER_EDIT(String(order.id)))}
-                />
+                <Fab icon={PencilIcon} handleFabClick={() => handleFabClick(ROUTES.ORDER_EDIT(String(order.id)))} />
               </>
             )}
           </>
