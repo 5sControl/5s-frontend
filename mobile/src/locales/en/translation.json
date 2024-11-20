@@ -175,7 +175,15 @@
      "orderName": "Order Name",
      "orderNumber": "Order Number",
      "orderYear": "Order Year",
-     "estimatedAt": "Estimated at"
+     "startedAt": "Start Date",
+     "estimatedAt": "Estimated at",
+     "statusValues": {
+      "pending": "Not started",
+      "inProgress": "In progress",
+      "done": "Done"
+    },
+    "assembly": "Assembly",
+    "blank": "Blank"
    },
    "time": {
      "hour": "h",

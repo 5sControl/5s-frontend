@@ -80,17 +80,17 @@ export const OrdersPage: React.FC = () => {
         ) : (
           <>
         <div className="segment-wrapper ion-padding">
-        <IonSegment value={selectedStatus} onIonChange={handleStatusChange}>
-          <IonSegmentButton value={OPERATION_STATUS_ENUM.PENDING}>
-            <IonLabel>Не начат</IonLabel>
-          </IonSegmentButton>
-          <IonSegmentButton value={OPERATION_STATUS_ENUM.IN_PROGRESS}>
-            <IonLabel>В работе</IonLabel>
-          </IonSegmentButton>
-          <IonSegmentButton value={OPERATION_STATUS_ENUM.COMPLETED}>
-            <IonLabel>Выполнен</IonLabel>
-          </IonSegmentButton>
-        </IonSegment>
+          <IonSegment value={selectedStatus} onIonChange={handleStatusChange}>
+            <IonSegmentButton value={OPERATION_STATUS_ENUM.PENDING}>
+              <IonLabel>{t("orders.statusValues.pending")}</IonLabel>
+            </IonSegmentButton>
+            <IonSegmentButton value={OPERATION_STATUS_ENUM.IN_PROGRESS}>
+              <IonLabel>{t("orders.statusValues.inProgress")}</IonLabel>
+            </IonSegmentButton>
+            <IonSegmentButton value={OPERATION_STATUS_ENUM.COMPLETED}>
+              <IonLabel>{t("orders.statusValues.done")}</IonLabel>
+            </IonSegmentButton>
+          </IonSegment>
         </div>
         <IonList inset>{filteredOrders.map(item => (
           <MenuListButton
