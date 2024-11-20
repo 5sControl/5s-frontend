@@ -271,7 +271,9 @@ const VerticalTimeline = ({
   }, [selectOrder, update]);
 
   return (
-    <div className={`${styles.container} verticalTimeline`} >
+<div className={`${styles.container} verticalTimeline`}>
+  <div className={styles.timelineWrapper}>
+    <div className={styles.timelineContainer}>
       <div className={styles.header}>
         {update.map((element, index) => (
           <div
@@ -288,100 +290,93 @@ const VerticalTimeline = ({
             // eslint-disable-next-line react/no-unknown-property
             titles={`${element.workplaceName ? element.workplaceName : ''} ${element.oprName}`}
           >
-            {/* {element.workplaceName
-                        ? `${element.workplaceName.slice(0, 2)}. ${element.oprName.slice(0, 4)}`
-                        : `${element.oprName.slice(0, 7)}`}
-                      {element.oprName.length < 5 ? '' : '...'} */}
-            {element.oprName.length > 28 ? element.oprName.slice(0, 28) + '...' : element.oprName}
+            {element.oprName.length > 28 ? 
+              element.oprName.slice(0, 28) + '...' : 
+              element.oprName}
           </div>
         ))}
-        {/* <div className={styles.prev}>
-                    <img
-                      src={Arrow}
-                      alt=''
-                      width={20}
-                      height={20}
-                      className={styles.arrow}
-                      onClick={() => positionHandler(1)}
-                    />
-                  </div>
-                  <div className={styles.next}>
-                    <img
-                      src={Arrow}
-                      alt=''
-                      width={20}
-                      height={20}
-                      className={styles.arrow}
-                      onClick={() => positionHandler(-1)}
-                    />
-                  </div> */}
-      </div>
-      <div className={styles.timelineWrapper}>
-        <div className={styles.wrapper}>
-          {preloader && (
-            <div className={styles.gorilla}>
-              <Preloader />
-            </div>
-          )}
-          <>
-            {!preloader && update.length > 0 && (
-              <div className={styles.content}>
-                <div
-                  ref={timelineRef}
-                  style={{
-                    width: `${update.length * fieldWidth}px`,
-                    height: `${(minutes * 60 * zoomParam * days) / 32 + 10 + days * 10}px`,
-                    transform: `translateX(${position * fieldWidth}px)`,
-                  }}
-                ></div>
-              </div>
-            )}
-            {!preloader && update.length === 0 && (
-              <div className={styles.noData}>{`No operations were found in the range from ${moment(
-                minDate
-              ).format('DD.MM.YYYY')} to ${moment(maxDate).format('DD.MM.YYYY')}`}</div>
-            )}
-          </>
+        {/* 
+        <div className={styles.prev}>
+          <img
+            src={Arrow}
+            alt=''
+            width={20}
+            height={20}
+            className={styles.arrow}
+            onClick={() => positionHandler(1)}
+          />
         </div>
-        {!preloader && update.length > 0 && update.length > 0 && (
-          <div className={styles.datetime}>
-            <Timeline
-              minDate={minDate}
-              maxDate={maxDate}
-              minTime={minTime}
-              maxTime={maxTime}
-              zoomParam={zoomParam}
-            />
+        <div className={styles.next}>
+          <img
+            src={Arrow}
+            alt=''
+            width={20}
+            height={20}
+            className={styles.arrow}
+            onClick={() => positionHandler(-1)}
+          />
+        </div> 
+        */}
+      </div>
+      <div className={styles.wrapper}>
+        {preloader && (
+          <div className={styles.gorilla}>
+            <Preloader />
           </div>
         )}
+        <>
+          {!preloader && update.length > 0 && (
+            <div className={styles.content}>
+              <div
+                ref={timelineRef}
+                style={{
+                  width: `${update.length * fieldWidth}px`,
+                  height: `${(minutes * 60 * zoomParam * days) / 32 + 10 + days * 10}px`,
+                  transform: `translateX(${position * fieldWidth}px)`,
+                }}
+              ></div>
+            </div>
+          )}
+          {!preloader && update.length === 0 && (
+            <div className={styles.noData}>
+              {`No operations were found in the range from ${moment(minDate).format('DD.MM.YYYY')} to ${moment(maxDate).format('DD.MM.YYYY')}`}
+            </div>
+          )}
+        </>
       </div>
-      {
-        operation && (
-          <Operation
-            content={operation.data}
-            x={`${operation.x}px`}
-            y={`${operation.y}px`}
-            onClose={() => setOperation(false)}
-            setOperationOV={(e) => setOperationOV(e)}
-            timelineRef={timelineRef}
-          />
-        )
-      }
-      {
-        operationOV && typeof operationOV === 'object' && (
-          <OrderOperationDetail
-            operationData={operationOV}
-            handleClose={() => setOperationOV(false)}
-          />
-        )
-      }
-
-      {
-        operationOV && typeof operationOV === 'string' && (
-          <Notification status={false} message={operationOV} />
-        )
-      }
-    </div >
+    </div>
+    {!preloader && update.length > 0 && (
+      <div className={styles.datetime}>
+        <Timeline
+          minDate={minDate}
+          maxDate={maxDate}
+          minTime={minTime}
+          maxTime={maxTime}
+          zoomParam={zoomParam}
+        />
+      </div>
+    )}
+  </div>
+  {operation && (
+    <Operation
+      content={operation.data}
+      x={`${operation.x}px`}
+      y={`${operation.y}px`}
+      onClose={() => setOperation(false)}
+      setOperationOV={(e) => setOperationOV(e)}
+      timelineRef={timelineRef}
+    />
+  )}
+  {operationOV && typeof operationOV === 'object' && (
+    <OrderOperationDetail
+      operationData={operationOV}
+      handleClose={() => setOperationOV(false)}
+    />
+  )}
+  {operationOV && typeof operationOV === 'string' && (
+    <Notification status={false} message={operationOV} />
+  )}
+</div>
   );
 };
 
