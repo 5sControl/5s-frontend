@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   IonContent,
   IonFab,
   IonFabButton,
   IonIcon,
+  IonLabel,
   IonList,
   IonLoading,
   IonPage,
+  IonSegment,
+  IonSegmentButton,
   IonToast,
+  SegmentChangeEventDetail,
   useIonViewWillEnter,
 } from "@ionic/react";
 import { ROUTES } from "../../shared/constants/routes";
 import { Header } from "../../components/header/Header";
-import ItemList from "../../components/itemList/itemList";
 import { Plus } from "../../assets/svg/SVGcomponent";
 import { IOrders } from "../../models/interfaces/orders.interface";
 import { ORDER_REQUEST } from "../../dispatcher";
@@ -22,6 +25,8 @@ import Fab from "../../components/fab/Fab";
 import { useHistory } from "react-router";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
 import { Preloader } from "../../components/preloader/preloader";
+import { OperationStatus } from "../../models/types/ordersStatus";
+import { OPERATION_STATUS_ENUM } from "../../models/enums/statuses.enum";
 
 export const OrdersPage: React.FC = () => {
   const { t } = useTranslation();
@@ -29,10 +34,18 @@ export const OrdersPage: React.FC = () => {
   const [orders, setOrders] = useState<IOrders[]>([]);
   const [searchText, setSearchText] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [filteredItems, setFilteredItems] = useState<IOrders[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<OperationStatus>(OPERATION_STATUS_ENUM.IN_PROGRESS);
 
   const handleSetSearch = (v: string) => setSearchText(v);
+
+  const filteredOrders = useMemo(() => {
+    return orders.filter(item => {
+      const statusFilter = item.status === selectedStatus;
+      const searchFilter = item.name.toLowerCase().includes(searchText.toLowerCase());
+      return statusFilter && searchFilter;
+    });
+  }, [orders, selectedStatus, searchText]);
 
   const handleFabClick = (path: string) => {
     history.push(path);
@@ -42,26 +55,13 @@ export const OrdersPage: React.FC = () => {
     history.push(path);
   };
 
-  useEffect(() => {
-    const filtered = orders.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
-    setFilteredItems(filtered);
-  }, [searchText]);
-
-  useEffect(() => {
-    orders.length && setFilteredItems(orders);
-  }, [orders]);
+  const handleStatusChange = (event: CustomEvent<SegmentChangeEventDetail>) => {
+    setSelectedStatus(event.detail.value as OperationStatus);
+  };
 
   useIonViewWillEnter(() => {
     ORDER_REQUEST.getOrders(setOrders, setLoading, setToastMessage);
   });
-
-  const items = filteredItems.map(item => (
-    <MenuListButton
-      key={item.id}
-      title={item.name}
-      handleItemClick={() => handleItemClick(ROUTES.ORDER(String(item.id)))}
-    />
-  ));
 
   return (
     <IonPage>
@@ -79,7 +79,27 @@ export const OrdersPage: React.FC = () => {
           </div>
         ) : (
           <>
-            <IonList inset>{items}</IonList>
+        <div className="segment-wrapper ion-padding">
+        <IonSegment value={selectedStatus} onIonChange={handleStatusChange}>
+          <IonSegmentButton value={OPERATION_STATUS_ENUM.PENDING}>
+            <IonLabel>Не начат</IonLabel>
+          </IonSegmentButton>
+          <IonSegmentButton value={OPERATION_STATUS_ENUM.IN_PROGRESS}>
+            <IonLabel>В работе</IonLabel>
+          </IonSegmentButton>
+          <IonSegmentButton value={OPERATION_STATUS_ENUM.COMPLETED}>
+            <IonLabel>Выполнен</IonLabel>
+          </IonSegmentButton>
+        </IonSegment>
+        </div>
+        <IonList inset>{filteredOrders.map(item => (
+          <MenuListButton
+            key={item.id}
+            title={item.name}
+            handleItemClick={() => handleItemClick(ROUTES.ORDER(String(item.id)))}
+          />
+          ))}
+        </IonList>
             <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER_ADD)} />
             <IonToast
               isOpen={!!toastMessage}

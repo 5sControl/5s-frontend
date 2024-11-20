@@ -3,12 +3,16 @@ import { OperationStatus } from "../types/ordersStatus";
 
 export interface IOrders {
     id: number
+    status: OperationStatus
     name: string
+    orderNumber: number
+    orderYear: number
     createdAt: string
     updatedAt: string
-    estimatedTime: number,
-    estimatedTimeUnit: string,
-    additionalInfo: string,
+    estimatedAt: string
+    startedAt: string
+    completedAt: string
+    timeTaken: number
 }
 export interface IReference {
     id: number
