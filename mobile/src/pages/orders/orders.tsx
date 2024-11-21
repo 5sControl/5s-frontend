@@ -39,10 +39,14 @@ export const OrdersPage: React.FC = () => {
 
   const handleSetSearch = (v: string) => setSearchText(v);
 
+  const concatOrderNumberName = (order: IOrders) => {
+    return `${order.orderNumber} ${order.name || ""}`
+  };
+
   const filteredOrders = useMemo(() => {
     return orders.filter(item => {
       const statusFilter = item.status === selectedStatus;
-      const searchFilter = item.name.toLowerCase().includes(searchText.toLowerCase());
+      const searchFilter = concatOrderNumberName(item)?.toLowerCase().includes(searchText.toLowerCase());
       return statusFilter && searchFilter;
     });
   }, [orders, selectedStatus, searchText]);
@@ -95,7 +99,7 @@ export const OrdersPage: React.FC = () => {
         <IonList inset>{filteredOrders.map(item => (
           <MenuListButton
             key={item.id}
-            title={item.name}
+            title={concatOrderNumberName(item)}
             handleItemClick={() => handleItemClick(ROUTES.ORDER(String(item.id)))}
           />
           ))}
