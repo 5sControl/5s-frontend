@@ -102,6 +102,7 @@ const NewTimespan: React.FC = () => {
     } else {
       setSave(true);
       const payload = {
+        orderId: parseInt(orderId),
         orderOperationId: parseInt(operationId),
         startedAt: startDateTime,
         ...(finishDateTime && { finishedAt: finishDateTime }),
