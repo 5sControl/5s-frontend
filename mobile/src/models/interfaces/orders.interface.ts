@@ -14,6 +14,12 @@ export interface IOrders {
     completedAt: string
     timeTaken: number
 }
+
+export interface ICompleteOrder {
+    orderId: number
+    completeTime?: string
+}
+
 export interface IReference {
     id: number
     name: string
@@ -26,4 +32,4 @@ export interface IReference {
     createdAt: string
     updatedAt: string
     employeeId: number
-  }
+}
