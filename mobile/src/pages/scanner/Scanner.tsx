@@ -18,7 +18,6 @@ const Scanner = () => {
     const [toastMessage, setToastMessage] = useState<string | null>(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [hasScanned, setHasScanned] = useState(false);
-    const tempOperationId = 10;
 
     const redirectToOrder = (orderId: string, orderItemId: string, operationId: string) => {
         history.push(ROUTES.ORDER_TIMESPAN(orderId, orderItemId, operationId));
@@ -40,7 +39,7 @@ const Scanner = () => {
                 debounceTimeout = null;
             }, 2000);
     
-            createOrderFromQr({ qrCode: decodedText, operationId: tempOperationId }, cookies.token)
+            createOrderFromQr({ qrCode: decodedText}, cookies.token)
                 .then(response => {
                     const data = response.data;
                     const operationId = data.id;

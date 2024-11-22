@@ -183,7 +183,9 @@
       "done": "Done"
     },
     "assembly": "Assembly",
-    "blank": "Blank"
+    "blank": "Blank",
+    "time": "Time",
+    "surname": "Surname"
    },
    "time": {
      "hour": "h",

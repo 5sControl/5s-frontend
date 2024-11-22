@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import {
+  IonButton,
   IonContent,
+  IonItem,
   IonLabel,
   IonPage,
   IonSegment,
@@ -26,6 +28,8 @@ import { Preloader } from "../../components/preloader/preloader";
 import { IOrders } from "../../models/interfaces/orders.interface";
 import { Item } from "../../models/interfaces/item.interface";
 import { ORDER_STEPS } from "../../models/enums/orderSteps.enum";
+import { OperationStatus } from "../../models/types/ordersStatus";
+import { OPERATION_STATUS_ENUM } from "../../models/enums/statuses.enum";
 
 const RADIX = 10;
 
@@ -35,9 +39,10 @@ const Order = () => {
   const history = useHistory();
   const [order, setOrder] = useState<IOrders>({} as IOrders);
   const [orderItems, setOrderItems] = useState<Item[]>([]);
-  const [selectedSegment, setSelectedSegment] = useState<string>(ORDER_STEPS.BLANK);
+  const [selectedSegment, setSelectedSegment] = useState<string>(ORDER_STEPS.ASSEMLY);
   const [isLoading, setLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [completedOrder, setCompletedOrder] = useState<boolean>(false);
 
   const isLoaded = Boolean(Object.values(order)?.length);
 
@@ -67,6 +72,13 @@ const Order = () => {
     setSelectedSegment(event.detail.value as string);
   };
 
+  const handleCompleteClick = () => {
+    ORDER_REQUEST.completeOrder({orderId: order.id}, setLoading, setToastMessage)
+    .then(() => {
+      setCompletedOrder(true);
+    });
+  }
+
   return (
     <IonPage color="light">
       <Header title={order?.name} backButtonHref={ROUTES.ORDERS} />
@@ -82,6 +94,18 @@ const Order = () => {
                 <InputReadonly label={t("form.name")} value={order?.name} />
                 <InputReadonly label={t("orders.estimatedAt")} value={order?.estimatedAt ? formatDate(order?.estimatedAt) : "-"} />
                 <InputReadonly label={t("orders.startedAt")} value={formatDate(order?.createdAt)} />
+                
+                <InputReadonly label="Завершить заказ" />
+                <IonButton 
+                  className="ion-padding" 
+                  style={{paddingTop: "0"}}
+                  expand="full" 
+                  size="small"
+                  onClick={handleCompleteClick}
+                  disabled={order.status !== OPERATION_STATUS_ENUM.IN_PROGRESS || completedOrder}>
+                    Завершить
+                </IonButton>
+
                 <div className="segment-wrapper ion-padding">
                   <IonSegment value={selectedSegment} onIonChange={handleSegmentChange}>
                     <IonSegmentButton value={ORDER_STEPS.BLANK}>

@@ -1,7 +1,7 @@
 import { ITEMS_API, ITimespanUpdateBody, OPERATIONS_API, ORDER_ITEMS_API, ORDERS_API, TIMESPAN_API } from "../api/orders";
 import { STATUS } from "../models/enums/statuses.enum";
 import { AxiosError } from "axios";
-import { IOrders, IReference } from "../models/interfaces/orders.interface";
+import { ICompleteOrder, IOrders, IReference } from "../models/interfaces/orders.interface";
 import {
     IOrderOperation,
     IOrderOperationAddBody,
@@ -74,6 +74,24 @@ const addOrder = async (body: IAddOrder, setLoading?: React.Dispatch<React.SetSt
         const order = await ORDERS_API.addOrder(body);
         if (order.status === STATUS.CREATED) {
             return order.data;
+        } else {
+            setMessage && setMessage('Something went wrong')
+        }
+    } catch (e) {
+        const err = e as AxiosError
+        setMessage && setMessage(err.message)
+
+    } finally {
+        setLoading && setLoading(false)
+        setCallback && setCallback()
+    }
+}
+const completeOrder = async (body: ICompleteOrder, setLoading?: React.Dispatch<React.SetStateAction<boolean>>, setMessage?: React.Dispatch<React.SetStateAction<string | null>>, setCallback?: () => void) => {
+    try {
+        setLoading && setLoading(true)
+        const order = await ORDERS_API.completeOrder(body);
+        if (order.status === STATUS.OK) {
+            return true;
         } else {
             setMessage && setMessage('Something went wrong')
         }
@@ -287,6 +305,23 @@ const getTimespan = async (id: number, setTimespan: React.Dispatch<React.SetStat
     }
 }
 
+const getOrderItemTimespans = async (orderItemId: number, setTimespans: React.Dispatch<React.SetStateAction<ITimespan[]>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
+    try {
+        setLoading(true)
+        const timespans = await TIMESPAN_API.getOrderItemTimespans(orderItemId)
+        if (timespans.status === STATUS.OK) {            
+            setTimespans(timespans.data)
+        } else {
+            setMessage && setMessage('Something went wrong')
+        }
+    } catch (e) {
+        const err = e as AxiosError
+        setMessage && setMessage(err.message)
+    } finally {
+        setLoading && setLoading(false)
+    }
+}
 
 //////////////////////////////////////////////////
 
@@ -369,7 +404,7 @@ const getItemById = async (id: number, setItem: React.Dispatch<React.SetStateAct
     setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
     try {
         setLoading(true);
-        const item = await ITEMS_API.geItemById(id);
+        const item = await ITEMS_API.getItemById(id);
         if (item.status === STATUS.OK) {
             setItem(item.data);
         } else {
@@ -440,6 +475,7 @@ export const ORDER_REQUEST = {
     getOrders,
     getOrderById,
     addOrder,
+    completeOrder,
     getOrderItemOperations,
     getOrderOperationById,
     addOrderItemOperation,
@@ -467,7 +503,8 @@ export const ITEM_REQUEST = {
 export const TIMESPAN_REQUEST = {
     addTimespan,
     updateTimespan,
-    getTimespan
+    getTimespan,
+    getOrderItemTimespans
 }
 
 
