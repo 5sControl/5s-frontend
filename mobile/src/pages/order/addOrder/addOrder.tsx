@@ -19,14 +19,10 @@ import { useTranslation } from 'react-i18next';
 import { TOAST_DELAY } from './../../../constants/toastDelay';
 import { Input } from '../../../components/inputs/input/Input';
 import BottomButton from '../../../components/bottomButton/BottomButton';
-import { TableRow } from '../../../models/interfaces/table.interface';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMaxOrderItemId, setOrderItems, setTempOrderItemId } from '../../../store/orderSlice';
-import { RootState } from '../../../store';
-import { IOrderItemAddBody } from '../../../models/interfaces/item.interface';
-import { IOrders } from '../../../models/interfaces/orders.interface';
 import InputDate from '../../../components/inputs/inputDate/inputDate';
 import { formatDate, getCurrentDateTimeISO } from '../../../utils/parseInputDate';
+import { set } from 'lodash';
 
 const AddOrder: React.FC = () => {
   const history = useHistory();
@@ -37,10 +33,8 @@ const AddOrder: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [estimatedAt, setEstimatedAt] = useState<string>(getCurrentDateTimeISO());
+  const [estimatedAt, setEstimatedAt] = useState<string>('');
   const estimatedModalRef = useRef<HTMLIonModalElement>(null);
-  const orderItems = useSelector((state: RootState) => state.order.orderItems);
-  const maxOrderItemId: any = useSelector((state: RootState) => state.order.maxOrderItemId);
 
   const navigateTo = () => {
     history.push(ROUTES.ORDERS);
@@ -51,50 +45,18 @@ const AddOrder: React.FC = () => {
     setLoading(true);
     ORDER_REQUEST.addOrder({orderNumber: orderNumber, name: orderName, additionalInfo: '', estimatedTime: 0, estimatedTimeUnit: 'minutes'}, setLoading, setToastMessage, () => {})
     .then((res: any) => {
-      console.log(res);
-      Object.values(orderItems).forEach((item: any) => {
-        const newItem: IOrderItemAddBody = {
-          orderId: res.id,
-          name: item.name,
-          additionalInfo: item.suffix,
-          quantity: 1,
-          itemId: item.id
-        }
-        ORDER_ITEM_REQUEST.createOrderItem(newItem, setLoading, setToastMessage, () => {
-          item.operations.forEach((operation: any) => {
-            const newOperation = {
-              orderItemId: item.id,
-              operationIds: item.operations.map(operation => operation.id)
-            }
-            ORDER_REQUEST.addOrderItemOperation(newOperation, setLoading, setToastMessage)
-          })
-        });
-      })
+      setOrderName('');
+      setOrderNumber('');
+      setEstimatedAt('');
     })
     .finally(() => {
       navigateTo();
       setLoading(false);
-      dispatch(setOrderItems({}));
-      dispatch(setMaxOrderItemId(1))
-      dispatch(setTempOrderItemId(1));
     });
   };
   const openModal = () => {
     setIsModalOpen(true);
   };
-
-  const operationItems: TableRow[] = Object.values(orderItems)?.map((item: any, index: number) => {
-    return {
-      id: item.id,
-      navigateTo: '',
-      navigationAllowed: false,
-      values: [
-        item.id,
-        item.name,
-        item.suffix
-      ]
-    };
-  }) || [];
 
   return (
     <IonPage color="light">
@@ -106,6 +68,7 @@ const AddOrder: React.FC = () => {
           value={orderNumber}
           required={true} 
           handleChange={(e) => setOrderNumber(e.detail.value!)}
+          type='number'
         />
         <Input 
           label={t('orders.orderName')}
@@ -115,9 +78,9 @@ const AddOrder: React.FC = () => {
         />
         <IonList className='ion-padding' style={{ gap: ".5rem" }}>
           <IonLabel className='text-bold'>{t("orders.estimatedAt")}</IonLabel>
-          <InputDate value={formatDate(estimatedAt)} onClick={() => estimatedModalRef.current?.present()}></InputDate>
+          <InputDate value={estimatedAt ? formatDate(estimatedAt) : ""} onClick={() => estimatedModalRef.current?.present()}></InputDate>
         </IonList>
-        <BottomButton handleClick={openModal} disabled={!orderName && !orderNumber} label={t('operations.save')}/>
+        <BottomButton handleClick={openModal} disabled={!orderNumber} label={t('operations.save')}/>
         <IonToast
         isOpen={!!toastMessage}
         message={toastMessage || undefined}

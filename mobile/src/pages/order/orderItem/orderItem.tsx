@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { IonContent, IonLabel, IonList, IonPage, IonLoading, IonToast, useIonViewWillEnter } from "@ionic/react";
+import React, { useState } from "react";
+import { IonContent, IonList, IonPage, IonToast, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import style from "./orderItem.module.scss";
 import { useHistory, useParams } from "react-router-dom";
 import { IItem, Item } from "../../../models/interfaces/item.interface";
-import { ITEM_REQUEST, OPERATION_REQUEST, ORDER_ITEM_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
+import { ITEM_REQUEST, TIMESPAN_REQUEST } from "../../../dispatcher";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
 import { TOAST_DELAY } from "../../../constants/toastDelay";
 import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IOrderOperation, IProductOperation } from "../../../models/interfaces/operationItem.interface";
 import { TableRow } from "../../../models/interfaces/table.interface";
-import Chip from "../../../components/chip/chip";
 import { Table } from "../../../components/table/Table";
+import { ITimespan } from "../../../models/interfaces/orders.interface";
 
 const RADIX = 10;
 
@@ -24,7 +23,7 @@ const OrderItem = () => {
     itemId: string;
   };
   const [item, setItem] = useState<IItem>({} as IItem);
-  const [itemOperations, setItemOperations] = useState<IOrderOperation[]>([]);
+  const [timespans, setTimespans] = useState<ITimespan[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const isLoaded = Boolean(Object.values(item)?.length);
@@ -40,16 +39,16 @@ const OrderItem = () => {
 
   useIonViewWillEnter(() => {
     ITEM_REQUEST.getItemById(parseInt(itemId, RADIX), setItem, setLoading, setToastMessage).then(() => {
-      ORDER_REQUEST.getOrderItemOperations(parseInt(itemId, RADIX), setItemOperations, setLoading, setToastMessage);
+      TIMESPAN_REQUEST.getOrderItemTimespans(parseInt(itemId, RADIX), setTimespans, setLoading, setToastMessage);
     });
   });
 
   const tableItems: TableRow[] =
-    itemOperations.map((op, index) => {
+    timespans.map((timespan, index) => {
       return {
-        id: op.id,
-        navigateTo: ROUTES.ORDER_OPERATION(String(orderId), String(itemId), String(op.id)),
-        values: [op.name, <Chip name={op.status}></Chip>],
+        id: timespan.timespanId,
+        navigateTo: '',
+        values: [index + 1, timespan.employeeId, '', timespan.startedAt],
       };
     }) || [];
 
@@ -71,8 +70,10 @@ const OrderItem = () => {
                     <Table
                       label={t("orders.operations")}
                       cols={[
-                        { label: t("orders.name"), size: 8 },
-                        { label: t("orders.status"), size: 4 },
+                        { label: t("orders.id"), size: 1 },
+                        { label: t("orders.surname"), size: 4 },
+                        { label: t("orders.time"), size: 3 },
+                        { label: t("orders.date"), size: 4 },
                       ]}
                       rows={tableItems}
                     />

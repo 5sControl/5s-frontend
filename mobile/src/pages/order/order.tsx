@@ -42,11 +42,11 @@ const Order = () => {
   const [selectedSegment, setSelectedSegment] = useState<string>(ORDER_STEPS.ASSEMLY);
   const [isLoading, setLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [completedOrder, setCompletedOrder] = useState<boolean>(false);
 
   const isLoaded = Boolean(Object.values(order)?.length);
 
   useIonViewWillEnter(() => {
-    console.log('enter');
     id &&
       ORDER_REQUEST.getOrderById(parseInt(id, RADIX), setOrder, setLoading, setToastMessage).then(() => {
         ORDER_ITEM_REQUEST.getOrderItems(parseInt(id, RADIX), setOrderItems, setLoading, setToastMessage);
@@ -73,7 +73,10 @@ const Order = () => {
   };
 
   const handleCompleteClick = () => {
-    ORDER_REQUEST.completeOrder({orderId: order.id}, setLoading, setToastMessage);
+    ORDER_REQUEST.completeOrder({orderId: order.id}, setLoading, setToastMessage)
+    .then(() => {
+      setCompletedOrder(true);
+    });
   }
 
   return (
@@ -99,7 +102,7 @@ const Order = () => {
                   expand="full" 
                   size="small"
                   onClick={handleCompleteClick}
-                  disabled={order.status !== OPERATION_STATUS_ENUM.IN_PROGRESS}>
+                  disabled={order.status !== OPERATION_STATUS_ENUM.IN_PROGRESS || completedOrder}>
                     Завершить
                 </IonButton>
 
