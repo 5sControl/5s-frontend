@@ -61,7 +61,6 @@ const NewTimespan: React.FC = () => {
   const { from } = location.state || { from: "" };
 
   useIonViewWillEnter(() => {
-    console.log(qrTimespan)
     if (qrTimespan){
       const { orderName, orderYear, orderItem } = qrTimespan;
       setQrOrderName(orderName || "");

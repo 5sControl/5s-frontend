@@ -33,3 +33,13 @@ export interface IReference {
     updatedAt: string
     employeeId: number
 }
+
+export interface IOrderItemTimespan {
+    timespanId: number
+    startedAt: string
+    finishedAt: string
+    duration: number
+    orderOperation: IOperation
+    employeeId: number
+    employeeName: string
+}

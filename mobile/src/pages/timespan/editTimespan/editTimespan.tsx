@@ -1,23 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
-  IonIcon,
   IonButton,
-  IonButtons,
   IonContent,
   IonDatetime,
-  IonDatetimeButton,
-  IonHeader,
   IonLabel,
   IonModal,
-  IonText,
-  IonTitle,
-  IonToolbar,
   IonToast,
   IonPage,
-  IonFooter,
   IonList,
-  IonLoading,
-  useIonViewDidEnter,
   useIonViewWillEnter,
 } from "@ionic/react";
 import { useHistory } from "react-router-dom";
@@ -47,6 +37,8 @@ import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonl
 import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
 import { IItem } from "../../../models/interfaces/item.interface";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 const RADIX = 10;
 
 const EditTimespan: React.FC = () => {
@@ -58,9 +50,9 @@ const EditTimespan: React.FC = () => {
     timespanId: string;
   }>();
   const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
-  const [order, setOrder] = useState<IOrders>({} as IOrders);
-  const [operation, setOperation] = useState<IProductOperation>({} as IProductOperation);
-  const [item, setItem] = useState<IItem>({} as IItem);
+  const [orderName, setOrderName] = useState<string>("");
+  const [orderYear, setOrderYear] = useState<string>("");
+  const [orderItem, setOrderItem] = useState<string>("");
   const [isDateChange, setIsDateChange] = useState<boolean>(false);
   const [startDateTime, setStartDateTime] = useState<string>("");
   const [isStart, setIsStart] = useState<boolean>(true);
@@ -70,6 +62,7 @@ const EditTimespan: React.FC = () => {
   const [isLoading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+  const qrTimespan = useSelector((state: RootState) => state.currentTimespan);
 
   const history = useHistory();
   const startModalRef = useRef<HTMLIonModalElement>(null);
@@ -78,19 +71,19 @@ const EditTimespan: React.FC = () => {
   const { hours, minutes } = getTimeDifference(finishDateTime, startDateTime);
 
   useIonViewWillEnter(() => {
-    timespanId &&
-      TIMESPAN_REQUEST.getTimespan(parseInt(timespanId, RADIX), setTimespan, setLoading, setToastMessage).then(() =>
-        ORDER_REQUEST.getOrderById(parseInt(orderId, 10), setOrder, setLoading, setToastMessage)
-          .then(() => ITEM_REQUEST.getItemById(parseInt(itemId, 10), setItem, setLoading, setToastMessage))
-          .then(() =>
-            OPERATION_REQUEST.getOperationById(parseInt(operationId, 10), setOperation, setLoading, setToastMessage)
-          )
-      );
+    if (qrTimespan){
+      const { orderName, orderYear, orderItem } = qrTimespan;
+      setOrderName(orderName || "");
+      setOrderYear(orderYear || "");
+      setOrderItem(orderItem || "");
+      timespanId &&
+        TIMESPAN_REQUEST.getTimespan(parseInt(timespanId, RADIX), setTimespan, setLoading, setToastMessage)
+    }
   });
 
   useEffect(() => {
     if (timespan) {
-      timespan.createdAt && setStartDateTime(formatYMD(timespan.startedAt));
+      timespan.startedAt && setStartDateTime(formatYMD(timespan.startedAt));
       timespan.finishedAt && setFinishDateTime(formatYMD(timespan.finishedAt));
     }
   }, [timespan]);
@@ -109,7 +102,7 @@ const EditTimespan: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    history.push(ROUTES.ORDER_OPERATION(String(orderId), String(itemId), String(operationId)), { direction: "back" });
+    history.push(ROUTES.ORDER_ITEM(String(orderId), String(itemId)), { direction: "back" });
     setIsSaveModalOpen(false);
   };
 
@@ -183,7 +176,7 @@ const EditTimespan: React.FC = () => {
     <IonPage>
       <Header
         title={t("orders.implementationTime")}
-        backButtonHref={ROUTES.ORDER_OPERATION(String(orderId), String(itemId), String(operationId))}
+        backButtonHref={ROUTES.ORDER_ITEM(String(orderId), String(itemId))}
         onBackClick={backClick}
       />
       <IonContent>
@@ -195,9 +188,9 @@ const EditTimespan: React.FC = () => {
           <>
             {startDateTime && (
               <>
-                <InputReadonly label={t("orders.order")} value={order.name} />
-                <InputReadonly label={t("orders.orderItem")} value={item.name} />
-                <InputReadonly label={t("orders.operation")} value={operation.name} />
+                <InputReadonly label={t("orders.orderName")} value={orderName} />
+                <InputReadonly label={t("orders.orderYear")} value={orderYear || '-'} />
+                <InputReadonly label={t("orders.orderItem")} value={orderItem} />
 
                 <IonList className={`${style.page} ion-padding`}>
                   <IonList className={style.list}>

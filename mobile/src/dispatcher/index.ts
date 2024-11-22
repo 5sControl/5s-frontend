@@ -1,7 +1,7 @@
 import { ITEMS_API, ITimespanUpdateBody, OPERATIONS_API, ORDER_ITEMS_API, ORDERS_API, TIMESPAN_API } from "../api/orders";
 import { STATUS } from "../models/enums/statuses.enum";
 import { AxiosError } from "axios";
-import { ICompleteOrder, IOrders, IReference } from "../models/interfaces/orders.interface";
+import { ICompleteOrder, IOrderItemTimespan, IOrders } from "../models/interfaces/orders.interface";
 import {
     IOrderOperation,
     IOrderOperationAddBody,
@@ -9,10 +9,9 @@ import {
     IProductOperationAddBody
 } from "../models/interfaces/operationItem.interface";
 import { ITimespan } from "./../models/interfaces/orders.interface"
-import { ITimespanAddBody, IOperationReferenceUpdateBody } from './../api/orders'
+import { ITimespanAddBody } from './../api/orders'
 import { IAddOrder } from "../api/orders";
 import React from "react";
-import { add, create } from "lodash";
 import { IItem, IItemAddBody, IOrderItemAddBody, IOrderItemUpdateBody, Item } from "../models/interfaces/item.interface";
 
 
@@ -305,13 +304,14 @@ const getTimespan = async (id: number, setTimespan: React.Dispatch<React.SetStat
     }
 }
 
-const getOrderItemTimespans = async (orderItemId: number, setTimespans: React.Dispatch<React.SetStateAction<ITimespan[]>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+const getOrderItemTimespans = async (orderItemId: number, setTimespans: React.Dispatch<React.SetStateAction<IOrderItemTimespan[]>>, setOrderItemName: React.Dispatch<React.SetStateAction<string>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
     try {
         setLoading(true)
-        const timespans = await TIMESPAN_API.getOrderItemTimespans(orderItemId)
-        if (timespans.status === STATUS.OK) {            
-            setTimespans(timespans.data)
+        const orderItem = await TIMESPAN_API.getOrderItemTimespans(orderItemId)
+        if (orderItem.status === STATUS.OK) {  
+            setTimespans(orderItem.data.timespans || []);          
+            setOrderItemName(orderItem.data.timespans[0]?.orderOperation?.order_item?.name || '');
         } else {
             setMessage && setMessage('Something went wrong')
         }

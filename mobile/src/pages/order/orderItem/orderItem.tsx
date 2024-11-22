@@ -12,7 +12,10 @@ import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonl
 import { Preloader } from "../../../components/preloader/preloader";
 import { TableRow } from "../../../models/interfaces/table.interface";
 import { Table } from "../../../components/table/Table";
-import { ITimespan } from "../../../models/interfaces/orders.interface";
+import { IOrderItemTimespan, ITimespan } from "../../../models/interfaces/orders.interface";
+import { formatDate, formatTime } from "../../../utils/parseInputDate";
+import { useDispatch } from "react-redux";
+import { setTimespan } from "../../../store/timespanSlice";
 
 const RADIX = 10;
 
@@ -22,12 +25,12 @@ const OrderItem = () => {
     orderId: string;
     itemId: string;
   };
-  const [item, setItem] = useState<IItem>({} as IItem);
-  const [timespans, setTimespans] = useState<ITimespan[]>([]);
+  const [timespans, setTimespans] = useState<any[]>([]);
+  const [orderItemName, setOrderItemName] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const isLoaded = Boolean(Object.values(item)?.length);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const onDeleteHandle = () => {
     console.log("Delete");
@@ -38,24 +41,34 @@ const OrderItem = () => {
   };
 
   useIonViewWillEnter(() => {
-    ITEM_REQUEST.getItemById(parseInt(itemId, RADIX), setItem, setLoading, setToastMessage).then(() => {
-      TIMESPAN_REQUEST.getOrderItemTimespans(parseInt(itemId, RADIX), setTimespans, setLoading, setToastMessage);
-    });
+    TIMESPAN_REQUEST.getOrderItemTimespans(parseInt(itemId, RADIX), setTimespans, setOrderItemName, setLoading, setToastMessage);
   });
 
+  const saveTimespanInfo = (orderName, orderYear, orderItem) => {
+    const timespanData = {
+      orderName: orderName,
+      orderYear: orderYear,
+      orderItem: orderItem
+    }
+    dispatch(setTimespan(timespanData));
+  };
+
   const tableItems: TableRow[] =
-    timespans.map((timespan, index) => {
+    timespans?.map((timespan, index) => {
+      const { hours, minutes } = formatTime(timespan.duration);
+      const durationFormat = hours ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}` : `${minutes} ${t("time.min")}`;
       return {
         id: timespan.timespanId,
-        navigateTo: '',
-        values: [index + 1, timespan.employeeId, '', timespan.startedAt],
+        navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(String(orderId), String(itemId), String(timespan.orderOperation.id), String(timespan.timespanId)),
+        handleClick: saveTimespanInfo(timespan?.orderOperation?.order_item?.order?.name, '-', timespan?.orderOperation?.order_item?.name),
+        values: [index + 1, timespan.employeeName, durationFormat, formatDate(timespan.startedAt)],
       };
     }) || [];
 
   return (
     <IonPage>
       <>
-        <Header title={item.name} backButtonHref={ROUTES.ORDER(String(orderId))} />
+        <Header title={orderItemName} backButtonHref={ROUTES.ORDER(String(orderId))} />
         <IonContent>
           {isLoading ? (
             <div className="preloader">
@@ -63,12 +76,11 @@ const OrderItem = () => {
             </div>
           ) : (
             <>
-              {isLoaded && (
+              {!isLoading && (
                 <>
                   <IonList className={style.page}>
-                    <InputReadonly label={t("orders.orderItem")} value={item.name} />
                     <Table
-                      label={t("orders.operations")}
+                      label=""
                       cols={[
                         { label: t("orders.id"), size: 1 },
                         { label: t("orders.surname"), size: 4 },
