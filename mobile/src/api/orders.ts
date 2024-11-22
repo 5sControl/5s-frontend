@@ -92,7 +92,7 @@ export const TIMESPAN_API = {
   getTimespan: (id: number) =>
     request.get<ITimespan>(URLS.TIMESPANS + id + "/"),
   getOrderItemTimespans: (orderItemId: number) =>
-    request.get<ITimespan[]>(URLS.TIMESPANS + "order-item/"+ orderItemId + "/"),
+    request.get<any>(URLS.TIMESPANS + "order-item/"+ orderItemId + "/"),
 };
 
 export const ORDER_ITEMS_API = {

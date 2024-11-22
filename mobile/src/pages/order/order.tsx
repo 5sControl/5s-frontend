@@ -57,7 +57,7 @@ const Order = () => {
     orderItems.map((item, index) => {
       return {
         id: item.id,
-        navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.itemId)),
+        navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.id)),
         values: [index + 1, item.name, item.additionalInfo],
       };
     }) || [];
