@@ -12,7 +12,7 @@
 }
 .modal {
   width: 560px;
-  height: 500px;
+  height: fit-content;
   max-height: 90vh;
   max-width: 90vw;
   padding: 20px;
@@ -26,6 +26,7 @@
       display: flex;
       justify-content: flex-end;
       gap: 15px;
+      margin-top: 16px;
     }
   }
   &__content {
