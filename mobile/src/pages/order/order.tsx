@@ -73,11 +73,10 @@ const Order = () => {
   };
 
   const handleCompleteClick = () => {
-    ORDER_REQUEST.completeOrder({orderId: order.id}, setLoading, setToastMessage)
-    .then(() => {
+    ORDER_REQUEST.completeOrder({ orderId: order.id }, setLoading, setToastMessage).then(() => {
       setCompletedOrder(true);
     });
-  }
+  };
 
   return (
     <IonPage color="light">
@@ -92,18 +91,22 @@ const Order = () => {
             {isLoaded && (
               <>
                 <InputReadonly label={t("form.name")} value={order?.name} />
-                <InputReadonly label={t("orders.estimatedAt")} value={order?.estimatedAt ? formatDate(order?.estimatedAt) : "-"} />
+                <InputReadonly
+                  label={t("orders.estimatedAt")}
+                  value={order?.estimatedAt ? formatDate(order?.estimatedAt) : "-"}
+                />
                 <InputReadonly label={t("orders.startedAt")} value={formatDate(order?.createdAt)} />
-                
-                <InputReadonly label="Завершить заказ" />
-                <IonButton 
-                  className="ion-padding" 
-                  style={{paddingTop: "0"}}
-                  expand="full" 
+
+                <InputReadonly label={t("orders.finishOrder")} />
+                <IonButton
+                  className="ion-padding"
+                  style={{ paddingTop: "0" }}
+                  expand="full"
                   size="small"
                   onClick={handleCompleteClick}
-                  disabled={order.status !== OPERATION_STATUS_ENUM.IN_PROGRESS || completedOrder}>
-                    Завершить
+                  disabled={order.status !== OPERATION_STATUS_ENUM.IN_PROGRESS || completedOrder}
+                >
+                  {t("operations.finish")}
                 </IonButton>
 
                 <div className="segment-wrapper ion-padding">

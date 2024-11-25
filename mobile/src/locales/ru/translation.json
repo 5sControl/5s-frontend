@@ -185,7 +185,8 @@
     "assembly": "Сборка",
     "blank": "Заготовка",
     "time": "Время",
-    "surname": "Фамилия"
+    "surname": "Фамилия",
+    "finishOrder": "Завершить заказ"
   },
   "time": {
     "hour": "ч",

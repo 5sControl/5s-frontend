@@ -185,7 +185,8 @@
     "assembly": "Assembly",
     "blank": "Blank",
     "time": "Time",
-    "surname": "Surname"
+    "surname": "Surname",
+    "finishOrder": "Finish order"
    },
    "time": {
      "hour": "h",

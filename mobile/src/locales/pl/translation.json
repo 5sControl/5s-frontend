@@ -183,7 +183,8 @@
       "done": "Zakończony"
     },
     "time": "Сzas",
-    "surname": "Nazwisko"
+    "surname": "Nazwisko",
+    "finishOrder": "Zakończ zamówienie"
   },
   "time": {
     "hour": "godz.",

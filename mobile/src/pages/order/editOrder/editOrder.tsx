@@ -49,13 +49,13 @@ const EditOrder: React.FC = () => {
 
   useIonViewWillEnter(() => {
     if (!id) return;
-    ORDER_REQUEST.getOrderById(parseInt(id, 10), setOrder, setLoading, setToastMessage)
+    ORDER_REQUEST.getOrderById(parseInt(id, 10), setOrder, setLoading, setToastMessage);
   });
 
   useEffect(() => {
     setOrderName(order.name);
     if (order.estimatedAt) setOrderDate(order.estimatedAt);
-  }, [order])
+  }, [order]);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -63,12 +63,12 @@ const EditOrder: React.FC = () => {
     setLoading(false);
     handleNavigate();
     ORDER_REQUEST.updateOrder(
-      parseInt(id, 10), 
+      parseInt(id, 10),
       { ...order, name: orderName, estimatedAt: orderDate },
       setLoading,
       setToastMessage,
       handleNavigate
-    )
+    );
   };
 
   const openModal = () => {
@@ -81,10 +81,7 @@ const EditOrder: React.FC = () => {
 
   return (
     <IonPage>
-      <Header
-        title={`${t("operations.edit")} ${order?.orderNumber}`}
-        backButtonHref={ROUTES.ORDER(id)}
-      />
+      <Header title={`${t("operations.edit")} ${order?.orderNumber}`} backButtonHref={ROUTES.ORDER(id)} />
       <IonContent>
         {loading ? (
           <div className="preloader">
@@ -92,24 +89,25 @@ const EditOrder: React.FC = () => {
           </div>
         ) : (
           <>
-            <Input 
-              label={t("form.name")} 
-              value={orderName} 
-              required 
-              handleChange={(e) => setOrderName(e.detail.value!)}/>
-            <IonList className='ion-padding' style={{ gap: ".5rem" }}>
-              <IonLabel className='text-bold'>{t("orders.estimatedAt")}</IonLabel>
-              <InputDate value={orderDate ? formatDate(orderDate) : ""} onClick={() => dateModalRef.current?.present()}></InputDate>
-            </IonList>
-            <BottomButton
-              handleClick={openModal}
-              label={t("operations.save")}
+            <Input
+              label={t("form.name")}
+              value={orderName}
+              required
+              handleChange={e => setOrderName(e.detail.value!)}
             />
+            <IonList className="ion-padding" style={{ gap: ".5rem" }}>
+              <IonLabel className="text-bold">{t("orders.estimatedAt")}</IonLabel>
+              <InputDate
+                value={orderDate ? formatDate(orderDate) : ""}
+                onClick={() => dateModalRef.current?.present()}
+              ></InputDate>
+            </IonList>
+            <BottomButton handleClick={openModal} label={t("operations.save")} />
 
-              <IonModal ref={dateModalRef}>
+            <IonModal ref={dateModalRef}>
               <IonDatetime
                 id="estimated-datetime"
-                presentation="date-time"
+                presentation="date"
                 value={orderDate}
                 onIonChange={e => setOrderDate(e.detail.value!.toString())}
               />
