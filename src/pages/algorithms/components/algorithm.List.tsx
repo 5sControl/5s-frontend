@@ -11,13 +11,14 @@ import { Button } from '../../../components/button';
 import moment from 'moment';
 import { Input } from '../../../components/input';
 import { DropdownList } from 'react-widgets/cjs';
+import { capitalize } from 'lodash';
 
 export const AlgorithmList = ({ algorithm, token, processList, update }: any) => {
   const [isRemove, setIsRemove] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<any>(false);
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [usedIn, setUsedIn] = useState<string>('');
+  const [usedIn, setUsedIn] = useState<string>('Dashboard');
   const [imageName, setIMageName] = useState<string>(algorithm.image_name);
 
   const sendAlgorithm = () => {
@@ -58,6 +59,7 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
       processList.filter((el: any) => el.algorithm.id === algorithm.id).length === 0
     ) {
       setName(algorithm.name);
+      setUsedIn(algorithm.used_in.toUpperCase());
       setIsEdit(algorithm);
     }
   };
@@ -124,8 +126,8 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
               />
               <label>Used in</label>
               <DropdownList
-                defaultValue={'Dashboard'}
-                data={['dashboard', 'inventory', 'orders_view']}
+                defaultValue={capitalize(usedIn) || ''}
+                data={['Dashboard', 'Inventory', 'Orders_view']}
                 className={styles.input}
                 onChange={(e) => setUsedIn(e.toLowerCase())}
               />
