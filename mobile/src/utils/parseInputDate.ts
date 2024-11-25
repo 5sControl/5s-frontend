@@ -41,6 +41,15 @@ export const formatDate = (dateString: string): string => {
   return `${day}.${month}.${year}`;
 }
 
+export const formatDateYMD = (dateString: string): string => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = String(date.getFullYear());
+
+  return `${year}-${month}-${day}`;
+}
+
 export const formatDateUTC = (dateString: string): string => {
   const date = new Date(dateString);
   const day = String(date.getUTCDate()).padStart(2, '0');
@@ -148,6 +157,21 @@ export const getCurrentDateTimeISO = (): string => {
   const hours = String(now.getHours()).padStart(2, '0');
   const minutes = String(now.getMinutes()).padStart(2, '0');
   const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+}
+
+export const getDateWeekAgoISO = (): string => {
+  const now = new Date();
+  const weekAgo = new Date();
+  weekAgo.setDate(now.getDate() - 7);
+
+  const year = weekAgo.getFullYear();
+  const month = String(weekAgo.getMonth() + 1).padStart(2, '0');
+  const day = String(weekAgo.getDate()).padStart(2, '0');
+  const hours = String(weekAgo.getHours()).padStart(2, '0');
+  const minutes = String(weekAgo.getMinutes()).padStart(2, '0');
+  const seconds = String(weekAgo.getSeconds()).padStart(2, '0');
 
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 }

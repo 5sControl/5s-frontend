@@ -40,7 +40,7 @@ const OrderItem = () => {
 
   useIonViewWillEnter(() => {
     ITEM_REQUEST.getItemById(parseInt(itemId, RADIX), setItem, setLoading, setToastMessage).then(() => {
-      ORDER_REQUEST.getOrderItemOperations(parseInt(itemId, RADIX), setItemOperations, setLoading, setToastMessage);
+      ORDER_REQUEST.getOrderItemOperations(parseInt(orderId, RADIX), setItemOperations, setLoading, setToastMessage);
     });
   });
 

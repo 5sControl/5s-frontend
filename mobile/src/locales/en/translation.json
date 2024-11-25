@@ -91,7 +91,10 @@
      "submit": "Submit",
      "start": "Start",
      "finish": "Finish",
-     "saveChanges": "Save changes"
+     "saveChanges": "Save changes",
+     "download": "Download",
+     "share": "Share",
+     "print": "Print"
    },
    "db": {
      "products": {
@@ -180,6 +183,13 @@
    "time": {
      "hour": "h",
      "min": "min"
+   },
+   "reports": {
+     "report": "Report",
+     "fullReport": "Full report",
+     "individualReports": "Individual Reports",
+     "startDate": "Report start date",
+     "endDate": "Report end date"
    },
    "ordersView": {
      "orderSearch": "Order Search",

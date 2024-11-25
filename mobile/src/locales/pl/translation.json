@@ -77,7 +77,10 @@
     "finishedIn": "Zakończono w",
     "startOfOperation": "Początek operacji",
     "endOfOperation": "Koniec operacji",
-    "startNewOperation": "Rozpocznij nową operację"
+    "startNewOperation": "Rozpocznij nową operację",
+    "download": "Pobierz",
+    "share": "Udostępnij",
+    "print": "Drukuj"
   },
   "operations": {
     "add": "Dodaj",
@@ -180,6 +183,13 @@
   "time": {
     "hour": "godz.",
     "min": "min"
+  },
+  "reports": {
+    "report": "Raport",
+    "fullReport": "Pełny raport",
+    "individualReports": "Indywidualne raporty",
+    "startDate": "Data rozpoczęcia raportu",
+    "endDate": "Data zakończenia raportu"
   },
   "ordersView": {
     "orderSearch": "Wyszukiwanie zamówienia",

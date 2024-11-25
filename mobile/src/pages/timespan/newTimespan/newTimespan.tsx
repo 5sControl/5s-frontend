@@ -61,19 +61,18 @@ const NewTimespan: React.FC = () => {
   const { from } = location.state || { from: "" };
 
   useIonViewWillEnter(() => {
-    console.log(qrTimespan)
-    if (qrTimespan){
+    console.log(qrTimespan);
+    if (qrTimespan) {
       const { orderName, orderYear, orderItem } = qrTimespan;
       setQrOrderName(orderName || "");
       setQrOrderYear(orderYear || "");
       setQrOrderItem(orderItem || "");
-    }
-    else {
+    } else {
       ORDER_REQUEST.getOrderById(parseInt(orderId, 10), setOrder, setLoading, setToastMessage)
-      .then(() => ITEM_REQUEST.getItemById(parseInt(itemId, 10), setItem, setLoading, setToastMessage))
-      .then(() =>
-        OPERATION_REQUEST.getOperationById(parseInt(operationId, 10), setOperation, setLoading, setToastMessage)
-      );
+        .then(() => ITEM_REQUEST.getItemById(parseInt(itemId, 10), setItem, setLoading, setToastMessage))
+        .then(() =>
+          OPERATION_REQUEST.getOperationById(parseInt(operationId, 10), setOperation, setLoading, setToastMessage)
+        );
     }
   });
 
@@ -167,9 +166,9 @@ const NewTimespan: React.FC = () => {
           </div>
         ) : (
           <>
-            <InputReadonly label={t("orders.orderName")} value={qrOrderName ||order.name} />
-            <InputReadonly label={t("orders.orderYear")} value={qrOrderYear || '-'} />
-            <InputReadonly label={t("orders.orderItem")} value={qrOrderItem ||item.name} />
+            <InputReadonly label={t("orders.orderName")} value={qrOrderName || order.name} />
+            <InputReadonly label={t("orders.orderYear")} value={qrOrderYear || "-"} />
+            <InputReadonly label={t("orders.orderItem")} value={qrOrderItem || item.name} />
             <IonList className={`${style.page} ion-padding`}>
               <IonList className={style.list}>
                 <IonLabel className={style.label}>{t("form.date")}</IonLabel>
