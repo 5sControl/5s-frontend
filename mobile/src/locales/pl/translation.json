@@ -178,7 +178,16 @@
     "orderName": "Nazwa zamówienia",
     "orderNumber": "Numer zamówienia",
     "orderYear": "Rok zamówienia",
-    "estimatedAt": "Termin"
+    "startedAt": "Data startu",
+    "estimatedAt": "Termin",
+    "statusValues": {
+      "pending": "Nie rozpoczęty",
+      "inProgress": "W trakcie",
+      "done": "Zakończony"
+    },
+    "time": "Сzas",
+    "surname": "Nazwisko",
+    "finishOrder": "Zakończ zamówienie"
   },
   "time": {
     "hour": "godz.",

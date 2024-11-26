@@ -13,6 +13,7 @@ import { Preloader } from '../../components/preloader';
 import { AlgorithmList } from './components/algorithm.List';
 import { Modal } from '../../components/modal';
 import { Input } from '../../components/input';
+import { Notification } from '../../components/notification/notification';
 
 export const Algorithms = () => {
   const [cookies] = useCookies(['token']);
@@ -23,6 +24,7 @@ export const Algorithms = () => {
   const [image, setImage] = useState<string>('');
   const [process, setProcess] = useState<any[]>([]);
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [message, setMessage] = useState({status: false, message: ''});
 
   const sendAlgorithm = () => {
     postUploadAlgorithm(window.location.hostname, cookies.token, {
@@ -33,6 +35,8 @@ export const Algorithms = () => {
     }).then((response) => {
       setIsShowAddModal(false);
       console.log(response);
+    }).catch((error) => {
+      setMessage({ status: false, message: 'Unable to save' });
     });
   };
 
@@ -53,10 +57,19 @@ export const Algorithms = () => {
     });
   }, [isShowAddModal, isUpdate]);
 
+  useEffect(() => {
+    if (message) {
+      setTimeout(() => {
+        setMessage({status: false, message: ''});
+      }, 2000);
+    }
+  }, [message]);
+
   return (
     <div className={styles.wrapper}>
       {isShowAddModal && (
         <Modal className={styles.modal} isOpen={true} handleClose={() => setIsShowAddModal(false)}>
+          {message.message && <Notification status={message.status} message={message.message} />}
           <div className={styles.modal__container}>
             <div className={styles.modal__content}>
               <h2>Algorithm settings</h2>
@@ -70,7 +83,7 @@ export const Algorithms = () => {
                 name={''}
                 className={styles.input}
               />
-              <label>Description (optional)0</label>
+              <label>Description (optional)</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}

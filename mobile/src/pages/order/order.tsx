@@ -1,11 +1,22 @@
 import React, { useState } from "react";
-import { IonContent, IonPage, IonToast, useIonViewWillEnter } from "@ionic/react";
+import {
+  IonButton,
+  IonContent,
+  IonItem,
+  IonLabel,
+  IonPage,
+  IonSegment,
+  IonSegmentButton,
+  IonToast,
+  SegmentChangeEventDetail,
+  useIonViewWillEnter,
+} from "@ionic/react";
 import { Header } from "../../components/header/Header";
 import style from "./order.module.scss";
 import PencilIcon from "./../../assets/svg/editOutlined.svg";
 import { useHistory, useParams } from "react-router";
 import { ORDER_ITEM_REQUEST, ORDER_REQUEST } from "../../dispatcher";
-import { formatDate } from "../../utils/parseInputDate";
+import { formatDate, formatTime } from "../../utils/parseInputDate";
 import { ROUTES } from "../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
 import { TOAST_DELAY } from "./../../constants/toastDelay";
@@ -16,6 +27,9 @@ import { TableRow } from "../../models/interfaces/table.interface";
 import { Preloader } from "../../components/preloader/preloader";
 import { IOrders } from "../../models/interfaces/orders.interface";
 import { Item } from "../../models/interfaces/item.interface";
+import { ORDER_STEPS } from "../../models/enums/orderSteps.enum";
+import { OperationStatus } from "../../models/types/ordersStatus";
+import { OPERATION_STATUS_ENUM } from "../../models/enums/statuses.enum";
 
 const RADIX = 10;
 
@@ -24,10 +38,11 @@ const Order = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const [order, setOrder] = useState<IOrders>({} as IOrders);
-  const [orderItems, setOrderItems] = useState<Item[]>([]);
-
+  const [orderItems, setOrderItems] = useState<any>([]);
+  const [selectedSegment, setSelectedSegment] = useState<string>(ORDER_STEPS.ASSEMLY);
   const [isLoading, setLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [completedOrder, setCompletedOrder] = useState<boolean>(false);
 
   const isLoaded = Boolean(Object.values(order)?.length);
 
@@ -38,22 +53,36 @@ const Order = () => {
       });
   });
 
-  const items: TableRow[] =
+  const assemblyItems: TableRow[] =
     orderItems.map((item, index) => {
+      const { hours, minutes } = formatTime(item.totalDuration);
+      const durationFormat = hours ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}` : `${minutes} ${t("time.min")}`;
       return {
-        id: item.id,
-        navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.id)),
-        values: [index + 1, item.name, item.additionalInfo],
+        id: item.orderItem.id,
+        navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.orderItem.id)),
+        values: [index + 1, item.orderItem.name, durationFormat],
       };
     }) || [];
+
+  const blankItems: TableRow[] = [];
 
   const handleFabClick = (path: string) => {
     history.push(path);
   };
 
+  const handleSegmentChange = (event: CustomEvent<SegmentChangeEventDetail>) => {
+    setSelectedSegment(event.detail.value as string);
+  };
+
+  const handleCompleteClick = () => {
+    ORDER_REQUEST.completeOrder({ orderId: order.id }, setLoading, setToastMessage).then(() => {
+      setCompletedOrder(true);
+    });
+  };
+
   return (
     <IonPage color="light">
-      <Header title={order?.name} backButtonHref={ROUTES.ORDERS} />
+      <Header title={order?.orderNumber} backButtonHref={ROUTES.ORDERS} />
       <IonContent>
         {isLoading ? (
           <div className="preloader">
@@ -63,16 +92,43 @@ const Order = () => {
           <>
             {isLoaded && (
               <>
-                <InputReadonly label={t("form.name")} value={order?.name} />
-                <InputReadonly label={t("form.date")} value={formatDate(order?.createdAt)} />
+                <InputReadonly label={t("form.name")} value={order?.name || "-"} />
+                <InputReadonly
+                  label={t("orders.estimatedAt")}
+                  value={order?.estimatedAt ? formatDate(order?.estimatedAt) : "-"}
+                />
+                <InputReadonly label={t("orders.startedAt")} value={formatDate(order?.createdAt)} />
+
+                <InputReadonly label={t("orders.finishOrder")} />
+                <IonButton
+                  className="ion-padding"
+                  style={{ paddingTop: "0" }}
+                  expand="full"
+                  size="small"
+                  onClick={handleCompleteClick}
+                  disabled={order.status !== OPERATION_STATUS_ENUM.IN_PROGRESS || completedOrder}
+                >
+                  {t("operations.finish")}
+                </IonButton>
+
+                <div className="segment-wrapper ion-padding">
+                  <IonSegment value={selectedSegment} onIonChange={handleSegmentChange}>
+                    <IonSegmentButton value={ORDER_STEPS.BLANK}>
+                      <IonLabel>{t("orders.blank")}</IonLabel>
+                    </IonSegmentButton>
+                    <IonSegmentButton value={ORDER_STEPS.ASSEMLY}>
+                      <IonLabel>{t("orders.assembly")}</IonLabel>
+                    </IonSegmentButton>
+                  </IonSegment>
+                </div>
                 <Table
-                  label={t("orders.orderItems")}
+                  label={selectedSegment === ORDER_STEPS.BLANK ? t("orders.operations") : t("orders.orderItems")}
                   cols={[
                     { label: t("orders.id"), size: 1 },
                     { label: t("orders.name"), size: 7 },
-                    { label: t("orders.suffix"), size: 4 },
+                    { label: t("form.duration"), size: 4 },
                   ]}
-                  rows={items}
+                  rows={selectedSegment === ORDER_STEPS.BLANK ? blankItems : assemblyItems}
                 />
                 <Fab icon={PencilIcon} handleFabClick={() => handleFabClick(ROUTES.ORDER_EDIT(String(order.id)))} />
               </>

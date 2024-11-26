@@ -61,8 +61,7 @@ const NewTimespan: React.FC = () => {
   const { from } = location.state || { from: "" };
 
   useIonViewWillEnter(() => {
-    console.log(qrTimespan);
-    if (qrTimespan) {
+    if (qrTimespan){
       const { orderName, orderYear, orderItem } = qrTimespan;
       setQrOrderName(orderName || "");
       setQrOrderYear(orderYear || "");
@@ -101,6 +100,7 @@ const NewTimespan: React.FC = () => {
     } else {
       setSave(true);
       const payload = {
+        orderId: parseInt(orderId),
         orderOperationId: parseInt(operationId),
         startedAt: startDateTime,
         ...(finishDateTime && { finishedAt: finishDateTime }),

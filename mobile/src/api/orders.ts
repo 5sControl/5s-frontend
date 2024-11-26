@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getCookieValueByName } from "../utils/helpers";
-import { IOrders, IReference, ITimespan } from "../models/interfaces/orders.interface";
+import { ICompleteOrder, IOrders, IReference, ITimespan } from "../models/interfaces/orders.interface";
 import {
   IOrderOperation,
   IOrderOperationAddBody,
@@ -49,6 +49,8 @@ export const ORDERS_API = {
     request.get<IOrders>(URLS.ORDERS + id + "/"),
   updateOrder: (id: number, body: any) =>
     request.patch(URLS.ORDERS + id + "/", body),
+  completeOrder: (body: ICompleteOrder) =>
+    request.patch(URLS.ORDERS + "complete/", body),
 
   addOrderItemOperation: (body: IOrderOperationAddBody) =>
     request.post(URLS.ORDER_ITEM_OPERATIONS, {}),
@@ -76,7 +78,7 @@ export const ITEMS_API = {
     request.post(URLS.ITEMS, body),
   getItems: () =>
     request.get<IItem[]>(URLS.ITEMS),
-  geItemById: (id: number) =>
+  getItemById: (id: number) =>
     request.get<IItem>(URLS.ITEMS + id + "/"),
   updateItem: (id: number, body: IItemAddBody) =>
     request.patch(URLS.ITEMS + id + "/", body),
@@ -89,6 +91,8 @@ export const TIMESPAN_API = {
     request.patch(URLS.TIMESPANS + id + "/", body),
   getTimespan: (id: number) =>
     request.get<ITimespan>(URLS.TIMESPANS + id + "/"),
+  getOrderItemTimespans: (orderItemId: number) =>
+    request.get<any>(URLS.TIMESPANS + "order-item/"+ orderItemId + "/"),
 };
 
 export const ORDER_ITEMS_API = {
@@ -103,6 +107,7 @@ export const ORDER_ITEMS_API = {
 };
 
 export interface ITimespanAddBody {
+  orderId: number;
   orderOperationId: number;
   startedAt: string;
   finishedAt?: string;

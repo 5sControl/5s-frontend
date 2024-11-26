@@ -178,7 +178,18 @@
     "orderName": "Название заказа",
     "orderNumber": "Номер заказа",
     "orderYear": "Год заказа",
-    "estimatedAt": "Срок исполнения"
+    "startedAt": "Начало работы",
+    "estimatedAt": "Срок исполнения",
+    "statusValues": {
+      "pending": "Не начат",
+      "inProgress": "В работе",
+      "done": "Выполнен"
+    },
+    "assembly": "Сборка",
+    "blank": "Заготовка",
+    "time": "Время",
+    "surname": "Фамилия",
+    "finishOrder": "Завершить заказ"
   },
   "time": {
     "hour": "ч",
