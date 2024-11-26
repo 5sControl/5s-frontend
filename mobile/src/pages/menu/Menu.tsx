@@ -64,7 +64,11 @@ export const Menu: React.FC = () => {
               title={t("menu.orders")}
               handleItemClick={() => handleItemClick(ROUTES.ORDERS)}
             />
-            <MenuListButton icon={DollarSign} title={t("menu.reports")} />
+            <MenuListButton
+              icon={DollarSign}
+              title={t("menu.reports")}
+              handleItemClick={() => handleItemClick(ROUTES.REPORTS)}
+            />
           </IonList>
         </Restricted>
 

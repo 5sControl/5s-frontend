@@ -1,33 +1,26 @@
 import { IonContent, IonItem, IonList, IonPage, useIonViewWillEnter } from "@ionic/react";
-import { Header } from "../../components/header/Header";
-import { ROUTES } from "../../shared/constants/routes";
+import { Header } from "../../../components/header/Header";
 import { useTranslation } from "react-i18next";
-import { Plus } from "../../assets/svg/SVGcomponent";
-import Fab from "../../components/fab/Fab";
-import { useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
-import MenuListButton from "../../components/menuListButton/MenuListButton";
+import { ROUTES } from "../../../shared/constants/routes";
+import { Preloader } from "../../../components/preloader/preloader";
 import { useCookies } from "react-cookie";
-import { getAllDirectories } from "../../api/directory/directory";
-import { Preloader } from "../../components/preloader/preloader";
-import { Directory } from "../../models/interfaces/directory.interface";
+import { useEffect, useState } from "react";
+import { IEmployee } from "../../../models/interfaces/employee.interface";
+import { useHistory } from "react-router";
+import { getAllEmployees } from "../../../api/employees";
+import MenuListButton from "../../../components/menuListButton/MenuListButton";
 
-const GeneralDirectories = () => {
-  const [cookies] = useCookies(["token"]);
-  const [items, setItems] = useState<Directory[]>([]);
-  const [filteredItems, setFilteredItems] = useState<Directory[]>([]);
-  const [searchText, setSearchText] = useState<string>("");
-
+const IndividualReports = () => {
   const { t } = useTranslation();
+  const [cookies] = useCookies(["token"]);
+  const [items, setItems] = useState<IEmployee[]>([]);
+  const [filteredItems, setFilteredItems] = useState<IEmployee[]>([]);
+  const [searchText, setSearchText] = useState<string>("");
   const history = useHistory();
 
   const [loading, setLoading] = useState(true);
 
   const handleSetSearch = (value: string) => setSearchText(value);
-
-  const handleFabClick = (path: string) => {
-    history.push(path);
-  };
 
   const handleItemClick = (path: string) => {
     history.push(path);
@@ -36,7 +29,7 @@ const GeneralDirectories = () => {
   useIonViewWillEnter(() => {
     setSearchText("");
     setLoading(true);
-    getAllDirectories(cookies.token)
+    getAllEmployees(cookies.token)
       .then(response => {
         setItems(response.data);
       })
@@ -60,8 +53,8 @@ const GeneralDirectories = () => {
   return (
     <IonPage>
       <Header
-        title={t("menu.generalDirectories")}
-        backButtonHref={ROUTES.CONFIGURATION}
+        title={t("reports.individualReports")}
+        backButtonHref={ROUTES.REPORTS}
         searchBar={Boolean(items?.length)}
         searchText={searchText}
         onSearchChange={handleSetSearch}
@@ -73,7 +66,6 @@ const GeneralDirectories = () => {
           </div>
         ) : (
           <>
-            <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.DIRECTORIES_ADD)} />
             {items.length === 0 ? (
               <IonList inset={true}>
                 <IonItem>{t("messages.noDatabases")}</IonItem>
@@ -84,7 +76,7 @@ const GeneralDirectories = () => {
                   <MenuListButton
                     key={id}
                     title={name}
-                    handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES_ITEM_CARD(String(id)))}
+                    handleItemClick={() => handleItemClick(ROUTES.REPORT_EMPLOYEE(String(id)))}
                   />
                 ))}
               </IonList>
@@ -95,4 +87,4 @@ const GeneralDirectories = () => {
     </IonPage>
   );
 };
-export default GeneralDirectories;
+export default IndividualReports;

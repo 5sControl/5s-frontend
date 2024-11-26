@@ -77,7 +77,10 @@
     "finishedIn": "Закончил за",
     "startOfOperation": "Начало операции",
     "endOfOperation": "Конец операции",
-    "startNewOperation": "Перейти к новой операции"
+    "startNewOperation": "Перейти к новой операции",
+    "download": "Скачать",
+    "share": "Поделиться",
+    "print": "Распечатать"
   },
   "operations": {
     "add": "Добавить",
@@ -191,6 +194,13 @@
   "time": {
     "hour": "ч",
     "min": "мин"
+  },
+  "reports": {
+    "report": "Отчет",
+    "fullReport": "Полный отчет",
+    "individualReports": "Индивидуальные отчеты",
+    "startDate": "Дата начала отчета",
+    "endDate": "Дата конца отчета"
   },
   "ordersView": {
     "orderSearch": "Поиск заказа",

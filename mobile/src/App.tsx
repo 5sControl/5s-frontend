@@ -43,7 +43,6 @@ import EditOrder from "./pages/order/editOrder/editOrder";
 import Order from "./pages/order/order";
 import OrderOperations from "./pages/order/orderOperations/orderOperations";
 import AddOrderOperation from "./pages/order/addOrderOperation/addOrderOperation";
-import AddOrderOperationReference from "./pages/order/addOrderOperationReference/addOrderOperationRerefence";
 import NewTimespan from "./pages/timespan/newTimespan/newTimespan";
 import EditTimespan from "./pages/timespan/editTimespan/editTimespan";
 import { Authorization } from "./components/authorization/Authorization";
@@ -62,16 +61,15 @@ import Item from "./pages/items/item/Item";
 import EditItem from "./pages/items/edit-item/EditItem";
 import Employees from "./pages/employees/Employees";
 import Employee from "./pages/employees/employee/Employee";
-import PreScannerConfiguration from "./pages/scanner/preScannerConfiguration/preScannerConfiguration";
 import AddOrderItemInfo from "./pages/order/addOrderItem/addOrderItemInfo";
-import { Permission } from "./models/types/permission";
 import PermissionProvider from "./providers/permissionProvider/PermissionProvider";
-import Restricted from "./providers/permissionProvider/Restricted";
-import { User } from "./models/types/user";
-import { useDispatch, useSelector } from "react-redux";
-import { Preloader } from "./components/preloader/preloader";
+import { useDispatch } from "react-redux";
 import { setUserRole } from "./store/userSlice";
 import Language from "./pages/language/Language";
+import Reports from "./pages/reports/Reports";
+import FullReport from "./pages/reports/fullReport/FullReport";
+import IndividualReports from "./pages/reports/individualReports/IndividualReports";
+import EmployeeReport from "./pages/reports/employeeReport/EmployeeReport";
 
 setupIonicReact();
 
@@ -246,6 +244,19 @@ function App() {
 
               <Route exact path={ROUTES.LANGUAGE}>
                 <Language />
+              </Route>
+
+              <Route exact path={ROUTES.REPORTS}>
+                <Reports />
+              </Route>
+              <Route exact path={ROUTES.REPORT}>
+                <FullReport />
+              </Route>
+              <Route exact path={ROUTES.REPORTS_INDIVIDUAL}>
+                <IndividualReports />
+              </Route>
+              <Route exact path={ROUTES.REPORT_EMPLOYEE(":employeeId")}>
+                <EmployeeReport />
               </Route>
             </IonRouterOutlet>
           ) : (

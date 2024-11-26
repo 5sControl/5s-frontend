@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  background: white;
+  padding: 10px 16px;
+}
+
+.name {
+  padding: 10px
+}
