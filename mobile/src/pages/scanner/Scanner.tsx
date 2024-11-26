@@ -45,8 +45,9 @@ const Scanner = () => {
                     const operationId = data.id;
                     const orderItemId = data.orderItem.id;
                     const orderId = data.orderItem.order.id;
+                    const orderName = `${data.orderItem.order.orderNumber} ${data.orderItem.order.name ? data.orderItem.order.name : ''}`
                     const timespanData = {
-                        orderName: data.orderItem.order.name,
+                        orderName: orderName,
                         orderYear: data.orderItem.order.orderYear,
                         orderItem: data.orderItem.item.name
                     }
