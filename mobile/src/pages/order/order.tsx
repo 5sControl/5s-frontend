@@ -16,7 +16,7 @@ import style from "./order.module.scss";
 import PencilIcon from "./../../assets/svg/editOutlined.svg";
 import { useHistory, useParams } from "react-router";
 import { ORDER_ITEM_REQUEST, ORDER_REQUEST } from "../../dispatcher";
-import { formatDate } from "../../utils/parseInputDate";
+import { formatDate, formatTime } from "../../utils/parseInputDate";
 import { ROUTES } from "../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
 import { TOAST_DELAY } from "./../../constants/toastDelay";
@@ -38,7 +38,7 @@ const Order = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const [order, setOrder] = useState<IOrders>({} as IOrders);
-  const [orderItems, setOrderItems] = useState<Item[]>([]);
+  const [orderItems, setOrderItems] = useState<any>([]);
   const [selectedSegment, setSelectedSegment] = useState<string>(ORDER_STEPS.ASSEMLY);
   const [isLoading, setLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -55,10 +55,12 @@ const Order = () => {
 
   const assemblyItems: TableRow[] =
     orderItems.map((item, index) => {
+      const { hours, minutes } = formatTime(item.totalDuration);
+      const durationFormat = hours ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}` : `${minutes} ${t("time.min")}`;
       return {
-        id: item.id,
-        navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.id)),
-        values: [index + 1, item.name, item.additionalInfo],
+        id: item.orderItem.id,
+        navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.orderItem.id)),
+        values: [index + 1, item.orderItem.name, durationFormat],
       };
     }) || [];
 
