@@ -11,18 +11,36 @@ import MenuListButton from "../../../components/menuListButton/MenuListButton";
 import { useTranslation } from "react-i18next";
 import { RootState } from "../../../store";
 import { useSelector } from "react-redux";
+import { formatDateYMD } from "../../../utils/parseInputDate";
+import { getEmployeeReport } from "../../../api/reports";
+import File from "../../../components/file/File";
 
 const EmployeeReport = () => {
   const { t } = useTranslation();
   const [cookies] = useCookies(["token"]);
   const [employee, setEmployee] = useState<IEmployee>();
   const { employeeId }: { employeeId: string } = useParams();
-  const reportDate = useSelector((state: RootState) => state.reportDate);
+  const [reportName, setReportName] = useState<string>();
+  const [report, setReport] = useState();
   const [loading, setLoading] = useState(false);
 
   const onPressDownload = () => {
     console.log("download");
+    try {
+      const url = window.URL.createObjectURL(report!);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = reportName!;
+      document.body.appendChild(a);
+      a.click();
+      console.log(url);
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Ошибка при получении файла:", error);
+    }
   };
+
   const onPressShare = () => {
     console.log("share");
   };
@@ -31,12 +49,31 @@ const EmployeeReport = () => {
   };
 
   useIonViewWillEnter(() => {
-    console.log(reportDate);
-    getEmployee(Number(employeeId), cookies.token)
-      .then(response => {
-        setEmployee(response.data);
-      })
-      .catch(error => console.error(error));
+    const reportDate = localStorage.getItem("reportDate");
+    setLoading(true);
+    if (reportDate) {
+      getEmployee(Number(employeeId), cookies.token)
+        .then(response => {
+          setEmployee(response.data);
+
+          const date = JSON.parse(reportDate);
+          const startReportDate = formatDateYMD(date.startDate);
+          const endReportDate = formatDateYMD(date.endDate);
+          setReportName(`${response.data.name}_${startReportDate}_to_${endReportDate}.xlsx`);
+
+          return getEmployeeReport(cookies.token, startReportDate, endReportDate, Number(employeeId));
+        })
+        .then(response => {
+          console.log(response);
+          setReport(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   });
 
   return (
@@ -49,10 +86,11 @@ const EmployeeReport = () => {
           </div>
         ) : (
           <>
+            <File fileName={reportName!} />
             <IonList inset={true}>
               <MenuListButton title={t("operations.download")} handleItemClick={onPressDownload} />
-              <MenuListButton title={t("operations.share")} handleItemClick={onPressShare} />
-              <MenuListButton title={t("operations.print")} handleItemClick={onPressPrint} />
+              {/* <MenuListButton title={t("operations.share")} handleItemClick={onPressShare} /> */}
+              {/* <MenuListButton title={t("operations.print")} handleItemClick={onPressPrint} /> */}
             </IonList>
           </>
         )}

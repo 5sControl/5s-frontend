@@ -10,35 +10,27 @@ import MenuListButton from "../../../components/menuListButton/MenuListButton";
 import { useCookies } from "react-cookie";
 import { formatDateYMD } from "../../../utils/parseInputDate";
 import { getReport } from "../../../api/reports";
+import File from "../../../components/file/File";
 
 const FullReport = () => {
   const { t } = useTranslation();
   const [cookies] = useCookies(["token"]);
+  const [reportName, setReportName] = useState<string>();
   const [report, setReport] = useState();
-  const reportDate = useSelector((state: RootState) => state.reportDate);
   const [loading, setLoading] = useState(true);
 
   const onPressDownload = async () => {
     console.log("download");
     try {
-      // Получите файл Excel с сервера
-      const response = await fetch("/path/to/your/excel/file"); // Укажите путь к вашему файлу
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      // Прочитать содержимое файла
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-
-      // Создаем временный элемент <a> для скачивания
+      const url = window.URL.createObjectURL(report!);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "filename.xlsx"; // Задайте имя файла
+      a.download = reportName!;
       document.body.appendChild(a);
-      a.click(); // Имитируем клик для скачивания
-      document.body.removeChild(a); // Удаляем элемент после скачивания
-      window.URL.revokeObjectURL(url); // Освобождаем память
+      a.click();
+      console.log(url);
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Ошибка при получении файла:", error);
     }
@@ -46,18 +38,12 @@ const FullReport = () => {
 
   const onPressShare = async () => {
     console.log("share");
-    const fileName = "example.txt";
-    const fileContent = "Это пример файла для обмена.";
-    const blob = new Blob([fileContent], { type: "text/plain" });
-    const file = new File([blob], fileName, { type: "text/plain" });
-
-    // Проверяем поддержку Web Share API
+    const url = window.URL.createObjectURL(report!);
     if (navigator.share) {
       try {
         await navigator.share({
           title: "Поделиться файлом",
-          text: "Вот файл, который я хочу с тобой поделиться.",
-          files: [file],
+          text: url,
         });
         console.log("Файл успешно отправлен!");
       } catch (error) {
@@ -71,21 +57,12 @@ const FullReport = () => {
   const onPressPrint = async () => {
     console.log("print");
     try {
-      // Получите файл Excel с сервера
-      const response = await fetch("/path/to/your/excel/file"); // Укажите путь к вашему файлу
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+      const url = window.URL.createObjectURL(report!);
 
-      // Прочитать содержимое файла
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-
-      // Открыть файл в новом окне
       const printWindow = window.open(url);
       if (printWindow) {
         printWindow.onload = () => {
-          printWindow.print(); // Вызываем печать после загрузки
+          printWindow.print();
         };
       }
     } catch (error) {
@@ -95,13 +72,16 @@ const FullReport = () => {
 
   useIonViewWillEnter(() => {
     setLoading(true);
-    // console.log(reportDate);
     const reportDate = localStorage.getItem("reportDate");
     if (reportDate) {
       const date = JSON.parse(reportDate);
-      getReport(cookies.token, formatDateYMD(date.startDate), formatDateYMD(date.endDate))
+      const startReportDate = formatDateYMD(date.startDate);
+      const endReportDate = formatDateYMD(date.endDate);
+      setReportName(`${startReportDate}_to_${endReportDate}.xlsx`);
+      getReport(cookies.token, startReportDate, endReportDate)
         .then(response => {
           console.log(response);
+          setReport(response.data);
         })
         .catch(error => {
           console.error(error);
@@ -122,10 +102,11 @@ const FullReport = () => {
           </div>
         ) : (
           <>
+            <File fileName={reportName!} />
             <IonList inset={true}>
               <MenuListButton title={t("operations.download")} handleItemClick={onPressDownload} />
-              <MenuListButton title={t("operations.share")} handleItemClick={onPressShare} />
-              <MenuListButton title={t("operations.print")} handleItemClick={onPressPrint} />
+              {/* <MenuListButton title={t("operations.share")} handleItemClick={onPressShare} /> */}
+              {/* <MenuListButton title={t("operations.print")} handleItemClick={onPressPrint} /> */}
             </IonList>
           </>
         )}
