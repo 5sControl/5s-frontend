@@ -35,7 +35,7 @@ const AddOrder: React.FC = () => {
     setIsModalOpen(false);
     setLoading(true);
     ORDER_REQUEST.addOrder(
-      { orderNumber: orderNumber, name: orderName, additionalInfo: "", estimatedTime: 0, estimatedTimeUnit: "minutes" },
+      { orderNumber: orderNumber, name: orderName, additionalInfo: "", estimatedAt: estimatedAt },
       setLoading,
       setToastMessage,
       () => {}

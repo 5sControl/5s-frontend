@@ -126,6 +126,5 @@ export interface IAddOrder {
   orderNumber: string;
   name: string;
   additionalInfo: string;
-  estimatedTime: number;
-  estimatedTimeUnit: string;
+  estimatedAt: string;
 }
