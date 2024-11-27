@@ -91,12 +91,12 @@ export const LeftMenu = () => {
             <span>Dashboard</span>
           </Link>
         </li>
-        {/* <li className={window.location.pathname.includes('live') ? 'activeMenu' : 'noActiveMenu'}>*/}
-        {/*  <Link to='live'>*/}
-        {/*    <Live />*/}
-        {/*    <span>Live</span>*/}
-        {/*  </Link>*/}
-        {/* </li>*/}
+        <li className={window.location.pathname.includes('live') ? 'activeMenu' : 'noActiveMenu'}>
+         <Link to='live'>
+           <Live />
+           <span>Live</span>
+         </Link>
+        </li>
         <li
           className={
             window.location.pathname.includes('orders-view') ? 'activeMenu' : 'noActiveMenu'
