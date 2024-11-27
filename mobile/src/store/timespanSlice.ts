@@ -5,18 +5,26 @@ const timespanSlice = createSlice({
     initialState: {
         orderName: null,
         orderYear: null,
-        orderItem: null
+        orderItem: null,
+        timespanWorker: null,
+        timespanStatus: null
     },
     reducers: {
         setTimespan(state, action) {
-            state.orderName = action.payload.orderName;
-            state.orderYear = action.payload.orderYear;
-            state.orderItem = action.payload.orderItem;
+            const { orderName, orderYear, orderItem, timespanWorker, timespanStatus } = action.payload;
+
+            if (orderName) state.orderName = orderName;
+            if (orderYear) state.orderYear = orderYear;
+            if (orderItem) state.orderItem = orderItem;
+            if (timespanWorker) state.timespanWorker = timespanWorker;
+            if (timespanStatus) state.timespanStatus = timespanStatus;
         },
         clearTimespan(state) {
             state.orderName = null;
             state.orderYear = null;
             state.orderItem =null;
+            state.timespanWorker = null;
+            state.timespanStatus = null;
         },
     },
 });

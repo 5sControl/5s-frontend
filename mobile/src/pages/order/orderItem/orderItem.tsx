@@ -44,11 +44,10 @@ const OrderItem = () => {
     TIMESPAN_REQUEST.getOrderItemTimespans(parseInt(itemId, RADIX), setTimespans, setOrderItemName, setLoading, setToastMessage);
   });
 
-  const saveTimespanInfo = (orderName, orderYear, orderItem) => {
+  const saveTimespanInfo = (timespanWorker, finishTime) => {
     const timespanData = {
-      orderName: orderName,
-      orderYear: orderYear,
-      orderItem: orderItem
+      timespanWorker: timespanWorker,
+      timespanStatus: finishTime ? t("orders.statusValues.done") : t("orders.statusValues.inProgress"),
     }
     dispatch(setTimespan(timespanData));
   };
@@ -60,7 +59,7 @@ const OrderItem = () => {
       return {
         id: timespan.timespanId,
         navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(String(orderId), String(itemId), String(timespan.orderOperation.id), String(timespan.timespanId)),
-        handleClick: saveTimespanInfo(timespan?.orderOperation?.order_item?.order?.name, '-', timespan?.orderOperation?.order_item?.name),
+        handleClick: saveTimespanInfo(timespan?.employeeName, timespan?.finishedAt),
         values: [index + 1, timespan.employeeName, durationFormat, formatDate(timespan.startedAt)],
       };
     }) || [];
