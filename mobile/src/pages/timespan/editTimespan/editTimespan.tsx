@@ -50,9 +50,8 @@ const EditTimespan: React.FC = () => {
     timespanId: string;
   }>();
   const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
-  const [orderName, setOrderName] = useState<string>("");
-  const [orderYear, setOrderYear] = useState<string>("");
-  const [orderItem, setOrderItem] = useState<string>("");
+  const [worker, setWorker] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
   const [isDateChange, setIsDateChange] = useState<boolean>(false);
   const [startDateTime, setStartDateTime] = useState<string>("");
   const [isStart, setIsStart] = useState<boolean>(true);
@@ -72,10 +71,9 @@ const EditTimespan: React.FC = () => {
 
   useIonViewWillEnter(() => {
     if (qrTimespan){
-      const { orderName, orderYear, orderItem } = qrTimespan;
-      setOrderName(orderName || "");
-      setOrderYear(orderYear || "");
-      setOrderItem(orderItem || "");
+      const { orderName, orderYear, orderItem, timespanWorker, timespanStatus } = qrTimespan;
+      setWorker(timespanWorker || "");
+      setStatus(timespanStatus || "");
       timespanId &&
         TIMESPAN_REQUEST.getTimespan(parseInt(timespanId, RADIX), setTimespan, setLoading, setToastMessage)
     }
@@ -188,9 +186,8 @@ const EditTimespan: React.FC = () => {
           <>
             {startDateTime && (
               <>
-                <InputReadonly label={t("orders.orderName")} value={orderName} />
-                <InputReadonly label={t("orders.orderYear")} value={orderYear || '-'} />
-                <InputReadonly label={t("orders.orderItem")} value={orderItem} />
+                <InputReadonly label={t("orders.surname")} value={worker} />
+                <InputReadonly label={t("orders.status")} value={status} />
 
                 <IonList className={`${style.page} ion-padding`}>
                   <IonList className={style.list}>
@@ -256,7 +253,7 @@ const EditTimespan: React.FC = () => {
 
                   <div className={style.time}>
                     <IonLabel className={style.label}>{t("orders.operationTime")}</IonLabel>
-                    <IonLabel className={style.timeLabel}>{`${hours}${t("time.hour")} ${
+                    <IonLabel className={style.timeLabel}>{`${hours} ${t("time.hour")} ${
                       minutes ? minutes + " " + t("time.min") : ""
                     }`}</IonLabel>
                   </div>

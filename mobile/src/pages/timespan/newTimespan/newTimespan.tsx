@@ -239,7 +239,7 @@ const NewTimespan: React.FC = () => {
               </IonList>
               <div className={style.time}>
                 <IonLabel className={style.label}> {t("orders.operationTime")}</IonLabel>
-                <IonLabel className={style.timeLabel}>{`${hours}${t("time.hour")} ${
+                <IonLabel className={style.timeLabel}>{`${hours} ${t("time.hour")} ${
                   minutes ? minutes + " " + t("time.min") : ""
                 }`}</IonLabel>
               </div>
