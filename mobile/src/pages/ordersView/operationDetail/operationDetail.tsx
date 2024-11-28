@@ -1,7 +1,7 @@
 import { Header } from "../../../components/header/Header"
 import { ROUTES } from "../../../shared/constants/routes"
 import { OperationDetailItem } from "../../../models/interfaces/operatoinDetailItem.interface"
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonPage, IonToolbar } from "@ionic/react"
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonLabel, IonPage, IonToolbar } from "@ionic/react"
 import { useHistory, useParams } from "react-router-dom"
 import { useCookies } from "react-cookie"
 import { useCallback, useEffect, useRef, useState } from "react"
@@ -14,6 +14,9 @@ import '../../../styles/common.scss'
 import ReactPlayer from 'react-player';
 import { OrderDetail } from "../../../models/interfaces/ordersView.interface"
 import { arrowBack } from "ionicons/icons"
+import "../../../styles/common.scss"
+import { Download } from "../../../assets/svg/SVGcomponent"
+import { downloadFile } from "../../../utils/downloadFile"
 
 export const OperationDetail = () => {
     const [cookies] = useCookies(["token"]);
@@ -44,6 +47,14 @@ export const OperationDetail = () => {
           setLoading(false);
         });
     }, [])
+
+    const handleDownload = () => {
+        if (detail && detail.video && detail.video.status) {
+          const videoUrl = `${import.meta.env.VITE_API_BASE_URL}${detail?.video.file_name}`;
+    
+          downloadFile(videoUrl, detail.video.file_name);
+        }
+      };
 
     const handlePlay = useCallback(() => {
         if (!isReady) {
@@ -76,7 +87,11 @@ export const OperationDetail = () => {
                 </div> 
                 : <div className="videoWrapper">
                     <div className="orderDetail ion-padding">
-                        <h5 className="title">{detail.oprName}</h5>
+                        <div className="titleWrapper">
+                            <h4 className="title">{detail.oprName}</h4>
+                            <img src={Download} alt="download" onClick={handleDownload}/>
+                        </div>
+                        
                         <div className="subtitle">
                             <span>Time: </span>
                             <span className="subtitle_value">{moment(detail.sTime).format('HH:mm:ss')} </span>

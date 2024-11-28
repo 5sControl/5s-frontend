@@ -1,3 +1,17 @@
+.titleWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+
+    .title {
+        color: var(--ion-color-light);
+        font-weight: 600;
+    }
+}
+
 .subtitle {
     color: #9E9E9E;
     margin: 10px 0;
@@ -17,5 +31,6 @@
 .orderDetail {
     position: absolute;
     bottom: 70px;
+    width: 100%;
 }
 
