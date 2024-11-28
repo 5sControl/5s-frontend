@@ -1,9 +1,8 @@
 import { IonCol, IonGrid, IonItem, IonLabel, IonList, IonRow } from "@ionic/react";
-import { t } from "i18next";
 import React from "react";
-import "./../../styles/common.scss";
 import ItemList from "../itemList/itemList";
 import { TableCol, TableRow } from "../../models/interfaces/table.interface";
+import styles from "./table.module.css";
 
 type TableProps = {
   label: string;
@@ -16,12 +15,12 @@ export const Table: React.FC<TableProps> = ({ label, cols, rows }) => {
     <>
       <IonList className="ion-padding">
         <IonLabel className="text-bold">{label}</IonLabel>
-        <IonItem style={{ marginTop: ".5rem" }}>
+        <IonItem className={styles.tableTitle}>
           <IonGrid>
-            <IonRow class="text-bold">
+            <IonRow className="text-bold">
               {cols.map((col, index) => (
                 <IonCol key={col.label + index} size={col.size.toString()}>
-                  {col.label}
+                  <span className="text-nowrap">{col.label}</span>
                 </IonCol>
               ))}
             </IonRow>
@@ -30,12 +29,9 @@ export const Table: React.FC<TableProps> = ({ label, cols, rows }) => {
         {rows?.map((item, index) => (
           <ItemList to={item.navigateTo} key={item.id} navigationAllowed={item.navigationAllowed}>
             <IonGrid>
-              <IonRow>
+              <IonRow className={styles.valueRow}>
                 {cols.map((col, index) => (
-                  <IonCol
-                    key={`${item.id}${col.label}`}
-                    size={col.size.toString()}
-                  >
+                  <IonCol key={`${item.id}${col.label}`} size={col.size.toString()} className={styles.valueCol}>
                     {item.values[index]}
                   </IonCol>
                 ))}

@@ -70,12 +70,11 @@ const EditTimespan: React.FC = () => {
   const { hours, minutes } = getTimeDifference(finishDateTime, startDateTime);
 
   useIonViewWillEnter(() => {
-    if (qrTimespan){
+    if (qrTimespan) {
       const { orderName, orderYear, orderItem, timespanWorker, timespanStatus } = qrTimespan;
       setWorker(timespanWorker || "");
       setStatus(timespanStatus || "");
-      timespanId &&
-        TIMESPAN_REQUEST.getTimespan(parseInt(timespanId, RADIX), setTimespan, setLoading, setToastMessage)
+      timespanId && TIMESPAN_REQUEST.getTimespan(parseInt(timespanId, RADIX), setTimespan, setLoading, setToastMessage);
     }
   });
 

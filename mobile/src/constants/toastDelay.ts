@@ -1,1 +1,1 @@
-export const TOAST_DELAY = 10000;
+export const TOAST_DELAY = 5000;
