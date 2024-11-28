@@ -145,7 +145,6 @@ export const PreviewOrders: React.FC = () => {
       queryData['order-status'] = 'all';
     }
     let queryDateParam = getFilterDateQueryData(searchParams);
-    // console.log(filterData);
     if (queryDateParam.from && queryDateParam.to) {
       console.log('get query date');
     } else {

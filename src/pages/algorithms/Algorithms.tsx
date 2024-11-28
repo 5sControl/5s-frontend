@@ -34,7 +34,6 @@ export const Algorithms = () => {
       description: description,
     }).then((response) => {
       setIsShowAddModal(false);
-      console.log(response);
     }).catch((error) => {
       setMessage({ status: false, message: 'Unable to save' });
     });
@@ -44,7 +43,6 @@ export const Algorithms = () => {
     getAveilableAlgorithms(window.location.hostname, cookies.token)
       .then((response) => {
         setAlgorithmList(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         setAlgorithmList([]);

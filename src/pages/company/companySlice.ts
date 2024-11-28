@@ -24,7 +24,6 @@ export const getCompanies = createAsyncThunk(
   async (data: { token: string; hostname: string }) => {
     try {
       const response = await getSuppliers(data.hostname, data.token);
-      console.log("getSuppliers", response);
       return response.data;
     } catch (e) {
       console.log("getSuppliersError", e);

@@ -27,7 +27,6 @@ export const CurrentReport = () => {
       camera_ip: element.camera.id,
       time: new Date(element.start_tracking).valueOf(),
     };
-    // console.log(body);
     getVideo(window.location.hostname, body).then((res) => {
       if (Object.keys(res.data).length) {
         const value = {
@@ -38,8 +37,6 @@ export const CurrentReport = () => {
           eTime: new Date(element.stop_tracking).valueOf(),
           video: res.data,
         };
-        // console.log(value);
-        console.log(value);
         setOperationOV(value);
       } else {
         setOperationOV(`Operation #${element.id} was not found in the database`);

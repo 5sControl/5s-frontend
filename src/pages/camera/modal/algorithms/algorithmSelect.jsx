@@ -67,7 +67,6 @@ export const AlgorithmSelect = ({
             algoObj[el] = result[el];
           });
           setAlgoWorkzone({ ...algoObj });
-          console.log(algoObj);
         }
       });
     }

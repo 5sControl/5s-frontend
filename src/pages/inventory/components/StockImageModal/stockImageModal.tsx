@@ -56,7 +56,6 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   }, [fullImage]);
 
   const prevReport = () => {
-    console.log(currentIndex);
     const prevReport = inventoryHistoryData
       ? inventoryHistoryData[currentIndex - 1]
       : currentReport;
@@ -65,8 +64,6 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   };
 
   const nextReport = () => {
-    console.log(currentIndex);
-    console.log(inventoryHistoryData);
     const nextReport = inventoryHistoryData
       ? inventoryHistoryData[currentIndex + 1]
       : currentReport;
@@ -97,7 +94,6 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
     };
   }, [handleClose]);
 
-  // console.log(operationStart, 'sdfsdf');
   return (
     <Modal
       isOpen={isOpen}

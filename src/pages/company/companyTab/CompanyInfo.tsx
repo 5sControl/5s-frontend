@@ -32,7 +32,6 @@ export const CompanyInfo: FC = () => {
         res.data.detail !== 'Authentication credentials were not provided.' &&
         res.data.detail !== 'Given token not valid for any token type'
       ) {
-        console.log(res.data);
         setUserList(res.data);
       }
     });

@@ -77,7 +77,6 @@ const AddOrderOperation: React.FC = () => {
 
   const handleSubmit = async () => {
     const updatedItems = {...storedItems,  [tempItemId.toString()]: { ...item, operations: storedItems[tempItemId].operations.concat(selectedOperations) }};
-    console.log('updatedItems', updatedItems);
     dispatch(setStoreOrderItems(updatedItems));
     setIsModalOpen(false);
     navigateTo(ROUTES.ORDER_ADD_ITEM_INFO);
