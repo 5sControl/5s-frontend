@@ -121,7 +121,7 @@ export const OrdersView: React.FC = () => {
       <IonContent>
         <Header 
         title={t('text.ordersView')} 
-        backButtonHref={ROUTES.MENU} 
+        backButtonHref={ROUTES.ORDERS} 
         endButton={<img src={Settings} onClick={() => setOpenSettings(true)}/>}/>
         <div className="ion-padding">
           <IonGrid>

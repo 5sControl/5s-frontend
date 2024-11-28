@@ -1,12 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   IonContent,
-  IonFab,
-  IonFabButton,
   IonIcon,
   IonLabel,
   IonList,
-  IonLoading,
   IonPage,
   IonSegment,
   IonSegmentButton,
@@ -16,7 +13,7 @@ import {
 } from "@ionic/react";
 import { ROUTES } from "../../shared/constants/routes";
 import { Header } from "../../components/header/Header";
-import { Plus } from "../../assets/svg/SVGcomponent";
+import { Chart, Plus } from "../../assets/svg/SVGcomponent";
 import { IOrders } from "../../models/interfaces/orders.interface";
 import { ORDER_REQUEST } from "../../dispatcher";
 import { useTranslation } from "react-i18next";
@@ -75,6 +72,7 @@ export const OrdersPage: React.FC = () => {
         searchBar={Boolean(orders?.length)}
         searchText={searchText}
         onSearchChange={handleSetSearch}
+        endButton={<img src={Chart} alt="orders view" onClick={() => handleItemClick(ROUTES.ORDERSVIEW)}/>}
       />
       <IonContent color="light">
         {isLoading ? (
