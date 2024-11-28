@@ -1,1 +1,0 @@
-export type MinuteScaling = "1min" | "6min" | "12min" | "20min" | "30min";
