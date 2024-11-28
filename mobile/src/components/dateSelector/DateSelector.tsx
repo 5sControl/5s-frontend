@@ -15,24 +15,21 @@ type DataSelectorProps = {
 
 const DateSelector = ({ label, date, modalRef, maxDate, minDate, setDate }: DataSelectorProps) => {
   const { t } = useTranslation();
-  const [selectedDate, setSelectedDate] = useState(date);
-  const [showModal, setShowModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<string>(date);
   const [isModalOpen, setModalOpen] = useState<boolean>();
 
-  const handleStartDateClick = () => {
+  const handleDateClick = () => {
     modalRef.current?.present();
     setModalOpen(true);
   };
 
   const handleSave = () => {
     setDate(selectedDate);
-    setShowModal(false);
     modalRef.current?.dismiss();
   };
 
   const handleCancel = () => {
     setSelectedDate(date);
-    setShowModal(false);
     setModalOpen(false);
     modalRef.current?.dismiss();
   };
@@ -41,10 +38,10 @@ const DateSelector = ({ label, date, modalRef, maxDate, minDate, setDate }: Data
     <div>
       <IonList inset={true}>
         <IonLabel className="text-bold">{label}</IonLabel>
-        <InputDate value={formatDate(date)} isOpen={isModalOpen} onClick={handleStartDateClick} />
+        <InputDate value={formatDate(date)} isOpen={isModalOpen} onClick={handleDateClick} />
       </IonList>
 
-      <IonModal isOpen={showModal} ref={modalRef} onWillDismiss={handleCancel}>
+      <IonModal ref={modalRef} onWillDismiss={handleCancel}>
         <IonDatetime
           presentation="date"
           value={selectedDate}

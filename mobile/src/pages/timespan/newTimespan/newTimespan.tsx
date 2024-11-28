@@ -35,6 +35,7 @@ import { Preloader } from "../../../components/preloader/preloader";
 import { LocationState } from "../../../models/types/locationState";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import TimeSelector from "../../../components/timeSelector/TimeSelector";
 
 const NewTimespan: React.FC = () => {
   const { orderId, itemId, operationId } = useParams<{ orderId: string; itemId: string; operationId: string }>();
@@ -90,7 +91,6 @@ const NewTimespan: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    // if (from === "scanner")
     history.push(ROUTES.SCANNER_QR);
   };
 
@@ -119,7 +119,7 @@ const NewTimespan: React.FC = () => {
     setStartDateTime(date);
   };
 
-  const handleCustomTime = (time: string | string[]) => {
+  const handleStartTime = (time: string | string[]) => {
     if (Array.isArray(time)) return;
     if (finishDateTime && time > finishDateTime) {
       setToastMessage(t("messages.startTime"));
@@ -127,7 +127,7 @@ const NewTimespan: React.FC = () => {
     }
     setStartDateTime(time);
   };
-  const handleCustomFinishTime = (time: string | string[]) => {
+  const handleFinishTime = (time: string | string[]) => {
     if (Array.isArray(time)) return;
 
     if (time < startDateTime) {
@@ -177,27 +177,8 @@ const NewTimespan: React.FC = () => {
               <IonList className={style.sized}>
                 <div className={style.container}>
                   <IonLabel className={style.label}>{t("orders.startOperation")}</IonLabel>
-                  {isStart && (
-                    <IonButton
-                      size="small"
-                      fill="outline"
-                      className="outlined"
-                      style={{ fontWeight: "700", fontSize: "1rem" }}
-                      onClick={() => startModalRef.current?.present()}
-                    >
-                      {extractTime(startDateTime)}
-                    </IonButton>
-                  )}
+                  {isStart && <TimeSelector time={startDateTime} modalRef={startModalRef} setTime={handleStartTime} />}
                 </div>
-
-                <IonModal ref={startModalRef}>
-                  <IonDatetime
-                    id="start-datetime"
-                    presentation="time"
-                    value={startDateTime}
-                    onIonChange={e => handleCustomTime(e.detail.value!)}
-                  />
-                </IonModal>
 
                 {!isStart && (
                   <IonButton expand="block" onClick={handleStartNow} disabled={isStart}>
@@ -210,26 +191,9 @@ const NewTimespan: React.FC = () => {
                 <div className={style.container}>
                   <IonLabel className={style.label}>{t("orders.finishOperation")}</IonLabel>
                   {finishDateTime && (
-                    <IonButton
-                      size="small"
-                      fill="outline"
-                      className="outlined"
-                      style={{ fontWeight: "700", fontSize: "1rem" }}
-                      onClick={() => finishModalRef.current?.present()}
-                    >
-                      {extractTime(finishDateTime)}
-                    </IonButton>
+                    <TimeSelector time={finishDateTime} modalRef={finishModalRef} setTime={handleFinishTime} />
                   )}
                 </div>
-
-                <IonModal ref={finishModalRef}>
-                  <IonDatetime
-                    id="finish-datetime"
-                    presentation="time"
-                    value={finishDateTime || undefined}
-                    onIonChange={e => handleCustomFinishTime(e.detail.value!)}
-                  />
-                </IonModal>
 
                 {!finishDateTime && (
                   <IonButton expand="block" onClick={handleFinishNow} disabled={!isStart || !!finishDateTime}>
