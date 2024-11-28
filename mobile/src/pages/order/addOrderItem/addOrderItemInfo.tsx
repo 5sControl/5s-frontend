@@ -30,8 +30,6 @@ const AddOrderItemInfo = () => {
   const tempItemId: any = useSelector((state: RootState) => state.order.tempOrderItemId);
   const orderName: any = useSelector((state: RootState) => state.order.orderName);
   const item: any = storedItems[tempItemId];
-  console.log('storedItems', storedItems);
-  console.log('item', item);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -50,9 +48,7 @@ const AddOrderItemInfo = () => {
 
     const saveChanges = () => {
         setIsModalOpen(false);
-        console.log('storedItems 1', storedItems);
         const updatedItems = {...storedItems,  [tempItemId]: {...item, suffix: inputValue }};
-        console.log('storedItems 2', updatedItems);
         dispatch(setStoreOrderItems(updatedItems));
     }
 

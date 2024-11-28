@@ -32,7 +32,6 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
       .then((response) => {
         setIsEdit(false);
         update();
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -118,7 +117,6 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
                 className={styles.input}
                 value={imageName}
                 onChange={(e) => {
-                  console.log(e.currentTarget.value);
                   setIMageName(e.currentTarget.value);
                 }}
                 id={''}

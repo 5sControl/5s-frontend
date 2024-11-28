@@ -19,7 +19,6 @@ export const Reports = ({ data, selectDate }) => {
     }
   };
 
-  console.log(data);
   useEffect(() => {
     const nextItem = (e) => (e.key ? goToNextReport(e.key) : null);
     document.body.addEventListener('keydown', nextItem);

@@ -34,7 +34,6 @@ const ConversetionalWindow = () => {
     {
       command: 'hey taqi * (please)',
       callback: (question: string) => {
-        console.log(question);
         setPrompt(question);
         onAskPressHandler();
         resetTranscript();

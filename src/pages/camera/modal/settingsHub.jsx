@@ -43,13 +43,11 @@ export const SettingsHub = ({
     }
   }, [cameraSelect, algorithmsActiveObject]);
   useEffect(() => {
-    // console.log(algorithmsActive);
     if (algorithmsActive) {
       setCheckboxAlgo(Object.assign([], algorithmsActive));
     }
   }, [algorithmsActive]);
 
-  // console.log(informationToSend);
   const applySettings = async () => {
     setIsPreloader(true);
     const response = {
@@ -84,7 +82,6 @@ export const SettingsHub = ({
         ];
       }
     }
-    console.log(response);
     await postAlgorithnDependences(window.location.hostname, token, response)
       .then(() => {
         setIsEnabled(false);
@@ -109,7 +106,6 @@ export const SettingsHub = ({
           algoObj[el] = result[el];
         });
         setAlgoWorkzone({ ...algoObj });
-        console.log(algoObj);
       }
     });
   }, []);

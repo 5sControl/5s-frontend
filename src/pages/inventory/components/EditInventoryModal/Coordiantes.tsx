@@ -53,7 +53,6 @@ export const Coordinates: React.FC<PropsType> = ({
     if (proportionHeight > 0 && proportionHeight > 0) {
       getCameraZones(window.location.hostname, token, currentSelect)
         .then((res) => {
-          console.log(res);
           if (res && res.data && res.data.length > 0) {
             const bufCoord = res.data.map((element: any) => {
               return {
@@ -65,7 +64,6 @@ export const Coordinates: React.FC<PropsType> = ({
                 name: element.name,
               };
             });
-            console.log(bufCoord);
             setZone(bufCoord);
           }
         })

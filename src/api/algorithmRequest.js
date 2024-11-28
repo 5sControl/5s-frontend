@@ -82,7 +82,6 @@ export const deleteAlgorithmAPI = (hostname, cookies, id) => {
 };
 
 export const putAlgorithmAPI = (cookies, id, body) => {
-  console.log(cookies);
   return axios.put(
     `${process.env.REACT_APP_NGROK}${API_ALGORITHM}${id}/`,
     body,

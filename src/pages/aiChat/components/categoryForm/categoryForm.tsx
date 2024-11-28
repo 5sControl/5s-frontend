@@ -133,8 +133,6 @@ const CategoryForm: FC<Props> = ({ actionType, closeHandler, fileName, prompt })
     }
   };
 
-  console.log(category);
-
   return (
     <div className={styles.container}>
       <div className={styles.formContainer}>

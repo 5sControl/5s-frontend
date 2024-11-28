@@ -350,7 +350,6 @@ const aiChatPage = createSlice({
           },
         };
       });
-      console.log(state.categories);
     },
     setChats(state: AIChat, action: PayloadAction<Chat[]>) {
       state.chats = action.payload;

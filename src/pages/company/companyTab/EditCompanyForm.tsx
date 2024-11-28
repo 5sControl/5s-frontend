@@ -148,12 +148,10 @@ export const EditCompanyForm = () => {
   }, []);
 
   useEffect(() => {
-    console.log('companyInfoForm', companyInfoForm);
     setContact(companyInfoForm[0]);
   }, [companyInfoForm]);
 
   useEffect(() => {
-    console.log('contact', contact);
     if (contact) {
       const previousCountry = countryData.find((item) => item.code === contact.country);
 

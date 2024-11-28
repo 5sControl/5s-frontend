@@ -27,35 +27,37 @@ import RedStatus from "./status/redStatus.svg";
 import FiveS from "./5S.svg";
 import ExcelFile from './excelFile.svg';
 import Download from './downloadIcon.svg';
+import Chart from './chart.svg'
 
 export {
-  ArrowRight,
   AddCover,
+  ArrowRight,
   Back,
+  Chart,
   Close,
   CloseCross,
   Cog,
   DeleteCover,
   DeleteRedIcon,
   DollarSign,
+  Download,
   EditCover,
   EditOrangeIcon,
   EditWhiteIcon,
+  ExcelFile,
+  FiveS,
+  GreenStatus,
+  GreyStatus,
   HourMode,
   Logout,
   MenuLogo,
   MinuteMode,
+  OrangeStatus,
   Orders,
   Plus,
   RedirectIcon,
+  RedStatus,
   SearchIcon,
   Settings,
-  TrashBin,
-  GreenStatus,
-  GreyStatus,
-  OrangeStatus,
-  RedStatus,
-  FiveS,
-  ExcelFile,
-  Download
+  TrashBin
 };
