@@ -47,7 +47,7 @@ export const OrdersView: React.FC = () => {
   const [openSearchModal, setOpenSearchModal] = useState<boolean>(false);
   const [selectedRange, setSelectedRange] = useState(
     moment()
-      .set({ year: 2024, month: 9, date: 3, hour: 10, minute: 0, second: 0 })
+      .set({ year: 2024, month: 10, date: 27, hour: 10, minute: 0, second: 0 })
       .format("YYYY-MM-DDTHH:mm:ss")
   );
 

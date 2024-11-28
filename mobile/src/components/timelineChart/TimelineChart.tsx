@@ -47,7 +47,7 @@ const TimelineChart: FC<TimelineChartProps> = ({
     const formatFrequency = selectedInterval.timeFormat.frequency;
 
     const clickHandler = ( oprId: number) => {
-      history.push('operation-detail/' + oprId.toString());
+      history.push(ROUTES.OPERATIONDETAIL(oprId.toString()));
     }
 
     const drawOperations = () => {
@@ -77,8 +77,8 @@ const TimelineChart: FC<TimelineChartProps> = ({
           })
           .attr("y", (yScale(op.oprName) ?? 0 )+ 10)
           .attr("height", operationHeight)
-          .transition()
-          .duration(250)
+          // .transition()
+          // .duration(250)
           .attr("width", d => {
             if (xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) && xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))){
               return 0;
@@ -137,8 +137,8 @@ const TimelineChart: FC<TimelineChartProps> = ({
           })
           .attr("y", (yScale(op.oprName) ?? 0 )+ 10)
           .attr("height", operationHeight)
-          .transition()
-          .duration(250)
+          // .transition()
+          // .duration(250)
           .attr("width", d => {
             if (xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) && xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))){
               return 0;
@@ -159,13 +159,13 @@ const TimelineChart: FC<TimelineChartProps> = ({
         })
         .attr("y", (yScale(op.oprName) ?? 0) + 10 + operationHeight)
         .attr("height", operationHeight)
-        .transition()
-        .duration(250)
+        // .transition()
+        // .duration(250)
         .attr("width", d => {
           if (xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) && xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))){
             return 0;
           }
-          return Math.min(xScale(new Date(d.sTime + d.duration_expected)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)))
+          return Math.min(xScale(new Date(d.sTime + (d?.duration_expected || 0))) - xScale(new Date(d.sTime)), d?.duration_expected ? width - xScale(new Date(d.sTime)) : 0);
         })
         .attr("fill", "#FE6100")
         .attr('opacity', (d) => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4));
@@ -233,8 +233,8 @@ const TimelineChart: FC<TimelineChartProps> = ({
           .attr("class", "greyLine")
           .attr("y1", -15)
           .attr("y2", height)
-          .transition()
-          .duration(250)
+         // .transition()
+         // .duration(250)
           .attr("x1", xScale(timeForLine.toDate()))
           .attr("x2", xScale(timeForLine.toDate()))
           .attr("stroke", "lightgrey")

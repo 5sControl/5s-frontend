@@ -23,10 +23,11 @@ http://ionicframework.com/docs/theming/ */
 
 	--ion-toolbar-background: #FFF;
 
-	--ion-color-medium: #92949c;
-	--ion-color-medium-rgb: 146,148,156;
-	--ion-color-medium-contrast: #ffffff;
-	--ion-color-medium-contrast-rgb: 255,255,255;
-	--ion-color-medium-shade: #808289;
-	--ion-color-medium-tint: #9d9fa6;
+	--ion-color-dark: #000000;
+	--ion-color-dark-rgb: 0,0,0;
+	--ion-color-dark-contrast: #ffffff;
+	--ion-color-dark-contrast-rgb: 255,255,255;
+	--ion-color-dark-shade: #000000;
+	--ion-color-dark-tint: #1a1a1a;
+
 }
