@@ -70,8 +70,8 @@ export const OperationDetail = () => {
 
     return (
         <IonPage color="light">
-            <IonHeader>
-                    <IonToolbar color="dark">
+            <IonHeader style={{position: 'absolute'}}>
+                    <IonToolbar className="transparent">
                         <IonButtons slot="start" className="header__start">
                             <IonButton onClick={backHandler}>
                             <IonIcon style={{ fontSize: "18px" }} icon={arrowBack} color="light" mode="ios" />
