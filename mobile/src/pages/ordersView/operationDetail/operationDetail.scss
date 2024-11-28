@@ -30,7 +30,11 @@
 
 .orderDetail {
     position: absolute;
-    bottom: 70px;
+    bottom: 56px;
     width: 100%;
+}
+
+ion-toolbar.transparent{
+    --background: #00000000;
 }
 
