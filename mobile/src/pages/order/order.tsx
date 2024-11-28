@@ -56,7 +56,9 @@ const Order = () => {
   const assemblyItems: TableRow[] =
     orderItems.map((item, index) => {
       const { hours, minutes } = formatTime(item.totalDuration);
-      const durationFormat = hours ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}` : `${minutes} ${t("time.min")}`;
+      const durationFormat = hours
+        ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}`
+        : `${minutes} ${t("time.min")}`;
       return {
         id: item.orderItem.id,
         navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.orderItem.id)),
@@ -125,8 +127,8 @@ const Order = () => {
                   label={selectedSegment === ORDER_STEPS.BLANK ? t("orders.operations") : t("orders.orderItems")}
                   cols={[
                     { label: t("orders.id"), size: 1 },
-                    { label: t("orders.name"), size: 7 },
-                    { label: t("form.duration"), size: 4 },
+                    { label: t("orders.name"), size: 6.5 },
+                    { label: t("form.duration"), size: 4.5 },
                   ]}
                   rows={selectedSegment === ORDER_STEPS.BLANK ? blankItems : assemblyItems}
                 />

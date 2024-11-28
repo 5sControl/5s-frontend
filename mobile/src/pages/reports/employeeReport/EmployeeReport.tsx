@@ -1,4 +1,4 @@
-import { IonContent, IonList, IonPage, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonList, IonPage, IonToast, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useState } from "react";
@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { formatDateYMD } from "../../../utils/parseInputDate";
 import { getEmployeeReport } from "../../../api/reports";
 import File from "../../../components/file/File";
+import { TOAST_DELAY } from "../../../constants/toastDelay";
 
 const EmployeeReport = () => {
   const { t } = useTranslation();
@@ -23,6 +24,7 @@ const EmployeeReport = () => {
   const [reportName, setReportName] = useState<string>();
   const [report, setReport] = useState();
   const [loading, setLoading] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const onPressDownload = () => {
     console.log("download");
@@ -38,6 +40,7 @@ const EmployeeReport = () => {
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Ошибка при получении файла:", error);
+      setToastMessage(t("messages.employeeNotFound"));
     }
   };
 
@@ -95,6 +98,13 @@ const EmployeeReport = () => {
           </>
         )}
       </IonContent>
+
+      <IonToast
+        isOpen={!!toastMessage}
+        message={toastMessage || undefined}
+        duration={TOAST_DELAY}
+        onDidDismiss={() => setToastMessage(null)}
+      />
     </IonPage>
   );
 };
