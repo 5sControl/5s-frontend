@@ -54,7 +54,6 @@ function App() {
   }, []);
 
   return (
-    <IonApp>
       <BrowserRouter>
         <Routes>
           <Route path="/authorization" element={<Authorization />} />
@@ -86,7 +85,6 @@ function App() {
           )}
         </Routes>
       </BrowserRouter>
-    </IonApp>
   );
 }
 
