@@ -60,6 +60,9 @@ export const ORDERS_API = {
     request.get<IOrderOperation>(URLS.ORDER_ITEM_OPERATIONS + id + "/"),
   deleteOrderOperation: (id: number) =>
     request.delete<IOrderOperation>(URLS.ORDER_ITEM_OPERATIONS + id + "/"),
+
+  getOrderItemOperationsByName: (orderId: number, orderItemName: string) =>
+    request.get<any>(`${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operations/order/${orderId}/order-item/name/${orderItemName}/`),
 };
 
 export const OPERATIONS_API = {

@@ -39,10 +39,12 @@ const Order = () => {
   const history = useHistory();
   const [order, setOrder] = useState<IOrders>({} as IOrders);
   const [orderItems, setOrderItems] = useState<any>([]);
+  const [orderBlankItems, setOrderBlankItems] = useState<any>([]);
   const [selectedSegment, setSelectedSegment] = useState<string>(ORDER_STEPS.ASSEMLY);
   const [isLoading, setLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [completedOrder, setCompletedOrder] = useState<boolean>(false);
+  const blankOperationName = "заготовка";
 
   const isLoaded = Boolean(Object.values(order)?.length);
 
@@ -51,22 +53,37 @@ const Order = () => {
       ORDER_REQUEST.getOrderById(parseInt(id, RADIX), setOrder, setLoading, setToastMessage).then(() => {
         ORDER_ITEM_REQUEST.getOrderItems(parseInt(id, RADIX), setOrderItems, setLoading, setToastMessage);
       });
+    id && 
+      ORDER_REQUEST.getOrderItemOperationsByName(parseInt(id, RADIX), blankOperationName, setOrderBlankItems, setLoading, setToastMessage);
   });
 
   const assemblyItems: TableRow[] =
-    orderItems.map((item, index) => {
-      const { hours, minutes } = formatTime(item.totalDuration);
+    orderItems
+    .filter((item) => item.orderItem.name !== blankOperationName)
+    .map((item, index) => {
+        const { hours, minutes } = formatTime(item.totalDuration);
+        const durationFormat = hours
+          ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}`
+          : `${minutes} ${t("time.min")}`;
+        return {
+          id: item.orderItem.id,
+          navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.orderItem.id)),
+          values: [index + 1, item.orderItem.name, durationFormat],
+        };
+    }) || [];
+
+  const blankItems: TableRow[] = 
+    orderBlankItems.map((item, index) => {
+      const { hours, minutes } = formatTime(item.duration);
       const durationFormat = hours
         ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}`
         : `${minutes} ${t("time.min")}`;
       return {
         id: item.orderItem.id,
         navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.orderItem.id)),
-        values: [index + 1, item.orderItem.name, durationFormat],
+        values: [index + 1, item.name, ''],
       };
     }) || [];
-
-  const blankItems: TableRow[] = [];
 
   const handleFabClick = (path: string) => {
     history.push(path);
