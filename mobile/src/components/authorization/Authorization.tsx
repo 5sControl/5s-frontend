@@ -51,7 +51,7 @@ export const Authorization = () => {
         .then(token => getUserInfo(`JWT ${token}`))
         .then((response: any) => {
           if (response.data) {
-            const role = response.data.status;
+            const role = response.data.role;
             localStorage.setItem("userRole", role);
             dispatch(setUserRole(role));
             history.go(0);

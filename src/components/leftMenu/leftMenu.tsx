@@ -158,12 +158,12 @@ export const LeftMenu = () => {
               <span>{user.username}</span>
               <span
                 className={
-                  user.status === 'owner'
+                  user.role === 'owner'
                     ? 'leftMenu__logout_statusOwner'
                     : 'leftMenu__logout_statusWorker'
                 }
               >
-                {user.status}
+                {user.role}
               </span>
             </div>
           )}
