@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import InputDate from "../../../components/inputs/inputDate/inputDate";
 import { formatDate, getCurrentDateTimeISO } from "../../../utils/parseInputDate";
 import { set } from "lodash";
+import DateSelector from "../../../components/dateSelector/DateSelector";
 
 const AddOrder: React.FC = () => {
   const history = useHistory();
@@ -72,13 +73,12 @@ const AddOrder: React.FC = () => {
           required={true}
           handleChange={e => setOrderName(e.detail.value!)}
         />
-        <IonList className="ion-padding" style={{ gap: ".5rem" }}>
-          <IonLabel className="text-bold">{t("orders.estimatedAt")}</IonLabel>
-          <InputDate
-            value={estimatedAt ? formatDate(estimatedAt) : ""}
-            onClick={() => estimatedModalRef.current?.present()}
-          ></InputDate>
-        </IonList>
+        <DateSelector
+          label={t("orders.estimatedAt")}
+          date={estimatedAt}
+          modalRef={estimatedModalRef}
+          setDate={setEstimatedAt}
+        />
         <BottomButton handleClick={openModal} disabled={!orderNumber} label={t("operations.save")} />
         <IonToast
           isOpen={!!toastMessage}
@@ -86,14 +86,6 @@ const AddOrder: React.FC = () => {
           duration={TOAST_DELAY}
           onDidDismiss={() => setToastMessage(null)}
         />
-        <IonModal ref={estimatedModalRef}>
-          <IonDatetime
-            id="estimated-datetime"
-            presentation="date"
-            value={estimatedAt}
-            onIonChange={e => setEstimatedAt(e.detail.value!.toString())}
-          />
-        </IonModal>
         <ModalSave isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleSubmit={handleSubmit}></ModalSave>
       </IonContent>
     </IonPage>

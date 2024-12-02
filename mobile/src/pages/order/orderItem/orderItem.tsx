@@ -32,33 +32,38 @@ const OrderItem = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const onDeleteHandle = () => {
-    console.log("Delete");
-  };
-
-  const handleFabClick = (path: string) => {
-    history.push(path);
-  };
-
   useIonViewWillEnter(() => {
-    TIMESPAN_REQUEST.getOrderItemTimespans(parseInt(itemId, RADIX), setTimespans, setOrderItemName, setLoading, setToastMessage);
+    TIMESPAN_REQUEST.getOrderItemTimespans(
+      parseInt(itemId, RADIX),
+      setTimespans,
+      setOrderItemName,
+      setLoading,
+      setToastMessage
+    );
   });
 
   const saveTimespanInfo = (timespanWorker, finishTime) => {
     const timespanData = {
       timespanWorker: timespanWorker,
       timespanStatus: finishTime ? t("orders.statusValues.done") : t("orders.statusValues.inProgress"),
-    }
+    };
     dispatch(setTimespan(timespanData));
   };
 
   const tableItems: TableRow[] =
     timespans?.map((timespan, index) => {
       const { hours, minutes } = formatTime(timespan.duration);
-      const durationFormat = hours ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}` : `${minutes} ${t("time.min")}`;
+      const durationFormat = hours
+        ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}`
+        : `${minutes} ${t("time.min")}`;
       return {
         id: timespan.timespanId,
-        navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(String(orderId), String(itemId), String(timespan.orderOperation.id), String(timespan.timespanId)),
+        navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(
+          String(orderId),
+          String(itemId),
+          String(timespan.orderOperation.id),
+          String(timespan.timespanId)
+        ),
         handleClick: saveTimespanInfo(timespan?.employeeName, timespan?.finishedAt),
         values: [index + 1, timespan.employeeName, durationFormat, formatDate(timespan.startedAt)],
       };

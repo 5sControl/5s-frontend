@@ -1,6 +1,6 @@
 import { IonButton, IonDatetime, IonModal } from "@ionic/react";
 import { extractTime } from "../../utils/parseInputDate";
-import { RefObject, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./timeSelector.module.css";
 
@@ -13,7 +13,7 @@ type TimeSelectorProps = {
 const TimeSelector = ({ time, modalRef, setTime }: TimeSelectorProps) => {
   const { t } = useTranslation();
   const [selectedTime, setSelectedTime] = useState<string>(time);
-  const [isModalOpen, setModalOpen] = useState<boolean>();
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
   const handleTimeClick = () => {
     setModalOpen(true);

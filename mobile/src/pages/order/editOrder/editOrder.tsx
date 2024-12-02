@@ -34,6 +34,7 @@ import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonl
 import { formatDate, getCurrentDateTimeISO } from "../../../utils/parseInputDate";
 import { Input } from "../../../components/inputs/input/Input";
 import InputDate from "../../../components/inputs/inputDate/inputDate";
+import DateSelector from "../../../components/dateSelector/DateSelector";
 
 const EditOrder: React.FC = () => {
   const history = useHistory();
@@ -54,7 +55,9 @@ const EditOrder: React.FC = () => {
 
   useEffect(() => {
     setOrderName(order.name);
-    if (order.estimatedAt) setOrderDate(order.estimatedAt);
+    if (order.estimatedAt) {
+      setOrderDate(order.estimatedAt);
+    }
   }, [order]);
 
   const handleSubmit = async () => {
@@ -95,23 +98,13 @@ const EditOrder: React.FC = () => {
               required
               handleChange={e => setOrderName(e.detail.value!)}
             />
-            <IonList className="ion-padding" style={{ gap: ".5rem" }}>
-              <IonLabel className="text-bold">{t("orders.estimatedAt")}</IonLabel>
-              <InputDate
-                value={orderDate ? formatDate(orderDate) : ""}
-                onClick={() => dateModalRef.current?.present()}
-              ></InputDate>
-            </IonList>
+            <DateSelector
+              label={t("orders.estimatedAt")}
+              date={orderDate}
+              modalRef={dateModalRef}
+              setDate={setOrderDate}
+            />
             <BottomButton handleClick={openModal} label={t("operations.save")} />
-
-            <IonModal ref={dateModalRef}>
-              <IonDatetime
-                id="estimated-datetime"
-                presentation="date"
-                value={orderDate}
-                onIonChange={e => setOrderDate(e.detail.value!.toString())}
-              />
-            </IonModal>
             <ModalSave
               isModalOpen={isModalOpen}
               setIsModalOpen={setIsModalOpen}

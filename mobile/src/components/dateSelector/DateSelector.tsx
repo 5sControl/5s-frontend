@@ -1,4 +1,4 @@
-import { RefObject, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import { IonButton, IonDatetime, IonModal, IonList, IonLabel } from "@ionic/react";
 import { formatDate } from "../../utils/parseInputDate";
 import { useTranslation } from "react-i18next";
@@ -16,7 +16,13 @@ type DataSelectorProps = {
 const DateSelector = ({ label, date, modalRef, maxDate, minDate, setDate }: DataSelectorProps) => {
   const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState<string>(date);
-  const [isModalOpen, setModalOpen] = useState<boolean>();
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (date) {
+      setSelectedDate(date);
+    }
+  }, [date]);
 
   const handleDateClick = () => {
     modalRef.current?.present();
@@ -38,7 +44,7 @@ const DateSelector = ({ label, date, modalRef, maxDate, minDate, setDate }: Data
     <div>
       <IonList inset={true}>
         <IonLabel className="text-bold">{label}</IonLabel>
-        <InputDate value={formatDate(date)} isOpen={isModalOpen} onClick={handleDateClick} />
+        <InputDate value={date ? formatDate(date) : ""} isOpen={isModalOpen} onClick={handleDateClick} />
       </IonList>
 
       <IonModal ref={modalRef} onWillDismiss={handleCancel}>
