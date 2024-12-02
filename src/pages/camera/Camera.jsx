@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
-import { getSelectedCameras } from '../../api/cameraRequest';
+import { getSelectedCameras, findCamera } from '../../api/cameraRequest';
 import { Button } from '../../components/button';
 import { CamerasDeleteModal } from './modal/delete/camerasDeleteModal';
 import { getProcess } from '../../api/algorithmRequest';
@@ -23,6 +23,7 @@ export const Camera = () => {
   const [cameraSelect, setCameraSelect] = useState(false);
   const [isCreateCamera, setIsCreateCamera] = useState(false);
   const [isNotificationAfterCreate, setIsNotificationAfterCreate] = useState(false);
+  const [findCameraList, setFindCameraList] = useState(false);
 
   useEffect(() => {
     if (!cameraSelect) {
@@ -49,6 +50,20 @@ export const Camera = () => {
   }, [isDeleteModal, cameraSelect]);
 
   const showAddCameras = () => {
+    findCamera(window.location.hostname)
+      .then((response) => {
+        if (response.data && response.data.results) {
+          const allCameras = response.data.results;
+          const bufCreatedCameras = createdCameras.length > 0 ? createdCameras.map((e) => e.id) : [];
+          const resultCameras = allCameras.filter((value) => {
+            return !bufCreatedCameras.includes(value);
+          });
+          setFindCameraList(resultCameras);
+        } else {
+          setFindCameraList([]);
+        }
+      })
+      .catch((error) => console.log(error.message));
     setIsCreateCamera(true);
     setCameraSelect(true);
   };
@@ -133,6 +148,7 @@ export const Camera = () => {
           isCreateCamera={isCreateCamera}
           camerasList={createdCameras}
           setIsNotificationAfterCreate={() => setIsNotificationAfterCreate(true)}
+          findCameraList={findCameraList}
         />
       )}
     </section>

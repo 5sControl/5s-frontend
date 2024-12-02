@@ -19,6 +19,7 @@ export const SettingsHub = ({
   isCreateCamera,
   camerasList,
   setIsNotificationAfterCreate,
+  findCameraList
 }) => {
   const [cameraName, setCameraName] = useState(cameraSelect.name ? cameraSelect.name : '');
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
@@ -26,7 +27,6 @@ export const SettingsHub = ({
   const [informationToSend, setInformationToSend] = useState([]);
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
-  const [findCameraList, setFindCameraList] = useState(false);
   const [cameraIP, setCameraIP] = useState(cameraSelect.id ? cameraSelect.id : '');
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -161,21 +161,6 @@ export const SettingsHub = ({
       .catch((error) => {
         console.log(error);
       });
-
-    findCamera(window.location.hostname)
-      .then((response) => {
-        if (response.data && response.data.results) {
-          const allCameras = response.data.results;
-          const bufCreatedCameras = camerasList.length > 0 ? camerasList.map((e) => e.id) : [];
-          const resultCameras = allCameras.filter((value) => {
-            return !bufCreatedCameras.includes(value);
-          });
-          setFindCameraList(resultCameras);
-        } else {
-          setFindCameraList([]);
-        }
-      })
-      .catch((error) => console.log(error.message));
   }, []);
 
   return (
