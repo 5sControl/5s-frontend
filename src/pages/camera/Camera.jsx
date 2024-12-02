@@ -23,7 +23,7 @@ export const Camera = () => {
   const [cameraSelect, setCameraSelect] = useState(false);
   const [isCreateCamera, setIsCreateCamera] = useState(false);
   const [isNotificationAfterCreate, setIsNotificationAfterCreate] = useState(false);
-  const [findCameraList, setFindCameraList] = useState(false);
+  const [findCameraList, setFindCameraList] = useState([]);
 
   useEffect(() => {
     if (!cameraSelect) {

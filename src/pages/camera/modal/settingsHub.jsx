@@ -165,7 +165,7 @@ export const SettingsHub = ({
 
   return (
     <>
-      {algorithmsActiveObject && findCameraList ? (
+      {algorithmsActiveObject ? (
         <>
           <div className='cameras__settings_container'>
             <section className='cameras__settings'>
