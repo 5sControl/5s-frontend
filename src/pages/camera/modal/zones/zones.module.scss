@@ -2,10 +2,10 @@
 @import '../../../../styles/fonts.scss';
 .zones {
   width: 100%;
-  height: calc(100% - 160px);
+  // height: calc(100% - 160px);
   display: flex;
   &__right {
-    height: 100%;
+    height: auto;
     width: 380px;
     min-width: 380px;
     max-width: 380px;
@@ -164,5 +164,5 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin: 8px;
+  margin: 8px 8px 24px 8px;
 }

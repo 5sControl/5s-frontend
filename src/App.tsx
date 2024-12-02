@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { IonApp, setupIonicReact } from "@ionic/react";
 
 import { RoutesOutlet } from "./routes/Routes";
 import { Company } from "./pages/company/Company";
@@ -22,7 +21,6 @@ import AiChatPage from "./pages/aiChat/AIChat";
 import CategoryPage from "./pages/aiChat/components/categoryPage/categoryPage";
 import { useAppDispatch } from "./store/hooks";
 import { getConnectionsToDB } from "./pages/configuration/connectionSlice";
-import "./i18";
 import "./index.scss";
 
 function App() {
@@ -54,7 +52,6 @@ function App() {
   }, []);
 
   return (
-    <IonApp>
       <BrowserRouter>
         <Routes>
           <Route path="/authorization" element={<Authorization />} />
@@ -86,7 +83,6 @@ function App() {
           )}
         </Routes>
       </BrowserRouter>
-    </IonApp>
   );
 }
 

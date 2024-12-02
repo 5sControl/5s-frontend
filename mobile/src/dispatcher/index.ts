@@ -251,6 +251,27 @@ const deleteOrderItemOperation = async (id: number, setLoading: React.Dispatch<R
     }
 }
 
+const getOrderItemOperationsByName = async (orderId: number, orderItemName: string, setItems: React.Dispatch<React.SetStateAction<IOrders[]>>,
+    setLoading?: React.Dispatch<React.SetStateAction<boolean>>,
+    setMessage?: React.Dispatch<React.SetStateAction<string | null>>): Promise<void> => {
+    try {
+       setLoading && setLoading(true)
+       console.log(orderItemName);
+       console.log(encodeURIComponent(orderItemName));
+        const operations = await ORDERS_API.getOrderItemOperationsByName(orderId, orderItemName);
+        if (operations.status === STATUS.OK) {
+            setItems(operations.data)
+        } else {
+            setMessage && setMessage('Something went wrong')
+        }
+    } catch (e) {
+        const err = e as AxiosError
+        setMessage && setMessage(err.message)
+    } finally {
+        setLoading && setLoading(false)
+    }
+}
+
 const addTimespan = async (body: ITimespanAddBody, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage: React.Dispatch<React.SetStateAction<string | null>>, callback: () => void) => {
     try {
@@ -480,6 +501,7 @@ export const ORDER_REQUEST = {
     getOrderOperationById,
     addOrderItemOperation,
     deleteOrderItemOperation,
+    getOrderItemOperationsByName
     // getOrderParams
 }
 export const ORDER_ITEM_REQUEST = {
