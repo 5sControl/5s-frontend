@@ -56,6 +56,15 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   const [zone, setZone] = useState<any[]>([]);
 
   useEffect(() => {
+    handleImageLoad();
+    window.addEventListener('resize', handleImageLoad);
+
+    return () => {
+        window.removeEventListener('resize', handleImageLoad);
+    };
+  }, []);
+
+  useEffect(() => {
     if (oldBox.length > 0) {
       const old = JSON.parse(JSON.stringify(oldBox))
         .map((el: any) => el.coords)[0]
