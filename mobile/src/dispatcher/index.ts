@@ -35,7 +35,7 @@ const getOrders = async (setItems: React.Dispatch<React.SetStateAction<IOrders[]
     setLoading?: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage?: React.Dispatch<React.SetStateAction<string | null>>): Promise<void> => {
     try {
-       setLoading && setLoading(true)
+        setLoading && setLoading(true)
         const orders = await ORDERS_API.getOrders();
         if (orders.status === STATUS.OK) {
             setItems(orders.data)
@@ -255,9 +255,9 @@ const getOrderItemOperationsByName = async (orderId: number, orderItemName: stri
     setLoading?: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage?: React.Dispatch<React.SetStateAction<string | null>>): Promise<void> => {
     try {
-       setLoading && setLoading(true)
-       console.log(orderItemName);
-       console.log(encodeURIComponent(orderItemName));
+        setLoading && setLoading(true)
+        console.log(orderItemName);
+        console.log(encodeURIComponent(orderItemName));
         const operations = await ORDERS_API.getOrderItemOperationsByName(orderId, orderItemName);
         if (operations.status === STATUS.OK) {
             setItems(operations.data)
@@ -272,13 +272,14 @@ const getOrderItemOperationsByName = async (orderId: number, orderItemName: stri
     }
 }
 
-const addTimespan = async (body: ITimespanAddBody, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setMessage: React.Dispatch<React.SetStateAction<string | null>>, callback: () => void) => {
+const addTimespan = async (body: ITimespanAddBody, setTimespan: React.Dispatch<React.SetStateAction<ITimespan>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
     try {
         setLoading(true)
         const operation = await TIMESPAN_API.addTimespan(body)
         if (operation.status === STATUS.CREATED) {
-            callback()
+            // callback();
+            setTimespan(operation.data);
         } else {
             setMessage && setMessage('Something went wrong')
         }
@@ -290,12 +291,13 @@ const addTimespan = async (body: ITimespanAddBody, setLoading: React.Dispatch<Re
     }
 }
 const updateTimespan = async (id: number, body: ITimespanUpdateBody, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setMessage: React.Dispatch<React.SetStateAction<string | null>>, callback: () => void) => {
+    setMessage: React.Dispatch<React.SetStateAction<string | null>>, callback?: () => void) => {
     try {
         setLoading(true)
         const operation = await TIMESPAN_API.updateTimespan(id, body)
         if (operation.status === STATUS.OK) {
-            callback()
+            if (callback)
+                callback()
         } else {
             setMessage && setMessage('Something went wrong')
         }
@@ -312,7 +314,7 @@ const getTimespan = async (id: number, setTimespan: React.Dispatch<React.SetStat
     try {
         setLoading(true)
         const operation = await TIMESPAN_API.getTimespan(id)
-        if (operation.status === STATUS.OK) {            
+        if (operation.status === STATUS.OK) {
             setTimespan(operation.data)
         } else {
             setMessage && setMessage('Something went wrong')
@@ -330,8 +332,8 @@ const getOrderItemTimespans = async (orderItemId: number, setTimespans: React.Di
     try {
         setLoading(true)
         const orderItem = await TIMESPAN_API.getOrderItemTimespans(orderItemId)
-        if (orderItem.status === STATUS.OK) {  
-            setTimespans(orderItem.data.timespans || []);          
+        if (orderItem.status === STATUS.OK) {
+            setTimespans(orderItem.data.timespans || []);
             setOrderItemName(orderItem.data.timespans[0]?.orderOperation?.order_item?.name || '');
         } else {
             setMessage && setMessage('Something went wrong')
