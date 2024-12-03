@@ -70,6 +70,10 @@ import Reports from "./pages/reports/Reports";
 import FullReport from "./pages/reports/fullReport/FullReport";
 import IndividualReports from "./pages/reports/individualReports/IndividualReports";
 import EmployeeReport from "./pages/reports/employeeReport/EmployeeReport";
+import { CollectionDynamic } from "./pages/directories-dynamic/CollectionDynamic";
+import { CollectionItemDynamic } from "./pages/directories-dynamic/CollectionItemDynamic";
+import { CollectionCreateDynamic } from "./pages/directories-dynamic/CollectionCreateDynamic";
+import { CollectionUpdateDynamic } from "./pages/directories-dynamic/CollectionUpdateDynamic";
 
 setupIonicReact();
 
@@ -258,6 +262,21 @@ function App() {
               <Route exact path={ROUTES.REPORT_EMPLOYEE(":employeeId")}>
                 <EmployeeReport />
               </Route>
+              {/* DYNAMIC ROUTES */}
+              <Route exact path={"/dynamic/:collection"}>
+                <CollectionDynamic />
+              </Route>
+              <Route exact path={"/dynamic/:collection/create/new"}>
+                <CollectionCreateDynamic />
+              </Route>
+              <Route exact path={"/dynamic/:collection/:id/update"}>
+                <CollectionUpdateDynamic />
+              </Route>
+              <Route exact path={"/dynamic/:collection/:id"}>
+                <CollectionItemDynamic />
+              </Route>
+             
+              {/* DYNAMIC ROUTES */}
             </IonRouterOutlet>
           ) : (
             <Route path="/*">
