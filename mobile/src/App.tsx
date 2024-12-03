@@ -70,6 +70,10 @@ import Reports from "./pages/reports/Reports";
 import FullReport from "./pages/reports/fullReport/FullReport";
 import IndividualReports from "./pages/reports/individualReports/IndividualReports";
 import EmployeeReport from "./pages/reports/employeeReport/EmployeeReport";
+import Users from "./pages/users/Users";
+import EditUser from "./pages/users/edit-user/EditUser";
+import User from "./pages/users/user/User";
+import AddUser from "./pages/users/add-user/AddUser";
 
 setupIonicReact();
 
@@ -257,6 +261,19 @@ function App() {
               </Route>
               <Route exact path={ROUTES.REPORT_EMPLOYEE(":employeeId")}>
                 <EmployeeReport />
+              </Route>
+
+              <Route exact path={ROUTES.USERS}>
+                <Users />
+              </Route>
+              <Route exact path={ROUTES.USER(":id")}>
+                <User />
+              </Route>
+              <Route exact path={ROUTES.USER_EDIT(":id")}>
+                <EditUser />
+              </Route>
+              <Route exact path={ROUTES.USER_ADD}>
+                <AddUser />
               </Route>
             </IonRouterOutlet>
           ) : (

@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { IonButton, IonContent, IonIcon, IonList, IonPage, IonSelect, IonSelectOption } from "@ionic/react";
 import { jwtDecode } from "jwt-decode";
-import { getUserInfo, getUserList } from "../../api/getUserList";
+import { getCurrentUserInfo, getUserList } from "../../api/users";
 import { ROUTES } from "../../shared/constants/routes";
 import { Header } from "../../components/header/Header";
 import { ItemButton } from "../../components/itemButton/ItemButton";
@@ -25,7 +25,7 @@ export const Menu: React.FC = () => {
   useEffect(() => {
     if (cookies.token) {
       const token = jwtDecode<any>(cookies.token.replace("JWT%220", ""));
-      getUserInfo(cookies.token)
+      getCurrentUserInfo(cookies.token)
         .then((response: any) => {
           if (response.data) {
             setUser(response.data);
@@ -88,16 +88,16 @@ export const Menu: React.FC = () => {
           </IonList>
         </Restricted>
 
+        <Restricted to="view_users">
+          <IonList inset={true}>
+            <MenuListButton title={t("menu.users")} handleItemClick={() => handleItemClick(ROUTES.USERS)} />
+          </IonList>
+        </Restricted>
+
         <IonList inset={true}>
           <MenuListButton title={t("menu.language")} handleItemClick={() => handleItemClick(ROUTES.LANGUAGE)} />
         </IonList>
 
-        {/* <Select
-          value={language}
-          placeholder={t("language")}
-          handleChange={e => handleLanguageChange(e.detail.value)}
-          selectList={selectList}
-        /> */}
       </IonContent>
     </IonPage>
   );

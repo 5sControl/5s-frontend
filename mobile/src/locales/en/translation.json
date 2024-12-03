@@ -9,7 +9,9 @@
     "orders": "Orders",
     "reports": "Reports",
     "scanner": "QR Scanner",
-    "language": "Interface language"
+    "language": "Interface language",
+    "users": "Users",
+    "cameras": "Cameras"
   },
    "config": {
      "title": "Configuration",
@@ -209,6 +211,14 @@
      "workday": "Work day",
      "erp": "Used ERP",
      "displayedOperations": "Displayed operations"
-   }
- }
+   },
+   "users": {
+     "username": "Username",
+     "fullName": "Full name",
+     "password": "Password",
+     "role": "Role",
+     "workplace": "Workplace",
+     "dateJoined": "Date joined"
+   } 
+}
  
