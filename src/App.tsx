@@ -22,6 +22,7 @@ import CategoryPage from "./pages/aiChat/components/categoryPage/categoryPage";
 import { useAppDispatch } from "./store/hooks";
 import { getConnectionsToDB } from "./pages/configuration/connectionSlice";
 import "./index.scss";
+import "./i18";
 
 function App() {
   const [cookies, , removeCookie] = useCookies(["token"]);
