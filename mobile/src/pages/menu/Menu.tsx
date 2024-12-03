@@ -91,7 +91,7 @@ export const Menu: React.FC = () => {
         <IonList inset={true}>
           <MenuListButton title={t("menu.language")} handleItemClick={() => handleItemClick(ROUTES.LANGUAGE)} />
         </IonList>
-
+        
         <Restricted to="view_reference">
           <IonList inset={true}>
             <MenuListButton
@@ -100,13 +100,7 @@ export const Menu: React.FC = () => {
             />
           </IonList>
         </Restricted>
-
-        {/* <Select
-          value={language}
-          placeholder={t("language")}
-          handleChange={e => handleLanguageChange(e.detail.value)}
-          selectList={selectList}
-        /> */}
+        
       </IonContent>
     </IonPage>
   );

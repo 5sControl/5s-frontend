@@ -5,7 +5,7 @@ import style from "./style.module.scss";
 interface IInputDate {
   value: string;
   isOpen?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const InputDate = ({ value, isOpen, onClick }: IInputDate) => {
