@@ -266,7 +266,12 @@ const getOrderItemOperationsByName = async (orderId: number, orderItemName: stri
         }
     } catch (e) {
         const err = e as AxiosError
-        setMessage && setMessage(err.message)
+        if (err.status === STATUS.NOT_FOUND) {
+            setItems([]);
+        }
+        else {
+            setMessage && setMessage(err.message)
+        }
     } finally {
         setLoading && setLoading(false)
     }
