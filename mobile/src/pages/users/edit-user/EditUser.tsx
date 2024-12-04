@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IonContent, IonList, IonPage, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonList, IonPage, IonToast, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 import { getUser, updateUser } from "../../../api/users";
@@ -14,6 +14,7 @@ import MenuListButton from "../../../components/menuListButton/MenuListButton";
 import Select from "../../../components/selects/select/Select";
 import { ROLE } from "../../../models/enums/roles.enum";
 import BottomButton from "../../../components/bottomButton/BottomButton";
+import { TOAST_DELAY } from "../../../constants/toastDelay";
 
 const EditUser = () => {
   const { t } = useTranslation();
@@ -23,9 +24,9 @@ const EditUser = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<IUser>({} as IUser);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [valueIsChanged, setValueIsChanged] = useState(false);
   const [customRole, setCustomRole] = useState(false);
   const [highlightRequired, setHighlightRequired] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
   const roles = Object.values(ROLE).map(role => ({
     label: role,
     value: role
@@ -51,9 +52,11 @@ const EditUser = () => {
 
   const handleSave = () => {
     if (user) {
+      user.username = `${user.first_name}_${user.last_name}`;
       updateUser(Number(id), user, cookies.token)
         .then(() => navigateBack())
         .catch(error => {
+          setToastMessage(t("messages.employeeExists"));
           console.error(error);
         });
       return;
@@ -61,7 +64,7 @@ const EditUser = () => {
   };
 
   const openModal = () => {
-    if (!user.username || !user.password) {
+    if (!user.first_name || !user.last_name || !user.password) {
         setHighlightRequired(true);
         return;
     }
@@ -93,16 +96,20 @@ const EditUser = () => {
         ) : (
             <>
                 <Input 
-                    label={t("users.username")} 
-                    value={user.username} 
+                    label={t("users.lastName")} 
+                    value={user?.last_name || ""} 
                     required 
-                    handleChange={value => setUser({ ...user, username: value })}
-                    state={highlightRequired && !user.username ? "error" : "neutral" }
-                    errorMessage={t("form.required")}
-                />
-                <Input label={t("users.lastName")} value={user.last_name} required handleChange={value => setUser({ ...user, last_name: value })}/>
-                <Input label={t("users.firstName")} value={user.first_name} required handleChange={value => setUser({ ...user, first_name: value })}/>
-                
+                    handleChange={event => setUser({ ...user, last_name: event.target.value })}
+                    state={highlightRequired && !user.last_name ? "error" : "neutral" }
+                    errorMessage={t("form.required")}/>
+                <Input 
+                    label={t("users.firstName")} 
+                    value={user?.first_name || ""} 
+                    required 
+                    handleChange={event => setUser({ ...user, first_name: event.target.value })}
+                    state={highlightRequired && !user.first_name ? "error" : "neutral" }
+                    errorMessage={t("form.required")}/>
+
                 <Input 
                     label={t("users.password")} 
                     value="password" 
@@ -121,6 +128,13 @@ const EditUser = () => {
                     setUser({ ...user, role: event.target.value });
                     setCustomRole(true)}   
                 }/>
+
+                <IonToast
+                    isOpen={!!toastMessage}
+                    message={toastMessage || undefined}
+                    duration={TOAST_DELAY}
+                    onDidDismiss={() => setToastMessage("")}
+                />
 
                 <BottomButton
                 handleClick={openModal}
