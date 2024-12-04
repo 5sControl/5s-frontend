@@ -85,13 +85,6 @@ const AddUser = () => {
           </div>
         ) : (
             <>
-                {/* <Input 
-                    label={t("users.username")} 
-                    value={user.username} 
-                    required 
-                    handleChange={event => setUser({ ...user, username: event.target.value })}
-                    state={highlightRequired && !user.username ? "error" : "neutral" }
-                    errorMessage={t("form.required")}/> */}
                 <Input 
                     label={t("users.lastName")} 
                     value={user?.last_name || ""} 
@@ -106,7 +99,6 @@ const AddUser = () => {
                     handleChange={event => setUser({ ...user, first_name: event.target.value })}
                     state={highlightRequired && !user.first_name ? "error" : "neutral" }
                     errorMessage={t("form.required")}/>
-                {/* <Input label={t("users.firstName")} value={user?.first_name || ""} required handleChange={event => setUser({ ...user, first_name: event.target.value })}/> */}
                 
                 <Input 
                     label={t("users.password")} 
