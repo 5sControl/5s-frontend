@@ -8,20 +8,19 @@ import { t } from "i18next";
 import { ConfirmationModal } from "../../components/confirmationModal/confirmationModal";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../store";
-import { dynamicApiSlice } from "../../store/dynamicApiSlice";
-import { useHistory, useLocation } from "react-router";
+import { dynamicApiSlice, useGetCollectionItemQuery } from "../../store/dynamicApiSlice";
+import { useHistory, useLocation, useParams } from "react-router";
 
 export const CollectionUpdateDynamic = () => {
 	const meta = directoriesMeta
 	const lang = i18n.language
 	const title = meta.translations && meta.translations[lang] || meta.label
-	const location = useLocation();
-	const { fields } = location.state as { fields: {[key: string]: any} }
+	const { id } = useParams<{ id: any }>();
+	const { data } = useGetCollectionItemQuery({ meta, itemId: id })
 	const history = useHistory();
 	const dispatch = useAppDispatch()
 	const [newItems, setNewItems] = useState<Map<string, any>>(new Map())
 	const [isOpenModal, toggleModal] = useState(false)
-
 
 	const onPressSaveButton = () => {
 		toggleModal(true)
@@ -35,12 +34,11 @@ export const CollectionUpdateDynamic = () => {
 		await dispatch(
 			dynamicApiSlice.endpoints.updateCollectionItem.initiate({
 				meta: directoriesMeta,
-				itemId: Number(fields["id"]),
+				itemId: Number(id),
 				updates: newItems
 			}),
 		)
 		toggleModal(false)
-		// history.push(meta.collection+'/',  { direction: "back" } )
 		history.go(-1)
 	}
 
@@ -52,20 +50,22 @@ export const CollectionUpdateDynamic = () => {
 	}
 
 	useEffect(() => {
-		let items = new Map()
-		meta.fields.forEach(field => {
-			if (field.required) {
-				items.set(field.field, fields[field.field])
-			}
-		})
-		setNewItems(items)
-	}, [])
+		if (data) {
+			let items = new Map()
+			meta.fields.forEach(field => {
+				if (field.required) {
+					items.set(field.field, data[field.field])
+				}
+			})
+			setNewItems(items)
+		}
+	}, [data])
 
 	return (
 		<IonPage>
 			<Header
 				title={title}
-				backButtonHref={`/dynamic/${meta.collection}`}
+				backButtonHref={`/configuration/${meta.collection}`}
 			/>
 			<IonContent>
 

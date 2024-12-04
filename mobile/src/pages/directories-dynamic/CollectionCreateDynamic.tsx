@@ -57,7 +57,7 @@ export const CollectionCreateDynamic = () => {
 		<IonPage>
 			<Header
 				title={title}
-				backButtonHref={`/dynamic/${meta.collection}`}
+				backButtonHref={`/configuration/${meta.collection}`}
 			/>
 			<IonContent>
 

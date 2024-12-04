@@ -92,15 +92,6 @@ export const Menu: React.FC = () => {
           <MenuListButton title={t("menu.language")} handleItemClick={() => handleItemClick(ROUTES.LANGUAGE)} />
         </IonList>
         
-        <Restricted to="view_reference">
-          <IonList inset={true}>
-            <MenuListButton
-              title={"Dynamic configurations"}
-              handleItemClick={() => handleItemClick("/dynamic/directories")}
-            />
-          </IonList>
-        </Restricted>
-        
       </IonContent>
     </IonPage>
   );

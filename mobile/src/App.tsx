@@ -112,7 +112,7 @@ function App() {
       You are not allowed to access this page
     </div>
   );
-
+  
   return (
     <IonApp>
       <IonReactRouter basename={import.meta.env.BASE_URL ?? "/"}>
@@ -263,16 +263,16 @@ function App() {
                 <EmployeeReport />
               </Route>
               {/* DYNAMIC ROUTES */}
-              <Route exact path={"/dynamic/:collection"}>
+              <Route exact path={"/configuration/:collection"}>
                 <CollectionDynamic />
               </Route>
-              <Route exact path={"/dynamic/:collection/create/new"}>
+              <Route exact path={"/configuration/:collection/create/new"}>
                 <CollectionCreateDynamic />
               </Route>
-              <Route exact path={"/dynamic/:collection/:id/update"}>
+              <Route exact path={"/configuration/:collection/:id/update"}>
                 <CollectionUpdateDynamic />
               </Route>
-              <Route exact path={"/dynamic/:collection/:id"}>
+              <Route exact path={"/configuration/:collection/:id"}>
                 <CollectionItemDynamic />
               </Route>
              

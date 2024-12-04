@@ -1,8 +1,8 @@
 import { IonContent, IonIcon, IonPage } from "@ionic/react";
 import { Header } from "../../components/header/Header";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { dynamicApiSlice, useGetCollectionItemQuery } from "../../store/dynamicApiSlice";
-import {  directoriesMeta } from "./Meta";
+import { directoriesMeta } from "./Meta";
 import Fab from "../../components/fab/Fab";
 import { EditWhiteIcon, Plus, TrashBin } from "../../assets/svg/SVGcomponent";
 import { useHistory, useLocation, useParams } from "react-router-dom";
@@ -17,11 +17,9 @@ type RouteParams = {
 
 export const CollectionItemDynamic = () => {
 	const history = useHistory();
-	const location = useLocation();
 	const meta = directoriesMeta
-	const { collection, id } = useParams<RouteParams>();
-	const { fields } = location.state as { fields: {[key: string]: any} }
-	const { data } = useGetCollectionItemQuery({meta, itemId: fields['id']})
+	const { id } = useParams<RouteParams>();
+	const { data, refetch } = useGetCollectionItemQuery({ meta, itemId: id })
 	const dispatch = useAppDispatch()
 	const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
 
@@ -32,29 +30,39 @@ export const CollectionItemDynamic = () => {
 		setShowConfirmationModal(false);
 	}
 
-	const deleteItem = async () => { 
+	const deleteItem = async () => {
 		await dispatch(
 			dynamicApiSlice.endpoints.deleteCollectionItem.initiate({
-					  meta: directoriesMeta,
-					  itemId: fields['id']
+				meta: directoriesMeta,
+				itemId: Number(id)
 			}))
-			history.go(-1)
+		history.go(-1)
 	}
 
 	const onPressEdit = () => {
-		history.push(id + "/update",  { fields })
-	 }
+		history.push(id + "/update")
+	}
+
+  useEffect(() => {
+    const unlisten = history.listen(() => {
+      refetch();
+    });
+
+    return () => {
+      unlisten();
+    };
+  }, [history, refetch]);
 
 	return (
 		<IonPage>
-			<Header
-				title={id}
-				backButtonHref={`/dynamic/${collection}`}
+			{data && <Header
+				title={data[meta.displayField]}
+				backButtonHref={`/configuration/${meta.collection}`}
 				endButton={<IonIcon onClick={onPressDelete} style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}
-			/>
+			/>}
 			<IonContent>
 				{data && meta.fields.map(field => {
-					if (field.visible === true)  {
+					if (field.visible === true) {
 						return <InputReadonly key={field.field} label={field.label ?? data[field.field]} value={data[field.field]} />
 					}
 				})}

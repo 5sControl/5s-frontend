@@ -1,11 +1,10 @@
 import { IonContent, IonItem, IonList, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../components/header/Header";
-import { ROUTES } from "../../shared/constants/routes";
 import { Preloader } from "../../components/preloader/preloader";
 import { useTranslation } from "react-i18next";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
 import { useGetCollectionQuery } from "../../store/dynamicApiSlice";
-import {  directoriesMeta } from "./Meta";
+import { directoriesMeta } from "./Meta";
 import Fab from "../../components/fab/Fab";
 import { Plus } from "../../assets/svg/SVGcomponent";
 import { useHistory } from "react-router-dom";
@@ -19,46 +18,51 @@ export const CollectionDynamic = () => {
 	const { data, isLoading, refetch } = useGetCollectionQuery(meta)
 	const lang = i18n.language
 
-	const onPressItem = (item: string, fields: {[key: string]: any}) => {
-		history.push(meta.collection+'/' + item, {fields});
+	const onPressItem = (id: any) => {
+		history.push(meta.collection + '/' + id);
 	}
 
 	const onPressAddItem = () => {
-		history.push(meta.collection+'/' + "create/new");
+		history.push(meta.collection + '/' + "create/new");
 	}
 
 	const title = meta.translations && meta.translations[lang] || meta.label
 
-	useEffect(() => {
-		history.listen((l) => {
-			refetch()
-		} )
-	}, [history])
+  useEffect(() => {
+    const unlisten = history.listen(() => {
+      refetch();
+    });
+
+    return () => {
+      unlisten();
+    };
+  }, [history, refetch]);
+
 
 	return (
 		<IonPage>
 			<Header
 				title={title}
-				backButtonHref={ROUTES.MENU}
+				backButtonHref={'/configuration'}
 			/>
 			<IonContent>
-			<Fab icon={Plus} handleFabClick={() => onPressAddItem()} />
+				<Fab icon={Plus} handleFabClick={() => onPressAddItem()} />
 				{isLoading ?
 					<div className="preloader">
 						<Preloader />
 					</div>
 					:
 					<IonList inset>
-						{data?.length === 0 ?
+						{!data || data.length === 0 ?
 							<IonItem>{t("messages.noDatabases")}</IonItem>
 							:
 							<>
-								{data!.map(item => (
+								{data.map(item => (
 									<MenuListButton
 										key={item[meta.displayField]}
 										title={item[meta.displayField]}
 										handleItemClick={() => {
-											onPressItem(item[meta.displayField], item)
+											onPressItem(item["id"])
 										}}
 									/>
 								))}

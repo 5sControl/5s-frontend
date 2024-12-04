@@ -11,8 +11,8 @@ const Configuration = () => {
   const history = useHistory();
   const { t } = useTranslation();
 
-  const handleItemClick = (path: string) => {
-    history.push(path);
+  const handleItemClick = () => {
+    history.push("/configuration/directories");
   };
 
   return (
@@ -22,7 +22,7 @@ const Configuration = () => {
         <IonList inset={true}>
           <MenuListButton
             title={t("menu.generalDirectories")}
-            handleItemClick={() => handleItemClick(ROUTES.GENEREAL_DIRECTORIES)}
+            handleItemClick={handleItemClick}
           />
         </IonList>
       </IonContent>

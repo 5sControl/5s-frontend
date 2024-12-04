@@ -10,8 +10,9 @@ export const dynamicApiSlice = createApi({
 			const cookies = new Cookies();
 			const token = cookies.get('token');
 			if (token) {
+				// console.log(token)
 				headers.set('Authorization', `${token}`),
-					headers.set("ngrok-skip-browser-warning", 'true')
+				headers.set("ngrok-skip-browser-warning", 'true')
 			}
 			return headers
 		},
