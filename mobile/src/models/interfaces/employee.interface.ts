@@ -15,3 +15,12 @@ export interface IUser {
   password: string,
   workplace: any
 }
+
+export interface IAddUser {
+  username: string,
+  first_name?: string,
+  last_name?: string,
+  role: ROLE,
+  password: string,
+  workplace?: any
+}

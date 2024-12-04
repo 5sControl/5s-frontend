@@ -16,6 +16,7 @@ type InputProps = {
   description?: string;
   hint?: string;
   disabled?: boolean;
+  hidePassword?: boolean
 };
 
 export const Input: React.FC<InputProps> = ({
@@ -32,6 +33,7 @@ export const Input: React.FC<InputProps> = ({
   hint,
   errorMessage,
   description,
+  hidePassword = false
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -60,7 +62,7 @@ export const Input: React.FC<InputProps> = ({
         onFocus={handleFocus}
         onBlur={handleBlur}
       >
-        {type === "password" && <IonInputPasswordToggle slot="end" color="medium"></IonInputPasswordToggle>}
+        {type === "password" && !hidePassword && <IonInputPasswordToggle slot="end" color="medium"></IonInputPasswordToggle>}
       </IonInput>
       <div className={styles.footer}>
         {errorMessage && state === "error" && <p className={styles.errorMessage}>{errorMessage}</p>}

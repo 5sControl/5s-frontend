@@ -39,7 +39,8 @@ const rolesPermissions: { [key in ROLE]: string[] } = {
         "view_users",
         "create_user",
         "update_user",
-        "delete_user"
+        "delete_user",
+        "view_cameras"
     ],
     [ROLE.ADMIN]: [
         "create_order",
@@ -79,7 +80,8 @@ const rolesPermissions: { [key in ROLE]: string[] } = {
         "view_users",
         "create_user",
         "update_user",
-        "delete_user"
+        "delete_user",
+        "view_cameras"
     ],
     [ROLE.WORKER]: [
         "proccess_qr_code_order_operation",

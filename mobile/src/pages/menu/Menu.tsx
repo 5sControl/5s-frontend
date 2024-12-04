@@ -72,25 +72,29 @@ export const Menu: React.FC = () => {
           </IonList>
         </Restricted>
 
-        <Restricted to="view_reference">
-          <IonList inset={true}>
+        
+      <IonList inset={true}>
+          <Restricted to="view_reference">
             <MenuListButton
               title={t("menu.dataConfiguration")}
               handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)}
             />
+          </Restricted>
+          <Restricted to="view_cameras">
+            <MenuListButton title={t("menu.cameras")} handleItemClick={() => handleItemClick(ROUTES.MENU)} />
+          </Restricted>
+          <Restricted to="view_users">
+            <MenuListButton title={t("menu.users")} handleItemClick={() => handleItemClick(ROUTES.USERS)} />
+          </Restricted>
+          <Restricted to="view_reference">
             <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} />
-          </IonList>
-        </Restricted>
+          </Restricted>
+      </IonList>
+        
 
         <Restricted to="proccess_qr_code_order_operation">
           <IonList inset={true}>
             <MenuListButton title={t("menu.scanner")} handleItemClick={() => handleItemClick(ROUTES.SCANNER_QR)} />
-          </IonList>
-        </Restricted>
-
-        <Restricted to="view_users">
-          <IonList inset={true}>
-            <MenuListButton title={t("menu.users")} handleItemClick={() => handleItemClick(ROUTES.USERS)} />
           </IonList>
         </Restricted>
 

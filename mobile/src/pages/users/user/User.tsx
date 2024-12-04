@@ -83,7 +83,7 @@ const User = () => {
 
                 <Fab
                     icon={EditWhiteIcon}
-                    handleFabClick={() => {handleFabClick}}/>
+                    handleFabClick={handleFabClick}/>
 
                 <ConfirmationModal
                     type="danger"

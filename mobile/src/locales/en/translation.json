@@ -10,8 +10,8 @@
     "reports": "Reports",
     "scanner": "QR Scanner",
     "language": "Interface language",
-    "users": "Users",
-    "cameras": "Cameras"
+    "users": "Employees",
+    "cameras": "Camera Settings"
   },
    "config": {
      "title": "Configuration",
@@ -31,7 +31,8 @@
      "startTime": "The start time cannot be greater than the end time",
      "finishDate": "The finish date cannot be earlier than the start date.",
      "saveData": "Please save your data!",
-     "employeeNotFound": "Employee not found"
+     "employeeNotFound": "Employee not found",
+     "employeeExists": "This employee already exists"
    },
    "directory": {
      "newDirectory": "New directory",
@@ -147,9 +148,9 @@
        "loginPlaceholder": "Enter Username",
        "pwdPlaceholder": "Enter Password",
        "pwd": "Password",
-       "submit": "Log In",
-       "required": "This field is required"
-     }
+       "submit": "Log In"
+     },
+     "required": "This field is required"
    },
    "orders": {
      "order": "Order",
@@ -215,6 +216,8 @@
    "users": {
      "username": "Username",
      "fullName": "Full name",
+     "firstName": "First name",
+     "lastName": "Last name",
      "password": "Password",
      "role": "Role",
      "workplace": "Workplace",

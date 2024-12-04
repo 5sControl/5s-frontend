@@ -101,7 +101,7 @@ export const Authorization = () => {
           onKeyDown={e => pressEnter(e)}
         />
         {errorResponse && <span className="authorization__error_response">{t("messages.incorrectCredentials")}</span>}
-        {errorPassword && <span className="authorization__error_password">{t("form.auth.required")}</span>}
+        {errorPassword && <span className="authorization__error_password">{t("form.required")}</span>}
         <button className={"authorization__button"} onClick={post}>
           {t("form.auth.submit")}
         </button>
