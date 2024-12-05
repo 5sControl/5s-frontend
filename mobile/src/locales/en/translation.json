@@ -209,6 +209,10 @@
      "workday": "Work day",
      "erp": "Used ERP",
      "displayedOperations": "Displayed operations"
+   },
+   "scanner": {
+     "start": "Start scanning",
+     "stop": "End scanning"
    }
  }
  

@@ -207,5 +207,9 @@
     "workday": "Dzień roboczy",
     "erp": "Używane ERP",
     "displayedOperations": "Wyświetlane operacje"
+  },
+  "scanner": {
+    "start": "Rozpocznij skanowanie",
+    "stop": "Zakończ skanowanie"
   }
 }
