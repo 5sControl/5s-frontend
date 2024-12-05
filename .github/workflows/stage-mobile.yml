@@ -14,6 +14,7 @@ on:
     paths:
       - 'mobile/**'
       - '.github/workflows/dev-mobile.yml'
+      - '.github/workflows/stage-mobile.yml'
 
 jobs:
   Build:

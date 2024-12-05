@@ -1,4 +1,4 @@
-name: Build and deploy mobile (stage)
+name: Build and deploy (stage)
 
 env:
   DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
@@ -11,9 +11,10 @@ env:
 on:
   pull_request: 
     branches: [main]
-    paths:
+    paths-ignore:
       - 'mobile/**'
       - '.github/workflows/dev-mobile.yml'
+      - '.github/workflows/stage-mobile.yml'
 
 jobs:
   Build:
