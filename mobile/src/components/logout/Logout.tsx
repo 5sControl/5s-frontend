@@ -16,7 +16,7 @@ export const Logout: React.FC<LogoutProps> = ({ username, status, logout }) => {
       <div className="logout_text">
         <span className="logout_username">{username}</span>
         {
-          status && <span className={`logout_status${status === "owner" ? "Owner" : "Worker"} capitalized`}>
+          status && <span className={`logout_status_${status} capitalized`}>
           {status}
         </span>
         }
