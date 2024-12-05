@@ -64,24 +64,24 @@ jobs:
           DOCKER_BUILDKIT: 1
 
   Deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted-dev
     needs: Build
 
     steps:
       - name: Pull the latest Docker image
         working-directory: /home/server/reps/server-
         run: |
-          echo "Pulling latest Docker image for erp-service..."
+          echo "Pulling latest Docker image for 5scontrol_front_mobile..."
           docker-compose pull 5scontrol_front_mobile
 
       - name: Stop and remove the old server container
         working-directory: /home/server/reps/server-
         run: |
-          echo "Stopping and removing the old server container..."
+          echo "Stopping and removing the old 5scontrol_front_mobile and nginx container..."
           docker-compose rm -fs nginx 5scontrol_front_mobile
 
       - name: Recreate and restart server container
         working-directory: /home/server/reps/server-
         run: |
-          echo "Recreating and restarting the server container..."
+          echo "Recreating and restarting the 5scontrol_front_mobile and nginx container..."
           docker-compose up -d --no-deps nginx 5scontrol_front_mobile
