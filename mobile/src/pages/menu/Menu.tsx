@@ -81,7 +81,7 @@ export const Menu: React.FC = () => {
             />
           </Restricted>
           <Restricted to="view_cameras">
-            <MenuListButton title={t("menu.cameras")} handleItemClick={() => handleItemClick(ROUTES.MENU)} />
+            <MenuListButton title={t("menu.cameras")} handleItemClick={() => handleItemClick(ROUTES.CAMERAS)} />
           </Restricted>
           <Restricted to="view_users">
             <MenuListButton title={t("menu.users")} handleItemClick={() => handleItemClick(ROUTES.USERS)} />

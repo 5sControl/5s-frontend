@@ -74,6 +74,8 @@ import Users from "./pages/users/Users";
 import EditUser from "./pages/users/edit-user/EditUser";
 import User from "./pages/users/user/User";
 import AddUser from "./pages/users/add-user/AddUser";
+import Cameras from "./pages/cameras/Cameras";
+import AddCamera from "./pages/cameras/add-camera/AddCamera";
 
 setupIonicReact();
 
@@ -275,6 +277,14 @@ function App() {
               <Route exact path={ROUTES.USER_ADD}>
                 <AddUser />
               </Route>
+
+              <Route exact path={ROUTES.CAMERAS}>
+                <Cameras />
+              </Route>
+              <Route exact path={ROUTES.USER_ADD}>
+                <AddCamera />
+              </Route>
+
             </IonRouterOutlet>
           ) : (
             <Route path="/*">
