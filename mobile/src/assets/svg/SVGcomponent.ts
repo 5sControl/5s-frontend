@@ -34,6 +34,9 @@ import NotificationGood from './notificationGood.svg';
 import NotificationInfo from './notificationInfo.svg';
 import NotificationWarning from './notificationWarning.svg';
 import Tooltip from './tooltip.svg';
+import DeleteWhite from './deleteWhite.svg';
+import ArrowDown from './arrowDown.svg';
+import NoVideoBig from './noVideoBig.svg';
 
 export {
   AddCover,
@@ -71,5 +74,8 @@ export {
   NotificationGood,
   NotificationInfo,
   NotificationWarning,
-  Tooltip
+  Tooltip,
+  DeleteWhite,
+  ArrowDown,
+  NoVideoBig
 };

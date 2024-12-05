@@ -12,6 +12,7 @@ import { TOAST_DELAY } from "../../../constants/toastDelay";
 import CameraSegment from "../../../components/cameraSegment/cameraSegment";
 import { findCamera, getSelectedCameras } from "../../../api/cameraRequest";
 import { postAlgorithnDependences } from "../../../api/algorithmRequest";
+import Zones from "../../../components/zoneSegment/zones/zones";
 
 const AddCamera = () => {
   const { t } = useTranslation();
@@ -166,38 +167,6 @@ const AddCamera = () => {
           </div>
         ) : (
             <>
-                {/* <Input 
-                    label={t("users.lastName")} 
-                    value={user?.last_name || ""} 
-                    required 
-                    handleChange={event => setUser({ ...user, last_name: event.target.value })}
-                    state={highlightRequired && !user.last_name ? "error" : "neutral" }
-                    errorMessage={t("form.required")}/>
-                <Input 
-                    label={t("users.firstName")} 
-                    value={user?.first_name || ""} 
-                    required 
-                    handleChange={event => setUser({ ...user, first_name: event.target.value })}
-                    state={highlightRequired && !user.first_name ? "error" : "neutral" }
-                    errorMessage={t("form.required")}/>
-                
-                <Input 
-                    label={t("users.password")} 
-                    value={user.password} 
-                    type="password" 
-                    required 
-                    handleChange={event => setUser({ ...user, password: event.target.value })}
-                    state={highlightRequired && !user.password ? "error" : "neutral" }
-                    errorMessage={t("form.required")}/>
-                
-                <IonList inset={true}>
-                    <MenuListButton title={t("users.workplace")} handleItemClick={() => {}}/>
-                </IonList>
-                <Select value={!customRole ? t("users.role") : user.role} placeholder={!customRole ? t("users.role") : user.role} selectList={roles} handleChange={event => {
-                    setUser({ ...user, role: event.target.value });
-                    setCustomRole(true)}   
-                }/> */}
-
                 <div className="segment-wrapper ion-padding">
                   <IonSegment value={selectedSegment} onIonChange={handleSegmentChange}>
                       <IonSegmentButton value="camera">
@@ -228,8 +197,7 @@ const AddCamera = () => {
                         />
                     )}
                     {selectedSegment === 'zone' && (
-                        // <ZoneSegment />
-                        <div>zone</div>
+                        <Zones cameraSelect={cameraSelect} isCreateCamera={isCreateCamera} />
                     )}
                 </div>
 
