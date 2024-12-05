@@ -48,17 +48,17 @@ export const OperationDetail = () => {
         });
     }, [])
 
-    const handleDownload = () => {
-        if (detail && detail.video && detail.video.status) {
-          const videoUrl = `${import.meta.env.VITE_API_BASE_URL}${detail?.video.file_name}`;
+    const handleDownload = (index) => {
+        if (detail && detail.videos[index] && detail.videos[index].status) {
+          const videoUrl = `${import.meta.env.VITE_API_BASE_URL}${detail?.videos[index].file_name}`;
     
-          downloadFile(videoUrl, detail.video.file_name);
+          downloadFile(videoUrl, detail.videos[index].file_name);
         }
       };
 
-    const handlePlay = useCallback(() => {
+    const handlePlay = useCallback((index) => {
         if (!isReady) {
-          const timeToStart = (detail?.video.video_start_from || 0) / 1000;
+          const timeToStart = (detail?.videos[index].video_start_from || 0) / 1000;
           playerRef.current.seekTo(timeToStart, 'seconds');
           setIsReady(true);
         }
@@ -118,7 +118,7 @@ export const OperationDetail = () => {
                                 forceVideo: true,
                                 },
                             }}
-                            url={`${import.meta.env.VITE_API_BASE_URL}${detail?.video.file_name}`}
+                            url={`${import.meta.env.VITE_API_BASE_URL}${detail?.videos[0].file_name}`}
                             onReady={handlePlay}
                         />  
                 </div>    
