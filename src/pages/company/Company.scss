@@ -77,7 +77,7 @@
     font-weight: 600;
     font-size: 16px;
     line-height: 24px;
-    &_owner {
+    &_admin {
       margin-top: 8px;
       width: fit-content;
       height: 24px;
@@ -101,7 +101,7 @@
       font-size: 14px;
       line-height: 24px;
     }
-    &_staff {
+    &_superuser {
       margin-top: 8px;
       width: fit-content;
       height: 24px;

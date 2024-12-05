@@ -151,7 +151,14 @@ export const updateTimeInDate = (dateString: string): string => {
 
 export const getCurrentDateTimeISO = (): string => {
   const now = new Date();
-  return now.toISOString();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 }
 
 export const getDateWeekAgoISO = (): string => {
@@ -176,17 +183,22 @@ export const extractTime = (dateString: string): string => {
   return `${hours}:${minutes}`;
 }
 
+export const formatISOBeforeSend = (dateString: string): string => {
+  return (new Date(dateString)).toISOString();
+}
+
 export const formatYMD = (dateString: string): string => {
   const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getUTCHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
+  const localDate = new Date(date.getTime());
+  const year = localDate.getFullYear();
+  const month = String(localDate.getMonth() + 1).padStart(2, '0');
+  const day = String(localDate.getDate()).padStart(2, '0');
+  const hours = String(localDate.getHours()).padStart(2, '0');
+  const minutes = String(localDate.getMinutes()).padStart(2, '0');
+  const seconds = String(localDate.getSeconds()).padStart(2, '0');
 
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-}
+};
 
 export const convertToCustomFormat = (dateString: string): string => {
 
