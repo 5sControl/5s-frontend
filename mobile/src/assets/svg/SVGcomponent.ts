@@ -33,6 +33,7 @@ import NotificationBad from './notificationBad.svg';
 import NotificationGood from './notificationGood.svg';
 import NotificationInfo from './notificationInfo.svg';
 import NotificationWarning from './notificationWarning.svg';
+import Tooltip from './tooltip.svg';
 
 export {
   AddCover,
@@ -69,5 +70,6 @@ export {
   NotificationBad,
   NotificationGood,
   NotificationInfo,
-  NotificationWarning
+  NotificationWarning,
+  Tooltip
 };

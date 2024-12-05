@@ -281,7 +281,7 @@ function App() {
               <Route exact path={ROUTES.CAMERAS}>
                 <Cameras />
               </Route>
-              <Route exact path={ROUTES.USER_ADD}>
+              <Route exact path={ROUTES.CAMERA_ADD}>
                 <AddCamera />
               </Route>
 

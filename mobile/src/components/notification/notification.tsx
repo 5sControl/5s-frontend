@@ -15,7 +15,7 @@ export const Notification: React.FC<PropsType> = ({ status, message, isLil }) =>
         status ? styles.good : styles.bad
       }`}
     >
-      {status ? <NotificationGood /> : <NotificationBad />}
+      {status ? <img src={NotificationGood} /> : <img src={NotificationBad} />}
       <span>{message}</span>
     </div>
   );

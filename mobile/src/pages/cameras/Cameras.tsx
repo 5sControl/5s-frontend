@@ -16,6 +16,7 @@ import { Header } from '../../components/header/Header';
 import { ROUTES } from '../../shared/constants/routes';
 import { useTranslation } from 'react-i18next';
 import { Preloader } from '../../components/preloader/preloader';
+import { useHistory } from 'react-router';
 
 const Cameras = () => {
   const [cookies] = useCookies(['token']);
@@ -29,6 +30,7 @@ const Cameras = () => {
   const [findCameraList, setFindCameraList] = useState([]);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
+  const history = useHistory();
 
   useEffect(() => {
     if (!cameraSelect) {
@@ -82,6 +84,10 @@ const Cameras = () => {
     setCameraSelect(el);
   };
 
+  const handleFabClick = () => {
+    history.push(ROUTES.CAMERA_ADD);
+  };
+
   useEffect(() => {
     if (isNotificationAfterCreate) {
       setTimeout(() => setIsNotificationAfterCreate(false), 2000);
@@ -110,7 +116,7 @@ const Cameras = () => {
             </div>
         </div>
        
-        <Fab icon={Plus} handleFabClick={showAddCameras} />
+        <Fab icon={Plus} handleFabClick={handleFabClick} />
 
       {createdCameras && (
         <div className={styles.cameras__list}>

@@ -1,6 +1,7 @@
 import { IonItem, IonLabel, IonInput, IonInputPasswordToggle } from "@ionic/react";
 import React, { useState } from "react";
 import styles from "./input.module.scss";
+import { TooltipCustom } from "../../tooltip/tooltip";
 
 type InputProps = {
   label: string;
@@ -16,7 +17,8 @@ type InputProps = {
   description?: string;
   hint?: string;
   disabled?: boolean;
-  hidePassword?: boolean
+  hidePassword?: boolean;
+  tooltip?: string;
 };
 
 export const Input: React.FC<InputProps> = ({
@@ -33,7 +35,8 @@ export const Input: React.FC<InputProps> = ({
   hint,
   errorMessage,
   description,
-  hidePassword = false
+  hidePassword = false,
+  tooltip
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -41,9 +44,13 @@ export const Input: React.FC<InputProps> = ({
   const handleBlur = () => setIsFocused(false);
 
   return (
-    <IonItem className="input__field">
+    <IonItem className={`input__field ${tooltip ? styles.overflow : ""}`}>
       <IonLabel className={bold ? styles.label__bold : styles.label}>
         {label}
+        {
+          tooltip &&
+          <TooltipCustom title={label} text={tooltip}/>
+        }
       </IonLabel>
       {description && (
         <IonLabel position="stacked" className={styles.description}>
