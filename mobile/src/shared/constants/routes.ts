@@ -58,5 +58,14 @@ export const ROUTES = {
   REPORT_EMPLOYEE: (employeeId: string) => `/report/${employeeId}`,
 
   SCANNER_QR: `/scanner`,
-  LANGUAGE: `/language`
+  LANGUAGE: `/language`,
+
+  USERS: "/users",
+  USER: (id: string) => `/user/${id}`,
+  USER_ADD: "/users/add",
+  USER_EDIT: (id: string) => `/user/${id}/edit`,
+  USER_WORKPLACES: "/users/workplaces",
+
+  CAMERAS: "/cameras",
+  CAMERA_ADD: "/cameras/add",
 };

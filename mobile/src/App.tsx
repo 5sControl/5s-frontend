@@ -70,6 +70,13 @@ import Reports from "./pages/reports/Reports";
 import FullReport from "./pages/reports/fullReport/FullReport";
 import IndividualReports from "./pages/reports/individualReports/IndividualReports";
 import EmployeeReport from "./pages/reports/employeeReport/EmployeeReport";
+import Users from "./pages/users/Users";
+import EditUser from "./pages/users/edit-user/EditUser";
+import User from "./pages/users/user/User";
+import AddUser from "./pages/users/add-user/AddUser";
+import Cameras from "./pages/cameras/Cameras";
+import AddCamera from "./pages/cameras/add-camera/AddCamera";
+import Workplaces from "./pages/users/worplaces/Workplaces";
 import { CollectionDynamic } from "./pages/directories-dynamic/CollectionDynamic";
 import { CollectionItemDynamic } from "./pages/directories-dynamic/CollectionItemDynamic";
 import { CollectionCreateDynamic } from "./pages/directories-dynamic/CollectionCreateDynamic";
@@ -262,6 +269,30 @@ function App() {
               <Route exact path={ROUTES.REPORT_EMPLOYEE(":employeeId")}>
                 <EmployeeReport />
               </Route>
+
+              <Route exact path={ROUTES.USERS}>
+                <Users />
+              </Route>
+              <Route exact path={ROUTES.USER(":id")}>
+                <User />
+              </Route>
+              <Route exact path={ROUTES.USER_EDIT(":id")}>
+                <EditUser />
+              </Route>
+              <Route exact path={ROUTES.USER_ADD}>
+                <AddUser />
+              </Route>
+              <Route exact path={ROUTES.USER_WORKPLACES}>
+                <Workplaces />
+              </Route>
+
+              <Route exact path={ROUTES.CAMERAS}>
+                <Cameras />
+              </Route>
+              <Route exact path={ROUTES.CAMERA_ADD}>
+                <AddCamera />
+              </Route>
+
               {/* DYNAMIC ROUTES */}
               <Route exact path={"/configuration/:collection"}>
                 <CollectionDynamic />
