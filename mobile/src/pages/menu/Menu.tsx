@@ -15,6 +15,7 @@ import MenuListButton from "../../components/menuListButton/MenuListButton";
 import "./Menu.scss";
 import Restricted from "../../providers/permissionProvider/Restricted";
 import Select from "../../components/selects/select/Select";
+import { isMobile } from 'react-device-detect';
 
 export const Menu: React.FC = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
@@ -80,9 +81,12 @@ export const Menu: React.FC = () => {
               handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)}
             />
           </Restricted>
+          { 
+          !isMobile && 
           <Restricted to="view_cameras">
             <MenuListButton title={t("menu.cameras")} handleItemClick={() => handleItemClick(ROUTES.CAMERAS)} />
-          </Restricted>
+          </Restricted> 
+          }
           <Restricted to="view_users">
             <MenuListButton title={t("menu.users")} handleItemClick={() => handleItemClick(ROUTES.USERS)} />
           </Restricted>
