@@ -205,7 +205,7 @@
   },
   "ordersView": {
     "orderSearch": "Поиск заказа",
-    "settings": "Настройки просмотра заказов",
+    "settings": "Настройки",
     "workday": "Рабочий день",
     "erp": "Используемая ERP",
     "displayedOperations": "Отображаемые операции"

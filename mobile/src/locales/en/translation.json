@@ -205,7 +205,7 @@
    },
    "ordersView": {
      "orderSearch": "Order Search",
-     "settings": "Orders View settings",
+     "settings": "Settings",
      "workday": "Work day",
      "erp": "Used ERP",
      "displayedOperations": "Displayed operations"
