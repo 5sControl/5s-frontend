@@ -8,29 +8,34 @@ import { IonContent, IonList, IonPage, IonToast, useIonViewWillEnter } from "@io
 import { Header } from "../../../components/header/Header";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 import { getUser, updateUser } from "../../../api/users";
-import { IUser } from "../../../models/interfaces/employee.interface";
+import { IAddUser, IUser } from "../../../models/interfaces/employee.interface";
 import { Input } from "../../../components/inputs/input/Input";
 import MenuListButton from "../../../components/menuListButton/MenuListButton";
 import Select from "../../../components/selects/select/Select";
 import { ROLE } from "../../../models/enums/roles.enum";
 import BottomButton from "../../../components/bottomButton/BottomButton";
 import { TOAST_DELAY } from "../../../constants/toastDelay";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedWorkplace } from "../../../store/workpaceSlice";
 
 const EditUser = () => {
   const { t } = useTranslation();
   const { id }: { id: string } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
   const [cookies] = useCookies(["token"]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<IUser>({} as IUser);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [customRole, setCustomRole] = useState(false);
   const [highlightRequired, setHighlightRequired] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const roles = Object.values(ROLE).map(role => ({
+    id: role,
     label: role,
     value: role
 }));
+  const { selectedWorkplace } = useSelector((state: any) => state.workplace);
+  const [passwordChanged, setPasswordChanged] = useState(false);
 
   useIonViewWillEnter(() => {
     setLoading(true);
@@ -48,13 +53,26 @@ const EditUser = () => {
 
   const navigateBack = () => {
     history.push(ROUTES.USER(id), { direction: "back" });
+    dispatch(setSelectedWorkplace(null));
   };
 
   const handleSave = () => {
     if (user) {
-      user.username = `${user.first_name}_${user.last_name}`;
-      updateUser(Number(id), user, cookies.token)
-        .then(() => navigateBack())
+      const updatedUser: Partial<IAddUser> = {
+        username: `${user.first_name}_${user.last_name}`,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        role: user.role,
+        workplace: selectedWorkplace || user.workplace || null
+      }
+      if (passwordChanged){
+        Object.assign(updatedUser, {password: user.password});
+      }
+      updateUser(Number(id), updatedUser, cookies.token)
+        .then(() => {
+          navigateBack();
+
+        })
         .catch(error => {
           setToastMessage(t("messages.employeeExists"));
           console.error(error);
@@ -84,6 +102,10 @@ const EditUser = () => {
     setIsOpenModal(false);
     handleSave();
   };
+
+  const navigateWorkplaceClick = () => {
+    history.push(ROUTES.USER_WORKPLACES, { direction: "forward" });
+  }
 
   return (
     <IonPage>
@@ -116,18 +138,19 @@ const EditUser = () => {
                     type="password" 
                     hidePassword={true} 
                     required 
-                    handleChange={value => setUser({ ...user, password: value })}
+                    handleChange={value => {
+                      setPasswordChanged(true);
+                      setUser({ ...user, password: value })}}
                     state={highlightRequired && !user.password ? "error" : "neutral" }
                     errorMessage={t("form.required")}
                 />
                 
                 <IonList inset={true}>
-                    <MenuListButton title={t("users.workplace")} handleItemClick={() => {}}/>
+                    <MenuListButton title={selectedWorkplace?.name || user.workplace?.name || t("users.workplace")} handleItemClick={navigateWorkplaceClick}/>
                 </IonList>
-                <Select value={!customRole ? t("users.role") : user.role} placeholder={!customRole ? t("users.role") : user.role} selectList={roles} handleChange={event => {
+                <Select value={user.role} placeholder={user.role} selectList={roles} handleChange={event => {
                     setUser({ ...user, role: event.target.value });
-                    setCustomRole(true)}   
-                }/>
+                }} />
 
                 <IonToast
                     isOpen={!!toastMessage}

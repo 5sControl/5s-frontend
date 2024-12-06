@@ -1,4 +1,5 @@
 import { ROLE } from "../enums/roles.enum"
+import { IWorkplace } from "./workplace.interface"
 
 export interface IEmployee {
   id: number,
@@ -13,7 +14,7 @@ export interface IUser {
   last_name: string,
   role: ROLE,
   password: string,
-  workplace: any
+  workplace: IWorkplace
 }
 
 export interface IAddUser {
@@ -22,5 +23,5 @@ export interface IAddUser {
   last_name?: string,
   role: ROLE,
   password: string,
-  workplace?: any
+  workplace?: number
 }

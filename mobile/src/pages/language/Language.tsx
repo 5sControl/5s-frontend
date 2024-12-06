@@ -11,9 +11,9 @@ const Language = () => {
   const [language, setLanguage] = useState(i18n.language);
 
   const languages = [
-    { label: "English", value: "en" },
-    { label: "Русский", value: "ru" },
-    { label: "Polski", value: "pl" },
+    { id: "en", label: "English", value: "en" },
+    { id: "ru", label: "Русский", value: "ru" },
+    { id: "pl", label: "Polski", value: "pl" },
   ];
 
   const handleLanguageChange = e => {

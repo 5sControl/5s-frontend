@@ -15,9 +15,12 @@ import Select from "../../../components/selects/select/Select";
 import { ROLE } from "../../../models/enums/roles.enum";
 import BottomButton from "../../../components/bottomButton/BottomButton";
 import { TOAST_DELAY } from "../../../constants/toastDelay";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedWorkplace } from "../../../store/workpaceSlice";
 
 const AddUser = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const history = useHistory();
   const [cookies] = useCookies(["token"]);
   const [loading, setLoading] = useState(false);
@@ -27,12 +30,15 @@ const AddUser = () => {
   const [highlightRequired, setHighlightRequired] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const roles = Object.values(ROLE).map(role => ({
+    id: role,
     label: role,
     value: role
 }));
+  const { selectedWorkplace } = useSelector((state: any) => state.workplace);
 
   const navigateBack = () => {
     history.push(ROUTES.USERS, { direction: "back" });
+    dispatch(setSelectedWorkplace(null));
   };
 
   const handleSave = () => {
@@ -43,7 +49,7 @@ const AddUser = () => {
         first_name: user.first_name,
         password: user.password,
         role: user.role,
-        workplace: user.workplace
+        workplace: selectedWorkplace.id
       }
       createUser(data, cookies.token)
         .then(() => {
@@ -74,6 +80,10 @@ const AddUser = () => {
     setIsOpenModal(false);
     handleSave();
   };
+
+  const navigateWorkplaceClick = () => {
+    history.push(ROUTES.USER_WORKPLACES, { direction: "forward" });
+  }
 
   return (
     <IonPage>
@@ -110,7 +120,7 @@ const AddUser = () => {
                     errorMessage={t("form.required")}/>
                 
                 <IonList inset={true}>
-                    <MenuListButton title={t("users.workplace")} handleItemClick={() => {}}/>
+                    <MenuListButton title={selectedWorkplace?.name || t("users.workplace")} handleItemClick={navigateWorkplaceClick}/>
                 </IonList>
                 <Select value={!customRole ? t("users.role") : user.role} placeholder={!customRole ? t("users.role") : user.role} selectList={roles} handleChange={event => {
                     setUser({ ...user, role: event.target.value });

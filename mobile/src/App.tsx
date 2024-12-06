@@ -76,6 +76,7 @@ import User from "./pages/users/user/User";
 import AddUser from "./pages/users/add-user/AddUser";
 import Cameras from "./pages/cameras/Cameras";
 import AddCamera from "./pages/cameras/add-camera/AddCamera";
+import Workplaces from "./pages/users/worplaces/Workplaces";
 
 setupIonicReact();
 
@@ -276,6 +277,9 @@ function App() {
               </Route>
               <Route exact path={ROUTES.USER_ADD}>
                 <AddUser />
+              </Route>
+              <Route exact path={ROUTES.USER_WORKPLACES}>
+                <Workplaces />
               </Route>
 
               <Route exact path={ROUTES.CAMERAS}>

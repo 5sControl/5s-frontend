@@ -11,8 +11,8 @@ const SelectList = ({ value, selectList, handleChange }: SelectListProps) => {
   return (
     <IonList inset={true}>
       <IonRadioGroup value={value} onIonChange={handleChange}>
-        {selectList.map(({ label, value }) => (
-          <IonItem key={value}>
+        {selectList.map(({ id, label, value }) => (
+          <IonItem>
             <IonRadio value={value}>{label}</IonRadio>
           </IonItem>
         ))}
@@ -20,4 +20,5 @@ const SelectList = ({ value, selectList, handleChange }: SelectListProps) => {
     </IonList>
   );
 };
+
 export default SelectList;
