@@ -6,6 +6,7 @@ import '../../styles/common.scss';
 import CameraTest from "../cameraTest/cameraTest";
 import styles from './cameraSegment.module.scss'
 import './cameraSegment.module.scss';
+import { SelectItem } from "../../models/types/selectItem";
 
 type CameraSegmentProps = {
     cameraIP: string,
@@ -39,9 +40,21 @@ const CameraSegment: React.FC<CameraSegmentProps> = ({
     setCameraName,
     setPassword,
 }) => {
-  const [isModalChangePassword, setIsModalChangePassword] = useState(false);
+    const [isModalChangePassword, setIsModalChangePassword] = useState(false);
 
-  return (
+    const selectCameraList: SelectItem[] = findCameraList.map((cameraIp: any) => {
+        return {
+            id: cameraIp,
+            label: cameraIp,
+            value: cameraIp
+        }
+    })
+
+    const handleSelectCamera = (e: any) => {
+        setCameraIP(e.target.value);
+    };
+
+    return (
         <div className={styles.cameraSegment}>
             <div className={styles.section}>
                 <IonNote className={`ion-padding ${styles.sectionNote}`}>
@@ -49,10 +62,10 @@ const CameraSegment: React.FC<CameraSegmentProps> = ({
                 </IonNote>
                 <Select 
                     label="IP-адрес камеры"
-                    value={cameraIP} 
+                    value={cameraIP!} 
                     placeholder={'Выберите или введите'} 
-                    selectList={findCameraList} 
-                    handleChange={(value) => setCameraIP(value)}
+                    selectList={selectCameraList} 
+                    handleChange={handleSelectCamera}
                 />
                 <Input 
                     label="Имя пользователя" 

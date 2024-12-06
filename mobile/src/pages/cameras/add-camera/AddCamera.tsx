@@ -13,32 +13,23 @@ import CameraSegment from "../../../components/cameraSegment/cameraSegment";
 import { findCamera, getSelectedCameras } from "../../../api/cameraRequest";
 import { postAlgorithnDependences } from "../../../api/algorithmRequest";
 import Zones from "../../../components/zoneSegment/zones/zones";
+import { SelectItem } from "../../../models/types/selectItem";
 
 const AddCamera = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const [cookies] = useCookies(["token"]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [selectedSegment, setSelectedSegment] = useState<"camera" | "zone">("camera");
 
   const [cameraName, setCameraName] = useState('');
-  const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
-  const [processLocal, setProcess] = useState([]);
-  const [informationToSend, setInformationToSend] = useState([]);
   const [isEnabled, setIsEnabled] = useState(true);
-  const [operationID, setOperationID] = useState('');
   const [cameraIP, setCameraIP] = useState('');
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [isNotification, setIsNotification] = useState(false);
-  const [isPreloader, setIsPreloader] = useState(false);
-  const [activeTab, setActiveTab] = useState('Camera');
-  const [configAlgo, setConfigAlgo] = useState<any>({});
-  const [checkboxAlgo, setCheckboxAlgo] = useState([]);
-  const [algorithmsActive, setAlgorithmsActive] = useState([]);
-  const [algoWorkzone, setAlgoWorkzone] = useState({});
   const [cameraSelect, setCameraSelect] = useState(false);
   const [isCreateCamera, setIsCreateCamera] = useState(false);
   const [findCameraList, setFindCameraList] = useState([]);
@@ -47,18 +38,17 @@ const AddCamera = () => {
   const [error, setError] = useState(false);
 
   useIonViewWillEnter(() => {
-    showAddCameras();
-  });
-  
-  useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token)
       .then((response) => {
+        let cameras = [];
         if (response.data.length > 0) {
-          setCreatedCameras(response.data.sort((a, b) => a.name.localeCompare(b.name)));
+          cameras = response.data.sort((a, b) => a.name.localeCompare(b.name));
+          setCreatedCameras(cameras);
         }
+        showAddCameras(cameras);
       })
-      .catch((error) => setError(error.message));
-  }, [cameraSelect]);
+      .catch((error) => setError(error.message))
+  });
   
   const handleSegmentChange = (event: CustomEvent) => {
     setSelectedSegment(event.detail.value);
@@ -66,10 +56,6 @@ const AddCamera = () => {
 
   const navigateBack = () => {
     history.push(ROUTES.CAMERAS, { direction: "back" });
-  };
-
-  const handleSave = () => {
-    console.log('handle save');
   };
 
   const openModal = () => {
@@ -83,15 +69,15 @@ const AddCamera = () => {
 
   const handleConfirmModal = () => {
     setIsOpenModal(false);
-    handleSave();
+    applySettings();
   };
 
-  const showAddCameras = () => {
+  const showAddCameras = (cameras) => {
     findCamera(window.location.hostname)
       .then((response) => {
         if (response.data && response.data.results) {
           const allCameras = response.data.results;
-          const bufCreatedCameras = createdCameras.length > 0 ? createdCameras.map((e) => e.id) : [];
+          const bufCreatedCameras = cameras.length > 0 ? cameras.map((e) => e.id) : [];
           const resultCameras = allCameras.filter((value) => {
             return !bufCreatedCameras.includes(value);
           });
@@ -100,13 +86,14 @@ const AddCamera = () => {
           setFindCameraList([]);
         }
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => console.log(error.message))
+      .finally(() => setLoading(false));
     setIsCreateCamera(true);
     setCameraSelect(true);
   };
 
   const applySettings = async () => {
-    setIsPreloader(true);
+    setLoading(true);
     const response: any = {
       camera: {
         ip: cameraIP,
@@ -116,40 +103,44 @@ const AddCamera = () => {
       },
       algorithms: [],
     };
-    for (const algorithm of informationToSend) {
-      if (algorithm === 'operation_control') {
-        response.algorithms = [
-          ...response.algorithms,
-          {
-            name: algorithm,
-            config: {
-              operation_control_id: operationID,
-            },
-          },
-        ];
-      } else {
-        response.algorithms = [
-          ...response.algorithms,
-          {
-            name: algorithm,
-            config: {
-              zonesID: configAlgo[algorithm].map((e) => ({ id: e })),
-            },
-          },
-        ];
-      }
-    }
+    // for (const algorithm of informationToSend) {
+    //   if (algorithm === 'operation_control') {
+    //     response.algorithms = [
+    //       ...response.algorithms,
+    //       {
+    //         name: algorithm,
+    //         config: {
+    //           operation_control_id: operationID,
+    //         },
+    //       },
+    //     ];
+    //   } else {
+    //     response.algorithms = [
+    //       ...response.algorithms,
+    //       {
+    //         name: algorithm,
+    //         config: {
+    //           zonesID: configAlgo[algorithm].map((e) => ({ id: e })),
+    //         },
+    //       },
+    //     ];
+    //   }
+    // }
+
     await postAlgorithnDependences(window.location.hostname, cookies.token, response)
       .then(() => {
         setIsEnabled(false);
         setIsNotificationAfterCreate(false);
         setIsCameraSettings(false);
-        setIsPreloader(false);
       })
       .catch((error) => {
         console.log(error);
         setIsNotification(true);
-        setIsPreloader(false);
+      })
+      .finally(() => {
+        setLoading(false);
+        setIsOpenModal(false);
+        navigateBack();
       });
   };
 

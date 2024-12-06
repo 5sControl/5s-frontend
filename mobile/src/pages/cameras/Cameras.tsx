@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
-import { getSelectedCameras, findCamera } from '../../api/cameraRequest';
+import { getSelectedCameras, findCamera, deleteCameraAPI } from '../../api/cameraRequest';
 import { getProcess } from '../../api/algorithmRequest';
 import { parsingAlgorithmName } from '../../utils/parsingAlgorithmName';
 import { DeleteRedIcon, Plus } from '../../assets/svg/SVGcomponent';
@@ -11,12 +11,13 @@ import styles from './camera.module.scss';
 import './cameras.scss';
 import { ConfirmationModal } from '../../components/confirmationModal/confirmationModal';
 import Fab from '../../components/fab/Fab';
-import { IonContent, IonListHeader, IonPage } from '@ionic/react';
+import { IonContent, IonListHeader, IonPage, useIonViewWillEnter } from '@ionic/react';
 import { Header } from '../../components/header/Header';
 import { ROUTES } from '../../shared/constants/routes';
 import { useTranslation } from 'react-i18next';
 import { Preloader } from '../../components/preloader/preloader';
 import { useHistory } from 'react-router';
+import { SelectItem } from '../../models/types/selectItem';
 
 const Cameras = () => {
   const [cookies] = useCookies(['token']);
@@ -27,13 +28,13 @@ const Cameras = () => {
   const [cameraSelect, setCameraSelect] = useState(false);
   const [isCreateCamera, setIsCreateCamera] = useState(false);
   const [isNotificationAfterCreate, setIsNotificationAfterCreate] = useState(false);
-  const [findCameraList, setFindCameraList] = useState([]);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const history = useHistory();
+  const [cameraToDelete, setCameraToDelete] = useState('');
 
-  useEffect(() => {
-    if (!cameraSelect) {
+  useIonViewWillEnter(() => {
+      // if (!cameraSelect) {
       getProcess(window.location.hostname, cookies.token)
         .then((response) => {
           if (response && response.data && response.data.length > 0) {
@@ -43,8 +44,8 @@ const Cameras = () => {
         .catch((error) => {
           console.log(error);
         });
-    }
-  }, [cameraSelect]);
+    // }
+  });
 
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token)
@@ -56,27 +57,21 @@ const Cameras = () => {
       .catch((error) => setError(error.message));
   }, [isDeleteModal, cameraSelect]);
 
-  const showAddCameras = () => {
-    findCamera(window.location.hostname)
-      .then((response) => {
-        if (response.data && response.data.results) {
-          const allCameras = response.data.results;
-          const bufCreatedCameras = createdCameras.length > 0 ? createdCameras.map((e) => e.id) : [];
-          const resultCameras = allCameras.filter((value) => {
-            return !bufCreatedCameras.includes(value);
-          });
-          setFindCameraList(resultCameras);
-        } else {
-          setFindCameraList([]);
-        }
-      })
-      .catch((error) => console.log(error.message));
-    setIsCreateCamera(true);
-    setCameraSelect(true);
+  const deleteCamera = (camera) => {
+    setCameraToDelete(camera);
+    setIsDeleteModal(true);
   };
 
-  const deleteCamera = (camera) => {
-    setIsDeleteModal(camera);
+  const onDeleteConfirm = () => {
+    deleteCameraAPI(window.location.hostname, cookies.token, cameraToDelete)
+      .then((response) => {
+        if (response.status === 200) {
+          setIsDeleteModal(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleClickCamera = (el) => {
@@ -162,7 +157,7 @@ const Cameras = () => {
             type="danger" 
             isOpen={isDeleteModal} 
             onClose={() => setIsDeleteModal(false)} 
-            onConfirm={() => {}} 
+            onConfirm={onDeleteConfirm} 
             title="Remove a camera?" 
             confirmText="Remove"
             cancelText="Cancel" />
