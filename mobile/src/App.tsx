@@ -77,6 +77,10 @@ import AddUser from "./pages/users/add-user/AddUser";
 import Cameras from "./pages/cameras/Cameras";
 import AddCamera from "./pages/cameras/add-camera/AddCamera";
 import Workplaces from "./pages/users/worplaces/Workplaces";
+import { CollectionDynamic } from "./pages/directories-dynamic/CollectionDynamic";
+import { CollectionItemDynamic } from "./pages/directories-dynamic/CollectionItemDynamic";
+import { CollectionCreateDynamic } from "./pages/directories-dynamic/CollectionCreateDynamic";
+import { CollectionUpdateDynamic } from "./pages/directories-dynamic/CollectionUpdateDynamic";
 
 setupIonicReact();
 
@@ -115,7 +119,7 @@ function App() {
       You are not allowed to access this page
     </div>
   );
-
+  
   return (
     <IonApp>
       <IonReactRouter basename={import.meta.env.BASE_URL ?? "/"}>
@@ -289,6 +293,21 @@ function App() {
                 <AddCamera />
               </Route>
 
+              {/* DYNAMIC ROUTES */}
+              <Route exact path={"/configuration/:collection"}>
+                <CollectionDynamic />
+              </Route>
+              <Route exact path={"/configuration/:collection/create/new"}>
+                <CollectionCreateDynamic />
+              </Route>
+              <Route exact path={"/configuration/:collection/:id/update"}>
+                <CollectionUpdateDynamic />
+              </Route>
+              <Route exact path={"/configuration/:collection/:id"}>
+                <CollectionItemDynamic />
+              </Route>
+             
+              {/* DYNAMIC ROUTES */}
             </IonRouterOutlet>
           ) : (
             <Route path="/*">

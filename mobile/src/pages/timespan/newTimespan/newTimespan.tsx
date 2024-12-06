@@ -1,65 +1,39 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  IonButton,
-  IonContent,
-  IonDatetime,
-  IonLabel,
-  IonModal,
-  IonToast,
-  IonPage,
-  IonList,
-  useIonViewWillEnter,
-} from "@ionic/react";
+import { IonButton, IonContent, IonLabel, IonToast, IonPage, IonList, useIonViewWillEnter } from "@ionic/react";
 import { useHistory } from "react-router-dom";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import InputDate from "../../../components/inputs/inputDate/inputDate";
-import {
-  formatDate,
-  getTimeDifference,
-  mergeDateAndTime,
-  updateTimeInDate,
-  getCurrentDateTimeISO,
-  extractTime,
-} from "./../../../utils/parseInputDate";
-import { ITEM_REQUEST, OPERATION_REQUEST, ORDER_REQUEST, TIMESPAN_REQUEST } from "./../../../dispatcher";
+import { formatDate, getTimeDifference, getCurrentDateTimeISO, formatISOBeforeSend } from "./../../../utils/parseInputDate";
+import { TIMESPAN_REQUEST } from "./../../../dispatcher";
 import style from "./style.module.scss";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
 import { TOAST_DELAY } from "./../../../constants/toastDelay";
 import { Header } from "../../../components/header/Header";
 import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
-import { IOrders } from "../../../models/interfaces/orders.interface";
-import { IItem } from "../../../models/interfaces/item.interface";
-import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
+import { ITimespan } from "../../../models/interfaces/orders.interface";
 import { Preloader } from "../../../components/preloader/preloader";
-import { LocationState } from "../../../models/types/locationState";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import TimeSelector from "../../../components/timeSelector/TimeSelector";
 
 const NewTimespan: React.FC = () => {
   const { orderId, itemId, operationId } = useParams<{ orderId: string; itemId: string; operationId: string }>();
-  const [order, setOrder] = useState<IOrders>({} as IOrders);
-  const [operation, setOperation] = useState<IProductOperation>({} as IProductOperation);
-  const [item, setItem] = useState<IItem>({} as IItem);
-  const [isDateChange, setIsDateChange] = useState<boolean>(false);
+  const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
   const [startDateTime, setStartDateTime] = useState<string>(getCurrentDateTimeISO());
   const [isStart, setIsStart] = useState<boolean>(false);
+  const [block, setBlock] = useState<boolean>(false);
   const [finishDateTime, setFinishDateTime] = useState<string>("");
-  const [isSave, setSave] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(false);
   const [qrOrderName, setQrOrderName] = useState<string>("");
   const [qrOrderYear, setQrOrderYear] = useState<string>("");
   const [qrOrderItem, setQrOrderItem] = useState<string>("");
   const history = useHistory();
-  const location = useLocation<LocationState>();
   const startModalRef = useRef<HTMLIonModalElement>(null);
   const finishModalRef = useRef<HTMLIonModalElement>(null);
   const { t } = useTranslation();
   const qrTimespan = useSelector((state: RootState) => state.currentTimespan);
-
-  const { from } = location.state || { from: "" };
 
   useIonViewWillEnter(() => {
     if (qrTimespan) {
@@ -67,56 +41,31 @@ const NewTimespan: React.FC = () => {
       setQrOrderName(orderName || "");
       setQrOrderYear(orderYear || "");
       setQrOrderItem(orderItem || "");
-    } else {
-      ORDER_REQUEST.getOrderById(parseInt(orderId, 10), setOrder, setLoading, setToastMessage)
-        .then(() => ITEM_REQUEST.getItemById(parseInt(itemId, 10), setItem, setLoading, setToastMessage))
-        .then(() =>
-          OPERATION_REQUEST.getOperationById(parseInt(operationId, 10), setOperation, setLoading, setToastMessage)
-        );
     }
   });
 
-  const showToastMessage = (message: string) => {
-    setToastMessage(message);
-  };
-
   const handleStartNow = () => {
-    setStartDateTime(updateTimeInDate(startDateTime));
+    setStartDateTime(getCurrentDateTimeISO());
     setIsStart(true);
+    setBlock(true);
+    const payload = {
+      orderId: parseInt(orderId),
+      orderOperationId: parseInt(operationId),
+      startedAt: formatISOBeforeSend(getCurrentDateTimeISO()),
+    };
+    operationId && TIMESPAN_REQUEST.addTimespan(payload, setTimespan, setLoading, setToastMessage);
   };
 
   const handleFinishNow = () => {
-    setFinishDateTime(updateTimeInDate(getCurrentDateTimeISO()));
-    // openModal();
-  };
-
-  const handleNavigate = () => {
-    history.push(ROUTES.SCANNER_QR);
-  };
-
-  const handleSave = () => {
-    if (!startDateTime) {
-      showToastMessage(t("messages.validDate"));
-    } else {
-      setSave(true);
-      const payload = {
-        orderId: parseInt(orderId),
-        orderOperationId: parseInt(operationId),
-        startedAt: startDateTime,
-        ...(finishDateTime && { finishedAt: finishDateTime }),
-      };
-      operationId && TIMESPAN_REQUEST.addTimespan(payload, setLoading, setToastMessage, handleNavigate);
-      setIsStart(false);
-      setFinishDateTime("");
-    }
-  };
-
-  const handleStartDateChange = (date: string | string[]) => {
-    if (Array.isArray(date)) return;
-    if (finishDateTime) {
-      setFinishDateTime(mergeDateAndTime(date, finishDateTime));
-    }
-    setStartDateTime(date);
+    setFinishDateTime(getCurrentDateTimeISO());
+    const payload = {
+      orderId: parseInt(orderId),
+      orderOperationId: parseInt(operationId),
+      startedAt: formatISOBeforeSend(startDateTime),
+      finishedAt: formatISOBeforeSend(getCurrentDateTimeISO()),
+    };
+    setBlock(false);
+    operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage);
   };
 
   const handleStartTime = (time: string | string[]) => {
@@ -126,7 +75,15 @@ const NewTimespan: React.FC = () => {
       return;
     }
     setStartDateTime(time);
+    const payload = {
+      orderId: parseInt(orderId),
+      orderOperationId: parseInt(operationId),
+      startedAt: formatISOBeforeSend(time),
+      ...(finishDateTime && { finishedAt: formatISOBeforeSend(finishDateTime) }),
+    };
+    operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage);
   };
+
   const handleFinishTime = (time: string | string[]) => {
     if (Array.isArray(time)) return;
 
@@ -135,18 +92,27 @@ const NewTimespan: React.FC = () => {
       return;
     }
     setFinishDateTime(time);
+    const payload = {
+      orderId: parseInt(orderId),
+      orderOperationId: parseInt(operationId),
+      startedAt: formatISOBeforeSend(startDateTime),
+      finishedAt: formatISOBeforeSend(time),
+    };
+    operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage);
   };
 
-  useEffect(() => {
-    isSave && setSave(false);
-  }, [finishDateTime, startDateTime]);
+  const handleSave = () => {
+    setFinishDateTime("");
+    setIsStart(false);
+    history.push(ROUTES.SCANNER_QR);
+  };
 
   const { hours, minutes } = getTimeDifference(finishDateTime, startDateTime);
 
   // Block navigation
   useEffect(() => {
     const unblock = history.block(location => {
-      if (isStart) {
+      if (block) {
         return false;
       }
     });
@@ -154,7 +120,7 @@ const NewTimespan: React.FC = () => {
     return () => {
       unblock();
     };
-  }, [history, isStart]);
+  }, [history, block]);
 
   return (
     <IonPage>
@@ -166,13 +132,13 @@ const NewTimespan: React.FC = () => {
           </div>
         ) : (
           <>
-            <InputReadonly label={t("orders.orderName")} value={qrOrderName || order.name} />
+            <InputReadonly label={t("orders.orderName")} value={qrOrderName || "-"} />
             <InputReadonly label={t("orders.orderYear")} value={qrOrderYear || "-"} />
-            <InputReadonly label={t("orders.orderItem")} value={qrOrderItem || item.name} />
+            <InputReadonly label={t("orders.orderItem")} value={qrOrderItem || "-"} />
             <IonList className={`${style.page} ion-padding`}>
               <IonList className={style.list}>
                 <IonLabel className={style.label}>{t("form.date")}</IonLabel>
-                <InputDate value={formatDate(startDateTime)} onClick={() => setIsDateChange(true)}></InputDate>
+                <InputDate value={formatDate(startDateTime)} />
               </IonList>
               <IonList className={style.sized}>
                 <div className={style.container}>

@@ -157,13 +157,9 @@ export const LeftMenu = () => {
             <div className='leftMenu__logout_text'>
               <span>{user.username}</span>
               <span
-                className={
-                  user.status === 'owner'
-                    ? 'leftMenu__logout_statusOwner'
-                    : 'leftMenu__logout_statusWorker'
-                }
+                className={`leftMenu__logout_status_${user.role}`}
               >
-                {user.status}
+                {user.role}
               </span>
             </div>
           )}

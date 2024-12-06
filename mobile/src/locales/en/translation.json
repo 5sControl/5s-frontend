@@ -208,7 +208,7 @@
    },
    "ordersView": {
      "orderSearch": "Order Search",
-     "settings": "Orders View settings",
+     "settings": "Settings",
      "workday": "Work day",
      "erp": "Used ERP",
      "displayedOperations": "Displayed operations"
@@ -224,4 +224,9 @@
      "dateJoined": "Date joined"
    } 
 }
+   "scanner": {
+     "start": "Start scanning",
+     "stop": "End scanning"
+   }
+ }
  
