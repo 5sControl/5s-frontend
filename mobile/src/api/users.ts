@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IAddUser, IUser } from "../models/interfaces/employee.interface";
+import { IAddUser, IUpdateUser, IUser } from "../models/interfaces/employee.interface";
 
 const API_USERLIST = "api/employees/";
 const API_USERINFO = "api/employees/get-user-info/"
@@ -43,8 +43,8 @@ export const deleteUser = (id: number,cookies: string) => {
   });
 };
 
-export const updateUser = (id: number, user: Partial<IAddUser>, cookies: string) => {
-  return axios.put(`${import.meta.env.VITE_API_BASE_URL}${API_USERLIST}${id}/`,
+export const updateUser = (id: number, user: IUpdateUser, cookies: string) => {
+  return axios.patch(`${import.meta.env.VITE_API_BASE_URL}${API_USERLIST}${id}/`,
     user,
     {
     headers: {

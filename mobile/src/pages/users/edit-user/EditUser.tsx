@@ -8,7 +8,7 @@ import { IonContent, IonList, IonPage, IonToast, useIonViewWillEnter } from "@io
 import { Header } from "../../../components/header/Header";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 import { getUser, updateUser } from "../../../api/users";
-import { IAddUser, IUser } from "../../../models/interfaces/employee.interface";
+import { IUpdateUser, IUser } from "../../../models/interfaces/employee.interface";
 import { Input } from "../../../components/inputs/input/Input";
 import MenuListButton from "../../../components/menuListButton/MenuListButton";
 import Select from "../../../components/selects/select/Select";
@@ -58,12 +58,12 @@ const EditUser = () => {
 
   const handleSave = () => {
     if (user) {
-      const updatedUser: Partial<IAddUser> = {
+      const updatedUser: Partial<IUpdateUser> = {
         username: `${user.first_name}_${user.last_name}`,
         first_name: user.first_name,
         last_name: user.last_name,
         role: user.role,
-        workplace: selectedWorkplace || user.workplace || null
+        workplace_id: selectedWorkplace.id || user.workplace.id || null
       }
       if (passwordChanged){
         Object.assign(updatedUser, {password: user.password});
@@ -104,7 +104,7 @@ const EditUser = () => {
   };
 
   const navigateWorkplaceClick = () => {
-    history.push(ROUTES.USER_WORKPLACES, { direction: "forward" });
+    history.push(ROUTES.USER_EDIT_WORKPLACES(id), { direction: "forward" });
   }
 
   return (

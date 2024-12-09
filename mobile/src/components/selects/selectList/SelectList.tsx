@@ -12,7 +12,7 @@ const SelectList = ({ value, selectList, handleChange }: SelectListProps) => {
     <IonList inset={true}>
       <IonRadioGroup value={value} onIonChange={handleChange}>
         {selectList.map(({ id, label, value }) => (
-          <IonItem>
+          <IonItem key={id}>
             <IonRadio value={value}>{label}</IonRadio>
           </IonItem>
         ))}

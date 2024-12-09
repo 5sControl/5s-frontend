@@ -25,3 +25,12 @@ export interface IAddUser {
   password: string,
   workplace?: number
 }
+
+export interface IUpdateUser {
+  username?: string,
+  first_name?: string,
+  last_name?: string,
+  role?: ROLE,
+  password?: string,
+  workplace_id?: number
+}
