@@ -65,6 +65,7 @@ export const ROUTES = {
   USER_ADD: "/users/add",
   USER_EDIT: (id: string) => `/user/${id}/edit`,
   USER_WORKPLACES: "/users/workplaces",
+  USER_EDIT_WORKPLACES: (id: string) => `/user/${id}/edit/workplaces`,
 
   CAMERAS: "/cameras",
   CAMERA_ADD: "/cameras/add",

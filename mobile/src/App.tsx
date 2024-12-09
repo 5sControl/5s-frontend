@@ -285,6 +285,9 @@ function App() {
               <Route exact path={ROUTES.USER_WORKPLACES}>
                 <Workplaces />
               </Route>
+              <Route exact path={ROUTES.USER_EDIT_WORKPLACES(":id")}>
+                <Workplaces />
+              </Route>
 
               <Route exact path={ROUTES.CAMERAS}>
                 <Cameras />

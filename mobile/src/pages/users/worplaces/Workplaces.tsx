@@ -11,16 +11,20 @@ import { SelectItem } from "../../../models/types/selectItem";
 import { Preloader } from "../../../components/preloader/preloader";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedWorkplace } from "../../../store/workpaceSlice";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 const Workplaces = () => {
   const dispatch = useDispatch();
   const { selectedWorkplace } = useSelector((state: any) => state.workplace);
+  console.log('srelectedWorkplace', selectedWorkplace);
   const [cookies] = useCookies(['token']);
   const [workplaces, setWorkplaces] = useState<SelectItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { t } = useTranslation();
   const history = useHistory();
+  const { id }: { id: string } = useParams();
+  const editMode = id ? true : false;
+  const backRoute = editMode ? ROUTES.USER_EDIT(id) : ROUTES.USER_ADD;
 
   useIonViewWillEnter(() => {
     getWorkplaces(cookies.token)
@@ -51,25 +55,18 @@ const Workplaces = () => {
     }
   };
 
-  useEffect(() => {
-    const storedWorkplace = localStorage.getItem('selectedWorkplace');
-    if (storedWorkplace) {
-      dispatch(setSelectedWorkplace(JSON.parse(storedWorkplace)));
-    }
-  }, [dispatch]);
-
   const navigateBack = () => {
-    history.push(ROUTES.USER_ADD, { direction: "back" });
+    history.push(backRoute, { direction: "back" });
   };
 
   return (
     <IonPage>
-      <Header title={"Назначить рабочее место"} onBackClick={navigateBack} backButtonHref={ROUTES.USER_ADD}></Header>
+      <Header title={"Назначить рабочее место"} onBackClick={navigateBack} backButtonHref={backRoute}></Header>
       <IonContent>
         {loading ? (
           <div className="preloader">Loading...</div>
         ) : (
-          <SelectList selectList={workplaces} value={selectedWorkplace?.id.toString()} handleChange={handleWorkplaceChange} />
+          <SelectList selectList={workplaces} value={selectedWorkplace?.id?.toString()} handleChange={handleWorkplaceChange} />
         )}
       </IonContent>
     </IonPage>
