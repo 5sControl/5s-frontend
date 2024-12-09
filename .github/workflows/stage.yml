@@ -60,7 +60,7 @@ jobs:
           DOCKER_BUILDKIT: 1
 
   Deploy:
-    runs-on: self-hosted-dev
+    runs-on: self-hosted-stage
     needs: Build
 
     steps:
