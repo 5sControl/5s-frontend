@@ -13,13 +13,12 @@ const store = configureStore({
         user: userReducer,
         currentTimespan: timespanReducer,
         reportDate: reportDateSlice,
-        workplace: workplaceReducer
-    }
+        workplace: workplaceReducer,
         [dynamicApiSlice.reducerPath]: dynamicApiSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({ serializableCheck: false }).concat(dynamicApiSlice.middleware),
-})
+});
 
 export default store;
 export type AppDispatch = typeof store.dispatch;
