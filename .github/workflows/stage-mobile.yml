@@ -97,7 +97,7 @@ jobs:
         uses: actions/create-release@v1
         id: create_release
         with:
-            tag_name: 'mobile v${{ env.DOCKER_TAG }}'
+            tag_name: 'mobile-v${{ env.DOCKER_TAG }}'
             release_name: 'Mobile release v${{ env.DOCKER_TAG }}'
             body: ${{ env.PR_BODY }}
             draft: false
