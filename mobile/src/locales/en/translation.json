@@ -1,4 +1,5 @@
 {
+  "lang": "en",
   "menu" : {
     "ordersView": "Orders View",
     "configuration": "Configuration",
@@ -32,6 +33,7 @@
      "finishDate": "The finish date cannot be earlier than the start date.",
      "saveData": "Please save your data!",
      "employeeNotFound": "Employee not found",
+     "validOrderNumber": "Please enter the number in the correct format"
      "employeeExists": "This employee already exists"
    },
    "directory": {
@@ -196,6 +198,8 @@
     "finishOrder": "Finish order"
    },
    "time": {
+     "day": "d",
+     "week": "w",
      "hour": "h",
      "min": "min"
    },

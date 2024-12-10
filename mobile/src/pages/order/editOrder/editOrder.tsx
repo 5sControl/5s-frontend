@@ -1,40 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  IonPage,
-  IonContent,
-  IonList,
-  IonItem,
-  IonLabel,
-  IonCheckbox,
-  IonButton,
-  IonToast,
-  IonLoading,
-  IonFooter,
-  IonText,
-  useIonViewDidEnter,
-  useIonViewWillEnter,
-  IonModal,
-  IonDatetime,
-} from "@ionic/react";
+import { IonPage, IonContent, IonToast, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useParams, useHistory } from "react-router-dom";
 import ModalSave from "../../../components/modalSave/modalSave";
-import { IProductOperation } from "../../../models/interfaces/operationItem.interface";
-import styles from "./editOrder.module.scss";
-import { ITEM_REQUEST, OPERATION_REQUEST, ORDER_ITEM_REQUEST, ORDER_REQUEST } from "../../../dispatcher";
+import { ORDER_REQUEST } from "../../../dispatcher";
 import { useTranslation } from "react-i18next";
 import { TOAST_DELAY } from "./../../../constants/toastDelay";
-import { isEquals } from "./../../../utils/helpers";
-import { IOrders, IReference } from "../../../models/interfaces/orders.interface";
+import { IOrders } from "../../../models/interfaces/orders.interface";
 import BottomButton from "../../../components/bottomButton/BottomButton";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IItem } from "../../../models/interfaces/item.interface";
-import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
-import { formatDate, getCurrentDateTimeISO } from "../../../utils/parseInputDate";
 import { Input } from "../../../components/inputs/input/Input";
-import InputDate from "../../../components/inputs/inputDate/inputDate";
 import DateSelector from "../../../components/dateSelector/DateSelector";
+import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
+import { getCurrentDateTimeISO } from "../../../utils/parseInputDate";
 
 const EditOrder: React.FC = () => {
   const history = useHistory();
@@ -48,6 +27,8 @@ const EditOrder: React.FC = () => {
   const [orderDate, setOrderDate] = useState<string>("");
   const dateModalRef = useRef<HTMLIonModalElement>(null);
 
+  const isChanged = orderName !== order.name || orderDate !== order.estimatedAt;
+
   useIonViewWillEnter(() => {
     if (!id) return;
     ORDER_REQUEST.getOrderById(parseInt(id, 10), setOrder, setLoading, setToastMessage);
@@ -55,36 +36,45 @@ const EditOrder: React.FC = () => {
 
   useEffect(() => {
     setOrderName(order.name);
-    if (order.estimatedAt) {
-      setOrderDate(order.estimatedAt);
-    }
+    setOrderDate(order.estimatedAt);
   }, [order]);
 
   const handleSubmit = async () => {
     setLoading(true);
     setIsModalOpen(false);
-    setLoading(false);
-    handleNavigate();
     ORDER_REQUEST.updateOrder(
       parseInt(id, 10),
       { ...order, name: orderName, estimatedAt: orderDate },
       setLoading,
       setToastMessage,
-      handleNavigate
+      navigateTo
     );
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const handleBackClick = () => {
+    if (isChanged) {
+      setIsModalOpen(true);
+      return;
+    }
+    navigateTo();
   };
 
-  const handleNavigate = () => {
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    navigateTo();
+  };
+
+  const navigateTo = () => {
     history.push(ROUTES.ORDER(id), { direction: "back" });
   };
 
   return (
     <IonPage>
-      <Header title={`${t("operations.edit")} ${order?.orderNumber}`} backButtonHref={ROUTES.ORDER(id)} />
+      <Header
+        title={`${t("operations.edit")} ${order?.orderNumber}`}
+        onBackClick={handleBackClick}
+        backButtonHref={ROUTES.ORDER(id)}
+      />
       <IonContent>
         {loading ? (
           <div className="preloader">
@@ -103,18 +93,26 @@ const EditOrder: React.FC = () => {
               date={orderDate}
               modalRef={dateModalRef}
               setDate={setOrderDate}
+              minDate={getCurrentDateTimeISO()}
             />
-            <BottomButton handleClick={openModal} label={t("operations.save")} />
-            <ModalSave
-              isModalOpen={isModalOpen}
-              setIsModalOpen={setIsModalOpen}
-              handleSubmit={handleSubmit}
-            ></ModalSave>
+
+            <BottomButton handleClick={handleSubmit} disabled={!isChanged} label={t("operations.save")} />
+
             <IonToast
               isOpen={!!toastMessage}
               message={toastMessage || undefined}
               duration={TOAST_DELAY}
               onDidDismiss={() => setToastMessage(null)}
+            />
+
+            <ConfirmationModal
+              type="primary"
+              isOpen={isModalOpen}
+              onClose={handleCloseModal}
+              onConfirm={handleSubmit}
+              title={`${t("operations.saveChanges")}?`}
+              confirmText={t("operations.save")}
+              cancelText={t("operations.cancel")}
             />
           </>
         )}

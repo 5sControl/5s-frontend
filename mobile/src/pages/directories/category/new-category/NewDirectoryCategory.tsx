@@ -51,16 +51,18 @@ const NewDirectoryCategory = () => {
   const handleBackClick = () => {
     if (valueIsChanged) {
       setIsOpenModal(true);
-    } else {
-      navigateBack();
+      return;
     }
+    navigateBack();
   };
 
   const handleChangeInput = e => {
     setDirectoryName(e.target.value);
     if (e.target.value.trim() !== initialValue.trim()) {
       setValueIsChanged(true);
+      return;
     }
+    setValueIsChanged(false);
   };
 
   const handleCloseModal = () => {

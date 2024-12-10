@@ -55,7 +55,7 @@ export const ORDERS_API = {
   addOrderItemOperation: (body: IOrderOperationAddBody) =>
     request.post(URLS.ORDER_ITEM_OPERATIONS, {}),
   getOrderItemOperations: (orderItemId: number) =>
-    request.get<IOrderOperation[]>(URLS.ORDER_ITEM_OPERATIONS + "order-item/"+ orderItemId + "/"),
+    request.get<IOrderOperation[]>(URLS.ORDER_ITEM_OPERATIONS + "order-item/" + orderItemId + "/"),
   getOrderOperationById: (id: number) =>
     request.get<IOrderOperation>(URLS.ORDER_ITEM_OPERATIONS + id + "/"),
   deleteOrderOperation: (id: number) =>
@@ -95,7 +95,7 @@ export const TIMESPAN_API = {
   getTimespan: (id: number) =>
     request.get<ITimespan>(URLS.TIMESPANS + id + "/"),
   getOrderItemTimespans: (orderItemId: number) =>
-    request.get<any>(URLS.TIMESPANS + "order-item/"+ orderItemId + "/"),
+    request.get<any>(URLS.TIMESPANS + "order-item/" + orderItemId + "/"),
 };
 
 export const ORDER_ITEMS_API = {
@@ -104,7 +104,7 @@ export const ORDER_ITEMS_API = {
   updateOrderItem: (id: number, body: IOrderItemUpdateBody) =>
     request.patch(URLS.ORDER_ITEMS + id + "/", body),
   getOrderItems: (orderId: number) =>
-    request.get<Item[]>(URLS.ORDER_ITEMS + "order/"+ orderId + "/"),
+    request.get<Item[]>(URLS.ORDER_ITEMS + "order/" + orderId + "/"),
   deleteOrderItem: (id: number) =>
     request.delete(URLS.ORDER_ITEMS + id + "/"),
 };
@@ -129,5 +129,5 @@ export interface IAddOrder {
   orderNumber: string;
   name: string;
   additionalInfo: string;
-  estimatedAt: string;
+  estimatedAt?: string;
 }

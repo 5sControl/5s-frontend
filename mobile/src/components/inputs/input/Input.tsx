@@ -17,6 +17,7 @@ type InputProps = {
   description?: string;
   hint?: string;
   disabled?: boolean;
+  maxLength?: number;
   hidePassword?: boolean;
   tooltip?: string;
 };
@@ -35,6 +36,7 @@ export const Input: React.FC<InputProps> = ({
   hint,
   errorMessage,
   description,
+  maxLength,
   hidePassword = false,
   tooltip
 }) => {
@@ -68,6 +70,7 @@ export const Input: React.FC<InputProps> = ({
         disabled={disabled}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        maxlength={maxLength}
       >
         {type === "password" && !hidePassword && <IonInputPasswordToggle slot="end" color="medium"></IonInputPasswordToggle>}
       </IonInput>

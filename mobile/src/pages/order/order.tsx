@@ -49,18 +49,27 @@ const Order = () => {
   const isLoaded = Boolean(Object.values(order)?.length);
 
   useIonViewWillEnter(() => {
-    id &&
-      ORDER_REQUEST.getOrderById(parseInt(id, RADIX), setOrder, setLoading, setToastMessage).then(() => {
+    if (!id) return;
+
+    ORDER_REQUEST.getOrderById(parseInt(id, RADIX), setOrder, setLoading, setToastMessage)
+      .then(() => {
         ORDER_ITEM_REQUEST.getOrderItems(parseInt(id, RADIX), setOrderItems, setLoading, setToastMessage);
-      });
-    id && 
-      ORDER_REQUEST.getOrderItemOperationsByName(parseInt(id, RADIX), blankOperationName, setOrderBlankItems, setLoading, setToastMessage);
+      })
+      .then(() =>
+        ORDER_REQUEST.getOrderItemOperationsByName(
+          parseInt(id, RADIX),
+          blankOperationName,
+          setOrderBlankItems,
+          setLoading,
+          setToastMessage
+        )
+      );
   });
 
   const assemblyItems: TableRow[] =
     orderItems
-    .filter((item) => item.orderItem.name !== blankOperationName)
-    .map((item, index) => {
+      .filter(item => item.orderItem.name !== blankOperationName)
+      .map((item, index) => {
         const { hours, minutes } = formatTime(item.totalDuration);
         const durationFormat = hours
           ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}`
@@ -70,9 +79,9 @@ const Order = () => {
           navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.orderItem.id)),
           values: [index + 1, item.orderItem.name, durationFormat],
         };
-    }) || [];
+      }) || [];
 
-  const blankItems: TableRow[] = 
+  const blankItems: TableRow[] =
     orderBlankItems.map((item, index) => {
       const { hours, minutes } = formatTime(item.duration);
       const durationFormat = hours
@@ -81,7 +90,7 @@ const Order = () => {
       return {
         id: item.orderItem.id,
         navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.orderItem.id)),
-        values: [index + 1, item.name, ''],
+        values: [index + 1, item.name, ""],
       };
     }) || [];
 
@@ -109,49 +118,50 @@ const Order = () => {
           </div>
         ) : (
           <>
-            {isLoaded && (
-              <>
-                <InputReadonly label={t("form.name")} value={order?.name || "-"} />
-                <InputReadonly
-                  label={t("orders.estimatedAt")}
-                  value={order?.estimatedAt ? formatDate(order?.estimatedAt) : "-"}
-                />
-                <InputReadonly label={t("orders.startedAt")} value={formatDate(order?.createdAt)} />
+            {/* {isLoaded && ( */}
+            <>
+              <InputReadonly label={t("form.name")} value={order?.name || "-"} />
+              <InputReadonly
+                label={t("orders.estimatedAt")}
+                value={order?.estimatedAt ? formatDate(order?.estimatedAt) : "-"}
+              />
+              <InputReadonly label={t("orders.startedAt")} value={formatDate(order?.createdAt)} />
 
-                <InputReadonly label={t("orders.finishOrder")} />
-                <IonButton
-                  className="ion-padding"
-                  style={{ paddingTop: "0" }}
-                  expand="full"
-                  size="small"
-                  onClick={handleCompleteClick}
-                  disabled={order.status !== OPERATION_STATUS_ENUM.IN_PROGRESS || completedOrder}
-                >
-                  {t("operations.finish")}
-                </IonButton>
+              <InputReadonly label={t("orders.finishOrder")} />
+              <IonButton
+                className="ion-padding"
+                style={{ paddingTop: "0" }}
+                expand="full"
+                size="small"
+                onClick={handleCompleteClick}
+                disabled={order.status !== OPERATION_STATUS_ENUM.IN_PROGRESS || completedOrder}
+              >
+                {t("operations.finish")}
+              </IonButton>
 
-                <div className="segment-wrapper ion-padding">
-                  <IonSegment value={selectedSegment} onIonChange={handleSegmentChange}>
-                    <IonSegmentButton value={ORDER_STEPS.BLANK}>
-                      <IonLabel>{t("orders.blank")}</IonLabel>
-                    </IonSegmentButton>
-                    <IonSegmentButton value={ORDER_STEPS.ASSEMLY}>
-                      <IonLabel>{t("orders.assembly")}</IonLabel>
-                    </IonSegmentButton>
-                  </IonSegment>
-                </div>
-                <Table
-                  label={selectedSegment === ORDER_STEPS.BLANK ? t("orders.operations") : t("orders.orderItems")}
-                  cols={[
-                    { label: t("orders.id"), size: 1 },
-                    { label: t("orders.name"), size: 6.5 },
-                    { label: t("form.duration"), size: 4.5 },
-                  ]}
-                  rows={selectedSegment === ORDER_STEPS.BLANK ? blankItems : assemblyItems}
-                />
-                <Fab icon={PencilIcon} handleFabClick={() => handleFabClick(ROUTES.ORDER_EDIT(String(order.id)))} />
-              </>
-            )}
+              <div className="segment-wrapper ion-padding">
+                <IonSegment value={selectedSegment} onIonChange={handleSegmentChange}>
+                  <IonSegmentButton value={ORDER_STEPS.BLANK}>
+                    <IonLabel>{t("orders.blank")}</IonLabel>
+                  </IonSegmentButton>
+                  <IonSegmentButton value={ORDER_STEPS.ASSEMLY}>
+                    <IonLabel>{t("orders.assembly")}</IonLabel>
+                  </IonSegmentButton>
+                </IonSegment>
+              </div>
+
+              <Table
+                label={selectedSegment === ORDER_STEPS.BLANK ? t("orders.operations") : t("orders.orderItems")}
+                cols={[
+                  { label: t("orders.id"), size: 1 },
+                  { label: t("orders.name"), size: 6.5 },
+                  { label: t("form.duration"), size: 4.5 },
+                ]}
+                rows={selectedSegment === ORDER_STEPS.BLANK ? blankItems : assemblyItems}
+              />
+              <Fab icon={PencilIcon} handleFabClick={() => handleFabClick(ROUTES.ORDER_EDIT(String(order.id)))} />
+            </>
+            {/* )} */}
           </>
         )}
       </IonContent>

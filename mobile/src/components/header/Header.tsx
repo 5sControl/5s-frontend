@@ -1,15 +1,6 @@
 import React, { ReactNode } from "react";
 
-import {
-  IonHeader,
-  IonToolbar,
-  IonButtons,
-  IonBackButton,
-  IonTitle,
-  IonSearchbar,
-  IonButton,
-  IonIcon,
-} from "@ionic/react";
+import { IonHeader, IonToolbar, IonButtons, IonTitle, IonSearchbar, IonButton, IonIcon } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import { Back } from "../../assets/svg/SVGcomponent";
 import { useTranslation } from "react-i18next";
@@ -23,10 +14,6 @@ type HeaderProps = {
   onSearchChange?: (v: string) => void;
   onBackClick?: () => void;
 };
-interface ICustomBack {
-  onBackClick?: () => void;
-  backButtonHref?: string;
-}
 
 export const Header: React.FC<HeaderProps> = ({
   title,
@@ -40,9 +27,6 @@ export const Header: React.FC<HeaderProps> = ({
   const history = useHistory();
   const { t } = useTranslation();
 
-  const handleBackButton = (backTo: string) => {
-    history.push(backTo);
-  };
   const backHandler = () => {
     onBackClick ? onBackClick() : history.push(backButtonHref || "", { direction: "back" });
   };

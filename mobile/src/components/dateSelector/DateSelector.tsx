@@ -11,9 +11,10 @@ type DataSelectorProps = {
   modalRef: RefObject<HTMLIonModalElement>;
   minDate?: string;
   maxDate?: string;
+  time?: boolean;
 };
 
-const DateSelector = ({ label, date, modalRef, maxDate, minDate, setDate }: DataSelectorProps) => {
+const DateSelector = ({ label, date, modalRef, maxDate, minDate, time, setDate }: DataSelectorProps) => {
   const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState<string>(date);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
@@ -49,16 +50,19 @@ const DateSelector = ({ label, date, modalRef, maxDate, minDate, setDate }: Data
 
       <IonModal ref={modalRef} onWillDismiss={handleCancel}>
         <IonDatetime
-          presentation="date"
+          presentation={time ? "date-time" : "date"}
           value={selectedDate}
           onIonChange={e => setSelectedDate(e.detail.value as string)}
+          locale={t("lang")}
           min={minDate}
           max={maxDate}
         />
-        <IonButton onClick={handleSave}>{t("operations.save")}</IonButton>
-        <IonButton color="danger" fill="outline" onClick={handleCancel}>
+        <IonButton onClick={handleSave} style={{ margin: ".5rem", marginBottom: 0 }}>
+          {t("operations.save")}
+        </IonButton>
+        <IonButton style={{ margin: ".5rem" }} color="danger" fill="outline" onClick={handleCancel}>
           {t("operations.cancel")}
-        </IonButton>{" "}
+        </IonButton>
       </IonModal>
     </div>
   );

@@ -1,13 +1,4 @@
-import {
-  IonContent,
-  IonFab,
-  IonFabButton,
-  IonIcon,
-  IonItem,
-  IonList,
-  IonPage,
-  useIonViewWillEnter,
-} from "@ionic/react";
+import { IonContent, IonItem, IonList, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
@@ -17,7 +8,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MenuListButton from "../../../components/menuListButton/MenuListButton";
 import { useCookies } from "react-cookie";
-import { getAllDirectories, getDirectory } from "../../../api/directory/directory";
+import { getDirectory } from "../../../api/directory/directory";
 import { Preloader } from "../../../components/preloader/preloader";
 import { Directory } from "../../../models/interfaces/directory.interface";
 import { getDirectoryCategory } from "../../../api/directory/directoryCategories";
@@ -75,29 +66,6 @@ const DirectoryCategory = () => {
   useEffect(() => {
     items.length && setFilteredItems(items);
   }, [items]);
-
-  // useEffect(() => {
-  //   setLoading(true);
-
-  //   getDirectory(Number(refId), cookies.token)
-  //     .then(response => {
-  //       setCatalogTitle(response.data.name);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-
-  //   getDirectoryCategory(Number(refId), cookies.token)
-  //     .then(response => {
-  //       setItems(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // }, [cookies.token]);
 
   return (
     <IonPage>
