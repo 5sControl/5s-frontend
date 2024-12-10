@@ -16,6 +16,7 @@ type InputProps = {
   description?: string;
   hint?: string;
   disabled?: boolean;
+  maxLength?: number;
 };
 
 export const Input: React.FC<InputProps> = ({
@@ -32,6 +33,7 @@ export const Input: React.FC<InputProps> = ({
   hint,
   errorMessage,
   description,
+  maxLength,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -40,9 +42,7 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <IonItem className="input__field">
-      <IonLabel className={bold ? styles.label__bold : styles.label}>
-        {label}
-      </IonLabel>
+      <IonLabel className={bold ? styles.label__bold : styles.label}>{label}</IonLabel>
       {description && (
         <IonLabel position="stacked" className={styles.description}>
           {description}
@@ -59,6 +59,7 @@ export const Input: React.FC<InputProps> = ({
         disabled={disabled}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        maxlength={maxLength}
       >
         {type === "password" && <IonInputPasswordToggle slot="end" color="medium"></IonInputPasswordToggle>}
       </IonInput>

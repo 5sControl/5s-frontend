@@ -2,13 +2,11 @@ import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../../../shared/constants/routes";
 import { useHistory, useParams } from "react-router-dom";
 import SingleInputPage from "../../../../ui/signleInputPage/SingleInputPage";
-import { useEffect, useState } from "react";
-import { getDirectory, updateDirectory } from "../../../../api/directory/directory";
+import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../../components/preloader/preloader";
 import { IonContent, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../../components/header/Header";
-import { DirectoryCategory } from "../../../../models/interfaces/directoryCategory.interface";
 import { getDirectoryCategory, updateDirectoryCategory } from "../../../../api/directory/directoryCategories";
 import { Directory } from "../../../../models/interfaces/directory.interface";
 import { ConfirmationModal } from "../../../../components/confirmationModal/confirmationModal";
@@ -59,16 +57,18 @@ const EditDirectoryCategory = () => {
   const handleBackClick = () => {
     if (valueIsChanged) {
       setIsOpenModal(true);
-    } else {
-      navigateBack();
+      return;
     }
+    navigateBack();
   };
 
   const handleChangeInput = e => {
     setDirectoryName(e.target.value);
     if (e.target.value.trim() !== initialValue.trim()) {
       setValueIsChanged(true);
+      return;
     }
+    setValueIsChanged(false);
   };
 
   const handleCloseModal = () => {
@@ -80,21 +80,6 @@ const EditDirectoryCategory = () => {
     setIsOpenModal(false);
     handleSave();
   };
-
-  // useEffect(() => {
-  //   setLoading(true);
-  //   getDirectoryCategory(Number(refId), cookies.token)
-  //     .then(response => {
-  //       const currentCatalog = response.data.find((catalog: Directory) => catalog.id === Number(id));
-  //       setDirectoryName(currentCatalog.name);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // }, [cookies.token]);
 
   return (
     <IonPage>
@@ -119,6 +104,7 @@ const EditDirectoryCategory = () => {
           />
         )}
       </IonContent>
+
       <ConfirmationModal
         type="primary"
         isOpen={isOpenModal}
