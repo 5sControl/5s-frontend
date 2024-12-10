@@ -33,7 +33,7 @@
      "finishDate": "The finish date cannot be earlier than the start date.",
      "saveData": "Please save your data!",
      "employeeNotFound": "Employee not found",
-     "validOrderNumber": "Please enter the number in the correct format"
+     "validOrderNumber": "Please enter the number in the correct format",
      "employeeExists": "This employee already exists"
    },
    "directory": {
