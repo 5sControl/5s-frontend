@@ -52,7 +52,7 @@ export const AddUser = ({ close }) => {
         <select value={role} onChange={(e) => setRole(e.target.value)} className="add-user__select">
           <option value="">Select role</option>
           <option value={'worker'}>worker</option>
-          <option value={'admin'}>staff</option>
+          <option value={'admin'}>admin</option>
         </select>
         {error.length > 0 && <span style={{ color: 'red' }}>{error}</span>}
         <div className="add-user__footer">

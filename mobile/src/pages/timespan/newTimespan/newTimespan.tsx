@@ -3,7 +3,7 @@ import { IonButton, IonContent, IonLabel, IonToast, IonPage, IonList, useIonView
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
 import InputDate from "../../../components/inputs/inputDate/inputDate";
-import { formatDate, getTimeDifference, getCurrentDateTimeISO } from "./../../../utils/parseInputDate";
+import { formatDate, getTimeDifference, getCurrentDateTimeISO, formatISOBeforeSend } from "./../../../utils/parseInputDate";
 import { TIMESPAN_REQUEST } from "./../../../dispatcher";
 import style from "./style.module.scss";
 import { ROUTES } from "../../../shared/constants/routes";
@@ -51,7 +51,7 @@ const NewTimespan: React.FC = () => {
     const payload = {
       orderId: parseInt(orderId),
       orderOperationId: parseInt(operationId),
-      startedAt: getCurrentDateTimeISO(),
+      startedAt: formatISOBeforeSend(getCurrentDateTimeISO()),
     };
     operationId && TIMESPAN_REQUEST.addTimespan(payload, setTimespan, setLoading, setToastMessage);
   };
@@ -61,8 +61,8 @@ const NewTimespan: React.FC = () => {
     const payload = {
       orderId: parseInt(orderId),
       orderOperationId: parseInt(operationId),
-      startedAt: startDateTime,
-      finishedAt: getCurrentDateTimeISO(),
+      startedAt: formatISOBeforeSend(startDateTime),
+      finishedAt: formatISOBeforeSend(getCurrentDateTimeISO()),
     };
     setBlock(false);
     operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage);
@@ -78,8 +78,8 @@ const NewTimespan: React.FC = () => {
     const payload = {
       orderId: parseInt(orderId),
       orderOperationId: parseInt(operationId),
-      startedAt: time,
-      ...(finishDateTime && { finishedAt: finishDateTime }),
+      startedAt: formatISOBeforeSend(time),
+      ...(finishDateTime && { finishedAt: formatISOBeforeSend(finishDateTime) }),
     };
     operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage);
   };
@@ -95,8 +95,8 @@ const NewTimespan: React.FC = () => {
     const payload = {
       orderId: parseInt(orderId),
       orderOperationId: parseInt(operationId),
-      startedAt: startDateTime,
-      finishedAt: time,
+      startedAt: formatISOBeforeSend(startDateTime),
+      finishedAt: formatISOBeforeSend(time),
     };
     operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage);
   };

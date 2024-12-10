@@ -38,19 +38,26 @@
       font-style: normal;
       font-weight: 600;
     }
-    &_statusOwner {
+    &_status_admin {
       margin-top: 3px;
       padding: 2px 6px;
       border-radius: 2px;
       background: #ffdbbe;
       color:#FE6100
     }
-    &_statusWorker{
+    &_status_worker{
       margin-top: 3px;
       padding: 2px 6px;
       background: #dbd4e1;
       border-radius: 2px;
       color: #735b8a;
+    }
+    &_status_superuser {
+      margin-top: 3px;
+      padding: 2px 6px;
+      background: #b5f1b9;
+      border-radius: 2px;
+      color: #ad88cf;
     }
   }
   &__company {

@@ -31,10 +31,12 @@ const NewOperation = () => {
 
   const selectItems: SelectItem[] = [
     {
+      id: "minutes",
       label: t("timeUnit.minutes"),
       value: "minutes",
     },
     {
+      id: "hours",
       label: t("timeUnit.hours"),
       value: "hours",
     },

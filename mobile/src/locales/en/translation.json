@@ -10,7 +10,9 @@
     "orders": "Orders",
     "reports": "Reports",
     "scanner": "QR Scanner",
-    "language": "Interface language"
+    "language": "Interface language",
+    "users": "Employees",
+    "cameras": "Camera Settings"
   },
    "config": {
      "title": "Configuration",
@@ -31,7 +33,8 @@
      "finishDate": "The finish date cannot be earlier than the start date.",
      "saveData": "Please save your data!",
      "employeeNotFound": "Employee not found",
-    "validOrderNumber": "Please enter the number in the correct format"
+     "validOrderNumber": "Please enter the number in the correct format"
+     "employeeExists": "This employee already exists"
    },
    "directory": {
      "newDirectory": "New directory",
@@ -147,9 +150,9 @@
        "loginPlaceholder": "Enter Username",
        "pwdPlaceholder": "Enter Password",
        "pwd": "Password",
-       "submit": "Log In",
-       "required": "This field is required"
-     }
+       "submit": "Log In"
+     },
+     "required": "This field is required"
    },
    "orders": {
      "order": "Order",
@@ -209,10 +212,20 @@
    },
    "ordersView": {
      "orderSearch": "Order Search",
-     "settings": "Orders View settings",
+     "settings": "Settings",
      "workday": "Work day",
      "erp": "Used ERP",
      "displayedOperations": "Displayed operations"
+   },
+   "users": {
+     "username": "Username",
+     "fullName": "Full name",
+     "firstName": "First name",
+     "lastName": "Last name",
+     "password": "Password",
+     "role": "Role",
+     "workplace": "Workplace",
+     "dateJoined": "Date joined"
    },
    "scanner": {
      "start": "Start scanning",

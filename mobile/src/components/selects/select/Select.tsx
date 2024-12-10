@@ -13,7 +13,7 @@ type SelectProps = {
 const Select = ({ label, placeholder, selectList, value, handleChange }: SelectProps) => {
   return (
     <div className="select__wrapper">
-      <IonLabel className="select__label" position="stacked">
+      <IonLabel className="select__label label label__bold">
         {label}
       </IonLabel>
       <IonSelect

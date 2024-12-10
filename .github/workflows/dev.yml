@@ -1,5 +1,10 @@
 name: dev
 
+env:
+  DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+  ACTIONS_STEP_DEBUG: true
+
 on:
   push:
     branches: [development]
@@ -13,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
@@ -22,36 +27,55 @@ jobs:
         run: |
           echo "COMMIT_HASH=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
+      - name: Get metadata
+        id: meta
+        uses: docker/metadata-action@v5
         with:
-          username: ${{ fromJson(secrets.DOCKER_CREDS).USERNAME }}
-          password: ${{ fromJson(secrets.DOCKER_CREDS).PASSWORD }}
+          images: 5scontrol/5scontrol_front
+          tags: |
+            "${{ env.COMMIT_HASH }}"
+            latest
+        continue-on-error: false
+    
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_TOKEN }}
+        continue-on-error: false
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Build and push Docker images
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: |
-            5scontrol/5scontrol_front:latest
-            5scontrol/5scontrol_front:${{ env.COMMIT_HASH }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=5scontrol/5scontrol_front:cache
           cache-to: type=registry,ref=5scontrol/5scontrol_front:cache,mode=max
 
   Deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted-dev
     needs: Build
 
     steps:
       - name: Pull the latest Docker image
-        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml pull 5scontrol_front
+        working-directory: /home/server/reps/server-
+        run: |
+          echo "Pulling latest Docker image for 5scontrol_front..."
+          docker-compose pull 5scontrol_front
 
-      - name: Stop the old server container
-        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml down 5scontrol_front
+      - name: Stop and remove the old server container
+        working-directory: /home/server/reps/server-
+        run: |
+          echo "Stopping and removing the old 5scontrol_front and nginx container..."
+          docker-compose rm -fs nginx 5scontrol_front
 
       - name: Recreate and restart server container
-        run: sudo docker-compose -f /home/server/reps/server-/docker-compose.yml up -d --no-deps nginx 5scontrol_front
+        working-directory: /home/server/reps/server-
+        run: |
+          echo "Recreating and restarting the 5scontrol_front and nginx container..."
+          docker-compose up -d --no-deps nginx 5scontrol_front

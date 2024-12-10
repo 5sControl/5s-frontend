@@ -27,7 +27,16 @@ import RedStatus from "./status/redStatus.svg";
 import FiveS from "./5S.svg";
 import ExcelFile from './excelFile.svg';
 import Download from './downloadIcon.svg';
-import Chart from './chart.svg'
+import Chart from './chart.svg';
+import DeleteClear from './deleteIconClear.svg';
+import NotificationBad from './notificationBad.svg';
+import NotificationGood from './notificationGood.svg';
+import NotificationInfo from './notificationInfo.svg';
+import NotificationWarning from './notificationWarning.svg';
+import Tooltip from './tooltip.svg';
+import DeleteWhite from './deleteWhite.svg';
+import ArrowDown from './arrowDown.svg';
+import NoVideoBig from './noVideoBig.svg';
 
 export {
   AddCover,
@@ -37,6 +46,7 @@ export {
   Close,
   CloseCross,
   Cog,
+  DeleteClear,
   DeleteCover,
   DeleteRedIcon,
   DollarSign,
@@ -59,5 +69,13 @@ export {
   RedStatus,
   SearchIcon,
   Settings,
-  TrashBin
+  TrashBin,
+  NotificationBad,
+  NotificationGood,
+  NotificationInfo,
+  NotificationWarning,
+  Tooltip,
+  DeleteWhite,
+  ArrowDown,
+  NoVideoBig
 };

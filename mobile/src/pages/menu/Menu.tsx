@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { IonButton, IonContent, IonIcon, IonList, IonPage, IonSelect, IonSelectOption } from "@ionic/react";
 import { jwtDecode } from "jwt-decode";
-import { getUserInfo, getUserList } from "../../api/getUserList";
+import { getCurrentUserInfo, getUserList } from "../../api/users";
 import { ROUTES } from "../../shared/constants/routes";
 import { Header } from "../../components/header/Header";
 import { ItemButton } from "../../components/itemButton/ItemButton";
@@ -15,6 +15,7 @@ import MenuListButton from "../../components/menuListButton/MenuListButton";
 import "./Menu.scss";
 import Restricted from "../../providers/permissionProvider/Restricted";
 import Select from "../../components/selects/select/Select";
+import { isMobile } from 'react-device-detect';
 
 export const Menu: React.FC = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
@@ -25,7 +26,7 @@ export const Menu: React.FC = () => {
   useEffect(() => {
     if (cookies.token) {
       const token = jwtDecode<any>(cookies.token.replace("JWT%220", ""));
-      getUserInfo(cookies.token)
+      getCurrentUserInfo(cookies.token)
         .then((response: any) => {
           if (response.data) {
             setUser(response.data);
@@ -72,15 +73,28 @@ export const Menu: React.FC = () => {
           </IonList>
         </Restricted>
 
-        <Restricted to="view_reference">
-          <IonList inset={true}>
+        
+      <IonList inset={true}>
+          <Restricted to="view_reference">
             <MenuListButton
               title={t("menu.dataConfiguration")}
               handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)}
             />
+          </Restricted>
+          { 
+          !isMobile && 
+          <Restricted to="view_cameras">
+            <MenuListButton title={t("menu.cameras")} handleItemClick={() => handleItemClick(ROUTES.CAMERAS)} />
+          </Restricted> 
+          }
+          <Restricted to="view_users">
+            <MenuListButton title={t("menu.users")} handleItemClick={() => handleItemClick(ROUTES.USERS)} />
+          </Restricted>
+          <Restricted to="view_reference">
             <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} />
-          </IonList>
-        </Restricted>
+          </Restricted>
+      </IonList>
+        
 
         <Restricted to="proccess_qr_code_order_operation">
           <IonList inset={true}>
@@ -91,7 +105,7 @@ export const Menu: React.FC = () => {
         <IonList inset={true}>
           <MenuListButton title={t("menu.language")} handleItemClick={() => handleItemClick(ROUTES.LANGUAGE)} />
         </IonList>
-        
+
       </IonContent>
     </IonPage>
   );

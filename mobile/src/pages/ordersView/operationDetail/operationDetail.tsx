@@ -1,7 +1,7 @@
 import { Header } from "../../../components/header/Header"
 import { ROUTES } from "../../../shared/constants/routes"
 import { OperationDetailItem } from "../../../models/interfaces/operatoinDetailItem.interface"
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonLabel, IonPage, IonToolbar } from "@ionic/react"
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonLabel, IonPage, IonToolbar, useIonViewWillEnter } from "@ionic/react"
 import { useHistory, useParams } from "react-router-dom"
 import { useCookies } from "react-cookie"
 import { useCallback, useEffect, useRef, useState } from "react"
@@ -28,10 +28,11 @@ export const OperationDetail = () => {
     const [isReady, setIsReady] = useState(false);
     const history = useHistory();
 
-    useEffect(() => {
+    useIonViewWillEnter(() => {
         getOrderViewOperation(cookies.token, parseInt(id))
         .then((response) => {
           const operation = response.data;
+          console.log('response', response.data)
           setDetail(response.data);
           const startTime = moment(operation.sTime);
           const endTime = moment(operation.eTime);
@@ -46,23 +47,25 @@ export const OperationDetail = () => {
         .finally(() => {
           setLoading(false);
         });
-    }, [])
+    })
 
-    const handleDownload = () => {
-        if (detail && detail.video && detail.video.status) {
-          const videoUrl = `${import.meta.env.VITE_API_BASE_URL}${detail?.video.file_name}`;
+    const handleDownload = (index = 0) => {
+        if (detail && detail.videos[index] && detail.videos[index].status) {
+          const videoUrl = `${import.meta.env.VITE_API_BASE_URL}${detail?.videos[index].file_name}`;
     
-          downloadFile(videoUrl, detail.video.file_name);
+          downloadFile(videoUrl, detail.videos[index].file_name);
         }
       };
 
-    const handlePlay = useCallback(() => {
-        if (!isReady) {
-          const timeToStart = (detail?.video.video_start_from || 0) / 1000;
-          playerRef.current.seekTo(timeToStart, 'seconds');
-          setIsReady(true);
+    const handlePlay = (index = 0) => {
+        if (detail) {
+            if (!isReady) {
+                const timeToStart = (detail?.videos[index].video_start_from || 0) / 1000;
+                playerRef.current.seekTo(timeToStart, 'seconds');
+                setIsReady(true);
+              }
         }
-    }, [isReady]);
+    };
 
     const backHandler = () => {
         history.push(ROUTES.ORDERSVIEW, { direction: "back" });
@@ -89,7 +92,7 @@ export const OperationDetail = () => {
                     <div className="orderDetail ion-padding">
                         <div className="titleWrapper">
                             <h4 className="title">{detail.oprName}</h4>
-                            <img src={Download} alt="download" onClick={handleDownload}/>
+                            <img src={Download} alt="download" onClick={() => handleDownload(0)}/>
                         </div>
                         
                         <div className="subtitle">
@@ -118,8 +121,8 @@ export const OperationDetail = () => {
                                 forceVideo: true,
                                 },
                             }}
-                            url={`${import.meta.env.VITE_API_BASE_URL}${detail?.video.file_name}`}
-                            onReady={handlePlay}
+                            url={`${import.meta.env.VITE_API_BASE_URL}${detail?.videos[0].file_name}`}
+                            onReady={() => handlePlay(0)}
                         />  
                 </div>    
             }

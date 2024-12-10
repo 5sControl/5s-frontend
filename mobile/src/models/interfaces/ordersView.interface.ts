@@ -15,5 +15,5 @@ export type OrderDetail = {
     orId: number;
     sTime: number;
     status: string;
-    video: VideoDataStatus;
+    videos: VideoDataStatus[];
 };

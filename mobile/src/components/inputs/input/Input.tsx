@@ -1,6 +1,7 @@
 import { IonItem, IonLabel, IonInput, IonInputPasswordToggle } from "@ionic/react";
 import React, { useState } from "react";
 import styles from "./input.module.scss";
+import { TooltipCustom } from "../../tooltip/tooltip";
 
 type InputProps = {
   label: string;
@@ -17,6 +18,8 @@ type InputProps = {
   hint?: string;
   disabled?: boolean;
   maxLength?: number;
+  hidePassword?: boolean;
+  tooltip?: string;
 };
 
 export const Input: React.FC<InputProps> = ({
@@ -34,6 +37,8 @@ export const Input: React.FC<InputProps> = ({
   errorMessage,
   description,
   maxLength,
+  hidePassword = false,
+  tooltip
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -41,8 +46,14 @@ export const Input: React.FC<InputProps> = ({
   const handleBlur = () => setIsFocused(false);
 
   return (
-    <IonItem className="input__field">
-      <IonLabel className={bold ? styles.label__bold : styles.label}>{label}</IonLabel>
+    <IonItem className={`input__field ${tooltip ? styles.overflow : ""}`}>
+      <IonLabel className={bold ? styles.label__bold : styles.label}>
+        {label}
+        {
+          tooltip &&
+          <TooltipCustom title={label} text={tooltip}/>
+        }
+      </IonLabel>
       {description && (
         <IonLabel position="stacked" className={styles.description}>
           {description}
@@ -61,7 +72,7 @@ export const Input: React.FC<InputProps> = ({
         onBlur={handleBlur}
         maxlength={maxLength}
       >
-        {type === "password" && <IonInputPasswordToggle slot="end" color="medium"></IonInputPasswordToggle>}
+        {type === "password" && !hidePassword && <IonInputPasswordToggle slot="end" color="medium"></IonInputPasswordToggle>}
       </IonInput>
       <div className={styles.footer}>
         {errorMessage && state === "error" && <p className={styles.errorMessage}>{errorMessage}</p>}

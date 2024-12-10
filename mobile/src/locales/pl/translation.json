@@ -10,7 +10,9 @@
     "orders": "Zamówienia",
     "reports": "Raporty",
     "scanner": "Skaner QR",
-    "language": "Język interfejsu"
+    "language": "Język interfejsu",
+    "users": "Pracownicy",
+    "cameras": "Ustawienia kamer"
   },
   "config": {
     "title": "Konfiguracja",
@@ -32,6 +34,7 @@
     "saveData": "Proszę zapisać swoje dane!",
     "employeeNotFound": "Pracownik nie został znaleziony",
     "validOrderNumber": "Proszę wprowadzić numer w poprawnym formacie"
+    "employeeExists": "Pracownik o tym samym nazwisku już istnieje"
   },
   "directory": {
     "newDirectory": "Nowy katalog",
@@ -147,9 +150,9 @@
       "loginPlaceholder": "Wprowadź nazwę użytkownika",
       "pwdPlaceholder": "Wprowadź hasło",
       "pwd": "Hasło",
-      "submit": "Zaloguj się",
-      "required": "To pole jest wymagane"
-    }
+      "submit": "Zaloguj się"
+    },
+    "required": "To pole jest wymagane"
   },
   "orders": {
     "order": "Zamówienie",
@@ -209,10 +212,20 @@
   },
   "ordersView": {
     "orderSearch": "Wyszukiwanie zamówienia",
-    "settings": "Ustawienia widoku zamówień",
+    "settings": "Ustawienia",
     "workday": "Dzień roboczy",
     "erp": "Używane ERP",
     "displayedOperations": "Wyświetlane operacje"
+  },
+  "users": {
+    "username": "Nazwa użytkownika",
+    "fullName": "Imię Nazwisko",
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "password": "Hasło",
+    "role": "Rola",
+    "workplace": "Miejsce pracy",
+    "dateJoined": "Data dołączenia"
   },
   "scanner": {
     "start": "Rozpocznij skanowanie",

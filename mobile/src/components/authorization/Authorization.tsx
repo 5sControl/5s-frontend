@@ -8,7 +8,7 @@ import logo from "../../assets/svg/icon.svg";
 
 import "./Authorization.scss";
 import { useTranslation } from "react-i18next";
-import { getUserInfo } from "../../api/getUserList";
+import { getCurrentUserInfo } from "../../api/users";
 import { setUserRole } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
 
@@ -48,7 +48,7 @@ export const Authorization = () => {
             return response.data.access;
           }
         })
-        .then(token => getUserInfo(`JWT ${token}`))
+        .then(token => getCurrentUserInfo(`JWT ${token}`))
         .then((response: any) => {
           if (response.data) {
             const role = response.data.role;
@@ -101,7 +101,7 @@ export const Authorization = () => {
           onKeyDown={e => pressEnter(e)}
         />
         {errorResponse && <span className="authorization__error_response">{t("messages.incorrectCredentials")}</span>}
-        {errorPassword && <span className="authorization__error_password">{t("form.auth.required")}</span>}
+        {errorPassword && <span className="authorization__error_password">{t("form.required")}</span>}
         <button className={"authorization__button"} onClick={post}>
           {t("form.auth.submit")}
         </button>

@@ -2,7 +2,7 @@ import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
-import { getUserInfo } from "../../api/getUserList";
+import { getCurrentUserInfo } from "../../api/users";
 import { IonList } from "@ionic/react";
 import MenuListButton from "../menuListButton/MenuListButton";
 
@@ -14,7 +14,7 @@ export const UserInfo = () => {
     useEffect(() => {
       if (cookies.token) {
         const token = jwtDecode<any>(cookies.token.replace("JWT%220", ""));
-        getUserInfo(cookies.token)
+        getCurrentUserInfo(cookies.token)
           .then((response: any) => {
             if (response.data) {
               setUser(response.data);
