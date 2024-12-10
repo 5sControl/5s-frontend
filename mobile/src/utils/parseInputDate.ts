@@ -1,15 +1,25 @@
-import { start } from "repl";
-import { timeIntervals } from "../constants/timeIntervals";
-
 export const parseInputDate = (
   startDateString: string,
-  intervalMilliseconds: number
+  intervalMilliseconds: number,
+  language: string
 ): string => {
-  const months: string[] = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
 
+  const translateMonths = {
+    en: [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ],
+    ru: [
+      "Янв", "Фев", "Мар", "Апр", "Май", "Июн",
+      "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"
+    ],
+    pl: [
+      "Sty", "Lut", "Mar", "Kwi", "Maj", "Cze",
+      "Lip", "Sie", "Wrze", "Paź", "Lis", "Gru"
+    ]
+  };
+
+  const months = translateMonths[language];
   const startDate = new Date(startDateString);
 
   const startMonth: string = months[startDate.getMonth()];

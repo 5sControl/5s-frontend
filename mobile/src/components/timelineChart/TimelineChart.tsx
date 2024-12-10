@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import moment from "moment";
 import { TimeInterval } from "../../models/types/timeInterval";
 import { OperationItem } from "../../models/interfaces/operationItem.interface";
-import './TimelineChart.scss';
+import "./TimelineChart.scss";
 import { useHistory } from "react-router-dom";
 import { ROUTES } from "../../shared/constants/routes";
 
@@ -16,25 +16,29 @@ type TimelineChartProps = {
 };
 
 const TimelineChart: FC<TimelineChartProps> = ({
-    startTime,
-    selectedInterval,
-    showScheduled,
-    data,
-    selectedOrderId
-  }) => {
+  startTime,
+  selectedInterval,
+  showScheduled,
+  data,
+  selectedOrderId,
+}) => {
   const chartRef = useRef<SVGSVGElement>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
-  const history =useHistory();
+  const history = useHistory();
   const operationHeight = 36;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [chartHeight, setChartHeight] = useState(showScheduled ? ((data.length * 2 + 10) * operationHeight) : ((data.length + 10) * operationHeight));
+  const [chartHeight, setChartHeight] = useState(
+    showScheduled ? (data.length * 2 + 10) * operationHeight : (data.length + 10) * operationHeight
+  );
   const [operation, setOperation] = useState({});
 
   useEffect(() => {
     const rangeCoeff = 2;
 
     d3.select(chartRef.current).selectAll("*").remove();
-    const newChartHeight = showScheduled ? ((data.length * 2 + 10) * operationHeight) : ((data.length + 10) * operationHeight)
+    const newChartHeight = showScheduled
+      ? (data.length * 2 + 10) * operationHeight
+      : (data.length + 10) * operationHeight;
     setChartHeight(newChartHeight);
 
     const margin = { top: 20, right: 0, bottom: 100, left: 0 };
@@ -46,142 +50,165 @@ const TimelineChart: FC<TimelineChartProps> = ({
     const formatUnits = selectedInterval.timeFormat.units;
     const formatFrequency = selectedInterval.timeFormat.frequency;
 
-    const clickHandler = ( oprId: number) => {
+    const clickHandler = (oprId: number) => {
       history.push(ROUTES.OPERATIONDETAIL(oprId.toString()));
-    }
+    };
 
     const drawOperations = () => {
       svg
-      .selectAll(".greyRect")
-      .data(data)
-      .enter()
-      .append("rect")
-      .attr("class", "greyRect")
-      .attr("x", 0)
-      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10)
-      .attr("width", width)
-      .attr("height", operationHeight)
-      .attr("fill", "#C5C5C")
-      .attr("opacity", 0.07);
+        .selectAll(".greyRect")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "greyRect")
+        .attr("x", 0)
+        .attr("y", d => (yScale(d.oprName) ?? 0) + 10)
+        .attr("width", width)
+        .attr("height", operationHeight)
+        .attr("fill", "#C5C5C")
+        .attr("opacity", 0.07);
 
       data.forEach((op: OperationItem) => {
-        svg.selectAll(".greenRect")
+        svg
+          .selectAll(".greenRect")
           .data(op.oprs)
           .enter()
           .append("rect")
-          .on("click", function(event, d) {
+          .on("click", function (event, d) {
             clickHandler(d.id);
           })
           .attr("x", d => {
-            return xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) ? xScale(new Date(initialStartDate)) : xScale(new Date(d.sTime))
+            return xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate))
+              ? xScale(new Date(initialStartDate))
+              : xScale(new Date(d.sTime));
           })
-          .attr("y", (yScale(op.oprName) ?? 0 )+ 10)
+          .attr("y", (yScale(op.oprName) ?? 0) + 10)
           .attr("height", operationHeight)
           // .transition()
           // .duration(250)
           .attr("width", d => {
-            if (xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) && xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))){
+            if (
+              xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) &&
+              xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))
+            ) {
               return 0;
             }
-            return Math.min(xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)), Math.abs(width - xScale(new Date(d.sTime))))
+            return Math.min(
+              xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)),
+              Math.abs(width - xScale(new Date(d.sTime)))
+            );
           })
           .attr("fill", "#87BC45")
-          .attr('data-or-id', (d) => d.orId)
-          .attr('opacity', (d) => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4))
-    })
+          .attr("data-or-id", d => d.orId)
+          .attr("opacity", d => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4));
+      });
 
-    svg
-      .selectAll(".operationName")
-      .data(data)
-      .enter()
-      .append("text")
-      .attr("x", 0)
-      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 5)
-      .attr("fill", "black")
-      .attr("font-size", "12px")
-      .text((d) => d.oprName);
-    }
+      svg
+        .selectAll(".operationName")
+        .data(data)
+        .enter()
+        .append("text")
+        .attr("x", 0)
+        .attr("y", d => (yScale(d.oprName) ?? 0) + 5)
+        .attr("fill", "black")
+        .attr("font-size", "12px")
+        .text(d => d.oprName);
+    };
 
     const drawOperationsWithScheduled = () => {
       svg
-      .selectAll(".greyRect")
-      .data(data)
-      .enter()
-      .append("rect")
-      .attr("x", 0)
-      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10)
-      .attr("width", width)
-      .attr("height", operationHeight * 2)
-      .attr("fill", "#C5C5C")
-      .attr("opacity", 0.07);
+        .selectAll(".greyRect")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("x", 0)
+        .attr("y", d => (yScale(d.oprName) ?? 0) + 10)
+        .attr("width", width)
+        .attr("height", operationHeight * 2)
+        .attr("fill", "#C5C5C")
+        .attr("opacity", 0.07);
 
       svg
-      .selectAll(".greyDivider")
-      .data(data)
-      .enter()
-      .append("rect")
-      .attr("x", 0)
-      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 10 + operationHeight)
-      .attr("width", width)
-      .attr("height", 1)
-      .attr("fill", "lightgrey")
-      .attr("opacity", 1);
+        .selectAll(".greyDivider")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("x", 0)
+        .attr("y", d => (yScale(d.oprName) ?? 0) + 10 + operationHeight)
+        .attr("width", width)
+        .attr("height", 1)
+        .attr("fill", "lightgrey")
+        .attr("opacity", 1);
 
       data.forEach((op: OperationItem) => {
-        svg.selectAll(".greenRect")
+        svg
+          .selectAll(".greenRect")
           .data(op.oprs)
           .enter()
           .append("rect")
           .attr("x", d => {
-            return xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) ? xScale(new Date(initialStartDate)) : xScale(new Date(d.sTime))
+            return xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate))
+              ? xScale(new Date(initialStartDate))
+              : xScale(new Date(d.sTime));
           })
-          .attr("y", (yScale(op.oprName) ?? 0 )+ 10)
+          .attr("y", (yScale(op.oprName) ?? 0) + 10)
           .attr("height", operationHeight)
           // .transition()
           // .duration(250)
           .attr("width", d => {
-            if (xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) && xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))){
+            if (
+              xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) &&
+              xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))
+            ) {
               return 0;
             }
-            return Math.min(xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)))
+            return Math.min(xScale(new Date(d.eTime)) - xScale(new Date(d.sTime)), width - xScale(new Date(d.sTime)));
           })
           .attr("fill", "#87BC45")
-          .attr('data-or-id', (d) => d.orId)
-          .attr('opacity', (d) => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4));
+          .attr("data-or-id", d => d.orId)
+          .attr("opacity", d => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4));
+
+        svg
+          .selectAll(".orangeRect")
+          .data(op.oprs)
+          .enter()
+          .append("rect")
+          .attr("x", d => {
+            return xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate))
+              ? xScale(new Date(initialStartDate))
+              : xScale(new Date(d.sTime));
+          })
+          .attr("y", (yScale(op.oprName) ?? 0) + 10 + operationHeight)
+          .attr("height", operationHeight)
+          // .transition()
+          // .duration(250)
+          .attr("width", d => {
+            if (
+              xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) &&
+              xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))
+            ) {
+              return 0;
+            }
+            return Math.min(
+              xScale(new Date(d.sTime + (d?.duration_expected || 0))) - xScale(new Date(d.sTime)),
+              d?.duration_expected ? width - xScale(new Date(d.sTime)) : 0
+            );
+          })
+          .attr("fill", "#FE6100")
+          .attr("opacity", d => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4));
+      });
 
       svg
-        .selectAll(".orangeRect")
-        .data(op.oprs)
+        .selectAll(".operationName")
+        .data(data)
         .enter()
-        .append("rect")
-        .attr("x", d => {
-          return xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) ? xScale(new Date(initialStartDate)) : xScale(new Date(d.sTime))
-        })
-        .attr("y", (yScale(op.oprName) ?? 0) + 10 + operationHeight)
-        .attr("height", operationHeight)
-        // .transition()
-        // .duration(250)
-        .attr("width", d => {
-          if (xScale(new Date(d.sTime)) < xScale(new Date(initialStartDate)) && xScale(new Date(d.eTime)) < xScale(new Date(initialStartDate))){
-            return 0;
-          }
-          return Math.min(xScale(new Date(d.sTime + (d?.duration_expected || 0))) - xScale(new Date(d.sTime)), d?.duration_expected ? width - xScale(new Date(d.sTime)) : 0);
-        })
-        .attr("fill", "#FE6100")
-        .attr('opacity', (d) => (selectedOrderId.length === 0 || d.orId == selectedOrderId ? 1 : 0.4));
-      })
-
-    svg
-      .selectAll(".operationName")
-      .data(data)
-      .enter()
-      .append("text")
-      .attr("x", 0)
-      .attr("y", (d) => (yScale(d.oprName) ?? 0) + 5)
-      .attr("fill", "black")
-      .attr("font-size", "12px")
-      .text((d) => d.oprName);
-    }
+        .append("text")
+        .attr("x", 0)
+        .attr("y", d => (yScale(d.oprName) ?? 0) + 5)
+        .attr("fill", "black")
+        .attr("font-size", "12px")
+        .text(d => d.oprName);
+    };
 
     const svg = d3
       .select(chartRef.current)
@@ -192,49 +219,41 @@ const TimelineChart: FC<TimelineChartProps> = ({
 
     const yScale = d3
       .scaleBand()
-      .domain(data.map((d) => d.oprName))
+      .domain(data.map(d => d.oprName))
       .range([0, height])
       .padding(0.1);
- 
-    const greyLinesData = Array.from(
-      { length: 20 },
-      (_, i) => i
-    );
 
-    greyLinesData.forEach((index) => {
+    const greyLinesData = Array.from({ length: 20 }, (_, i) => i);
+
+    greyLinesData.forEach(index => {
       let timeForLine = moment(startTime)
-      .add(index * formatFrequency, "hours")
-      .startOf("minute");
+        .add(index * formatFrequency, "hours")
+        .startOf("minute");
       switch (formatUnits) {
         case "minutes":
           timeForLine = moment(startTime)
-          .add(index * formatFrequency, "minutes")
-          .startOf("minute");
+            .add(index * formatFrequency, "minutes")
+            .startOf("minute");
           break;
         case "hours":
           timeForLine = moment(startTime)
-          .add(index * formatFrequency, "hours")
-          .startOf("hour");
+            .add(index * formatFrequency, "hours")
+            .startOf("hour");
           break;
         case "days":
           timeForLine = moment(startTime)
-          .add(index * formatFrequency, "days")
-          .startOf("day");
+            .add(index * formatFrequency, "days")
+            .startOf("day");
       }
 
-      if (
-        timeForLine.isSameOrAfter(moment(startTime)) &&
-        timeForLine.isSameOrBefore(
-          moment(initialEndDate)
-        )
-      ) {
+      if (timeForLine.isSameOrAfter(moment(startTime)) && timeForLine.isSameOrBefore(moment(initialEndDate))) {
         svg
           .append("line")
           .attr("class", "greyLine")
           .attr("y1", -15)
           .attr("y2", height)
-         // .transition()
-         // .duration(250)
+          // .transition()
+          // .duration(250)
           .attr("x1", xScale(timeForLine.toDate()))
           .attr("x2", xScale(timeForLine.toDate()))
           .attr("stroke", "lightgrey")
@@ -242,50 +261,53 @@ const TimelineChart: FC<TimelineChartProps> = ({
       }
     });
 
-      svg
+    svg
       .append("g")
       .call(
         d3
           .axisTop(xScale)
           .ticks(
-            formatUnits === 'minutes' ? d3.timeMinute.every(formatFrequency) 
-         : formatUnits === 'hours' ? d3.timeHour.every(formatFrequency) : d3.timeDay.every(formatFrequency)
+            formatUnits === "minutes"
+              ? d3.timeMinute.every(formatFrequency)
+              : formatUnits === "hours"
+              ? d3.timeHour.every(formatFrequency)
+              : d3.timeDay.every(formatFrequency)
           )
           .tickFormat((date: any) => {
-                    if (formatUnits === 'minutes') {
-                        return d3.timeFormat('%H:%M')(date);
-                    } else if (formatUnits === 'hours') {
-                        return d3.timeFormat('%H:%M')(date);
-                    } else if (formatUnits === 'days') {
-                        return d3.timeFormat('%b %d')(date);
-                    }
-                    return d3.timeFormat('%H:%M')(date);
-                }))
+            if (formatUnits === "minutes") {
+              return d3.timeFormat("%H:%M")(date);
+            } else if (formatUnits === "hours") {
+              return d3.timeFormat("%H:%M")(date);
+            } else if (formatUnits === "days") {
+              return d3.timeFormat("%b %d")(date);
+            }
+            return d3.timeFormat("%H:%M")(date);
+          })
+      )
       .selectAll("text")
       .attr("fill", "grey")
-      .attr("transform", "translate(15, 0)")
+      .attr("transform", "translate(15, 0)");
 
     svg.select(".domain").remove();
     svg.selectAll(".tick line").attr("stroke", "transparent");
 
-  if (showScheduled){
-    drawOperationsWithScheduled();
-  }
-  else {
-    drawOperations();
-  }
+    if (showScheduled) {
+      drawOperationsWithScheduled();
+    } else {
+      drawOperations();
+    }
 
-  if (chartContainerRef.current) {
-    chartContainerRef.current.style.overflowX = width > windowWidth ? 'scroll' : 'hidden';
-    chartContainerRef.current.style.width = `${windowWidth}px`;
-  }
-}, [selectedInterval, startTime, showScheduled, selectedOrderId, data, windowWidth]);
+    if (chartContainerRef.current) {
+      chartContainerRef.current.style.overflowX = width > windowWidth ? "scroll" : "hidden";
+      chartContainerRef.current.style.width = `${windowWidth}px`;
+    }
+  }, [selectedInterval, startTime, showScheduled, selectedOrderId, data, windowWidth]);
 
   return (
     <div className="ion-padding chartContainer">
-    <div ref={chartContainerRef} className="chartWrapper">
-      <svg ref={chartRef}></svg>
-    </div>
+      <div ref={chartContainerRef} className="chartWrapper">
+        <svg ref={chartRef}></svg>
+      </div>
     </div>
   );
 };

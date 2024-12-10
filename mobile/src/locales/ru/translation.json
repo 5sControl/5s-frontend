@@ -1,4 +1,5 @@
 {
+  "lang": "ru",
   "menu": {
     "ordersView": "Просмотр заказов",
     "configuration": "Конфигурация",
@@ -29,7 +30,8 @@
     "startTime": "Время начала не может быть больше времени окончания",
     "finishDate": "Дата окончания не может быть раньше даты начала.",
     "saveData": "Пожалуйста, сохраните свои данные!",
-    "employeeNotFound": "Работник не найден"
+    "employeeNotFound": "Работник не найден",
+    "validOrderNumber": "Пожалуйста, введите число в правильном формате"
   },
   "directory": {
     "newDirectory": "Новый справочник",
@@ -78,10 +80,7 @@
     "finishedIn": "Закончил за",
     "startOfOperation": "Начало операции",
     "endOfOperation": "Конец операции",
-    "startNewOperation": "Перейти к новой операции",
-    "download": "Скачать",
-    "share": "Поделиться",
-    "print": "Распечатать"
+    "startNewOperation": "Перейти к новой операции"
   },
   "operations": {
     "add": "Добавить",
@@ -95,7 +94,10 @@
     "submit": "Отправить",
     "start": "Начать",
     "finish": "Завершить",
-    "saveChanges": "Сохранить изменения"
+    "saveChanges": "Сохранить изменения",
+    "download": "Скачать",
+    "share": "Поделиться",
+    "print": "Распечатать"
   },
   "db": {
     "products": {
@@ -193,6 +195,8 @@
     "finishOrder": "Завершить заказ"
   },
   "time": {
+    "day": "д",
+    "week": "нед",
     "hour": "ч",
     "min": "мин"
   },

@@ -1,4 +1,5 @@
 {
+  "lang": "pl",
   "menu": {
     "ordersView": "Widok zamówień",
     "configuration": "Konfiguracja",
@@ -29,7 +30,8 @@
     "startTime": "Czas rozpoczęcia nie może być większy niż czas zakończenia",
     "finishDate": "Data zakończenia nie może być wcześniejsza niż data rozpoczęcia.",
     "saveData": "Proszę zapisać swoje dane!",
-    "employeeNotFound": "Pracownik nie został znaleziony"
+    "employeeNotFound": "Pracownik nie został znaleziony",
+    "validOrderNumber": "Proszę wprowadzić numer w poprawnym formacie"
   },
   "directory": {
     "newDirectory": "Nowy katalog",
@@ -78,10 +80,7 @@
     "finishedIn": "Zakończono w",
     "startOfOperation": "Początek operacji",
     "endOfOperation": "Koniec operacji",
-    "startNewOperation": "Rozpocznij nową operację",
-    "download": "Pobierz",
-    "share": "Udostępnij",
-    "print": "Drukuj"
+    "startNewOperation": "Rozpocznij nową operację"
   },
   "operations": {
     "add": "Dodaj",
@@ -95,7 +94,10 @@
     "submit": "Zatwierdź",
     "start": "Start",
     "finish": "Zakończ",
-    "saveChanges": "Zapisz zmiany"
+    "saveChanges": "Zapisz zmiany",
+    "download": "Pobierz",
+    "share": "Udostępnij",
+    "print": "Drukuj"
   },
   "db": {
     "products": {
@@ -186,12 +188,16 @@
       "inProgress": "W trakcie",
       "done": "Zakończony"
     },
+    "assembly": "Zespół",
+    "blank": "Szablon",
     "time": "Сzas",
     "surname": "Nazwisko",
     "finishOrder": "Zakończ zamówienie"
   },
   "time": {
-    "hour": "godz.",
+    "day": "dz",
+    "week": "tydz",
+    "hour": "godz",
     "min": "min"
   },
   "reports": {
