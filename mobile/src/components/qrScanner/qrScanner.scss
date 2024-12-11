@@ -6,7 +6,7 @@
     background-color: #FFF;
 }
 
-#html5-qrcode-button-camera-permission, #html5-qrcode-button-camera-stop, #html5-qrcode-button-camera-start{
+#html5-qrcode-button-camera-permission, #html5-qrcode-button-camera-stop, #html5-qrcode-button-camera-start, .qr__button{
     background: var(--Orange);
     height: 44px;
     display: flex;
@@ -17,4 +17,9 @@
     color: white;
     width: calc(100% - 24px);
     font-size: min(1rem, 48px);
+}
+
+.qr__container {
+    background-color: white;
+    border: 1px solid rgb(195, 192, 192);
 }

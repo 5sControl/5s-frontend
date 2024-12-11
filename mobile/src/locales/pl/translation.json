@@ -206,7 +206,7 @@
   },
   "ordersView": {
     "orderSearch": "Wyszukiwanie zamówienia",
-    "settings": "Ustawienia widoku zamówień",
+    "settings": "Ustawienia",
     "workday": "Dzień roboczy",
     "erp": "Używane ERP",
     "displayedOperations": "Wyświetlane operacje"
@@ -220,6 +220,9 @@
     "role": "Rola",
     "workplace": "Miejsce pracy",
     "dateJoined": "Data dołączenia"
+  "scanner": {
+    "start": "Rozpocznij skanowanie",
+    "stop": "Zakończ skanowanie"
   }
 
 }

@@ -22,6 +22,7 @@ import {
   extractTime,
   updateTimeInDate,
   formatDate,
+  formatISOBeforeSend,
 } from "./../../../utils/parseInputDate";
 import { TIMESPAN_REQUEST } from "./../../../dispatcher";
 import style from "./styles.module.scss";
@@ -73,8 +74,7 @@ const EditTimespan: React.FC = () => {
       setWorker(timespanWorker || "");
       setStatus(timespanStatus || "");
       timespanId && TIMESPAN_REQUEST.getTimespan(parseInt(timespanId, RADIX), setTimespan, setLoading, setToastMessage);
-    }
-  });
+  }});
 
   useEffect(() => {
     if (timespan) {
@@ -108,7 +108,7 @@ const EditTimespan: React.FC = () => {
       timespanId &&
         TIMESPAN_REQUEST.updateTimespan(
           parseInt(timespanId),
-          { startedAt: startDateTime, finishedAt: finishDateTime || "" },
+          { startedAt: formatISOBeforeSend(startDateTime), finishedAt: formatISOBeforeSend(finishDateTime) || "" },
           setLoading,
           setToastMessage,
           handleNavigate
@@ -166,6 +166,17 @@ const EditTimespan: React.FC = () => {
       setIsSaveModalOpen(true);
     }
   };
+
+  // useEffect(() => {
+  //   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+  //     event.preventDefault();
+  //   };
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
+
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   return (
     <IonPage>

@@ -1,20 +1,24 @@
-name: dev-mobile
+name: Build and deploy mobile (stage)
 
 env:
   DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+  DOCKER_TAG: ${{ github.event.pull_request.title }}
+  PR_BODY: ${{ github.event.pull_request.body }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   ACTIONS_STEP_DEBUG: true
 
 on:
-  push:
-    branches: [development]
+  pull_request: 
+    branches: [main]
     paths:
       - 'mobile/**'
       - '.github/workflows/dev-mobile.yml'
+      - '.github/workflows/stage-mobile.yml'
 
 jobs:
   Build:
-    runs-on: self-hosted-dev
+    runs-on: self-hosted-stage
 
     steps:
       - name: Checkout repository
@@ -22,19 +26,14 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Get the short Git commit hash
-        id: vars
-        run: |
-          echo "COMMIT_HASH=${GITHUB_SHA::7}" >> $GITHUB_ENV
-
       - name: Get metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: 5scontrol/5scontrol_front_mobile
           tags: |
-            "${{ env.COMMIT_HASH }}"
-            latest
+            stage-${{env.DOCKER_TAG}}
+            stage-latest
         continue-on-error: false
   
       - name: Log in to Docker Hub
@@ -57,8 +56,8 @@ jobs:
             BASE_URL=${{secrets.BASE_URL}}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=5scontrol/5scontrol_front_mobile:cache
-          cache-to: type=registry,ref=5scontrol/5scontrol_front_mobile:cache,mode=max
+          cache-from: type=registry,ref=5scontrol/5scontrol_front_mobile:stage-cache
+          cache-to: type=registry,ref=5scontrol/5scontrol_front_mobile:stage-cache,mode=max
         continue-on-error: false
         env:
           DOCKER_BUILDKIT: 1
@@ -69,19 +68,37 @@ jobs:
 
     steps:
       - name: Pull the latest Docker image
-        working-directory: /home/server/reps/server-
+        working-directory: /home/admin1/reps/server
         run: |
           echo "Pulling latest Docker image for 5scontrol_front_mobile..."
-          docker-compose pull 5scontrol_front_mobile
+          FRONT_MOBILE_TAG=stage-${{ env.DOCKER_TAG }} docker-compose pull 5scontrol_front_mobile
 
       - name: Stop and remove the old server container
-        working-directory: /home/server/reps/server-
+        working-directory: /home/admin1/reps/server
         run: |
           echo "Stopping and removing the old 5scontrol_front_mobile and nginx container..."
           docker-compose rm -fs nginx 5scontrol_front_mobile
 
       - name: Recreate and restart server container
-        working-directory: /home/server/reps/server-
+        working-directory: /home/admin1/reps/server
         run: |
           echo "Recreating and restarting the 5scontrol_front_mobile and nginx container..."
-          docker-compose up -d --no-deps nginx 5scontrol_front_mobile
+          FRONT_MOBILE_TAG=stage-${{ env.DOCKER_TAG }} docker-compose up -d --no-deps nginx 5scontrol_front_mobile
+
+  CreateRelease:
+    runs-on: self-hosted-stage
+    needs: Deploy
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create a GitHub release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+            tag_name: 'mobile v${{ env.DOCKER_TAG }}'
+            release_name: 'Mobile release v${{ env.DOCKER_TAG }}'
+            body: ${{ env.PR_BODY }}
+            draft: false
+            prerelease: false
