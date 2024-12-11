@@ -152,7 +152,8 @@
        "pwd": "Password",
        "submit": "Log In"
      },
-     "required": "This field is required"
+     "required": "This field is required",
+     "passwordLength": "Password must be at least 4 characters"
    },
    "orders": {
      "order": "Order",

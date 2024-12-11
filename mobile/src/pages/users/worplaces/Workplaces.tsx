@@ -16,7 +16,6 @@ import { useHistory, useParams } from "react-router";
 const Workplaces = () => {
   const dispatch = useDispatch();
   const { selectedWorkplace } = useSelector((state: any) => state.workplace);
-  console.log('srelectedWorkplace', selectedWorkplace);
   const [cookies] = useCookies(['token']);
   const [workplaces, setWorkplaces] = useState<SelectItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

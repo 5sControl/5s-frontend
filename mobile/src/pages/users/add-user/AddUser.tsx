@@ -35,6 +35,7 @@ const AddUser = () => {
     value: role
 }));
   const { selectedWorkplace } = useSelector((state: any) => state.workplace);
+  const minPasswordLength = 4;
 
   const navigateBack = () => {
     history.push(ROUTES.USERS, { direction: "back" });
@@ -64,9 +65,9 @@ const AddUser = () => {
   };
 
   const openModal = () => {
-    if (!user.first_name || !user.last_name || !user.password) {
-        setHighlightRequired(true);
-        return;
+    if (!user.first_name || !user.last_name || user.password.length < minPasswordLength) {
+      setHighlightRequired(true);
+      return;
     }
     setIsOpenModal(true);
   };
@@ -116,8 +117,8 @@ const AddUser = () => {
                     type="password" 
                     required 
                     handleChange={event => setUser({ ...user, password: event.target.value })}
-                    state={highlightRequired && !user.password ? "error" : "neutral" }
-                    errorMessage={t("form.required")}/>
+                    state={highlightRequired && user.password.length < minPasswordLength ? "error" : "neutral" }
+                    errorMessage={t("form.passwordLength")}/>
                 
                 <IonList inset={true}>
                     <MenuListButton title={selectedWorkplace?.name || t("users.workplace")} handleItemClick={navigateWorkplaceClick}/>
