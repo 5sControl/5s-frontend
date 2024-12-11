@@ -4,6 +4,7 @@
   border-radius: 4px;
   padding: 0 0 0 12px !important;
   background-color: #FFF;
+  transition: .3s all;
 }
 
 input:-webkit-autofill,
@@ -54,16 +55,19 @@ input:-internal-autofill-selected {
 
 .neutral {
   border-color: var(--LowEmphasis);
+  transition: .3s all;
 }
 
 .focus {
   border-color: var(--Orange);
   background-color: #FFF;
+  transition: .3s all;
 }
 
 .error {
   border-color: var(--StockRed);
   color: var(--Red);
+  transition: .3s all;
 }
 
 .overflow {

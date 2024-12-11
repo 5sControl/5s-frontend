@@ -1,4 +1,4 @@
-import { IonContent, IonList, IonPage, IonToast, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonItem, IonList, IonPage, IonToast, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useState } from "react";
@@ -9,10 +9,8 @@ import { getEmployee } from "../../../api/employees";
 import { Preloader } from "../../../components/preloader/preloader";
 import MenuListButton from "../../../components/menuListButton/MenuListButton";
 import { useTranslation } from "react-i18next";
-import { RootState } from "../../../store";
-import { useSelector } from "react-redux";
 import { formatDateYMD } from "../../../utils/parseInputDate";
-import { getEmployeeReport } from "../../../api/reports";
+import { getEmployeeReport, getOrderEmployeeReport } from "../../../api/reports";
 import File from "../../../components/file/File";
 import { TOAST_DELAY } from "../../../constants/toastDelay";
 
@@ -20,7 +18,7 @@ const EmployeeReport = () => {
   const { t } = useTranslation();
   const [cookies] = useCookies(["token"]);
   const [employee, setEmployee] = useState<IEmployee>();
-  const { employeeId }: { employeeId: string } = useParams();
+  const { employeeId, orderId }: { employeeId: string; orderId?: string } = useParams();
   const [reportName, setReportName] = useState<string>();
   const [report, setReport] = useState();
   const [loading, setLoading] = useState(false);
@@ -62,16 +60,21 @@ const EmployeeReport = () => {
           const date = JSON.parse(reportDate);
           const startReportDate = formatDateYMD(date.startDate);
           const endReportDate = formatDateYMD(date.endDate);
-          setReportName(`${response.data.name}_${startReportDate}_to_${endReportDate}.xlsx`);
-
-          return getEmployeeReport(cookies.token, startReportDate, endReportDate, Number(employeeId));
+          setReportName(
+            `${response.data.name}_${startReportDate}_to_${endReportDate}${orderId ? "_assembly" : ""}.xlsx`
+          );
+          if (orderId) {
+            return getOrderEmployeeReport(cookies.token, startReportDate, endReportDate, orderId, employeeId);
+          } else {
+            return getEmployeeReport(cookies.token, startReportDate, endReportDate, employeeId);
+          }
         })
         .then(response => {
           console.log(response);
           setReport(response.data);
         })
         .catch(error => {
-          console.error(error);
+          console.warn(error);
         })
         .finally(() => {
           setLoading(false);
@@ -81,13 +84,16 @@ const EmployeeReport = () => {
 
   return (
     <IonPage>
-      <Header title={employee?.name} backButtonHref={ROUTES.REPORTS_INDIVIDUAL} />
+      <Header
+        title={employee?.name}
+        backButtonHref={orderId ? ROUTES.REPORT_ORDER_INDIVIDUAL(orderId) : ROUTES.REPORT_INDIVIDUAL}
+      />
       <IonContent>
         {loading ? (
           <div className="preloader">
             <Preloader />
           </div>
-        ) : (
+        ) : report ? (
           <>
             <File fileName={reportName!} />
             <IonList inset={true}>
@@ -96,6 +102,10 @@ const EmployeeReport = () => {
               {/* <MenuListButton title={t("operations.print")} handleItemClick={onPressPrint} /> */}
             </IonList>
           </>
+        ) : (
+          <IonList inset={true}>
+            <IonItem>{t("messages.noReports")}</IonItem>
+          </IonList>
         )}
       </IonContent>
 

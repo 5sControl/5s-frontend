@@ -1,16 +1,15 @@
-import { IonContent, IonList, IonPage, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonItem, IonList, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../../shared/constants/routes";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
 import { useState } from "react";
 import { Preloader } from "../../../components/preloader/preloader";
 import MenuListButton from "../../../components/menuListButton/MenuListButton";
 import { useCookies } from "react-cookie";
 import { formatDateYMD } from "../../../utils/parseInputDate";
-import { getReport } from "../../../api/reports";
+import { getOrderReport, getReport } from "../../../api/reports";
 import File from "../../../components/file/File";
+import { useParams } from "react-router";
 
 const FullReport = () => {
   const { t } = useTranslation();
@@ -18,6 +17,7 @@ const FullReport = () => {
   const [reportName, setReportName] = useState<string>();
   const [report, setReport] = useState();
   const [loading, setLoading] = useState(true);
+  const { orderId }: { orderId?: string } = useParams();
 
   const onPressDownload = async () => {
     console.log("download");
@@ -77,30 +77,48 @@ const FullReport = () => {
       const date = JSON.parse(reportDate);
       const startReportDate = formatDateYMD(date.startDate);
       const endReportDate = formatDateYMD(date.endDate);
-      setReportName(`${startReportDate}_to_${endReportDate}.xlsx`);
-      getReport(cookies.token, startReportDate, endReportDate)
-        .then(response => {
-          console.log(response);
-          setReport(response.data);
-        })
-        .catch(error => {
-          console.error(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      setReportName(`${startReportDate}_to_${endReportDate}${orderId ? "_assembly" : ""}.xlsx`);
+
+      if (orderId) {
+        getOrderReport(cookies.token, startReportDate, endReportDate, orderId)
+          .then(response => {
+            console.log(response);
+            setReport(response.data);
+          })
+          .catch(error => {
+            console.warn(error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      } else {
+        getReport(cookies.token, startReportDate, endReportDate)
+          .then(response => {
+            console.log(response);
+            setReport(response.data);
+          })
+          .catch(error => {
+            console.warn(error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      }
     }
   });
 
   return (
     <IonPage>
-      <Header title={t("reports.fullReport")} backButtonHref={ROUTES.REPORTS} />
+      <Header
+        title={t("reports.fullReport")}
+        backButtonHref={orderId ? ROUTES.REPORT_ORDER(orderId) : ROUTES.REPORTS}
+      />
       <IonContent>
         {loading ? (
           <div className="preloader">
             <Preloader />
           </div>
-        ) : (
+        ) : report ? (
           <>
             <File fileName={reportName!} />
             <IonList inset={true}>
@@ -109,6 +127,10 @@ const FullReport = () => {
               {/* <MenuListButton title={t("operations.print")} handleItemClick={onPressPrint} /> */}
             </IonList>
           </>
+        ) : (
+          <IonList inset={true}>
+            <IonItem>{t("messages.noReports")}</IonItem>
+          </IonList>
         )}
       </IonContent>
     </IonPage>

@@ -81,6 +81,7 @@ import { CollectionDynamic } from "./pages/directories-dynamic/CollectionDynamic
 import { CollectionItemDynamic } from "./pages/directories-dynamic/CollectionItemDynamic";
 import { CollectionCreateDynamic } from "./pages/directories-dynamic/CollectionCreateDynamic";
 import { CollectionUpdateDynamic } from "./pages/directories-dynamic/CollectionUpdateDynamic";
+import OrderReport from "./pages/reports/orderReport/OrderReport";
 
 setupIonicReact();
 
@@ -119,7 +120,7 @@ function App() {
       You are not allowed to access this page
     </div>
   );
-  
+
   return (
     <IonApp>
       <IonReactRouter basename={import.meta.env.BASE_URL ?? "/"}>
@@ -260,13 +261,28 @@ function App() {
               <Route exact path={ROUTES.REPORTS}>
                 <Reports />
               </Route>
-              <Route exact path={ROUTES.REPORT}>
+              <Route exact path={ROUTES.REPORT_FULL}>
                 <FullReport />
               </Route>
-              <Route exact path={ROUTES.REPORTS_INDIVIDUAL}>
+              <Route exact path={ROUTES.REPORT_INDIVIDUAL}>
                 <IndividualReports />
               </Route>
               <Route exact path={ROUTES.REPORT_EMPLOYEE(":employeeId")}>
+                <EmployeeReport />
+              </Route>
+              <Route exact path={ROUTES.REPORT_ORDERS}>
+                <OrderReport />
+              </Route>
+              <Route exact path={ROUTES.REPORT_ORDER(":orderId")}>
+                <Reports />
+              </Route>
+              <Route exact path={ROUTES.REPORT_ORDER_FULL(":orderId")}>
+                <FullReport />
+              </Route>
+              <Route exact path={ROUTES.REPORT_ORDER_INDIVIDUAL(":orderId")}>
+                <IndividualReports />
+              </Route>
+              <Route exact path={ROUTES.REPORT_ORDER_EMPLOYEE(":orderId", ":employeeId")}>
                 <EmployeeReport />
               </Route>
 
@@ -309,7 +325,7 @@ function App() {
               <Route exact path={"/configuration/:collection/:id"}>
                 <CollectionItemDynamic />
               </Route>
-             
+
               {/* DYNAMIC ROUTES */}
             </IonRouterOutlet>
           ) : (
