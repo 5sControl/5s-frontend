@@ -1,11 +1,11 @@
-import Combobox from 'react-widgets/Combobox';
 import { ArrowDown, DeleteWhite } from '../../../../assets/svg/SVGcomponent';
-// import { Input } from '../../../../../components/input';
 import { Input } from '../../../inputs/input/Input';
 import Button from '../../../button/button'
 import styles from '../zones.module.scss';
 import { useEffect, useState } from 'react';
 import Select from '../../../selects/select/Select';
+import { DeleteButton } from '../../../deleteButton/DeleteButton';
+import { IonButton } from '@ionic/react';
 
 const Item = ({
   workplaceList,
@@ -27,14 +27,20 @@ const Item = ({
   const [value, setValue] = useState(workplaceComboBox);
 
   const comboboxHandler = (value) => {
-    setValue(value);
-    setWorkplaceToSend(workplaceList.filter((item) => item.comboBoxName === value)[0]);
+    if (value?.detail){
+      setValue(value.detail.value);
+      setWorkplaceToSend(workplaceList.filter((item) => item.value === value.detail.value)[0]);
+    }
+    else{
+      setValue(value);
+      setWorkplaceToSend(workplaceList.filter((item) => item.value === value)[0]);
+    }
   };
 
   const showHandler = () => {
     setCurrentZoneId(zona.id);
     setIsShow(!isShow);
-    comboboxHandler(workplace?.comboBoxName);
+    comboboxHandler(workplace?.value);
   };
 
   useEffect(() => {
@@ -66,14 +72,6 @@ const Item = ({
 
       {isShow && currentZoneId === zona.id && (
         <div className={styles.item__edit}>
-          {/* <label>
-            Name */}
-            {/* <Input
-              className={styles.item__input}
-              value={itemName}
-              onChange={(e) => setItemName(e.target.value)}
-              placeholder={'Enter zone name'}
-            /> */}
             <Input
               label="Name"
               required
@@ -81,42 +79,19 @@ const Item = ({
               handleChange={(e) => setItemName(e.target.value)}
               placeholder={'Enter zone name'}
             />
-          {/* </label> */}
-          {/* <label>
-            Controlled workplace
-            <Combobox
-              data={workplaceList.map((e) => e.comboBoxName)}
-              placeholder='Select or enter'
-              hideEmptyPopup
-              value={value}
-              defaultValue={value ? value : zona.workplace}
-              onChange={(value) => comboboxHandler(value)}
-              onSelect={(value) => comboboxHandler(value)}
-              className={styles.item__combobox}
-              selectIcon={<ArrowDown />}
-              filter={'contains'}
-            />
-          </label> */}
               <Select 
                 label="Controlled workplace"
                 value={value || zona.workplace} 
-                placeholder={'Select or enter'} 
-                selectList={workplaceList.map((e: any) => e.comboBoxName)} 
+                placeholder={value || 'Select or enter'} 
+                selectList={workplaceList} 
                 handleChange={(value) => comboboxHandler(value)}
               />
           <p className={styles.item__description}>Select one or more areas on the left.</p>
           <div className={styles.item__footer}>
-            <Button
-              text={'Delete'}
-              type='button'
-              className={styles.item__delete}
-              onClick={
-                currentZoneId === -1 ? () => setCurrentZoneId(-2) : () => deleteZone(currentZoneId)
-              }
-            />
+            <IonButton onClick={currentZoneId === -1 ? () => setCurrentZoneId(-2) : () => deleteZone(currentZoneId)} color="danger">Delete</IonButton>
             <div className={styles.item__footer_control}>
-              <Button text='Cancel' variant='text' onClick={() => setCurrentZoneId(-2)} />
-              <Button text='Save' onClick={saveZone} />
+              <IonButton onClick={() => setCurrentZoneId(-2)} type="reset" fill="outline">Cancel</IonButton>
+              <IonButton onClick={saveZone} type="submit">Save</IonButton>
             </div>
           </div>
         </div>

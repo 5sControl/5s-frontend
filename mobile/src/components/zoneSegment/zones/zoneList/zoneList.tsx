@@ -29,7 +29,12 @@ export const ZoneList = ({
       setIsNewZone(false);
       setIsBlockAdd(false);
     }
+    if (!currentZoneId || currentZoneId == -3){
+      setIsNewZone(false);
+      setIsBlockAdd(true);
+    }
   }, [currentZoneId]);
+
   return (
     <>
       <div className={styles.zones__header}>

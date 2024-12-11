@@ -13,7 +13,6 @@ import { NoVideoBig } from '../../../assets/svg/SVGcomponent';
 import { getWorkplaceList } from '../../../api/ordersView';
 import { Preloader } from '../../preloader/preloader';
 import { Notification } from '../../notification/notification';
-import Switch from 'react-switch';
 import { IonToggle } from '@ionic/react';
 
 const Zones = ({ cameraSelect, isCreateCamera }) => {
@@ -135,22 +134,23 @@ const Zones = ({ cameraSelect, isCreateCamera }) => {
 
   useEffect(() => {
     getZone();
+
     getWorkplaceList(cookie.token)
       .then((res) => {
         setWorkplaceList(
           res.data.map((place) => {
             return {
             ...place,
-            comboBoxName: place.operationName,
-              // comboBoxName: `${place.operationName} (id:${place.id})`,
+            value: place.operationName,
+            label: place.operationName
             };
           })
         );
       })
       .catch((error) => {
         console.log(error);
-      });
-  }, [updating]);
+      })
+    }, []);
 
   useEffect(() => {
     if (message) {
@@ -172,13 +172,13 @@ const Zones = ({ cameraSelect, isCreateCamera }) => {
 
   return (
     <>
-      {isCreateCamera ? (
+        <div className={`${styles.zones} ion-padding`}>
+        {isCreateCamera ? (
         <section className={styles.creating}>
           <img src={NoVideoBig} />
           <p>Not connected to the camera. Check your connection in 'Camera' tab.</p>
         </section>
       ) : (
-        <div className={styles.zones}>
           <ZonesCoordinates
             currentSelect={cameraSelect.id}
             setCoords={(coords) => setCoords(coords)}
@@ -193,6 +193,7 @@ const Zones = ({ cameraSelect, isCreateCamera }) => {
             setValidZone={setValidZone}
             isFourPointsMode={zoneType === 4}
           />
+      )}
           <div className={styles.zones__right}>
             <ZoneList
               saveZone={saveZone}
@@ -201,21 +202,18 @@ const Zones = ({ cameraSelect, isCreateCamera }) => {
               setItemName={(name) => setItemName(name)}
               itemName={itemName}
               setCurrentZoneId={(id) => setCurrentZoneId(id)}
-              currentZoneId={currentZoneId}
+              currentZoneId={isCreateCamera ? -3 : currentZoneId}
               setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
               workplaceList={workplaceList}
               workplace={workplaceToSend ? workplaceToSend.comboBoxName : ''}
               isNewZone={createZoneMode}
               setIsNewZone={setCreateZoneMode}
             />
-            <div className={styles.zonesSwitcher}>
-            {/* <span>4 points zone mode</span> */}
+            {/* <div className={styles.zonesSwitcher}>
             <IonToggle checked={zoneType === 4} onChange={(e) => setZoneType(e ? 4 : 2)}>4 points zone mode</IonToggle>
-            {/* <Switch checked={zoneType === 4} onChange={(e) => setZoneType(e ? 4 : 2)} /> */}
-          </div>
+          </div> */}
           </div>
         </div>
-      )}
       {preloader && (
         <div className={styles.preloader}>
           <Preloader />

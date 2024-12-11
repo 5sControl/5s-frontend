@@ -68,4 +68,5 @@ export const ROUTES = {
 
   CAMERAS: "/cameras",
   CAMERA_ADD: "/cameras/add",
+  CAMERA_EDIT: (id: string) => `/camera/${id}/edit`,
 };

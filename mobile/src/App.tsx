@@ -77,6 +77,7 @@ import AddUser from "./pages/users/add-user/AddUser";
 import Cameras from "./pages/cameras/Cameras";
 import AddCamera from "./pages/cameras/add-camera/AddCamera";
 import Workplaces from "./pages/users/worplaces/Workplaces";
+import EditCamera from "./pages/cameras/edit-camera/EditCamera";
 
 setupIonicReact();
 
@@ -238,7 +239,7 @@ function App() {
               </Route>
               {/* <Route exact path={ROUTES.ORDER_OPERATION_ADD_REFERENCE(":id", ":operationId", ":refId")}>
               <AddOrderOperationReference />
-            </Route> */}
+              </Route> */}
               <Route exact path={ROUTES.ORDER_TIMESPAN(":orderId", ":itemId", ":operationId")}>
                 <NewTimespan />
               </Route>
@@ -287,6 +288,9 @@ function App() {
               </Route>
               <Route exact path={ROUTES.CAMERA_ADD}>
                 <AddCamera />
+              </Route>
+              <Route exact path={ROUTES.CAMERA_EDIT(":id")}>
+                <EditCamera />
               </Route>
 
             </IonRouterOutlet>

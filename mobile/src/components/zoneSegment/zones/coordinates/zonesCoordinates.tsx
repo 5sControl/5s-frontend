@@ -7,10 +7,10 @@ import { generateString } from '../../../../utils/randomizer';
 import { Coordinat, DrawingCoordinates, NewCoordinates } from '../../../../models/interfaces/coordinates.interface'
 import Scale from '../../../scale/Scale';
 import { Scaleble } from '../../../scale/EditScale';
-
-import './moveable.scss';
 import styles from './zonesCoordinat.module.scss';
 import { FourPointsNewCoordinates } from '../../../../models/interfaces/coordinates.interface';
+import { useIonViewWillEnter } from '@ionic/react';
+import './moveable.scss';
 
 type PropsType = {
   setCoords: (coords: any) => void;
@@ -55,14 +55,14 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   const [fourPointsCoordinates, setFourPointsCoordinates] = useState<any[]>([]);
   const [zone, setZone] = useState<any[]>([]);
 
-  useEffect(() => {
+  useIonViewWillEnter(() => {
     handleImageLoad();
     window.addEventListener('resize', handleImageLoad);
 
     return () => {
         window.removeEventListener('resize', handleImageLoad);
     };
-  }, []);
+  })
 
   useEffect(() => {
     if (oldBox.length > 0) {
@@ -310,12 +310,12 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   return (
     <div className={styles.zones__left}>
       <div className={styles.area}>
-        <div className={styles.image_container}>
+        <div className={styles.image_container} id="zone-container">
           <img
             ref={image}
             className={styles.image_container_img}
             onLoad={handleImageLoad}
-            src={`${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`}
+            src={`${import.meta.env.VITE_API_BASE_URL}images/${currentSelect}/snapshot.jpg`}
           />
           {fourPointsCoordinates.length !== 0 && isFourPointsMode && (
             <svg
@@ -488,7 +488,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
             <div className={styles.scale} style={{ zIndex: isStartDraw ? 1 : 2001 }}>
               <Scale
                 onClick={() =>
-                  scaleHandler(`${process.env.REACT_APP_NGROK}images/${currentSelect}/snapshot.jpg`)
+                  scaleHandler(`${import.meta.env.VITE_API_BASE_URL}images/${currentSelect}/snapshot.jpg`)
                 }
               />
             </div>
@@ -543,14 +543,14 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
             e.target.style.width = `${e.width}px`;
             e.target.style.height = `${e.height}px`;
             e.target.style.transform = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`;
-          }}
+        }}
         />
       </div>
-      <div className={styles.footer}>
+      {/* <div className={styles.footer}>
         <h2 className={styles.footer__text}>
           Select the area to track <span>*</span>
         </h2>
-      </div>
+      </div> */}
     </div>
   );
 };
