@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
   IonPage,
   IonContent,
@@ -6,12 +6,8 @@ import {
   IonItem,
   IonLabel,
   IonCheckbox,
-  IonButton,
   IonToast,
-  IonLoading,
-  IonFooter,
   IonText,
-  useIonViewDidEnter,
   useIonViewWillEnter,
 } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
@@ -38,7 +34,6 @@ const EditOrderItem: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [operationReferences, setOperationReferences] = useState<IReference[]>([]);
   const initIds = useRef([] as number[]);
 
   useIonViewWillEnter(() => {
@@ -46,16 +41,6 @@ const EditOrderItem: React.FC = () => {
     ORDER_REQUEST.getOrderById(parseInt(id, 10), setOrder, setLoading, setToastMessage);
     OPERATION_REQUEST.getOperations(setOperations, setLoading, setToastMessage);
   });
-
-  // useEffect(() => {
-  //   if (operations) {
-  //     const ids = operations.map(item => item.referenceOperationId);
-  //     setSelectedIds(ids);
-  //     if (!initIds.current.length) {
-  //       initIds.current = ids;
-  //     }
-  //   }
-  // }, [order]);
 
   const handleCheckboxChange = (id: number, checked: boolean) => {
     if (checked) {
@@ -68,22 +53,10 @@ const EditOrderItem: React.FC = () => {
   const handleSubmit = async () => {
     setLoading(true);
     setIsModalOpen(false);
-    ORDER_REQUEST.updateOrder(
-      parseInt(id),
-      { ...order },
-      setLoading,
-      setToastMessage,
-      handleNavigate
-    );
+    ORDER_REQUEST.updateOrder(parseInt(id), { ...order }, setLoading, setToastMessage, handleNavigate);
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleNavigate = () => {
-    history.push(ROUTES.ORDER(id), { direction: "back" });
-  };
+  const handleNavigate = () => history.push(ROUTES.ORDER(id), { direction: "back" });
 
   const operationList = operations.map(operation => (
     <IonItem key={operation.id}>
@@ -121,7 +94,7 @@ const EditOrderItem: React.FC = () => {
               </IonList>
             </IonList>
             <BottomButton
-              handleClick={openModal}
+              handleClick={() => setIsModalOpen(true)}
               disabled={isEquals(selectedIds, initIds.current)}
               label={t("operations.save")}
             />
