@@ -124,14 +124,16 @@ const EditUser = () => {
                     required 
                     handleChange={event => setUser({ ...user, last_name: event.target.value })}
                     state={highlightRequired && !user.last_name ? "error" : "neutral" }
-                    errorMessage={t("form.required")}/>
+                    errorMessage={t("form.required")}
+                    maxLength={30}/>
                 <Input 
                     label={t("users.firstName")} 
                     value={user?.first_name || ""} 
                     required 
                     handleChange={event => setUser({ ...user, first_name: event.target.value })}
                     state={highlightRequired && !user.first_name ? "error" : "neutral" }
-                    errorMessage={t("form.required")}/>
+                    errorMessage={t("form.required")}
+                    maxLength={30}/>
 
                 <Input 
                     label={t("users.password")} 
