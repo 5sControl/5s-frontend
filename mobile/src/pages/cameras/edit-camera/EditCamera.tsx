@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../../shared/constants/routes";
-import { useHistory} from "react-router-dom";
+import { useHistory, useParams} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../components/preloader/preloader";
@@ -11,26 +11,27 @@ import BottomButton from "../../../components/bottomButton/BottomButton";
 import { TOAST_DELAY } from "../../../constants/toastDelay";
 import CameraSegment from "../../../components/cameraSegment/cameraSegment";
 import { findCamera, getSelectedCameras } from "../../../api/cameraRequest";
-import { postAlgorithnDependences } from "../../../api/algorithmRequest";
+import { getProcessByCamera, postAlgorithnDependences } from "../../../api/algorithmRequest";
 import Zones from "../../../components/zoneSegment/zones/zones";
 import { SelectItem } from "../../../models/types/selectItem";
 
-const AddCamera = () => {
+const EditCamera = () => {
   const { t } = useTranslation();
+  const { id } = useParams() as { id: string };
   const history = useHistory();
   const [cookies] = useCookies(["token"]);
   const [loading, setLoading] = useState(true);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const [selectedSegment, setSelectedSegment] = useState<"camera" | "zone">("camera");
+  const [selectedSegment, setSelectedSegment] = useState<"camera" | "zone">("zone");
 
   const [cameraName, setCameraName] = useState('');
   const [isEnabled, setIsEnabled] = useState(true);
-  const [cameraIP, setCameraIP] = useState('');
+  const [cameraIP, setCameraIP] = useState(id);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [isNotification, setIsNotification] = useState(false);
-  const [cameraSelect, setCameraSelect] = useState(false);
+  const [cameraSelect, setCameraSelect] = useState({});
   const [isCreateCamera, setIsCreateCamera] = useState(false);
   const [findCameraList, setFindCameraList] = useState([]);
   const [isNotificationAfterCreate, setIsNotificationAfterCreate] = useState(false);
@@ -38,17 +39,18 @@ const AddCamera = () => {
   const [error, setError] = useState(false);
 
   useIonViewWillEnter(() => {
-    getSelectedCameras(window.location.hostname, cookies.token)
+    getProcessByCamera(window.location.hostname, id, cookies.token)
       .then((response) => {
-        let cameras = [];
-        if (response.data.length > 0) {
-          cameras = response.data.sort((a, b) => a.name.localeCompare(b.name));
-          setCreatedCameras(cameras);
-        }
-        showAddCameras(cameras);
+        const currentCamera= response.data[0];
+        setCameraSelect(currentCamera);
+        setCameraName(currentCamera.name);
+        setCameraIP(currentCamera.id);
+        setUserName(currentCamera.username);
+        setPassword(currentCamera.password);
       })
       .catch((error) => setError(error.message))
-  });
+      .finally(() => setLoading(false));
+  })
   
   const handleSegmentChange = (event: CustomEvent) => {
     setSelectedSegment(event.detail.value);
@@ -89,58 +91,59 @@ const AddCamera = () => {
       .catch((error) => console.log(error.message))
       .finally(() => setLoading(false));
     setIsCreateCamera(true);
-    setCameraSelect(true);
+    // setCameraSelect(true);
   };
 
   const applySettings = async () => {
-    setLoading(true);
-    const response: any = {
-      camera: {
-        ip: cameraIP,
-        name: cameraName.length > 0 ? cameraName : cameraIP,
-        username: userName,
-        password: password,
-      },
-      algorithms: [],
-    };
-    // for (const algorithm of informationToSend) {
-    //   if (algorithm === 'operation_control') {
-    //     response.algorithms = [
-    //       ...response.algorithms,
-    //       {
-    //         name: algorithm,
-    //         config: {
-    //           operation_control_id: operationID,
-    //         },
-    //       },
-    //     ];
-    //   } else {
-    //     response.algorithms = [
-    //       ...response.algorithms,
-    //       {
-    //         name: algorithm,
-    //         config: {
-    //           zonesID: configAlgo[algorithm].map((e) => ({ id: e })),
-    //         },
-    //       },
-    //     ];
-    //   }
-    // }
+    // setLoading(true);
+    // const response: any = {
+    //   camera: {
+    //     ip: cameraIP,
+    //     name: cameraName.length > 0 ? cameraName : cameraIP,
+    //     username: userName,
+    //     password: password,
+    //   },
+    //   algorithms: [],
+    // };
+    // // for (const algorithm of informationToSend) {
+    // //   if (algorithm === 'operation_control') {
+    // //     response.algorithms = [
+    // //       ...response.algorithms,
+    // //       {
+    // //         name: algorithm,
+    // //         config: {
+    // //           operation_control_id: operationID,
+    // //         },
+    // //       },
+    // //     ];
+    // //   } else {
+    // //     response.algorithms = [
+    // //       ...response.algorithms,
+    // //       {
+    // //         name: algorithm,
+    // //         config: {
+    // //           zonesID: configAlgo[algorithm].map((e) => ({ id: e })),
+    // //         },
+    // //       },
+    // //     ];
+    // //   }
+    // // }
 
-    await postAlgorithnDependences(window.location.hostname, cookies.token, response)
-      .then(() => {
-        setIsEnabled(false);
-        setIsNotificationAfterCreate(false);
-        setIsCameraSettings(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsNotification(true);
-      })
-      .finally(() => {
-        setLoading(false);
-        setIsOpenModal(false);
-      });
+    // await postAlgorithnDependences(window.location.hostname, cookies.token, response)
+    //   .then(() => {
+    //     setIsEnabled(false);
+    //     setIsNotificationAfterCreate(false);
+    //     setIsCameraSettings(false);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     setIsNotification(true);
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //     setIsOpenModal(false);
+    //     navigateBack();
+    //   });
   };
 
   const setIsCameraSettings = (value: boolean) => {
@@ -184,10 +187,11 @@ const AddCamera = () => {
                           setUserName={(name) => setUserName(name)}
                           setPassword={(password) => setPassword(password)}
                           setCameraName={(name) => setCameraName(name)}
+                          editMode={true}
                         />
                     )}
                     {selectedSegment === 'zone' && (
-                        <Zones cameraSelect={cameraSelect} isCreateCamera={isCreateCamera} />
+                        <Zones cameraSelect={cameraSelect} isCreateCamera={false} />
                     )}
                 </div>
 
@@ -201,7 +205,6 @@ const AddCamera = () => {
                 <IonButton className="ion-padding" expand="full" id="open-toast" onClick={openModal}>
                   {t("operations.save")}
                 </IonButton>
-             
             </>
         )}
       </IonContent>
@@ -218,4 +221,4 @@ const AddCamera = () => {
   );
 };
 
-export default AddCamera;
+export default EditCamera;

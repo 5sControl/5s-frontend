@@ -7,11 +7,12 @@ import CameraTest from "../cameraTest/cameraTest";
 import styles from './cameraSegment.module.scss'
 import './cameraSegment.module.scss';
 import { SelectItem } from "../../models/types/selectItem";
+import InputReadonly from "../inputs/inputReadonly/inputReadonly";
 
 type CameraSegmentProps = {
     cameraIP: string,
     isCreateCamera : boolean,
-    cameraSelect: boolean,
+    cameraSelect: any,
     findCameraList: any[],
     password: string,
     userName: string,
@@ -21,7 +22,8 @@ type CameraSegmentProps = {
     cameraName: string,
     setUserName: (text: string) => void,
     setCameraName: (text: string) => void,
-    setPassword: (text: string) => void
+    setPassword: (text: string) => void,
+    editMode?: boolean
 }
 
 
@@ -39,6 +41,7 @@ const CameraSegment: React.FC<CameraSegmentProps> = ({
     setUserName,
     setCameraName,
     setPassword,
+    editMode = false
 }) => {
     const [isModalChangePassword, setIsModalChangePassword] = useState(false);
 
@@ -60,13 +63,23 @@ const CameraSegment: React.FC<CameraSegmentProps> = ({
                 <IonNote className={`ion-padding ${styles.sectionNote}`}>
                     Соединение
                 </IonNote>
-                <Select 
-                    label="IP-адрес камеры"
-                    value={cameraIP!} 
-                    placeholder={'Выберите или введите'} 
-                    selectList={selectCameraList} 
-                    handleChange={handleSelectCamera}
-                />
+                {
+                    editMode 
+                    ?
+                        <InputReadonly
+                            label="IP-адрес камеры"
+                            value={cameraIP}
+                        />
+                    :
+                        <Select 
+                            label="IP-адрес камеры"
+                            value={cameraIP!} 
+                            placeholder={'Выберите или введите'} 
+                            selectList={selectCameraList} 
+                            handleChange={handleSelectCamera}
+                        />
+                }
+
                 <Input 
                     label="Имя пользователя" 
                     value={userName}

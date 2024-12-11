@@ -77,6 +77,7 @@ const Cameras = () => {
   const handleClickCamera = (el) => {
     setIsCreateCamera(false);
     setCameraSelect(el);
+    history.push(ROUTES.CAMERA_EDIT(el.id));
   };
 
   const handleFabClick = () => {

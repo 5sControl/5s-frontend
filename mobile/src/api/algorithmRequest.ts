@@ -52,6 +52,15 @@ export const getProcess = (hostname, cookies) => {
   });
 };
 
+export const getProcessByCamera = (hostname, cameraIp, cookies) => {
+  return axios.get(`${import.meta.env.VITE_API_BASE_URL}${API_GETPROCESS}${cameraIp}/`, {
+    headers: {
+      Authorization: cookies,
+      "ngrok-skip-browser-warning": "true",
+    },
+  });
+};
+
 export const getOperationID = (hostname, cookies) => {
   return axios.get(`${import.meta.env.VITE_API_BASE_URL}${API_POSTOPERATIONID}`, {
     headers: {

@@ -22,7 +22,7 @@ export const getSelectedCameras = (hostname, cookies) => {
 
 export const postCamera = (hostname, IPCamera, username, password, cookies) => {
   return axios.post(
-    `${process.env.REACT_APP_PROXY}${API_CAMERACREATE}`,
+    `${import.meta.env.VITE_API_BASE_URL}${API_CAMERACREATE}`,
     {
       ip: IPCamera,
       username: username,
