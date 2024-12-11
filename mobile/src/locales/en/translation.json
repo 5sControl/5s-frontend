@@ -20,6 +20,7 @@
    },
    "messages": {
      "noDatabases": "No databases available",
+     "noReports": "Unable to find the requested report",
      "used": "Used in Orders View",
      "connected": "Connected",
      "disconnected": "Disconnected",
@@ -207,6 +208,7 @@
      "report": "Report",
      "fullReport": "Full report",
      "individualReports": "Individual Reports",
+     "orderDetails": "Order details",
      "startDate": "Report start date",
      "endDate": "Report end date"
    },

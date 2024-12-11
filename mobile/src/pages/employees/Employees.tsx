@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Plus } from "../../assets/svg/SVGcomponent";
 import Fab from "../../components/fab/Fab";
 import { useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
 import { useCookies } from "react-cookie";
 import { getAllDirectories } from "../../api/directory/directory";
@@ -18,7 +18,6 @@ import { getAllEmployees } from "../../api/employees";
 const Employees = () => {
   const [cookies] = useCookies(["token"]);
   const [items, setItems] = useState<IEmployee[]>([]);
-  const [filteredItems, setFilteredItems] = useState<IEmployee[]>([]);
   const [searchText, setSearchText] = useState<string>("");
 
   const { t } = useTranslation();
@@ -27,14 +26,7 @@ const Employees = () => {
   const [loading, setLoading] = useState(true);
 
   const handleSetSearch = (value: string) => setSearchText(value);
-
-  const handleFabClick = (path: string) => {
-    history.push(path);
-  };
-
-  const handleItemClick = (path: string) => {
-    history.push(path);
-  };
+  const handleItemClick = (path: string) => history.push(path);
 
   useIonViewWillEnter(() => {
     setSearchText("");
@@ -51,14 +43,10 @@ const Employees = () => {
       });
   });
 
-  useEffect(() => {
-    const filtered = items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
-    setFilteredItems(filtered);
-  }, [searchText]);
-
-  useEffect(() => {
-    items.length && setFilteredItems(items);
-  }, [items]);
+  const filteredItems = useMemo(
+    () => items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase())),
+    [items, searchText]
+  );
 
   return (
     <IonPage>

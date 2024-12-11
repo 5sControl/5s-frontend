@@ -6,7 +6,7 @@ import { Preloader } from "../../../components/preloader/preloader";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import { IEmployee } from "../../../models/interfaces/employee.interface";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { getAllEmployees } from "../../../api/employees";
 import MenuListButton from "../../../components/menuListButton/MenuListButton";
 
@@ -17,6 +17,7 @@ const IndividualReports = () => {
   const [filteredItems, setFilteredItems] = useState<IEmployee[]>([]);
   const [searchText, setSearchText] = useState<string>("");
   const history = useHistory();
+  const { orderId }: { orderId?: string } = useParams();
 
   const [loading, setLoading] = useState(true);
 
@@ -54,8 +55,8 @@ const IndividualReports = () => {
     <IonPage>
       <Header
         title={t("reports.individualReports")}
-        backButtonHref={ROUTES.REPORTS}
-        searchBar={Boolean(items?.length)}
+        backButtonHref={orderId ? ROUTES.REPORT_ORDERS : ROUTES.REPORTS}
+        searchBar={!!items?.length}
         searchText={searchText}
         onSearchChange={handleSetSearch}
       />
@@ -76,7 +77,9 @@ const IndividualReports = () => {
                   <MenuListButton
                     key={id}
                     title={name}
-                    handleItemClick={() => handleItemClick(ROUTES.REPORT_EMPLOYEE(String(id)))}
+                    handleItemClick={() =>
+                      handleItemClick(orderId ? ROUTES.REPORT_ORDER_EMPLOYEE(orderId, id) : ROUTES.REPORT_EMPLOYEE(id))
+                    }
                   />
                 ))}
               </IonList>

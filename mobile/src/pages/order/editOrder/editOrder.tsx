@@ -83,7 +83,7 @@ const EditOrder: React.FC = () => {
         ) : (
           <>
             <Input
-              label={t("form.name")}
+              label={t("orders.name")}
               value={orderName}
               required
               handleChange={e => setOrderName(e.detail.value!)}
