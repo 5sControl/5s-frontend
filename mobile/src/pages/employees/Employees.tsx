@@ -2,16 +2,11 @@ import { IonContent, IonItem, IonList, IonPage, useIonViewWillEnter } from "@ion
 import { Header } from "../../components/header/Header";
 import { ROUTES } from "../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
-import { Plus } from "../../assets/svg/SVGcomponent";
-import Fab from "../../components/fab/Fab";
 import { useHistory } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
 import { useCookies } from "react-cookie";
-import { getAllDirectories } from "../../api/directory/directory";
 import { Preloader } from "../../components/preloader/preloader";
-import { Directory } from "../../models/interfaces/directory.interface";
-import { getAllItems } from "../../api/items";
 import { IEmployee } from "../../models/interfaces/employee.interface";
 import { getAllEmployees } from "../../api/employees";
 
@@ -32,10 +27,10 @@ const Employees = () => {
     setSearchText("");
     setLoading(true);
     getAllEmployees(cookies.token)
-      .then(response => {
+      .then((response) => {
         setItems(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       })
       .finally(() => {
@@ -44,7 +39,7 @@ const Employees = () => {
   });
 
   const filteredItems = useMemo(
-    () => items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase())),
+    () => items.filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase())),
     [items, searchText]
   );
 

@@ -3,7 +3,6 @@ import { IonPage, IonContent, IonToast, useIonViewWillEnter } from "@ionic/react
 import { Header } from "../../../components/header/Header";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useParams, useHistory } from "react-router-dom";
-import ModalSave from "../../../components/modalSave/modalSave";
 import { ORDER_REQUEST } from "../../../dispatcher";
 import { useTranslation } from "react-i18next";
 import { TOAST_DELAY } from "./../../../constants/toastDelay";
@@ -44,7 +43,7 @@ const EditOrder: React.FC = () => {
     setIsModalOpen(false);
     ORDER_REQUEST.updateOrder(
       parseInt(id, 10),
-      { ...order, name: orderName, estimatedAt: orderDate },
+      { name: orderName, estimatedAt: orderDate },
       setLoading,
       setToastMessage,
       navigateTo
@@ -64,9 +63,7 @@ const EditOrder: React.FC = () => {
     navigateTo();
   };
 
-  const navigateTo = () => {
-    history.push(ROUTES.ORDER(id), { direction: "back" });
-  };
+  const navigateTo = () => history.push(ROUTES.ORDER(id), { direction: "back" });
 
   return (
     <IonPage>
