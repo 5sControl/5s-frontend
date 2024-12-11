@@ -220,6 +220,7 @@
     "role": "Rola",
     "workplace": "Miejsce pracy",
     "dateJoined": "Data dołączenia"
+  },
   "scanner": {
     "start": "Rozpocznij skanowanie",
     "stop": "Zakończ skanowanie"

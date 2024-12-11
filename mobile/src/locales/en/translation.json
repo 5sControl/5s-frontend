@@ -222,8 +222,7 @@
      "role": "Role",
      "workplace": "Workplace",
      "dateJoined": "Date joined"
-   } 
-}
+   },
    "scanner": {
      "start": "Start scanning",
      "stop": "End scanning"

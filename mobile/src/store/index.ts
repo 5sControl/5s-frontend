@@ -13,8 +13,7 @@ const store = configureStore({
         user: userReducer,
         currentTimespan: timespanReducer,
         reportDate: reportDateSlice,
-        workplace: workplaceReducer
-    }
+        workplace: workplaceReducer,
         [dynamicApiSlice.reducerPath]: dynamicApiSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
