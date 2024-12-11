@@ -30,9 +30,13 @@ import { useTranslation } from "react-i18next";
 import { Settings } from "../../assets/svg/SVGcomponent";
 import { SettingsModal } from "../../components/ordersView/settingsModal/SettingsModal";
 import { SearchModal } from "../../components/ordersView/searchModal/SearchModal";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { setStartOrdersViewDate } from "../../store/ordersViewDateSlice";
 
 export const OrdersView: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
+  const dispatch = useDispatch();
   const [cookies] = useCookies(["token"]);
   const [showLoading, setShowLoading] = useState(false);
   const [orderListLoading, setOrderListLoading] = useState(true);
@@ -44,20 +48,25 @@ export const OrdersView: React.FC = () => {
   const [ordersList, setOrdersList] = useState<OrderItem[]>([]);
   const [selectedOrderId, setSelectedOrderId] = useState<string>("");
   const [openSearchModal, setOpenSearchModal] = useState<boolean>(false);
-  const [selectedRange, setSelectedRange] = useState(
-    moment()
-      .set({ year: 2024, month: 11, date: 4, hour: 10, minute: 0, second: 0 })
-      .format("YYYY-MM-DDTHH:mm:ss")
-  );
-
-  const [prevRange, setPrevRange] = useState(moment().format("YYYY-MM-DDTHH:mm:ss"));
+  const startDate = useSelector((state: RootState) => state.ordersViewDate.startDate);
+  const [selectedRange, setSelectedRange] = useState(startDate);
+  const [prevRange, setPrevRange] = useState(startDate);
   const { t } = useTranslation();
 
   useEffect(() => {
+    const firstFetch = true;
+    fetchOrdersViewInfo(selectedRange, firstFetch);
+  }, []);
+
+  useEffect(() => {
+    fetchOrdersViewInfo(selectedRange);
+  }, [selectedRange, selectedInterval, updateFilter]);
+
+  const fetchOrdersViewInfo = (selectedRange, firstFetch = false) => {
     const currentDay = selectedRange.split("T")[0];
     const endDay = moment(selectedRange).add(7, "days").format("YYYY-MM-DD");
     const prevDay = prevRange.split("T")[0];
-    if (selectedRange && currentDay !== prevDay) {
+    if ((selectedRange && currentDay !== prevDay) || firstFetch) {
       const fetchData = async () => {
         try {
           setShowLoading(true);
@@ -82,7 +91,7 @@ export const OrdersView: React.FC = () => {
       })
       .catch(error => console.log(error))
       .finally(() => setOrderListLoading(false));
-  }, [selectedRange, selectedInterval, updateFilter]);
+  }
 
   const handleToggle = () => {
     setShowScheduled(prev => !prev);
@@ -91,6 +100,7 @@ export const OrdersView: React.FC = () => {
   const handleDateTimeChange = (e: CustomEvent<any>) => {
     const selectedDateTime = e.detail.value;
     setSelectedRange(selectedDateTime);
+    dispatch(setStartOrdersViewDate({ startDate: selectedDateTime }));
   };
 
   const selectOrder = (orId: string) => {
