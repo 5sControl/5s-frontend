@@ -3,7 +3,7 @@ import { Header } from "../../components/header/Header";
 import { ROUTES } from "../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
 import { useCookies } from "react-cookie";
 import { getAllDirectories, getAllStaticDirectories } from "../../api/directory/directory";
@@ -14,8 +14,6 @@ const Directories = () => {
   const [cookies] = useCookies(["token"]);
   const [items, setItems] = useState<Directory[]>([]);
   const [staticItems, setStaticItems] = useState<string[]>([]);
-  const [filteredStaticItems, setFilteredStaticItems] = useState<string[]>([]);
-  const [filteredItems, setFilteredItems] = useState<Directory[]>([]);
   const [searchText, setSearchText] = useState<string>("");
   const { t } = useTranslation();
   const history = useHistory();
@@ -45,20 +43,15 @@ const Directories = () => {
       });
   });
 
-  useEffect(() => {
-    const filteredStatic = staticItems.filter(itemName => itemName.toLowerCase().includes(searchText.toLowerCase()));
-    const filtered = items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
-    setFilteredStaticItems(filteredStatic);
-    setFilteredItems(filtered);
-  }, [searchText]);
+  const filteredStaticItems = useMemo(
+    () => staticItems.filter(item => item?.toLowerCase().includes(searchText.toLowerCase())),
+    [staticItems, searchText]
+  );
 
-  useEffect(() => {
-    items.length && setFilteredItems(items);
-  }, [items]);
-
-  useEffect(() => {
-    staticItems.length && setFilteredStaticItems(staticItems);
-  }, [staticItems]);
+  const filteredItems = useMemo(
+    () => items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase())),
+    [items, searchText]
+  );
 
   return (
     <IonPage>

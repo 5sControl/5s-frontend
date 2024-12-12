@@ -120,7 +120,7 @@ const Order = () => {
           <>
             {/* {isLoaded && ( */}
             <>
-              <InputReadonly label={t("form.name")} value={order?.name || "-"} />
+              <InputReadonly label={t("orders.name")} value={order?.name || "-"} />
               <InputReadonly
                 label={t("orders.estimatedAt")}
                 value={order?.estimatedAt ? formatDate(order?.estimatedAt) : "-"}

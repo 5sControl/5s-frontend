@@ -53,9 +53,14 @@ export const ROUTES = {
   ORDER_TIMESPAN_EDIT: (orderId: string, itemId: string, operationId: string, timespanId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}/timespan/${timespanId}/edit`,
 
   REPORTS: `/reports`,
-  REPORT: `/report`,
-  REPORTS_INDIVIDUAL: `/reports-individual`,
-  REPORT_EMPLOYEE: (employeeId: string) => `/report/${employeeId}`,
+  REPORT_FULL: `/report`,
+  REPORT_INDIVIDUAL: `/reports-individual`,
+  REPORT_EMPLOYEE: (employeeId) => `/report/${employeeId}`,
+  REPORT_ORDERS: `/report-orders`,
+  REPORT_ORDER: (orderId) => `/report-order/${orderId}`,
+  REPORT_ORDER_FULL: (orderId) => `/report-order/${orderId}/full`,
+  REPORT_ORDER_INDIVIDUAL: (orderId) => `/report-order/${orderId}/individual`,
+  REPORT_ORDER_EMPLOYEE: (orderId, employeeId) => `/report-order/${orderId}/employee/${employeeId}`,
 
   SCANNER_QR: `/scanner`,
   LANGUAGE: `/language`,

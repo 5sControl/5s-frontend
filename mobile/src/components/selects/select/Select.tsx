@@ -1,4 +1,4 @@
-import { IonItem, IonLabel, IonSelect, IonSelectOption } from "@ionic/react";
+import { IonLabel, IonSelect, IonSelectOption } from "@ionic/react";
 import "./Select.scss";
 import { SelectItem } from "../../../models/types/selectItem";
 
@@ -13,15 +13,14 @@ type SelectProps = {
 const Select = ({ label, placeholder, selectList, value, handleChange }: SelectProps) => {
   return (
     <div className="select__wrapper">
-      <IonLabel className="select__label label label__bold">
-        {label}
-      </IonLabel>
+      <IonLabel className="select__label label label__bold">{label}</IonLabel>
       <IonSelect
         onIonChange={handleChange}
         value={value}
         labelPlacement="stacked"
         interface="popover"
         placeholder={placeholder}
+        className="select"
       >
         {selectList.map(({ label, value }) => (
           <IonSelectOption key={value} value={value}>
