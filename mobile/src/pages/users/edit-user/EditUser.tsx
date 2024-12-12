@@ -36,6 +36,7 @@ const EditUser = () => {
 }));
   const { selectedWorkplace } = useSelector((state: any) => state.workplace);
   const [passwordChanged, setPasswordChanged] = useState(false);
+  const minPasswordLength = 4;
 
   useIonViewWillEnter(() => {
     setLoading(true);
@@ -82,9 +83,9 @@ const EditUser = () => {
   };
 
   const openModal = () => {
-    if (!user.first_name || !user.last_name || !user.password) {
-        setHighlightRequired(true);
-        return;
+    if (!user.first_name || !user.last_name || user.password.length < minPasswordLength) {
+      setHighlightRequired(true);
+      return;
     }
     setIsOpenModal(true);
   };
@@ -123,26 +124,28 @@ const EditUser = () => {
                     required 
                     handleChange={event => setUser({ ...user, last_name: event.target.value })}
                     state={highlightRequired && !user.last_name ? "error" : "neutral" }
-                    errorMessage={t("form.required")}/>
+                    errorMessage={t("form.required")}
+                    maxLength={30}/>
                 <Input 
                     label={t("users.firstName")} 
                     value={user?.first_name || ""} 
                     required 
                     handleChange={event => setUser({ ...user, first_name: event.target.value })}
                     state={highlightRequired && !user.first_name ? "error" : "neutral" }
-                    errorMessage={t("form.required")}/>
+                    errorMessage={t("form.required")}
+                    maxLength={30}/>
 
                 <Input 
                     label={t("users.password")} 
-                    value="password" 
+                    value={passwordChanged ? user?.password : "password"} 
                     type="password" 
                     hidePassword={true} 
-                    required 
-                    handleChange={value => {
+                    required
+                    handleChange={event => {
                       setPasswordChanged(true);
-                      setUser({ ...user, password: value })}}
-                    state={highlightRequired && !user.password ? "error" : "neutral" }
-                    errorMessage={t("form.required")}
+                      setUser({ ...user, password: event.target.value })}}
+                    state={highlightRequired && user.password.length < minPasswordLength ? "error" : "neutral" }
+                    errorMessage={t("form.passwordLength")}
                 />
                 
                 <IonList inset={true}>

@@ -205,6 +205,10 @@ ion-datetime {
 }
 
 .label__bold {
-  width: 100%;
-  font-weight: 600;
+    width: 100%;
+    font-weight: 600;
+}
+
+.errorListButton{
+    border: 1px solid var(--StockRed);
 }

@@ -153,7 +153,8 @@
       "pwd": "Hasło",
       "submit": "Zaloguj się"
     },
-    "required": "To pole jest wymagane"
+    "required": "To pole jest wymagane",
+    "passwordLength": "Hasło musi mieć co najmniej 4 znaki."
   },
   "orders": {
     "order": "Zamówienie",

@@ -101,6 +101,8 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   }, [currentZoneId]);
 
   const createCoord = (e: any) => {
+    if (currentZoneId == -2)
+      return
     if (e && !targetRect) {
       const target = e.target.getBoundingClientRect();
       if (fourPointsCoordinates.length >= 4) {
@@ -134,6 +136,8 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   }, [isScale]);
 
   const startPosition = (e: any) => {
+    if (currentZoneId == -2)
+      return
     if (e && !targetRect) {
       const target = e.target.getBoundingClientRect();
       setIsStartDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
@@ -146,6 +150,8 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   };
 
   const movePosition = (e: any) => {
+    if (currentZoneId == -2)
+      return
     if (e && !targetRect && isStartDraw) {
       const target = e.target.getBoundingClientRect();
       if (e.clientX - target.x < 0) {
@@ -157,6 +163,8 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   };
 
   const endPosition = (e: any) => {
+    if (currentZoneId == -2)
+      return
     if (e && !targetRect) {
       const response = {
         x:
@@ -481,7 +489,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
             onMouseMove={(e) => !isFourPointsMode && movePosition(e)}
             onMouseUp={(e) => !isFourPointsMode && endPosition(e)}
             style={
-              targetRect || targetPolygon ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
+              targetRect || targetPolygon || currentZoneId == -2 ? { zIndex: 100, cursor: 'pointer' } : { zIndex: 1000, cursor: 'crosshair' }
             }
           ></div>
           {!!proportionHeight && (

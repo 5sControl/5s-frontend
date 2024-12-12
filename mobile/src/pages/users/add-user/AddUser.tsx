@@ -17,6 +17,7 @@ import BottomButton from "../../../components/bottomButton/BottomButton";
 import { TOAST_DELAY } from "../../../constants/toastDelay";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedWorkplace } from "../../../store/workpaceSlice";
+import "../../../styles/common.scss";
 
 const AddUser = () => {
   const { t } = useTranslation();
@@ -35,6 +36,7 @@ const AddUser = () => {
     value: role
 }));
   const { selectedWorkplace } = useSelector((state: any) => state.workplace);
+  const minPasswordLength = 4;
 
   const navigateBack = () => {
     history.push(ROUTES.USERS, { direction: "back" });
@@ -64,9 +66,9 @@ const AddUser = () => {
   };
 
   const openModal = () => {
-    if (!user.first_name || !user.last_name || !user.password) {
-        setHighlightRequired(true);
-        return;
+    if (!user.first_name || !user.last_name || user.password.length < minPasswordLength || !selectedWorkplace) {
+      setHighlightRequired(true);
+      return;
     }
     setIsOpenModal(true);
   };
@@ -101,14 +103,16 @@ const AddUser = () => {
                     required 
                     handleChange={event => setUser({ ...user, last_name: event.target.value })}
                     state={highlightRequired && !user.last_name ? "error" : "neutral" }
-                    errorMessage={t("form.required")}/>
+                    errorMessage={t("form.required")}
+                    maxLength={30}/>
                 <Input 
                     label={t("users.firstName")} 
                     value={user?.first_name || ""} 
                     required 
                     handleChange={event => setUser({ ...user, first_name: event.target.value })}
                     state={highlightRequired && !user.first_name ? "error" : "neutral" }
-                    errorMessage={t("form.required")}/>
+                    errorMessage={t("form.required")}
+                    maxLength={30}/>
                 
                 <Input 
                     label={t("users.password")} 
@@ -116,12 +120,13 @@ const AddUser = () => {
                     type="password" 
                     required 
                     handleChange={event => setUser({ ...user, password: event.target.value })}
-                    state={highlightRequired && !user.password ? "error" : "neutral" }
-                    errorMessage={t("form.required")}/>
+                    state={highlightRequired && user.password.length < minPasswordLength ? "error" : "neutral" }
+                    errorMessage={t("form.passwordLength")}/>
                 
-                <IonList inset={true}>
+                <IonList inset={true} className={highlightRequired && !selectedWorkplace ? "errorListButton" : ""}>
                     <MenuListButton title={selectedWorkplace?.name || t("users.workplace")} handleItemClick={navigateWorkplaceClick}/>
                 </IonList>
+
                 <Select value={!customRole ? t("users.role") : user.role} placeholder={!customRole ? t("users.role") : user.role} selectList={roles} handleChange={event => {
                     setUser({ ...user, role: event.target.value });
                     setCustomRole(true)}   
