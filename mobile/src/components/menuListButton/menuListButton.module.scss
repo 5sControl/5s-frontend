@@ -1,0 +1,28 @@
+.neutral {
+    border-color: var(--LowEmphasis);
+}
+
+.error {
+    border: 1px solid var(--StockRed);
+    border-radius: 5px;
+}
+
+.footer {
+    margin-top: .2rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .9rem;
+    font-weight: 300;
+  
+    .errorMessage {
+      color: var(--Red);
+    }
+  
+    .hint {
+      color: var(--MediumEmphasis);
+    }
+  
+}
+  
