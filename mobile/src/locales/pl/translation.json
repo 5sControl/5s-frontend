@@ -20,6 +20,7 @@
   },
   "messages": {
     "noDatabases": "Brak dostępnych baz danych",
+    "noReports": "Nie można znaleźć żądanego raportu",
     "used": "Używane w widoku zamówień",
     "connected": "Połączono",
     "disconnected": "Rozłączono",
@@ -208,6 +209,7 @@
     "report": "Raport",
     "fullReport": "Pełny raport",
     "individualReports": "Indywidualne raporty",
+    "orderDetails": "Szczegóły zamówienia",
     "startDate": "Data rozpoczęcia raportu",
     "endDate": "Data zakończenia raportu"
   },

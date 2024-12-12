@@ -3,7 +3,7 @@ import { Header } from "../../components/header/Header";
 import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../shared/constants/routes";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setEndReportDate, setReportDate, setStartReportDate } from "../../store/reportDateSlice";
@@ -20,6 +20,7 @@ const Reports = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const startDateModalRef = useRef<HTMLIonModalElement>(null);
   const endDateModalRef = useRef<HTMLIonModalElement>(null);
+  const { orderId }: { orderId?: string } = useParams();
 
   const handleItemClick = (path: string) => {
     history.push(path);
@@ -62,9 +63,15 @@ const Reports = () => {
     }
   });
 
+  const routes = {
+    backRoute: orderId ? ROUTES.REPORT_ORDERS : ROUTES.MENU,
+    reportFullRoute: orderId ? ROUTES.REPORT_ORDER_FULL(orderId) : ROUTES.REPORT_FULL,
+    reportIndividualRoute: orderId ? ROUTES.REPORT_ORDER_INDIVIDUAL(orderId) : ROUTES.REPORT_INDIVIDUAL,
+  };
+
   return (
     <IonPage>
-      <Header title={t("menu.reports")} backButtonHref={ROUTES.MENU} />
+      <Header title={t("menu.reports")} backButtonHref={routes.backRoute} />
       <IonContent>
         {loading ? (
           <div className="preloader">
@@ -72,29 +79,41 @@ const Reports = () => {
           </div>
         ) : (
           <>
-            <DateSelector
-              label={t("reports.startDate")}
-              setDate={handleSaveStartDate}
-              date={startDate}
-              modalRef={startDateModalRef}
-              maxDate={getCurrentDateTimeISO()}
-            />
+            {!orderId && (
+              <>
+                <DateSelector
+                  label={t("reports.startDate")}
+                  setDate={handleSaveStartDate}
+                  date={startDate}
+                  modalRef={startDateModalRef}
+                  maxDate={getCurrentDateTimeISO()}
+                />
 
-            <DateSelector
-              label={t("reports.endDate")}
-              setDate={handleSaveEndDate}
-              date={endDate}
-              modalRef={endDateModalRef}
-              minDate={startDate}
-              maxDate={getCurrentDateTimeISO()}
-            />
-
+                <DateSelector
+                  label={t("reports.endDate")}
+                  setDate={handleSaveEndDate}
+                  date={endDate}
+                  modalRef={endDateModalRef}
+                  minDate={startDate}
+                  maxDate={getCurrentDateTimeISO()}
+                />
+              </>
+            )}
             <IonList inset={true}>
-              <MenuListButton title={t("reports.fullReport")} handleItemClick={() => handleItemClick(ROUTES.REPORT)} />
+              <MenuListButton
+                title={t("reports.fullReport")}
+                handleItemClick={() => handleItemClick(routes.reportFullRoute)}
+              />
               <MenuListButton
                 title={t("reports.individualReports")}
-                handleItemClick={() => handleItemClick(ROUTES.REPORTS_INDIVIDUAL)}
+                handleItemClick={() => handleItemClick(routes.reportIndividualRoute)}
               />
+              {!orderId && (
+                <MenuListButton
+                  title={t("reports.orderDetails")}
+                  handleItemClick={() => handleItemClick(ROUTES.REPORT_ORDERS)}
+                />
+              )}
             </IonList>
           </>
         )}

@@ -3,6 +3,7 @@ import orderReducer from './orderSlice'
 import userReducer from './userSlice'
 import timespanReducer from './timespanSlice'
 import reportDateSlice from './reportDateSlice'
+import ordersViewDateSlice from './ordersViewDateSlice'
 import workplaceReducer from './workpaceSlice'
 import { dynamicApiSlice } from './dynamicApiSlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,6 +14,7 @@ const store = configureStore({
         user: userReducer,
         currentTimespan: timespanReducer,
         reportDate: reportDateSlice,
+        ordersViewDate: ordersViewDateSlice,
         workplace: workplaceReducer,
         [dynamicApiSlice.reducerPath]: dynamicApiSlice.reducer,
     },
