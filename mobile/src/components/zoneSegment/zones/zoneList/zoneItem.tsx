@@ -52,7 +52,7 @@ const Item = ({
 
   useEffect(() => {
     if (!isShow && !isOpen) {
-      setCurrentZoneId(-1);
+      setCurrentZoneId(-2);
     }
   }, [isShow]);
 

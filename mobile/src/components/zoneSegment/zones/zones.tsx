@@ -130,6 +130,7 @@ const Zones = ({ cameraSelect, isCreateCamera }) => {
           setMessage({ status: false, message: 'Zone is not saved' });
         });
     }
+    setCurrentZoneId(-2);
   };
 
   useEffect(() => {
