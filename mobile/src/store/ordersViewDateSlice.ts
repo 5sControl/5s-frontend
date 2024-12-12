@@ -11,7 +11,6 @@ const ordersViewDateSlice = createSlice({
   },
   reducers: {
     setStartOrdersViewDate(state, action) {
-      console.log('in reducer', action.payload.startDate)
       state.startDate = action.payload.startDate;
     },
   },

@@ -32,7 +32,6 @@ export const OperationDetail = () => {
         getOrderViewOperation(cookies.token, parseInt(id))
         .then((response) => {
           const operation = response.data;
-          console.log('response', response.data)
           setDetail(response.data);
           const startTime = moment(operation.sTime);
           const endTime = moment(operation.eTime);
