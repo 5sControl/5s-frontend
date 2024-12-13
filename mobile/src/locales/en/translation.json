@@ -235,6 +235,9 @@
    "scanner": {
      "start": "Start scanning",
      "stop": "End scanning"
+   },
+   "workplace": {
+      "assign": "Assign workplace"
    }
  }
  
