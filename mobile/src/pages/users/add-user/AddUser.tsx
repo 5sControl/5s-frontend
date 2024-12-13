@@ -18,6 +18,7 @@ import { TOAST_DELAY } from "../../../constants/toastDelay";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedWorkplace } from "../../../store/workpaceSlice";
 import "../../../styles/common.scss";
+import { isInvalidText } from "../../../utils/isInvalidText";
 
 const AddUser = () => {
   const { t } = useTranslation();
@@ -66,7 +67,8 @@ const AddUser = () => {
   };
 
   const openModal = () => {
-    if (!user.first_name || !user.last_name || user.password.length < minPasswordLength || !selectedWorkplace) {
+    if (!user.first_name || !user.last_name || user.password.length < minPasswordLength || !selectedWorkplace 
+      || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
       setHighlightRequired(true);
       return;
     }
@@ -102,17 +104,19 @@ const AddUser = () => {
                     value={user?.last_name || ""} 
                     required 
                     handleChange={event => setUser({ ...user, last_name: event.target.value })}
-                    state={highlightRequired && !user.last_name ? "error" : "neutral" }
-                    errorMessage={t("form.required")}
-                    maxLength={30}/>
+                    state={highlightRequired && (!user.last_name || isInvalidText(user.last_name)) ? "error" : "neutral" }
+                    errorMessage={isInvalidText(user.last_name) ? t("form.invalidCharacters") : t("form.required")}
+                    maxLength={30}
+                    type="text"/>
                 <Input 
                     label={t("users.firstName")} 
                     value={user?.first_name || ""} 
                     required 
                     handleChange={event => setUser({ ...user, first_name: event.target.value })}
-                    state={highlightRequired && !user.first_name ? "error" : "neutral" }
-                    errorMessage={t("form.required")}
-                    maxLength={30}/>
+                    state={highlightRequired && (!user.first_name || isInvalidText(user.first_name)) ? "error" : "neutral" }
+                    errorMessage={isInvalidText(user.first_name) ? t("form.invalidCharacters") : t("form.required")}
+                    maxLength={30}
+                    type="text"/>
                 
                 <Input 
                     label={t("users.password")} 
