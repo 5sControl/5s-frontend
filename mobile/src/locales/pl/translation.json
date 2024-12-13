@@ -154,7 +154,9 @@
       "submit": "Zaloguj się"
     },
     "required": "To pole jest wymagane",
-    "passwordLength": "Hasło musi mieć co najmniej 4 znaki."
+    "passwordLength": "Hasło musi mieć co najmniej 4 znaki",
+    "selectWorkplace": "Wybierz miejsce pracy",
+    "invalidCharacters": "Nieprawidłowe znaki"
   },
   "orders": {
     "order": "Zamówienie",
