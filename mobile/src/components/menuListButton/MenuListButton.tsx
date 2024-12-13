@@ -51,7 +51,11 @@ const MenuListButton = ({
       {state === "error" ? (
         <div>
           {itemContent}
-          {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Render error message */}
+          {errorMessage && 
+          <div className={styles.footer}>
+            <p className={styles.errorMessage}>{errorMessage}</p>
+          </div>
+          }
         </div>
       ) : (
         itemContent

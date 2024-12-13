@@ -154,7 +154,8 @@
        "submit": "Log In"
      },
      "required": "This field is required",
-     "passwordLength": "Password must be at least 4 characters"
+     "passwordLength": "Password must be at least 4 characters",
+     "selectWorkplace": "Select employee's workplace"
    },
    "orders": {
      "order": "Order",

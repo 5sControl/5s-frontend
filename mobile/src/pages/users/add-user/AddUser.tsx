@@ -123,12 +123,12 @@ const AddUser = () => {
                     state={highlightRequired && user.password.length < minPasswordLength ? "error" : "neutral" }
                     errorMessage={t("form.passwordLength")}/>
                 
-                <IonList inset={true} className={highlightRequired && !selectedWorkplace ? "errorListButton" : ""}>
+                <IonList inset={true}>
                     <MenuListButton 
                       title={selectedWorkplace?.name || t("users.workplace")} 
                       handleItemClick={navigateWorkplaceClick}
-                      state="error"
-                      errorMessage="kaermfoemne"/>
+                      state={highlightRequired && !selectedWorkplace ? "error" : "neutral"}
+                      errorMessage={t("form.selectWorkplace")}/>
                 </IonList>
 
                 <Select value={!customRole ? t("users.role") : user.role} placeholder={!customRole ? t("users.role") : user.role} selectList={roles} handleChange={event => {
