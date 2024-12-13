@@ -60,10 +60,12 @@ const Workplaces = () => {
 
   return (
     <IonPage>
-      <Header title={"Назначить рабочее место"} onBackClick={navigateBack} backButtonHref={backRoute}></Header>
+      <Header title={t("workplace.assign")} onBackClick={navigateBack} backButtonHref={backRoute}></Header>
       <IonContent>
         {loading ? (
-          <div className="preloader">Loading...</div>
+          <div className="preloader">
+            <Preloader />
+          </div>
         ) : (
           <SelectList selectList={workplaces} value={selectedWorkplace?.id?.toString()} handleChange={handleWorkplaceChange} />
         )}
