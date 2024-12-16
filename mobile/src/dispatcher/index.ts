@@ -255,9 +255,7 @@ const getOrderItemOperationsByName = async (orderId: number, orderItemName: stri
     setLoading?: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage?: React.Dispatch<React.SetStateAction<string | null>>): Promise<void> => {
     try {
-        setLoading && setLoading(true)
-        console.log(orderItemName);
-        console.log(encodeURIComponent(orderItemName));
+        setLoading && setLoading(true);
         const operations = await ORDERS_API.getOrderItemOperationsByName(orderId, orderItemName);
         if (operations.status === STATUS.OK) {
             setItems(operations.data)

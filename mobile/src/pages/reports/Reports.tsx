@@ -56,7 +56,6 @@ const Reports = () => {
       setLoading(false);
     } else {
       const reportDateParse = JSON.parse(reportDate);
-      console.log(reportDateParse);
       setStartDate(reportDateParse.startDate);
       setEndDate(reportDateParse.endDate);
       setLoading(false);

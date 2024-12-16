@@ -110,7 +110,7 @@
   display: flex;
   gap: 5px;
   overflow: auto;
-  margin-top: 14px;
+  padding: 14px 0;
   .select {
     padding: 4px 12px;
     background: #fe6100;
@@ -122,6 +122,7 @@
     align-items: center;
     letter-spacing: 0.1px;
     color: #ffffff;
+    flex-shrink: 0;
     cursor: pointer;
   }
   .noSelect {
@@ -135,6 +136,7 @@
     align-items: center;
     letter-spacing: 0.1px;
     color: #212121;
+    flex-shrink: 0;
     cursor: pointer;
   }
 }

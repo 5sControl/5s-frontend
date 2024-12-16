@@ -26,19 +26,19 @@ export const Input: React.FC<InputProps> = ({
   label,
   value,
   required,
-  handleChange,
   placeholder,
   onKeyDown,
+  handleChange,
   bold = true,
   type = "text",
   state = "neutral",
-  disabled,
-  hint,
+  hidePassword = false,
   errorMessage,
   description,
   maxLength,
-  hidePassword = false,
-  tooltip
+  disabled,
+  tooltip,
+  hint,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -49,10 +49,7 @@ export const Input: React.FC<InputProps> = ({
     <IonItem className={`input__field ${tooltip ? styles.overflow : ""}`}>
       <IonLabel className={bold ? styles.label__bold : styles.label}>
         {label}
-        {
-          tooltip &&
-          <TooltipCustom title={label} text={tooltip}/>
-        }
+        {tooltip && <TooltipCustom title={label} text={tooltip} />}
       </IonLabel>
       {description && (
         <IonLabel position="stacked" className={styles.description}>
@@ -61,18 +58,18 @@ export const Input: React.FC<InputProps> = ({
       )}
       <IonInput
         value={value}
+        type={type}
         placeholder={placeholder}
-        className={`${styles.input} ${styles[state]} ${isFocused ? styles.focus : ""}`}
         onIonInput={handleChange}
         required={required}
         onKeyDown={onKeyDown}
-        type={type}
         disabled={disabled}
         onFocus={handleFocus}
         onBlur={handleBlur}
         maxlength={maxLength}
+        className={`${styles.input} ${styles[state]} ${isFocused ? styles.focus : ""}`}
       >
-        {type === "password" && !hidePassword && <IonInputPasswordToggle slot="end" color="medium"></IonInputPasswordToggle>}
+        {type === "password" && !hidePassword && <IonInputPasswordToggle slot="end" color="medium" />}
       </IonInput>
       <div className={styles.footer}>
         {errorMessage && state === "error" && <p className={styles.errorMessage}>{errorMessage}</p>}

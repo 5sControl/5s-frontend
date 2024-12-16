@@ -1,26 +1,25 @@
-import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
-import { getSelectedCameras, findCamera, deleteCameraAPI } from '../../api/cameraRequest';
-import { getProcess } from '../../api/algorithmRequest';
-import { parsingAlgorithmName } from '../../utils/parsingAlgorithmName';
-import { DeleteRedIcon, Plus } from '../../assets/svg/SVGcomponent';
-import { Notification } from '../../components/notification/notification';
+import { getSelectedCameras, findCamera, deleteCameraAPI } from "../../api/cameraRequest";
+import { getProcess } from "../../api/algorithmRequest";
+import { parsingAlgorithmName } from "../../utils/parsingAlgorithmName";
+import { DeleteRedIcon, Plus } from "../../assets/svg/SVGcomponent";
+import { Notification } from "../../components/notification/notification";
 
-import styles from './camera.module.scss';
-import './cameras.scss';
-import { ConfirmationModal } from '../../components/confirmationModal/confirmationModal';
-import Fab from '../../components/fab/Fab';
-import { IonContent, IonListHeader, IonPage, useIonViewWillEnter } from '@ionic/react';
-import { Header } from '../../components/header/Header';
-import { ROUTES } from '../../shared/constants/routes';
-import { useTranslation } from 'react-i18next';
-import { Preloader } from '../../components/preloader/preloader';
-import { useHistory } from 'react-router';
-import { SelectItem } from '../../models/types/selectItem';
+import styles from "./camera.module.scss";
+import "./cameras.scss";
+import { ConfirmationModal } from "../../components/confirmationModal/confirmationModal";
+import Fab from "../../components/fab/Fab";
+import { IonContent, IonListHeader, IonPage, useIonViewWillEnter } from "@ionic/react";
+import { Header } from "../../components/header/Header";
+import { ROUTES } from "../../shared/constants/routes";
+import { useTranslation } from "react-i18next";
+import { Preloader } from "../../components/preloader/preloader";
+import { useHistory } from "react-router";
 
 const Cameras = () => {
-  const [cookies] = useCookies(['token']);
+  const [cookies] = useCookies(["token"]);
   const [createdCameras, setCreatedCameras] = useState<any>([]);
   const [error, setError] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -31,50 +30,50 @@ const Cameras = () => {
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const history = useHistory();
-  const [cameraToDelete, setCameraToDelete] = useState('');
+  const [cameraToDelete, setCameraToDelete] = useState("");
 
   useIonViewWillEnter(() => {
-      // if (!cameraSelect) {
-      getProcess(window.location.hostname, cookies.token)
-        .then((response) => {
-          if (response && response.data && response.data.length > 0) {
-            setProcessList(response.data);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    // if (!cameraSelect) {
+    getProcess(window.location.hostname, cookies.token)
+      .then(response => {
+        if (response && response.data && response.data.length > 0) {
+          setProcessList(response.data);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
     // }
   });
 
   useEffect(() => {
     getSelectedCameras(window.location.hostname, cookies.token)
-      .then((response) => {
+      .then(response => {
         if (response.data.length > 0) {
           setCreatedCameras(response.data.sort((a, b) => a.name.localeCompare(b.name)));
         }
       })
-      .catch((error) => setError(error.message));
+      .catch(error => setError(error.message));
   }, [isDeleteModal, cameraSelect]);
 
-  const deleteCamera = (camera) => {
+  const deleteCamera = camera => {
     setCameraToDelete(camera);
     setIsDeleteModal(true);
   };
 
   const onDeleteConfirm = () => {
     deleteCameraAPI(window.location.hostname, cookies.token, cameraToDelete)
-      .then((response) => {
+      .then(response => {
         if (response.status === 200) {
           setIsDeleteModal(false);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
 
-  const handleClickCamera = (el) => {
+  const handleClickCamera = el => {
     setIsCreateCamera(false);
     setCameraSelect(el);
     history.push(ROUTES.CAMERA_EDIT(el.id));
@@ -98,9 +97,9 @@ const Cameras = () => {
         />
         <IonContent>
         {loading ? (
-            <div className="preloader">
-                <Preloader />
-            </div>
+          <div className="preloader">
+            <Preloader />
+          </div>
         ) : (
             <>
         <div className='ion-padding'>
@@ -110,9 +109,6 @@ const Cameras = () => {
             <div>
               {t("camera.monitoring")}
             </div>
-        </div>
-       
-        <Fab icon={Plus} handleFabClick={handleFabClick} />
 
       {createdCameras && (
         <div className={styles.cameras__list}>
@@ -166,6 +162,7 @@ const Cameras = () => {
       )}
     </IonContent>
   </IonPage>
+
   );
 };
 

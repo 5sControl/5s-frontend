@@ -1,6 +1,6 @@
 {
   "lang": "en",
-  "menu" : {
+  "menu": {
     "ordersView": "Orders View",
     "configuration": "Configuration",
     "dataConfiguration": "Data Configuration",
@@ -14,183 +14,185 @@
     "users": "Employees",
     "cameras": "Camera Settings"
   },
-   "config": {
-     "title": "Configuration",
-     "erp": "ERP Connections"
-   },
-   "messages": {
-     "noDatabases": "No databases available",
-     "noReports": "Unable to find the requested report",
-     "used": "Used in Orders View",
-     "connected": "Connected",
-     "disconnected": "Disconnected",
-     "unableToSave": "Unable to save",
-     "disconectFromERP": "Disconnect from ERP?",
-     "disconectDescription": "Disconnecting from database will result in inability to view orders in Orders View.",
-     "incorrectCredentials": "Incorrect email or password. Please, try again.",
-     "orderName": "Create order name and try again",
-     "validDate": "Please set a valid start date.",
-     "startTime": "The start time cannot be greater than the end time",
-     "finishDate": "The finish date cannot be earlier than the start date.",
-     "saveData": "Please save your data!",
-     "employeeNotFound": "Employee not found",
-     "validOrderNumber": "Please enter the number in the correct format",
-     "employeeExists": "This employee already exists"
-   },
-   "directory": {
-     "newDirectory": "New directory",
-     "newEntry": "New entry in",
-     "edit": "Edit",
-     "card": "Card",
-     "name": "Name",
-     "operations": {
-       "title": "Operations",
-       "newOperation": "New Operation",
-       "estimatedTime": "Estimated Time"
-     },
-     "items": {
-       "title": "Items",
-       "newItem": "New Item"
-     },
-     "employees": {
-       "title": "Employees",
-       "newEmployee": "New employee"
-     }
-   },
-   "timeUnit": {
+  "config": {
+    "title": "Configuration",
+    "erp": "ERP Connections"
+  },
+  "messages": {
+    "noDatabases": "No databases available",
+    "noReports": "Unable to find the requested report",
+    "noCameras": "Unable to find cameras for this operation",
+    "used": "Used in Orders View",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "unableToSave": "Unable to save",
+    "disconectFromERP": "Disconnect from ERP?",
+    "disconectDescription": "Disconnecting from database will result in inability to view orders in Orders View.",
+    "incorrectCredentials": "Incorrect email or password. Please, try again.",
+    "orderName": "Create order name and try again",
+    "validDate": "Please set a valid start date.",
+    "startTime": "The start time cannot be greater than the end time",
+    "finishDate": "The finish date cannot be earlier than the start date.",
+    "saveData": "Please save your data!",
+    "employeeNotFound": "Employee not found",
+    "validOrderNumber": "Please enter the number in the correct format",
+    "validLength": "Maximum text length reached",
+    "employeeExists": "This employee already exists"
+  },
+  "directory": {
+    "newDirectory": "New directory",
+    "newEntry": "New entry in",
+    "edit": "Edit",
+    "card": "Card",
+    "name": "Name",
+    "operations": {
+      "title": "Operations",
+      "newOperation": "New Operation",
+      "estimatedTime": "Estimated Time"
+    },
+    "items": {
+      "title": "Items",
+      "newItem": "New Item"
+    },
+    "employees": {
+      "title": "Employees",
+      "newEmployee": "New employee"
+    }
+  },
+  "timeUnit": {
     "title": "Time Unit",
     "hours": "Hours",
     "minutes": "Minutes",
     "selectTimeUnit": "Select Time Unit"
-   },
-   "text": {
-     "connection": "connection",
-     "select": "Select",
-     "usedInOrdersView": "Used in Orders View",
-     "connected": "Connected",
-     "database": "Database",
-     "no": "No",
-     "added": "you've added will appear here.",
-     "new": "New",
-     "time": "Planned Time",
-     "name": "name",
-     "ordersView": "Orders View",
-     "scheduled": "Show scheduled time",
-     "startTime": "Start time",
-     "datePlaceholder": "Select Date and Start Time",
-     "logout": "Log out",
-     "norecords": "No records",
-     "noOperations": "No Operations",
-     "finishedIn": "Finished in",
-     "startOfOperation": "Start of operation",
-     "endOfOperation": "End of operation",
-     "startNewOperation": "Start new operation"
-   },
-   "operations": {
-     "add": "Add",
-     "save": "Save",
-     "edit": "Edit",
-     "disconect": "Disconnect",
-     "cancel": "Cancel",
-     "search": "Search",
-     "done": "Done",
-     "delete": "Delete",
-     "submit": "Submit",
-     "start": "Start",
-     "finish": "Finish",
-     "saveChanges": "Save changes",
-     "download": "Download",
-     "share": "Share",
-     "print": "Print"
-   },
-   "db": {
-     "products": {
-       "button": "",
-       "title": "Products",
-       "singular": "product"
-     },
-     "productsCategory": {
-       "button": "Products",
-       "title": "Product Categories",
-       "singular": "product category"
-     },
-     "operations": {
-       "button": "Operations",
-       "title": "Operations",
-       "singular": "operation"
-     },
-     "employes": {
-       "button": "Employees",
-       "title": "Employees",
-       "singular": "employee"
-     },
-     "equipment": {
-       "button": "Equipment",
-       "title": "Equipment",
-       "singular": "equipment"
-     }
-   },
-   "newConnection": {
-     "title": "New connection",
-     "system": "ERP system",
-     "domain": "Domain",
-     "name": "Name",
-     "pwd": "Password",
-     "status": "Status"
-   },
-   "form": {
-     "name": "Name",
-     "date": "Date",
-     "duration": "Duration",
-     "namePlaceholder": "Enter a name",
-     "selectOperation": "Select Operation",
-     "selectOrderItem": "Select Order Item",
-     "auth": {
-       "signin": "Sign in to",
-       "login": "Username",
-       "loginPlaceholder": "Enter Username",
-       "pwdPlaceholder": "Enter Password",
-       "pwd": "Password",
-       "submit": "Log In"
-     },
-     "required": "This field is required",
-     "passwordLength": "Password must be at least 4 characters",
-     "selectWorkplace": "Select employee's workplace",
-     "invalidCharacters": "Invalid characters"
-   },
-   "orders": {
-     "order": "Order",
-     "orders": "Orders",
-     "newOrder": "New Order",
-     "newOperations": "New Operations",
-     "operations": "Operations",
-     "operation": "Operation",
-     "parts": "Parts",
-     "place": "Place",
-     "equipment": "Equipment",
-     "implementation": "Implementation",
-     "nameparts": "Name Parts",
-     "namepPlace": "Name Place",
-     "nameEquipment": "Name Equipment",
-     "number": "N",
-     "name": "Name",
-     "status": "Status",
-     "implementationTime": "Implementation Time",
-     "startOperation": "Start of Operation",
-     "operationTime": "Operation time:",
-     "finishOperation": "Finish of Operation",
-     "date": "Date",
-     "orderItems": "Order Items",
-     "orderItem": "Order Item",
-     "suffix": "Suffix",
-     "id": "Id",
-     "worker": "Worker",
-     "orderName": "Order Name",
-     "orderNumber": "Order Number",
-     "orderYear": "Order Year",
-     "startedAt": "Start Date",
-     "estimatedAt": "Estimated at",
-     "statusValues": {
+  },
+  "text": {
+    "connection": "connection",
+    "select": "Select",
+    "usedInOrdersView": "Used in Orders View",
+    "connected": "Connected",
+    "database": "Database",
+    "no": "No",
+    "added": "you've added will appear here.",
+    "new": "New",
+    "time": "Planned Time",
+    "name": "name",
+    "ordersView": "Orders View",
+    "scheduled": "Show scheduled time",
+    "startTime": "Start time",
+    "datePlaceholder": "Select Date and Start Time",
+    "logout": "Log out",
+    "norecords": "No records",
+    "noOperations": "No Operations",
+    "finishedIn": "Finished in",
+    "startOfOperation": "Start of operation",
+    "endOfOperation": "End of operation",
+    "startNewOperation": "Start new operation"
+  },
+  "operations": {
+    "add": "Add",
+    "save": "Save",
+    "edit": "Edit",
+    "disconect": "Disconnect",
+    "cancel": "Cancel",
+    "search": "Search",
+    "done": "Done",
+    "delete": "Delete",
+    "submit": "Submit",
+    "start": "Start",
+    "finish": "Finish",
+    "saveChanges": "Save changes",
+    "download": "Download",
+    "share": "Share",
+    "print": "Print"
+  },
+  "db": {
+    "products": {
+      "button": "",
+      "title": "Products",
+      "singular": "product"
+    },
+    "productsCategory": {
+      "button": "Products",
+      "title": "Product Categories",
+      "singular": "product category"
+    },
+    "operations": {
+      "button": "Operations",
+      "title": "Operations",
+      "singular": "operation"
+    },
+    "employes": {
+      "button": "Employees",
+      "title": "Employees",
+      "singular": "employee"
+    },
+    "equipment": {
+      "button": "Equipment",
+      "title": "Equipment",
+      "singular": "equipment"
+    }
+  },
+  "newConnection": {
+    "title": "New connection",
+    "system": "ERP system",
+    "domain": "Domain",
+    "name": "Name",
+    "pwd": "Password",
+    "status": "Status"
+  },
+  "form": {
+    "name": "Name",
+    "date": "Date",
+    "duration": "Duration",
+    "namePlaceholder": "Enter a name",
+    "selectOperation": "Select Operation",
+    "selectOrderItem": "Select Order Item",
+    "auth": {
+      "signin": "Sign in to",
+      "login": "Username",
+      "loginPlaceholder": "Enter Username",
+      "pwdPlaceholder": "Enter Password",
+      "pwd": "Password",
+      "submit": "Log In"
+    },
+    "required": "This field is required",
+    "passwordLength": "Password must be at least 4 characters",
+    "selectWorkplace": "Select employee's workplace",
+    "invalidCharacters": "Invalid characters"
+  },
+  "orders": {
+    "order": "Order",
+    "orders": "Orders",
+    "newOrder": "New Order",
+    "newOperations": "New Operations",
+    "operations": "Operations",
+    "operation": "Operation",
+    "parts": "Parts",
+    "place": "Place",
+    "equipment": "Equipment",
+    "implementation": "Implementation",
+    "nameparts": "Name Parts",
+    "namepPlace": "Name Place",
+    "nameEquipment": "Name Equipment",
+    "number": "N",
+    "name": "Name",
+    "status": "Status",
+    "implementationTime": "Implementation Time",
+    "startOperation": "Start of Operation",
+    "operationTime": "Operation time:",
+    "finishOperation": "Finish of Operation",
+    "date": "Date",
+    "orderItems": "Order Items",
+    "orderItem": "Order Item",
+    "suffix": "Suffix",
+    "id": "Id",
+    "worker": "Worker",
+    "orderName": "Order Name",
+    "orderNumber": "Order Number",
+    "orderYear": "Order Year",
+    "startedAt": "Start Date",
+    "estimatedAt": "Estimated at",
+    "statusValues": {
       "pending": "Not started",
       "inProgress": "In progress",
       "done": "Done"
@@ -200,46 +202,50 @@
     "time": "Time",
     "surname": "Surname",
     "finishOrder": "Finish order"
-   },
-   "time": {
-     "day": "d",
-     "week": "w",
-     "hour": "h",
-     "min": "min"
-   },
-   "reports": {
-     "report": "Report",
-     "fullReport": "Full report",
-     "individualReports": "Individual Reports",
-     "orderDetails": "Order details",
-     "startDate": "Report start date",
-     "endDate": "Report end date"
-   },
-   "ordersView": {
-     "orderSearch": "Order Search",
-     "settings": "Settings",
-     "workday": "Work day",
-     "erp": "Used ERP",
-     "displayedOperations": "Displayed operations"
-   },
-   "users": {
-     "username": "Username",
-     "fullName": "Full name",
-     "firstName": "First name",
-     "lastName": "Last name",
-     "password": "Password",
-     "role": "Role",
-     "workplace": "Workplace",
-     "dateJoined": "Date joined"
-   },
-   "scanner": {
-     "start": "Start scanning",
-     "stop": "End scanning"
-   },
-   "workplace": {
-      "assign": "Assign workplace"
-   },
-   "camera": {
+  },
+  "time": {
+    "day": "d",
+    "week": "w",
+    "hour": "h",
+    "min": "min"
+  },
+  "reports": {
+    "report": "Report",
+    "fullReport": "Full report",
+    "individualReports": "Individual Reports",
+    "orderDetails": "Order details",
+    "startDate": "Report start date",
+    "endDate": "Report end date"
+  },
+  "ordersView": {
+    "orderSearch": "Order Search",
+    "settings": "Settings",
+    "workday": "Work day",
+    "erp": "Used ERP",
+    "displayedOperations": "Displayed operations"
+  },
+  "users": {
+    "username": "Username",
+    "fullName": "Full name",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "password": "Password",
+    "role": "Role",
+    "workplace": "Workplace",
+    "dateJoined": "Date joined"
+  },
+  "scanner": {
+    "start": "Start scanning",
+    "stop": "End scanning"
+  },
+  "camera": {
+    "one": "Camera",
+    "many": "Cameras"
+  },
+  "workplace": {
+    "assign": "Assign workplace"
+  },
+  "camera": {
     "title": "Camera",
     "plural": "Cameras",
     "configuration": "Configuration",
@@ -286,4 +292,3 @@
     }
   }
 }
- 
