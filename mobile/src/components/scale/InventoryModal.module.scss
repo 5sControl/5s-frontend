@@ -1,6 +1,3 @@
-// @import '../../../styles/media.scss';
-// @import '../../../styles/fonts.scss';
-
 .hide_modal {
   visibility: hidden;
 }
@@ -406,9 +403,6 @@
     }
   }
   .no_info_for_suppliers {
-    span {
-      // @include body1;
-    }
 
     .no_info_link {
       color: var(--Orange);

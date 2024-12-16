@@ -18,6 +18,7 @@ import { TOAST_DELAY } from "../../../constants/toastDelay";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedWorkplace } from "../../../store/workpaceSlice";
 import "../../../styles/common.scss";
+import { isInvalidText } from "../../../utils/isInvalidText";
 
 const AddUser = () => {
   const { t } = useTranslation();
@@ -30,13 +31,19 @@ const AddUser = () => {
   const [customRole, setCustomRole] = useState(false);
   const [highlightRequired, setHighlightRequired] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const roles = Object.values(ROLE).map(role => ({
-    id: role,
-    label: role,
-    value: role
-}));
+  const roles = Object.values(ROLE)
+    .filter(role => !(getUserRole() === ROLE.ADMIN && role === ROLE.SUPERUSER))
+    .map(role => ({
+        id: role,
+        label: role,
+        value: role
+    }));
   const { selectedWorkplace } = useSelector((state: any) => state.workplace);
   const minPasswordLength = 4;
+
+  function getUserRole () {
+    return localStorage.getItem("userRole");
+  };
 
   const navigateBack = () => {
     history.push(ROUTES.USERS, { direction: "back" });
@@ -66,7 +73,8 @@ const AddUser = () => {
   };
 
   const openModal = () => {
-    if (!user.first_name || !user.last_name || user.password.length < minPasswordLength || !selectedWorkplace) {
+    if (!user.first_name || !user.last_name || user.password.length < minPasswordLength || !selectedWorkplace 
+      || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
       setHighlightRequired(true);
       return;
     }
@@ -102,17 +110,19 @@ const AddUser = () => {
                     value={user?.last_name || ""} 
                     required 
                     handleChange={event => setUser({ ...user, last_name: event.target.value })}
-                    state={highlightRequired && !user.last_name ? "error" : "neutral" }
-                    errorMessage={t("form.required")}
-                    maxLength={30}/>
+                    state={highlightRequired && (!user.last_name || isInvalidText(user.last_name)) ? "error" : "neutral" }
+                    errorMessage={isInvalidText(user.last_name) ? t("form.invalidCharacters") : t("form.required")}
+                    maxLength={30}
+                    type="text"/>
                 <Input 
                     label={t("users.firstName")} 
                     value={user?.first_name || ""} 
                     required 
                     handleChange={event => setUser({ ...user, first_name: event.target.value })}
-                    state={highlightRequired && !user.first_name ? "error" : "neutral" }
-                    errorMessage={t("form.required")}
-                    maxLength={30}/>
+                    state={highlightRequired && (!user.first_name || isInvalidText(user.first_name)) ? "error" : "neutral" }
+                    errorMessage={isInvalidText(user.first_name) ? t("form.invalidCharacters") : t("form.required")}
+                    maxLength={30}
+                    type="text"/>
                 
                 <Input 
                     label={t("users.password")} 
@@ -123,8 +133,12 @@ const AddUser = () => {
                     state={highlightRequired && user.password.length < minPasswordLength ? "error" : "neutral" }
                     errorMessage={t("form.passwordLength")}/>
                 
-                <IonList inset={true} className={highlightRequired && !selectedWorkplace ? "errorListButton" : ""}>
-                    <MenuListButton title={selectedWorkplace?.name || t("users.workplace")} handleItemClick={navigateWorkplaceClick}/>
+                <IonList inset={true}>
+                    <MenuListButton 
+                      title={selectedWorkplace?.name || t("users.workplace")} 
+                      handleItemClick={navigateWorkplaceClick}
+                      state={highlightRequired && !selectedWorkplace ? "error" : "neutral"}
+                      errorMessage={t("form.selectWorkplace")}/>
                 </IonList>
 
                 <Select value={!customRole ? t("users.role") : user.role} placeholder={!customRole ? t("users.role") : user.role} selectList={roles} handleChange={event => {

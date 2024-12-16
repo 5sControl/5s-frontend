@@ -156,7 +156,9 @@
       "submit": "Log In"
     },
     "required": "This field is required",
-    "passwordLength": "Password must be at least 4 characters"
+    "passwordLength": "Password must be at least 4 characters",
+    "selectWorkplace": "Select employee's workplace",
+    "invalidCharacters": "Invalid characters"
   },
   "orders": {
     "order": "Order",
@@ -239,5 +241,8 @@
   "camera": {
     "one": "Camera",
     "many": "Cameras"
+  },
+  "workplace": {
+    "assign": "Assign workplace"
   }
 }

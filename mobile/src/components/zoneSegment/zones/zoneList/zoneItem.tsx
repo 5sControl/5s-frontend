@@ -1,6 +1,5 @@
 import { ArrowDown, DeleteWhite } from '../../../../assets/svg/SVGcomponent';
 import { Input } from '../../../inputs/input/Input';
-import Button from '../../../button/button'
 import styles from '../zones.module.scss';
 import { useEffect, useState } from 'react';
 import Select from '../../../selects/select/Select';
