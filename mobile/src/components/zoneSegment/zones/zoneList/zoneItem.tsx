@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Select from '../../../selects/select/Select';
 import { DeleteButton } from '../../../deleteButton/DeleteButton';
 import { IonButton } from '@ionic/react';
+import { useTranslation } from 'react-i18next';
 
 const Item = ({
   workplaceList,
@@ -24,6 +25,7 @@ const Item = ({
 }) => {
   const [isShow, setIsShow] = useState(isOpen);
   const [value, setValue] = useState(workplaceComboBox);
+  const {t} = useTranslation();
 
   const comboboxHandler = (value) => {
     if (value?.detail){
@@ -45,7 +47,7 @@ const Item = ({
   useEffect(() => {
     if (isOpen) {
       setCurrentZoneId(-1);
-      setItemName(`Zone ${numberOfZones + 1}`);
+      setItemName(`${t("camera.zone")} ${numberOfZones + 1}`);
     }
   }, [isOpen]);
 
@@ -59,9 +61,9 @@ const Item = ({
     <div className={styles.item}>
       <div className={styles.zona}>
         <div className={styles.zona__left}>
-          <span className={styles.zona__name}>Name: {name}</span>
+          <span className={styles.zona__name}>{t("camera.name")}: {name}</span>
           <span className={styles.zona__workplace}>
-            Workplace: {workplace?.operationName || zona.workplace}
+             {t("camera.workplace")}: {workplace?.operationName || zona.workplace}
           </span>
         </div>
         <span className={styles.zona__right} onClick={showHandler}>
@@ -72,25 +74,25 @@ const Item = ({
       {isShow && currentZoneId === zona.id && (
         <div className={styles.item__edit}>
             <Input
-              label="Name"
+              label={t("camera.name")}
               required
               value={itemName}
               handleChange={(e) => setItemName(e.target.value)}
-              placeholder={'Enter zone name'}
+              placeholder={t("camera.zoneSegment.namePlaceholder")}
             />
               <Select 
-                label="Controlled workplace"
+                label={t("camera.workplace")}
                 value={value || zona.workplace} 
-                placeholder={value || 'Select or enter'} 
+                placeholder={value || t("camera.zoneSegment.select")} 
                 selectList={workplaceList} 
                 handleChange={(value) => comboboxHandler(value)}
               />
-          <p className={styles.item__description}>Select one or more areas on the left.</p>
+          <p className={styles.item__description}>{t("camera.zoneSegment.selectAreas")}</p>
           <div className={styles.item__footer}>
             <IonButton onClick={currentZoneId === -1 ? () => setCurrentZoneId(-2) : () => deleteZone(currentZoneId)} color="danger">Delete</IonButton>
             <div className={styles.item__footer_control}>
-              <IonButton onClick={() => setCurrentZoneId(-2)} type="reset" fill="outline">Cancel</IonButton>
-              <IonButton onClick={saveZone} type="submit">Save</IonButton>
+              <IonButton onClick={() => setCurrentZoneId(-2)} type="reset" fill="outline">{t("operations.cancel")}</IonButton>
+              <IonButton onClick={saveZone} type="submit">{t("operations.save")}</IonButton>
             </div>
           </div>
         </div>

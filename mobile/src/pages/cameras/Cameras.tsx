@@ -93,7 +93,7 @@ const Cameras = () => {
   return (
     <IonPage>
         <Header
-        title="Конфигурация"
+        title={t("camera.configuration")}
         backButtonHref={ROUTES.MENU}
         />
         <IonContent>
@@ -105,10 +105,10 @@ const Cameras = () => {
             <>
         <div className='ion-padding'>
             <IonListHeader>
-                Камеры
+              {t("camera.plural")}
             </IonListHeader>
             <div>
-                Подключение к камерам в локальной сети для непрерывного мониторинга.
+              {t("camera.monitoring")}
             </div>
         </div>
        
@@ -123,12 +123,12 @@ const Cameras = () => {
                   <img
                     className={styles.cameras__list_image}
                     src={`${import.meta.env.VITE_API_BASE_URL}images/${el.id}/snapshot.jpg`}
-                    alt='Camera'
+                    alt={t("camera.title")}
                   />
                   <div>
-                    <div className={styles.cameras__name}>Name: {el.name}</div>
+                    <div className={styles.cameras__name}>{t("camera.name")}: {el.name}</div>
                     <div className={styles.cameras__desciption}>
-                      Algorithms:{' '}
+                    {t("camera.algorithms")}:{' '}
                       {processList
                         .filter((element: any) => element.camera.id === el.id)
                         .map((item: any, index, array) => (
@@ -139,7 +139,7 @@ const Cameras = () => {
                           </span>
                         ))}
                     </div>
-                    <div className={styles.cameras__desciption}>IP: {el.id}</div>
+                    <div className={styles.cameras__desciption}>{t("camera.ip")}: {el.id}</div>
                   </div>
                 </div>
                 <img
@@ -152,16 +152,16 @@ const Cameras = () => {
           })}
         </div>
       )}
-      {isNotificationAfterCreate && <Notification status={true} message={'Camera saved'} />}
+      {isNotificationAfterCreate && <Notification status={true} message={t("camera.saved")} />}
       {error && <div style={{ color: 'red', fontSize: '26px' }}>{error}</div>}
         <ConfirmationModal 
             type="danger" 
             isOpen={isDeleteModal} 
             onClose={() => setIsDeleteModal(false)} 
             onConfirm={onDeleteConfirm} 
-            title="Remove a camera?" 
-            confirmText="Remove"
-            cancelText="Cancel" />
+            title={t("camera.removeQuestion")} 
+            confirmText={t("operations.delete")}
+            cancelText={t("operations.cancel")}/>
       </>
       )}
     </IonContent>
