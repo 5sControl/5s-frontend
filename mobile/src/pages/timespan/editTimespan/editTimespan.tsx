@@ -1,25 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  IonButton,
-  IonContent,
-  IonDatetime,
-  IonLabel,
-  IonModal,
-  IonToast,
-  IonPage,
-  IonList,
-  useIonViewWillEnter,
-} from "@ionic/react";
+import { IonButton, IonContent, IonLabel, IonToast, IonPage, IonList, useIonViewWillEnter } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
 import InputDate from "../../../components/inputs/inputDate/inputDate";
 import {
-  formatDateUTC,
   getTimeDifference,
   mergeDateAndTime,
   formatYMD,
   getCurrentDateTimeISO,
-  extractTime,
   updateTimeInDate,
   formatDate,
   formatISOBeforeSend,
@@ -36,8 +24,8 @@ import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonl
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import TimePicker from "../../../components/timePickerInput/timePickerInput";
 import TimeSelector from "../../../components/timeSelector/TimeSelector";
+import { Camera } from "../../../assets/svg/SVGcomponent";
 const RADIX = 10;
 
 const EditTimespan: React.FC = () => {
@@ -74,7 +62,8 @@ const EditTimespan: React.FC = () => {
       setWorker(timespanWorker || "");
       setStatus(timespanStatus || "");
       timespanId && TIMESPAN_REQUEST.getTimespan(parseInt(timespanId, RADIX), setTimespan, setLoading, setToastMessage);
-  }});
+    }
+  });
 
   useEffect(() => {
     if (timespan) {
@@ -167,23 +156,19 @@ const EditTimespan: React.FC = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-  //     event.preventDefault();
-  //   };
-  //   window.addEventListener("beforeunload", handleBeforeUnload);
-
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleBeforeUnload);
-  //   };
-  // }, []);
-
   return (
     <IonPage>
       <Header
         title={t("orders.implementationTime")}
         backButtonHref={ROUTES.ORDER_ITEM(String(orderId), String(itemId))}
         onBackClick={backClick}
+        endButton={
+          <img
+            src={Camera}
+            alt="camera"
+            onClick={() => history.push(ROUTES.ORDER_TIMESPAN_CAMERAS(orderId, itemId, operationId, timespanId))}
+          />
+        }
       />
       <IonContent>
         {isLoading ? (

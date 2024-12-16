@@ -21,6 +21,7 @@
   "messages": {
     "noDatabases": "Brak dostępnych baz danych",
     "noReports": "Nie można znaleźć żądanego raportu",
+    "noCameras": "Nie można znaleźć kamer dla tej operacji",
     "used": "Używane w widoku zamówień",
     "connected": "Połączono",
     "disconnected": "Rozłączono",
@@ -35,6 +36,7 @@
     "saveData": "Proszę zapisać swoje dane!",
     "employeeNotFound": "Pracownik nie został znaleziony",
     "validOrderNumber": "Proszę wprowadzić numer w poprawnym formacie",
+    "validLength": "Osiągnięto maksymalną długość tekstu",
     "employeeExists": "Pracownik o tym samym nazwisku już istnieje"
   },
   "directory": {
@@ -235,6 +237,10 @@
   "scanner": {
     "start": "Rozpocznij skanowanie",
     "stop": "Zakończ skanowanie"
+  },
+  "camera": {
+    "one": "Aparat",
+    "many": "Aparaty"
   },
   "workplace": {
     "assign": "Przydziel miejsce pracy"

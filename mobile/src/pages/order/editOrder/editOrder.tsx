@@ -84,6 +84,9 @@ const EditOrder: React.FC = () => {
               value={orderName}
               required
               handleChange={e => setOrderName(e.detail.value!)}
+              maxLength={50}
+              state={orderName.length === 50 ? "error" : "neutral"}
+              errorMessage={t("messages.validLength")}
             />
             <DateSelector
               label={t("orders.estimatedAt")}

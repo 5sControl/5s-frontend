@@ -1,9 +1,10 @@
 import { IonIcon, IonItem, IonLabel } from "@ionic/react";
+import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./menuListButton.module.scss"
 
 type MenuListButtonProps = {
-  title: string;
+  title: ReactNode;
   button?: boolean;
   account?: boolean;
   note?: string;
@@ -23,7 +24,7 @@ const MenuListButton = ({
   button = true,
   handleItemClick,
   state = "neutral",
-  errorMessage,
+  errorMessage
 }: MenuListButtonProps) => {
   const { t } = useTranslation();
 
