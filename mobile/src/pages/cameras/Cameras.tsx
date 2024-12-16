@@ -157,12 +157,13 @@ const Cameras = () => {
             onConfirm={onDeleteConfirm} 
             title={t("camera.removeQuestion")} 
             confirmText={t("operations.delete")}
-            cancelText={t("operations.cancel")}/>
-      </>
-      )}
-    </IonContent>
-  </IonPage>
-
+            cancelText={t("operations.cancel")}
+            />
+            </div>
+          </>
+        )}
+      </IonContent>
+    </IonPage>
   );
 };
 
