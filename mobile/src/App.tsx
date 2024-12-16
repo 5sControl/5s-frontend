@@ -83,6 +83,7 @@ import { CollectionItemDynamic } from "./pages/directories-dynamic/CollectionIte
 import { CollectionCreateDynamic } from "./pages/directories-dynamic/CollectionCreateDynamic";
 import { CollectionUpdateDynamic } from "./pages/directories-dynamic/CollectionUpdateDynamic";
 import OrderReport from "./pages/reports/orderReport/OrderReport";
+import TimespanCameras from "./pages/timespan/camera/TimespanCameras";
 
 setupIonicReact();
 
@@ -149,7 +150,7 @@ function App() {
               <Route exact path={ROUTES.ORDERSVIEW}>
                 <OrdersViewMobile />
               </Route>
-              <Route exact path={ROUTES.OPERATIONDETAIL(":id")}>
+              <Route exact path={ROUTES.OPERATIONDETAIL(":timespanId")}>
                 <OperationDetail />
               </Route>
 
@@ -250,6 +251,15 @@ function App() {
               </Route>
               <Route exact path={ROUTES.ORDER_TIMESPAN_EDIT(":orderId", ":itemId", ":operationId", ":timespanId")}>
                 <EditTimespan />
+              </Route>
+              <Route exact path={ROUTES.ORDER_TIMESPAN_CAMERAS(":orderId", ":itemId", ":operationId", ":timespanId")}>
+                <TimespanCameras />
+              </Route>
+              <Route
+                exact
+                path={ROUTES.ORDER_TIMESPAN_CAMERA(":orderId", ":itemId", ":operationId", ":timespanId", ":cameraId")}
+              >
+                <OperationDetail />
               </Route>
               <Route exact path={ROUTES.SCANNER_QR}>
                 <Scanner />

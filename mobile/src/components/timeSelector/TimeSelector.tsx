@@ -46,10 +46,12 @@ const TimeSelector = ({ time, modalRef, setTime }: TimeSelectorProps) => {
         <IonDatetime
           presentation="time"
           value={selectedTime}
-          onIonChange={e => setSelectedTime(e.detail.value as string)}
+          onIonChange={(e) => setSelectedTime(e.detail.value as string)}
         />
-        <IonButton onClick={handleSave}>{t("operations.save")}</IonButton>
-        <IonButton color="danger" fill="outline" onClick={handleCancel}>
+        <IonButton onClick={handleSave} style={{ margin: ".5rem", marginBottom: 0 }}>
+          {t("operations.save")}
+        </IonButton>
+        <IonButton color="danger" style={{ margin: ".5rem" }} fill="outline" onClick={handleCancel}>
           {t("operations.cancel")}
         </IonButton>{" "}
       </IonModal>

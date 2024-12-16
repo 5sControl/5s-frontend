@@ -51,6 +51,8 @@ export const ROUTES = {
   ORDER_OPERATION_ADD_REFERENCE: (orderId: string, itemId: string, operationId: string, refId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}/reference/${refId}`,
   ORDER_TIMESPAN: (orderId: string, itemId: string, operationId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}/timespan`,
   ORDER_TIMESPAN_EDIT: (orderId: string, itemId: string, operationId: string, timespanId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}/timespan/${timespanId}/edit`,
+  ORDER_TIMESPAN_CAMERAS: (orderId: string, itemId: string, operationId: string, timespanId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}/timespan/${timespanId}/cameras`,
+  ORDER_TIMESPAN_CAMERA: (orderId: string, itemId: string, operationId: string, timespanId: string, cameraId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}/timespan/${timespanId}/camera/${cameraId}`,
 
   REPORTS: `/reports`,
   REPORT_FULL: `/report`,

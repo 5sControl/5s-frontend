@@ -13,6 +13,7 @@ const Configuration = () => {
 
   const handleItemClick = () => {
     history.push("/configuration/directories");
+    // history.push(ROUTES.GENEREAL_DIRECTORIES);
   };
 
   return (
@@ -20,10 +21,7 @@ const Configuration = () => {
       <Header title={t("menu.dataConfiguration")} backButtonHref={ROUTES.MENU} />
       <IonContent>
         <IonList inset={true}>
-          <MenuListButton
-            title={t("menu.generalDirectories")}
-            handleItemClick={handleItemClick}
-          />
+          <MenuListButton title={t("menu.generalDirectories")} handleItemClick={handleItemClick} />
         </IonList>
       </IonContent>
     </IonPage>

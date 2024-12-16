@@ -37,6 +37,7 @@ import Tooltip from './tooltip.svg';
 import DeleteWhite from './deleteWhite.svg';
 import ArrowDown from './arrowDown.svg';
 import NoVideoBig from './noVideoBig.svg';
+import Camera from './camera.svg';
 
 export {
   AddCover,
@@ -77,5 +78,6 @@ export {
   Tooltip,
   DeleteWhite,
   ArrowDown,
-  NoVideoBig
+  NoVideoBig,
+  Camera
 };

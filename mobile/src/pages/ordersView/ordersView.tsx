@@ -91,7 +91,7 @@ export const OrdersView: React.FC = () => {
       })
       .catch(error => console.log(error))
       .finally(() => setOrderListLoading(false));
-  }
+  };
 
   const handleToggle = () => {
     setShowScheduled(prev => !prev);
