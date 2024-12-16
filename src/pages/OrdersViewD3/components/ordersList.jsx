@@ -10,7 +10,6 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate, re
   const [preloader, setPreloader] = useState(false);
 
   useEffect(() => {
-    console.log(reload);
     if (!reload) {
       setPreloader(true);
       getOrderViewOrderList(window.location.hostname, '', startDate, endDate)
@@ -23,7 +22,6 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate, re
     }
   }, [startDate, endDate, reload]);
 
-  console.log(data);
   return (
     <div className={styles.orders}>
       <h2>Orders ({data.length})</h2>
@@ -47,12 +45,13 @@ export const OrdersList = ({ setSelectOrder, selectOrder, startDate, endDate, re
                   String(item.orId).toLowerCase().includes(searchText.toLowerCase()) && (
                     <div
                       key={index}
-                      className={`${styles.orders__item} ${
-                        selectOrder === item.orId ? styles.select : ''
-                      }`}
-                      onClick={() => setSelectOrder(item.orId)}
+                      className={`${styles.orders__item} 
+                      ${selectOrder === item.orId ? styles.select : ''}`}
+                      onClick={() => {
+                        setSelectOrder(item.orId);
+                      }}
                     >
-                      {`№${item.orId}`}
+                      {`#${item.orId}`}
                       &nbsp;<span>{` (${convertMillisecondsToTime(item.duration)})`}</span>
                     </div>
                   )

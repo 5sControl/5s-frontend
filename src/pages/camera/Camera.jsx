@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
-import { getSelectedCameras } from '../../api/cameraRequest';
+import { getSelectedCameras, findCamera } from '../../api/cameraRequest';
 import { Button } from '../../components/button';
 import { CamerasDeleteModal } from './modal/delete/camerasDeleteModal';
 import { getProcess } from '../../api/algorithmRequest';
@@ -23,6 +23,7 @@ export const Camera = () => {
   const [cameraSelect, setCameraSelect] = useState(false);
   const [isCreateCamera, setIsCreateCamera] = useState(false);
   const [isNotificationAfterCreate, setIsNotificationAfterCreate] = useState(false);
+  const [findCameraList, setFindCameraList] = useState([]);
 
   useEffect(() => {
     if (!cameraSelect) {
@@ -42,13 +43,27 @@ export const Camera = () => {
     getSelectedCameras(window.location.hostname, cookies.token)
       .then((response) => {
         if (response.data.length > 0) {
-          setCreatedCameras(response.data);
+          setCreatedCameras(response.data.sort((a, b) => a.name.localeCompare(b.name)));
         }
       })
       .catch((error) => setError(error.message));
   }, [isDeleteModal, cameraSelect]);
 
   const showAddCameras = () => {
+    findCamera(window.location.hostname)
+      .then((response) => {
+        if (response.data && response.data.results) {
+          const allCameras = response.data.results;
+          const bufCreatedCameras = createdCameras.length > 0 ? createdCameras.map((e) => e.id) : [];
+          const resultCameras = allCameras.filter((value) => {
+            return !bufCreatedCameras.includes(value);
+          });
+          setFindCameraList(resultCameras);
+        } else {
+          setFindCameraList([]);
+        }
+      })
+      .catch((error) => console.log(error.message));
     setIsCreateCamera(true);
     setCameraSelect(true);
   };
@@ -71,7 +86,7 @@ export const Camera = () => {
   return (
     <section className={styles.cameras}>
       <Button
-        text="Add camera"
+        text='Add camera'
         className={s.buttonPosition}
         onClick={showAddCameras}
         IconLeft={Plus}
@@ -86,7 +101,7 @@ export const Camera = () => {
                   <img
                     className={styles.cameras__list_image}
                     src={`${process.env.REACT_APP_NGROK}images/${el.id}/snapshot.jpg`}
-                    alt="Camera"
+                    alt='Camera'
                   />
                   <div>
                     <div className={styles.cameras__name}>Name: {el.name}</div>
@@ -133,6 +148,7 @@ export const Camera = () => {
           isCreateCamera={isCreateCamera}
           camerasList={createdCameras}
           setIsNotificationAfterCreate={() => setIsNotificationAfterCreate(true)}
+          findCameraList={findCameraList}
         />
       )}
     </section>

@@ -3,14 +3,14 @@ export const convertMillisecondsToTime = (milliseconds: number): string => {
   const minutes = Math.floor(milliseconds / (1000 * 60)) % 60;
   const hours = Math.floor(milliseconds / (1000 * 60 * 60));
 
-  let timeString = '';
+  let timeString = "";
   if (hours > 0) {
     timeString += `${hours}:`;
   }
   if (minutes > 0) {
     timeString += `${minutes}:`;
   } else {
-    timeString += '0:';
+    timeString += "0:";
   }
   timeString += seconds < 10 ? `0${seconds}` : `${seconds}`;
 

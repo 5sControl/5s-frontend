@@ -11,13 +11,14 @@ import { Button } from '../../../components/button';
 import moment from 'moment';
 import { Input } from '../../../components/input';
 import { DropdownList } from 'react-widgets/cjs';
+import { capitalize } from 'lodash';
 
 export const AlgorithmList = ({ algorithm, token, processList, update }: any) => {
   const [isRemove, setIsRemove] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<any>(false);
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [usedIn, setUsedIn] = useState<string>('');
+  const [usedIn, setUsedIn] = useState<string>('Dashboard');
   const [imageName, setIMageName] = useState<string>(algorithm.image_name);
 
   const sendAlgorithm = () => {
@@ -31,7 +32,6 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
       .then((response) => {
         setIsEdit(false);
         update();
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -58,6 +58,7 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
       processList.filter((el: any) => el.algorithm.id === algorithm.id).length === 0
     ) {
       setName(algorithm.name);
+      setUsedIn(algorithm.used_in.toUpperCase());
       setIsEdit(algorithm);
     }
   };
@@ -72,14 +73,14 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
             </div>
             <div className={styles.remove__footer}>
               <Button
-                text="Cancel"
+                text='Cancel'
                 className={styles.button_cancel}
                 onClick={() => setIsRemove(false)}
               />
               <Button
                 className={styles.remove__footer_del}
-                text="Remove"
-                variant="contained"
+                text='Remove'
+                variant='contained'
                 onClick={deleteAlgorithm}
               />
             </div>
@@ -94,8 +95,8 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
               <h2>Algorithm settings</h2>
               <label>Name</label>
               <Input
-                type="text"
-                placeholder="Enter Name"
+                type='text'
+                placeholder='Enter Name'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 id={''}
@@ -107,16 +108,15 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className={styles.textarea}
-                placeholder="Enter Description"
+                placeholder='Enter Description'
               />
               <label>Image</label>
               <Input
-                type="text"
-                placeholder="Enter Image"
+                type='text'
+                placeholder='Enter Image'
                 className={styles.input}
                 value={imageName}
                 onChange={(e) => {
-                  console.log(e.currentTarget.value);
                   setIMageName(e.currentTarget.value);
                 }}
                 id={''}
@@ -124,21 +124,21 @@ export const AlgorithmList = ({ algorithm, token, processList, update }: any) =>
               />
               <label>Used in</label>
               <DropdownList
-                defaultValue={'Dashboard'}
-                data={['dashboard', 'inventory', 'orders_view']}
+                defaultValue={capitalize(usedIn) || ''}
+                data={['Dashboard', 'Inventory', 'Orders_view']}
                 className={styles.input}
                 onChange={(e) => setUsedIn(e.toLowerCase())}
               />
             </div>
             <div className={styles.modal__container_footer}>
               <Button
-                text="Cancel"
+                text='Cancel'
                 className={styles.button_cancel}
                 onClick={() => setIsEdit(false)}
               />
               <Button
-                text="Apply"
-                variant="contained"
+                text='Apply'
+                variant='contained'
                 onClick={sendAlgorithm}
                 disabled={name.length === 0}
               />

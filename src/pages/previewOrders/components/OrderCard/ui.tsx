@@ -28,7 +28,7 @@ export const OrderCard: React.FC<PropsType> = ({ data }) => {
           <div className={styles.header}>
             <div className={styles.titleWrapper}>
               <div className={styles.titleContent}>
-                <h2 className={styles.title}>{`Order №${data.orderId}`}</h2>
+                <h2 className={styles.title}>{`Order #${data.orderId}`}</h2>
                 {data.orderStatus && (
                   <StatusLable
                     title={data.orderStatus}

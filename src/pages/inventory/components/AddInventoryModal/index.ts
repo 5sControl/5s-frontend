@@ -1,1 +1,1 @@
-export { AddInventoryModal } from './AddInventoryModal';
+export { AddInventoryModal } from "./AddInventoryModal";

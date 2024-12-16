@@ -145,7 +145,6 @@ export const PreviewOrders: React.FC = () => {
       queryData['order-status'] = 'all';
     }
     let queryDateParam = getFilterDateQueryData(searchParams);
-    // console.log(filterData);
     if (queryDateParam.from && queryDateParam.to) {
       console.log('get query date');
     } else {
@@ -277,10 +276,10 @@ export const PreviewOrders: React.FC = () => {
               {activeTab === 'reports' && (
                 <>
                   <Button
-                    text="Filter"
+                    text='Filter'
                     IconLeft={Filter}
-                    type="button"
-                    variant="oval"
+                    type='button'
+                    variant='oval'
                     iconColor={
                       searchParams.get('order-status') ? 'var(--Orange)' : 'var(--HightEmphasis)'
                     }
@@ -292,8 +291,8 @@ export const PreviewOrders: React.FC = () => {
                       key={index}
                       text={`${name} ${value}`}
                       IconRight={Delete}
-                      type="button"
-                      variant="oval"
+                      type='button'
+                      variant='oval'
                       iconColor={'var(--MediumEmphasis)'}
                       onClick={onClick}
                     />

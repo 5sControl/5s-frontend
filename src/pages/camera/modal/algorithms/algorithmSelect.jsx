@@ -49,7 +49,7 @@ export const AlgorithmSelect = ({
 
     getCameraZones(window.location.hostname, cookie.token, cameraSelect.id)
       .then((res) => {
-        setWorkplace(res.data);
+        setWorkplace(res.data.sort((a, b) => a.name.localeCompare(b.name)));
       })
       .catch((err) => {
         console.log(err);
@@ -67,7 +67,6 @@ export const AlgorithmSelect = ({
             algoObj[el] = result[el];
           });
           setAlgoWorkzone({ ...algoObj });
-          console.log(algoObj);
         }
       });
     }
@@ -105,7 +104,7 @@ export const AlgorithmSelect = ({
   }, [algoWorkzone]);
 
   return (
-    <div className="cameras__settings_container">
+    <div className='cameras__settings_container'>
       <div className={styles.wrapper}>
         <div className={styles.algorithms}>
           <h1 className={styles.algorithms_title}>
@@ -120,7 +119,7 @@ export const AlgorithmSelect = ({
                   <label className={styles.algorithms_list_item}>
                     {parsingAlgorithmName(algorithm.name)}
                     <input
-                      type="checkbox"
+                      type='checkbox'
                       defaultChecked={algorithmsActive && algorithmsActive.includes(algorithm.name)}
                       onChange={() => checkboxHandler(algorithm.name)}
                       className={styles.checkbox}

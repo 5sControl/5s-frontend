@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
-import { setInventoryItem } from '../../inventoryAPI';
-import { AddInventoryDataResponse } from './types';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
+import { setInventoryItem } from "../../inventoryAPI";
+import { AddInventoryDataResponse } from "./types";
 
 interface addInventoryModalState {
   isLoadingAddData: boolean;
@@ -21,15 +21,23 @@ const initialState: addInventoryModalState = {
 };
 
 export const addItem = createAsyncThunk(
-  'addItem',
-  async (data: { token: string; hostname: string; body: AddInventoryDataResponse }) => {
-    const response = await setInventoryItem(data.hostname, data.token, data.body);
+  "addItem",
+  async (data: {
+    token: string;
+    hostname: string;
+    body: AddInventoryDataResponse;
+  }) => {
+    const response = await setInventoryItem(
+      data.hostname,
+      data.token,
+      data.body
+    );
     return response.data;
   }
 );
 
 const addInventoryModalSlice = createSlice({
-  name: 'addInventoryModal',
+  name: "addInventoryModal",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -47,5 +55,6 @@ const addInventoryModalSlice = createSlice({
   },
 });
 
-export const selectAddInventoryModal = (state: RootState) => state.addInventoryModal;
+export const selectAddInventoryModal = (state: RootState) =>
+  state.addInventoryModal;
 export default addInventoryModalSlice.reducer;

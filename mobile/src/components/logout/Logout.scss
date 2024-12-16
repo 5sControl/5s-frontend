@@ -1,0 +1,47 @@
+.logout {
+    display: flex;
+    align-items: center;
+    background: #FFF;
+    border-radius: 4px;
+    padding: 16px;
+    margin: 12px 16px;
+    justify-content: space-between;
+    border-radius: 4px;
+    height: 70px;
+
+    &_username{
+        font-size: 1rem;
+    }
+
+    &_text {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      font-feature-settings: 'clig' off, 'liga' off;
+      text-overflow: ellipsis;
+      font-style: normal;
+      font-weight: 600;
+      color: #000;
+    }
+    &_status_admin {
+      padding: 2px 6px;
+      border-radius: 2px;
+      background: #ffdbbe;
+      color:#FE6100;
+      margin-top: 3px;
+    }
+    &_status_worker{
+      padding: 2px 6px;
+      background: #dbd4e1;
+      border-radius: 2px;
+      color: #735b8a;
+      margin-top: 3px;
+    }
+    &_status_superuser {
+      margin-top: 3px;
+      padding: 2px 6px;
+      background: #b5f1b9;
+      border-radius: 2px;
+      color: #ad88cf;
+    }
+  }

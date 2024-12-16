@@ -99,12 +99,6 @@ export const Coordinates: React.FC<PropsType> = ({
   };
 
   useEffect(() => {
-    console.log(isMulti);
-    console.log(itemCount);
-    console.log(allBox);
-  }, [isMulti, itemCount, allBox]);
-
-  useEffect(() => {
     if (coordToScale.length > 0 && !isScale) {
       const proportionWidth = image.current.naturalWidth / image.current.width;
       const proportionHeight = image.current.naturalHeight / image.current.height;
@@ -220,7 +214,6 @@ export const Coordinates: React.FC<PropsType> = ({
       } as FourPointsNewCoordinates;
       setAllBox([...allBox, response]);
       setCoords([newCoords]);
-      console.log(newCoords);
     }
   }, [fourPointsCoordinates]);
 
@@ -265,8 +258,6 @@ export const Coordinates: React.FC<PropsType> = ({
           y2: bufHeight * proportionHeight + totalY * proportionHeight,
         });
         setCoords(sendCoord);
-        console.log('coords:');
-        console.log(sendCoord);
       }
     });
   };

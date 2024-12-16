@@ -56,7 +56,6 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   }, [fullImage]);
 
   const prevReport = () => {
-    console.log(currentIndex);
     const prevReport = inventoryHistoryData
       ? inventoryHistoryData[currentIndex - 1]
       : currentReport;
@@ -65,8 +64,6 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
   };
 
   const nextReport = () => {
-    console.log(currentIndex);
-    console.log(inventoryHistoryData);
     const nextReport = inventoryHistoryData
       ? inventoryHistoryData[currentIndex + 1]
       : currentReport;
@@ -97,7 +94,6 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
     };
   }, [handleClose]);
 
-  // console.log(operationStart, 'sdfsdf');
   return (
     <Modal
       isOpen={isOpen}
@@ -186,7 +182,7 @@ export const StockImageModal: React.FC<PropsType> = ({ isOpen, handleClose, curr
       {fullImage && (
         <>
           <div className={styles.fullimage}>
-            <img src={fullImage} alt="report img" className={styles.fullimage_image} />
+            <img src={fullImage} alt='report img' className={styles.fullimage_image} />
             <ZoomOut onClick={() => setFullImage(false)} className={styles.fullimage_out} />
           </div>
         </>

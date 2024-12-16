@@ -32,7 +32,6 @@ export const CompanyInfo: FC = () => {
         res.data.detail !== 'Authentication credentials were not provided.' &&
         res.data.detail !== 'Given token not valid for any token type'
       ) {
-        console.log(res.data);
         setUserList(res.data);
       }
     });
@@ -49,7 +48,7 @@ export const CompanyInfo: FC = () => {
 
   return (
     <>
-      <div className="company">
+      <div className='company'>
         {companyInfoForm && (
           <CompanyCard
             companyData={companyInfoForm[0]}
@@ -60,8 +59,8 @@ export const CompanyInfo: FC = () => {
         )}
 
         {companyInfo && Object.keys(companyInfo).length > 0 && isLicensed && (
-          <div className="company__name">
-            <h3>5ControlS</h3>
+          <div className='company__name'>
+            <h3>5S Control</h3>
             <br></br>
             <h4>Date joined: {moment(companyInfo.date_joined).format('DD-MM-YYYY')}</h4>
             <h4>company_active_count_cameras: {companyInfo.company_active_count_cameras}</h4>
@@ -77,11 +76,11 @@ export const CompanyInfo: FC = () => {
 
         <LicenseKey cookies={cookies.token} />
         <AvailableProcess />
-        <div className="company__accounts_tab">
+        <div className='company__accounts_tab'>
           <h2>Accounts</h2>
           <Button
-            className="company__add"
-            text="Add account"
+            className='company__add'
+            text='Add account'
             onClick={() => setIsAddAccount(true)}
             IconLeft={Plus}
           />

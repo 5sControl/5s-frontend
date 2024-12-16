@@ -1,4 +1,4 @@
-import { HistoryExtra, InventoryItem } from './types';
+import { HistoryExtra, InventoryItem } from "./types";
 
 export const getExtraOfActiveData = (
   extra: Array<HistoryExtra>,
@@ -13,8 +13,8 @@ export const getExtraOfActiveData = (
       count: 0,
       itemId: 0,
       low_stock_level: 0,
-      status: '',
-      image_item: '',
+      status: "",
+      image_item: "",
       isShow: false,
     }
   );

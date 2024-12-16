@@ -13,6 +13,7 @@ import { Preloader } from '../../components/preloader';
 import { AlgorithmList } from './components/algorithm.List';
 import { Modal } from '../../components/modal';
 import { Input } from '../../components/input';
+import { Notification } from '../../components/notification/notification';
 
 export const Algorithms = () => {
   const [cookies] = useCookies(['token']);
@@ -23,6 +24,7 @@ export const Algorithms = () => {
   const [image, setImage] = useState<string>('');
   const [process, setProcess] = useState<any[]>([]);
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [message, setMessage] = useState({status: false, message: ''});
 
   const sendAlgorithm = () => {
     postUploadAlgorithm(window.location.hostname, cookies.token, {
@@ -32,7 +34,8 @@ export const Algorithms = () => {
       description: description,
     }).then((response) => {
       setIsShowAddModal(false);
-      console.log(response);
+    }).catch((error) => {
+      setMessage({ status: false, message: 'Unable to save' });
     });
   };
 
@@ -40,7 +43,6 @@ export const Algorithms = () => {
     getAveilableAlgorithms(window.location.hostname, cookies.token)
       .then((response) => {
         setAlgorithmList(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         setAlgorithmList([]);
@@ -53,34 +55,43 @@ export const Algorithms = () => {
     });
   }, [isShowAddModal, isUpdate]);
 
+  useEffect(() => {
+    if (message) {
+      setTimeout(() => {
+        setMessage({status: false, message: ''});
+      }, 2000);
+    }
+  }, [message]);
+
   return (
     <div className={styles.wrapper}>
       {isShowAddModal && (
         <Modal className={styles.modal} isOpen={true} handleClose={() => setIsShowAddModal(false)}>
+          {message.message && <Notification status={message.status} message={message.message} />}
           <div className={styles.modal__container}>
             <div className={styles.modal__content}>
               <h2>Algorithm settings</h2>
               <label>Name</label>
               <Input
-                type="text"
-                placeholder="Enter Name"
+                type='text'
+                placeholder='Enter Name'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 id={''}
                 name={''}
                 className={styles.input}
               />
-              <label>Description (optional)0</label>
+              <label>Description (optional)</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className={styles.textarea}
-                placeholder="Enter Description"
+                placeholder='Enter Description'
               />
               <label>Image</label>
               <Input
-                type="text"
-                placeholder="Enter Image"
+                type='text'
+                placeholder='Enter Image'
                 className={styles.input}
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
@@ -90,13 +101,13 @@ export const Algorithms = () => {
             </div>
             <div className={styles.modal__container_footer}>
               <Button
-                text="Cancel"
+                text='Cancel'
                 className={styles.button_cancel}
                 onClick={() => setIsShowAddModal(false)}
               />
               <Button
-                text="Apply"
-                variant="contained"
+                text='Apply'
+                variant='contained'
                 onClick={sendAlgorithm}
                 disabled={name.length === 0 || image.length === 0}
               />
@@ -105,7 +116,7 @@ export const Algorithms = () => {
         </Modal>
       )}
       <Button
-        text="Add algorithm"
+        text='Add algorithm'
         className={s.buttonPosition}
         onClick={() => setIsShowAddModal(true)}
         IconLeft={Plus}

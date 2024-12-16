@@ -1,5 +1,5 @@
-import { OrderItem, ProductItem } from '../../storage/orderView';
-import { OrderRequest, OrderSkan } from '../../storage/orderViewCustomer';
+import { OrderItem, ProductItem } from "../../storage/orderView";
+import { OrderRequest, OrderSkan } from "../../storage/orderViewCustomer";
 
 export const parseOrdersData = (data: OrderRequest): OrderItem => {
   const previewData = {
@@ -42,15 +42,17 @@ export const parseOrdersData = (data: OrderRequest): OrderItem => {
 };
 
 export const setDateDot = (formatDate: string) => {
-  return formatDate.split('/').join('.');
+  return formatDate.split("/").join(".");
 };
 
 export const sortOperations = (productData: ProductItem) =>
   productData.operations.reduce((prev, curr, index, arr) => {
-    const dateToString = (date: string) => new Date(date).toLocaleDateString().split('/').join('.');
+    const dateToString = (date: string) =>
+      new Date(date).toLocaleDateString().split("/").join(".");
 
     const filter = arr.filter(
-      (el) => dateToString(el.operationTime) === dateToString(curr.operationTime)
+      (el) =>
+        dateToString(el.operationTime) === dateToString(curr.operationTime)
     );
 
     return {

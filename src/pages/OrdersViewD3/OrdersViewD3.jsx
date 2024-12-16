@@ -7,18 +7,18 @@ import { useAppSelector } from '../../store/hooks';
 import moment from 'moment';
 import {
   getFiltrationData,
-  getStatusData,
   getOrderViewOperations,
   patchFiltrationData,
-  patchStatusData,
 } from '../../api/orderView';
-import { getData } from '../../api/reportsRequest';
 import { useCookies } from 'react-cookie';
 import { getSelectedZone } from '../../api/cameraRequest';
 import { Modal } from '../../components/modal';
 import { Cross } from '../../assets/svg/SVGcomponent';
 import { Button } from '../../components/button';
 import { Checkbox } from '../../components/checkbox';
+import { SelectConnection } from './components/selectConnection';
+import { SelectParam } from './components/selectParam';
+import { TimePicker } from '../../components/timePicker/timePicker';
 
 export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const { filterDateData } = useAppSelector(selectOrdersList);
@@ -30,7 +30,36 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   const [preloader, setPreloader] = useState(false);
   const [cookies] = useCookies(['token']);
   const [workPlaceList, setWorkPlaceList] = useState([]);
-  const [defaultBaseType, setDefaultBaseType] = useState('');
+  const [changeConnectionHandler, setChangeConnectionHandler] = useState(false);
+  const [zoomParam, setZoomParam] = useState(1);
+  const [minDateTime, setMinDateTime] = useState('06:00');
+  const [maxDateTime, setMaxDateTime] = useState('20:00');
+  const minTimeIntervals = {
+    1: {
+      minTimeRange: 4,
+      timeUnits: 'hours',
+    },
+    2: {
+      minTimeRange: 2,
+      timeUnits: 'hours',
+    },
+    4: {
+      minTimeRange: 1,
+      timeUnits: 'hours',
+    },
+    8: {
+      minTimeRange: 30,
+      timeUnits: 'minutes',
+    },
+    16: {
+      minTimeRange: 15,
+      timeUnits: 'minutes',
+    },
+    32: {
+      minTimeRange: 8,
+      timeUnits: 'minutes',
+    },
+  };
 
   const changeHandler = (index) => {
     const workplaces = workPlaceList;
@@ -51,13 +80,6 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     setWorkPlaceList([...workplaces]);
   };
 
-  const changeSelectType = (type) => {
-    patchStatusData(window.location.hostname, cookies.token, { type: type }).then((response) => {
-      setDefaultBaseType(type);
-      setIsOpenFilter(false);
-    });
-  };
-
   const submitHandler = () => {
     patchFiltrationData(window.location.hostname, cookies.token, workPlaceList)
       .then((response) => {
@@ -72,17 +94,13 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
   }, [filterDateData]);
 
   useEffect(() => {
-    getStatusData(window.location.hostname, cookies.token).then((response) => {
-      setDefaultBaseType(response.data.type);
-    });
-
     getFiltrationData(window.location.hostname, cookies.token)
       .then((res) => {
         const response = res.data;
         setWorkPlaceList(response.sort((a, b) => a.operation_type_id - b.operation_type_id));
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [changeConnectionHandler]);
 
   useEffect(() => {
     if (startDate && endDate && !isOpenFilter) {
@@ -96,120 +114,69 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
             endDate
           );
           const dataToD3 = response.data;
-          const dates = [];
-          const currentDate = moment(startDate);
-          while (currentDate.isSameOrBefore(endDate)) {
-            dates.push(currentDate.format('YYYY-MM-DD'));
-            currentDate.add(1, 'day');
-          }
 
-          const dataPromises = dates.map((date) =>
-            getData(
-              window.location.hostname,
-              cookies.token,
-              date,
-              '06:00:00',
-              '20:00:00',
-              'machine_control'
-            )
-          );
+          // const newDataPromises = dataToD3.map(async (zone) => {
+          //   try {
+          //   const res = await getSelectedZone(
+          //     window.location.hostname,
+          //     cookies.token,
+          //     zone.zoneId
+          //   );
+          //   const oper = zone.oprs.reverse().map((operation, index, array) => ({
+          //     zoneId: operation.zoneId,
+          //     orId: operation.orId,
+          //     camera: operation.camera,
+          //     cameraName: operation.cameraName,
+          //     algorithm: operation.algorithm,
+          //     workplaceName: res?.data?.workplace ? res.data.workplace : '',
+          //     sTime: new Date(operation.eTime).valueOf(),
+          //     eTime:
+          //       index < array.length - 1
+          //         ? new Date(array[index + 1].sTime).valueOf()
+          //         : new Date(operation.eTime).valueOf(),
+          //   }));
+          //   return {
+          //     inverse: true,
+          //     oprName: zone.oprName,
+          //     oprTypeID: res?.data?.index_workplace ? res.data.index_workplace : '',
+          //     workplaceID: res?.data?.index_workplace ? res.data.index_workplace : '',
+          //     workplaceName: res?.data?.workplace ? res.data.workplace : '',
+          //     oprs: oper,
+          //   };
+          // } catch (error) {
+          //     if (error) {
+          //       const oper = zone.oprs.reverse().map((operation, index, array) => ({
+          //         zoneId: operation.zoneId,
+          //         orId: operation.orId,
+          //         camera: operation.camera,
+          //         cameraName: operation.cameraName,
+          //         algorithm: operation.algorithm,
+          //         workplaceName: '',
+          //         sTime: new Date(operation.eTime).valueOf(),
+          //         eTime:
+          //           index < array.length - 1
+          //             ? new Date(array[index + 1].sTime).valueOf()
+          //             : new Date(operation.eTime).valueOf(),
+          //       }));
+          //       return {
+          //         inverse: true,
+          //         oprName: zone.oprName,
+          //         oprTypeID: zone.oprTypeID,
+          //         workplaceID: '',
+          //         workplaceName: '',
+          //         oprs: oper,
+          //       };
+          //     } else {
+          //       console.error(error);
+          //       throw error;
+          //     }
+          //   }
+          // });
 
-          const responses = await Promise.all(dataPromises);
-          const data = responses.flatMap((response) =>
-            response.data
-              .filter((e) => e.extra?.zoneId)
-              .map((el) => ({
-                id: el.extra?.zoneId,
-                zoneId: el.extra?.zoneId,
-                zoneName: el.extra.zoneName,
-                sTime: el.start_tracking,
-                eTime: el.stop_tracking,
-                camera: el.camera?.id,
-                cameraName: el.camera?.name,
-                algorithm: el.algorithm?.name,
-              }))
-          );
-
-          const grouped = data.reduce((acc, obj) => {
-            const zoneName = obj.zoneName.trim();
-            if (acc[zoneName]) {
-              acc[zoneName].push(obj);
-            } else {
-              acc[zoneName] = [obj];
-            }
-            return acc;
-          }, {});
-
-          const answer = Object.entries(grouped).map(([zoneName, zoneData]) => ({
-            inverse: true,
-            oprName: zoneName,
-            oprs: zoneData,
-            zoneId: zoneData[0].zoneId,
-          }));
-
-          const newDataPromises = answer.map(async (zone) => {
-            try {
-              const res = await getSelectedZone(
-                window.location.hostname,
-                cookies.token,
-                zone.zoneId
-              );
-              const oper = zone.oprs.reverse().map((operation, index, array) => ({
-                zoneId: operation.zoneId,
-                orId: operation.orId,
-                camera: operation.camera,
-                cameraName: operation.cameraName,
-                algorithm: operation.algorithm,
-                workplaceName: res?.data?.workplace ? res.data.workplace : '',
-                sTime: new Date(operation.eTime).valueOf(),
-                eTime:
-                  index < array.length - 1
-                    ? new Date(array[index + 1].sTime).valueOf()
-                    : new Date(operation.eTime).valueOf(),
-              }));
-              return {
-                inverse: true,
-                oprName: zone.oprName,
-                oprTypeID: res?.data?.index_workplace ? res.data.index_workplace : '',
-                workplaceID: res?.data?.index_workplace ? res.data.index_workplace : '',
-                workplaceName: res?.data?.workplace ? res.data.workplace : '',
-                oprs: oper,
-              };
-            } catch (error) {
-              if (error) {
-                const oper = zone.oprs.reverse().map((operation, index, array) => ({
-                  zoneId: operation.zoneId,
-                  orId: operation.orId,
-                  camera: operation.camera,
-                  cameraName: operation.cameraName,
-                  algorithm: operation.algorithm,
-                  workplaceName: '',
-                  sTime: new Date(operation.eTime).valueOf(),
-                  eTime:
-                    index < array.length - 1
-                      ? new Date(array[index + 1].sTime).valueOf()
-                      : new Date(operation.eTime).valueOf(),
-                }));
-                return {
-                  inverse: true,
-                  oprName: zone.oprName,
-                  oprTypeID: zone.oprTypeID,
-                  workplaceID: '',
-                  workplaceName: '',
-                  oprs: oper,
-                };
-              } else {
-                console.error(error);
-                // Обработка других ошибок
-                throw error; // Перебросить ошибку для дальнейшей обработки
-              }
-            }
-          });
-
-          const newData = await Promise.all(newDataPromises);
+          // const newData = await Promise.all(newDataPromises);
           setPreloader(false);
           setData(dataToD3);
-          setMachineData(newData);
+          // setMachineData(newData);
         } catch (error) {
           console.log(error);
         }
@@ -218,12 +185,87 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
     }
   }, [endDate, startDate, isOpenFilter]);
 
+  const handleZoomParamChange = (value) => {
+    const newZoomParam = parseInt(value);
+    setZoomParam(newZoomParam);
+    if (
+      checkMinTimeLimit(minDateTime, newZoomParam) &&
+      checkMaxTimeLimit(maxDateTime, newZoomParam)
+    )
+      checkMinTimeInterval(minDateTime, maxDateTime, newZoomParam);
+  };
+
+  const checkMinTimeInterval = (startTime, endTime, param = zoomParam) => {
+    let { minTimeRange, timeUnits } = minTimeIntervals[param];
+    if (moment(endTime, 'HH:mm').diff(moment(startTime, 'HH:mm'), timeUnits) >= minTimeRange) {
+      return true;
+    } else {
+      setMinDateTime(startTime);
+      setMaxDateTime(moment(startTime, 'HH:mm').add(minTimeRange, timeUnits).format('HH:mm'));
+      return false;
+    }
+  };
+
+  const checkMinTimeLimit = (minTime, param = zoomParam) => {
+    let { minTimeRange, timeUnits } = minTimeIntervals[param];
+    if (moment('23:59', 'HH:mm').diff(moment(minTime, 'HH:mm'), timeUnits) >= minTimeRange)
+      return true;
+    else {
+      setMinDateTime(
+        moment('23:59', 'HH:mm')
+          .add(-1 * minTimeRange, timeUnits)
+          .format('HH:mm')
+      );
+      setMaxDateTime('23:59');
+    }
+  };
+
+  const checkMaxTimeLimit = (maxTime, param = zoomParam) => {
+    let { minTimeRange, timeUnits } = minTimeIntervals[param];
+    if (moment(maxTime, 'HH:mm').diff(moment('00:00', 'HH:mm'), timeUnits) >= minTimeRange)
+      return true;
+    else {
+      setMinDateTime('00:00');
+      setMaxDateTime(moment('00:00', 'HH:mm').add(minTimeRange, timeUnits).format('HH:mm'));
+    }
+  };
+
+  const handleMinDateTimeChange = (event) => {
+    const minTime = event.target.value;
+    if (checkMinTimeLimit(minTime) && checkMinTimeInterval(minTime, maxDateTime)) {
+      setMinDateTime(minTime);
+    }
+  };
+
+  const handleMaxDateTimeChange = (event) => {
+    const maxTime = event.target.value;
+    if (checkMaxTimeLimit(maxTime) && checkMinTimeInterval(minDateTime, maxTime)) {
+      setMaxDateTime(maxTime);
+    }
+  };
+
+  const scrollToBar = (orId) => {
+    if (orId) {
+      setZoomParam(32);
+      setTimeout(() => {
+        const timeline = document.querySelector('.verticalTimeline');
+        const barElement = timeline.querySelector(`[data-or-id='${orId}']`);
+        if (barElement) {
+          barElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
+    }
+  };
+
   return (
     <>
       {filterDateData && endDate && startDate && (
         <div className={styles.fullScreen}>
           <OrdersList
-            setSelectOrder={(order) => setSelectOrder(order)}
+            setSelectOrder={(order) => {
+              setSelectOrder(order);
+              scrollToBar(order)
+            }}
             selectOrder={selectOrder}
             startDate={startDate}
             endDate={endDate}
@@ -231,12 +273,41 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
           />
           <VerticalTimeline
             data={data}
-            minDate={new Date(`${startDate}T06:00:00.000`)}
-            maxDate={new Date(`${endDate}T20:00:00.000`)}
+            minDate={new Date(`${startDate}T${minDateTime}:00.000`)}
+            maxDate={new Date(`${endDate}T${maxDateTime}:00.000`)}
+            minTime={new Date(`${startDate}T${minDateTime}:00.000`)}
+            maxTime={new Date(`${startDate}T${maxDateTime}:00.000`)}
             selectOrder={selectOrder}
             preloader={preloader}
             machineData={machineData}
+            zoomParam={zoomParam}
           />
+          <div className={styles.paramInputs}>
+            <SelectParam
+              options={['1x', '2x', '4x', '8x', '16x', '32x']}
+              selectedValue={`${zoomParam}x`}
+              onChange={handleZoomParamChange}
+            />
+            <TimePicker
+              label='Start time'
+              id='minDateTime'
+              value={minDateTime}
+              onValueChange={handleMinDateTimeChange}
+            />
+            <TimePicker
+              label='End time'
+              id='maxDateTime'
+              value={maxDateTime}
+              onValueChange={handleMaxDateTimeChange}
+            />
+            <div className={styles.minIntervalInfo}>
+              *Minimum interval:
+              <br /> {minTimeIntervals[zoomParam].minTimeRange}{' '}
+              {minTimeIntervals[zoomParam].minTimeRange === 1
+                ? minTimeIntervals[zoomParam].timeUnits.slice(0, -1)
+                : minTimeIntervals[zoomParam].timeUnits}
+            </div>
+          </div>
         </div>
       )}
       {isOpenFilter && (
@@ -246,24 +317,10 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               <h2>Orders View settings</h2>
               <Cross onClick={setIsOpenFilter} className={styles.cross} />
             </header>
-            <div className={styles.select}>
-              <span
-                className={
-                  defaultBaseType === 'database' ? styles.select__active : styles.select__noActive
-                }
-                onClick={() => changeSelectType('database')}
-              >
-                Winkhaus
-              </span>
-              <span
-                className={
-                  defaultBaseType === 'api' ? styles.select__active : styles.select__noActive
-                }
-                onClick={() => changeSelectType('api')}
-              >
-                Odoo
-              </span>
-            </div>
+            <SelectConnection
+              closeFilter={() => setIsOpenFilter(false)}
+              changeHandler={setChangeConnectionHandler}
+            />
             <main className={styles.content}>
               <span className={styles.content__name}>Displayed operations</span>
               <ul className={styles.content__list}>
@@ -271,9 +328,9 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
                   return (
                     <li key={index}>
                       <Checkbox
-                        id={place.operation_type_id}
-                        name={`${place.name} (${place.operation_type_id})`}
-                        label={`${place.name} (${place.operation_type_id})`}
+                        id={index}
+                        name={place.name}
+                        label={place.name}
                         isChecked={place.is_active}
                         onChange={() => changeHandler(index)}
                       />
@@ -283,8 +340,8 @@ export const TimelineComponent = ({ setIsOpenFilter, isOpenFilter }) => {
               </ul>
             </main>
             <footer className={styles.footer}>
-              <Button text="Reset" variant="text" onClick={resetHandler} />
-              <Button text="Done" onClick={submitHandler} />
+              <Button text='Reset' variant='text' onClick={resetHandler} />
+              <Button text='Done' onClick={submitHandler} />
             </footer>
           </section>
         </Modal>

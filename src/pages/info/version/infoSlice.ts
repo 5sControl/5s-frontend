@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../../store';
-import { getCompanyVersionAPI } from './infoAPI';
-import { VersionInfoType } from './types';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../../store";
+import { getCompanyVersionAPI } from "./infoAPI";
+import { VersionInfoType } from "./types";
 
 interface InfoPageState {
   isLoadingCompanyVersions: boolean;
@@ -16,7 +16,7 @@ const initialState: InfoPageState = {
 };
 
 export const getCompanyVersionAsync = createAsyncThunk(
-  'getCompanyVersion',
+  "getCompanyVersion",
   async (data: { token: string; hostname: string }) => {
     const response = await getCompanyVersionAPI(data.hostname, data.token);
 
@@ -29,7 +29,7 @@ export const getCompanyVersionAsync = createAsyncThunk(
 );
 
 const infoPage = createSlice({
-  name: 'infoPage',
+  name: "infoPage",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

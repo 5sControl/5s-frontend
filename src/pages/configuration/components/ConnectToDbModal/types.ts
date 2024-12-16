@@ -1,4 +1,4 @@
-import { DatabaseInfo } from '../../types';
+import { DatabaseInfo } from "../../types";
 
 export type ConnectionToDatabaseForm = {
   type: string;
@@ -11,6 +11,6 @@ export type ConnectionToDatabaseForm = {
 
 export type ConnectResponse = {
   message: string;
-  success: boolean;
+  status: boolean;
   connection: DatabaseInfo;
 };

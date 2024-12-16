@@ -66,7 +66,7 @@ export const OrdersListElement: React.FC<PropsType> = ({
               })}
             </>
           ) : (
-            <>№{orderId}</>
+            <>#{orderId}</>
           )}
         </h5>
 

@@ -1,1 +1,1 @@
-export { DeleteInventoryModal } from './DeleteInventoryModal';
+export { DeleteInventoryModal } from "./DeleteInventoryModal";

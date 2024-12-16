@@ -1,49 +1,54 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
-import { disconnectDbAPI } from './disconnectDbModalAPI';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
+import { disconnectDbAPI } from "./disconnectDbModalAPI";
+import { DatabaseInfo } from "../../types";
 
-interface DisconnectResponse {
-  success: boolean;
-  message: string;
-}
+type DisconnectResponseStatus = number;
+
 interface ConnectToDbModalState {
-  isOpenDisconnectModal: boolean;
+  connectionToDisconnectData: DatabaseInfo | null;
   isLoadingDisconnectDb: boolean;
   errorLoadingDisconnectDb: boolean;
-  disconnectDbResponse: DisconnectResponse | null;
+  disconnectDbResponse: DisconnectResponseStatus | null;
 }
 
 const initialState: ConnectToDbModalState = {
-  isOpenDisconnectModal: false,
+  connectionToDisconnectData: null,
   disconnectDbResponse: null,
   isLoadingDisconnectDb: false,
   errorLoadingDisconnectDb: false,
 };
 
 export const disconnectDb = createAsyncThunk(
-  'disconnectDB',
+  "disconnectDB",
   async (data: { token: string; hostname: string; id: number }) => {
     const response = await disconnectDbAPI(data.hostname, data.token, data.id);
-    return response.data;
+    return response.status;
   }
 );
 
 const connectToDbModalSlice = createSlice({
-  name: 'disconnectDbModal',
+  name: "disconnectDbModal",
   initialState,
   reducers: {
-    setIsOpenDisconnectModal(state, action: PayloadAction<boolean>) {
-      state.isOpenDisconnectModal = action.payload;
+    setConnectionToDisconnectData(
+      state,
+      action: PayloadAction<DatabaseInfo | null>
+    ) {
+      state.connectionToDisconnectData = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(disconnectDb.pending, (state) => {
       state.isLoadingDisconnectDb = true;
     });
-    builder.addCase(disconnectDb.fulfilled, (state, action: PayloadAction<DisconnectResponse>) => {
-      state.isLoadingDisconnectDb = false;
-      state.disconnectDbResponse = action.payload;
-    });
+    builder.addCase(
+      disconnectDb.fulfilled,
+      (state, action: PayloadAction<DisconnectResponseStatus>) => {
+        state.isLoadingDisconnectDb = false;
+        state.disconnectDbResponse = action.payload;
+      }
+    );
     builder.addCase(disconnectDb.rejected, (state) => {
       state.isLoadingDisconnectDb = false;
       state.errorLoadingDisconnectDb = true;
@@ -51,6 +56,7 @@ const connectToDbModalSlice = createSlice({
   },
 });
 
-export const { setIsOpenDisconnectModal } = connectToDbModalSlice.actions;
-export const selectDisconnectDBModal = (state: RootState) => state.disconnectDBModal;
+export const { setConnectionToDisconnectData } = connectToDbModalSlice.actions;
+export const selectDisconnectDBModal = (state: RootState) =>
+  state.disconnectDBModal;
 export default connectToDbModalSlice.reducer;

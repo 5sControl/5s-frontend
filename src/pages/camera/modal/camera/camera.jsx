@@ -24,72 +24,72 @@ export const Camera = ({
   const [isModalChangePassword, setIsModalChangePassword] = useState(false);
   return (
     <>
-      <div className="cameras__settings_container">
-        <div className="cameras__settings_left">
-          <div className="cameras__settings_camera">
+      <div className='cameras__settings_container'>
+        <div className='cameras__settings_left'>
+          <div className='cameras__settings_camera'>
             <h6>Settings</h6>
             {isCreateCamera ? (
               <>
-                <div className="cameras__settings_inputs">
+                <div className='cameras__settings_inputs'>
                   <div>
-                    <label htmlFor="cameraName">Camera IP address</label>
+                    <label htmlFor='cameraName'>Camera IP address</label>
                     <Combobox
                       data={findCameraList}
-                      placeholder="Select or enter"
+                      placeholder='Select or enter'
                       hideEmptyPopup
                       value={cameraIP}
                       onChange={(value) => setCameraIP(value)}
                       onSelect={(value) => setCameraIP(value)}
-                      className="cameras__combobox"
+                      className='cameras__combobox'
                       selectIcon={<ArrowDown />}
                     />
                   </div>
                 </div>
-                <div className="cameras__settings_inputs">
+                <div className='cameras__settings_inputs'>
                   <div>
-                    <label htmlFor="cameraName">
+                    <label htmlFor='cameraName'>
                       Username
                       <TooltipCustom
-                        title="Username"
+                        title='Username'
                         text={
-                          'The IP cameras username is often a default value set by the manufacturer, such as "admin" or "root". You can usually find this information in the devices user manual or on the manufacturers website.'
+                          'The IP cameras username is often a default value set by the manufacturer, such as \'admin\' or \'root\'. You can usually find this information in the devices user manual or on the manufacturers website.'
                         }
                       />
                     </label>
                     <Input
-                      type="text"
+                      type='text'
                       value={userName}
-                      placeholder="Enter username"
+                      placeholder='Enter username'
                       onChange={(e) => setUserName(e.target.value)}
                     />
                   </div>
                   <div>
-                    <label htmlFor="cameraName">
+                    <label htmlFor='cameraName'>
                       Password
                       <TooltipCustom
-                        title="Password"
+                        title='Password'
                         text={
                           'The IP cameras password is typically set by the user during the initial setup process. If you have forgotten the password, you may be able to reset it by pressing and holding the reset button on the camera for a few seconds. However, this will also reset any other settings on the camera to their default values.'
                         }
                       />
                     </label>
                     <Input
-                      type="password"
+                      type='password'
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       showEye={true}
-                      placeholder="Enter password"
+                      placeholder='Enter password'
                     />
                   </div>
                 </div>
               </>
             ) : (
-              <div className="cameras__settings_inputs">
-                <div className="cameras__settings_inputs_connection">
+              <div className='cameras__settings_inputs'>
+                <div className='cameras__settings_inputs_connection'>
                   <h6>Connection</h6>
                   <h5>IP: {cameraIP}</h5>
                   <div
-                    className="cameras__settings_inputs_connection_edit"
+                    className='cameras__settings_inputs_connection_edit'
                     onClick={() => setIsModalChangePassword(true)}
                   >
                     Edit
@@ -97,15 +97,15 @@ export const Camera = ({
                 </div>
               </div>
             )}
-            <h6 className="sysSettings">System settings</h6>
-            <div className="cameras__settings_inputs">
+            <h6 className='sysSettings'>System settings</h6>
+            <div className='cameras__settings_inputs'>
               <div>
-                <label htmlFor="cameraName">Displayed name (optional)</label>
+                <label htmlFor='cameraName'>Displayed name (optional)</label>
                 <Input
-                  type="text"
+                  type='text'
                   value={cameraName}
                   onChange={(e) => setCameraName(e.target.value)}
-                  placeholder="Enter displayed name"
+                  placeholder='Enter displayed name'
                 />
               </div>
             </div>

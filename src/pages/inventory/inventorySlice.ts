@@ -1,16 +1,16 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../store';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../store";
 import {
   getEmailListForNotificationAPI,
   getInventoryItemHistory,
   getInventoryItems,
-} from './inventoryAPI';
-import { getSelectedCameras } from '../../api/cameraRequest';
-import { Camera, InventoryHistory, InventoryItem } from './types';
-import { getNotificationSettings } from '../../api/notificationRequest';
-import { getCompanyInfoForm } from '../../api/companyRequest';
-import { AxiosResponse } from 'axios';
-import { ContactInfoType } from '../company/types';
+} from "./inventoryAPI";
+import { getSelectedCameras } from "../../api/cameraRequest";
+import { Camera, InventoryHistory, InventoryItem } from "./types";
+import { getNotificationSettings } from "../../api/notificationRequest";
+import { getCompanyInfoForm } from "../../api/companyRequest";
+import { AxiosResponse } from "axios";
+import { ContactInfoType } from "../company/types";
 
 interface NotificationInfoType {
   to_emails: string[] | null;
@@ -55,13 +55,17 @@ const initialState: Inventory = {
     copy_emails: null,
     subject: null,
   },
-  currentName: '',
+  currentName: "",
 };
 
 export const getInventoryItemsAsync = createAsyncThunk(
-  'getInventoryItems',
+  "getInventoryItems",
   async (data: { token: string; hostname: string; isSort: boolean }) => {
-    const response: any = await getInventoryItems(data.hostname, data.token, data.isSort);
+    const response: any = await getInventoryItems(
+      data.hostname,
+      data.token,
+      data.isSort
+    );
     if (response.data) {
       return response.data;
     }
@@ -70,9 +74,17 @@ export const getInventoryItemsAsync = createAsyncThunk(
 );
 
 export const getInventoryItemHistoryAsync = createAsyncThunk(
-  'getInventoryHistory',
-  async (data: { token: string; hostname: string; params: { itemId: number; date: string } }) => {
-    const response: any = await getInventoryItemHistory(data.hostname, data.token, data.params);
+  "getInventoryHistory",
+  async (data: {
+    token: string;
+    hostname: string;
+    params: { itemId: number; date: string };
+  }) => {
+    const response: any = await getInventoryItemHistory(
+      data.hostname,
+      data.token,
+      data.params
+    );
     if (response.data) {
       return response.data;
     }
@@ -81,7 +93,7 @@ export const getInventoryItemHistoryAsync = createAsyncThunk(
 );
 
 export const getCamerasAsync = createAsyncThunk(
-  'getCameras',
+  "getCameras",
   async (data: { token: string; hostname: string }) => {
     const response = await getSelectedCameras(data.hostname, data.token);
     if (response.data) {
@@ -94,7 +106,7 @@ export const getCamerasAsync = createAsyncThunk(
 );
 
 export const getSMTPConnect = createAsyncThunk(
-  'getSMTPConnect',
+  "getSMTPConnect",
   async (data: { token: string; hostname: string }) => {
     const response = await getNotificationSettings(data.hostname, data.token);
     return !!(response.data && response.data.server);
@@ -102,15 +114,18 @@ export const getSMTPConnect = createAsyncThunk(
 );
 
 export const getEmailListForNotification = createAsyncThunk(
-  'getEmailListForNotification',
+  "getEmailListForNotification",
   async (data: { token: string; hostname: string }) => {
-    const response = await getEmailListForNotificationAPI(data.hostname, data.token);
+    const response = await getEmailListForNotificationAPI(
+      data.hostname,
+      data.token
+    );
     return response.data;
   }
 );
 
 export const getIsFullOwnCompanyInfo = createAsyncThunk(
-  'getIsFullOwnCompanyInfo',
+  "getIsFullOwnCompanyInfo",
   async (data: { token: string; hostname: string }) => {
     const response: AxiosResponse<ContactInfoType[]> = await getCompanyInfoForm(
       data.hostname,
@@ -131,7 +146,7 @@ export const getIsFullOwnCompanyInfo = createAsyncThunk(
 );
 
 const inventoryPage = createSlice({
-  name: 'inventory',
+  name: "inventory",
   initialState,
   reducers: {
     setIsOpenNotificationModal(state, action: PayloadAction<boolean>) {
@@ -190,7 +205,10 @@ const inventoryPage = createSlice({
   },
 });
 
-export const { setIsOpenNotificationModal, setNotificationInfo, setCurrentItemName } =
-  inventoryPage.actions;
+export const {
+  setIsOpenNotificationModal,
+  setNotificationInfo,
+  setCurrentItemName,
+} = inventoryPage.actions;
 export const selectInventory = (state: RootState) => state.inventory;
 export default inventoryPage.reducer;

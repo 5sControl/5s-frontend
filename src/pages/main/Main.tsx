@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Congratulations } from './components/firstScreen';
 import { getSelectedCameras } from '../../api/cameraRequest';
 import { useCookies } from 'react-cookie';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 export const Main = () => {
   const navigate = useNavigate();

@@ -31,7 +31,17 @@ body {
     background-color: #f5f5f5;
     overflow: auto;
     padding: 70px 30px 40px 30px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding: 0;
+    }
   }
+
+}
+
+.hidden {
+  display: none;
 }
 
 .swiper-pagination-fraction {
@@ -72,6 +82,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 10px 0;
 }
 .pointer {
   cursor: pointer;

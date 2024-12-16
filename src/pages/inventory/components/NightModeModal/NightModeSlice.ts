@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
-import { getNightTime, setNightTime } from '../../inventoryAPI';
-import { NightModeResponse } from './types';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
+import { getNightTime, setNightTime } from "../../inventoryAPI";
+import { NightModeResponse } from "./types";
 
 interface nightModalState {
   isOpenNightModal: boolean;
@@ -25,29 +25,37 @@ const initialState: nightModalState = {
 };
 
 export const nightTimeSet = createAsyncThunk(
-  'nightTime',
-  async (data: { token: string; hostname: string; bufTime: NightModeResponse }) => {
-    const response: any = await setNightTime(data.hostname, data.token, data.bufTime);
+  "nightTime",
+  async (data: {
+    token: string;
+    hostname: string;
+    bufTime: NightModeResponse;
+  }) => {
+    const response: any = await setNightTime(
+      data.hostname,
+      data.token,
+      data.bufTime
+    );
     if (response.status === 204) {
-      return { mesasge: 'Item deleted success' };
+      return { mesasge: "Item deleted success" };
     }
     return null;
   }
 );
 
 export const nightTimeGet = createAsyncThunk(
-  'nightTimeGet',
+  "nightTimeGet",
   async (data: { token: string; hostname: string }) => {
     const response: any = await getNightTime(data.hostname, data.token);
     if (response.status === 204) {
-      return { mesasge: 'Item deleted success' };
+      return { mesasge: "Item deleted success" };
     }
     return response.data[response.data.length - 1];
   }
 );
 
 const nightModalSlice = createSlice({
-  name: 'nightTimeModal',
+  name: "nightTimeModal",
   initialState,
   reducers: {
     setIsOpenNightModal(state, action: PayloadAction<boolean>) {
@@ -82,5 +90,6 @@ const nightModalSlice = createSlice({
 });
 
 export const { setIsOpenNightModal } = nightModalSlice.actions;
-export const selectNightInventoryModal = (state: RootState) => state.NightModeSlice;
+export const selectNightInventoryModal = (state: RootState) =>
+  state.NightModeSlice;
 export default nightModalSlice.reducer;

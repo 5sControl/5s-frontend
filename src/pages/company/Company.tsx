@@ -37,12 +37,12 @@ export const Company: FC<{ activeTab: number }> = ({ activeTab }) => {
   return (
     <>
       <HeaderMain title={'Company'}>
-        <section className="company__header">
+        <section className='company__header'>
           <Link
             className={`company__tab ${
               activeTab === 0 ? 'company__header_active' : 'company__header_noActive'
             }`}
-            to="/company"
+            to='/company'
           >
             <span>Company</span>
           </Link>
@@ -51,14 +51,14 @@ export const Company: FC<{ activeTab: number }> = ({ activeTab }) => {
               activeTab === 1 ? 'company__header_active' : 'company__header_noActive'
             }
             }`}
-            to="/company/contacts"
+            to='/company/contacts'
           >
             <span>Contacts</span>
           </Link>
         </section>
-        {/* <Button text="Log out" onClick={() => removeCookie('token')} /> */}
+        {/* <Button text='Log out' onClick={() => removeCookie('token')} /> */}
       </HeaderMain>
-      <div className="company">
+      <div className='company'>
         {activeTab === 0 && <CompanyInfo />}
         {activeTab === 1 && <Contacts />}
       </div>

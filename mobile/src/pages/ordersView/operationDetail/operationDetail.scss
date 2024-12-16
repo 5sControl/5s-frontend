@@ -1,0 +1,40 @@
+.titleWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+
+    .title {
+        color: var(--ion-color-light);
+        font-weight: 600;
+    }
+}
+
+.subtitle {
+    color: #9E9E9E;
+    margin: 10px 0;
+    &_value {
+        font-weight: 500;
+        color: var(--Orange);
+        cursor: pointer;
+    }
+}
+
+.videoWrapper {
+    height: 100%;
+    width: 100%;
+    background-color: #000;
+}
+
+.orderDetail {
+    position: absolute;
+    bottom: 56px;
+    width: 100%;
+}
+
+ion-toolbar.transparent{
+    --background: #00000000;
+}
+

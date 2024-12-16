@@ -1,4 +1,4 @@
-import { Coordinat } from '../../types';
+import { Coordinat } from "../../types";
 
 export interface Camera {
   text: string;

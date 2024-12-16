@@ -2,18 +2,36 @@ import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import moment from 'moment';
 
-const Timeline = ({ minDate, maxDate }) => {
+const Timeline = ({ minDate, maxDate, minTime, maxTime, zoomParam }) => {
   const svgRef = useRef(null);
-
   function getDuration(milli) {
     let minutes = Math.floor(milli / 60000);
     let hours = Math.round(minutes / 60);
     let days = Math.round(hours / 24);
-    let size = days > 1 ? 400 : window.innerHeight - 190;
+    let size = days > 1 ? 400 : window.innerHeight - 188;
     return days * size;
   }
-  const days = moment(maxDate).diff(minDate, 'days');
-  const proportion = 1 - Math.abs((days * 10) / ((days + 1) * 24 - 10));
+
+  function calcTimeInterval(d3) {
+    switch (zoomParam) {
+      case 1:
+        return d3.timeHour.every(1);
+      case 2:
+        return d3.timeMinute.every(30);
+      case 4:
+        return d3.timeMinute.every(10);
+      case 8:
+      case 16:
+        return d3.timeMinute.every(5);
+      case 32:
+        return d3.timeMinute.every(1);
+    }
+  }
+  const days = moment(maxDate).diff(minDate, 'days') + 1;
+  const minutes = moment(maxTime).diff(minTime, 'minutes');
+  const minDateTime = minTime.toISOString().split('T')[1];
+  const maxDateTime = maxTime.toISOString().split('T')[1];
+  const proportion = 1;
   useEffect(() => {
     const dateArray = [];
     const currentDate = new Date(minDate);
@@ -25,29 +43,38 @@ const Timeline = ({ minDate, maxDate }) => {
     // Определение размеров графика
     const margin = { top: 10, right: 20, bottom: 0, left: 60 };
     const width = 100 - margin.left - margin.right;
-    const height = getDuration(maxDate - minDate) * proportion;
+    const height = (minutes * 60 * zoomParam * days) / 32;
     // Создание шкалы времени для оси Y - первый диапазон
     const parseTime = d3.timeParse('%Y-%m-%dT%H:%M:%S');
 
     const svg = d3
       .select(svgRef.current)
       .attr('width', width + margin.left + margin.right)
-      .attr('height', height + (days + 1) * 18)
+      .attr('height', height + 2 * margin.top + days * 18)
       .append('g')
       .attr('transform', `translate(5,${margin.top})`);
 
     for (let i = 0; i < dateArray.length; i++) {
+      const tempMinDate = new Date(`${dateArray[i]}T${minDateTime}`);
+      const tempMaxdate = new Date(`${dateArray[i]}T${maxDateTime}`);
       const yScale1 = d3
         .scaleTime()
-        .domain([parseTime(`${dateArray[i]}T06:00:00`), parseTime(`${dateArray[i]}T20:00:00`)])
+        .domain([
+          tempMinDate.getDay() === tempMaxdate.getDay()
+            ? tempMinDate
+            : tempMinDate.setDate(tempMinDate.getDate() - 1),
+          tempMaxdate,
+          new Date(`${dateArray[i]}T${minDateTime}`),
+          new Date(`${dateArray[i]}T${maxDateTime}`),
+        ])
         .range([0, height / dateArray.length]);
 
       // Создание оси Y для первого диапазона
       const yAxis1 = d3
         .axisRight(yScale1)
-        .ticks(d3.timeHour.every(1))
+        .ticks(calcTimeInterval(d3))
         .tickFormat((date, index) => {
-          if (index === 0 || index === 14) {
+          if (index === 0) {
             return d3.timeFormat('%d.%m, %H:%M')(date);
           } else {
             return d3.timeFormat('%H:%M')(date);
@@ -74,7 +101,7 @@ const Timeline = ({ minDate, maxDate }) => {
     return () => {
       d3.select(svgRef.current).selectAll('*').remove();
     };
-  }, [maxDate, minDate, proportion]);
+  }, [maxDate, minDate, minTime, maxTime, proportion]);
 
   return <svg ref={svgRef}></svg>;
 };

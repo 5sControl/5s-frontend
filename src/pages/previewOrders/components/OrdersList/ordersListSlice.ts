@@ -1,15 +1,20 @@
-import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
-import { OrdersWithPagination } from '../../../../storage/orderView';
-import { OrderListByCustomer } from '../../../../storage/orderViewCustomer';
-import { RootState } from '../../../../store';
-import { getFilterOperationsAPI } from '../FilterBar/filterBarAPI';
-import { parseOrderData } from './orderListHelper';
-import { getOrdersAPI } from './ordersListAPI';
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+  SerializedError,
+} from "@reduxjs/toolkit";
+import { OrdersWithPagination } from "../../../../storage/orderView";
+import { OrderListByCustomer } from "../../../../storage/orderViewCustomer";
+import { RootState } from "../../../../store";
+import { getFilterOperationsAPI } from "../FilterBar/filterBarAPI";
+import { parseOrderData } from "./orderListHelper";
+import { getOrdersAPI } from "./ordersListAPI";
 
 export interface FilterDataType {
-  'order-status': string;
-  'operation-name': string[];
-  'operation-status': string[];
+  "order-status": string;
+  "operation-name": string[];
+  "operation-status": string[];
 }
 
 export interface FilterDateDataType {
@@ -51,9 +56,9 @@ const initialState: ReportState = {
 
   isShowOrdersViewFilter: false,
   filterData: {
-    'order-status': 'all',
-    'operation-name': [],
-    'operation-status': [],
+    "order-status": "all",
+    "operation-name": [],
+    "operation-status": [],
   },
   filterDateData: {
     from: startDateDefault,
@@ -66,7 +71,7 @@ const initialState: ReportState = {
 };
 
 export const getOrdersAsync = createAsyncThunk(
-  'getOrders',
+  "getOrders",
   async (data: {
     token: string;
     hostname: string;
@@ -80,7 +85,7 @@ export const getOrdersAsync = createAsyncThunk(
 );
 
 export const getFilterOperationsAsync = createAsyncThunk(
-  'getFilterOperations',
+  "getFilterOperations",
   async (data: { token: string; hostname: string }) => {
     const response = await getFilterOperationsAPI(data.hostname, data.token);
     if (response.data) {
@@ -91,7 +96,7 @@ export const getFilterOperationsAsync = createAsyncThunk(
 );
 
 const ordersList = createSlice({
-  name: 'ordersList',
+  name: "ordersList",
   initialState,
   reducers: {
     addActiveOrder(state, action: PayloadAction<string | null>) {
@@ -107,10 +112,15 @@ const ordersList = createSlice({
       state.isShowOrdersViewFilter = action.payload;
     },
     setOrderStatusFilterData(state, action: PayloadAction<string>) {
-      state.filterData['order-status'] = action.payload;
+      state.filterData["order-status"] = action.payload;
     },
-    setOperationsFilterData(state, action: PayloadAction<{ [key: string]: string }>) {
-      const key = Object.keys(action.payload)[0] as 'operation-name' | 'operation-status';
+    setOperationsFilterData(
+      state,
+      action: PayloadAction<{ [key: string]: string }>
+    ) {
+      const key = Object.keys(action.payload)[0] as
+        | "operation-name"
+        | "operation-status";
       const value = Object.values(action.payload)[0];
 
       if (state.filterData[key].includes(value)) {
@@ -124,10 +134,10 @@ const ordersList = createSlice({
       state.filterData = action.payload;
     },
     resetSelectFilterData(state, action) {
-      if (action.payload === 'order-status') {
+      if (action.payload === "order-status") {
         state.filterData = {
           ...state.filterData,
-          [action.payload]: 'all',
+          [action.payload]: "all",
         };
       } else {
         state.filterData = {
@@ -139,9 +149,9 @@ const ordersList = createSlice({
     resetAllFilterData(state) {
       state.filterData = {
         ...state.filterData,
-        'order-status': 'all',
-        'operation-name': [],
-        'operation-status': [],
+        "order-status": "all",
+        "operation-name": [],
+        "operation-status": [],
       };
     },
     setFilterDateData(state, action) {

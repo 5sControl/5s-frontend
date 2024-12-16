@@ -75,10 +75,10 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
   return (
     <>
       {timeLine.length > 1 && (
-        <section className="report-page_timeline">
-          <div className="timeline-clickable">
-            <span className="timeline-clickable__text"> {parsingAlgorithmName(algorithm)}</span>
-            <div className="timeline-clickable__container">
+        <section className='report-page_timeline'>
+          <div className='timeline-clickable'>
+            <span className='timeline-clickable__text'> {parsingAlgorithmName(algorithm)}</span>
+            <div className='timeline-clickable__container'>
               {timeLine.map((el, index, array) => (
                 <span
                   key={index}

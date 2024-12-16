@@ -12,7 +12,7 @@ export const Info: React.FC = () => {
   );
   return (
     <>
-      <HeaderMain title="5ControlS">
+      <HeaderMain title="5S Control">
         <section className={styles.tabs}>
           <Link
             to="/info/version"

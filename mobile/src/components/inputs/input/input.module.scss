@@ -1,0 +1,76 @@
+.input {
+  margin-top: .3rem;
+  border: var(--LowEmphasis) 1px solid;
+  border-radius: 4px;
+  padding: 0 0 0 12px !important;
+  background-color: #FFF;
+  transition: .3s all;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #fff inset; /* Цвет фона при автозаполнении */
+  -webkit-text-fill-color: #000 !important; /* Цвет текста при автозаполнении */
+}
+
+input:-internal-autofill-selected {
+  background-color: #fff !important;
+}
+
+.label {
+  width: 100%;
+}
+
+.label__bold {
+  width: 100%;
+  font-weight: 600;
+}
+
+.description {
+  font-weight: 300;
+  color: var(--MediumEmphasis);
+  text-transform: capitalize;
+}
+
+.footer {
+  margin-top: 0.2rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 300;
+
+  .errorMessage {
+    color: var(--Red);
+  }
+
+  .hint {
+    color: var(--MediumEmphasis);
+  }
+
+}
+
+.neutral {
+  border-color: var(--LowEmphasis);
+  transition: .3s all;
+}
+
+.focus {
+  border-color: var(--Orange);
+  background-color: #FFF;
+  transition: .3s all;
+}
+
+.error {
+  border-color: var(--StockRed);
+  color: var(--Red);
+  transition: .3s all;
+}
+
+.overflow {
+  overflow: visible;
+}
+

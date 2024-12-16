@@ -1,1 +1,1 @@
-export { Scale } from './ui';
+export { Scale } from "./ui";

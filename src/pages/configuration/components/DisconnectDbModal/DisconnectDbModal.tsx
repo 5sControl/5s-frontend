@@ -1,29 +1,43 @@
 import { Button } from '../../../../components/button';
 import { Modal } from '../../../../components/modal';
+import { DatabaseInfo } from '../../types';
 import styles from './disconnectDbModal.module.scss';
+import {
+  disconnectDb,
+  selectDisconnectDBModal,
+  setConnectionToDisconnectData,
+} from '../DisconnectDbModal/disconnectDbModalSlice';
+import { useAppDispatch } from '../../../../store/hooks';
+import { useCookies } from 'react-cookie';
 
 type PropsType = {
-  isOpen: boolean;
-  dbName: string;
+  connectionData: DatabaseInfo | null;
   handleClose: () => void;
-  handleConfirm: () => void;
 };
 
-export const DisconnectDbModal: React.FC<PropsType> = ({
-  isOpen,
-  dbName,
-  handleClose,
-  handleConfirm,
-}) => {
+export const DisconnectDbModal: React.FC<PropsType> = ({ connectionData, handleClose }) => {
+  const dispatch = useAppDispatch();
+  const [cookies] = useCookies(['token']);
+
+  const handleConfirm = () => {
+    dispatch(
+      disconnectDb({
+        token: cookies.token,
+        hostname: window.location.hostname,
+        id: connectionData?.id || 0,
+      })
+    );
+  };
+
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose} className={styles.modal}>
+    <Modal isOpen={!!connectionData} handleClose={handleClose} className={styles.modal}>
       <div className={styles.header}>
         <h2 className={styles.header_title}>Disconnect from database</h2>
       </div>
 
       <p className={styles.content}>
-        Are you sure you want to disconnect from the <b>{dbName}</b> database? All the information
-        about orders will become unavailable.
+        Are you sure you want to disconnect from the <b>{connectionData?.erp_system}</b> database?
+        All the information about orders will become unavailable.
       </p>
 
       <div className={styles.buttons}>

@@ -1,1 +1,1 @@
-export { ConnectToDbModal } from './ConnectToDbModal';
+export { ConnectionModal } from "./ConnectionModal";

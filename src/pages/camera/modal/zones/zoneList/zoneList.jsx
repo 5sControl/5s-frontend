@@ -4,6 +4,7 @@ import { Item } from './zoneItem';
 
 export const ZoneList = ({
   saveZone,
+  deleteZone,
   cameraZones,
   setItemName,
   itemName,
@@ -11,7 +12,6 @@ export const ZoneList = ({
   currentZoneId,
   setWorkplaceToSend,
   workplaceList,
-  updatingHandler,
   workplace,
   isNewZone,
   setIsNewZone,
@@ -24,7 +24,6 @@ export const ZoneList = ({
     setIsNewZone(true);
   };
 
-  console.log(isNewZone, currentZoneId);
   useEffect(() => {
     if (currentZoneId !== -1) {
       setIsNewZone(false);
@@ -41,31 +40,34 @@ export const ZoneList = ({
       </div>
 
       <div className={styles.list}>
-        {cameraZones.map((zona, index) => (
-          <Item
-            key={index}
-            workplaceList={workplaceList}
-            saveZone={saveZone}
-            name={zona.name}
-            workplace={
-              zona.workplace && workplaceList.length > 0
-                ? workplaceList.filter((item) => item.operationName === zona.workplace)[0]
-                : ''
-            }
-            setItemName={(name) => setItemName(name)}
-            itemName={itemName}
-            setCurrentZoneId={(id) => setCurrentZoneId(id)}
-            zona={zona}
-            currentZoneId={currentZoneId}
-            setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
-            updatingHandler={updatingHandler}
-            workplaceComboBox={workplace}
-          />
-        ))}
+        {[...cameraZones]
+          .sort((a, b) => (a.name > b.name ? 1 : -1))
+          .map((zona, index) => (
+            <Item
+              key={index}
+              workplaceList={workplaceList}
+              saveZone={saveZone}
+              deleteZone={deleteZone}
+              name={zona.name}
+              workplace={
+                zona.workplace && workplaceList.length > 0
+                  ? workplaceList.filter((item) => item.operationName === zona.workplace)[0]
+                  : ''
+              }
+              setItemName={(name) => setItemName(name)}
+              itemName={itemName}
+              setCurrentZoneId={(id) => setCurrentZoneId(id)}
+              zona={zona}
+              currentZoneId={currentZoneId}
+              setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
+              workplaceComboBox={workplace}
+            />
+          ))}
         {isNewZone && currentZoneId === -1 && (
           <Item
             workplaceList={workplaceList}
             saveZone={saveZone}
+            deleteZone={deleteZone}
             name={''}
             workplace={''}
             setItemName={(name) => setItemName(name)}
@@ -75,7 +77,7 @@ export const ZoneList = ({
             zona={{ id: -1 }}
             currentZoneId={currentZoneId}
             setWorkplaceToSend={(e) => setWorkplaceToSend(e)}
-            updatingHandler={updatingHandler}
+            numberOfZones={cameraZones.length}
           />
         )}
       </div>

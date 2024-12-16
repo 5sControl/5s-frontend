@@ -11,7 +11,7 @@ import {
   AIChat,
 } from '../../assets/svg/SVGcomponent';
 import { useEffect, useState } from 'react';
-import { getCompanySubsInfo, getUserList } from '../../api/companyRequest';
+import { getCompanySubsInfo, getUserInfo, getUserList } from '../../api/companyRequest';
 import { useCookies } from 'react-cookie';
 import { CompanyInfo } from './types';
 import './styles.scss';
@@ -52,14 +52,13 @@ export const LeftMenu = () => {
       document.title = 'Info';
     }
     if (window.location.pathname === '/') {
-      document.title = '5ControlS';
+      document.title = '5S Control';
     }
   });
 
   useEffect(() => {
     getCompanySubsInfo(window.location.hostname, cookies.token)
       .then((response) => {
-        console.log(response);
         setCompanyInfo(response.data);
       })
       .catch((error) => {
@@ -70,36 +69,40 @@ export const LeftMenu = () => {
       });
 
     const token: any = jwt(cookies.token.replace('JWT%220', ''));
-    getUserList(window.location.hostname, cookies.token).then((response: any) => {
-      if (token.user_id && response.data) {
-        setUser(response.data.find((user: any) => user.id === token.user_id));
+    getUserInfo(cookies.token)
+    .then((response: any) => {
+      if (response.data) {
+        setUser(response.data);
       }
+    })
+    .catch((error: any) => {
+      console.error('Error fetching user list:', error);
     });
   }, []);
 
   return (
-    <aside className="leftMenu">
+    <aside className='leftMenu'>
       <ul>
         <li
           className={window.location.pathname.includes('dashboard') ? 'activeMenu' : 'noActiveMenu'}
         >
-          <Link to="dashboard">
+          <Link to='dashboard'>
             <Dashboard />
             <span>Dashboard</span>
           </Link>
         </li>
-        {/* <li className={window.location.pathname.includes('live') ? 'activeMenu' : 'noActiveMenu'}>*/}
-        {/*  <Link to="live">*/}
-        {/*    <Live />*/}
-        {/*    <span>Live</span>*/}
-        {/*  </Link>*/}
-        {/* </li>*/}
+        <li className={window.location.pathname.includes('live') ? 'activeMenu' : 'noActiveMenu'}>
+         <Link to='live'>
+           <Live />
+           <span>Live</span>
+         </Link>
+        </li>
         <li
           className={
             window.location.pathname.includes('orders-view') ? 'activeMenu' : 'noActiveMenu'
           }
         >
-          <Link to="/orders-view">
+          <Link to='/orders-view'>
             <OrdersView />
             <span>Orders View</span>
           </Link>
@@ -107,7 +110,7 @@ export const LeftMenu = () => {
         <li
           className={window.location.pathname.includes('inventory') ? 'activeMenu' : 'noActiveMenu'}
         >
-          <Link to="/inventory">
+          <Link to='/inventory'>
             <Inventory />
             <span>Inventory</span>
           </Link>
@@ -115,7 +118,7 @@ export const LeftMenu = () => {
         <li
           className={window.location.pathname.includes('ai-chat') ? 'activeMenu' : 'noActiveMenu'}
         >
-          <Link to="/ai-chat?tab=chat">
+          <Link to='/ai-chat?tab=chat'>
             <AIChat />
             <span>AI Chat</span>
           </Link>
@@ -126,7 +129,7 @@ export const LeftMenu = () => {
             window.location.pathname.includes('configuration') ? 'activeMenu' : 'noActiveMenu'
           }
         >
-          <Link to="/configuration">
+          <Link to='/configuration'>
             <ConfigurationNew />
             <span>Configuration</span>
           </Link>
@@ -134,33 +137,29 @@ export const LeftMenu = () => {
         <li
           className={window.location.pathname.includes('company') ? 'activeMenu' : 'noActiveMenu'}
         >
-          <Link to="/company">
+          <Link to='/company'>
             <Company />
             <span>Company</span>
           </Link>
         </li>
         <li className={window.location.pathname.includes('info') ? 'activeMenu' : 'noActiveMenu'}>
-          <Link to="/info">
+          <Link to='/info'>
             <Info />
             <span>Info</span>
           </Link>
         </li>
         <hr></hr>
-        <div className="leftMenu__logout">
-          <div className="leftMenu__logout_svg" onClick={() => removeCookie('token')}>
+        <div className='leftMenu__logout'>
+          <div className='leftMenu__logout_svg' onClick={() => removeCookie('token')}>
             <Logout />
           </div>
           {user && (
-            <div className="leftMenu__logout_text">
+            <div className='leftMenu__logout_text'>
               <span>{user.username}</span>
               <span
-                className={
-                  user.status === 'owner'
-                    ? 'leftMenu__logout_statusOwner'
-                    : 'leftMenu__logout_statusWorker'
-                }
+                className={`leftMenu__logout_status_${user.role}`}
               >
-                {user.status}
+                {user.role}
               </span>
             </div>
           )}

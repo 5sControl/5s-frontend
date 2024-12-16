@@ -83,8 +83,8 @@ export const FilterBar: React.FC<PropsType> = ({
   };
 
   return (
-    <ReactPortal wrapperId="filter-container">
-      <div id="filter" className={styles.wrapper} onClick={handleClickToBg}>
+    <ReactPortal wrapperId='filter-container'>
+      <div id='filter' className={styles.wrapper} onClick={handleClickToBg}>
         <form className={`${styles.content} ${className}`} onSubmit={onSubmit}>
           <div className={styles.settings}>
             <div className={styles.header}>
@@ -133,7 +133,7 @@ export const FilterBar: React.FC<PropsType> = ({
                         <Checkbox
                           key={index}
                           id={index.toString()}
-                          name="operation-name"
+                          name='operation-name'
                           value={element}
                           label={element}
                           isChecked={filterData['operation-name'].includes(element)}
@@ -149,8 +149,8 @@ export const FilterBar: React.FC<PropsType> = ({
           <div className={styles.footer}>
             <p className={styles.footer_text}>{ordersList?.count} reports were found</p>
             <div className={styles.footer_buttons}>
-              <Button text="Reset" variant="text" onClick={handleResetFilters} />
-              <Button text="Apply" type="submit" />
+              <Button text='Reset' variant='text' onClick={handleResetFilters} />
+              <Button text='Apply' type='submit' />
             </div>
           </div>
         </form>

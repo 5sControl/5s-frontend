@@ -19,6 +19,7 @@ export const SettingsHub = ({
   isCreateCamera,
   camerasList,
   setIsNotificationAfterCreate,
+  findCameraList
 }) => {
   const [cameraName, setCameraName] = useState(cameraSelect.name ? cameraSelect.name : '');
   const [algorithmsActiveObject, setAlgorithmsActiveObject] = useState(false);
@@ -26,7 +27,6 @@ export const SettingsHub = ({
   const [informationToSend, setInformationToSend] = useState([]);
   const [isEnabled, setIsEnabled] = useState(true);
   const [operationID, setOperationID] = useState('');
-  const [findCameraList, setFindCameraList] = useState(false);
   const [cameraIP, setCameraIP] = useState(cameraSelect.id ? cameraSelect.id : '');
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -43,13 +43,11 @@ export const SettingsHub = ({
     }
   }, [cameraSelect, algorithmsActiveObject]);
   useEffect(() => {
-    console.log(algorithmsActive);
     if (algorithmsActive) {
       setCheckboxAlgo(Object.assign([], algorithmsActive));
     }
   }, [algorithmsActive]);
 
-  console.log(informationToSend);
   const applySettings = async () => {
     setIsPreloader(true);
     const response = {
@@ -84,7 +82,6 @@ export const SettingsHub = ({
         ];
       }
     }
-    console.log(response);
     await postAlgorithnDependences(window.location.hostname, token, response)
       .then(() => {
         setIsEnabled(false);
@@ -109,12 +106,10 @@ export const SettingsHub = ({
           algoObj[el] = result[el];
         });
         setAlgoWorkzone({ ...algoObj });
-        console.log(algoObj);
       }
     });
   }, []);
   useEffect(() => {
-    console.log('sdfsdfsdf');
     setInformationToSend(checkboxAlgo);
   }, [checkboxAlgo]);
 
@@ -166,31 +161,16 @@ export const SettingsHub = ({
       .catch((error) => {
         console.log(error);
       });
-
-    findCamera(window.location.hostname)
-      .then((response) => {
-        if (response.data && response.data.results) {
-          const allCameras = response.data.results;
-          const bufCreatedCameras = camerasList.length > 0 ? camerasList.map((e) => e.id) : [];
-          const resultCameras = allCameras.filter((value) => {
-            return !bufCreatedCameras.includes(value);
-          });
-          setFindCameraList(resultCameras);
-        } else {
-          setFindCameraList([]);
-        }
-      })
-      .catch((error) => console.log(error.message));
   }, []);
 
   return (
     <>
-      {algorithmsActiveObject && findCameraList ? (
+      {algorithmsActiveObject ? (
         <>
-          <div className="cameras__settings_container">
-            <section className="cameras__settings">
-              <div className="cameras__settings_modal">
-                <div className="cameras__settings_header">
+          <div className='cameras__settings_container'>
+            <section className='cameras__settings'>
+              <div className='cameras__settings_modal'>
+                <div className='cameras__settings_header'>
                   <h1>Camera Settings</h1>
                   <Tabs activeTab={activeTab} setActiveTab={(tab) => setActiveTab(tab)} />
                 </div>
@@ -231,30 +211,30 @@ export const SettingsHub = ({
                     setConfigAlgo={(e) => setConfigAlgo(e)}
                   />
                 )}
-                <div className="cameras__settings_buttons">
+                <div className='cameras__settings_buttons'>
                   <button
                     disabled={!isEnabled}
-                    className="cameras__button_cancel"
+                    className='cameras__button_cancel'
                     onClick={() => setIsCameraSettings(false)}
                   >
                     Cancel
                   </button>
-                  <button disabled={!isEnabled} className="cameras__button" onClick={applySettings}>
+                  <button disabled={!isEnabled} className='cameras__button' onClick={applySettings}>
                     Done
                   </button>
                 </div>
               </div>
             </section>
-            {isNotification && <Notification status={false} message="Camera not create" />}
+            {isNotification && <Notification status={false} message='Camera not create' />}
             {isPreloader && (
-              <div className="cameras__preloader" onClick={() => setIsCameraSettings(false)}>
+              <div className='cameras__preloader' onClick={() => setIsCameraSettings(false)}>
                 <Preloader />
               </div>
             )}
           </div>
         </>
       ) : (
-        <div className="cameras__preloader" onClick={() => setIsCameraSettings(false)}>
+        <div className='cameras__preloader' onClick={() => setIsCameraSettings(false)}>
           <Preloader />
         </div>
       )}

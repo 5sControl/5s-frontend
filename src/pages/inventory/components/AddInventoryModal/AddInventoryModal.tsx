@@ -71,8 +71,6 @@ export const AddInventoryModal: React.FC<PropsType> = ({
   }, [isSMTPServerConnect, isFullOwnCompanyInfo]);
 
   const submitHandler = () => {
-    console.log('set coords:');
-    console.log(coords);
     const dataForm = {
       name: itemName,
       low_stock_level: Number(itemCount),

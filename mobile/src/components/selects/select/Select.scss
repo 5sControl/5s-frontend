@@ -1,0 +1,18 @@
+.select__wrapper {
+  margin: .5rem 1rem;
+
+  ion-select {
+    transition: .3s;
+    margin-top: .5rem;
+    border: 1px solid transparent;
+  }
+
+  ion-select.select-expanded{
+    transition: .3s all;
+    border: 1px solid var(--Orange);  
+  }
+}
+
+ion-select::part(icon) {
+  margin-right: .5rem;
+}

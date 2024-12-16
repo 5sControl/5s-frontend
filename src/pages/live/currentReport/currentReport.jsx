@@ -65,7 +65,6 @@ export const CurrentReport = ({ camera }) => {
             eTime: new Date(currentReport.stop_tracking).valueOf(),
             video: res.data,
           };
-          // console.log(value);
           setOperationDataNew(value);
         } else {
           setOperationDataNew(false);
@@ -85,14 +84,12 @@ export const CurrentReport = ({ camera }) => {
                 {operationDataNew ? (
                   <>
                     <video
-                      id="videoPlayer"
-                      src={`${`${process.env.REACT_APP_NGROK}api/onvif/video?time=${
-                        operationDataNew.sTime
-                      }&camera_ip=${operationDataNew.cameraIP}#t=${
-                        operationDataNew.video.video_start_from
+                      id='videoPlayer'
+                      src={`${`${process.env.REACT_APP_NGROK}api/onvif/video?time=${operationDataNew.sTime
+                        }&camera_ip=${operationDataNew.cameraIP}#t=${operationDataNew.video.video_start_from
                           ? operationDataNew.video.video_start_from / 1000
                           : 0
-                      }`}`}
+                        }`}`}
                       controls
                       autoPlay
                       onEnded={() => arrowHandler('next')}
@@ -122,7 +119,7 @@ export const CurrentReport = ({ camera }) => {
           {camera !== 'camera' && (
             <div className={styles.report}>
               <video
-                id="videoPlayer"
+                id='videoPlayer'
                 src={`${process.env.REACT_APP_NGROK}api/onvif/stream?camera_ip=${camera}`}
                 controls
                 autoPlay
@@ -134,7 +131,7 @@ export const CurrentReport = ({ camera }) => {
       {fullImage && (
         <>
           <div className={styles.report__fullimage} onClick={() => setFullImage(false)}>
-            <img src={fullImage} alt="report img" className={styles.report__fullimage_image} />
+            <img src={fullImage} alt='report img' className={styles.report__fullimage_image} />
           </div>
         </>
       )}

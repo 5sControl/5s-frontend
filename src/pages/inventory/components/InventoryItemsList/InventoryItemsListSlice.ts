@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
-import { InventoryItem } from '../../types';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
+import { InventoryItem } from "../../types";
 
 interface ReportState {
   activeInventoryItem: null | InventoryItem;
@@ -11,7 +11,7 @@ const initialState: ReportState = {
 };
 
 const inventoryItemsList = createSlice({
-  name: 'inventoryItemList',
+  name: "inventoryItemList",
   initialState,
   reducers: {
     addActiveInventoryItem(state, action: PayloadAction<InventoryItem>) {
@@ -21,5 +21,6 @@ const inventoryItemsList = createSlice({
 });
 
 export const { addActiveInventoryItem } = inventoryItemsList.actions;
-export const selectActiveInventoryItem = (state: RootState) => state.activeInventoryItem;
+export const selectActiveInventoryItem = (state: RootState) =>
+  state.activeInventoryItem;
 export default inventoryItemsList.reducer;

@@ -1,0 +1,143 @@
+{
+ "menu" : {
+   "ordersView": "Orders View",
+   "configuration": "Configuration",
+   "dataConfiguration": "Data Configuration",
+   "directories": "Directories",
+   "generalDirectories": "General directories",
+   "accountSettings": "Account Settings",
+   "orders": "Orders",
+   "reports": "Reports"
+ },
+  "config": {
+    "title": "Configuration",
+    "erp": "ERP Connections"
+  },
+  "messages": {
+    "noDatabases": "No databases available",
+    "used": "Used in Orders View",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "unableToSave": "Unable to save",
+    "disconectFromERP": "Disconnect from ERP?",
+    "disconectDescription": "Disconnecting from database will result in inability to view orders in Orders View.",
+    "incorrectCredentials": "Incorrect email or password. Please, try again.",
+    "orderName": "Create order name and try again",
+    "validDate": "Please set a valid start date.",
+    "startTime": "The start time cannot be greater than the end time",
+    "finishDate": "The finish date cannot be earlier than the start date.",
+    "saveData": "Please save your data!"
+  },
+  "directory": {
+    "newDirectory": "New directory",
+    "newEntry": "New entry in",
+    "edit": "Edit",
+    "card": "Card",
+    "name": "Name"
+  },
+  "text": {
+    "connection": "connection",
+    "select": "Select",
+    "usedInOrdersView": "Used in Orders View",
+    "connected": "Connected",
+    "database": "Database",
+    "no": "No",
+    "added": "you've added will appear here.",
+    "new": "New",
+    "time": "Planned Time",
+    "name": "name",
+    "ordersView": "Orders View",
+    "scheduled": "Show scheduled time",
+    "startTime": "Start time",
+    "datePlaceholder": "Select Date and Start Time",
+    "logout": "Log out",
+    "norecords": "No records",
+    "noOperations": "No Operations"
+  },
+  "operations": {
+    "add": "Add",
+    "save": "Save",
+    "edit": "Edit",
+    "disconect": "Disconnect",
+    "cancel": "Cancel",
+    "search": "Search",
+    "done": "Done",
+    "delete": "Delete",
+    "submit": "Submit",
+    "start": "Start",
+    "finish": "Finish"
+  },
+  "db": {
+    "products": {
+      "button": "",
+      "title": "Products",
+      "singular": "product"
+    },
+    "productsCategory": {
+      "button": "Products",
+      "title": "Product Categories",
+      "singular": "product category"
+    },
+    "operations": {
+      "button": "Operations",
+      "title": "Operations",
+      "singular": "operation"
+    },
+    "employes": {
+      "button": "Employees",
+      "title": "Employees",
+      "singular": "employee"
+    },
+    "equipment": {
+      "button": "Equipment",
+      "title": "Equipment",
+      "singular": "equipment"
+    }
+  },
+  "newConnection": {
+    "title": "New connection",
+    "system": "ERP system",
+    "domain": "Domain",
+    "name": "Name",
+    "pwd": "Password",
+    "status": "Status"
+  },
+  "form": {
+    "name": "Name",
+    "date": "Date",
+    "duration": "Duration",
+    "namePlaceholder": "Enter a name",
+    "selectOperation": "Select Operation",
+    "auth": {
+      "signin": "Sign in to",
+      "login": "Username",
+      "loginPlaceholder": "Enter Username",
+      "pwdPlaceholder": "Enter Password",
+      "pwd": "Password",
+      "submit": "Log In",
+      "required": "This field is required"
+    }
+  },
+  "orders": {
+    "orders": "Orders",
+    "newOrder": "New Order",
+    "newOperations": "New Operations",
+    "operations": "Operations",
+    "operation": "Operation",
+    "parts": "Parts",
+    "place": "Place",
+    "equipment": "Equipment",
+    "implementation": "Implementation",
+    "nameparts": "Name Parts",
+    "namepPlace": "Name Place",
+    "nameEquipment": "Name Equipment",
+    "implementationTime": "Implementation Time",
+    "startOperation": "Start of Operation",
+    "operationTime": "Operation time:",
+    "finishOperation": "Finish of Operation"
+  },
+  "time": {
+    "hour": "h",
+    "min": "min"
+  }
+}

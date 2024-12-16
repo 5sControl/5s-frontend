@@ -1,0 +1,138 @@
+[
+    {
+        "name": "Can create order",
+        "codename": "create_order"
+    },
+    {
+        "name": "Can update order",
+        "codename": "update_order"
+    },
+    {   
+        "name": "Can view order",
+        "codename": "view_order" 
+    },
+    {
+        "name": "Can delete order",
+        "codename": "delete_order"
+    },
+    {
+        "name": "Can create order item",
+        "codename": "create_order_item"
+    },
+    {
+        "name": "Can update order item",
+        "codename": "update_order_item"
+    },
+    {
+        "name": "Can view order item",
+        "codename": "view_order_item"
+    },
+    {
+        "name": "Can delete order item",
+        "codename": "delete_order_item"
+    },
+    {
+        "name": "Can add order operation dynamic info",
+        "codename": "add_order_operation_dynamic_info"
+    },
+    {
+        "name": "Can delete order operation dynamic info",
+        "codename": "delete_order_operation_dynamic_info"
+    },
+    {
+        "name": "Can create order operation",
+        "codename": "create_order_operation"
+    },
+    {
+        "name": "Can update order operation",
+        "codename": "update_order_operation"
+    },
+    {
+        "name": "Can view order operation",
+        "codename": "view_order_operation"
+    },
+    {
+        "name": "Can delete order operation",
+        "codename": "delete_order_operation"
+    },
+    {
+        "name": "Can proccess qr code order operation",
+        "codename": "proccess_qr_code_order_operation"
+    },
+    {
+        "name": "Can create timespan order operation",
+        "codename": "create_timespan_order_operation"
+    },
+    {
+        "name": "Can update timespan order operation",
+        "codename": "update_timespan_order_operation"
+    },
+    {
+        "name": "Can view timespan order operation",
+        "codename": "view_timespan_order_operation"
+    },
+    {
+        "name": "Can create reference",
+        "codename": "create_reference"
+    },
+    {
+        "name": "Can update reference",
+        "codename": "update_reference"
+    },
+    {
+        "name": "Can view reference",
+        "codename": "view_reference"
+    },
+    {
+        "name": "Can delete reference",
+        "codename": "delete_reference"
+    },
+    {
+        "name": "Can create reference item",
+        "codename": "create_reference_item"
+    },
+    {
+        "name": "Can update reference item",
+        "codename": "update_reference_item"
+    },
+    {
+        "name": "Can view reference item",
+        "codename": "view_reference_item"
+    },
+    {
+        "name": "Can delete reference item",
+        "codename": "delete_reference_item"
+    },
+    {
+        "name": "Can view report",
+        "codename": "view_report"
+    },
+    {
+        "name": "Can add operation",
+        "codename": "add_operation"
+    },
+    {
+        "name": "Can update operation",
+        "codename": "update_operation"
+    },
+    {
+        "name": "Can view operation",
+        "codename": "view_operation"
+    },
+    {
+        "name": "Can add item",
+        "codename": "add_item"
+    },
+    {
+        "name": "Can update item",
+        "codename": "update_item"
+    },
+    {
+        "name": "Can view item",
+        "codename": "view_item"
+    },
+    {
+        "name": "Can view employee",
+        "codename": "view_employee"
+    }
+]

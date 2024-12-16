@@ -24,26 +24,33 @@ export const RoutesOutlet = () => {
   };
 
   useEffect(() => {
-    const socket = io(process.env.REACT_APP_NGROK, {
-      path: '/socket/onvif',
-      extraHeaders: {
-        'ngrok-skip-browser-warning': 'true',
-      },
-    });
-    socket.on('connect', function () {
-      console.log('Connected to the server');
-    });
+    if (process.env.REACT_APP_USE_SOCKETS === 'true') {
+      const socket = io(process.env.REACT_APP_NGROK, {
+        path: '/socket/onvif',
+        extraHeaders: {
+          'ngrok-skip-browser-warning': 'true',
+        },
+      });
 
-    socket.on('notification', function (msg) {
-      addNotification(msg);
-    });
+      socket.on('connect', function () {
+        console.log('Connected to the server');
+      });
+
+      socket.on('notification', function (msg) {
+        addNotification(msg);
+      });
+
+      return () => {
+        socket.disconnect();
+      };
+    }
   }, []);
 
   return (
     <>
-      <div className="window">
+      <div className='window'>
         <LeftMenu />
-        <section className="outlet">
+        <section className='outlet'>
           <Outlet />
         </section>
       </div>

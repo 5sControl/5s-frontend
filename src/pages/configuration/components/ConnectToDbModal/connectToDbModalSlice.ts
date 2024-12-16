@@ -1,10 +1,17 @@
-import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
-import { RootState } from '../../../../store';
-import { postConnectionWithDbAPI } from './connectToDbModalAPI';
-import { ConnectionToDatabaseForm, ConnectResponse } from './types';
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+  SerializedError,
+} from "@reduxjs/toolkit";
+import { RootState } from "../../../../store";
+import { postConnectionWithDbAPI } from "./connectToDbModalAPI";
+import { ConnectionToDatabaseForm, ConnectResponse } from "./types";
+import { DatabaseInfo } from "../../types";
 
 interface ConnectToDbModalState {
-  isOpenConnectToDbModal: boolean;
+  connectionType: string | null;
+  currentConnectionData: DatabaseInfo | null;
   isLoadingPostConnectionToDb: boolean;
   isErrorLoadingPostConnectionToDb: boolean;
   connectResponse: ConnectResponse | null;
@@ -12,7 +19,8 @@ interface ConnectToDbModalState {
 }
 
 const initialState: ConnectToDbModalState = {
-  isOpenConnectToDbModal: false,
+  connectionType: null,
+  currentConnectionData: null,
   isLoadingPostConnectionToDb: false,
   isErrorLoadingPostConnectionToDb: false,
   connectResponse: null,
@@ -20,20 +28,30 @@ const initialState: ConnectToDbModalState = {
 };
 
 export const createConnectionWithDB = createAsyncThunk(
-  'createConnectionWithDB',
+  "createConnectionWithDB",
   async (data: { token: string; hostname: string; body: any }) => {
-    const response = await postConnectionWithDbAPI(data.hostname, data.token, data.body);
+    const response = await postConnectionWithDbAPI(
+      data.hostname,
+      data.token,
+      data.body
+    );
     return response.data;
   }
 );
 
 const connectToDbModalSlice = createSlice({
-  name: 'connectToDbModal',
+  name: "connectToDbModal",
   initialState,
   reducers: {
-    setIsOpenConnectToDbModal(state, action: PayloadAction<boolean>) {
-      state.isOpenConnectToDbModal = action.payload;
+    setConnectionType(state, action: PayloadAction<string | null>) {
+      state.connectionType = action.payload;
       state.connectResponse = null;
+    },
+    setCurrentConnectionData(
+      state,
+      action: PayloadAction<DatabaseInfo | null>
+    ) {
+      state.currentConnectionData = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -44,7 +62,8 @@ const connectToDbModalSlice = createSlice({
       state.isLoadingPostConnectionToDb = false;
       state.connectResponse = action.payload;
       state.isErrorLoadingPostConnectionToDb = false;
-      state.isOpenConnectToDbModal = false;
+      state.connectionType = null;
+      state.currentConnectionData = null;
     });
     builder.addCase(createConnectionWithDB.rejected, (state, action) => {
       state.isLoadingPostConnectionToDb = false;
@@ -54,6 +73,8 @@ const connectToDbModalSlice = createSlice({
   },
 });
 
-export const { setIsOpenConnectToDbModal } = connectToDbModalSlice.actions;
-export const selectConnectToDbModal = (state: RootState) => state.connectToDbModal;
+export const { setConnectionType, setCurrentConnectionData } =
+  connectToDbModalSlice.actions;
+export const selectConnectToDbModal = (state: RootState) =>
+  state.connectToDbModal;
 export default connectToDbModalSlice.reducer;

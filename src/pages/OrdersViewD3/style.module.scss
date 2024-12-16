@@ -37,7 +37,7 @@
 }
 .content {
   display: flex;
-  height: calc(100% - 105px);
+  height: calc(100% - 150px);
   margin-bottom: 10px;
 
   flex-direction: column;
@@ -71,10 +71,23 @@
     cursor: pointer;
   }
   &__noActive {
-    color:"#212121";
+    color:'#212121';
     padding: 4px 8px;
     border-radius: 16px;
     background: rgba(33, 33, 33, 0.08);
     cursor: pointer;
   }
+}
+
+.paramInputs{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 47px;
+  width: 120px
+}
+
+.minIntervalInfo{
+  font-size: 12px;
+  text-align: center;
 }

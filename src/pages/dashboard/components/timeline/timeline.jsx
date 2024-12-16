@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
 import { getOrderViewOperation } from '../../../../api/orderView';
 import { calculateTime } from '../../../../functions/calculateTimeDuration';
@@ -92,7 +92,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
       camera_ip: element.camera.id,
       time: new Date(element.start_tracking).valueOf(),
     };
-    // console.log(body);
     getVideo(window.location.hostname, body).then((res) => {
       if (Object.keys(res.data).length) {
         const value = {
@@ -103,7 +102,6 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
           eTime: new Date(element.stop_tracking).valueOf(),
           video: res.data,
         };
-        // console.log(value);
         setOperationOV(value);
       } else {
         setOperationOV(`Operation #${element.id} was not found in the database`);
@@ -201,6 +199,14 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
       y: event.clientY,
     });
   };
+
+  const calculateHoverItemPosition = () => ({
+    top: hoverPosition.y - 120,
+    left: hoverPosition.x > window.innerWidth - 215 
+      ? window.innerWidth - 300 
+      : hoverPosition.x - 90,
+  });
+
   return (
     <>
       {
@@ -231,7 +237,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
       {hoverItem && (
         <div
           className={styles.hover}
-          style={{ top: hoverPosition.y - 120, left: hoverPosition.x - 90 }}
+          style={calculateHoverItemPosition()}
         >
           <h6>{hoverItem.algorithm}</h6>
           <div className={styles.hover__time}>
@@ -309,7 +315,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
               </div>
 
               {currentReport.extra && currentReport.extra.length > 0 ? (
-                <div className={styles.fullscreen__footer_text}>
+                <div style={{ display: 'none' }} className={styles.fullscreen__footer_text}>
                   <span> Additional:&nbsp;</span>
                   <span
                     className={styles.link}

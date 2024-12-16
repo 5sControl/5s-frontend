@@ -1,0 +1,248 @@
+{
+  "lang": "pl",
+  "menu": {
+    "ordersView": "Widok zamówień",
+    "configuration": "Konfiguracja",
+    "dataConfiguration": "Konfiguracja danych",
+    "directories": "Katalogi",
+    "generalDirectories": "Ogólne katalogi",
+    "accountSettings": "Ustawienia konta",
+    "orders": "Zamówienia",
+    "reports": "Raporty",
+    "scanner": "Skaner QR",
+    "language": "Język interfejsu",
+    "users": "Pracownicy",
+    "cameras": "Ustawienia kamer"
+  },
+  "config": {
+    "title": "Konfiguracja",
+    "erp": "Połączenia ERP"
+  },
+  "messages": {
+    "noDatabases": "Brak dostępnych baz danych",
+    "noReports": "Nie można znaleźć żądanego raportu",
+    "noCameras": "Nie można znaleźć kamer dla tej operacji",
+    "used": "Używane w widoku zamówień",
+    "connected": "Połączono",
+    "disconnected": "Rozłączono",
+    "unableToSave": "Nie można zapisać",
+    "disconectFromERP": "Odłączyć od ERP?",
+    "disconectDescription": "Odłączenie od bazy danych uniemożliwi przeglądanie zamówień w widoku zamówień.",
+    "incorrectCredentials": "Nieprawidłowy email lub hasło. Spróbuj ponownie.",
+    "orderName": "Utwórz nazwę zamówienia i spróbuj ponownie",
+    "validDate": "Proszę ustawić poprawną datę początkową.",
+    "startTime": "Czas rozpoczęcia nie może być większy niż czas zakończenia",
+    "finishDate": "Data zakończenia nie może być wcześniejsza niż data rozpoczęcia.",
+    "saveData": "Proszę zapisać swoje dane!",
+    "employeeNotFound": "Pracownik nie został znaleziony",
+    "validOrderNumber": "Proszę wprowadzić numer w poprawnym formacie",
+    "validLength": "Osiągnięto maksymalną długość tekstu",
+    "employeeExists": "Pracownik o tym samym nazwisku już istnieje"
+  },
+  "directory": {
+    "newDirectory": "Nowy katalog",
+    "newEntry": "Nowy wpis w",
+    "edit": "Edytuj",
+    "card": "Karta",
+    "name": "Nazwa",
+    "operations": {
+      "title": "Operacje",
+      "newOperation": "Nowa operacja",
+      "estimatedTime": "Szacowany czas"
+    },
+    "items": {
+      "title": "Przedmioty",
+      "newItem": "Nowy przedmiot"
+    },
+    "employees": {
+      "title": "Pracownicy",
+      "newEmployee": "Nowy pracownik"
+    }
+  },
+  "timeUnit": {
+    "title": "Jednostka czasu",
+    "hours": "Godziny",
+    "minutes": "Minuty",
+    "selectTimeUnit": "Wybierz jednostkę czasu"
+  },
+  "text": {
+    "connection": "połączenie",
+    "select": "Wybierz",
+    "usedInOrdersView": "Używane w widoku zamówień",
+    "connected": "Połączono",
+    "database": "Baza danych",
+    "no": "Nie",
+    "added": "dodane przez ciebie pojawi się tutaj.",
+    "new": "Nowy",
+    "time": "Planowany czas",
+    "name": "nazwa",
+    "ordersView": "Widok zamówień",
+    "scheduled": "Pokaż zaplanowany czas",
+    "startTime": "Czas rozpoczęcia",
+    "datePlaceholder": "Wybierz datę i czas rozpoczęcia",
+    "logout": "Wyloguj się",
+    "norecords": "Brak rekordów",
+    "noOperations": "Brak operacji",
+    "finishedIn": "Zakończono w",
+    "startOfOperation": "Początek operacji",
+    "endOfOperation": "Koniec operacji",
+    "startNewOperation": "Rozpocznij nową operację"
+  },
+  "operations": {
+    "add": "Dodaj",
+    "save": "Zapisz",
+    "edit": "Edytuj",
+    "disconect": "Rozłącz",
+    "cancel": "Anuluj",
+    "search": "Szukaj",
+    "done": "Gotowe",
+    "delete": "Usuń",
+    "submit": "Zatwierdź",
+    "start": "Start",
+    "finish": "Zakończ",
+    "saveChanges": "Zapisz zmiany",
+    "download": "Pobierz",
+    "share": "Udostępnij",
+    "print": "Drukuj"
+  },
+  "db": {
+    "products": {
+      "button": "",
+      "title": "Produkty",
+      "singular": "produkt"
+    },
+    "productsCategory": {
+      "button": "Produkty",
+      "title": "Kategorie produktów",
+      "singular": "kategoria produktu"
+    },
+    "operations": {
+      "button": "Operacje",
+      "title": "Operacje",
+      "singular": "operacja"
+    },
+    "employes": {
+      "button": "Pracownicy",
+      "title": "Pracownicy",
+      "singular": "pracownik"
+    },
+    "equipment": {
+      "button": "Sprzęt",
+      "title": "Sprzęt",
+      "singular": "sprzęt"
+    }
+  },
+  "newConnection": {
+    "title": "Nowe połączenie",
+    "system": "System ERP",
+    "domain": "Domena",
+    "name": "Nazwa",
+    "pwd": "Hasło",
+    "status": "Status"
+  },
+  "form": {
+    "name": "Nazwa",
+    "date": "Data",
+    "duration": "Czas trwania",
+    "namePlaceholder": "Wpisz nazwę",
+    "selectOperation": "Wybierz operację",
+    "selectOrderItem": "Wybierz węzeł",
+    "auth": {
+      "signin": "Zaloguj się do",
+      "login": "Nazwa użytkownika",
+      "loginPlaceholder": "Wprowadź nazwę użytkownika",
+      "pwdPlaceholder": "Wprowadź hasło",
+      "pwd": "Hasło",
+      "submit": "Zaloguj się"
+    },
+    "required": "To pole jest wymagane",
+    "passwordLength": "Hasło musi mieć co najmniej 4 znaki",
+    "selectWorkplace": "Wybierz miejsce pracy",
+    "invalidCharacters": "Nieprawidłowe znaki"
+  },
+  "orders": {
+    "order": "Zamówienie",
+    "orders": "Zamówienia",
+    "newOrder": "Nowe zamówienie",
+    "newOperations": "Nowe operacje",
+    "operations": "Operacje",
+    "operation": "Operacja",
+    "parts": "Części",
+    "place": "Miejsce",
+    "equipment": "Sprzęt",
+    "implementation": "Realizacja",
+    "nameparts": "Nazwa części",
+    "namepPlace": "Nazwa miejsca",
+    "nameEquipment": "Nazwa sprzętu",
+    "number": "N",
+    "name": "Nazwa",
+    "status": "Status",
+    "implementationTime": "Czas realizacji",
+    "startOperation": "Początek operacji",
+    "operationTime": "Czas operacji:",
+    "finishOperation": "Koniec operacji",
+    "date": "Data",
+    "orderItems": "Węzły",
+    "orderItem": "Węzeł",
+    "suffix": "Przyrostek",
+    "id": "Id",
+    "worker": "Pracownik",
+    "orderName": "Nazwa zamówienia",
+    "orderNumber": "Numer zamówienia",
+    "orderYear": "Rok zamówienia",
+    "startedAt": "Data startu",
+    "estimatedAt": "Termin",
+    "statusValues": {
+      "pending": "Nie rozpoczęty",
+      "inProgress": "W trakcie",
+      "done": "Zakończony"
+    },
+    "assembly": "Zespół",
+    "blank": "Szablon",
+    "time": "Сzas",
+    "surname": "Nazwisko",
+    "finishOrder": "Zakończ zamówienie"
+  },
+  "time": {
+    "day": "dz",
+    "week": "tydz",
+    "hour": "godz",
+    "min": "min"
+  },
+  "reports": {
+    "report": "Raport",
+    "fullReport": "Pełny raport",
+    "individualReports": "Indywidualne raporty",
+    "orderDetails": "Szczegóły zamówienia",
+    "startDate": "Data rozpoczęcia raportu",
+    "endDate": "Data zakończenia raportu"
+  },
+  "ordersView": {
+    "orderSearch": "Wyszukiwanie zamówienia",
+    "settings": "Ustawienia",
+    "workday": "Dzień roboczy",
+    "erp": "Używane ERP",
+    "displayedOperations": "Wyświetlane operacje"
+  },
+  "users": {
+    "username": "Nazwa użytkownika",
+    "fullName": "Imię Nazwisko",
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "password": "Hasło",
+    "role": "Rola",
+    "workplace": "Miejsce pracy",
+    "dateJoined": "Data dołączenia"
+  },
+  "scanner": {
+    "start": "Rozpocznij skanowanie",
+    "stop": "Zakończ skanowanie"
+  },
+  "camera": {
+    "one": "Aparat",
+    "many": "Aparaty"
+  },
+  "workplace": {
+    "assign": "Przydziel miejsce pracy"
+  }
+}

@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '.';
+import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from ".";
 
 export interface ReportState {
   currentReport: any;
@@ -10,7 +10,7 @@ const initialState: ReportState = {
 };
 
 const currentReport = createSlice({
-  name: 'currentReport',
+  name: "currentReport",
   initialState,
   reducers: {
     addCurrentReport(state, action) {
