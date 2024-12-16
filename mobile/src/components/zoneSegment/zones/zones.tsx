@@ -14,6 +14,7 @@ import { getWorkplaceList } from '../../../api/ordersView';
 import { Preloader } from '../../preloader/preloader';
 import { Notification } from '../../notification/notification';
 import { IonToggle } from '@ionic/react';
+import { useTranslation } from 'react-i18next';
 
 const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [coords, setCoords] = useState<any>([]);
@@ -31,6 +32,7 @@ const Zones = ({ cameraSelect, isCreateCamera }) => {
   const [handleSaveError, setHandleSaveError] = useState(false);
   const [validZone, setValidZone] = useState(true);
   const [zoneType, setZoneType] = useState(2);
+  const { t } = useTranslation();
 
   const getZone = () => {
     setPreloader(true);
@@ -51,12 +53,12 @@ const Zones = ({ cameraSelect, isCreateCamera }) => {
     setPreloader(true);
     deleteCameraZones(window.location.hostname, cookie.token, id)
       .then(() => {
-        setMessage({ status: true, message: 'Zone was deleted' });
+        setMessage({ status: true, message: t("camera.zoneSegment.messages.deleted") });
         getZone();
       })
       .catch((err) => {
         console.log(err);
-        setMessage({ status: false, message: 'Zone was not deleted' });
+        setMessage({ status: false, message: t("camera.zoneSegment.messages.notDeleted") });
         setPreloader(false);
       });
   };
@@ -65,12 +67,12 @@ const Zones = ({ cameraSelect, isCreateCamera }) => {
     const otherZones: any = cameraZones.filter((box: any) => box.id !== currentZoneId);
 
     if (coords.length === 0) {
-      setMessage({ status: false, message: 'Select zone' });
+      setMessage({ status: false, message: t("camera.zoneSegment.messages.select") });
       return;
     }
 
     if (!validZone) {
-      setMessage({ status: false, message: 'Zone is not saved. Try again' });
+      setMessage({ status: false, message: t("camera.zoneSegment.messages.notSaved") });
       setHandleSaveError((prev) => !prev);
       return;
     }
@@ -87,7 +89,7 @@ const Zones = ({ cameraSelect, isCreateCamera }) => {
         );
 
         if (overlap) {
-          setMessage({ status: false, message: 'Zones must not overlap' });
+          setMessage({ status: false, message: t("camera.zoneSegment.messages.overlap") });
           return;
         }
       }
@@ -110,24 +112,24 @@ const Zones = ({ cameraSelect, isCreateCamera }) => {
       postCameraZones(window.location.hostname, cookie.token, body)
         .then(() => {
           getZone();
-          setMessage({ status: true, message: 'Zone is saved' });
+          setMessage({ status: true, message: t("camera.zoneSegment.messages.saved") });
         })
         .catch((error) => {
           console.log(error);
           setPreloader(false);
-          setMessage({ status: false, message: 'Zone is not saved' });
+          setMessage({ status: false, message: t("camera.zoneSegment.messages.notSaved") });
         });
     } else {
       setPreloader(true);
       patchCameraZones(window.location.hostname, cookie.token, body, currentZoneId)
         .then(() => {
           getZone();
-          setMessage({ status: true, message: 'Zone is saved' });
+          setMessage({ status: true, message: t("camera.zoneSegment.messages.saved") });
         })
         .catch((error) => {
           console.log(error);
           setPreloader(false);
-          setMessage({ status: false, message: 'Zone is not saved' });
+          setMessage({ status: false, message: t("camera.zoneSegment.messages.notSaved") });
         });
     }
     setCurrentZoneId(-2);
@@ -177,7 +179,7 @@ const Zones = ({ cameraSelect, isCreateCamera }) => {
         {isCreateCamera ? (
         <section className={styles.creating}>
           <img src={NoVideoBig} />
-          <p>Not connected to the camera. Check your connection in 'Camera' tab.</p>
+          <p>{t("camera.zoneSegment.notConnected")}</p>
         </section>
       ) : (
           <ZonesCoordinates

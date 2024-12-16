@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from '../zones.module.scss';
 import Item from './zoneItem';
+import { useTranslation } from 'react-i18next';
 
 export const ZoneList = ({
   saveZone,
@@ -17,6 +18,7 @@ export const ZoneList = ({
   setIsNewZone,
 }) => {
   const [isBlockAdd, setIsBlockAdd] = useState(false);
+  const { t } = useTranslation();
 
   const addZoneHandler = () => {
     setCurrentZoneId(-1);
@@ -38,9 +40,9 @@ export const ZoneList = ({
   return (
     <>
       <div className={styles.zones__header}>
-        <span> Zones</span>
+        <span>{t("camera.zones")}</span>
         <span className={`${isBlockAdd ? styles.added : styles.add}`} onClick={addZoneHandler}>
-          + Add Zone
+          + {t("camera.zoneSegment.add")}
         </span>
       </div>
 

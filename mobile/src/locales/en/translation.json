@@ -244,5 +244,51 @@
   },
   "workplace": {
     "assign": "Assign workplace"
+  },
+  "camera": {
+    "title": "Camera",
+    "plural": "Cameras",
+    "configuration": "Configuration",
+    "monitoring": "Connecting to cameras on a local network for continuous monitoring.",
+    "name": "Name",
+    "algorithms": "Algorithms",
+    "ip": "IP",
+    "saved": "Camera is saved",
+    "removeQuestion": "Remove a camera?",
+    "zone": "Zone",
+    "zones": "Zones",
+    "workplace":"Workplace",
+    "cameraSegment": {
+      "connection": "Connection",
+      "cameraIp": "Camera IP",
+      "select": "Select or enter",
+      "username":"Username",
+      "usernameTooltip": "The IP cameras username is often a default value set by the manufacturer, such as 'admin' or 'root'. You can usually find this information in the devices user manual or on the manufacturers website.",
+      "password": "Password",
+      "passwordTooltip": "The IP cameras password is typically set by the user during the initial setup process. If you have forgotten the password, you may be able to reset it by pressing and holding the reset button on the camera for a few seconds. However, this will also reset any other settings on the camera to their default values.",
+      "settings": "System settings",
+      "displayedName": "Displayed name (optional)",
+      "testConnection": "Test connection",
+      "testTip": "Test connection after selecting a camera and filling in its' username and password.",
+      "status": {
+        "connected": "Connected to the camera",
+        "failed": "Failed to connect to the camera"
+      }
+    },
+    "zoneSegment": {  
+      "messages": {
+        "deleted": "Zone was deleted",
+        "notDeleted": "Zone was not deleted",
+        "select": "Select zone",
+        "saved": "Zone is saved",
+        "notSaved": "Zone is not saved. Try again",
+        "overlap": "Zones must not overlap"
+      },
+      "notConnected": "Not connected to the camera. Check your connection in 'Camera' tab.",
+      "namePlaceholder": "Enter zone name",
+      "select": "Select or enter",
+      "selectAreas": "Select one or more areas on the left",
+      "add": "Add Zone"
+    }
   }
 }

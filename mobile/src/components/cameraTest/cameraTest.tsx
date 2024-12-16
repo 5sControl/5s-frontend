@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { checkCamera } from '../../api/cameraRequest';
 import { Preloader } from '../preloader/preloader';
 import { Notification } from '../notification/notification';
+import { useTranslation } from 'react-i18next';
 
 type PropsType = {
   cameraIP: string;
@@ -14,7 +15,8 @@ const CameraTest: React.FC<PropsType> = ({ cameraIP, userName, password }): JSX.
   const [imageTest, setImageTest] = useState('');
   const [isPreloader, setPreloader] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
-
+  const { t } = useTranslation();
+  
   const cameraChecking = () => {
     setPreloader(true);
     setImageTest('');
@@ -57,15 +59,15 @@ const CameraTest: React.FC<PropsType> = ({ cameraIP, userName, password }): JSX.
         <img src={imageTest} alt='Camera' className='cameras__settings_img' />
       )}
       <span className='cameras__settings_test' onClick={cameraChecking}>
-        Тестовое соединение
+        {t("camera.cameraSegment.testConnection")}
       </span>
       <span className='cameras__settings_text'>
-        Проверьте подключение, выбрав камеру и введя ее имя пользователя и пароль.
+        {t("camera.cameraSegment.testTip")}
       </span>
       {isNotification && (
         <Notification
           status={!!imageTest.length}
-          message={imageTest.length ? 'Connected to the camera' : 'Failed to connect to the camera'}
+          message={imageTest.length ? t("camera.cameraSegment.status.connected") : t("camera.cameraSegment.status.failed")}
           isLil={true}
         />
       )}
