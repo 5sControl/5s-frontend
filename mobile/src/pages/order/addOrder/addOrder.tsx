@@ -72,7 +72,7 @@ const AddOrder: React.FC = () => {
           handleChange={e => setOrderNumber(e.detail.value)}
           type="number"
           state={orderNumber.length > 10 ? "error" : "neutral"}
-          errorMessage={t("messages.validOrderNumber")}
+          errorMessage={t("messages.validLength")}
         />
         <Input
           label={t("orders.orderName")}

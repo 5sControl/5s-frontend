@@ -35,7 +35,6 @@
     "finishDate": "The finish date cannot be earlier than the start date.",
     "saveData": "Please save your data!",
     "employeeNotFound": "Employee not found",
-    "validOrderNumber": "Please enter the number in the correct format",
     "validLength": "Maximum text length reached",
     "employeeExists": "This employee already exists"
   },
@@ -237,10 +236,6 @@
   "scanner": {
     "start": "Start scanning",
     "stop": "End scanning"
-  },
-  "camera": {
-    "one": "Camera",
-    "many": "Cameras"
   },
   "workplace": {
     "assign": "Assign workplace"
