@@ -231,8 +231,9 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   }, [fourPointsCoordinates]);
 
 
-  const removeCoord = () => {
-    setAllBox(allBox.filter((el: NewCoordinates | FourPointsNewCoordinates) => el.id !== targetRect.id));
+  const removeCoord = (targetRectId: any) => {
+    setAllBox(allBox.filter((el: NewCoordinates | FourPointsNewCoordinates) => {
+      return !targetRectId.includes(el.id) }));
     setTargetRect('');
   };
 
@@ -378,8 +379,8 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
                   key={el.id}
                 >
                   {itemName}
-                  {targetRect && targetRect.id === el.id && (
-                    <IoIosCloseCircle className={styles.remove} onClick={removeCoord} />
+                  {targetRect && targetRect.id.includes(el.id) && (
+                    <IoIosCloseCircle className={styles.remove} onClick={() => removeCoord(targetRect.id)} />
                   )}
                 </div>
               );
