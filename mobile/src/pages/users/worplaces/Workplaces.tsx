@@ -50,6 +50,7 @@ const Workplaces = () => {
     const selectedWorkplace = workplaces.find(workplace => workplace.id.toString() === selectedId.toString());
 
     if (selectedWorkplace) {
+      navigateBack();
       dispatch(setSelectedWorkplace({id: selectedId, name: selectedWorkplace.label}));
     }
   };
