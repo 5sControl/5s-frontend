@@ -7,7 +7,7 @@ import { useHistory, useParams } from "react-router";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setEndReportDate, setReportDate, setStartReportDate } from "../../store/reportDateSlice";
-import { formatDateYMD, getCurrentDateTimeISO, getDateWeekAgoISO } from "../../utils/parseInputDate";
+import { formatDateYMD, getCurrentDateTimeISO } from "../../utils/parseInputDate";
 import DateSelector from "../../components/dateSelector/DateSelector";
 import { Preloader } from "../../components/preloader/preloader";
 
@@ -15,7 +15,7 @@ const Reports = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const history = useHistory();
-  const [startDate, setStartDate] = useState<string>(getDateWeekAgoISO());
+  const [startDate, setStartDate] = useState<string>(getCurrentDateTimeISO());
   const [endDate, setEndDate] = useState<string>(getCurrentDateTimeISO());
   const [loading, setLoading] = useState<boolean>(true);
   const startDateModalRef = useRef<HTMLIonModalElement>(null);
@@ -48,18 +48,8 @@ const Reports = () => {
       endDate,
     };
     dispatch(setReportDate(date));
-
-    const reportDate = localStorage.getItem("reportDate");
-
-    if (!reportDate) {
-      localStorage.setItem("reportDate", JSON.stringify(date));
-      setLoading(false);
-    } else {
-      const reportDateParse = JSON.parse(reportDate);
-      setStartDate(reportDateParse.startDate);
-      setEndDate(reportDateParse.endDate);
-      setLoading(false);
-    }
+    localStorage.setItem("reportDate", JSON.stringify(date));
+    setLoading(false);
   });
 
   const routes = {
