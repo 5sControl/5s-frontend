@@ -109,7 +109,7 @@ const Cameras = () => {
             <div>
               {t("camera.monitoring")}
             </div>
-
+        <Fab icon={Plus} handleFabClick={handleFabClick} />
       {createdCameras && (
         <div className={styles.cameras__list}>
           {createdCameras.map((el, ind) => {
