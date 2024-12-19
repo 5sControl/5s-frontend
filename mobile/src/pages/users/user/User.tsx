@@ -24,13 +24,18 @@ const User = () => {
   const [item, setItem] = useState<IUser>();
   const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
   const history = useHistory();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useIonViewWillEnter(() => {
+    setLoading(true);
     getUser(Number(id), cookies.token)
       .then(response => {
         setItem(response.data);
       })
-      .catch(error => console.error(error));
+      .catch(error => console.error(error))
+      .finally(() => {
+        setLoading(false);
+      });
   });
 
   const handleCloseModal = () => {
@@ -50,6 +55,7 @@ const User = () => {
   }
 
   const handleDeleteClick = () => {
+    setLoading(true);
     deleteCard(Number(id), cookies.token)
       .then(() => {
         handleCancelClick();
@@ -57,6 +63,9 @@ const User = () => {
       })
       .catch(error => {
         console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -71,8 +80,15 @@ const User = () => {
         backButtonHref={ROUTES.USERS} 
         endButton={<IonIcon onClick={handleOpenModal} style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}/>
       <IonContent>
-        {item ? (
-            <>
+        {
+          loading || !item ?
+          (
+            <div className="preloader">
+              <Preloader />
+            </div>
+          )
+          :
+          <>
                 <InputReadonly label={t("users.username")} value={item.username} />
                 <InputReadonly label={t("users.fullName")} value={`${item.first_name} ${item.last_name}`} />
                 <InputReadonly label={t("users.workplace")} value={item.workplace?.name || '-'} />
@@ -93,13 +109,10 @@ const User = () => {
                     title={`${t("operations.delete")} "${item.username}" ?`}
                     confirmText={t("operations.delete")}
                     cancelText={t("operations.cancel")}
+                    preventDismiss={true}
                 />
           </>
-        ) : (
-          <div className="preloader">
-            <Preloader />
-          </div>
-        )}
+          }
       </IonContent>
     </IonPage>
   );

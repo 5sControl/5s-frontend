@@ -52,6 +52,7 @@ const AddUser = () => {
 
   const handleSave = () => {
     if (user) {
+      setLoading(true);
       const data: IAddUser = {
         username: `${user.first_name}_${user.last_name}`,
         last_name: user.last_name,
@@ -67,6 +68,9 @@ const AddUser = () => {
         .catch(error => {
             setToastMessage(t("messages.employeeExists"));
             console.error(error);
+        })
+        .finally(() => {
+            setLoading(false);
         });
       return;
     }
@@ -87,7 +91,7 @@ const AddUser = () => {
   };
 
   const handleConfirmModal = () => {
-    setIsOpenModal(false);
+   setIsOpenModal(false);
     handleSave();
   };
 
@@ -168,6 +172,7 @@ const AddUser = () => {
         title={`${t("operations.saveChanges")}?`}
         confirmText={t("operations.save")}
         cancelText={t("operations.cancel")}
+        preventDismiss={true}
       />
     </IonPage>
   );
