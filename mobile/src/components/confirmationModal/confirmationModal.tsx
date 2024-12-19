@@ -11,6 +11,7 @@ type ConfirmationModalProps = {
   confirmText: string;
   cancelText: string;
   description?: string;
+  preventDismiss?: boolean;
 };
 
 export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -22,9 +23,17 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   confirmText,
   cancelText,
   description,
+  preventDismiss = false,
 }) => {
+
+  const handleDismiss = () => {
+    if (!preventDismiss) {
+      onClose();
+    }
+  };
+
   return (
-    <IonModal isOpen={isOpen} onDidDismiss={onClose} initialBreakpoint={1} breakpoints={[0, 1]}>
+    <IonModal isOpen={isOpen} onDidDismiss={handleDismiss} initialBreakpoint={1} breakpoints={[0, 1]}>
       <div className="block ion-padding">
         <h5 className="ion-text-center">{title}</h5>
         {description && <p className="modal__description ion-text-center">{description}</p>}
