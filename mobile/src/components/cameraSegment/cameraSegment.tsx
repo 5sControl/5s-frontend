@@ -93,10 +93,11 @@ const CameraSegment: React.FC<CameraSegmentProps> = ({
                     label={t("camera.cameraSegment.password")} 
                     value={password}
                     type="password"
-                    hidePassword={false}
+                    hidePassword={editMode}
                     required
                     handleChange={(e) => setPassword(e.target.value)}
                     tooltip={t("camera.cameraSegment.passwordTooltip")}
+                    zIndex={0}
                 />
             </div>
             <div className={styles.section}>
@@ -108,6 +109,7 @@ const CameraSegment: React.FC<CameraSegmentProps> = ({
                     value={cameraName}
                     required={false}
                     handleChange={(e) => setCameraName(e.target.value)}
+                    zIndex={-1}
                 />
                 <CameraTest cameraIP={cameraIP} userName={userName} password={password} />
             </div>
