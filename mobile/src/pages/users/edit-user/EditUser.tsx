@@ -30,14 +30,20 @@ const EditUser = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [highlightRequired, setHighlightRequired] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const roles = Object.values(ROLE).map(role => ({
-    id: role,
-    label: role,
-    value: role
-}));
+  const roles = Object.values(ROLE)
+    .filter(role => !(getUserRole() === ROLE.ADMIN && role === ROLE.SUPERUSER))
+    .map(role => ({
+        id: role,
+        label: role,
+        value: role
+    }));
   const { selectedWorkplace } = useSelector((state: any) => state.workplace);
   const [passwordChanged, setPasswordChanged] = useState(false);
   const minPasswordLength = 4;
+
+  function getUserRole () {
+    return localStorage.getItem("userRole");
+  };
 
   useIonViewWillEnter(() => {
     setLoading(true);
@@ -60,6 +66,7 @@ const EditUser = () => {
 
   const handleSave = () => {
     if (user) {
+      setLoading(true);
       const updatedUser: Partial<IUpdateUser> = {
         username: `${user.first_name}_${user.last_name}`,
         first_name: user.first_name,
@@ -78,6 +85,9 @@ const EditUser = () => {
         .catch(error => {
           setToastMessage(t("messages.employeeExists"));
           console.error(error);
+        })
+        .finally(() => {
+          setLoading(false);
         });
       return;
     }
@@ -181,6 +191,7 @@ const EditUser = () => {
         title={`${t("operations.saveChanges")}?`}
         confirmText={t("operations.save")}
         cancelText={t("operations.cancel")}
+        preventDismiss={true}
       />
     </IonPage>
   );
