@@ -89,7 +89,7 @@ const Item = ({
               />
           <p className={styles.item__description}>{t("camera.zoneSegment.selectAreas")}</p>
           <div className={styles.item__footer}>
-            <IonButton onClick={currentZoneId === -1 ? () => setCurrentZoneId(-2) : () => deleteZone(currentZoneId)} color="danger">Delete</IonButton>
+            <IonButton onClick={currentZoneId === -1 ? () => setCurrentZoneId(-2) : () => deleteZone(currentZoneId)} color="danger">{t("operations.delete")}</IonButton>
             <div className={styles.item__footer_control}>
               <IonButton onClick={() => setCurrentZoneId(-2)} type="reset" fill="outline">{t("operations.cancel")}</IonButton>
               <IonButton onClick={saveZone} type="submit">{t("operations.save")}</IonButton>
