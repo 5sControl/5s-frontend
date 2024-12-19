@@ -256,12 +256,22 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
         const totalX = bufTransWidth + bufLeft;
         const totalY = bufTransHeight + bufTop;
 
-        sendCoord.push({
+        const coords = {
           x1: totalX * proportionWidth,
           y1: totalY * proportionHeight,
           x2: bufWidth * proportionWidth + totalX * proportionWidth,
           y2: bufHeight * proportionHeight + totalY * proportionHeight,
-        });
+        };
+
+        const isOutsideBounds =
+          coords.x1 < 0 ||
+          coords.y1 < 0 ||
+          coords.x2 > image.current.naturalWidth ||
+          coords.y2 > image.current.naturalHeight;
+
+        setValidZone(!isOutsideBounds);
+
+        sendCoord.push(coords);
         setCoords(sendCoord);
       }
     });
