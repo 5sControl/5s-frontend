@@ -267,21 +267,23 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
           y2: bufHeight * proportionHeight + totalY * proportionHeight,
         };
 
-        // console.log(coords);
-
-        const isOutsideBounds =
-          coords.x1 < 0 ||
-          coords.y1 < 0 ||
-          coords.x2 > image.current.naturalWidth ||
-          coords.y2 > image.current.naturalHeight;
-
-        setValidZone(!isOutsideBounds);
-
+        console.log("coords", coords);
         sendCoord.push(coords);
-        setCoords(sendCoord);
       }
     });
+
+    const isOutsideBounds = sendCoord.some(
+      coords =>
+        coords.x1 < 0 ||
+        coords.y1 < 0 ||
+        coords.x2 > image.current.naturalWidth ||
+        coords.y2 > image.current.naturalHeight
+    );
+
+    setValidZone(!isOutsideBounds);
+    setCoords(sendCoord);
   };
+
   const scaleHandler = (img: string) => {
     const coordinatesLayout: any = document.querySelectorAll(".coordinates");
 

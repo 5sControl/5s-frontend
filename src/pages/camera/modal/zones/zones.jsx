@@ -63,6 +63,8 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
 
   const saveZone = () => {
     const otherZones = cameraZones.filter((box) => box.id !== currentZoneId);
+    console.log('other Zones', otherZones);
+    console.log('save coords', coords);
 
     if (coords.length === 0) {
       setMessage({ status: false, message: 'Select zone' });
