@@ -34,29 +34,53 @@ export const RightSection = ({
             !!proportionWidth &&
             !!proportionHeight &&
             workplace.length > 0 &&
-            workplace.map((el) => (
-              <Fragment key={el.id}>
-                {el.coords.map((element) => (
-                  <div
-                    key={generateString(14)}
-                    className={styles.oldCoord}
-                    style={{
-                      top: `${element?.y1 / proportionHeight}px`,
-                      left: `${element?.x1 / proportionWidth}px`,
-                      width: `${(element?.x2 - element?.x1) / proportionHeight}px`,
-                      height: `${(element?.y2 - element?.y1) / proportionWidth}px`,
-                      zIndex: 1,
-                      background:
-                        zoneId && zoneId.includes(el.id)
-                          ? 'rgb(254, 97, 0, 0.6)'
-                          : 'rgba(33, 33, 33, 0.6)',
-                    }}
-                  >
-                    {el.name}
-                  </div>
-                ))}
-              </Fragment>
-            ))}
+            workplace.map((el) => {
+              const coord = el.coords[0];
+              return (
+                <Fragment key={el.id}>
+                {coord.zoneType === 4 ? (
+                    <svg
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            position: 'absolute',
+                            top: '0px',
+                            left: '0px',
+                        }}
+                    >
+                      <polygon 
+                        fill={'rgba(33, 33, 33, 0.6)'}
+                        stroke={'#666666'}
+                        points={`${coord.x1 / proportionWidth},${coord.y1 / proportionHeight} ${coord.x2 / proportionWidth},${coord.y2 / proportionHeight} ${coord.x3 / proportionWidth},${coord.y3 / proportionHeight}, ${coord.x4 / proportionWidth},${coord.y4 / proportionHeight}`}
+                      />
+                      <text
+                        style={{ fontSize: 8, fill: 'white' }}
+                        x={(coord.x1 + 4) / proportionWidth}
+                        y={(coord.y1 + 12) / proportionHeight}
+                      >
+                      {el.name}
+                      </text>
+                    </svg>
+                ) : (
+                    el.coords.map((element) => (
+                        <div
+                            key={generateString(14)}
+                            className={styles.oldCoord}
+                            style={{
+                                top: `${element?.y1 / proportionHeight}px`,
+                                left: `${element?.x1 / proportionWidth}px`,
+                                width: `${(element?.x2 - element?.x1) / proportionWidth}px`,
+                                height: `${(element?.y2 - element?.y1) / proportionHeight}px`,
+                                zIndex: 1,
+                            }}
+                        >
+                            {el.name}
+                        </div>
+                    ))
+                )}
+            </Fragment>
+            );
+            })}
         </div>
       ) : (
         <CameraTest cameraIP={cameraSelect.id} userName={userName} password={password} />
