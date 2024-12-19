@@ -17,6 +17,7 @@
       .image_container {
         position: relative;
         width: max-content;
+        word-wrap: break-word;
 
         .newCoordinates {
           position: absolute;
@@ -109,4 +110,5 @@
   font-weight: 400;
   font-size: 8px;
   line-height: 9px;
+  word-wrap: break-word;
 }
