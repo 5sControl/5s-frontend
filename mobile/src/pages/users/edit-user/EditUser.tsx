@@ -30,14 +30,20 @@ const EditUser = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [highlightRequired, setHighlightRequired] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const roles = Object.values(ROLE).map(role => ({
-    id: role,
-    label: role,
-    value: role
-}));
+  const roles = Object.values(ROLE)
+    .filter(role => !(getUserRole() === ROLE.ADMIN && role === ROLE.SUPERUSER))
+    .map(role => ({
+        id: role,
+        label: role,
+        value: role
+    }));
   const { selectedWorkplace } = useSelector((state: any) => state.workplace);
   const [passwordChanged, setPasswordChanged] = useState(false);
   const minPasswordLength = 4;
+
+  function getUserRole () {
+    return localStorage.getItem("userRole");
+  };
 
   useIonViewWillEnter(() => {
     setLoading(true);
