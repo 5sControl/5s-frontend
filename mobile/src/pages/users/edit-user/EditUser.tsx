@@ -64,23 +64,27 @@ const EditUser = () => {
     dispatch(setSelectedWorkplace(null));
   };
 
+  const getUpdatedUser = () => {
+    const updatedUser = {
+      username: `${user.first_name}_${user.last_name}`,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      role: user.role,
+      workplace_id: selectedWorkplace?.id || user.workplace?.id || null
+    };
+    if (passwordChanged){
+      Object.assign(updatedUser, {password: user.password});
+    }
+    return updatedUser;
+  }
+
   const handleSave = () => {
     if (user) {
       setLoading(true);
-      const updatedUser: Partial<IUpdateUser> = {
-        username: `${user.first_name}_${user.last_name}`,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        role: user.role,
-        workplace_id: selectedWorkplace?.id || user.workplace?.id || null
-      }
-      if (passwordChanged){
-        Object.assign(updatedUser, {password: user.password});
-      }
+      const updatedUser: Partial<IUpdateUser> = getUpdatedUser();
       updateUser(Number(id), updatedUser, cookies.token)
         .then(() => {
           navigateBack();
-
         })
         .catch(error => {
           setToastMessage(t("messages.employeeExists"));
@@ -102,10 +106,6 @@ const EditUser = () => {
     setIsOpenModal(true);
   };
 
-  const handleBackClick = () => {
-      navigateBack();
-  };
-
   const handleCloseModal = () => {
     setIsOpenModal(false);
     navigateBack();
@@ -117,12 +117,13 @@ const EditUser = () => {
   };
 
   const navigateWorkplaceClick = () => {
+    updateUser(Number(id), getUpdatedUser(), cookies.token);
     history.push(ROUTES.USER_EDIT_WORKPLACES(id), { direction: "forward" });
   }
 
   return (
     <IonPage>
-      <Header title={t("operations.edit")} onBackClick={handleBackClick} backButtonHref={ROUTES.USER(id)}></Header>
+      <Header title={t("operations.edit")} onBackClick={openModal} backButtonHref={ROUTES.USER(id)}></Header>
       <IonContent>
         {loading ? (
           <div className="preloader">
