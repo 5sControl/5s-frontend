@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IonContent, IonList, IonPage, IonToast, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonList, IonNote, IonPage, IonToast, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 import { createUser, getUser, updateUser } from "../../../api/users";
@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSelectedWorkplace } from "../../../store/workpaceSlice";
 import "../../../styles/common.scss";
 import { isInvalidText } from "../../../utils/isInvalidText";
+import styles from '../users.module.scss'
 
 const AddUser = () => {
   const { t } = useTranslation();
@@ -54,7 +55,7 @@ const AddUser = () => {
     if (user) {
       setLoading(true);
       const data: IAddUser = {
-        username: `${user.first_name}_${user.last_name}`,
+        username: user.username,
         last_name: user.last_name,
         first_name: user.first_name,
         password: user.password,
@@ -77,8 +78,8 @@ const AddUser = () => {
   };
 
   const openModal = () => {
-    if (!user.first_name || !user.last_name || user.password.length < minPasswordLength || !selectedWorkplace 
-      || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
+    if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength || !selectedWorkplace 
+      || isInvalidText(user.username, true) || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
       setHighlightRequired(true);
       return;
     }
@@ -109,6 +110,35 @@ const AddUser = () => {
           </div>
         ) : (
             <>
+              <div className={styles.section}>
+                <IonNote className={`ion-padding ${styles.sectionNote}`}>
+                  {t("users.settings")}
+                </IonNote>
+
+                <Input 
+                    label={t("users.username")} 
+                    value={user?.username || ""} 
+                    required 
+                    handleChange={event => setUser({ ...user, username: event.target.value })}
+                    state={highlightRequired && (!user.username || isInvalidText(user.username, true)) ? "error" : "neutral" }
+                    errorMessage={isInvalidText(user.username) ? t("form.invalidCharacters") : t("form.required")}
+                    maxLength={30}/>
+
+                <Input 
+                    label={t("users.password")} 
+                    value={user.password} 
+                    type="password" 
+                    required 
+                    handleChange={event => setUser({ ...user, password: event.target.value })}
+                    state={highlightRequired && user.password.length < minPasswordLength ? "error" : "neutral" }
+                    errorMessage={t("form.passwordLength")}/>
+
+              </div>
+              <div className={styles.section}>
+                <IonNote className={`ion-padding ${styles.sectionNote}`}>
+                  {t("users.info")}
+                </IonNote>
+
                 <Input 
                     label={t("users.lastName")} 
                     value={user?.last_name || ""} 
@@ -128,14 +158,7 @@ const AddUser = () => {
                     maxLength={30}
                     type="text"/>
                 
-                <Input 
-                    label={t("users.password")} 
-                    value={user.password} 
-                    type="password" 
-                    required 
-                    handleChange={event => setUser({ ...user, password: event.target.value })}
-                    state={highlightRequired && user.password.length < minPasswordLength ? "error" : "neutral" }
-                    errorMessage={t("form.passwordLength")}/>
+                
                 
                 <IonList inset={true}>
                     <MenuListButton 
@@ -149,6 +172,7 @@ const AddUser = () => {
                     setUser({ ...user, role: event.target.value });
                     setCustomRole(true)}   
                 }/>
+              </div> 
 
                 <IonToast
                 isOpen={!!toastMessage}

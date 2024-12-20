@@ -231,7 +231,9 @@
     "password": "Hasło",
     "role": "Rola",
     "workplace": "Miejsce pracy",
-    "dateJoined": "Data dołączenia"
+    "dateJoined": "Data dołączenia",
+    "settings": "Ustawienia użytkownika",
+    "info": "Informacje o pracowniku"
   },
   "scanner": {
     "start": "Rozpocznij skanowanie",
