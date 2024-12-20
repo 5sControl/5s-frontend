@@ -94,7 +94,7 @@ const AddOrder: React.FC = () => {
         />
         <BottomButton
           handleClick={handleSubmit}
-          disabled={!orderNumber || orderNumber.length > 10}
+          disabled={!orderNumber || orderNumber.length > 10 || orderName.length === 50 || isInvalidText(orderName, true)}
           label={t("operations.save")}
         />
         <IonToast

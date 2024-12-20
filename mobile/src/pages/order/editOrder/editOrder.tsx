@@ -13,6 +13,7 @@ import { Input } from "../../../components/inputs/input/Input";
 import DateSelector from "../../../components/dateSelector/DateSelector";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 import { getCurrentDateTimeISO } from "../../../utils/parseInputDate";
+import { isInvalidText } from "../../../utils/isInvalidText";
 
 const EditOrder: React.FC = () => {
   const history = useHistory();
@@ -85,8 +86,8 @@ const EditOrder: React.FC = () => {
               required
               handleChange={e => setOrderName(e.detail.value!)}
               maxLength={50}
-              state={orderName.length === 50 ? "error" : "neutral"}
-              errorMessage={t("messages.validLength")}
+              state={orderName?.length === 50 || isInvalidText(orderName, true) ? "error" : "neutral"}
+              errorMessage={orderName?.length === 50 ? t("messages.validLength") : t("form.invalidCharacters")}
             />
             <DateSelector
               label={t("orders.estimatedAt")}
@@ -96,7 +97,10 @@ const EditOrder: React.FC = () => {
               minDate={getCurrentDateTimeISO()}
             />
 
-            <BottomButton handleClick={handleSubmit} disabled={!isChanged} label={t("operations.save")} />
+            <BottomButton 
+              handleClick={handleSubmit} 
+              disabled={!(isChanged && orderName?.length < 50 && !isInvalidText(orderName, true))} 
+              label={t("operations.save")} />
 
             <IonToast
               isOpen={!!toastMessage}
