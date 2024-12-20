@@ -231,7 +231,9 @@
     "password": "Password",
     "role": "Role",
     "workplace": "Workplace",
-    "dateJoined": "Date joined"
+    "dateJoined": "Date joined",
+    "settings": "User settings",
+    "info": "Employee information"
   },
   "scanner": {
     "start": "Start scanning",
