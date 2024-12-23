@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { SearchIcon } from '../../assets/svg/SVGcomponent';
-import styles from './input.module.scss';
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { useState } from "react";
+import { SearchIcon } from "../../assets/svg/SVGcomponent";
+import styles from "./input.module.scss";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 type PropsType = {
   id: string;
   name: string;
@@ -22,6 +22,7 @@ type PropsType = {
   min?: number;
   errorMessage?: string | null;
   register?: any;
+  maxLength?: number;
 };
 
 export const Input: React.FC<PropsType> = ({
@@ -42,11 +43,12 @@ export const Input: React.FC<PropsType> = ({
   min,
   errorMessage,
   register,
+  maxLength,
 }) => {
   const [inputType, setInputType] = useState(type);
 
   const handleClickToEye = () => {
-    setInputType(inputType === 'password' ? 'text' : 'password');
+    setInputType(inputType === "password" ? "text" : "password");
   };
 
   return (
@@ -54,7 +56,7 @@ export const Input: React.FC<PropsType> = ({
       {label && (
         <label htmlFor={id} className={styles.label}>
           <span>{label}</span>
-          {required && <span className={styles.required_label}>{' *'}</span>}
+          {required && <span className={styles.required_label}>{" *"}</span>}
         </label>
       )}
 
@@ -74,16 +76,15 @@ export const Input: React.FC<PropsType> = ({
           }`}
           onKeyDown={onKeyDown}
           min={min}
+          maxLength={maxLength}
           {...register}
         />
 
         {errorMessage && <span className={styles.block__error_message}>{errorMessage}</span>}
-        {showEye && inputType === 'text' && (
+        {showEye && inputType === "text" && (
           <AiFillEyeInvisible className={styles.block__eye} onClick={handleClickToEye} />
         )}
-        {showEye && inputType === 'password' && (
-          <AiFillEye className={styles.block__eye} onClick={handleClickToEye} />
-        )}
+        {showEye && inputType === "password" && <AiFillEye className={styles.block__eye} onClick={handleClickToEye} />}
         {showSearch && <SearchIcon className={styles.block__search} />}
       </div>
     </div>

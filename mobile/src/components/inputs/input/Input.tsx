@@ -20,6 +20,7 @@ type InputProps = {
   maxLength?: number;
   hidePassword?: boolean;
   tooltip?: string;
+  zIndex?: number;
 };
 
 export const Input: React.FC<InputProps> = ({
@@ -39,6 +40,7 @@ export const Input: React.FC<InputProps> = ({
   disabled,
   tooltip,
   hint,
+  zIndex,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -46,7 +48,7 @@ export const Input: React.FC<InputProps> = ({
   const handleBlur = () => setIsFocused(false);
 
   return (
-    <IonItem className={`input__field ${tooltip ? styles.overflow : ""}`}>
+    <IonItem className={`input__field ${tooltip ? styles.overflow : ""}`} style={{zIndex: zIndex}}>
       <IonLabel className={bold ? styles.label__bold : styles.label}>
         {label}
         {tooltip && <TooltipCustom title={label} text={tooltip} />}

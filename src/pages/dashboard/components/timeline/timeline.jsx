@@ -315,7 +315,7 @@ export const Timeline = ({ data, startDate, algorithm, startTime, endTime }) => 
               </div>
 
               {currentReport.extra && currentReport.extra.length > 0 ? (
-                <div style={{ display: 'none' }} className={styles.fullscreen__footer_text}>
+                <div className={styles.fullscreen__footer_text}>
                   <span> Additional:&nbsp;</span>
                   <span
                     className={styles.link}

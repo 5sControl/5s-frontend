@@ -152,7 +152,7 @@ const EditCamera = () => {
 
   return (
     <IonPage>
-      <Header title="Конфигурация" onBackClick={navigateBack} backButtonHref={ROUTES.USERS}></Header>
+      <Header title={t("camera.configuration")} onBackClick={navigateBack} backButtonHref={ROUTES.USERS}></Header>
       <IonContent>
         {loading ? (
           <div className="preloader">
@@ -163,10 +163,10 @@ const EditCamera = () => {
                 <div className="segment-wrapper ion-padding">
                   <IonSegment value={selectedSegment} onIonChange={handleSegmentChange}>
                       <IonSegmentButton value="camera">
-                          Камера
+                        {t("camera.title")}
                       </IonSegmentButton>
                       <IonSegmentButton value="zone">
-                          Зона
+                        {t("camera.zone")}
                       </IonSegmentButton>
                   </IonSegment>
                 </div>

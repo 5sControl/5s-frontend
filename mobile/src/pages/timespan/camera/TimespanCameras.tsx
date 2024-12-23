@@ -72,7 +72,7 @@ const TimespanCameras = () => {
   return (
     <IonPage>
       <Header
-        title={t("camera.many")}
+        title={t("camera.plural")}
         backButtonHref={ROUTES.ORDER_TIMESPAN_EDIT(orderId, itemId, operationId, timespanId)}
       />
       <IonContent>

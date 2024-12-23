@@ -71,6 +71,7 @@ export const Item = ({
               value={itemName}
               onChange={(e) => setItemName(e.target.value)}
               placeholder={'Enter zone name'}
+              maxLength={35}
             />
           </label>
           <label>

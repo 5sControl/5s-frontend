@@ -126,8 +126,7 @@ export interface IOperationReferenceUpdateBody {
 }
 
 export interface IAddOrder {
-  orderNumber: string;
+  orderNumber: number;
   name: string;
-  additionalInfo: string;
   estimatedAt?: string;
 }

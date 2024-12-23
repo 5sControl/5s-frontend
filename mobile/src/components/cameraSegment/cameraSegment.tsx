@@ -8,6 +8,7 @@ import styles from './cameraSegment.module.scss'
 import './cameraSegment.module.scss';
 import { SelectItem } from "../../models/types/selectItem";
 import InputReadonly from "../inputs/inputReadonly/inputReadonly";
+import { useTranslation } from "react-i18next";
 
 type CameraSegmentProps = {
     cameraIP: string,
@@ -44,6 +45,7 @@ const CameraSegment: React.FC<CameraSegmentProps> = ({
     editMode = false
 }) => {
     const [isModalChangePassword, setIsModalChangePassword] = useState(false);
+    const { t } = useTranslation();
 
     const selectCameraList: SelectItem[] = findCameraList.map((cameraIp: any) => {
         return {
@@ -61,51 +63,53 @@ const CameraSegment: React.FC<CameraSegmentProps> = ({
         <div className={styles.cameraSegment}>
             <div className={styles.section}>
                 <IonNote className={`ion-padding ${styles.sectionNote}`}>
-                    Соединение
+                    {t("camera.cameraSegment.connection")}
                 </IonNote>
                 {
                     editMode 
                     ?
                         <InputReadonly
-                            label="IP-адрес камеры"
+                            label={t("camera.cameraSegment.cameraIp")}
                             value={cameraIP}
                         />
                     :
                         <Select 
-                            label="IP-адрес камеры"
+                            label={t("camera.cameraSegment.cameraIp")}
                             value={cameraIP!} 
-                            placeholder={'Выберите или введите'} 
+                            placeholder={t("camera.cameraSegment.select")} 
                             selectList={selectCameraList} 
                             handleChange={handleSelectCamera}
                         />
                 }
 
                 <Input 
-                    label="Имя пользователя" 
+                    label={t("camera.cameraSegment.username")}
                     value={userName}
                     required
                     handleChange={(e) => setUserName(e.target.value)}
-                    tooltip="Имя пользователя IP-камеры часто является значением по умолчанию, установленным производителем, например «admin» или «root». Обычно эту информацию можно найти в руководстве пользователя устройства или на сайте производителя."
+                    tooltip={t("camera.cameraSegment.usernameTooltip")}
                 />
                 <Input 
-                    label="Пароль" 
+                    label={t("camera.cameraSegment.password")} 
                     value={password}
                     type="password"
-                    hidePassword={false}
+                    hidePassword={editMode}
                     required
                     handleChange={(e) => setPassword(e.target.value)}
-                    tooltip="Пароль IP-камеры обычно задается пользователем в процессе первоначальной настройки. Если вы забыли пароль, вы можете сбросить его, нажав и удерживая в течение нескольких секунд кнопку сброса на камере. Однако при этом все остальные настройки камеры будут сброшены до значений по умолчанию."
+                    tooltip={t("camera.cameraSegment.passwordTooltip")}
+                    zIndex={0}
                 />
             </div>
             <div className={styles.section}>
                 <IonNote className={`ion-padding ${styles.sectionNote}`}>
-                    Системные настройки
+                    {t("camera.cameraSegment.settings")}
                 </IonNote>
                 <Input 
-                    label="Отображаемое имя (необязательно)" 
+                    label={t("camera.cameraSegment.displayedName")}
                     value={cameraName}
                     required={false}
                     handleChange={(e) => setCameraName(e.target.value)}
+                    zIndex={-1}
                 />
                 <CameraTest cameraIP={cameraIP} userName={userName} password={password} />
             </div>

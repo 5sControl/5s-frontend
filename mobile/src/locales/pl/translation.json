@@ -35,7 +35,6 @@
     "finishDate": "Data zakończenia nie może być wcześniejsza niż data rozpoczęcia.",
     "saveData": "Proszę zapisać swoje dane!",
     "employeeNotFound": "Pracownik nie został znaleziony",
-    "validOrderNumber": "Proszę wprowadzić numer w poprawnym formacie",
     "validLength": "Osiągnięto maksymalną długość tekstu",
     "employeeExists": "Pracownik o tym samym nazwisku już istnieje"
   },
@@ -232,17 +231,61 @@
     "password": "Hasło",
     "role": "Rola",
     "workplace": "Miejsce pracy",
-    "dateJoined": "Data dołączenia"
+    "dateJoined": "Data dołączenia",
+    "settings": "Ustawienia użytkownika",
+    "info": "Informacje o pracowniku"
   },
   "scanner": {
     "start": "Rozpocznij skanowanie",
     "stop": "Zakończ skanowanie"
   },
-  "camera": {
-    "one": "Aparat",
-    "many": "Aparaty"
-  },
   "workplace": {
     "assign": "Przydziel miejsce pracy"
+  },
+  "camera": {
+    "title": "Kamera",
+    "plural": "Kamery",
+    "configuration": "Konfiguracja",
+    "monitoring": "Połączenie z kamerami w sieci lokalnej w celu ciągłego monitorowania.",
+    "name": "Nazwa",
+    "algorithms": "Algorytmy",
+    "ip": "IP",
+    "saved": "Kamera została zapisana",
+    "removeQuestion": "Czy na pewno chcesz usunąć kamerę?",
+    "zone": "Strefa",
+    "zones": "Strefy",
+    "workplace": "Stanowisko pracy",
+    "cameraSegment": {
+      "connection": "Połączenie",
+      "cameraIp": "Adres IP kamery",
+      "select": "Wybierz lub wprowadź",
+      "username": "Nazwa użytkownika",
+      "usernameTooltip": "Nazwa użytkownika kamery IP jest często ustawiona domyślnie przez producenta, na przykład „admin” lub „root”. Informacje te można zwykle znaleźć w instrukcji obsługi urządzenia lub na stronie producenta.",
+      "password": "Hasło",
+      "passwordTooltip": "Hasło do kamery IP jest zazwyczaj ustawiane przez użytkownika podczas początkowej konfiguracji. Jeśli zapomnisz hasła, możesz je zresetować, naciskając i przytrzymując przez kilka sekund przycisk resetowania na kamerze. Należy jednak pamiętać, że wszystkie inne ustawienia kamery zostaną przywrócone do wartości domyślnych.",
+      "settings": "Ustawienia systemowe",
+      "displayedName": "Wyświetlana nazwa (opcjonalnie)",
+      "testConnection": "Test połączenia",
+      "testTip": "Sprawdź połączenie, wybierając kamerę i wprowadzając jej nazwę użytkownika i hasło.",
+      "status": {
+        "connected": "Połączenie zostało nawiązane",
+        "failed": "Błąd połączenia z kamerą"
+      }
+    },
+    "zoneSegment": {
+      "messages": {
+        "deleted": "Strefa została usunięta",
+        "notDeleted": "Strefa nie została usunięta",
+        "select": "Wybierz strefę",
+        "saved": "Strefa została zapisana",
+        "notSaved": "Strefa nie została zapisana. Spróbuj ponownie.",
+        "overlap": "Strefy nie mogą się nakładać"
+      },
+      "notConnected": "Nie podłączona do kamery. Sprawdź połączenie na zakładce „Kamera”.",
+      "namePlaceholder": "Wprowadź nazwę strefy",
+      "select": "Wybierz lub wprowadź",
+      "selectAreas": "Wybierz jedną lub więcej obszarów z lewej strony",
+      "add": "Dodaj strefę"
+    }
   }
 }

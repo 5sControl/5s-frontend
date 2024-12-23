@@ -11,6 +11,7 @@ import BottomButton from "../../../components/bottomButton/BottomButton";
 import DateSelector from "../../../components/dateSelector/DateSelector";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 import { getCurrentDateTimeISO } from "../../../utils/parseInputDate";
+import { isInvalidText } from "../../../utils/isInvalidText";
 
 const AddOrder: React.FC = () => {
   const history = useHistory();
@@ -21,6 +22,7 @@ const AddOrder: React.FC = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [estimatedAt, setEstimatedAt] = useState<string>("");
+  const [highlightError, setHighlightError] = useState<boolean>(false);
   const estimatedModalRef = useRef<HTMLIonModalElement>(null);
 
   const navigateTo = () => {
@@ -36,7 +38,7 @@ const AddOrder: React.FC = () => {
     setIsModalOpen(false);
     setLoading(true);
     ORDER_REQUEST.addOrder(
-      { orderNumber: orderNumber, name: orderName, additionalInfo: "", ...(estimatedAt && { estimatedAt }) },
+      { orderNumber: parseInt(orderNumber), name: orderName, ...(estimatedAt && { estimatedAt }) },
       setLoading,
       setToastMessage,
       () => {}
@@ -72,7 +74,7 @@ const AddOrder: React.FC = () => {
           handleChange={e => setOrderNumber(e.detail.value)}
           type="number"
           state={orderNumber.length > 10 ? "error" : "neutral"}
-          errorMessage={t("messages.validOrderNumber")}
+          errorMessage={t("messages.validLength")}
         />
         <Input
           label={t("orders.orderName")}
@@ -80,8 +82,8 @@ const AddOrder: React.FC = () => {
           required={true}
           handleChange={e => setOrderName(e.detail.value!)}
           maxLength={50}
-          state={orderName.length === 50 ? "error" : "neutral"}
-          errorMessage={t("messages.validLength")}
+          state={orderName.length === 50 || isInvalidText(orderName, true) ? "error" : "neutral"}
+          errorMessage={orderName.length === 50 ? t("messages.validLength") : t("form.invalidCharacters")}
         />
         <DateSelector
           label={t("orders.estimatedAt")}
@@ -92,7 +94,7 @@ const AddOrder: React.FC = () => {
         />
         <BottomButton
           handleClick={handleSubmit}
-          disabled={!orderNumber || orderNumber.length > 10}
+          disabled={!orderNumber || orderNumber.length > 10 || orderName.length === 50 || isInvalidText(orderName, true)}
           label={t("operations.save")}
         />
         <IonToast
