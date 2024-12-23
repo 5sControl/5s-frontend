@@ -165,9 +165,9 @@ export const OrdersView: React.FC = () => {
         />
 
         <div className="ion-padding ordersPanel">
-          <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>
+          {/* <IonToggle justify="space-between" checked={showScheduled} onIonChange={handleToggle}>
             {t("text.scheduled")}
-          </IonToggle>
+          </IonToggle> */}
           <OrdersList
             orders={ordersList}
             setSelectedOrderId={selectOrder}
