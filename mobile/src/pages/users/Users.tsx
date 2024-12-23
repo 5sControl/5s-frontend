@@ -49,13 +49,19 @@ const Users = () => {
   });
 
   useEffect(() => {
-    const filtered = items.filter(item => item.username.toLowerCase().includes(searchText.toLowerCase()));
+    const filtered = items.filter(item => {
+      const displayedName = constructName(item);
+      return displayedName.toLowerCase().includes(searchText.toLowerCase())});
     setFilteredItems(filtered);
   }, [searchText]);
 
   useEffect(() => {
     items.length && setFilteredItems(items);
   }, [items]);
+
+  const constructName = (user: IUser) => {
+    return `${user.last_name} ${user.first_name}`;
+  }
 
   return (
     <IonPage>
@@ -83,7 +89,7 @@ const Users = () => {
                 {filteredItems.map((user) => (
                   <MenuListButton
                     key={user.id}
-                    title={user.username}
+                    title={constructName(user)}
                     handleItemClick={() => handleItemClick(ROUTES.USER(String(user.id)))}
                   />
                 ))}
