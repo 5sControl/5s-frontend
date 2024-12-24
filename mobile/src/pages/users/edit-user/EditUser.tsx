@@ -71,7 +71,7 @@ const EditUser = () => {
       first_name: user.first_name,
       last_name: user.last_name,
       role: user.role,
-      workplace_id: selectedWorkplace?.id || user.workplace?.id || null
+      workplace_id: user.role === ROLE.WORKER ? (selectedWorkplace?.id || user.workplace?.id || null) : null
     };
     if (passwordChanged){
       Object.assign(updatedUser, {password: user.password});
@@ -99,7 +99,7 @@ const EditUser = () => {
   };
 
   const openModal = () => {
-    if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength
+    if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength || ((!(selectedWorkplace || user.workplace?.id)) && user.role === ROLE.WORKER)
       || isInvalidText(user.username, true) || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
       setHighlightRequired(true);
       return;
@@ -182,12 +182,20 @@ const EditUser = () => {
                     maxLength={30}
                     type="text"/>
 
-                <IonList inset={true}>
-                    <MenuListButton title={selectedWorkplace?.name || user.workplace?.name || t("users.workplace")} handleItemClick={navigateWorkplaceClick}/>
-                </IonList>
                 <Select value={user.role} placeholder={user.role} selectList={roles} handleChange={event => {
                     setUser({ ...user, role: event.target.value });
                 }} />
+                {
+                  user.role === ROLE.WORKER &&                
+                  <IonList inset={true}>
+                    <MenuListButton 
+                      title={selectedWorkplace?.name || user.workplace?.name || t("users.workplace")} 
+                      handleItemClick={navigateWorkplaceClick}
+                      state={highlightRequired && !selectedWorkplace && user.role === ROLE.WORKER ? "error" : "neutral"}
+                      errorMessage={t("form.selectWorkplace")}
+                    />
+                  </IonList>
+                }
               </div>
                 <IonToast
                     isOpen={!!toastMessage}

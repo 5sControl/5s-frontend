@@ -60,7 +60,7 @@ const AddUser = () => {
         first_name: user.first_name,
         password: user.password,
         role: user.role,
-        workplace: selectedWorkplace.id
+        workplace: user.role === ROLE.WORKER ? selectedWorkplace.id : null
       }
       createUser(data, cookies.token)
         .then(() => {
@@ -78,7 +78,7 @@ const AddUser = () => {
   };
 
   const openModal = () => {
-    if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength || !selectedWorkplace 
+    if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength || (!selectedWorkplace && user.role === ROLE.WORKER)
       || isInvalidText(user.username, true) || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
       setHighlightRequired(true);
       return;
@@ -126,12 +126,13 @@ const AddUser = () => {
 
                 <Input 
                     label={t("users.password")} 
-                    value={user.password} 
+                    value={user?.password || ""} 
                     type="password" 
                     required 
                     handleChange={event => setUser({ ...user, password: event.target.value })}
                     state={highlightRequired && user.password.length < minPasswordLength ? "error" : "neutral" }
-                    errorMessage={t("form.passwordLength")}/>
+                    errorMessage={t("form.passwordLength")}
+                    autocomplete="new-password" />
 
               </div>
               <div className={styles.section}>
@@ -158,20 +159,22 @@ const AddUser = () => {
                     maxLength={30}
                     type="text"/>
                 
-                
-                
-                <IonList inset={true}>
-                    <MenuListButton 
-                      title={selectedWorkplace?.name || t("users.workplace")} 
-                      handleItemClick={navigateWorkplaceClick}
-                      state={highlightRequired && !selectedWorkplace ? "error" : "neutral"}
-                      errorMessage={t("form.selectWorkplace")}/>
-                </IonList>
-
                 <Select value={!customRole ? t("users.role") : user.role} placeholder={!customRole ? t("users.role") : user.role} selectList={roles} handleChange={event => {
                     setUser({ ...user, role: event.target.value });
                     setCustomRole(true)}   
                 }/>
+                
+                {
+                  user.role === ROLE.WORKER &&
+                  <IonList inset={true}>
+                    <MenuListButton 
+                      title={selectedWorkplace?.name || t("users.workplace")} 
+                      handleItemClick={navigateWorkplaceClick}
+                      state={highlightRequired && !selectedWorkplace && user.role === ROLE.WORKER ? "error" : "neutral"}
+                      errorMessage={t("form.selectWorkplace")}/>
+                </IonList>
+                }
+
               </div> 
 
                 <IonToast

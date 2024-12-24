@@ -49,8 +49,6 @@ export const Input: React.FC<InputProps> = ({
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
 
-  console.log('label', label, autocomplete)
-
   return (
     <IonItem className={`input__field ${tooltip ? styles.overflow : ""}`} style={{zIndex: zIndex}}>
       <IonLabel className={bold ? styles.label__bold : styles.label}>
