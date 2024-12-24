@@ -98,6 +98,7 @@ const CameraSegment: React.FC<CameraSegmentProps> = ({
                     handleChange={(e) => setPassword(e.target.value)}
                     tooltip={t("camera.cameraSegment.passwordTooltip")}
                     zIndex={0}
+                    autocomplete="new-password"
                 />
             </div>
             <div className={styles.section}>

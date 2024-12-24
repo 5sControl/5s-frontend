@@ -21,6 +21,7 @@ type InputProps = {
   hidePassword?: boolean;
   tooltip?: string;
   zIndex?: number;
+  autocomplete?: "new-password" | "on" | "off" | undefined
 };
 
 export const Input: React.FC<InputProps> = ({
@@ -41,11 +42,14 @@ export const Input: React.FC<InputProps> = ({
   tooltip,
   hint,
   zIndex,
+  autocomplete
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
+
+  console.log('label', label, autocomplete)
 
   return (
     <IonItem className={`input__field ${tooltip ? styles.overflow : ""}`} style={{zIndex: zIndex}}>
@@ -70,6 +74,7 @@ export const Input: React.FC<InputProps> = ({
         onBlur={handleBlur}
         maxlength={maxLength}
         className={`${styles.input} ${styles[state]} ${isFocused ? styles.focus : ""}`}
+        autocomplete={autocomplete || "off"}
       >
         {type === "password" && !hidePassword && <IonInputPasswordToggle slot="end" color="medium" />}
       </IonInput>
