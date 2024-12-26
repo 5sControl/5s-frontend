@@ -37,9 +37,14 @@ const Users = () => {
     setSearchText("");
     setLoading(true);
     getUserList(cookies.token)
-      .then(response => {
-        setItems(response.data);
-      })
+      .then(response => response.data)
+      .then(users => {
+        setItems(users.sort((a: IUser, b: IUser) => {
+          const nameA = constructName(a);
+          const nameB = constructName(b);
+          return nameA.localeCompare(nameB, undefined, { sensitivity: 'base' });
+        }));
+      })  
       .catch(error => {
         console.error(error);
       })

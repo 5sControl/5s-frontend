@@ -225,7 +225,7 @@
   },
   "users": {
     "username": "Nazwa użytkownika",
-    "fullName": "Imię Nazwisko",
+    "fullName": "Nazwisko Imię",
     "firstName": "Imię",
     "lastName": "Nazwisko",
     "password": "Hasło",
