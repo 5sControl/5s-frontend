@@ -225,7 +225,7 @@
   },
   "users": {
     "username": "Имя пользователя",
-    "fullName": "Имя Фамилия",
+    "fullName": "Фамилия Имя",
     "firstName": "Имя",
     "lastName": "Фамилия",
     "password": "Пароль",
