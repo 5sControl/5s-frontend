@@ -102,7 +102,8 @@
     "saveChanges": "Save changes",
     "download": "Download",
     "share": "Share",
-    "print": "Print"
+    "print": "Print",
+    "dismiss": "Dismiss"
   },
   "db": {
     "products": {
@@ -179,6 +180,7 @@
     "implementationTime": "Implementation Time",
     "startOperation": "Start of Operation",
     "operationTime": "Operation time:",
+    "timeOverlap": "Choose another time",
     "finishOperation": "Finish of Operation",
     "date": "Date",
     "orderItems": "Order Items",
