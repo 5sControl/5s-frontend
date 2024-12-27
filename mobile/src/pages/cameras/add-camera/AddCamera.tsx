@@ -1,10 +1,19 @@
 import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../../shared/constants/routes";
-import { useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IonButton, IonContent, IonPage, IonSegment, IonSegmentButton, IonText, IonToast, useIonViewWillEnter } from "@ionic/react";
+import {
+  IonButton,
+  IonContent,
+  IonPage,
+  IonSegment,
+  IonSegmentButton,
+  IonText,
+  IonToast,
+  useIonViewWillEnter,
+} from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 import BottomButton from "../../../components/bottomButton/BottomButton";
@@ -24,11 +33,11 @@ const AddCamera = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [selectedSegment, setSelectedSegment] = useState<"camera" | "zone">("camera");
 
-  const [cameraName, setCameraName] = useState('');
+  const [cameraName, setCameraName] = useState("");
   const [isEnabled, setIsEnabled] = useState(true);
-  const [cameraIP, setCameraIP] = useState('');
-  const [userName, setUserName] = useState('');
-  const [password, setPassword] = useState('');
+  const [cameraIP, setCameraIP] = useState("");
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   const [isNotification, setIsNotification] = useState(false);
   const [cameraSelect, setCameraSelect] = useState(false);
   const [isCreateCamera, setIsCreateCamera] = useState(false);
@@ -39,7 +48,7 @@ const AddCamera = () => {
 
   useIonViewWillEnter(() => {
     getSelectedCameras(window.location.hostname, cookies.token)
-      .then((response) => {
+      .then(response => {
         let cameras = [];
         if (response.data.length > 0) {
           cameras = response.data.sort((a, b) => a.name.localeCompare(b.name));
@@ -47,9 +56,9 @@ const AddCamera = () => {
         }
         showAddCameras(cameras);
       })
-      .catch((error) => setError(error.message))
+      .catch(error => setError(error.message));
   });
-  
+
   const handleSegmentChange = (event: CustomEvent) => {
     setSelectedSegment(event.detail.value);
   };
@@ -72,13 +81,13 @@ const AddCamera = () => {
     applySettings();
   };
 
-  const showAddCameras = (cameras) => {
+  const showAddCameras = cameras => {
     findCamera(window.location.hostname)
-      .then((response) => {
+      .then(response => {
         if (response.data && response.data.results) {
           const allCameras = response.data.results;
-          const bufCreatedCameras = cameras.length > 0 ? cameras.map((e) => e.id) : [];
-          const resultCameras = allCameras.filter((value) => {
+          const bufCreatedCameras = cameras.length > 0 ? cameras.map(e => e.id) : [];
+          const resultCameras = allCameras.filter(value => {
             return !bufCreatedCameras.includes(value);
           });
           setFindCameraList(resultCameras);
@@ -86,7 +95,7 @@ const AddCamera = () => {
           setFindCameraList([]);
         }
       })
-      .catch((error) => console.log(error.message))
+      .catch(error => console.log(error.message))
       .finally(() => setLoading(false));
     setIsCreateCamera(true);
     setCameraSelect(true);
@@ -133,7 +142,7 @@ const AddCamera = () => {
         setIsNotificationAfterCreate(false);
         setIsCameraSettings(false);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
         setIsNotification(true);
       })
@@ -145,7 +154,7 @@ const AddCamera = () => {
 
   const setIsCameraSettings = (value: boolean) => {
     setCameraSelect(value);
-  }
+  };
 
   return (
     <IonPage>
@@ -156,53 +165,46 @@ const AddCamera = () => {
             <Preloader />
           </div>
         ) : (
-            <>
-                <div className="segment-wrapper ion-padding">
-                  <IonSegment value={selectedSegment} onIonChange={handleSegmentChange}>
-                      <IonSegmentButton value="camera">
-                        {t("camera.title")}
-                      </IonSegmentButton>
-                      <IonSegmentButton value="zone">
-                        {t("camera.zone")}
-                      </IonSegmentButton>
-                  </IonSegment>
-                </div>
+          <>
+            <div className="segment-wrapper ion-padding">
+              <IonSegment value={selectedSegment} onIonChange={handleSegmentChange}>
+                <IonSegmentButton value="camera">{t("camera.title")}</IonSegmentButton>
+                <IonSegmentButton value="zone">{t("camera.zone")}</IonSegmentButton>
+              </IonSegment>
+            </div>
 
-                <div>
-                    {selectedSegment === 'camera' && (
-                        <CameraSegment 
-                          cameraIP={cameraIP}
-                          isCreateCamera={isCreateCamera}
-                          cameraSelect={cameraSelect}
-                          setCameraIP={(ip) => setCameraIP(ip)}
-                          userName={userName}
-                          password={password}
-                          applySettings={applySettings}
-                          isEnabled={isEnabled}
-                          findCameraList={findCameraList}
-                          cameraName={cameraName}
-                          setUserName={(name) => setUserName(name)}
-                          setPassword={(password) => setPassword(password)}
-                          setCameraName={(name) => setCameraName(name)}
-                        />
-                    )}
-                    {selectedSegment === 'zone' && (
-                        <Zones cameraSelect={cameraSelect} isCreateCamera={isCreateCamera} />
-                    )}
-                </div>
-
-                <IonToast
-                isOpen={!!toastMessage}
-                message={toastMessage || undefined}
-                duration={TOAST_DELAY}
-                onDidDismiss={() => setToastMessage("")}
+            <div>
+              {selectedSegment === "camera" && (
+                <CameraSegment
+                  cameraIP={cameraIP}
+                  isCreateCamera={isCreateCamera}
+                  cameraSelect={cameraSelect}
+                  setCameraIP={ip => setCameraIP(ip)}
+                  userName={userName}
+                  password={password}
+                  applySettings={applySettings}
+                  isEnabled={isEnabled}
+                  findCameraList={findCameraList}
+                  cameraName={cameraName}
+                  setUserName={name => setUserName(name)}
+                  setPassword={password => setPassword(password)}
+                  setCameraName={name => setCameraName(name)}
                 />
+              )}
+              {selectedSegment === "zone" && <Zones cameraSelect={cameraSelect} isCreateCamera={isCreateCamera} />}
+            </div>
 
-                <IonButton className="ion-padding" expand="full" id="open-toast" onClick={openModal}>
-                  {t("operations.save")}
-                </IonButton>
-             
-            </>
+            <IonToast
+              isOpen={!!toastMessage}
+              message={toastMessage || undefined}
+              duration={TOAST_DELAY}
+              onDidDismiss={() => setToastMessage("")}
+            />
+
+            <IonButton className="ion-padding" expand="full" id="open-toast" onClick={openModal}>
+              {t("operations.save")}
+            </IonButton>
+          </>
         )}
       </IonContent>
       <ConfirmationModal

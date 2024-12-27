@@ -1,8 +1,8 @@
-import { useRef, useState } from 'react';
-import { Tooltip } from '../../assets/svg/SVGcomponent';
-import { useOutsideClick } from '../../utils/useOutsideClick'; 
+import { useRef, useState } from "react";
+import { Tooltip } from "../../assets/svg/SVGcomponent";
+import { useOutsideClick } from "../../utils/useOutsideClick";
 
-import styles from './tooltip.module.scss';
+import styles from "./tooltip.module.scss";
 
 type PropsType = {
   title?: string;
