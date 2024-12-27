@@ -74,12 +74,11 @@ const addOrder = async (body: IAddOrder, setLoading?: React.Dispatch<React.SetSt
         if (order.status === STATUS.CREATED) {
             return order.data;
         } else {
-            setMessage && setMessage('Something went wrong')
+            throw new Error('Something went wrong')
         }
     } catch (e) {
         const err = e as AxiosError
-        setMessage && setMessage(err.message)
-
+        throw err;
     } finally {
         setLoading && setLoading(false)
         setCallback && setCallback()

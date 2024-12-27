@@ -200,7 +200,8 @@
     "blank": "Blank",
     "time": "Time",
     "surname": "Surname",
-    "finishOrder": "Finish order"
+    "finishOrder": "Finish order",
+    "orderExist": "Order already exists"
   },
   "time": {
     "day": "d",

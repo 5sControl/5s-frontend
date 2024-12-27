@@ -200,7 +200,8 @@
     "blank": "Szablon",
     "time": "Сzas",
     "surname": "Nazwisko",
-    "finishOrder": "Zakończ zamówienie"
+    "finishOrder": "Zakończ zamówienie",
+    "orderExist": "To zamówienie już istnieje"
   },
   "time": {
     "day": "dz",
