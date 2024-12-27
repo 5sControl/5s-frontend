@@ -8,7 +8,7 @@ import { TIMESPAN_REQUEST } from "./../../../dispatcher";
 import style from "./style.module.scss";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
-import { TOAST_DELAY } from "./../../../constants/toastDelay";
+import { TOAST_DELAY_LONG } from "./../../../constants/toastDelay";
 import { Header } from "../../../components/header/Header";
 import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
 import { ITimespan } from "../../../models/interfaces/orders.interface";
@@ -53,7 +53,10 @@ const NewTimespan: React.FC = () => {
       orderOperationId: parseInt(operationId),
       startedAt: formatISOBeforeSend(getCurrentDateTimeISO()),
     };
-    operationId && TIMESPAN_REQUEST.addTimespan(payload, setTimespan, setLoading, setToastMessage);
+    operationId && TIMESPAN_REQUEST.addTimespan(payload, setTimespan, setLoading, setToastMessage)
+    .catch(() =>{
+      setToastMessage(t("orders.timeOverlap"));
+    });
   };
 
   const handleFinishNow = () => {
@@ -65,13 +68,16 @@ const NewTimespan: React.FC = () => {
       finishedAt: formatISOBeforeSend(getCurrentDateTimeISO()),
     };
     setBlock(false);
-    operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage);
+    operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage)
+    .catch(() =>{
+      setToastMessage(t("orders.timeOverlap"));
+    });
   };
 
   const handleStartTime = (time: string | string[]) => {
     if (Array.isArray(time)) return;
     if (finishDateTime && time > finishDateTime) {
-      setToastMessage(t("messages.startTime"));
+      setToastMessage(t("messages.startTime")); 
       return;
     }
     setStartDateTime(time);
@@ -81,7 +87,10 @@ const NewTimespan: React.FC = () => {
       startedAt: formatISOBeforeSend(time),
       ...(finishDateTime && { finishedAt: formatISOBeforeSend(finishDateTime) }),
     };
-    operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage);
+    operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage)
+    .catch(() =>{
+      setToastMessage(t("orders.timeOverlap"));
+    });;
   };
 
   const handleFinishTime = (time: string | string[]) => {
@@ -98,7 +107,10 @@ const NewTimespan: React.FC = () => {
       startedAt: formatISOBeforeSend(startDateTime),
       finishedAt: formatISOBeforeSend(time),
     };
-    operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage);
+    operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage)
+    .catch(() =>{
+      setToastMessage(t("orders.timeOverlap"));
+    });
   };
 
   const handleSave = () => {
@@ -183,8 +195,17 @@ const NewTimespan: React.FC = () => {
                 position="top"
                 isOpen={!!toastMessage}
                 message={toastMessage || undefined}
-                duration={TOAST_DELAY}
+                duration={TOAST_DELAY_LONG}
                 onDidDismiss={() => setToastMessage(null)}
+                buttons={[
+                  {
+                    text: t("operations.dismiss"),
+                    role: 'cancel',
+                    handler: () => {
+                      setToastMessage(null);
+                    },
+                  },
+                ]}
               />
             </IonList>
           </>

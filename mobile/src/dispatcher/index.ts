@@ -274,24 +274,28 @@ const getOrderItemOperationsByName = async (orderId: number, orderItemName: stri
     }
 }
 
-const addTimespan = async (body: ITimespanAddBody, setTimespan: React.Dispatch<React.SetStateAction<ITimespan>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
+const addTimespan = async (
+    body: ITimespanAddBody,
+    setTimespan: React.Dispatch<React.SetStateAction<ITimespan>>,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setMessage: React.Dispatch<React.SetStateAction<string | null>>
+) => {
     try {
-        setLoading(true)
-        const operation = await TIMESPAN_API.addTimespan(body)
+        setLoading(true);
+        const operation = await TIMESPAN_API.addTimespan(body);
         if (operation.status === STATUS.CREATED) {
-            // callback();
             setTimespan(operation.data);
         } else {
-            setMessage && setMessage('Something went wrong')
+            throw new Error('Something went wrong');
         }
     } catch (e) {
-        const err = e as AxiosError
-        setMessage && setMessage(err.message)
+        const err = e as AxiosError;
+        throw err;
     } finally {
-        setLoading && setLoading(false)
+        setLoading(false);
     }
-}
+};
+
 const updateTimespan = async (id: number, body: ITimespanUpdateBody, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage: React.Dispatch<React.SetStateAction<string | null>>, callback?: () => void) => {
     try {
@@ -301,11 +305,11 @@ const updateTimespan = async (id: number, body: ITimespanUpdateBody, setLoading:
             if (callback)
                 callback()
         } else {
-            setMessage && setMessage('Something went wrong')
+            throw new Error('Something went wrong');
         }
     } catch (e) {
         const err = e as AxiosError
-        setMessage && setMessage(err.message)
+        throw err;
     } finally {
         setLoading && setLoading(false)
     }

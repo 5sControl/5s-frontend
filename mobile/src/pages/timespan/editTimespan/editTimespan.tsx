@@ -101,7 +101,10 @@ const EditTimespan: React.FC = () => {
           setLoading,
           setToastMessage,
           handleNavigate
-        );
+        )
+        .catch(() =>{
+          setToastMessage(t("orders.timeOverlap"));
+        });;
       setSave(true);
       setIsModalOpen(false);
     }
