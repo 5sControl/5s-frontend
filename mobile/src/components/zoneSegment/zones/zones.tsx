@@ -203,9 +203,20 @@ const Zones = ({ cameraSelect, isCreateCamera }) => {
       camera: cameraSelect.id,
       name: itemName,
     };
+    if (otherZones.map(zone => zone.name).includes(itemName)) {
+      setMessage({ status: false, message: t("camera.zoneSegment.messages.duplicateName") });
+      return;
+    }
+    if (!itemName.length) {
+      setMessage({ status: false, message: t("camera.zoneSegment.namePlaceholder") });
+      return;
+    }
     if (workplaceToSend) {
       body.index_workplace = workplaceToSend.id;
       body.workplace = workplaceToSend.operationName;
+    } else {
+      setMessage({ status: false, message: t("camera.zoneSegment.messages.selectWorkplace") });
+      return;
     }
     if (currentZoneId === -1) {
       setPreloader(true);
@@ -237,7 +248,6 @@ const Zones = ({ cameraSelect, isCreateCamera }) => {
 
   useEffect(() => {
     getZone();
-
     getWorkplaceList(cookie.token)
       .then(res => {
         setWorkplaceList(

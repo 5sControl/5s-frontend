@@ -43,6 +43,15 @@ const Cameras = () => {
       .catch(error => {
         console.log(error);
       });
+    setLoading(true);
+    getSelectedCameras(window.location.hostname, cookies.token)
+      .then(response => {
+        if (response.data.length > 0) {
+          setCreatedCameras(response.data.sort((a, b) => a.name.localeCompare(b.name)));
+        }
+      })
+      .catch(error => setError(error.message))
+      .finally(() => setLoading(false));
     // }
   });
 
@@ -91,74 +100,71 @@ const Cameras = () => {
 
   return (
     <IonPage>
-        <Header
-        title={t("camera.configuration")}
-        backButtonHref={ROUTES.MENU}
-        />
-        <IonContent>
+      <Header title={t("menu.cameras")} backButtonHref={ROUTES.MENU} />
+      <IonContent>
         {loading ? (
           <div className="preloader">
             <Preloader />
           </div>
         ) : (
-            <>
-        <div className='ion-padding'>
-            <IonListHeader>
-              {t("camera.plural")}
-            </IonListHeader>
-            <div>
-              {t("camera.monitoring")}
-            </div>
-        <Fab icon={Plus} handleFabClick={handleFabClick} />
-      {createdCameras && (
-        <div className={styles.cameras__list}>
-          {createdCameras.map((el, ind) => {
-            return (
-              <div key={ind} className={styles.cameras__list_item}>
-                <div onClick={() => handleClickCamera(el)}>
-                  <img
-                    className={styles.cameras__list_image}
-                    src={`${import.meta.env.VITE_API_BASE_URL}images/${el.id}/snapshot.jpg`}
-                    alt={t("camera.title")}
-                  />
-                  <div>
-                    <div className={styles.cameras__name}>{t("camera.name")}: {el.name}</div>
-                    <div className={styles.cameras__desciption}>
-                    {t("camera.algorithms")}:{' '}
-                      {processList
-                        .filter((element: any) => element.camera.id === el.id)
-                        .map((item: any, index, array) => (
-                          <span key={index}>
-                            {`${parsingAlgorithmName(item.algorithm.name)}${
-                              array.length - 1 > index ? ', ' : ''
-                            }`}
-                          </span>
-                        ))}
-                    </div>
-                    <div className={styles.cameras__desciption}>{t("camera.ip")}: {el.id}</div>
-                  </div>
+          <>
+            <div className="ion-padding">
+              <IonListHeader>{t("camera.plural")}</IonListHeader>
+              <div>{t("camera.monitoring")}</div>
+              <Fab icon={Plus} handleFabClick={handleFabClick} />
+              {createdCameras && (
+                <div className={styles.cameras__list}>
+                  {createdCameras.map((el, ind) => {
+                    return (
+                      <div key={ind} className={styles.cameras__list_item}>
+                        <div onClick={() => handleClickCamera(el)}>
+                          <img
+                            className={styles.cameras__list_image}
+                            src={`${import.meta.env.VITE_API_BASE_URL}images/${el.id}/snapshot.jpg`}
+                            alt={t("camera.title")}
+                          />
+                          <div>
+                            <div className={styles.cameras__name}>
+                              {t("camera.name")}: {el.name}
+                            </div>
+                            <div className={styles.cameras__desciption}>
+                              {t("camera.algorithms")}:{" "}
+                              {processList
+                                .filter((element: any) => element.camera.id === el.id)
+                                .map((item: any, index, array) => (
+                                  <span key={index}>
+                                    {`${parsingAlgorithmName(item.algorithm.name)}${
+                                      array.length - 1 > index ? ", " : ""
+                                    }`}
+                                  </span>
+                                ))}
+                            </div>
+                            <div className={styles.cameras__desciption}>
+                              {t("camera.ip")}: {el.id}
+                            </div>
+                          </div>
+                        </div>
+                        <img
+                          src={DeleteRedIcon}
+                          className={styles.cameras__list_delete}
+                          onClick={() => deleteCamera(el.id)}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
-                <img
-                  src={DeleteRedIcon}
-                  className={styles.cameras__list_delete}
-                  onClick={() => deleteCamera(el.id)}
-                />
-              </div>
-            );
-          })}
-        </div>
-      )}
-      {isNotificationAfterCreate && <Notification status={true} message={t("camera.saved")} />}
-      {error && <div style={{ color: 'red', fontSize: '26px' }}>{error}</div>}
-        <ConfirmationModal 
-            type="danger" 
-            isOpen={isDeleteModal} 
-            onClose={() => setIsDeleteModal(false)} 
-            onConfirm={onDeleteConfirm} 
-            title={t("camera.removeQuestion")} 
-            confirmText={t("operations.delete")}
-            cancelText={t("operations.cancel")}
-            />
+              )}
+              {isNotificationAfterCreate && <Notification status={true} message={t("camera.saved")} />}
+              {error && <div style={{ color: "red", fontSize: "26px" }}>{error}</div>}
+              <ConfirmationModal
+                type="danger"
+                isOpen={isDeleteModal}
+                onClose={() => setIsDeleteModal(false)}
+                onConfirm={onDeleteConfirm}
+                title={t("camera.removeQuestion")}
+                confirmText={t("operations.delete")}
+                cancelText={t("operations.cancel")}
+              />
             </div>
           </>
         )}

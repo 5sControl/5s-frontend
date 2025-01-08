@@ -279,7 +279,9 @@
         "select": "Wybierz strefę",
         "saved": "Strefa została zapisana",
         "notSaved": "Strefa nie została zapisana. Spróbuj ponownie.",
-        "overlap": "Strefy nie mogą się nakładać"
+        "overlap": "Strefy nie mogą się nakładać",
+        "selectWorkplace": "Wybierz miejsce pracy",
+        "duplicateName": "Nazwy stref nie mogą się powtarzać"
       },
       "notConnected": "Nie podłączona do kamery. Sprawdź połączenie na zakładce „Kamera”.",
       "namePlaceholder": "Wprowadź nazwę strefy",

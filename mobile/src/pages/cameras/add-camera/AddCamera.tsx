@@ -59,6 +59,8 @@ const AddCamera = () => {
       .catch(error => setError(error.message));
   });
 
+  const isBlank = !(cameraIP && userName && password);
+
   const handleSegmentChange = (event: CustomEvent) => {
     setSelectedSegment(event.detail.value);
   };
@@ -77,6 +79,11 @@ const AddCamera = () => {
   };
 
   const handleConfirmModal = () => {
+    setIsOpenModal(false);
+    applySettings();
+  };
+
+  const handleSave = () => {
     setIsOpenModal(false);
     applySettings();
   };
@@ -112,35 +119,13 @@ const AddCamera = () => {
       },
       algorithms: [],
     };
-    // for (const algorithm of informationToSend) {
-    //   if (algorithm === 'operation_control') {
-    //     response.algorithms = [
-    //       ...response.algorithms,
-    //       {
-    //         name: algorithm,
-    //         config: {
-    //           operation_control_id: operationID,
-    //         },
-    //       },
-    //     ];
-    //   } else {
-    //     response.algorithms = [
-    //       ...response.algorithms,
-    //       {
-    //         name: algorithm,
-    //         config: {
-    //           zonesID: configAlgo[algorithm].map((e) => ({ id: e })),
-    //         },
-    //       },
-    //     ];
-    //   }
-    // }
 
     await postAlgorithnDependences(window.location.hostname, cookies.token, response)
       .then(() => {
         setIsEnabled(false);
         setIsNotificationAfterCreate(false);
         setIsCameraSettings(false);
+        navigateBack();
       })
       .catch(error => {
         console.log(error);
@@ -166,32 +151,32 @@ const AddCamera = () => {
           </div>
         ) : (
           <>
-            <div className="segment-wrapper ion-padding">
+            {/* <div className="segment-wrapper ion-padding">
               <IonSegment value={selectedSegment} onIonChange={handleSegmentChange}>
                 <IonSegmentButton value="camera">{t("camera.title")}</IonSegmentButton>
                 <IonSegmentButton value="zone">{t("camera.zone")}</IonSegmentButton>
               </IonSegment>
-            </div>
+            </div> */}
 
             <div>
-              {selectedSegment === "camera" && (
-                <CameraSegment
-                  cameraIP={cameraIP}
-                  isCreateCamera={isCreateCamera}
-                  cameraSelect={cameraSelect}
-                  setCameraIP={ip => setCameraIP(ip)}
-                  userName={userName}
-                  password={password}
-                  applySettings={applySettings}
-                  isEnabled={isEnabled}
-                  findCameraList={findCameraList}
-                  cameraName={cameraName}
-                  setUserName={name => setUserName(name)}
-                  setPassword={password => setPassword(password)}
-                  setCameraName={name => setCameraName(name)}
-                />
-              )}
-              {selectedSegment === "zone" && <Zones cameraSelect={cameraSelect} isCreateCamera={isCreateCamera} />}
+              {/* {selectedSegment === "camera" && ( */}
+              <CameraSegment
+                cameraIP={cameraIP}
+                isCreateCamera={isCreateCamera}
+                cameraSelect={cameraSelect}
+                setCameraIP={ip => setCameraIP(ip)}
+                userName={userName}
+                password={password}
+                applySettings={applySettings}
+                isEnabled={isEnabled}
+                findCameraList={findCameraList}
+                cameraName={cameraName}
+                setUserName={name => setUserName(name)}
+                setPassword={password => setPassword(password)}
+                setCameraName={name => setCameraName(name)}
+              />
+              {/* )} */}
+              {/* {selectedSegment === "zone" && <Zones cameraSelect={cameraSelect} isCreateCamera={isCreateCamera} />} */}
             </div>
 
             <IonToast
@@ -200,10 +185,11 @@ const AddCamera = () => {
               duration={TOAST_DELAY}
               onDidDismiss={() => setToastMessage("")}
             />
-
-            <IonButton className="ion-padding" expand="full" id="open-toast" onClick={openModal}>
-              {t("operations.save")}
-            </IonButton>
+            {selectedSegment === "camera" && (
+              <IonButton className="ion-padding" expand="full" id="open-toast" onClick={handleSave} disabled={isBlank}>
+                {t("operations.save")}
+              </IonButton>
+            )}
           </>
         )}
       </IonContent>

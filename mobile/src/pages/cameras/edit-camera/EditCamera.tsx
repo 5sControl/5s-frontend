@@ -61,6 +61,8 @@ const EditCamera = () => {
       .finally(() => setLoading(false));
   });
 
+  const isBlank = !(cameraIP && userName && password);
+
   const handleSegmentChange = (event: CustomEvent) => {
     setSelectedSegment(event.detail.value);
   };
@@ -79,6 +81,11 @@ const EditCamera = () => {
   };
 
   const handleConfirmModal = () => {
+    setIsOpenModal(false);
+    applySettings();
+  };
+
+  const handleSave = () => {
     setIsOpenModal(false);
     applySettings();
   };
@@ -104,54 +111,32 @@ const EditCamera = () => {
   };
 
   const applySettings = async () => {
-    // setLoading(true);
-    // const response: any = {
-    //   camera: {
-    //     ip: cameraIP,
-    //     name: cameraName.length > 0 ? cameraName : cameraIP,
-    //     username: userName,
-    //     password: password,
-    //   },
-    //   algorithms: [],
-    // };
-    // // for (const algorithm of informationToSend) {
-    // //   if (algorithm === 'operation_control') {
-    // //     response.algorithms = [
-    // //       ...response.algorithms,
-    // //       {
-    // //         name: algorithm,
-    // //         config: {
-    // //           operation_control_id: operationID,
-    // //         },
-    // //       },
-    // //     ];
-    // //   } else {
-    // //     response.algorithms = [
-    // //       ...response.algorithms,
-    // //       {
-    // //         name: algorithm,
-    // //         config: {
-    // //           zonesID: configAlgo[algorithm].map((e) => ({ id: e })),
-    // //         },
-    // //       },
-    // //     ];
-    // //   }
-    // // }
-    // await postAlgorithnDependences(window.location.hostname, cookies.token, response)
-    //   .then(() => {
-    //     setIsEnabled(false);
-    //     setIsNotificationAfterCreate(false);
-    //     setIsCameraSettings(false);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     setIsNotification(true);
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //     setIsOpenModal(false);
-    //     navigateBack();
-    //   });
+    setLoading(true);
+    const response: any = {
+      camera: {
+        ip: cameraIP,
+        name: cameraName.length > 0 ? cameraName : cameraIP,
+        username: userName,
+        password: password,
+      },
+      algorithms: [],
+    };
+
+    await postAlgorithnDependences(window.location.hostname, cookies.token, response)
+      .then(() => {
+        setIsEnabled(false);
+        setIsNotificationAfterCreate(false);
+        setIsCameraSettings(false);
+        navigateBack();
+      })
+      .catch(error => {
+        console.log(error);
+        setIsNotification(true);
+      })
+      .finally(() => {
+        setLoading(false);
+        setIsOpenModal(false);
+      });
   };
 
   const setIsCameraSettings = (value: boolean) => {
@@ -203,10 +188,11 @@ const EditCamera = () => {
               duration={TOAST_DELAY}
               onDidDismiss={() => setToastMessage("")}
             />
-
-            <IonButton className="ion-padding" expand="full" id="open-toast" onClick={openModal}>
-              {t("operations.save")}
-            </IonButton>
+            {selectedSegment === "camera" && (
+              <IonButton className="ion-padding" expand="full" id="open-toast" onClick={handleSave} disabled={isBlank}>
+                {t("operations.save")}
+              </IonButton>
+            )}
           </>
         )}
       </IonContent>

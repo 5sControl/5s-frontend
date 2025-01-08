@@ -279,7 +279,9 @@
         "select": "Select zone",
         "saved": "Zone is saved",
         "notSaved": "Zone is not saved. Try again",
-        "overlap": "Zones must not overlap"
+        "overlap": "Zones must not overlap",
+        "selectWorkplace": "Choose workplace",
+        "duplicateName": "Zone names cannot be duplicated"
       },
       "notConnected": "Not connected to the camera. Check your connection in 'Camera' tab.",
       "namePlaceholder": "Enter zone name",
