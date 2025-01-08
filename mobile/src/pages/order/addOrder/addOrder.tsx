@@ -23,6 +23,7 @@ const AddOrder: React.FC = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [estimatedAt, setEstimatedAt] = useState<string>("");
   const [highlightError, setHighlightError] = useState<boolean>(false);
+  const [orderExist, setOrderExist] = useState<boolean>(false);
   const estimatedModalRef = useRef<HTMLIonModalElement>(null);
 
   const navigateTo = () => {
@@ -47,9 +48,15 @@ const AddOrder: React.FC = () => {
         setOrderName("");
         setOrderNumber("");
         setEstimatedAt("");
+        setOrderExist(false);
+        setHighlightError(false);
+        navigateTo();
+      })
+      .catch((err) => {
+        setOrderExist(true);
+        setHighlightError(true);
       })
       .finally(() => {
-        navigateTo();
         setLoading(false);
       });
   };
@@ -73,8 +80,8 @@ const AddOrder: React.FC = () => {
           required={true}
           handleChange={e => setOrderNumber(e.detail.value)}
           type="number"
-          state={orderNumber.length > 10 ? "error" : "neutral"}
-          errorMessage={t("messages.validLength")}
+          state={highlightError && (orderNumber.length > 10 || orderExist) ? "error" : "neutral"}
+          errorMessage={orderExist ? t("orders.orderExist") : t("messages.validLength")}
         />
         <Input
           label={t("orders.orderName")}

@@ -102,7 +102,8 @@
     "saveChanges": "Zapisz zmiany",
     "download": "Pobierz",
     "share": "Udostępnij",
-    "print": "Drukuj"
+    "print": "Drukuj",
+    "dismiss": "Zamknij"
   },
   "db": {
     "products": {
@@ -179,6 +180,7 @@
     "implementationTime": "Czas realizacji",
     "startOperation": "Początek operacji",
     "operationTime": "Czas operacji:",
+    "timeOverlap": "Wybierz inny termin",
     "finishOperation": "Koniec operacji",
     "date": "Data",
     "orderItems": "Węzły",
@@ -200,7 +202,8 @@
     "blank": "Szablon",
     "time": "Сzas",
     "surname": "Nazwisko",
-    "finishOrder": "Zakończ zamówienie"
+    "finishOrder": "Zakończ zamówienie",
+    "orderExist": "To zamówienie już istnieje"
   },
   "time": {
     "day": "dz",
@@ -225,7 +228,7 @@
   },
   "users": {
     "username": "Nazwa użytkownika",
-    "fullName": "Imię Nazwisko",
+    "fullName": "Nazwisko Imię",
     "firstName": "Imię",
     "lastName": "Nazwisko",
     "password": "Hasło",
@@ -279,7 +282,9 @@
         "select": "Wybierz strefę",
         "saved": "Strefa została zapisana",
         "notSaved": "Strefa nie została zapisana. Spróbuj ponownie.",
-        "overlap": "Strefy nie mogą się nakładać"
+        "overlap": "Strefy nie mogą się nakładać",
+        "selectWorkplace": "Wybierz miejsce pracy",
+        "duplicateName": "Nazwy stref nie mogą się powtarzać"
       },
       "notConnected": "Nie podłączona do kamery. Sprawdź połączenie na zakładce „Kamera”.",
       "namePlaceholder": "Wprowadź nazwę strefy",

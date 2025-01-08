@@ -31,6 +31,7 @@ const EditUser = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [highlightRequired, setHighlightRequired] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [userExists, setUserExists] = useState(false);
   const roles = Object.values(ROLE)
     .filter(role => !(getUserRole() === ROLE.ADMIN && role === ROLE.SUPERUSER))
     .map(role => ({
@@ -71,7 +72,7 @@ const EditUser = () => {
       first_name: user.first_name,
       last_name: user.last_name,
       role: user.role,
-      workplace_id: selectedWorkplace?.id || user.workplace?.id || null
+      workplace_id: user.role === ROLE.WORKER ? (selectedWorkplace?.id || user.workplace?.id || null) : null
     };
     if (passwordChanged){
       Object.assign(updatedUser, {password: user.password});
@@ -85,10 +86,13 @@ const EditUser = () => {
       const updatedUser: Partial<IUpdateUser> = getUpdatedUser();
       updateUser(Number(id), updatedUser, cookies.token)
         .then(() => {
+          setUserExists(false);
+          setHighlightRequired(false);
           navigateBack();
         })
         .catch(error => {
-          setToastMessage(t("messages.employeeExists"));
+          setUserExists(true);
+          setHighlightRequired(true);
           console.error(error);
         })
         .finally(() => {
@@ -99,7 +103,7 @@ const EditUser = () => {
   };
 
   const openModal = () => {
-    if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength
+    if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength || ((!(selectedWorkplace || user.workplace?.id)) && user.role === ROLE.WORKER)
       || isInvalidText(user.username, true) || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
       setHighlightRequired(true);
       return;
@@ -142,8 +146,8 @@ const EditUser = () => {
                     value={user?.username || ""} 
                     required 
                     handleChange={event => setUser({ ...user, username: event.target.value })}
-                    state={highlightRequired && (!user.username || isInvalidText(user.username, true)) ? "error" : "neutral" }
-                    errorMessage={isInvalidText(user.username) ? t("form.invalidCharacters") : t("form.required")}
+                    state={highlightRequired && (!user.username || isInvalidText(user.username, true) || userExists) ? "error" : "neutral" }
+                    errorMessage={isInvalidText(user.username, true) ? t("form.invalidCharacters") : userExists ? t("messages.employeeExists") : t("form.required")}
                     maxLength={30}/>
                 <Input 
                     label={t("users.password")} 
@@ -182,12 +186,20 @@ const EditUser = () => {
                     maxLength={30}
                     type="text"/>
 
-                <IonList inset={true}>
-                    <MenuListButton title={selectedWorkplace?.name || user.workplace?.name || t("users.workplace")} handleItemClick={navigateWorkplaceClick}/>
-                </IonList>
                 <Select value={user.role} placeholder={user.role} selectList={roles} handleChange={event => {
                     setUser({ ...user, role: event.target.value });
                 }} />
+                {
+                  user.role === ROLE.WORKER &&                
+                  <IonList inset={true}>
+                    <MenuListButton 
+                      title={selectedWorkplace?.name || user.workplace?.name || t("users.workplace")} 
+                      handleItemClick={navigateWorkplaceClick}
+                      state={highlightRequired && !(selectedWorkplace || user.workplace?.id) && user.role === ROLE.WORKER ? "error" : "neutral"}
+                      errorMessage={t("form.selectWorkplace")}
+                    />
+                  </IonList>
+                }
               </div>
                 <IonToast
                     isOpen={!!toastMessage}

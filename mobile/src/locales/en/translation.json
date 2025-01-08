@@ -36,7 +36,7 @@
     "saveData": "Please save your data!",
     "employeeNotFound": "Employee not found",
     "validLength": "Maximum text length reached",
-    "employeeExists": "This employee already exists"
+    "employeeExists": "Employee with the same username already exists"
   },
   "directory": {
     "newDirectory": "New directory",
@@ -102,7 +102,8 @@
     "saveChanges": "Save changes",
     "download": "Download",
     "share": "Share",
-    "print": "Print"
+    "print": "Print",
+    "dismiss": "Dismiss"
   },
   "db": {
     "products": {
@@ -179,6 +180,7 @@
     "implementationTime": "Implementation Time",
     "startOperation": "Start of Operation",
     "operationTime": "Operation time:",
+    "timeOverlap": "Choose another time",
     "finishOperation": "Finish of Operation",
     "date": "Date",
     "orderItems": "Order Items",
@@ -200,7 +202,8 @@
     "blank": "Blank",
     "time": "Time",
     "surname": "Surname",
-    "finishOrder": "Finish order"
+    "finishOrder": "Finish order",
+    "orderExist": "Order already exists"
   },
   "time": {
     "day": "d",
@@ -279,7 +282,9 @@
         "select": "Select zone",
         "saved": "Zone is saved",
         "notSaved": "Zone is not saved. Try again",
-        "overlap": "Zones must not overlap"
+        "overlap": "Zones must not overlap",
+        "selectWorkplace": "Choose workplace",
+        "duplicateName": "Zone names cannot be duplicated"
       },
       "notConnected": "Not connected to the camera. Check your connection in 'Camera' tab.",
       "namePlaceholder": "Enter zone name",

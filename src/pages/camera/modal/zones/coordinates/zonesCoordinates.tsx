@@ -105,7 +105,22 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
       if (fourPointsCoordinates.length >= 4) {
         setFourPointsCoordinates([]);
       } else {
-        setFourPointsCoordinates(prev => [...prev, { x: e.clientX - target.x, y: e.clientY - target.y }]);
+        setFourPointsCoordinates(prev => {
+          const points = [...prev, { x: e.clientX - target.x, y: e.clientY - target.y }];
+
+          const centroid = {
+            x: points.reduce((sum, point) => sum + point.x, 0) / points.length,
+            y: points.reduce((sum, point) => sum + point.y, 0) / points.length,
+          };
+
+          points.sort((a, b) => {
+            const angleA = Math.atan2(a.y - centroid.y, a.x - centroid.x);
+            const angleB = Math.atan2(b.y - centroid.y, b.x - centroid.x);
+            return angleA - angleB;
+          });
+
+          return points;
+        });
       }
     } else {
       setTargetRect(null);
@@ -136,6 +151,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
       setMoveDraw({ x: e.clientX - target.x, y: e.clientY - target.y });
     }
   };
+
   const handleImageLoad = () => {
     setProportionWidth(image.current.naturalWidth / image.current.width);
     setProportionHeight(image.current.naturalHeight / image.current.height);
@@ -211,6 +227,21 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
         id: generateString(),
       } as FourPointsNewCoordinates;
       setAllBox([...allBox, response]);
+
+      const xCoords = Object.keys(newCoords)
+        .filter(coord => coord.startsWith("x"))
+        .map(key => newCoords[key]);
+
+      const yCoords = Object.keys(newCoords)
+        .filter(coord => coord.startsWith("y"))
+        .map(key => newCoords[key]);
+
+      const isOutsideBounds =
+        xCoords.some(x => x < 0 || x > image.current.naturalWidth) ||
+        yCoords.some(y => y < 0 || y > image.current.naturalHeight);
+
+      setValidZone(!isOutsideBounds);
+
       setCoords([newCoords]);
       setFourPointsCoordinates([]);
     }
@@ -266,18 +297,18 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
         console.log("coords", coords);
         sendCoord.push(coords);
       }
+
+      const isOutsideBounds = sendCoord.some(
+        coords =>
+          coords.x1 < 0 ||
+          coords.y1 < 0 ||
+          coords.x2 > image.current.naturalWidth ||
+          coords.y2 > image.current.naturalHeight
+      );
+
+      setValidZone(!isOutsideBounds);
+      setCoords(sendCoord);
     });
-
-    const isOutsideBounds = sendCoord.some(
-      coords =>
-        coords.x1 < 0 ||
-        coords.y1 < 0 ||
-        coords.x2 > image.current.naturalWidth ||
-        coords.y2 > image.current.naturalHeight
-    );
-
-    setValidZone(!isOutsideBounds);
-    setCoords(sendCoord);
   };
   const scaleHandler = (img: string) => {
     const coordinatesLayout: any = document.querySelectorAll(".coordinates");

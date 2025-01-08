@@ -9,6 +9,7 @@ import {
   IonIcon,
   IonLabel,
   IonPage,
+  IonTitle,
   IonToolbar,
   useIonViewWillEnter,
 } from "@ionic/react";
@@ -44,6 +45,7 @@ export const OperationDetail = () => {
   const [isReady, setIsReady] = useState(false);
   const [videoIndex, setVideoIndex] = useState<number>(0);
   const history = useHistory();
+  const [noVideo, setNoVideo] = useState(false);
 
   //   const videoIndex = cameraId ? detail.videos.findIndex(video => video.camera_ip === cameraId) : 0;
 
@@ -51,6 +53,9 @@ export const OperationDetail = () => {
     getOrderViewOperation(cookies.token, parseInt(timespanId))
       .then(response => {
         const operation = response.data;
+        if (operation.videos.length === 0) {
+          setNoVideo(true);
+        }
         setDetail(response.data);
         const startTime = moment(operation.sTime);
         const endTime = moment(operation.eTime);
@@ -62,7 +67,7 @@ export const OperationDetail = () => {
         }
       })
       .catch(err => {
-        console.log(err);
+        setNoVideo(true)
         console.log(err);
       })
       .finally(() => {
@@ -114,41 +119,49 @@ export const OperationDetail = () => {
           </div>
         ) : (
           <div className="videoWrapper">
-            <div className="orderDetail ion-padding">
-              <div className="titleWrapper">
-                <h4 className="title">{detail.oprName}</h4>
-                <img src={Download} alt="download" onClick={() => handleDownload(videoIndex)} />
+            {
+              noVideo ?
+              <IonTitle color={"light"}>No video available</IonTitle>
+              :
+              <>
+              <div className="orderDetail ion-padding">
+                <div className="titleWrapper">
+                  <h4 className="title">{detail.oprName}</h4>
+                  <img src={Download} alt="download" onClick={() => handleDownload(videoIndex)} />
+                </div>
+
+                <div className="subtitle">
+                  <span>Time: </span>
+                  <span className="subtitle_value">{moment(detail.sTime).format("HH:mm:ss")} </span>
+                  <span>({duration})</span>
+                </div>
+                <div className="subtitle">
+                  <span>Order: </span>
+                  <span className="subtitle_value">{detail.orId}</span>
+                </div>
+                <div className="status">
+                  <img src={detail.status === null ? GreyStatus : GreenStatus} />
+                </div>
               </div>
 
-              <div className="subtitle">
-                <span>Time: </span>
-                <span className="subtitle_value">{moment(detail.sTime).format("HH:mm:ss")} </span>
-                <span>({duration})</span>
-              </div>
-              <div className="subtitle">
-                <span>Order: </span>
-                <span className="subtitle_value">{detail.orId}</span>
-              </div>
-              <div className="status">
-                <img src={detail.status === null ? GreyStatus : GreenStatus} />
-              </div>
-            </div>
-            <ReactPlayer
-              ref={playerRef}
-              width="100%"
-              height="100%"
-              playing={true}
-              volume={0.9}
-              controls={true}
-              preload="auto"
-              config={{
-                file: {
-                  forceVideo: true,
-                },
-              }}
-              url={`${import.meta.env.VITE_API_BASE_URL}${detail?.videos[videoIndex].file_name}`}
-              onReady={() => handlePlay(videoIndex)}
-            />
+                <ReactPlayer
+                ref={playerRef}
+                width="100%"
+                height="100%"
+                playing={true}
+                volume={0.9}
+                controls={true}
+                preload="auto"
+                config={{
+                  file: {
+                    forceVideo: true,
+                  },
+                }}
+                url={`${import.meta.env.VITE_API_BASE_URL}${detail?.videos[videoIndex]?.file_name}`}
+                onReady={() => handlePlay(videoIndex)}
+              />
+              </>
+          }
           </div>
         )}
       </IonContent>
