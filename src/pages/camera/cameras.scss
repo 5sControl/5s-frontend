@@ -132,7 +132,7 @@
     &_modal {
       position: relative;
       width: calc(100% - 300px);
-      // height: calc(90vh);
+      height: calc(90vh);
       margin-top: 70px;
       background-color: #ffffff;
       padding: 20px;
@@ -206,7 +206,7 @@
       flex-direction: column;
       align-items: center;
       gap: 10px;
-      padding: 0 0px 0 20px;
+      padding-left: 20px;
     }
     &_left {
       min-width: calc(100% - 380px);

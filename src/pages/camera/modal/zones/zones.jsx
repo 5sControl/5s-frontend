@@ -201,9 +201,20 @@ export const Zones = ({ cameraSelect, isCreateCamera }) => {
       camera: cameraSelect.id,
       name: itemName,
     };
+    if (otherZones.map(zone => zone.name).includes(itemName)) {
+      setMessage({ status: false, message: "Zone names cannot be duplicated" });
+      return;
+    }
+    if (!itemName.length) {
+      setMessage({ status: false, message: "Enter zone name" });
+      return;
+    }
     if (workplaceToSend) {
       body.index_workplace = workplaceToSend.id;
       body.workplace = workplaceToSend.operationName;
+    } else {
+      setMessage({ status: false, message: "Choose workplace" });
+      return;
     }
     if (currentZoneId === -1) {
       setPreloader(true);
