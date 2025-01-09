@@ -169,7 +169,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
   };
 
   const endPosition = (e: any) => {
-    if (e && !targetRect) {
+    if (e && !targetRect && isStartDraw) {
       const response = {
         x: moveDraw.x - isStartDraw.x > 0 ? isStartDraw.x : isStartDraw.x - Math.abs(moveDraw.x - isStartDraw.x),
         y: moveDraw.y - isStartDraw.y > 0 ? isStartDraw.y : isStartDraw.y - Math.abs(moveDraw.y - isStartDraw.y),
