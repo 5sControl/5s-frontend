@@ -83,7 +83,7 @@ const AddUser = () => {
 
   const openModal = () => {
     if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength || (!selectedWorkplace && user.role === ROLE.WORKER)
-      || isInvalidText(user.username, true) || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
+      || isInvalidText(user.username, true, false) || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
       setHighlightRequired(true);
       return;
     }
@@ -124,8 +124,8 @@ const AddUser = () => {
                     value={user?.username || ""} 
                     required 
                     handleChange={event => setUser({ ...user, username: event.target.value })}
-                    state={highlightRequired && (!user.username || isInvalidText(user.username, true) || userExists) ? "error" : "neutral" }
-                    errorMessage={isInvalidText(user.username, true) ? t("form.invalidCharacters") : userExists ? t("messages.employeeExists") : t("form.required")}
+                    state={highlightRequired && (!user.username || isInvalidText(user.username, true, false) || userExists) ? "error" : "neutral" }
+                    errorMessage={isInvalidText(user.username, true, false) ? t("form.invalidCharacters") : userExists ? t("messages.employeeExists") : t("form.required")}
                     maxLength={30}/>
 
                 <Input 

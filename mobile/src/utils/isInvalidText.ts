@@ -1,8 +1,17 @@
-export const isInvalidText = (value: string | undefined, allowNumbers?: boolean) => {
+export const isInvalidText = (value: string | undefined, allowNumbers?: boolean, allowSpaces: boolean = true) => {
     if (!value) return false;
-    const isInvalid = allowNumbers 
-        ? /[^a-zA-Zа-яА-ЯёЁ0-9 _-]/
-        : /\s|[^a-zA-Zа-яА-ЯёЁ_-]/;
-        
-    return isInvalid.test(value);
+
+    let regex: RegExp;
+
+    if (allowNumbers) {
+        regex = allowSpaces 
+            ? /[^a-zA-Zа-яА-ЯёЁ0-9 _-]/ 
+            : /[^a-zA-Zа-яА-ЯёЁ0-9_-]/;
+    } else {
+        regex = allowSpaces 
+            ? /[^a-zA-Zа-яА-ЯёЁ _-]/ 
+            : /\s|[^a-zA-Zа-яА-ЯёЁ_-]/;
+    }
+
+    return regex.test(value);
 }
