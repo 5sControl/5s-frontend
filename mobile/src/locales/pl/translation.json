@@ -158,7 +158,8 @@
     "required": "To pole jest wymagane",
     "passwordLength": "Hasło musi mieć co najmniej 4 znaki",
     "selectWorkplace": "Wybierz miejsce pracy",
-    "invalidCharacters": "Nieprawidłowe znaki"
+    "invalidCharacters": "Nieprawidłowe znaki",
+    "passwordsNotEqual": "Hasła nie pasują"
   },
   "orders": {
     "order": "Zamówienie",
@@ -232,6 +233,8 @@
     "firstName": "Imię",
     "lastName": "Nazwisko",
     "password": "Hasło",
+    "newPassword": "Nowe hasło",
+    "confirmPassword": "Potwierdź hasło",
     "role": "Rola",
     "workplace": "Miejsce pracy",
     "dateJoined": "Data dołączenia",

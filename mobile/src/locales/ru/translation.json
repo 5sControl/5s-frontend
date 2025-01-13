@@ -158,7 +158,8 @@
     "required": "Это поле обязательно для заполнения",
     "passwordLength": "Длина пароля должна составлять минимум 4 символа",
     "selectWorkplace": "Необходимо выбрать рабочее место сотрудника",
-    "invalidCharacters": "Недопустимые символы"
+    "invalidCharacters": "Недопустимые символы",
+    "passwordsNotEqual": "Пароли не совпадают"
   },
   "orders": {
     "order": "Заказ",
@@ -232,6 +233,8 @@
     "firstName": "Имя",
     "lastName": "Фамилия",
     "password": "Пароль",
+    "newPassword": "Новый пароль",
+    "confirmPassword": "Подтвердить пароль",
     "role": "Роль",
     "workplace": "Рабочее место",
     "dateJoined": "Дата регистрации",
