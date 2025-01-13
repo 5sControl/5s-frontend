@@ -86,7 +86,7 @@ const EditOrder: React.FC = () => {
               required
               handleChange={e => setOrderName(e.detail.value!)}
               maxLength={50}
-              state={orderName?.length === 50 || isInvalidText(orderName, true) ? "error" : "neutral"}
+              state={orderName?.length === 50 || isInvalidText(orderName, {numbers: true, spaces: true}) ? "error" : "neutral"}
               errorMessage={orderName?.length === 50 ? t("messages.validLength") : t("form.invalidCharacters")}
             />
             <DateSelector
@@ -99,7 +99,7 @@ const EditOrder: React.FC = () => {
 
             <BottomButton 
               handleClick={handleSubmit} 
-              disabled={!(isChanged && orderName?.length < 50 && !isInvalidText(orderName, true))} 
+              disabled={!(isChanged && orderName?.length < 50 && !isInvalidText(orderName, {numbers: true, spaces: true}))} 
               label={t("operations.save")} />
 
             <IonToast

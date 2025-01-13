@@ -106,7 +106,7 @@ const EditUser = () => {
 
   const openModal = () => {
     if (!user.username || !user.first_name || !user.last_name || (password && password.length < minPasswordLength) || ((!(selectedWorkplace || user.workplace?.id)) && user.role === ROLE.WORKER)
-      || isInvalidText(user.username, true) || isInvalidText(user.first_name) || isInvalidText(user.last_name) || password !== confirmPassword) {
+      || isInvalidText(user.username, {numbers: true}) || isInvalidText(user.first_name) || isInvalidText(user.last_name) || password !== confirmPassword) {
       setHighlightRequired(true);
       return;
     }
@@ -148,8 +148,8 @@ const EditUser = () => {
                     value={user?.username || ""} 
                     required 
                     handleChange={event => setUser({ ...user, username: event.target.value })}
-                    state={highlightRequired && (!user.username || isInvalidText(user.username, true) || userExists) ? "error" : "neutral" }
-                    errorMessage={isInvalidText(user.username, true) ? t("form.invalidCharacters") : userExists ? t("messages.employeeExists") : t("form.required")}
+                    state={highlightRequired && (!user.username || isInvalidText(user.username, {numbers: true})  || userExists) ? "error" : "neutral" }
+                    errorMessage={isInvalidText(user.username, {numbers: true})  ? t("form.invalidCharacters") : userExists ? t("messages.employeeExists") : t("form.required")}
                     maxLength={30}/>
                 <Input 
                     label={t("users.newPassword")} 
