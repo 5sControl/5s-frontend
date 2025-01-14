@@ -285,7 +285,7 @@ function App() {
                 <OrderReport />
               </Route>
               <Route exact path={ROUTES.REPORT_ORDER(":orderId")}>
-                <Reports />
+                <FullReport />
               </Route>
               <Route exact path={ROUTES.REPORT_ORDER_FULL(":orderId")}>
                 <FullReport />
