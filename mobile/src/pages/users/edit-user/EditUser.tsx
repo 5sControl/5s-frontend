@@ -155,7 +155,7 @@ const EditUser = () => {
                     label={t("users.newPassword")} 
                     value={password} 
                     type="password" 
-                    hidePassword={true} 
+                    hidePassword={false} 
                     required
                     handleChange={event => {
                       setPassword(event.target.value)
@@ -167,7 +167,7 @@ const EditUser = () => {
                     label={t("users.confirmPassword")} 
                     value={confirmPassword} 
                     type="password" 
-                    hidePassword={true} 
+                    hidePassword={false} 
                     required
                     handleChange={event => {
                       setConfirmPassword(event.target.value)
