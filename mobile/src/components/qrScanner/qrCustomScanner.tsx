@@ -14,10 +14,13 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
   const [scanning, setScanning] = useState(false);
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+ 
 
   useEffect(() => {
     const scanner = new Html5Qrcode("qr-reader");
     qrCodeReaderRef.current = scanner;
+    console.log('useEffect');
+    startScanning(); 
   }, []);
 
   useIonViewWillLeave(() => {
@@ -48,6 +51,7 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
       },
       errorMessage => {
         setError(errorMessage);
+        console.log(`error scanning ${error}`)
       }
     );
   };
@@ -55,8 +59,7 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
   const stopScanning = () => {
     const scanner = qrCodeReaderRef?.current;
     if (scanner?.isScanning) {
-      scanner
-        .stop()
+      scanner?.stop()
         .then(() => {
           setScanning(false);
           setQrCode(null);
@@ -64,6 +67,7 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
         .catch(err => {
           console.error("Failed to stop scanning:", err);
         });
+      scanner?.clear();
     }
   };
 
