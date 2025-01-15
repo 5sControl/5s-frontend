@@ -83,14 +83,15 @@ const Order = () => {
 
   const blankItems: TableRow[] =
     orderBlankItems.map((item, index) => {
-      const { hours, minutes } = formatTime(item.duration);
+      const totalDuration = item.timespans.reduce((sum, item) => sum + item.duration, 0);
+      const { hours, minutes } = formatTime(totalDuration);
       const durationFormat = hours
         ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}`
         : `${minutes} ${t("time.min")}`;
       return {
-        id: item.orderItem.id,
-        navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.orderItem.id)),
-        values: [index + 1, item.name, ""],
+        id: item.id,
+        navigateTo: ROUTES.ORDER_ITEM(String(order.id), String(item.orderItem.id)) + `?operationId=${item.id}`,
+        values: [index + 1, item.name, durationFormat],
       };
     }) || [];
 
