@@ -164,14 +164,11 @@ const EditCamera = () => {
               {selectedSegment === "camera" && (
                 <CameraSegment
                   cameraIP={cameraIP}
-                  isCreateCamera={isCreateCamera}
-                  cameraSelect={cameraSelect}
                   setCameraIP={ip => setCameraIP(ip)}
                   userName={userName}
                   password={password}
                   applySettings={applySettings}
                   isEnabled={isEnabled}
-                  findCameraList={findCameraList}
                   cameraName={cameraName}
                   setUserName={name => setUserName(name)}
                   setPassword={password => setPassword(password)}
