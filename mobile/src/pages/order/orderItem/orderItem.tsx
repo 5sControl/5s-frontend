@@ -1,21 +1,19 @@
-import React, { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import { IonContent, IonList, IonPage, IonToast, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import style from "./orderItem.module.scss";
-import { useHistory, useParams } from "react-router-dom";
-import { IItem, Item } from "../../../models/interfaces/item.interface";
-import { ITEM_REQUEST, TIMESPAN_REQUEST } from "../../../dispatcher";
+import { useLocation, useParams } from "react-router-dom";
+import { ORDER_REQUEST, TIMESPAN_REQUEST } from "../../../dispatcher";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
 import { TOAST_DELAY } from "../../../constants/toastDelay";
-import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
 import { Preloader } from "../../../components/preloader/preloader";
 import { TableRow } from "../../../models/interfaces/table.interface";
 import { Table } from "../../../components/table/Table";
-import { IOrderItemTimespan, ITimespan } from "../../../models/interfaces/orders.interface";
 import { formatDate, formatTime } from "../../../utils/parseInputDate";
 import { useDispatch } from "react-redux";
 import { setTimespan } from "../../../store/timespanSlice";
+import { IOrderOperation } from "../../../models/interfaces/operationItem.interface";
 
 const RADIX = 10;
 
@@ -25,11 +23,14 @@ const OrderItem = () => {
     orderId: string;
     itemId: string;
   };
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const operationId = Number(searchParams.get('operationId'));
+  const [operation, setOperation] = useState<IOrderOperation | null>(null);
   const [timespans, setTimespans] = useState<any[]>([]);
   const [orderItemName, setOrderItemName] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const history = useHistory();
   const dispatch = useDispatch();
 
   useIonViewWillEnter(() => {
@@ -40,6 +41,9 @@ const OrderItem = () => {
       setLoading,
       setToastMessage
     );
+    if (operationId) {
+      ORDER_REQUEST.getOrderOperationById(operationId, setOperation as React.Dispatch<SetStateAction<IOrderOperation>>, setLoading, setToastMessage);
+    }
   });
 
   const saveTimespanInfo = (timespanWorker, finishTime) => {
@@ -51,7 +55,7 @@ const OrderItem = () => {
   };
 
   const tableItems: TableRow[] =
-    timespans?.map((timespan, index) => {
+    timespans?.filter(timespan => !operationId || timespan.orderOperation.id == operationId).map((timespan, index) => {
       const { hours, minutes } = formatTime(timespan.duration);
       const durationFormat = hours
         ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}`
@@ -72,7 +76,7 @@ const OrderItem = () => {
   return (
     <IonPage>
       <>
-        <Header title={orderItemName} backButtonHref={ROUTES.ORDER(String(orderId))} />
+        <Header title={operationId ? operation?.name : orderItemName} backButtonHref={ROUTES.ORDER(String(orderId))} />
         <IonContent>
           {isLoading ? (
             <div className="preloader">
