@@ -48,7 +48,6 @@ const Order = () => {
 
   const isLoaded = Boolean(Object.values(order)?.length);
 
-  console.log()
   useIonViewWillEnter(() => {
     if (!id) return;
 
