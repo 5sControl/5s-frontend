@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
-import { IonContent, IonList, IonPage } from "@ionic/react";
+import { IonContent, IonFooter, IonList, IonPage, IonText } from "@ionic/react";
 import { jwtDecode } from "jwt-decode";
 import { getCurrentUserInfo } from "../../api/users";
 import { ROUTES } from "../../shared/constants/routes";
@@ -94,6 +94,9 @@ export const Menu: React.FC = () => {
         <IonList inset={true}>
           <MenuListButton title={t("menu.language")} handleItemClick={() => handleItemClick(ROUTES.LANGUAGE)} />
         </IonList>
+        <IonFooter className="footer">
+          <IonText>Version 0.8</IonText>
+        </IonFooter>
       </IonContent>
     </IonPage>
   );
