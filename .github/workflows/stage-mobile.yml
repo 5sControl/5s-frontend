@@ -12,6 +12,8 @@ on:
   pull_request: 
     types:
       - closed
+    branches: 
+      - main
     paths:
       - 'mobile/**'
       - '.github/workflows/dev-mobile.yml'
@@ -19,7 +21,7 @@ on:
 
 jobs:
   Build:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    if: github.event.pull_request.merged == true
     runs-on: self-hosted-stage
 
     steps:
