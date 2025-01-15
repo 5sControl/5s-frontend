@@ -40,7 +40,7 @@ const NewDirectoryCategory = () => {
 
   const handleSave = () => {
     if (directoryName) {
-      createDirectoryCategory(directoryName, Number(refId), false, cookies.token)
+      createDirectoryCategory(directoryName, Number(refId), cookies.token)
         .then(() => navigateBack())
         .catch(error => console.log(error));
       return;

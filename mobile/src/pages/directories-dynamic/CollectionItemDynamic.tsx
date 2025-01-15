@@ -9,6 +9,7 @@ import { useHistory, useLocation, useParams } from "react-router-dom";
 import { ConfirmationModal } from "../../components/confirmationModal/confirmationModal";
 import InputReadonly from "../../components/inputs/inputReadonly/inputReadonly";
 import { useAppDispatch } from "../../store";
+import { useTranslation } from "react-i18next";
 
 type RouteParams = {
 	collection: string;
@@ -16,6 +17,7 @@ type RouteParams = {
 };
 
 export const CollectionItemDynamic = () => {
+	const { t } = useTranslation(); 
 	const history = useHistory();
 	const meta = directoriesMeta
 	const { id } = useParams<RouteParams>();
@@ -53,7 +55,7 @@ export const CollectionItemDynamic = () => {
     };
   }, [history, refetch]);
 
-	return (
+  return (
 		<IonPage>
 			{data && <Header
 				title={data[meta.displayField]}
@@ -63,7 +65,7 @@ export const CollectionItemDynamic = () => {
 			<IonContent>
 				{data && meta.fields.map(field => {
 					if (field.visible === true) {
-						return <InputReadonly key={field.field} label={field.label ?? data[field.field]} value={data[field.field]} />
+						return <InputReadonly key={field.field} label={t(`form.${field.label?.toLocaleLowerCase()}`) ?? data[field.field]} value={data[field.field]} />
 					}
 				})}
 				<Fab
@@ -75,9 +77,9 @@ export const CollectionItemDynamic = () => {
 					isOpen={showConfirmationModal}
 					onConfirm={deleteItem}
 					onClose={onPressClose}
-					title={`${"delete"} "${id}" ?`}
-					confirmText={"delete"}
-					cancelText={"cancel"}
+					title={`${t("operations.delete")} "${id}" ?`}
+					confirmText={t("operations.delete")}
+					cancelText={t("operations.cancel")}
 				/>
 			</IonContent>
 		</IonPage>

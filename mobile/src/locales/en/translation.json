@@ -158,7 +158,8 @@
     "required": "This field is required",
     "passwordLength": "Password must be at least 4 characters",
     "selectWorkplace": "Select employee's workplace",
-    "invalidCharacters": "Invalid characters"
+    "invalidCharacters": "Invalid characters",
+    "passwordsNotEqual": "Passwords are not equal"
   },
   "orders": {
     "order": "Order",
@@ -232,6 +233,8 @@
     "firstName": "First name",
     "lastName": "Last name",
     "password": "Password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
     "role": "Role",
     "workplace": "Workplace",
     "dateJoined": "Date joined",
