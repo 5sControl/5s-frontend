@@ -5,16 +5,14 @@ import { Input } from "../inputs/input/Input";
 import "../../styles/common.scss";
 import CameraTest from "../cameraTest/cameraTest";
 import styles from "./cameraSegment.module.scss";
-import "./cameraSegment.module.scss";
 import { SelectItem } from "../../models/types/selectItem";
 import InputReadonly from "../inputs/inputReadonly/inputReadonly";
 import { useTranslation } from "react-i18next";
+import { findCamera, getSelectedCameras } from "../../api/cameraRequest";
+import { useCookies } from "react-cookie";
 
 type CameraSegmentProps = {
   cameraIP: string;
-  isCreateCamera: boolean;
-  cameraSelect: any;
-  findCameraList: any[];
   password: string;
   userName: string;
   setCameraIP: (text: string) => void;
@@ -29,9 +27,6 @@ type CameraSegmentProps = {
 
 const CameraSegment: React.FC<CameraSegmentProps> = ({
   cameraIP,
-  isCreateCamera,
-  cameraSelect,
-  findCameraList,
   password,
   userName,
   setCameraIP,
@@ -44,6 +39,9 @@ const CameraSegment: React.FC<CameraSegmentProps> = ({
   editMode = false,
 }) => {
   const [isModalChangePassword, setIsModalChangePassword] = useState(false);
+  const [findCameraList, setFindCameraList] = useState([]);
+  const [cookies] = useCookies(["token"]);
+  const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
 
   const selectCameraList: SelectItem[] = findCameraList.map((cameraIp: any) => {
@@ -56,6 +54,38 @@ const CameraSegment: React.FC<CameraSegmentProps> = ({
 
   const handleSelectCamera = (e: any) => {
     setCameraIP(e.target.value);
+  };
+
+  const showAddCameras = cameras => {
+    findCamera(window.location.hostname)
+      .then(response => {
+        if (response.data && response.data.results) {
+          const allCameras = response.data.results;
+          const bufCreatedCameras = cameras.length > 0 ? cameras.map(e => e.id) : [];
+          const resultCameras = allCameras.filter(value => {
+            return !bufCreatedCameras.includes(value);
+          });
+          setFindCameraList(resultCameras);
+        } else {
+          setFindCameraList([]);
+        }
+      })
+      .catch(error => console.log(error.message))
+      .finally(() => setIsLoading(false));
+  };
+
+  const fetchCameras = () => {
+    if (selectCameraList.length) return;
+    setIsLoading(true);
+    getSelectedCameras(window.location.hostname, cookies.token)
+      .then(response => {
+        let cameras = [];
+        if (response.data.length > 0) {
+          cameras = response.data.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        showAddCameras(cameras);
+      })
+      .catch(console.log)
   };
 
   return (
@@ -71,6 +101,8 @@ const CameraSegment: React.FC<CameraSegmentProps> = ({
             placeholder={t("camera.cameraSegment.select")}
             selectList={selectCameraList}
             handleChange={handleSelectCamera}
+            isLoading={isLoading}
+            handleFocus={fetchCameras}
           />
         )}
 

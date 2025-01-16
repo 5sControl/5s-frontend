@@ -19,6 +19,8 @@
     "erp": "Połączenia ERP"
   },
   "messages": {
+    "noData": "Nie znaleziono danych",
+    "loading": "Ładowanie",
     "noDatabases": "Brak dostępnych baz danych",
     "noReports": "Nie można znaleźć żądanego raportu",
     "noCameras": "Nie można znaleźć kamer dla tej operacji",

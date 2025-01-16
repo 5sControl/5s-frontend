@@ -58,6 +58,7 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
 
   const stopScanning = () => {
     const scanner = qrCodeReaderRef?.current;
+
     if (scanner?.isScanning) {
       scanner?.stop()
         .then(() => {
@@ -67,7 +68,8 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
         .catch(err => {
           console.error("Failed to stop scanning:", err);
         });
-      scanner?.clear();
+      history.go(-1);
+      scanner?.clear();     
     }
   };
 

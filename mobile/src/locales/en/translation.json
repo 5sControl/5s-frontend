@@ -19,6 +19,8 @@
     "erp": "ERP Connections"
   },
   "messages": {
+    "noData": "No data found",
+    "loading": "Loading",
     "noDatabases": "No databases available",
     "noReports": "Unable to find the requested report",
     "noCameras": "Unable to find cameras for this operation",
