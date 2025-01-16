@@ -2,17 +2,14 @@ import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useHistory, useParams } from "react-router-dom";
 import SingleInputPage from "../../../ui/signleInputPage/SingleInputPage";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IonContent, IonItem, IonPage, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 import { getOperation, updateOperation } from "../../../api/operations";
 import { TimeUnit } from "../../../models/types/timeUnit";
-import Select from "../../../components/selects/select/Select";
-import { SelectItem } from "../../../models/types/selectItem";
-import { Input } from "../../../components/inputs/input/Input";
 
 const EditDirectoryCard = () => {
   const { t } = useTranslation();
@@ -23,37 +20,37 @@ const EditDirectoryCard = () => {
   const [operationName, setOperationName] = useState("");
   const [estimatedTime, setEstimatedTime] = useState();
   const [timeUnit, setTimeUnit] = useState<TimeUnit>();
-  const [initialOperationName, setInitialOperationName] = useState(operationName);
-  const [initialEstimatedTime, setInitialEstimatedTime] = useState(estimatedTime);
-  const [initialTimeUnit, setInitialTimeUnit] = useState(timeUnit);
+  const [initialOperationName, setInitialOperationName] = useState("");
+  // const [initialEstimatedTime, setInitialEstimatedTime] = useState(estimatedTime);
+  // const [initialTimeUnit, setInitialTimeUnit] = useState(timeUnit);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [operationNameIsChanged, setOperationNameIsChanged] = useState(false);
-  const [estimatedTimeIsChanged, setEstimatedTimeIsChanged] = useState(false);
-  const [timeUnitIsChanged, setTimeUnitIsChanged] = useState(false);
+  // const [estimatedTimeIsChanged, setEstimatedTimeIsChanged] = useState(false);
+  // const [timeUnitIsChanged, setTimeUnitIsChanged] = useState(false);
 
-  const selectItems: SelectItem[] = [
-    {
-      id: "minutes",
-      label: t("timeUnit.minutes"),
-      value: "minutes",
-    },
-    {
-      id: "hours",
-      label: t("timeUnit.hours"),
-      value: "hours",
-    },
-  ];
+  // const selectItems: SelectItem[] = [
+  //   {
+  //     id: "minutes",
+  //     label: t("timeUnit.minutes"),
+  //     value: "minutes",
+  //   },
+  //   {
+  //     id: "hours",
+  //     label: t("timeUnit.hours"),
+  //     value: "hours",
+  //   },
+  // ];
 
   useIonViewWillEnter(() => {
     setInitialOperationName(operationName);
-    setInitialEstimatedTime(estimatedTime);
-    setInitialTimeUnit(timeUnit);
+    // setInitialEstimatedTime(estimatedTime);
+    // setInitialTimeUnit(timeUnit);
     setLoading(true);
     getOperation(Number(id), cookies.token)
       .then(response => {
         setOperationName(response.data.name);
-        setTimeUnit(response.data.estimatedTimeUnit);
-        setEstimatedTime(response.data.estimatedTime);
+        setInitialOperationName(response.data.name);
+        // setTimeUnit(response.data.estimatedTimeUnit);
+        // setEstimatedTime(response.data.estimatedTime);
       })
       .catch(error => {
         console.error(error);
@@ -68,7 +65,7 @@ const EditDirectoryCard = () => {
   };
 
   const handleSave = () => {
-    if (operationName.trim() && String(estimatedTime).trim()) {
+    if (operationName.trim()) {
       updateOperation(Number(id), operationName.trim(), estimatedTime!, timeUnit!, cookies.token)
         .then(() => navigateBack())
         .catch(error => {
@@ -76,11 +73,10 @@ const EditDirectoryCard = () => {
         });
       return;
     }
-    console.error("empty input");
   };
 
   const handleBackClick = () => {
-    if (operationNameIsChanged || estimatedTimeIsChanged || timeUnitIsChanged) {
+    if (operationName !== initialOperationName) {
       setIsOpenModal(true);
     } else {
       navigateBack();
@@ -89,24 +85,21 @@ const EditDirectoryCard = () => {
 
   const handleChangeOperationName = e => {
     setOperationName(e.target.value);
-    if (e.target.value.trim() !== initialOperationName.trim()) {
-      setOperationNameIsChanged(true);
-    }
   };
 
-  const handleChangeEstimatedTime = e => {
-    setEstimatedTime(e.target.value);
-    if (e.target.value.trim() !== String(initialEstimatedTime).trim()) {
-      setEstimatedTimeIsChanged(true);
-    }
-  };
+  // const handleChangeEstimatedTime = e => {
+  //   setEstimatedTime(e.target.value);
+  //   if (e.target.value.trim() !== String(initialEstimatedTime).trim()) {
+  //     setEstimatedTimeIsChanged(true);
+  //   }
+  // };
 
-  const handleChangeTimeUnit = e => {
-    setTimeUnit(e.target.value);
-    if (e.target.value !== initialTimeUnit) {
-      setTimeUnitIsChanged(true);
-    }
-  };
+  // const handleChangeTimeUnit = e => {
+  //   setTimeUnit(e.target.value);
+  //   if (e.target.value !== initialTimeUnit) {
+  //     setTimeUnitIsChanged(true);
+  //   }
+  // };
 
   const handleCloseModal = () => {
     setIsOpenModal(false);
@@ -135,9 +128,9 @@ const EditDirectoryCard = () => {
               required
               handleChange={handleChangeOperationName}
               handleSave={handleSave}
-              disabled={!operationName.trim() || !String(estimatedTime).trim() || estimatedTime! <= 0}
+              disabled={!operationName.trim() || operationName === initialOperationName}
             />
-            <Select
+            {/* <Select
               value={timeUnit!}
               label={t("timeUnit.title")}
               placeholder="Select Time Unit"
@@ -150,7 +143,7 @@ const EditDirectoryCard = () => {
               value={estimatedTime!}
               required
               handleChange={handleChangeEstimatedTime}
-            />
+            /> */}
           </>
         )}
       </IonContent>
