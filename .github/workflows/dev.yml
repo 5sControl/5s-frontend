@@ -1,4 +1,4 @@
-name: dev
+name: DEVELOPMENT build and deploy front
 
 env:
   DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
@@ -7,7 +7,8 @@ env:
 
 on:
   push:
-    branches: [development]
+    branches:
+      - development
     paths-ignore:
       - 'mobile/**'
       - '.github/workflows/dev-mobile.yml'
