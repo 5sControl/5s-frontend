@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   IonButton,
   IonContent,
-  IonItem,
   IonLabel,
   IonPage,
   IonSegment,
@@ -26,10 +25,9 @@ import { Table } from "../../components/table/Table";
 import { TableRow } from "../../models/interfaces/table.interface";
 import { Preloader } from "../../components/preloader/preloader";
 import { IOrders } from "../../models/interfaces/orders.interface";
-import { Item } from "../../models/interfaces/item.interface";
 import { ORDER_STEPS } from "../../models/enums/orderSteps.enum";
-import { OperationStatus } from "../../models/types/ordersStatus";
 import { OPERATION_STATUS_ENUM } from "../../models/enums/statuses.enum";
+import MenuListButton from "../../components/menuListButton/MenuListButton";
 
 const RADIX = 10;
 
@@ -127,7 +125,12 @@ const Order = () => {
                 value={order?.estimatedAt ? formatDate(order?.estimatedAt) : "-"}
               />
               <InputReadonly label={t("orders.startedAt")} value={formatDate(order?.createdAt)} />
-
+              <div className="ion-padding">
+                <MenuListButton
+                  title={t("text.products")}
+                  handleItemClick={() => history.push(ROUTES.ORDER_PRODUCTS(id))}
+                />
+              </div>
               <InputReadonly label={t("orders.finishOrder")} />
               <IonButton
                 className="ion-padding"
