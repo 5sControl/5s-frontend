@@ -1,21 +1,17 @@
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ROUTES } from "../../../shared/constants/routes";
-import { useTranslation } from "react-i18next";
 import Card from "../../../ui/card/Card";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IonContent, IonIcon, IonPage, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
-import { TrashBin } from "../../../assets/svg/SVGcomponent";
 import { getOperation } from "../../../api/operations";
-import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
 import { IOperation } from "../../../models/interfaces/operation.interface";
 
 const Operation = () => {
   const [cookies] = useCookies(["token"]);
   const { id }: { id: string } = useParams();
-  const { t } = useTranslation();
   const [operation, setOperation] = useState<IOperation>();
   const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
 
@@ -29,10 +25,6 @@ const Operation = () => {
 
   const handleCloseModal = () => {
     setShowConfirmationModal(false);
-  };
-
-  const handleOpenModal = () => {
-    setShowConfirmationModal(true);
   };
 
   const deleteCard = async (id: number, token: string) => {
@@ -53,12 +45,12 @@ const Operation = () => {
               showConfirmationModal={showConfirmationModal}
               handleCloseModal={handleCloseModal}
             />
-            <InputReadonly
+            {/* <InputReadonly
               label={t("directory.operations.estimatedTime")}
               value={`${operation.estimatedTime} ${
                 operation.estimatedTimeUnit === "hours" ? t("time.hour") : t("time.min")
               }`}
-            />
+            /> */}
           </>
         ) : (
           <div className="preloader">

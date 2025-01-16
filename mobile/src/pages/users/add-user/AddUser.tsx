@@ -45,7 +45,7 @@ const AddUser = () => {
 
   function getUserRole () {
     return localStorage.getItem("userRole");
-  };
+  }
 
   const navigateBack = () => {
     history.push(ROUTES.USERS, { direction: "back" });
@@ -61,7 +61,7 @@ const AddUser = () => {
         first_name: user.first_name,
         password: user.password,
         role: user.role,
-        workplace: user.role === ROLE.WORKER ? selectedWorkplace.id : null
+        workplace: user.role === ROLE.WORKER ? selectedWorkplace?.id ?? null : null
       }
       createUser(data, cookies.token)
         .then(() => {
@@ -82,7 +82,7 @@ const AddUser = () => {
   };
 
   const openModal = () => {
-    if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength || (!selectedWorkplace && user.role === ROLE.WORKER)
+    if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength 
       || isInvalidText(user.username, {numbers: true, spaces: true}) || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
       setHighlightRequired(true);
       return;
@@ -174,8 +174,9 @@ const AddUser = () => {
                     <MenuListButton 
                       title={selectedWorkplace?.name || t("users.workplace")} 
                       handleItemClick={navigateWorkplaceClick}
-                      state={highlightRequired && !selectedWorkplace && user.role === ROLE.WORKER ? "error" : "neutral"}
-                      errorMessage={t("form.selectWorkplace")}/>
+                      // state={highlightRequired && !selectedWorkplace && user.role === ROLE.WORKER ? "error" : "neutral"}
+                      // errorMessage={t("form.selectWorkplace")}
+                    />
                 </IonList>
                 }
 
