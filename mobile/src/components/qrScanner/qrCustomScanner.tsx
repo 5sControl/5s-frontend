@@ -72,7 +72,7 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
   };
 
   return (
-    <div className="qr__container">s
+    <div className="qr__container">
       <div id="qr-reader"></div>
       <button className="qr__button" onClick={scanning ? stopScanning : startScanning}>
         {scanning ? t("scanner.stop") : t("scanner.start")}
