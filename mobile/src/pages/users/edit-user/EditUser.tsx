@@ -46,7 +46,7 @@ const EditUser = () => {
 
   function getUserRole () {
     return localStorage.getItem("userRole");
-  };
+  }
 
   useIonViewWillEnter(() => {
     setLoading(true);
@@ -105,7 +105,7 @@ const EditUser = () => {
   };
 
   const openModal = () => {
-    if (!user.username || !user.first_name || !user.last_name || (password && password.length < minPasswordLength) || ((!(selectedWorkplace || user.workplace?.id)) && user.role === ROLE.WORKER)
+    if (!user.username || !user.first_name || !user.last_name || (password && password.length < minPasswordLength) 
       || isInvalidText(user.username, {numbers: true}) || isInvalidText(user.first_name) || isInvalidText(user.last_name) || password !== confirmPassword) {
       setHighlightRequired(true);
       return;
@@ -209,8 +209,8 @@ const EditUser = () => {
                     <MenuListButton 
                       title={selectedWorkplace?.name || user.workplace?.name || t("users.workplace")} 
                       handleItemClick={navigateWorkplaceClick}
-                      state={highlightRequired && !(selectedWorkplace || user.workplace?.id) && user.role === ROLE.WORKER ? "error" : "neutral"}
-                      errorMessage={t("form.selectWorkplace")}
+                      // state={highlightRequired && !(selectedWorkplace || user.workplace?.id) && user.role === ROLE.WORKER ? "error" : "neutral"}
+                      // errorMessage={t("form.selectWorkplace")}
                     />
                   </IonList>
                 }
