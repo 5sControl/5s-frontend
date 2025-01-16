@@ -19,8 +19,8 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
   useEffect(() => {
     const scanner = new Html5Qrcode("qr-reader");
     qrCodeReaderRef.current = scanner;
-    console.log('useEffect');
-    startScanning(); 
+    // console.log('useEffect');
+    // startScanning(); 
   }, []);
 
   useIonViewWillLeave(() => {
