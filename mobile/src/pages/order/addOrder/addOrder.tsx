@@ -89,8 +89,8 @@ const AddOrder: React.FC = () => {
           required={true}
           handleChange={e => setOrderName(e.detail.value!)}
           maxLength={50}
-          state={orderName.length === 50 || isInvalidText(orderName, {numbers: true, spaces: true}) ? "error" : "neutral"}
-          errorMessage={orderName.length === 50 ? t("messages.validLength") : t("form.invalidCharacters")}
+          state={isInvalidText(orderName, {numbers: true, spaces: true}) ? "error" : "neutral"}
+          errorMessage={t("form.invalidCharacters")}
         />
         <DateSelector
           label={t("orders.estimatedAt")}
@@ -101,7 +101,7 @@ const AddOrder: React.FC = () => {
         />
         <BottomButton
           handleClick={handleSubmit}
-          disabled={!orderNumber || orderNumber.length > 10 || orderName.length === 50 || isInvalidText(orderName, {numbers: true, spaces: true})}
+          disabled={!orderNumber || orderNumber.length > 10 || isInvalidText(orderName, {numbers: true, spaces: true})}
           label={t("operations.save")}
         />
         <IonToast
