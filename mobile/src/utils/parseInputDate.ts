@@ -124,15 +124,18 @@ export const getTimeDifference = (date1: string, date2: string) => {
 
   if (!isNaN(dateObj1.getTime()) && !isNaN(dateObj2.getTime())) {
 
-    dateObj1.setSeconds(0, 0);
-    dateObj2.setSeconds(0, 0);
+    dateObj1.setSeconds(dateObj1.getSeconds(), dateObj1.getMilliseconds());
+    dateObj2.setSeconds(dateObj2.getSeconds(), dateObj2.getMilliseconds());
+    // dateObj2.setSeconds(0, 0);
 
     const differenceInMs = Math.abs(dateObj2.getTime() - dateObj1.getTime());
-    hours = Math.floor(differenceInMs / (1000 * 60 * 60));
-    minutes = Math.floor((differenceInMs % (1000 * 60 * 60)) / (1000 * 60));
+    // hours = Math.floor(differenceInMs / (1000 * 60 * 60));
+    // minutes = Math.floor((differenceInMs % (1000 * 60 * 60)) / (1000 * 60));
+    return differenceInMs/1000;
   }
 
-  return { hours, minutes };
+  // return { hours, minutes };
+  return 0;
 }
 
 export const mergeDateAndTime = (dateStr1: string, dateStr2: string) => {
@@ -144,8 +147,13 @@ export const mergeDateAndTime = (dateStr1: string, dateStr2: string) => {
 }
 
 export const formatTime = (seconds: number) => {
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
+  let hours = Math.floor(seconds / 3600);
+  let minutes = Math.round((seconds % 3600) / 60);
+  if(minutes >= 60){
+    hours +=1;
+    minutes = 0; 
+  }
+  // const minutes = Math.floor((seconds % 3600) / 60);
   return { hours, minutes };
 }
 
