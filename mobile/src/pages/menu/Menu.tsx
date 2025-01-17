@@ -13,6 +13,7 @@ import MenuListButton from "../../components/menuListButton/MenuListButton";
 import Restricted from "../../providers/permissionProvider/Restricted";
 import { isMobile } from "react-device-detect";
 import "./Menu.scss";
+import { Preloader } from "../../components/preloader/preloader";
 
 export const Menu: React.FC = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
@@ -48,55 +49,66 @@ export const Menu: React.FC = () => {
         }
       />
       <IonContent color="light">
-        <Logout username={user.username} logout={logout} />
+        {Object.values(user).length ? (
+          <>
+            <Logout username={user.username} logout={logout} />
 
-        <Restricted to="view_order">
-          <IonList inset={true}>
-            <MenuListButton
-              icon={Orders}
-              title={t("menu.orders")}
-              handleItemClick={() => handleItemClick(ROUTES.ORDERS)}
-            />
-            <MenuListButton
-              icon={DollarSign}
-              title={t("menu.reports")}
-              handleItemClick={() => handleItemClick(ROUTES.REPORTS)}
-            />
-          </IonList>
-        </Restricted>
-
-        <IonList inset={true}>
-          <Restricted to="view_reference">
-            <MenuListButton
-              title={t("menu.dataConfiguration")}
-              handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)}
-            />
-          </Restricted>
-          {!isMobile && (
-            <Restricted to="view_cameras">
-              <MenuListButton title={t("menu.cameras")} handleItemClick={() => handleItemClick(ROUTES.CAMERAS)} />
+            <Restricted to="view_order">
+              <IonList inset={true}>
+                <MenuListButton
+                  icon={Orders}
+                  title={t("menu.orders")}
+                  handleItemClick={() => handleItemClick(ROUTES.ORDERS)}
+                />
+                <MenuListButton
+                  icon={DollarSign}
+                  title={t("menu.reports")}
+                  handleItemClick={() => handleItemClick(ROUTES.REPORTS)}
+                />
+              </IonList>
             </Restricted>
-          )}
-          <Restricted to="view_users">
-            <MenuListButton title={t("menu.users")} handleItemClick={() => handleItemClick(ROUTES.USERS)} />
-          </Restricted>
-          <Restricted to="view_reference">
-            <MenuListButton title={t("menu.directories")} handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)} />
-          </Restricted>
-        </IonList>
 
-        <Restricted to="proccess_qr_code_order_operation">
-          <IonList inset={true}>
-            <MenuListButton title={t("menu.scanner")} handleItemClick={() => handleItemClick(ROUTES.SCANNER_QR)} />
-          </IonList>
-        </Restricted>
+            <IonList inset={true}>
+              <Restricted to="view_reference">
+                <MenuListButton
+                  title={t("menu.dataConfiguration")}
+                  handleItemClick={() => handleItemClick(ROUTES.CONFIGURATION)}
+                />
+              </Restricted>
+              {!isMobile && (
+                <Restricted to="view_cameras">
+                  <MenuListButton title={t("menu.cameras")} handleItemClick={() => handleItemClick(ROUTES.CAMERAS)} />
+                </Restricted>
+              )}
+              <Restricted to="view_users">
+                <MenuListButton title={t("menu.users")} handleItemClick={() => handleItemClick(ROUTES.USERS)} />
+              </Restricted>
+              <Restricted to="view_reference">
+                <MenuListButton
+                  title={t("menu.directories")}
+                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)}
+                />
+              </Restricted>
+            </IonList>
 
-        <IonList inset={true}>
-          <MenuListButton title={t("menu.language")} handleItemClick={() => handleItemClick(ROUTES.LANGUAGE)} />
-        </IonList>
-        <IonFooter className="footer">
-          <IonText>Version 0.8</IonText>
-        </IonFooter>
+            <Restricted to="proccess_qr_code_order_operation">
+              <IonList inset={true}>
+                <MenuListButton title={t("menu.scanner")} handleItemClick={() => handleItemClick(ROUTES.SCANNER_QR)} />
+              </IonList>
+            </Restricted>
+
+            <IonList inset={true}>
+              <MenuListButton title={t("menu.language")} handleItemClick={() => handleItemClick(ROUTES.LANGUAGE)} />
+            </IonList>
+            <IonFooter className="footer">
+              <IonText>Version 0.8</IonText>
+            </IonFooter>
+          </>
+        ) : (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        )}
       </IonContent>
     </IonPage>
   );
