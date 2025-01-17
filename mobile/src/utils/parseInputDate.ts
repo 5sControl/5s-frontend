@@ -126,15 +126,12 @@ export const getTimeDifference = (date1: string, date2: string) => {
 
     dateObj1.setSeconds(dateObj1.getSeconds(), dateObj1.getMilliseconds());
     dateObj2.setSeconds(dateObj2.getSeconds(), dateObj2.getMilliseconds());
-    // dateObj2.setSeconds(0, 0);
 
     const differenceInMs = Math.abs(dateObj2.getTime() - dateObj1.getTime());
-    // hours = Math.floor(differenceInMs / (1000 * 60 * 60));
-    // minutes = Math.floor((differenceInMs % (1000 * 60 * 60)) / (1000 * 60));
+    
     return differenceInMs/1000;
   }
 
-  // return { hours, minutes };
   return 0;
 }
 
@@ -153,7 +150,6 @@ export const formatTime = (seconds: number) => {
     hours +=1;
     minutes = 0; 
   }
-  // const minutes = Math.floor((seconds % 3600) / 60);
   return { hours, minutes };
 }
 

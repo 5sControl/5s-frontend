@@ -3,7 +3,7 @@ import { IonButton, IonContent, IonLabel, IonToast, IonPage, IonList, useIonView
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
 import InputDate from "../../../components/inputs/inputDate/inputDate";
-import { formatDate, getTimeDifference, getCurrentDateTimeISO, formatISOBeforeSend } from "./../../../utils/parseInputDate";
+import { formatDate, getTimeDifference, getCurrentDateTimeISO, formatISOBeforeSend, formatTime } from "./../../../utils/parseInputDate";
 import { TIMESPAN_REQUEST } from "./../../../dispatcher";
 import style from "./style.module.scss";
 import { ROUTES } from "../../../shared/constants/routes";
@@ -119,7 +119,10 @@ const NewTimespan: React.FC = () => {
     history.push(ROUTES.SCANNER_QR);
   };
 
-  const { hours, minutes } = getTimeDifference(finishDateTime, startDateTime);
+  const seconds  = getTimeDifference(finishDateTime, startDateTime);
+  const {hours, minutes} = formatTime(seconds);
+
+  
 
   // Block navigation
   useEffect(() => {
