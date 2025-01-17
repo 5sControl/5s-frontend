@@ -47,6 +47,8 @@ const Reports = () => {
       startDate,
       endDate,
     };
+    setStartDate(getCurrentDateTimeISO());
+    setEndDate(getCurrentDateTimeISO());
     dispatch(setReportDate(date));
     localStorage.setItem("reportDate", JSON.stringify(date));
     setLoading(false);
