@@ -11,6 +11,7 @@ import {
   updateTimeInDate,
   formatDate,
   formatISOBeforeSend,
+  formatTime,
 } from "./../../../utils/parseInputDate";
 import { TIMESPAN_REQUEST } from "./../../../dispatcher";
 import style from "./styles.module.scss";
@@ -54,7 +55,8 @@ const EditTimespan: React.FC = () => {
   const startModalRef = useRef<HTMLIonModalElement>(null);
   const finishModalRef = useRef<HTMLIonModalElement>(null);
 
-  const { hours, minutes } = getTimeDifference(finishDateTime, startDateTime);
+  const seconds = getTimeDifference(finishDateTime, startDateTime);
+  const { hours, minutes } = formatTime(seconds);
 
   useIonViewWillEnter(() => {
     if (qrTimespan) {
