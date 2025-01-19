@@ -1,6 +1,7 @@
 import { useIonViewDidEnter, useIonViewWillLeave } from "@ionic/react";
 import { Html5Qrcode } from "html5-qrcode";
 import { useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import "./qrScanner.scss";
 import { useTranslation } from "react-i18next";
 import { star } from "ionicons/icons";
@@ -23,7 +24,7 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
   const [scanning, setScanning] = useState(false);
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
- 
+  const history = useHistory();
 
   useEffect(() => {
     const scanner = new Html5Qrcode(QR_ELEMENT_ID);
@@ -80,10 +81,19 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
     }
   };
 
+  const handleQrButtonClick = () => {
+    if (scanning) {
+      stopScanning();
+      history.push("/");
+    } else {
+      startScanning();
+    }
+  };
+
   return (
     <div className="qr__container">
       <div id="qr-reader"></div>
-      <button className="qr__button" onClick={scanning ? stopScanning : startScanning}>
+      <button className="qr__button" onClick={handleQrButtonClick}>
         {scanning ? t("scanner.stop") : t("scanner.start")}
       </button>
     </div>
