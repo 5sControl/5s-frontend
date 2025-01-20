@@ -53,6 +53,9 @@ jobs:
         with:
           context: ./mobile
           push: true
+          build-args: |
+            VITE_API_BASE_URL=${{secrets.API_BASE_URL}}
+            BASE_URL=${{secrets.BASE_URL}}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=5scontrol/5scontrol_front_mobile:cache
