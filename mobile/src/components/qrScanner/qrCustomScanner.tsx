@@ -1,11 +1,19 @@
-import { useIonViewWillLeave } from "@ionic/react";
+import { useIonViewDidEnter, useIonViewWillLeave } from "@ionic/react";
 import { Html5Qrcode } from "html5-qrcode";
 import { useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import "./qrScanner.scss";
 import { useTranslation } from "react-i18next";
 
 type QrCodeProps = {
   qrCodeSuccessCallback: (decodedText: string, decodedResult: any) => void;
+};
+
+const QR_ELEMENT_ID = "qr-reader";
+const cameraIdOrConfig = { facingMode: "environment" };
+const Html5QrcodeCameraScanConfig = {
+  fps: 10,
+  qrbox: 250,
 };
 
 const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
@@ -14,30 +22,34 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
   const [scanning, setScanning] = useState(false);
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
- 
+  const history = useHistory();
 
   useEffect(() => {
-    const scanner = new Html5Qrcode("qr-reader");
+    const scanner = new Html5Qrcode(QR_ELEMENT_ID);
     qrCodeReaderRef.current = scanner;
+    startScanning();
+
+    return () => {
+      stopScanning(); 
+    };
   }, []);
 
+  useIonViewDidEnter(() => {
+    startScanning();
+  })
+
   useIonViewWillLeave(() => {
-    const scanner = qrCodeReaderRef?.current;
-    if (scanner) {
-      stopScanning();
-    }
+    stopScanning();
   });
+
 
   const startScanning = () => {
     setScanning(true);
     setError(null);
     const scanner = qrCodeReaderRef?.current;
     scanner?.start(
-      { facingMode: "environment" },
-      {
-        fps: 10,
-        qrbox: 250,
-      },
+      cameraIdOrConfig,
+      Html5QrcodeCameraScanConfig,
       (decodedText, decodedResult) => {
         if (qrCode !== decodedText) {
           if (decodedResult) {
@@ -68,10 +80,19 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
     }
   };
 
+  const handleQrButtonClick = () => {
+    if (scanning) {
+      stopScanning();
+      history.push("/");
+    } else {
+      startScanning();
+    }
+  };
+
   return (
     <div className="qr__container">
       <div id="qr-reader"></div>
-      <button className="qr__button" onClick={scanning ? stopScanning : startScanning}>
+      <button className="qr__button" onClick={handleQrButtonClick}>
         {scanning ? t("scanner.stop") : t("scanner.start")}
       </button>
     </div>
