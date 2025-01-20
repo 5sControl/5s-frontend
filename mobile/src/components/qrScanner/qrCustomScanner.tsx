@@ -1,7 +1,6 @@
 import { useIonViewDidEnter, useIonViewWillLeave } from "@ionic/react";
 import { Html5Qrcode } from "html5-qrcode";
 import { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
 import "./qrScanner.scss";
 import { useTranslation } from "react-i18next";
 
@@ -22,7 +21,6 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
   const [scanning, setScanning] = useState(false);
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const history = useHistory();
 
   useEffect(() => {
     const scanner = new Html5Qrcode(QR_ELEMENT_ID);
@@ -43,11 +41,11 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
   });
 
 
-  const startScanning = () => {
+  const startScanning = async () => {
     setScanning(true);
     setError(null);
     const scanner = qrCodeReaderRef?.current;
-    scanner?.start(
+    await scanner?.start(
       cameraIdOrConfig,
       Html5QrcodeCameraScanConfig,
       (decodedText, decodedResult) => {
@@ -65,11 +63,11 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
     );
   };
 
-  const stopScanning = () => {
+  const stopScanning = async () => {
     const scanner = qrCodeReaderRef?.current;
-
+    
     if (scanner?.isScanning) {
-      scanner?.stop()
+      await scanner?.stop()
         .then(() => {
           setScanning(false);
           setQrCode(null);
@@ -80,21 +78,9 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
     }
   };
 
-  const handleQrButtonClick = () => {
-    if (scanning) {
-      stopScanning();
-      history.push("/");
-    } else {
-      startScanning();
-    }
-  };
-
   return (
     <div className="qr__container">
       <div id="qr-reader"></div>
-      <button className="qr__button" onClick={handleQrButtonClick}>
-        {scanning ? t("scanner.stop") : t("scanner.start")}
-      </button>
     </div>
   );
 };
