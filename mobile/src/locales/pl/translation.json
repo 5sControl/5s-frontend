@@ -19,6 +19,8 @@
     "erp": "Połączenia ERP"
   },
   "messages": {
+    "noData": "Nie znaleziono danych",
+    "loading": "Ładowanie",
     "noDatabases": "Brak dostępnych baz danych",
     "noReports": "Nie można znaleźć żądanego raportu",
     "noCameras": "Nie można znaleźć kamer dla tej operacji",
@@ -76,6 +78,7 @@
     "time": "Planowany czas",
     "name": "nazwa",
     "ordersView": "Widok zamówień",
+    "products": "Produkty",
     "scheduled": "Pokaż zaplanowany czas",
     "startTime": "Czas rozpoczęcia",
     "datePlaceholder": "Wybierz datę i czas rozpoczęcia",
@@ -158,7 +161,8 @@
     "required": "To pole jest wymagane",
     "passwordLength": "Hasło musi mieć co najmniej 4 znaki",
     "selectWorkplace": "Wybierz miejsce pracy",
-    "invalidCharacters": "Nieprawidłowe znaki"
+    "invalidCharacters": "Nieprawidłowe znaki",
+    "passwordsNotEqual": "Hasła nie pasują"
   },
   "orders": {
     "order": "Zamówienie",
@@ -232,6 +236,8 @@
     "firstName": "Imię",
     "lastName": "Nazwisko",
     "password": "Hasło",
+    "newPassword": "Nowe hasło",
+    "confirmPassword": "Potwierdź hasło",
     "role": "Rola",
     "workplace": "Miejsce pracy",
     "dateJoined": "Data dołączenia",

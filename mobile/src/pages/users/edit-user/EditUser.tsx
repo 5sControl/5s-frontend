@@ -40,12 +40,13 @@ const EditUser = () => {
         value: role
     }));
   const { selectedWorkplace } = useSelector((state: any) => state.workplace);
-  const [passwordChanged, setPasswordChanged] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const minPasswordLength = 4;
 
   function getUserRole () {
     return localStorage.getItem("userRole");
-  };
+  }
 
   useIonViewWillEnter(() => {
     setLoading(true);
@@ -74,8 +75,8 @@ const EditUser = () => {
       role: user.role,
       workplace_id: user.role === ROLE.WORKER ? (selectedWorkplace?.id || user.workplace?.id || null) : null
     };
-    if (passwordChanged){
-      Object.assign(updatedUser, {password: user.password});
+    if (password && password === confirmPassword){
+      Object.assign(updatedUser, {password});
     }
     return updatedUser;
   }
@@ -84,6 +85,7 @@ const EditUser = () => {
     if (user) {
       setLoading(true);
       const updatedUser: Partial<IUpdateUser> = getUpdatedUser();
+      setHighlightRequired(true);
       updateUser(Number(id), updatedUser, cookies.token)
         .then(() => {
           setUserExists(false);
@@ -103,8 +105,8 @@ const EditUser = () => {
   };
 
   const openModal = () => {
-    if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength || ((!(selectedWorkplace || user.workplace?.id)) && user.role === ROLE.WORKER)
-      || isInvalidText(user.username, true) || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
+    if (!user.username || !user.first_name || !user.last_name || (password && password.length < minPasswordLength) 
+      || isInvalidText(user.username, {numbers: true}) || isInvalidText(user.first_name) || isInvalidText(user.last_name) || password !== confirmPassword) {
       setHighlightRequired(true);
       return;
     }
@@ -146,20 +148,32 @@ const EditUser = () => {
                     value={user?.username || ""} 
                     required 
                     handleChange={event => setUser({ ...user, username: event.target.value })}
-                    state={highlightRequired && (!user.username || isInvalidText(user.username, true) || userExists) ? "error" : "neutral" }
-                    errorMessage={isInvalidText(user.username, true) ? t("form.invalidCharacters") : userExists ? t("messages.employeeExists") : t("form.required")}
+                    state={highlightRequired && (!user.username || isInvalidText(user.username, {numbers: true})  || userExists) ? "error" : "neutral" }
+                    errorMessage={isInvalidText(user.username, {numbers: true})  ? t("form.invalidCharacters") : userExists ? t("messages.employeeExists") : t("form.required")}
                     maxLength={30}/>
                 <Input 
-                    label={t("users.password")} 
-                    value={passwordChanged ? user?.password : "password"} 
+                    label={t("users.newPassword")} 
+                    value={password} 
                     type="password" 
-                    hidePassword={true} 
+                    hidePassword={false} 
                     required
                     handleChange={event => {
-                      setPasswordChanged(true);
-                      setUser({ ...user, password: event.target.value })}}
-                    state={highlightRequired && user.password.length < minPasswordLength ? "error" : "neutral" }
+                      setPassword(event.target.value)
+                    }}
+                    state={highlightRequired && password && password.length < minPasswordLength ? "error" : "neutral" }
                     errorMessage={t("form.passwordLength")}
+                />
+                <Input 
+                    label={t("users.confirmPassword")} 
+                    value={confirmPassword} 
+                    type="password" 
+                    hidePassword={false} 
+                    required
+                    handleChange={event => {
+                      setConfirmPassword(event.target.value)
+                    }}
+                    state={highlightRequired && password != confirmPassword ? "error" : "neutral" }
+                    errorMessage={t("form.passwordsNotEqual")}
                 />
               </div>
               <div className={styles.section}>
@@ -195,8 +209,8 @@ const EditUser = () => {
                     <MenuListButton 
                       title={selectedWorkplace?.name || user.workplace?.name || t("users.workplace")} 
                       handleItemClick={navigateWorkplaceClick}
-                      state={highlightRequired && !(selectedWorkplace || user.workplace?.id) && user.role === ROLE.WORKER ? "error" : "neutral"}
-                      errorMessage={t("form.selectWorkplace")}
+                      // state={highlightRequired && !(selectedWorkplace || user.workplace?.id) && user.role === ROLE.WORKER ? "error" : "neutral"}
+                      // errorMessage={t("form.selectWorkplace")}
                     />
                   </IonList>
                 }

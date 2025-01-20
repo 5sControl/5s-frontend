@@ -9,7 +9,7 @@ import { ConfirmationModal } from "../../components/confirmationModal/confirmati
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../store";
 import { dynamicApiSlice, useGetCollectionItemQuery } from "../../store/dynamicApiSlice";
-import { useHistory, useLocation, useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 export const CollectionUpdateDynamic = () => {
 	const meta = directoriesMeta
@@ -21,13 +21,19 @@ export const CollectionUpdateDynamic = () => {
 	const dispatch = useAppDispatch()
 	const [newItems, setNewItems] = useState<Map<string, any>>(new Map())
 	const [isOpenModal, toggleModal] = useState(false)
+	const [backOnClose, setBackOnClose] = useState(false);
 
-	const onPressSaveButton = () => {
+	const isChanged = Array.from(newItems.entries()).some(([key, value]) => data?.[key] != value);
+
+	const openModal = () => {
 		toggleModal(true)
 	}
 
-	const onPressCloseModal = () => {
+	const closeModal = (navigateBack?: boolean) => {
 		toggleModal(false)
+		if (backOnClose || navigateBack) {
+			history.push(`/configuration/${meta.collection}/${id}`, { direction: "back" });
+		}
 	}
 
 	const saveItem = async () => {
@@ -38,20 +44,27 @@ export const CollectionUpdateDynamic = () => {
 				updates: newItems
 			}),
 		)
-		toggleModal(false)
-		history.go(-1)
+		closeModal(true);
 	}
 
-
 	const onChangeValues = (key: string, value: any) => {
-		let items = new Map(newItems)
+		const items = new Map(newItems)
 		items.set(key, value)
 		setNewItems(items)
 	}
 
+	const navigateBack = () => {
+		if (!isChanged) {
+			history.push(`/configuration/${meta.collection}/${id}`, { direction: "back" });
+			return;
+		} 
+		setBackOnClose(true);
+		openModal();
+	}
+
 	useEffect(() => {
 		if (data) {
-			let items = new Map()
+			const items = new Map()
 			meta.fields.forEach(field => {
 				if (field.required) {
 					items.set(field.field, data[field.field])
@@ -65,12 +78,13 @@ export const CollectionUpdateDynamic = () => {
 		<IonPage>
 			<Header
 				title={title}
-				backButtonHref={`/configuration/${meta.collection}`}
+				onBackClick={navigateBack}
+				backButtonHref={`/configuration/${meta.collection}/${id}`}
 			/>
 			<IonContent>
 
 				{meta.fields.map(field => {
-					let fieldName = field.translations && field.translations[lang] || field.field
+					const fieldName = field.translations && field.translations[lang] || field.field
 
 					if (field.required) {
 						return (
@@ -79,13 +93,13 @@ export const CollectionUpdateDynamic = () => {
 					}
 				})}
 
-				<BottomButton handleClick={onPressSaveButton} label={t("operations.save")} disabled={false} />
+				<BottomButton handleClick={openModal} label={t("operations.save")} disabled={!isChanged} />
 
 			</IonContent>
 			<ConfirmationModal
 				type="primary"
 				isOpen={isOpenModal}
-				onClose={onPressCloseModal}
+				onClose={closeModal}
 				onConfirm={saveItem}
 				title={`${t("operations.saveChanges")}?`}
 				confirmText={t("operations.save")}

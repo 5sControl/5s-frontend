@@ -4,6 +4,7 @@ import { IonHeader, IonToolbar, IonButtons, IonTitle, IonSearchbar, IonButton, I
 import { useHistory } from "react-router-dom";
 import { Back } from "../../assets/svg/SVGcomponent";
 import { useTranslation } from "react-i18next";
+import "./Header.scss";
 
 type HeaderProps = {
   title: ReactNode;

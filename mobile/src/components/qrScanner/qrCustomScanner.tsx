@@ -67,6 +67,7 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
 
   const stopScanning = () => {
     const scanner = qrCodeReaderRef?.current;
+
     if (scanner?.isScanning) {
       scanner?.stop()
         .then(() => {

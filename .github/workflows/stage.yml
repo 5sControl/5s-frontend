@@ -1,4 +1,4 @@
-name: Build and deploy (stage)
+name: STAGE build and deploy front
 
 env:
   DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
@@ -12,6 +12,8 @@ on:
   pull_request: 
     types:
       - closed
+    branches: 
+      - stage
     paths-ignore:
       - 'mobile/**'
       - '.github/workflows/dev-mobile.yml'
@@ -19,7 +21,7 @@ on:
 
 jobs:
   Build:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    if: github.event.pull_request.merged == true
     runs-on: self-hosted-stage
 
     steps:
@@ -83,21 +85,3 @@ jobs:
         run: |
           echo "Recreating and restarting the 5scontrol_front and nginx container..."
           FRONT_TAG=stage-${{ env.DOCKER_TAG }} docker-compose up -d --no-deps nginx 5scontrol_front
-
-  CreateRelease:
-    runs-on: self-hosted-stage
-    needs: Deploy
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Create a GitHub release
-        uses: actions/create-release@v1
-        id: create_release
-        with:
-            tag_name: 'v${{ env.DOCKER_TAG }}'
-            release_name: 'Release v${{ env.DOCKER_TAG }}'
-            body: ${{ env.PR_BODY }}
-            draft: false
-            prerelease: false

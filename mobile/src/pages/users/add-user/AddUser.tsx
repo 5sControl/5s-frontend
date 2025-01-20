@@ -45,7 +45,7 @@ const AddUser = () => {
 
   function getUserRole () {
     return localStorage.getItem("userRole");
-  };
+  }
 
   const navigateBack = () => {
     history.push(ROUTES.USERS, { direction: "back" });
@@ -61,7 +61,7 @@ const AddUser = () => {
         first_name: user.first_name,
         password: user.password,
         role: user.role,
-        workplace: user.role === ROLE.WORKER ? selectedWorkplace.id : null
+        workplace: user.role === ROLE.WORKER ? selectedWorkplace?.id ?? null : null
       }
       createUser(data, cookies.token)
         .then(() => {
@@ -82,8 +82,8 @@ const AddUser = () => {
   };
 
   const openModal = () => {
-    if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength || (!selectedWorkplace && user.role === ROLE.WORKER)
-      || isInvalidText(user.username, true) || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
+    if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength 
+      || isInvalidText(user.username, {numbers: true, spaces: true}) || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
       setHighlightRequired(true);
       return;
     }
@@ -124,8 +124,8 @@ const AddUser = () => {
                     value={user?.username || ""} 
                     required 
                     handleChange={event => setUser({ ...user, username: event.target.value })}
-                    state={highlightRequired && (!user.username || isInvalidText(user.username, true) || userExists) ? "error" : "neutral" }
-                    errorMessage={isInvalidText(user.username, true) ? t("form.invalidCharacters") : userExists ? t("messages.employeeExists") : t("form.required")}
+                    state={highlightRequired && (!user.username || isInvalidText(user.username, {numbers: true}) || userExists) ? "error" : "neutral" }
+                    errorMessage={isInvalidText(user.username, {numbers: true}) ? t("form.invalidCharacters") : userExists ? t("messages.employeeExists") : t("form.required")}
                     maxLength={30}/>
 
                 <Input 
@@ -174,8 +174,9 @@ const AddUser = () => {
                     <MenuListButton 
                       title={selectedWorkplace?.name || t("users.workplace")} 
                       handleItemClick={navigateWorkplaceClick}
-                      state={highlightRequired && !selectedWorkplace && user.role === ROLE.WORKER ? "error" : "neutral"}
-                      errorMessage={t("form.selectWorkplace")}/>
+                      // state={highlightRequired && !selectedWorkplace && user.role === ROLE.WORKER ? "error" : "neutral"}
+                      // errorMessage={t("form.selectWorkplace")}
+                    />
                 </IonList>
                 }
 

@@ -44,7 +44,7 @@ const EditDirectoryCategory = () => {
 
   const handleSave = async () => {
     if (directoryName.trim()) {
-      updateDirectoryCategory(Number(id), Number(refId), directoryName.trim(), false, cookies.token)
+      updateDirectoryCategory(Number(id), Number(refId), directoryName.trim(), cookies.token)
         .then(() => navigateBack())
         .catch(error => {
           console.error(error);

@@ -45,6 +45,7 @@ export const ROUTES = {
   ORDER_ITEM_EDIT: (orderId: string, itemId: string) => `/order/${orderId}/item/${itemId}/edit`,
   ORDER_ITEM_ADD: (orderId: string, itemId: string) => `/order/${orderId}/item/${itemId}/add`,
   ORDER_OPERATION: (orderId: string, itemId: string, operationId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}`,
+  ORDER_PRODUCTS: (orderId: string) => `/order/${orderId}/products`,
   ORDER_ADD_ITEM: `/order/items/add`,
   ORDER_ADD_ITEM_INFO: `/order/items/add/info`,
   ORDER_ADD_OPERATION: `/order/items/add/info/operations`,

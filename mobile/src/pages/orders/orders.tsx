@@ -19,7 +19,7 @@ import { ORDER_REQUEST } from "../../dispatcher";
 import { useTranslation } from "react-i18next";
 import { TOAST_DELAY } from "./../../constants/toastDelay";
 import Fab from "../../components/fab/Fab";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import MenuListButton from "../../components/menuListButton/MenuListButton";
 import { Preloader } from "../../components/preloader/preloader";
 import { OperationStatus } from "../../models/types/ordersStatus";
@@ -28,11 +28,14 @@ import { OPERATION_STATUS_ENUM } from "../../models/enums/statuses.enum";
 export const OrdersPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const [orders, setOrders] = useState<IOrders[]>([]);
   const [searchText, setSearchText] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [selectedStatus, setSelectedStatus] = useState<OperationStatus>(OPERATION_STATUS_ENUM.IN_PROGRESS);
+  const currentStatus = searchParams.get('status') || OPERATION_STATUS_ENUM.IN_PROGRESS;
+  const [selectedStatus, setSelectedStatus] = useState<OperationStatus>(currentStatus as OperationStatus);
 
   const handleSetSearch = (v: string) => setSearchText(v);
 
@@ -57,12 +60,22 @@ export const OrdersPage: React.FC = () => {
   };
 
   const handleStatusChange = (event: CustomEvent<SegmentChangeEventDetail>) => {
-    setSelectedStatus(event.detail.value as OperationStatus);
+    const selectedStatus = event.detail.value as OperationStatus;
+    searchParams.set('status', selectedStatus);
+    history.replace({ search: searchParams.toString() });
+    setSelectedStatus(selectedStatus);
   };
 
   useIonViewWillEnter(() => {
     ORDER_REQUEST.getOrders(setOrders, setLoading, setToastMessage);
   });
+
+  useIonViewWillEnter(() => {
+    if (!searchParams.has('status')) {
+      searchParams.set('status', selectedStatus);
+      history.replace({ search: searchParams.toString() });
+    }
+  }, [history, searchParams]);
 
   return (
     <IonPage>

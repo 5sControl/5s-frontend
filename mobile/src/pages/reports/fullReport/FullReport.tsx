@@ -20,7 +20,6 @@ const FullReport = () => {
   const { orderId }: { orderId?: string } = useParams();
 
   const onPressDownload = async () => {
-    console.log("download");
     try {
       const url = window.URL.createObjectURL(report!);
       const a = document.createElement("a");
@@ -28,7 +27,6 @@ const FullReport = () => {
       a.download = reportName!;
       document.body.appendChild(a);
       a.click();
-      console.log(url);
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
     } catch (error) {
@@ -37,7 +35,6 @@ const FullReport = () => {
   };
 
   const onPressShare = async () => {
-    console.log("share");
     const url = window.URL.createObjectURL(report!);
     if (navigator.share) {
       try {
@@ -55,10 +52,9 @@ const FullReport = () => {
   };
 
   const onPressPrint = async () => {
-    console.log("print");
     try {
       const url = window.URL.createObjectURL(report!);
-
+      console.log(url);
       const printWindow = window.open(url);
       if (printWindow) {
         printWindow.onload = () => {
@@ -82,7 +78,6 @@ const FullReport = () => {
       if (orderId) {
         getOrderReport(cookies.token, startReportDate, endReportDate, orderId)
           .then(response => {
-            console.log(response);
             setReport(response.data);
           })
           .catch(error => {
@@ -94,7 +89,6 @@ const FullReport = () => {
       } else {
         getReport(cookies.token, startReportDate, endReportDate)
           .then(response => {
-            console.log(response);
             setReport(response.data);
           })
           .catch(error => {
@@ -111,7 +105,7 @@ const FullReport = () => {
     <IonPage>
       <Header
         title={t("reports.fullReport")}
-        backButtonHref={orderId ? ROUTES.REPORT_ORDER(orderId) : ROUTES.REPORTS}
+        backButtonHref={orderId ? ROUTES.REPORT_ORDERS : ROUTES.REPORTS}
       />
       <IonContent>
         {loading ? (
@@ -123,8 +117,8 @@ const FullReport = () => {
             <File fileName={reportName!} />
             <IonList inset={true}>
               <MenuListButton title={t("operations.download")} handleItemClick={onPressDownload} />
-              {/* <MenuListButton title={t("operations.share")} handleItemClick={onPressShare} /> */}
-              {/* <MenuListButton title={t("operations.print")} handleItemClick={onPressPrint} /> */}
+              {/* <MenuListButton title={t("operations.share")} handleItemClick={onPressShare} /> 
+              <MenuListButton title={t("operations.print")} handleItemClick={onPressPrint} /> */}
             </IonList>
           </>
         ) : (

@@ -13,10 +13,10 @@ const axiosConfig = (cookies: string) => ({
 
 const constructUrl = (endpoint: string) => `${API_BASE_URL}${endpoint}`;
 
-export const createDirectoryCategory = (name: string, referenceId: number, is_protected: boolean, cookies: string) => {
+export const createDirectoryCategory = (name: string, referenceId: number, cookies: string) => {
   return axios.post(
     constructUrl(API_DIRECTORY),
-    { name, referenceId, is_protected },
+    { name, referenceId },
     axiosConfig(cookies)
   );
 };
@@ -32,12 +32,11 @@ export const updateDirectoryCategory = (
   id: number,
   referenceId: number,
   name: string,
-  is_protected: boolean,
   cookies: string
 ) => {
   return axios.patch(
     constructUrl(`${API_DIRECTORY}${id}/`),
-    { name, referenceId, is_protected },
+    { name, referenceId },
     axiosConfig(cookies)
   );
 };

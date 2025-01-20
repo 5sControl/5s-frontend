@@ -19,6 +19,8 @@
     "erp": "ERP Connections"
   },
   "messages": {
+    "noData": "No data found",
+    "loading": "Loading",
     "noDatabases": "No databases available",
     "noReports": "Unable to find the requested report",
     "noCameras": "Unable to find cameras for this operation",
@@ -76,6 +78,7 @@
     "time": "Planned Time",
     "name": "name",
     "ordersView": "Orders View",
+    "products": "Products",
     "scheduled": "Show scheduled time",
     "startTime": "Start time",
     "datePlaceholder": "Select Date and Start Time",
@@ -158,7 +161,8 @@
     "required": "This field is required",
     "passwordLength": "Password must be at least 4 characters",
     "selectWorkplace": "Select employee's workplace",
-    "invalidCharacters": "Invalid characters"
+    "invalidCharacters": "Invalid characters",
+    "passwordsNotEqual": "Passwords are not equal"
   },
   "orders": {
     "order": "Order",
@@ -232,6 +236,8 @@
     "firstName": "First name",
     "lastName": "Last name",
     "password": "Password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
     "role": "Role",
     "workplace": "Workplace",
     "dateJoined": "Date joined",
