@@ -4,8 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./qrScanner.scss";
 import { useTranslation } from "react-i18next";
-import { star } from "ionicons/icons";
-import { createRoot } from "react-dom/client";
 
 type QrCodeProps = {
   qrCodeSuccessCallback: (decodedText: string, decodedResult: any) => void;
