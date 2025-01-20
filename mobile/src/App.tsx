@@ -85,6 +85,7 @@ import { CollectionUpdateDynamic } from "./pages/directories-dynamic/CollectionU
 import OrderReport from "./pages/reports/orderReport/OrderReport";
 import TimespanCameras from "./pages/timespan/camera/TimespanCameras";
 import OrderProducts from "./pages/order/orderProducts/OrderProducts";
+import { API_BASE_PATH } from "./config";
 
 setupIonicReact();
 
@@ -126,7 +127,7 @@ function App() {
 
   return (
     <IonApp>
-      <IonReactRouter basename={import.meta.env.BASE_URL ?? "/"}>
+      <IonReactRouter basename={API_BASE_PATH ?? "/"}>
         <PermissionProvider role={role}>
           {cookies.token ? (
             <IonRouterOutlet>
