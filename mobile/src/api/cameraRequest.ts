@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 
 const API_CAMERASELECT = "api/camera-algorithms/camera/";
 const API_CAMERACREATE = "api/cameras/create-camera/";
@@ -11,7 +12,7 @@ const API_ALGORITHMZONES = "api/camera-algorithms/zones-algorithms/";
 const API_VIDEO = "api/onvif/is_video_available/";
 
 export const getSelectedCameras = (hostname, cookies) => {
-  return axios.get(`${import.meta.env.VITE_API_BASE_URL}${API_CAMERASELECT}`, {
+  return axios.get(`${API_BASE_URL}${API_CAMERASELECT}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: cookies,
@@ -22,7 +23,7 @@ export const getSelectedCameras = (hostname, cookies) => {
 
 export const postCamera = (hostname, IPCamera, username, password, cookies) => {
   return axios.post(
-    `${import.meta.env.VITE_API_BASE_URL}${API_CAMERACREATE}`,
+    `${API_BASE_URL}${API_CAMERACREATE}`,
     {
       ip: IPCamera,
       username: username,
@@ -40,7 +41,7 @@ export const postCamera = (hostname, IPCamera, username, password, cookies) => {
 
 export const deleteCameraAPI = (hostname, cookies, IPCamera) => {
   return axios.delete(
-    `${import.meta.env.VITE_API_BASE_URL}${API_CAMERADELETE}${IPCamera}/`,
+    `${API_BASE_URL}${API_CAMERADELETE}${IPCamera}/`,
     {
       headers: {
         Authorization: cookies,
@@ -51,7 +52,7 @@ export const deleteCameraAPI = (hostname, cookies, IPCamera) => {
 };
 
 export const findCamera = (hostname) => {
-  return axios.get(import.meta.env.VITE_API_BASE_URL + API_CAMERAFIND, {
+  return axios.get(API_BASE_URL + API_CAMERAFIND, {
     headers: {
       "ngrok-skip-browser-warning": "true",
     },
@@ -59,7 +60,7 @@ export const findCamera = (hostname) => {
 };
 
 export const checkCamera = (hostname, cameraIP, username, password) => {
-  return fetch(`${import.meta.env.VITE_API_BASE_URL}${API_CAMERACHECK}`, {
+  return fetch(`${API_BASE_URL}${API_CAMERACHECK}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -75,7 +76,7 @@ export const checkCamera = (hostname, cameraIP, username, password) => {
 
 export const getCameraZones = (hostname, cookies, camera) => {
   return axios.get(
-    `${import.meta.env.VITE_API_BASE_URL}${API_CAMERAZONES}?camera=${camera}`,
+    `${API_BASE_URL}${API_CAMERAZONES}?camera=${camera}`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +88,7 @@ export const getCameraZones = (hostname, cookies, camera) => {
 };
 
 export const postCameraZones = (hostname, cookies, body) => {
-  return axios.post(`${import.meta.env.VITE_API_BASE_URL}${API_ZONES}`, body, {
+  return axios.post(`${API_BASE_URL}${API_ZONES}`, body, {
     headers: {
       Authorization: cookies,
       "ngrok-skip-browser-warning": "true",
@@ -97,7 +98,7 @@ export const postCameraZones = (hostname, cookies, body) => {
 
 export const patchCameraZones = (hostname, cookies, response, id) => {
   return axios.put(
-    `${import.meta.env.VITE_API_BASE_URL}${API_ZONES}${id}/`,
+    `${API_BASE_URL}${API_ZONES}${id}/`,
     response,
     {
       headers: {
@@ -109,7 +110,7 @@ export const patchCameraZones = (hostname, cookies, response, id) => {
 };
 
 export const deleteCameraZones = (hostname, cookies, id) => {
-  return axios.delete(`${import.meta.env.VITE_API_BASE_URL}${API_ZONES}${id}/`, {
+  return axios.delete(`${API_BASE_URL}${API_ZONES}${id}/`, {
     headers: {
       Authorization: cookies,
       "ngrok-skip-browser-warning": "true",
@@ -119,7 +120,7 @@ export const deleteCameraZones = (hostname, cookies, id) => {
 
 export const getAlgorithmZones = (hostname, cookies, camera) => {
   return axios.get(
-    `${import.meta.env.VITE_API_BASE_URL}${API_ALGORITHMZONES}?camera=${camera}`,
+    `${API_BASE_URL}${API_ALGORITHMZONES}?camera=${camera}`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -131,7 +132,7 @@ export const getAlgorithmZones = (hostname, cookies, camera) => {
 };
 
 export const getVideo = (hostname, body) => {
-  return axios.post(`${import.meta.env.VITE_API_BASE_URL}${API_VIDEO}`, body, {
+  return axios.post(`${API_BASE_URL}${API_VIDEO}`, body, {
     headers: {
       "ngrok-skip-browser-warning": "true",
     },
@@ -139,7 +140,7 @@ export const getVideo = (hostname, body) => {
 };
 
 export const getSelectedZone = (hostname, cookies, id) => {
-  return axios.get(`${import.meta.env.VITE_API_BASE_URL}${API_ZONES}${id}/`, {
+  return axios.get(`${API_BASE_URL}${API_ZONES}${id}/`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: cookies,

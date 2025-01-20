@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 
 const API_ALGORITHM = "api/camera-algorithms/algorithms-detail/";
 const API_POSTALGORITHM = "api/camera-algorithms/create-process/";
@@ -7,7 +8,7 @@ const API_POSTOPERATIONID = "api/order/index_stanowisko/";
 const API_UPLOAD = "api/camera-algorithms/upload-algorithm/";
 
 export const getAveilableAlgorithms = (hostname, cookies) => {
-  return axios.get(`${import.meta.env.VITE_API_BASE_URL}${API_ALGORITHM}`, {
+  return axios.get(`${API_BASE_URL}${API_ALGORITHM}`, {
     headers: {
       Authorization: cookies,
       "ngrok-skip-browser-warning": "true",
@@ -17,7 +18,7 @@ export const getAveilableAlgorithms = (hostname, cookies) => {
 
 export const uploadAlgorithm = async (hostname, cookies, id) => {
   return axios.post(
-    `${import.meta.env.VITE_API_BASE_URL}${API_UPLOAD}${id}/`,
+    `${API_BASE_URL}${API_UPLOAD}${id}/`,
     {},
     {
       headers: {
@@ -31,7 +32,7 @@ export const uploadAlgorithm = async (hostname, cookies, id) => {
 
 export const postAlgorithnDependences = async (hostname, cookies, response) => {
   return axios.post(
-    `${import.meta.env.VITE_API_BASE_URL}${API_POSTALGORITHM}`,
+    `${API_BASE_URL}${API_POSTALGORITHM}`,
     response,
     {
       headers: {
@@ -44,7 +45,7 @@ export const postAlgorithnDependences = async (hostname, cookies, response) => {
 };
 
 export const getProcess = (hostname, cookies) => {
-  return axios.get(`${import.meta.env.VITE_API_BASE_URL}${API_GETPROCESS}`, {
+  return axios.get(`${API_BASE_URL}${API_GETPROCESS}`, {
     headers: {
       Authorization: cookies,
       "ngrok-skip-browser-warning": "true",
@@ -53,7 +54,7 @@ export const getProcess = (hostname, cookies) => {
 };
 
 export const getProcessByCamera = (hostname, cameraIp, cookies) => {
-  return axios.get(`${import.meta.env.VITE_API_BASE_URL}${API_GETPROCESS}${cameraIp}/`, {
+  return axios.get(`${API_BASE_URL}${API_GETPROCESS}${cameraIp}/`, {
     headers: {
       Authorization: cookies,
       "ngrok-skip-browser-warning": "true",
@@ -62,7 +63,7 @@ export const getProcessByCamera = (hostname, cameraIp, cookies) => {
 };
 
 export const getOperationID = (hostname, cookies) => {
-  return axios.get(`${import.meta.env.VITE_API_BASE_URL}${API_POSTOPERATIONID}`, {
+  return axios.get(`${API_BASE_URL}${API_POSTOPERATIONID}`, {
     headers: {
       Authorization: cookies,
       "ngrok-skip-browser-warning": "true",
@@ -71,7 +72,7 @@ export const getOperationID = (hostname, cookies) => {
 };
 
 export const postUploadAlgorithm = async (hostname, cookies, body) => {
-  return axios.post(`${import.meta.env.VITE_API_BASE_URL}${API_ALGORITHM}`, body, {
+  return axios.post(`${API_BASE_URL}${API_ALGORITHM}`, body, {
     headers: {
       "Content-Type": "application/json",
       Authorization: cookies,
@@ -81,7 +82,7 @@ export const postUploadAlgorithm = async (hostname, cookies, body) => {
 };
 
 export const deleteAlgorithmAPI = (hostname, cookies, id) => {
-  return axios.delete(`${import.meta.env.VITE_API_BASE_URL}${API_ALGORITHM}${id}/`, {
+  return axios.delete(`${API_BASE_URL}${API_ALGORITHM}${id}/`, {
     headers: {
       Authorization: cookies,
       "ngrok-skip-browser-warning": "true",
@@ -91,7 +92,7 @@ export const deleteAlgorithmAPI = (hostname, cookies, id) => {
 
 export const putAlgorithmAPI = (cookies, id, body) => {
   return axios.put(
-    `${import.meta.env.VITE_API_BASE_URL}${API_ALGORITHM}${id}/`,
+    `${API_BASE_URL}${API_ALGORITHM}${id}/`,
     body,
     {
       headers: {

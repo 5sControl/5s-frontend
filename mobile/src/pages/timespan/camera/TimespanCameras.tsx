@@ -10,6 +10,7 @@ import { useCookies } from "react-cookie";
 import { getOrderViewOperation } from "../../../api/ordersView";
 import { OrderDetail, VideoDataStatus } from "../../../models/interfaces/ordersView.interface";
 import styles from "./timespan.module.scss";
+import { API_BASE_URL } from "../../../config";
 
 const TimespanCameras = () => {
   const { orderId, itemId, operationId, timespanId } = useParams<{
@@ -59,7 +60,7 @@ const TimespanCameras = () => {
     <div className={styles.camera}>
       <img
         className={styles.camera__image}
-        src={`${import.meta.env.VITE_API_BASE_URL}images/${video.camera_ip}/snapshot.jpg`}
+        src={`${API_BASE_URL}images/${video.camera_ip}/snapshot.jpg`}
         alt="Camera"
       />
       <div className={styles.camera__info}>

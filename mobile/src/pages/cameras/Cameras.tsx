@@ -17,6 +17,7 @@ import { ROUTES } from "../../shared/constants/routes";
 import { useTranslation } from "react-i18next";
 import { Preloader } from "../../components/preloader/preloader";
 import { useHistory } from "react-router";
+import { API_BASE_URL } from "../../config";
 
 const Cameras = () => {
   const [cookies] = useCookies(["token"]);
@@ -120,7 +121,7 @@ const Cameras = () => {
                         <div onClick={() => handleClickCamera(el)}>
                           <img
                             className={styles.cameras__list_image}
-                            src={`${import.meta.env.VITE_API_BASE_URL}images/${el.id}/snapshot.jpg`}
+                            src={`${API_BASE_URL}images/${el.id}/snapshot.jpg`}
                             alt={t("camera.title")}
                           />
                           <div>

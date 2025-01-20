@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Cookies } from 'react-cookie';
 import { CollectionMeta } from '../pages/directories-dynamic/Meta';
+import { API_BASE_URL } from '../config';
 
 export const dynamicApiSlice = createApi({
 	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({
-		baseUrl: import.meta.env.VITE_API_BASE_URL,
+		baseUrl: API_BASE_URL,
 		prepareHeaders: (headers) => {
 			const cookies = new Cookies();
 			const token = cookies.get('token');

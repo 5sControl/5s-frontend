@@ -1,5 +1,6 @@
 import axios from "axios";
 import { IAddUser, IUpdateUser, IUser } from "../models/interfaces/employee.interface";
+import { API_BASE_URL } from "../config";
 
 const API_USERLIST = "api/employees/";
 const API_USERINFO = "api/employees/get-user-info/"
@@ -8,7 +9,7 @@ const API_WORKPLACES = "api/employees/workplaces/";
 
 
 export const getUserList = (cookies: string) => {
-  return axios.get(`${import.meta.env.VITE_API_BASE_URL}${API_USERLIST}`, {
+  return axios.get(`${API_BASE_URL}${API_USERLIST}`, {
     headers: {
       Authorization: cookies,
       "ngrok-skip-browser-warning": "true",
@@ -17,7 +18,7 @@ export const getUserList = (cookies: string) => {
 };
 
 export const getCurrentUserInfo = (cookies: string) => {
-  return axios.get(`${import.meta.env.VITE_API_BASE_URL}${API_USERINFO}`, {
+  return axios.get(`${API_BASE_URL}${API_USERINFO}`, {
     headers: {
       Authorization: cookies,
       "ngrok-skip-browser-warning": "true",
@@ -26,7 +27,7 @@ export const getCurrentUserInfo = (cookies: string) => {
 };
 
 export const getUser = (id: number,cookies: string) => {
-  return axios.get(`${import.meta.env.VITE_API_BASE_URL}${API_USERLIST}${id}/`, {
+  return axios.get(`${API_BASE_URL}${API_USERLIST}${id}/`, {
     headers: {
       Authorization: cookies,
       "ngrok-skip-browser-warning": "true",
@@ -35,7 +36,7 @@ export const getUser = (id: number,cookies: string) => {
 };
 
 export const deleteUser = (id: number,cookies: string) => {
-  return axios.delete(`${import.meta.env.VITE_API_BASE_URL}${API_USERLIST}${id}/`, {
+  return axios.delete(`${API_BASE_URL}${API_USERLIST}${id}/`, {
     headers: {
       Authorization: cookies,
       "ngrok-skip-browser-warning": "true",
@@ -44,7 +45,7 @@ export const deleteUser = (id: number,cookies: string) => {
 };
 
 export const updateUser = (id: number, user: IUpdateUser, cookies: string) => {
-  return axios.patch(`${import.meta.env.VITE_API_BASE_URL}${API_USERLIST}${id}/`,
+  return axios.patch(`${API_BASE_URL}${API_USERLIST}${id}/`,
     user,
     {
     headers: {
@@ -55,7 +56,7 @@ export const updateUser = (id: number, user: IUpdateUser, cookies: string) => {
 };
 
 export const createUser = (user: IAddUser, cookies: string) => {
-  return axios.post(`${import.meta.env.VITE_API_BASE_URL}${API_USER_ADD}`,
+  return axios.post(`${API_BASE_URL}${API_USER_ADD}`,
     user,
     {
     headers: {
@@ -66,7 +67,7 @@ export const createUser = (user: IAddUser, cookies: string) => {
 };
 
 export const getWorkplaces = (cookies: string) => {
-  return axios.get(`${import.meta.env.VITE_API_BASE_URL}${API_WORKPLACES}`, {
+  return axios.get(`${API_BASE_URL}${API_WORKPLACES}`, {
     headers: {
       Authorization: cookies,
       "ngrok-skip-browser-warning": "true",

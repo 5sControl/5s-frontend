@@ -28,6 +28,7 @@ import { arrowBack, camera } from "ionicons/icons";
 import "../../../styles/common.scss";
 import { Download } from "../../../assets/svg/SVGcomponent";
 import { downloadFile } from "../../../utils/downloadFile";
+import { API_BASE_URL } from "../../../config";
 
 export const OperationDetail = () => {
   const [cookies] = useCookies(["token"]);
@@ -77,7 +78,7 @@ export const OperationDetail = () => {
 
   const handleDownload = (index = 0) => {
     if (detail && detail.videos[index] && detail.videos[index].status) {
-      const videoUrl = `${import.meta.env.VITE_API_BASE_URL}${detail?.videos[index].file_name}`;
+      const videoUrl = `${API_BASE_URL}${detail?.videos[index].file_name}`;
 
       downloadFile(videoUrl, detail.videos[index].file_name);
     }
@@ -157,7 +158,7 @@ export const OperationDetail = () => {
                     forceVideo: true,
                   },
                 }}
-                url={`${import.meta.env.VITE_API_BASE_URL}${detail?.videos[videoIndex]?.file_name}`}
+                url={`${API_BASE_URL}${detail?.videos[videoIndex]?.file_name}`}
                 onReady={() => handlePlay(videoIndex)}
               />
               </>

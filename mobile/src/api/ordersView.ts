@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
-const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL: string = API_BASE_URL;
 const API_OPERATIONS = 'api/new-order/operations/';
 const API_ORDERLIST = 'api/new-order/orders/';
 const API_OPERATION = 'api/new-order/order-detail/';
@@ -21,7 +22,7 @@ const axiosConfig = (cookies: string): AxiosConfig => ({
   },
 });
 
-const constructUrl = (endpoint: string): string => `${API_BASE_URL}${endpoint}`;
+const constructUrl = (endpoint: string): string => `${BASE_URL}${endpoint}`;
 
 export const getOrderViewOperations = (cookies: string, startDate: string, endDate: string) => {
   return axios.get(
