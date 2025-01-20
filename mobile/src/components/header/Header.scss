@@ -5,6 +5,8 @@
   
   .header__title {
     text-align: center;
+    overflow: hidden;    
+    text-overflow: ellipsis;
     padding: 0 3rem;
   }
   

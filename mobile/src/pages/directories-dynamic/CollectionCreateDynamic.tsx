@@ -9,21 +9,28 @@ import { ConfirmationModal } from "../../components/confirmationModal/confirmati
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../store";
 import { dynamicApiSlice } from "../../store/dynamicApiSlice";
+import { useHistory } from "react-router";
 
 export const CollectionCreateDynamic = () => {
 	const meta = directoriesMeta
 	const lang = i18n.language
 	const title = meta.translations && meta.translations[lang] || meta.label
 	const dispatch = useAppDispatch()
+	const history = useHistory();
 	const [newItems, setNewItems] = useState<Map<string, any>>(new Map())
 	const [isOpenModal, toggleModal] = useState(false)
+	const [backOnClose, setBackOnClose] = useState(false);
+	const isChanged = Array.from(newItems.values()).some((value) => !!value);
 
-	const onPressSaveButton = () => {
+	const openModal = () => {
 		toggleModal(true)
 	}
 
-	const onPressCloseModal = () => {
+	const closeModal = (navigateBack?: boolean) => {
 		toggleModal(false)
+		if (backOnClose || navigateBack) {
+			history.push(`/configuration/${meta.collection}`, { direction: "back" });
+		}
 	}
 
 	const saveItem = async () => { 
@@ -33,19 +40,26 @@ export const CollectionCreateDynamic = () => {
 				items: newItems
       }),
     )
-		history.go(-1)
+		closeModal(true);
 	}
 
-
 	const onChangeValues = (key: string, value: any) => {
-		let items = new Map(newItems)
+		const items = new Map(newItems)
 		items.set(key, value)
 		setNewItems(items)
 	}
 
+	const navigateBack = () => {
+		if (!isChanged) {
+			history.push(`/configuration/${meta.collection}`, { direction: "back" });
+			return;
+		} 
+		setBackOnClose(true);
+		openModal();
+	}
 
 	useEffect(() => {
-		let items = new Map()
+		const items = new Map()
 		meta.fields.forEach(field => {
 			if (field.required) {
 				items.set(field.field, null)
@@ -57,28 +71,27 @@ export const CollectionCreateDynamic = () => {
 		<IonPage>
 			<Header
 				title={title}
+				onBackClick={navigateBack}
 				backButtonHref={`/configuration/${meta.collection}`}
 			/>
 			<IonContent>
-
 				{meta.fields.map(field => {
-					let fieldName = field.translations && field.translations[lang] || field.field
+					const fieldName = field.translations && field.translations[lang] || field.field
 
 					if (field.required) {
-						let value = newItems[field.field] || ''
 						return (
 							<Input key={field.field} label={fieldName} value={newItems.get(field.field)} required={field.required} handleChange={(e) => onChangeValues(field.field, e.target.value)} />
 						)
 					}
 				})}
 
-				<BottomButton handleClick={onPressSaveButton} label={t("operations.save")} disabled={false} />
+				<BottomButton handleClick={openModal} label={t("operations.save")} disabled={!isChanged} />
 
 			</IonContent>
 			<ConfirmationModal
 				type="primary"
 				isOpen={isOpenModal}
-				onClose={onPressCloseModal}
+				onClose={closeModal}
 				onConfirm={saveItem}
 				title={`${t("operations.saveChanges")}?`}
 				confirmText={t("operations.save")}

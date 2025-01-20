@@ -18,7 +18,8 @@ import { TOAST_DELAY } from "../../../constants/toastDelay";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedWorkplace } from "../../../store/workpaceSlice";
 import { isInvalidText } from "../../../utils/isInvalidText";
-import styles from '../users.module.scss'
+import styles from '../users.module.scss';
+import { relative } from "path";
 
 const EditUser = () => {
   const { t } = useTranslation();
@@ -138,6 +139,7 @@ const EditUser = () => {
           </div>
         ) : (
             <>
+            <div style={{height: '80vh', overflow: 'scroll', paddingBottom: "20px"}}>
               <div className={styles.section}>
                 <IonNote className={`ion-padding ${styles.sectionNote}`}>
                   {t("users.settings")}
@@ -222,10 +224,13 @@ const EditUser = () => {
                     onDidDismiss={() => setToastMessage("")}
                 />
 
-                <BottomButton
-                handleClick={openModal}
-                label={t("operations.save")}
-                />
+</div>
+              {/* <div style={{position: "absolute"}}> */}
+              <BottomButton
+                              handleClick={openModal}
+                              label={t("operations.save")}
+                              />
+              {/* </div> */}
             </>
         )}
       </IonContent>
