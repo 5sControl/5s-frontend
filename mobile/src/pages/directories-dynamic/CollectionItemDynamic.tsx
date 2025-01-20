@@ -84,7 +84,7 @@ export const CollectionItemDynamic = () => {
           isOpen={showConfirmationModal}
           onConfirm={deleteItem}
           onClose={onPressClose}
-          title={`${t("operations.delete")} ${data?.["name"]}?`}
+          title={`${t("operations.delete")} "${data?.["name"]}"?`}
           confirmText={t("operations.delete")}
           cancelText={t("operations.cancel")}
         />
