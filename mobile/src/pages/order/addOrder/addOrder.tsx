@@ -88,7 +88,6 @@ const AddOrder: React.FC = () => {
           value={orderName}
           required={true}
           handleChange={e => setOrderName(e.detail.value!)}
-          maxLength={50}
           state={isInvalidText(orderName, {numbers: true, spaces: true}) ? "error" : "neutral"}
           errorMessage={t("form.invalidCharacters")}
         />
