@@ -41,11 +41,11 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
   });
 
 
-  const startScanning = () => {
+  const startScanning = async () => {
     setScanning(true);
     setError(null);
     const scanner = qrCodeReaderRef?.current;
-    scanner?.start(
+    await scanner?.start(
       cameraIdOrConfig,
       Html5QrcodeCameraScanConfig,
       (decodedText, decodedResult) => {
@@ -63,11 +63,11 @@ const QrCode = ({ qrCodeSuccessCallback }: QrCodeProps) => {
     );
   };
 
-  const stopScanning = () => {
+  const stopScanning = async () => {
     const scanner = qrCodeReaderRef?.current;
     
     if (scanner?.isScanning) {
-      scanner?.stop()
+      await scanner?.stop()
         .then(() => {
           setScanning(false);
           setQrCode(null);
