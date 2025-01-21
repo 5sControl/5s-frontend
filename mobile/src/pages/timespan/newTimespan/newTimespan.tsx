@@ -137,7 +137,7 @@ const NewTimespan: React.FC = () => {
 
   return (
     <IonPage>
-      <Header title={t("orders.implementationTime")} backButtonHref={isStart ? "" : ROUTES.SCANNER_QR} />
+      <Header title={t("orders.implementationTime")} backButtonHref={isStart ? "" : ROUTES.MENU} />
       <IonContent>
         {isLoading ? (
           <div className="preloader">
