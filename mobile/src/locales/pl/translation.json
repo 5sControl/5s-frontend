@@ -35,6 +35,7 @@
     "validDate": "Proszę ustawić poprawną datę początkową.",
     "startTime": "Czas rozpoczęcia nie może być większy niż czas zakończenia",
     "finishDate": "Data zakończenia nie może być wcześniejsza niż data rozpoczęcia.",
+    "timespanLimit": "Data nie może pochodzić z przyszłości.",
     "saveData": "Proszę zapisać swoje dane!",
     "employeeNotFound": "Pracownik nie został znaleziony",
     "validLength": "Osiągnięto maksymalną długość tekstu",
