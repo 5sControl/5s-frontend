@@ -46,13 +46,12 @@ export const ZoneList = ({
       <div className={styles.list}>
         {[...cameraZones]
           .sort((a, b) => {
-            const hasNumberA = /\d+/.test(a.name);
-            const hasNumberB = /\d+/.test(b.name);
+            const isNumberA = /^\d+/.test(a.name);
+            const isNumberB = /^\d+/.test(b.name);
 
-            if (hasNumberA && !hasNumberB) return 1;
-            if (!hasNumberA && hasNumberB) return -1;
+            if (isNumberA && isNumberB) return Number(a.name) - Number(b.name);
 
-            return a.name.localeCompare(b.name);
+            return a.name.localeCompare(b.name, {sensitivity: "case"});
           })
           .map((zona, index) => (
             <Item
