@@ -51,7 +51,7 @@ export const ZoneList = ({
 
             if (isNumberA && isNumberB) return Number(a.name) - Number(b.name);
 
-            return a.name.localeCompare(b.name, {sensitivity: "case"});
+            return a.name.localeCompare(b.name);
           })
           .map((zona, index) => (
             <Item
