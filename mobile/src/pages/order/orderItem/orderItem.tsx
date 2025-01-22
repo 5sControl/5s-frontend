@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from "react";
+import React, { SetStateAction, useMemo, useState } from "react";
 import { IonContent, IonList, IonPage, IonToast, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import style from "./orderItem.module.scss";
@@ -54,24 +54,29 @@ const OrderItem = () => {
     dispatch(setTimespan(timespanData));
   };
 
-  const tableItems: TableRow[] =
-    timespans?.filter(timespan => !operationId || timespan.orderOperation.id == operationId).map((timespan, index) => {
-      const { hours, minutes } = formatTime(timespan.duration);
-      const durationFormat = hours
-        ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}`
-        : `${minutes} ${t("time.min")}`;
-      return {
-        id: timespan.timespanId,
-        navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(
-          String(orderId),
-          String(itemId),
-          String(timespan.orderOperation.id),
-          String(timespan.timespanId)
-        ),
-        handleClick: saveTimespanInfo(timespan?.employeeName, timespan?.finishedAt),
-        values: [index + 1, timespan.employeeName, durationFormat, formatDate(timespan.startedAt)],
-      };
-    }) || [];
+  const tableItems: TableRow[] = useMemo(
+    () =>
+      timespans
+        ?.filter(timespan => !operationId || timespan.orderOperation.id == operationId)
+        .map((timespan, index) => {
+          const { hours, minutes } = formatTime(timespan.duration);
+          const durationFormat = hours
+            ? `${hours} ${t("time.hour")} ${minutes} ${t("time.min")}`
+            : `${minutes} ${t("time.min")}`;
+          return {
+            id: timespan.timespanId,
+            navigateTo: ROUTES.ORDER_TIMESPAN_EDIT(
+              String(orderId),
+              String(itemId),
+              String(timespan.orderOperation.id),
+              String(timespan.timespanId)
+            ),
+            handleClick: saveTimespanInfo(timespan?.employeeName, timespan?.finishedAt),
+            values: [index + 1, timespan.employeeName, durationFormat, formatDate(timespan.startedAt)],
+          };
+        }) || [],
+    [timespans]
+  );
 
   return (
     <IonPage>

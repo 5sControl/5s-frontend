@@ -88,7 +88,7 @@ const EditTimespan: React.FC = () => {
   };
 
   const handleNavigate = () => {
-    history.push(ROUTES.ORDER_ITEM(String(orderId), String(itemId)), { direction: "back" });
+    history.go(-1);
     setIsSaveModalOpen(false);
   };
 
