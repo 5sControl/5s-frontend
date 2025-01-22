@@ -35,6 +35,7 @@
     "validDate": "Please set a valid start date.",
     "startTime": "The start time cannot be greater than the end time",
     "finishDate": "The finish date cannot be earlier than the start date.",
+    "timespanLimit": "The date cannot be from the future.",
     "saveData": "Please save your data!",
     "employeeNotFound": "Employee not found",
     "validLength": "Maximum text length reached",

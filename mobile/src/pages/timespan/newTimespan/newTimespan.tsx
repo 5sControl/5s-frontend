@@ -76,10 +76,18 @@ const NewTimespan: React.FC = () => {
 
   const handleStartTime = (time: string | string[]) => {
     if (Array.isArray(time)) return;
+    const currentDateTime = getCurrentDateTimeISO();
+
+    if (time > currentDateTime){
+      setToastMessage(t("messages.timespanLimit"));
+      return;
+    }
+
     if (finishDateTime && time > finishDateTime) {
       setToastMessage(t("messages.startTime")); 
       return;
     }
+
     setStartDateTime(time);
     const payload = {
       orderId: parseInt(orderId),
@@ -95,9 +103,15 @@ const NewTimespan: React.FC = () => {
 
   const handleFinishTime = (time: string | string[]) => {
     if (Array.isArray(time)) return;
+    const currentDateTime = getCurrentDateTimeISO();
 
     if (time < startDateTime) {
       setToastMessage(t("messages.finishDate"));
+      return;
+    }
+
+    if (time > currentDateTime){
+      setToastMessage(t("messages.timespanLimit"));
       return;
     }
     setFinishDateTime(time);
