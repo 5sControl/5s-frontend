@@ -24,16 +24,13 @@ const NewTimespan: React.FC = () => {
   const [block, setBlock] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(false);
-  const [qrOrderName, setQrOrderName] = useState<string>("");
-  const [qrOrderYear, setQrOrderYear] = useState<string>("");
-  const [qrOrderItem, setQrOrderItem] = useState<string>("");
   const history = useHistory();
   const startModalRef = useRef<HTMLIonModalElement>(null);
   const finishModalRef = useRef<HTMLIonModalElement>(null);
   const { t } = useTranslation();
   const [cookies] = useCookies();
-  const qrTimespan = useSelector((state: RootState) => state.currentTimespan);
-  const [timespans, setTimespans] = useState<ITimespan[]>([]);
+  const {orderName, orderYear, orderItem} = useSelector((state: RootState) => state.currentTimespan);
+  const [timespans, setTimespans] = useState<ITimespan[] | undefined>(undefined);
   const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
   
   const startDateTime = timespan.startedAt ?? getCurrentDateTimeISO();
@@ -41,9 +38,10 @@ const NewTimespan: React.FC = () => {
   const isStart = !!timespan.startedAt;
 
   useEffect(() => {
+    if (!timespans) return;
     if (timespans[0] && !timespans[0].finishedAt) {
       setTimespan(timespans[0]);
-    }  else if (!qrTimespan.orderName) {
+    }  else if (!orderName) {
       history.push(ROUTES.SCANNER_QR);
     }
   }, [timespans]); 
@@ -52,12 +50,6 @@ const NewTimespan: React.FC = () => {
     const token = jwtDecode<any>(cookies.token.replace("JWT%220", ""));
     const userId = Number(token.user_id);
     TIMESPAN_REQUEST.getTimespansByEmployee(userId, setTimespans, setLoading, setToastMessage)
-    if (qrTimespan) {
-      const { orderName, orderYear, orderItem } = qrTimespan;
-      setQrOrderName(orderName || "");
-      setQrOrderYear(orderYear || "");
-      setQrOrderItem(orderItem || "");
-    }
   });
 
   const handleStartNow = () => {
@@ -184,9 +176,9 @@ const NewTimespan: React.FC = () => {
           </div>
         ) : (
           <>
-            <InputReadonly label={t("orders.orderName")} value={timespan?.orderOperation?.orderItem?.order?.name || qrOrderName || "-"} />
-            <InputReadonly label={t("orders.orderYear")} value={String(timespan?.orderOperation?.orderItem?.order?.orderYear || qrOrderYear || "-")} />
-            <InputReadonly label={t("orders.orderItem")} value={timespan?.orderOperation?.orderItem?.name || qrOrderItem || "-"} />
+            <InputReadonly label={t("orders.orderName")} value={timespan?.orderOperation?.orderItem?.order?.name || orderName || "-"} />
+            <InputReadonly label={t("orders.orderYear")} value={String(timespan?.orderOperation?.orderItem?.order?.orderYear || orderYear || "-")} />
+            <InputReadonly label={t("orders.orderItem")} value={timespan?.orderOperation?.orderItem?.name || orderItem || "-"} />
             <IonList className={`${style.page} ion-padding`}>
               <IonList className={style.list}>
                 <IonLabel className={style.label}>{t("form.date")}</IonLabel>
