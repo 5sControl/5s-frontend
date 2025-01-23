@@ -32,6 +32,7 @@ export interface IReference {
     createdAt: string
     updatedAt: string
     employeeId: number
+    employeeName: string
 }
 
 export interface IOrderItemTimespan {
