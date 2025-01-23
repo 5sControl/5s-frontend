@@ -12,7 +12,12 @@
     "scanner": "Skaner QR",
     "language": "Język interfejsu",
     "users": "Pracownicy",
-    "cameras": "Ustawienia kamer"
+    "cameras": "Ustawienia kamer",
+    "myTasks": "Moje zadania",
+    "workStatus": {
+      "workInProgress": "Prace w toku",
+      "noWork": "Brak pracy"
+    }
   },
   "config": {
     "title": "Konfiguracja",
@@ -35,6 +40,7 @@
     "validDate": "Proszę ustawić poprawną datę początkową.",
     "startTime": "Czas rozpoczęcia nie może być większy niż czas zakończenia",
     "finishDate": "Data zakończenia nie może być wcześniejsza niż data rozpoczęcia.",
+    "timespanLimit": "Data nie może pochodzić z przyszłości.",
     "saveData": "Proszę zapisać swoje dane!",
     "employeeNotFound": "Pracownik nie został znaleziony",
     "validLength": "Osiągnięto maksymalną długość tekstu",

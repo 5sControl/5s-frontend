@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getCookieValueByName } from "../utils/helpers";
-import { ICompleteOrder, IOrders, IReference, ITimespan } from "../models/interfaces/orders.interface";
+import { ICompleteOrder, IOrderItemTimespan, IOrders, IReference, ITimespan } from "../models/interfaces/orders.interface";
 import {
   IOrderOperation,
   IOrderOperationAddBody,
@@ -8,8 +8,9 @@ import {
   IProductOperationAddBody,
 } from "../models/interfaces/operationItem.interface";
 import { IItem, IItemAddBody, IOrderItemAddBody, IOrderItemUpdateBody, Item } from "../models/interfaces/item.interface";
+import { API_BASE_URL } from "../config";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = API_BASE_URL;
 const BASE = "api/erp-reference";
 
 const URLS = {
@@ -33,7 +34,7 @@ const axiosConfig = () => ({
   },
 });
 
-const constructUrl = (endpoint: string) => `${API_BASE_URL}${BASE}${endpoint}`;
+const constructUrl = (endpoint: string) => `${BASE_URL}${BASE}${endpoint}`;
 
 export const ORDERS_API = {
   getOrders: () => axios.get(constructUrl(URLS.ORDERS), axiosConfig()),
@@ -90,6 +91,8 @@ export const TIMESPAN_API = {
     axios.get<ITimespan>(constructUrl(URLS.TIMESPANS + id + "/"), axiosConfig()),
   getOrderItemTimespans: (orderItemId: number) =>
     axios.get<any>(constructUrl(URLS.TIMESPANS + "order-item/" + orderItemId + "/"), axiosConfig()),
+  getTimespansByEmployee: (employeeId: number) => 
+    axios.get<ITimespan[]>(constructUrl(URLS.TIMESPANS + "employee/" + employeeId + "/"), axiosConfig())
 };
 
 export const ORDER_ITEMS_API = {

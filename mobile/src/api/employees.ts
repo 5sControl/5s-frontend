@@ -1,6 +1,7 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = API_BASE_URL;
 const API_EMPLOYEE = "api/erp-reference/employees/";
 
 const axiosConfig = (cookies: string) => ({
@@ -10,7 +11,7 @@ const axiosConfig = (cookies: string) => ({
   },
 });
 
-const constructUrl = (endpoint: string) => `${API_BASE_URL}${endpoint}`;
+const constructUrl = (endpoint: string) => `${BASE_URL}${endpoint}`;
 
 export const getAllEmployees = (cookies: string) => {
   return axios.get(constructUrl(API_EMPLOYEE), axiosConfig(cookies));

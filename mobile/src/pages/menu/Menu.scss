@@ -16,3 +16,26 @@
   font-weight: 500;
   color: #212121;
 }
+
+.my-work-btn {
+  position: relative;
+}
+
+.status {
+  position: absolute;
+  top: 0;
+  right: 2rem;
+  z-index: 1;
+  color: #212121;
+  font-size: 12px;
+  border-radius: 30px;
+  display: block;
+}
+
+.status.work {
+  background-color: #BDFFC8;
+}
+
+.status.no-work {
+  background-color: #ebebeb;
+}

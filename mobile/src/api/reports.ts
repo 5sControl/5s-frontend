@@ -1,11 +1,12 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = API_BASE_URL;
 const API_REPORTS = "api/erp-reference/reports/work-hours/";
 const ORDERS = 'orders/';
 const ORDER_ITEMS = 'order-items/'
 
-const constructUrl = (endpoint: string) => `${API_BASE_URL}${endpoint}`;
+const constructUrl = (endpoint: string) => `${BASE_URL}${endpoint}`;
 
 export const getReport = (cookies: string, startDate: string, endDate: string) => {
   return axios.get(constructUrl(`${API_REPORTS}${ORDERS}?startDate=${startDate}&endDate=${endDate}`), {

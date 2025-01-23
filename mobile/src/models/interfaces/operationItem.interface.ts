@@ -1,5 +1,5 @@
-import {OrdersStatus} from "../types/ordersStatus";
 import { OperationStatus } from "../types/ordersStatus";
+import { Item } from "./item.interface";
 
 export interface OperationItem {
     filtration_operation_id: number,
@@ -53,6 +53,7 @@ export interface IOrderOperation {
     totalDuration: number
     extensions: Extension[]
     timespans: Timespan[]
+    orderItem: Item
 }
 
 export interface Extension {
