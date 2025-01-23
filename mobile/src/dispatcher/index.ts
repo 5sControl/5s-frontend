@@ -1,4 +1,4 @@
-import { ITEMS_API, ITimespanUpdateBody, OPERATIONS_API, ORDER_ITEMS_API, ORDERS_API, TIMESPAN_API } from "../api/orders";
+import { IAddOrder, ITEMS_API, ITimespanUpdateBody, OPERATIONS_API, ORDER_ITEMS_API, ORDERS_API, TIMESPAN_API } from "../api/orders";
 import { STATUS } from "../models/enums/statuses.enum";
 import { AxiosError } from "axios";
 import { ICompleteOrder, IOrderItemTimespan, IOrders } from "../models/interfaces/orders.interface";
@@ -351,7 +351,7 @@ const getOrderItemTimespans = async (orderItemId: number, setTimespans: React.Di
     }
 }
 
-const getTimespansByEmployee = async (employeeId: number, setTimespans: React.Dispatch<React.SetStateAction<ITimespan[] | undefined>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+const getTimespansByEmployee = async (employeeId: number, setTimespans: React.Dispatch<React.SetStateAction<ITimespan[]>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
     try {
         setLoading(true)

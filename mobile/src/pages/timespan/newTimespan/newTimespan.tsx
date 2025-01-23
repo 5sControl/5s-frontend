@@ -30,7 +30,7 @@ const NewTimespan: React.FC = () => {
   const { t } = useTranslation();
   const [cookies] = useCookies();
   const {orderName, orderYear, orderItem} = useSelector((state: RootState) => state.currentTimespan);
-  const [timespans, setTimespans] = useState<ITimespan[] | undefined>(undefined);
+  const [timespans, setTimespans] = useState<ITimespan[]>([]);
   const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
   const [backLink, setBackLink] = useState(!!timespan.startedAt);
   
