@@ -61,6 +61,7 @@ const NewTimespan: React.FC = () => {
 
   const handleFinishNow = () => {
     setFinishDateTime(getCurrentDateTimeISO());
+    setIsStart(false);
     const payload = {
       orderId: parseInt(orderId),
       orderOperationId: parseInt(operationId),
