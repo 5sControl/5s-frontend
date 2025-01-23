@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getCookieValueByName } from "../utils/helpers";
-import { ICompleteOrder, IOrders, IReference, ITimespan } from "../models/interfaces/orders.interface";
+import { ICompleteOrder, IOrderItemTimespan, IOrders, IReference, ITimespan } from "../models/interfaces/orders.interface";
 import {
   IOrderOperation,
   IOrderOperationAddBody,
@@ -90,6 +90,8 @@ export const TIMESPAN_API = {
     axios.get<ITimespan>(constructUrl(URLS.TIMESPANS + id + "/"), axiosConfig()),
   getOrderItemTimespans: (orderItemId: number) =>
     axios.get<any>(constructUrl(URLS.TIMESPANS + "order-item/" + orderItemId + "/"), axiosConfig()),
+  getTimespansByEmployee: (employeeId: number) => 
+    axios.get<ITimespan[]>(constructUrl(URLS.TIMESPANS + "employee/" + employeeId + "/"), axiosConfig())
 };
 
 export const ORDER_ITEMS_API = {

@@ -1,4 +1,4 @@
-import {IOperation} from "./operationItem.interface";
+import {IOperation, IOrderOperation} from "./operationItem.interface";
 import { OperationStatus } from "../types/ordersStatus";
 
 export interface IOrders {
@@ -32,6 +32,7 @@ export interface IReference {
     createdAt: string
     updatedAt: string
     employeeId: number
+    orderOperation: IOrderOperation;
 }
 
 export interface IOrderItemTimespan {

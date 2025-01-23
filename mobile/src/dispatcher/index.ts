@@ -10,7 +10,6 @@ import {
 } from "../models/interfaces/operationItem.interface";
 import { ITimespan } from "./../models/interfaces/orders.interface"
 import { ITimespanAddBody } from './../api/orders'
-import { IAddOrder } from "../api/orders";
 import React from "react";
 import { IItem, IItemAddBody, IOrderItemAddBody, IOrderItemUpdateBody, Item } from "../models/interfaces/item.interface";
 
@@ -352,6 +351,24 @@ const getOrderItemTimespans = async (orderItemId: number, setTimespans: React.Di
     }
 }
 
+const getTimespansByEmployee = async (employeeId: number, setTimespans: React.Dispatch<React.SetStateAction<ITimespan[]>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
+    try {
+        setLoading(true)
+        const timespans = await TIMESPAN_API.getTimespansByEmployee(employeeId)
+        if (timespans.status === STATUS.OK) {
+            setTimespans(timespans.data);
+        } else {
+            setMessage && setMessage('Something went wrong')
+        }
+    } catch (e) {
+        const err = e as AxiosError
+        setMessage && setMessage(err.message)
+    } finally {
+        setLoading && setLoading(false)
+    }
+}
+
 //////////////////////////////////////////////////
 
 const getOrderItems = async (id: number, setOrderItems: React.Dispatch<React.SetStateAction<Item[]>>,
@@ -534,7 +551,8 @@ export const TIMESPAN_REQUEST = {
     addTimespan,
     updateTimespan,
     getTimespan,
-    getOrderItemTimespans
+    getOrderItemTimespans,
+    getTimespansByEmployee
 }
 
 
