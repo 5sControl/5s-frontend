@@ -32,6 +32,7 @@ const NewTimespan: React.FC = () => {
   const {orderName, orderYear, orderItem} = useSelector((state: RootState) => state.currentTimespan);
   const [timespans, setTimespans] = useState<ITimespan[] | undefined>(undefined);
   const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
+  const [backLink, setBackLink] = useState(!!timespan.startedAt);
   
   const startDateTime = timespan.startedAt ?? getCurrentDateTimeISO();
   const finishDateTime = timespan.finishedAt;
@@ -57,6 +58,7 @@ const NewTimespan: React.FC = () => {
       ...timespan,
       startedAt: getCurrentDateTimeISO(),
     }));
+    setBackLink(false);
     setBlock(true);
     const payload = {
       orderId: parseInt(orderId),
@@ -81,6 +83,7 @@ const NewTimespan: React.FC = () => {
       finishedAt: formatISOBeforeSend(getCurrentDateTimeISO()),
     };
     setBlock(false);
+    setBackLink(true);
     operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage)
     .catch(() =>{
       setToastMessage(t("orders.timeOverlap"));
@@ -168,7 +171,7 @@ const NewTimespan: React.FC = () => {
 
   return (
     <IonPage>
-      <Header title={t("orders.implementationTime")} backButtonHref={isStart ? "" : ROUTES.MENU} />
+      <Header title={t("orders.implementationTime")} backButtonHref={!backLink ? "" : ROUTES.MENU} />
       <IonContent>
         {isLoading ? (
           <div className="preloader">
