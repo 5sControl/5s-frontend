@@ -339,7 +339,7 @@ const getOrderItemTimespans = async (orderItemId: number, setTimespans: React.Di
         const orderItem = await TIMESPAN_API.getOrderItemTimespans(orderItemId)
         if (orderItem.status === STATUS.OK) {
             setTimespans(orderItem.data.timespans || []);
-            setOrderItemName(orderItem.data.timespans[0]?.orderOperation?.order_item?.name || '');
+            setOrderItemName(orderItem.data.timespans[0]?.orderOperation?.orderItem?.name || '');
         } else {
             setMessage && setMessage('Something went wrong')
         }
