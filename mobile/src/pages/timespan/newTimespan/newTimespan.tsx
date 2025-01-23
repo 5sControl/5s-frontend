@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, SetStateAction } from "react";
 import { IonButton, IonContent, IonLabel, IonToast, IonPage, IonList, useIonViewWillEnter } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
@@ -49,7 +49,7 @@ const NewTimespan: React.FC = () => {
   useIonViewWillEnter(() => {
     const token = jwtDecode<any>(cookies.token.replace("JWT%220", ""));
     const userId = Number(token.user_id);
-    TIMESPAN_REQUEST.getTimespansByEmployee(userId, setTimespans, setLoading, setToastMessage)
+    TIMESPAN_REQUEST.getTimespansByEmployee(userId, setTimespans as React.Dispatch<SetStateAction<ITimespan[]>>, setLoading, setToastMessage)
   });
 
   const handleStartNow = () => {
@@ -74,7 +74,6 @@ const NewTimespan: React.FC = () => {
       ...timespan,
       finishedAt: getCurrentDateTimeISO(),
     }));
-    setIsStart(false);
     const payload = {
       orderId: parseInt(orderId),
       orderOperationId: parseInt(operationId),
