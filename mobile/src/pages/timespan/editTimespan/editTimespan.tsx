@@ -23,8 +23,6 @@ import { Header } from "../../../components/header/Header";
 import { Preloader } from "../../../components/preloader/preloader";
 import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
 import TimeSelector from "../../../components/timeSelector/TimeSelector";
 import { Camera } from "../../../assets/svg/SVGcomponent";
 const RADIX = 10;
@@ -38,8 +36,6 @@ const EditTimespan: React.FC = () => {
     timespanId: string;
   }>();
   const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
-  const [worker, setWorker] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
   const [isDateChange, setIsDateChange] = useState<boolean>(false);
   const [startDateTime, setStartDateTime] = useState<string>("");
   const [isStart, setIsStart] = useState<boolean>(true);
@@ -49,22 +45,16 @@ const EditTimespan: React.FC = () => {
   const [isLoading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
-  const qrTimespan = useSelector((state: RootState) => state.currentTimespan);
-
   const history = useHistory();
   const startModalRef = useRef<HTMLIonModalElement>(null);
   const finishModalRef = useRef<HTMLIonModalElement>(null);
 
   const seconds = getTimeDifference(finishDateTime, startDateTime);
   const { hours, minutes } = formatTime(seconds);
-
+  const status = !timespan.startedAt ? t("orders.statusValues.pending") : (!timespan.finishedAt ? t("orders.statusValues.inProgress") : t("orders.statusValues.done"));
+  
   useIonViewWillEnter(() => {
-    if (qrTimespan) {
-      const { timespanWorker, timespanStatus } = qrTimespan;
-      setWorker(timespanWorker || "");
-      setStatus(timespanStatus || "");
-      timespanId && TIMESPAN_REQUEST.getTimespan(parseInt(timespanId, RADIX), setTimespan, setLoading, setToastMessage);
-    }
+    timespanId && TIMESPAN_REQUEST.getTimespan(parseInt(timespanId, RADIX), setTimespan, setLoading, setToastMessage);
   });
 
   useEffect(() => {
@@ -106,7 +96,7 @@ const EditTimespan: React.FC = () => {
         )
         .catch(() =>{
           setToastMessage(t("orders.timeOverlap"));
-        });;
+        });
       setSave(true);
       setIsModalOpen(false);
     }
@@ -184,7 +174,7 @@ const EditTimespan: React.FC = () => {
           <>
             {startDateTime && (
               <>
-                <InputReadonly label={t("orders.surname")} value={worker} />
+                <InputReadonly label={t("orders.surname")} value={timespan.employeeName} />
                 <InputReadonly label={t("orders.status")} value={status} />
 
                 <IonList className={`${style.page} ion-padding`}>
