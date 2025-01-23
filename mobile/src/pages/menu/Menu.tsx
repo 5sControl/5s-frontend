@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
-import { IonContent, IonFooter, IonList, IonPage, IonText } from "@ionic/react";
-import { jwtDecode } from "jwt-decode";
+import { IonContent, IonFooter, IonList, IonPage, IonText, useIonViewWillEnter } from "@ionic/react";
 import { getCurrentUserInfo } from "../../api/users";
 import { ROUTES } from "../../shared/constants/routes";
 import { Header } from "../../components/header/Header";
@@ -14,27 +13,36 @@ import Restricted from "../../providers/permissionProvider/Restricted";
 import { isMobile } from "react-device-detect";
 import "./Menu.scss";
 import { Preloader } from "../../components/preloader/preloader";
+import { ITimespan } from "../../models/interfaces/orders.interface";
+import { TIMESPAN_REQUEST } from "../../dispatcher";
 
 export const Menu: React.FC = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
   const [user, setUser] = useState<any>({});
+  const [timespans, setTimespans] = useState<ITimespan[]>([]);
   const history = useHistory();
   const { t } = useTranslation();
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isLoading, setLoading] = useState(false);
+  const workInProgress = timespans[0] && !timespans[0].finishedAt;
 
-  useEffect(() => {
+  useIonViewWillEnter(() => {
     if (cookies.token) {
-      const token = jwtDecode<any>(cookies.token.replace("JWT%220", ""));
       getCurrentUserInfo(cookies.token)
         .then((response: any) => {
           if (response.data) {
             setUser(response.data);
+            const { id, role } = response.data;
+            if (role == "worker") {
+              TIMESPAN_REQUEST.getTimespansByEmployee(id, setTimespans, setLoading, setToastMessage);
+            }
           }
         })
         .catch((error: any) => {
           console.error("Error fetching user list:", error);
         });
     }
-  }, []);
+  });
 
   const handleItemClick = (path: string) => history.push(path);
   const logout = () => removeCookie("token", { path: "/" });
@@ -93,7 +101,11 @@ export const Menu: React.FC = () => {
 
             <Restricted to="proccess_qr_code_order_operation">
               <IonList inset={true}>
-                <MenuListButton title={t("menu.scanner")} handleItemClick={() => handleItemClick(ROUTES.SCANNER_QR)} />
+                <MenuListButton title={t("menu.scanner")} handleItemClick={() => handleItemClick(ROUTES.SCANNER_QR)} disabled={workInProgress}/>
+                <div className="my-work-btn"> 
+                  <MenuListButton title={t("menu.myTasks")} handleItemClick={() => handleItemClick(ROUTES.ORDER_TIMESPAN(String(timespans[0]?.orderOperation.orderItem?.order?.id), String(timespans[0]?.orderOperation.orderItem?.id), String(timespans[0]?.orderOperation?.id)))} disabled={!workInProgress}/>
+                  <div className={"status " + (workInProgress ? "work" : "no-work")}>{workInProgress ? t("menu.workStatus.workInProgress") : t("menu.workStatus.noWork")}</div>
+                </div>
               </IonList>
             </Restricted>
 

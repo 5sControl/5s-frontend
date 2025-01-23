@@ -12,7 +12,12 @@
     "scanner": "Skaner QR",
     "language": "Język interfejsu",
     "users": "Pracownicy",
-    "cameras": "Ustawienia kamer"
+    "cameras": "Ustawienia kamer",
+    "myTasks": "Moje zadania",
+    "workStatus": {
+      "workInProgress": "Prace w toku",
+      "noWork": "Brak pracy"
+    }
   },
   "config": {
     "title": "Konfiguracja",
