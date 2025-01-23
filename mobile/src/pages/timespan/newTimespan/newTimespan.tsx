@@ -74,6 +74,7 @@ const NewTimespan: React.FC = () => {
       ...timespan,
       finishedAt: getCurrentDateTimeISO(),
     }));
+    setIsStart(false);
     const payload = {
       orderId: parseInt(orderId),
       orderOperationId: parseInt(operationId),

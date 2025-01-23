@@ -54,7 +54,7 @@ const Scanner = () => {
           const timespanData = {
             orderName: orderName,
             orderYear: data.orderItem.order.orderYear,
-            orderItem: data.orderItem.item.name,
+            orderItem: data.orderItem.name,
           };
           dispatch(setTimespan(timespanData));
           redirectToOrder(orderId.toString(), orderItemId.toString(), operationId.toString());
