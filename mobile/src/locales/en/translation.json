@@ -12,7 +12,13 @@
     "scanner": "QR Scanner",
     "language": "Interface language",
     "users": "Employees",
-    "cameras": "Camera Settings"
+    "cameras": "Camera Settings",
+    "myTasks": "My tasks",
+    "workStatus": {
+      "workInProgress": "Work in progress",
+      "noWork": "No work"
+    }
+    
   },
   "config": {
     "title": "Configuration",
