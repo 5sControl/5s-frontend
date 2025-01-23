@@ -351,7 +351,7 @@ const getOrderItemTimespans = async (orderItemId: number, setTimespans: React.Di
     }
 }
 
-const getTimespansByEmployee = async (employeeId: number, setTimespans: React.Dispatch<React.SetStateAction<ITimespan[]>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+const getTimespansByEmployee = async (employeeId: number, setTimespans: React.Dispatch<React.SetStateAction<ITimespan[] | undefined>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
     try {
         setLoading(true)
