@@ -44,7 +44,7 @@
     "saveData": "Proszę zapisać swoje dane!",
     "employeeNotFound": "Pracownik nie został znaleziony",
     "validLength": "Osiągnięto maksymalną długość tekstu",
-    "employeeExists": "Pracownik o tym samym nazwisku już istnieje"
+    "employeeExists": "Pracownik o tym samym nazwisku lub adresie e-mail już istnieje"
   },
   "directory": {
     "newDirectory": "Nowy katalog",
@@ -168,7 +168,8 @@
     "passwordLength": "Hasło musi mieć co najmniej 4 znaki",
     "selectWorkplace": "Wybierz miejsce pracy",
     "invalidCharacters": "Nieprawidłowe znaki",
-    "passwordsNotEqual": "Hasła nie pasują"
+    "passwordsNotEqual": "Hasła nie pasują",
+    "invalidEmail": "Nieprawidłowy format wiadomości email"
   },
   "orders": {
     "order": "Zamówienie",

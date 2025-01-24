@@ -20,6 +20,7 @@ import { setSelectedWorkplace } from "../../../store/workpaceSlice";
 import { isInvalidText } from "../../../utils/isInvalidText";
 import styles from '../users.module.scss';
 import { relative } from "path";
+import isValidEmail from "../../../utils/isValidEmail";
 
 const EditUser = () => {
   const { t } = useTranslation();
@@ -74,6 +75,7 @@ const EditUser = () => {
       first_name: user.first_name,
       last_name: user.last_name,
       role: user.role,
+      email: user.email,
       workplace_id: user.role === ROLE.WORKER ? (selectedWorkplace?.id || user.workplace?.id || null) : null
     };
     if (password && password === confirmPassword){
@@ -106,8 +108,18 @@ const EditUser = () => {
   };
 
   const openModal = () => {
-    if (!user.username || !user.first_name || !user.last_name || (password && password.length < minPasswordLength) 
-      || isInvalidText(user.username, {numbers: true}) || isInvalidText(user.first_name) || isInvalidText(user.last_name) || password !== confirmPassword) {
+    if (
+      !user.username ||
+      !user.first_name ||
+      !user.last_name ||
+      !user.email ||
+      (password && password.length < minPasswordLength) ||
+      !isValidEmail(user.email) ||
+      isInvalidText(user.username, { numbers: true }) ||
+      isInvalidText(user.first_name) ||
+      isInvalidText(user.last_name) ||
+      password !== confirmPassword
+    ) {
       setHighlightRequired(true);
       return;
     }
@@ -153,6 +165,14 @@ const EditUser = () => {
                     state={highlightRequired && (!user.username || isInvalidText(user.username, {numbers: true})  || userExists) ? "error" : "neutral" }
                     errorMessage={isInvalidText(user.username, {numbers: true})  ? t("form.invalidCharacters") : userExists ? t("messages.employeeExists") : t("form.required")}
                     maxLength={30}/>
+                <Input 
+                    label={"Email"} 
+                    value={user?.email || ""} 
+                    required 
+                    handleChange={event => setUser({ ...user, email: event.target.value })}
+                    state={highlightRequired && (!user.email || !isValidEmail(user.email)) ? "error" : "neutral" }
+                    errorMessage={!isValidEmail(user.email) || userExists ? t("form.invalidEmail") : t("form.required")}
+                    maxLength={30}/>  
                 <Input 
                     label={t("users.newPassword")} 
                     value={password} 
