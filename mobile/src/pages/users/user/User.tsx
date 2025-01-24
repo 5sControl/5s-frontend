@@ -16,6 +16,8 @@ import { ConfirmationModal } from "../../../components/confirmationModal/confirm
 import Chip from "../../../components/chip/chip";
 import RoleLabel from "../../../components/roleLabel/RoleLabel";
 import Fab from "../../../components/fab/Fab";
+import MenuListButton from "../../../components/menuListButton/MenuListButton";
+
 
 const User = () => {
   const [cookies] = useCookies(["token"]);
@@ -89,6 +91,12 @@ const User = () => {
           )
           :
           <>
+              {item.role === "admin"? "": <div className="ion-padding">
+                <MenuListButton
+                  title={t("text.tasks")}
+                  handleItemClick={() => history.push(ROUTES.EMPLOYEE_TIMESPANS(String(item.id)))} /> 
+              </div>
+              }
                 <InputReadonly label={t("users.username")} value={item.username} />
                 <InputReadonly label={t("users.fullName")} value={`${item.last_name} ${item.first_name}`} />
                 <IonItem className="input__field">

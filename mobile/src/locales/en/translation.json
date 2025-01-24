@@ -86,6 +86,7 @@
     "name": "name",
     "ordersView": "Orders View",
     "products": "Products",
+    "tasks": "tasks",
     "scheduled": "Show scheduled time",
     "startTime": "Start time",
     "datePlaceholder": "Select Date and Start Time",

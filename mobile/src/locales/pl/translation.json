@@ -85,6 +85,7 @@
     "name": "nazwa",
     "ordersView": "Widok zamówień",
     "products": "Produkty",
+    "tasks": "zadania",
     "scheduled": "Pokaż zaplanowany czas",
     "startTime": "Czas rozpoczęcia",
     "datePlaceholder": "Wybierz datę i czas rozpoczęcia",

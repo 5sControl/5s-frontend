@@ -34,6 +34,7 @@ export const ROUTES = {
   EMPLOYEE_ADD: "/employees/add",
   EMPLOYEE: (employeeId: string) => `/employee/${employeeId}`,
   EMPLOYEE_EDIT: (employeeId: string) => `/employee/${employeeId}/edit`,
+  EMPLOYEE_TIMESPANS :(userId: string) => `/user/${userId}/timespans`,
 
   ORDERSVIEW: "/orders-view",
   OPERATIONDETAIL: (id: string) => `/orders-view/operation-detail/${id}`,

@@ -86,6 +86,7 @@ import OrderReport from "./pages/reports/orderReport/OrderReport";
 import TimespanCameras from "./pages/timespan/camera/TimespanCameras";
 import OrderProducts from "./pages/order/orderProducts/OrderProducts";
 import { API_BASE_PATH } from "./config";
+import EmployeeTimespansPage from "./pages/employeeTimespans/employeeTimespans";
 
 setupIonicReact();
 
@@ -319,6 +320,9 @@ function App() {
               </Route>
               <Route exact path={ROUTES.USER_EDIT_WORKPLACES(":id")}>
                 <Workplaces />
+              </Route>
+              <Route exact path={ROUTES.EMPLOYEE_TIMESPANS(":userId")}>
+                <EmployeeTimespansPage />
               </Route>
 
               <Route exact path={ROUTES.CAMERAS}>
