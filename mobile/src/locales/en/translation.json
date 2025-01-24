@@ -305,6 +305,10 @@
       "select": "Select or enter",
       "selectAreas": "Select one or more areas on the left",
       "add": "Add Zone"
+    },
+    "timespans":{
+      "inProcess": "In progress",
+      "done": "Done"
     }
   }
 }

@@ -305,5 +305,9 @@
       "selectAreas": "Wybierz jedną lub więcej obszarów z lewej strony",
       "add": "Dodaj strefę"
     }
+  },
+  "timespans":{
+    "inProcess": "W toku",
+    "done": "Zrobione"
   }
 }
