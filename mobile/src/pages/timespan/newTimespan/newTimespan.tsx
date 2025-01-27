@@ -28,7 +28,7 @@ const NewTimespan: React.FC = () => {
   const finishModalRef = useRef<HTMLIonModalElement>(null);
   const { t } = useTranslation();
   const [cookies] = useCookies();
-  const {orderName, orderYear, orderItem} = useSelector((state: RootState) => state.currentTimespan);
+  const {orderName, orderYear, orderItem, orderOperation} = useSelector((state: RootState) => state.currentTimespan);
   const [timespans, setTimespans] = useState<ITimespan[] | undefined>(undefined);
   const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
   const [needSave, setNeedSave] = useState(false);
@@ -163,7 +163,7 @@ const NewTimespan: React.FC = () => {
 
   return (
     <IonPage>
-      <Header title={t("orders.implementationTime")} backButtonHref={ROUTES.MENU} />
+      <Header title={(orderOperation ?? timespan?.orderOperation?.name ?? "").toLocaleLowerCase()} backButtonHref={ROUTES.MENU} />
       <IonContent>
         {isLoading ? (
           <div className="preloader">
