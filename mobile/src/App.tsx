@@ -84,6 +84,8 @@ import { CollectionCreateDynamic } from "./pages/directories-dynamic/CollectionC
 import { CollectionUpdateDynamic } from "./pages/directories-dynamic/CollectionUpdateDynamic";
 import OrderReport from "./pages/reports/orderReport/OrderReport";
 import TimespanCameras from "./pages/timespan/camera/TimespanCameras";
+import OrderProducts from "./pages/order/orderProducts/OrderProducts";
+import { API_BASE_PATH } from "./config";
 
 setupIonicReact();
 
@@ -125,7 +127,7 @@ function App() {
 
   return (
     <IonApp>
-      <IonReactRouter basename={import.meta.env.BASE_URL ?? "/"}>
+      <IonReactRouter basename={API_BASE_PATH ?? "/"}>
         <PermissionProvider role={role}>
           {cookies.token ? (
             <IonRouterOutlet>
@@ -233,6 +235,9 @@ function App() {
               </Route>
               <Route exact path={ROUTES.ORDER_OPERATION(":orderId", ":itemId", ":operationId")}>
                 <OrderOperations />
+              </Route>
+              <Route exact path={ROUTES.ORDER_PRODUCTS(":orderId")}>
+                <OrderProducts/>
               </Route>
               <Route exact path={ROUTES.ORDER_ADD_ITEM}>
                 <AddOrderItem />

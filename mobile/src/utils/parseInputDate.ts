@@ -124,15 +124,14 @@ export const getTimeDifference = (date1: string, date2: string) => {
 
   if (!isNaN(dateObj1.getTime()) && !isNaN(dateObj2.getTime())) {
 
-    dateObj1.setSeconds(0, 0);
-    dateObj2.setSeconds(0, 0);
+    dateObj1.setSeconds(dateObj1.getSeconds(), dateObj1.getMilliseconds());
+    dateObj2.setSeconds(dateObj2.getSeconds(), dateObj2.getMilliseconds());
 
     const differenceInMs = Math.abs(dateObj2.getTime() - dateObj1.getTime());
-    hours = Math.floor(differenceInMs / (1000 * 60 * 60));
-    minutes = Math.floor((differenceInMs % (1000 * 60 * 60)) / (1000 * 60));
+    return differenceInMs/1000;
   }
 
-  return { hours, minutes };
+  return 0;
 }
 
 export const mergeDateAndTime = (dateStr1: string, dateStr2: string) => {
@@ -144,8 +143,12 @@ export const mergeDateAndTime = (dateStr1: string, dateStr2: string) => {
 }
 
 export const formatTime = (seconds: number) => {
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
+  let hours = Math.floor(seconds / 3600);
+  let minutes = Math.round((seconds % 3600) / 60);
+  if(minutes >= 60){
+    hours +=1;
+    minutes = 0; 
+  }
   return { hours, minutes };
 }
 
@@ -159,16 +162,19 @@ export const updateTimeInDate = (dateString: string): string => {
   return `${datePart}T${hours}:${minutes}`;
 }
 
-export const getCurrentDateTimeISO = (): string => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
+export const getDateTimeISO = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
 
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+}
+
+export const getCurrentDateTimeISO = (): string => {
+  return getDateTimeISO(new Date());
 }
 
 export const getDateWeekAgoISO = (): string => {

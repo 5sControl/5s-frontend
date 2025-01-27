@@ -39,7 +39,11 @@ const EditOrder: React.FC = () => {
     setOrderDate(order.estimatedAt);
   }, [order]);
 
-  const handleSubmit = async () => {
+  const openModal = () => {
+    setIsModalOpen(true);
+  }
+
+  const saveOrder = async () => {
     setLoading(true);
     setIsModalOpen(false);
     ORDER_REQUEST.updateOrder(
@@ -85,9 +89,8 @@ const EditOrder: React.FC = () => {
               value={orderName}
               required
               handleChange={e => setOrderName(e.detail.value!)}
-              maxLength={50}
-              state={orderName?.length === 50 || isInvalidText(orderName, {numbers: true, spaces: true}) ? "error" : "neutral"}
-              errorMessage={orderName?.length === 50 ? t("messages.validLength") : t("form.invalidCharacters")}
+              state={isInvalidText(orderName, {numbers: true, spaces: true}) ? "error" : "neutral"}
+              errorMessage={t("form.invalidCharacters")}
             />
             <DateSelector
               label={t("orders.estimatedAt")}
@@ -98,8 +101,8 @@ const EditOrder: React.FC = () => {
             />
 
             <BottomButton 
-              handleClick={handleSubmit} 
-              disabled={!(isChanged && orderName?.length < 50 && !isInvalidText(orderName, {numbers: true, spaces: true}))} 
+              handleClick={openModal} 
+              disabled={!(isChanged && !isInvalidText(orderName, {numbers: true, spaces: true}))} 
               label={t("operations.save")} />
 
             <IonToast
@@ -113,7 +116,7 @@ const EditOrder: React.FC = () => {
               type="primary"
               isOpen={isModalOpen}
               onClose={handleCloseModal}
-              onConfirm={handleSubmit}
+              onConfirm={saveOrder}
               title={`${t("operations.saveChanges")}?`}
               confirmText={t("operations.save")}
               cancelText={t("operations.cancel")}

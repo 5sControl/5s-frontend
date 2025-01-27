@@ -1,4 +1,4 @@
-import { IonInput, IonItem, IonLabel } from "@ionic/react";
+import { IonItem, IonLabel } from "@ionic/react";
 import "./inputReadonly.scss";
 
 type InputReadonlyProps = {
@@ -11,7 +11,11 @@ const InputReadonly = ({ label, value }: InputReadonlyProps) => {
     <IonItem className="input__field">
       <div className="input__readonly">
         <IonLabel className="input__label">{label}</IonLabel>
-        {value && <IonInput className="input__value" readonly value={value} />}
+        {value && (
+          <IonLabel className="input__value" title={value}>
+            {value}
+          </IonLabel>
+        )}
       </div>
     </IonItem>
   );

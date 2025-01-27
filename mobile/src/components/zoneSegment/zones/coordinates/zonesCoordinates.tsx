@@ -11,6 +11,7 @@ import styles from "./zonesCoordinat.module.scss";
 import { FourPointsNewCoordinates } from "../../../../models/interfaces/coordinates.interface";
 import { useIonViewWillEnter } from "@ionic/react";
 import "./moveable.scss";
+import { API_BASE_URL } from "../../../../config";
 
 type PropsType = {
   setCoords: (coords: any) => void;
@@ -351,7 +352,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
             ref={image}
             className={styles.image_container_img}
             onLoad={handleImageLoad}
-            src={`${import.meta.env.VITE_API_BASE_URL}images/${currentSelect}/snapshot.jpg`}
+            src={`${API_BASE_URL}images/${currentSelect}/snapshot.jpg`}
           />
           {fourPointsCoordinates.length !== 0 && isFourPointsMode && (
             <svg
@@ -520,7 +521,7 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
           {!!proportionHeight && (
             <div className={styles.scale} style={{ zIndex: isStartDraw ? 1 : 2001 }}>
               <Scale
-                onClick={() => scaleHandler(`${import.meta.env.VITE_API_BASE_URL}images/${currentSelect}/snapshot.jpg`)}
+                onClick={() => scaleHandler(`${API_BASE_URL}images/${currentSelect}/snapshot.jpg`)}
               />
             </div>
           )}

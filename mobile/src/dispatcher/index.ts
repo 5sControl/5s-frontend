@@ -1,4 +1,4 @@
-import { ITEMS_API, ITimespanUpdateBody, OPERATIONS_API, ORDER_ITEMS_API, ORDERS_API, TIMESPAN_API } from "../api/orders";
+import { IAddOrder, ITEMS_API, ITimespanUpdateBody, OPERATIONS_API, ORDER_ITEMS_API, ORDERS_API, TIMESPAN_API } from "../api/orders";
 import { STATUS } from "../models/enums/statuses.enum";
 import { AxiosError } from "axios";
 import { ICompleteOrder, IOrderItemTimespan, IOrders } from "../models/interfaces/orders.interface";
@@ -10,7 +10,6 @@ import {
 } from "../models/interfaces/operationItem.interface";
 import { ITimespan } from "./../models/interfaces/orders.interface"
 import { ITimespanAddBody } from './../api/orders'
-import { IAddOrder } from "../api/orders";
 import React from "react";
 import { IItem, IItemAddBody, IOrderItemAddBody, IOrderItemUpdateBody, Item } from "../models/interfaces/item.interface";
 
@@ -340,13 +339,37 @@ const getOrderItemTimespans = async (orderItemId: number, setTimespans: React.Di
         const orderItem = await TIMESPAN_API.getOrderItemTimespans(orderItemId)
         if (orderItem.status === STATUS.OK) {
             setTimespans(orderItem.data.timespans || []);
-            setOrderItemName(orderItem.data.timespans[0]?.orderOperation?.order_item?.name || '');
+            setOrderItemName(orderItem.data.timespans[0]?.orderOperation?.orderItem?.name || '');
         } else {
             setMessage && setMessage('Something went wrong')
         }
     } catch (e) {
         const err = e as AxiosError
         setMessage && setMessage(err.message)
+    } finally {
+        setLoading && setLoading(false)
+    }
+}
+
+const getTimespansByEmployee = async (employeeId: number, setTimespans: React.Dispatch<React.SetStateAction<ITimespan[]>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
+    try {
+        setLoading(true)
+        const timespans = await TIMESPAN_API.getTimespansByEmployee(employeeId)
+        if (timespans.status === STATUS.OK) {
+            setTimespans(timespans.data);
+        } else if (timespans.status === STATUS.NOT_FOUND) {
+            setTimespans([]);
+        } else {
+            setMessage && setMessage('Something went wrong')
+        }
+    } catch (e) {
+        const err = e as AxiosError
+        if (err.status === STATUS.NOT_FOUND) {
+            setTimespans([]);
+        } else {
+            setMessage && setMessage(err.message)
+        }
     } finally {
         setLoading && setLoading(false)
     }
@@ -534,7 +557,8 @@ export const TIMESPAN_REQUEST = {
     addTimespan,
     updateTimespan,
     getTimespan,
-    getOrderItemTimespans
+    getOrderItemTimespans,
+    getTimespansByEmployee
 }
 
 

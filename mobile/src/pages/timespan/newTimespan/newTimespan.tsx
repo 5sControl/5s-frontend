@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, SetStateAction } from "react";
 import { IonButton, IonContent, IonLabel, IonToast, IonPage, IonList, useIonViewWillEnter } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
 import InputDate from "../../../components/inputs/inputDate/inputDate";
-import { formatDate, getTimeDifference, getCurrentDateTimeISO, formatISOBeforeSend } from "./../../../utils/parseInputDate";
+import { formatDate, getTimeDifference, getCurrentDateTimeISO, formatISOBeforeSend, formatTime, getDateTimeISO } from "./../../../utils/parseInputDate";
 import { TIMESPAN_REQUEST } from "./../../../dispatcher";
 import style from "./style.module.scss";
 import { ROUTES } from "../../../shared/constants/routes";
@@ -16,38 +16,49 @@ import { Preloader } from "../../../components/preloader/preloader";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import TimeSelector from "../../../components/timeSelector/TimeSelector";
+import { jwtDecode } from "jwt-decode";
+import { useCookies } from "react-cookie";
 
 const NewTimespan: React.FC = () => {
   const { orderId, itemId, operationId } = useParams<{ orderId: string; itemId: string; operationId: string }>();
-  const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
-  const [startDateTime, setStartDateTime] = useState<string>(getCurrentDateTimeISO());
-  const [isStart, setIsStart] = useState<boolean>(false);
-  const [block, setBlock] = useState<boolean>(false);
-  const [finishDateTime, setFinishDateTime] = useState<string>("");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(false);
-  const [qrOrderName, setQrOrderName] = useState<string>("");
-  const [qrOrderYear, setQrOrderYear] = useState<string>("");
-  const [qrOrderItem, setQrOrderItem] = useState<string>("");
   const history = useHistory();
   const startModalRef = useRef<HTMLIonModalElement>(null);
   const finishModalRef = useRef<HTMLIonModalElement>(null);
   const { t } = useTranslation();
-  const qrTimespan = useSelector((state: RootState) => state.currentTimespan);
+  const [cookies] = useCookies();
+  const {orderName, orderYear, orderItem, orderOperation} = useSelector((state: RootState) => state.currentTimespan);
+  const [timespans, setTimespans] = useState<ITimespan[] | undefined>(undefined);
+  const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
+  const [needSave, setNeedSave] = useState(false);
+
+  const startDateTime = timespan.startedAt ? getDateTimeISO(new Date(timespan.startedAt)) : getCurrentDateTimeISO();
+  const finishDateTime = timespan.finishedAt ? getDateTimeISO(new Date(timespan.finishedAt)) : undefined;
+  const isStart = !!timespan.startedAt;
+
+  useEffect(() => {
+    if (!timespans) return;
+    if (timespans[0] && !timespans[0].finishedAt) {
+      setTimespan(timespans[0]);
+    }  else if (orderName) {
+      setTimespan({} as ITimespan);
+    } else {
+      history.push(ROUTES.SCANNER_QR);
+    }
+  }, [timespans]); 
 
   useIonViewWillEnter(() => {
-    if (qrTimespan) {
-      const { orderName, orderYear, orderItem } = qrTimespan;
-      setQrOrderName(orderName || "");
-      setQrOrderYear(orderYear || "");
-      setQrOrderItem(orderItem || "");
-    }
+    const token = jwtDecode<any>(cookies.token.replace("JWT%220", ""));
+    const userId = Number(token.user_id);
+    TIMESPAN_REQUEST.getTimespansByEmployee(userId, setTimespans as React.Dispatch<SetStateAction<ITimespan[]>>, setLoading, setToastMessage)
   });
 
   const handleStartNow = () => {
-    setStartDateTime(getCurrentDateTimeISO());
-    setIsStart(true);
-    setBlock(true);
+    setTimespan(timespan => ({
+      ...timespan,
+      startedAt: getCurrentDateTimeISO(),
+    }));
     const payload = {
       orderId: parseInt(orderId),
       orderOperationId: parseInt(operationId),
@@ -57,50 +68,78 @@ const NewTimespan: React.FC = () => {
     .catch(() =>{
       setToastMessage(t("orders.timeOverlap"));
     });
+    setNeedSave(true);
   };
 
   const handleFinishNow = () => {
-    setFinishDateTime(getCurrentDateTimeISO());
+    setTimespan(timespan => ({
+      ...timespan,
+      finishedAt: getCurrentDateTimeISO(),
+    }));
     const payload = {
       orderId: parseInt(orderId),
       orderOperationId: parseInt(operationId),
       startedAt: formatISOBeforeSend(startDateTime),
       finishedAt: formatISOBeforeSend(getCurrentDateTimeISO()),
     };
-    setBlock(false);
     operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage)
     .catch(() =>{
       setToastMessage(t("orders.timeOverlap"));
     });
+    setNeedSave(true);
   };
 
   const handleStartTime = (time: string | string[]) => {
     if (Array.isArray(time)) return;
+    const currentDateTime = getCurrentDateTimeISO();
+
+    if (time > currentDateTime){
+      setToastMessage(t("messages.timespanLimit"));
+      return;
+    }
+
     if (finishDateTime && time > finishDateTime) {
       setToastMessage(t("messages.startTime")); 
       return;
     }
-    setStartDateTime(time);
+
+    const savedTime = startDateTime;
+    setTimespan(timespan => ({
+        ...timespan,
+        startedAt: time,
+    }));
     const payload = {
       orderId: parseInt(orderId),
       orderOperationId: parseInt(operationId),
       startedAt: formatISOBeforeSend(time),
-      ...(finishDateTime && { finishedAt: formatISOBeforeSend(finishDateTime) }),
+      finishedAt: (finishDateTime ? formatISOBeforeSend(finishDateTime) : null) as string,
     };
     operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage)
     .catch(() =>{
       setToastMessage(t("orders.timeOverlap"));
-    });;
+      setTimespan(timespan =>({...timespan, startedAt: savedTime}))
+    });
+    setNeedSave(true);
   };
 
   const handleFinishTime = (time: string | string[]) => {
     if (Array.isArray(time)) return;
+    const currentDateTime = getCurrentDateTimeISO();
 
     if (time < startDateTime) {
       setToastMessage(t("messages.finishDate"));
       return;
     }
-    setFinishDateTime(time);
+
+    if (time > currentDateTime){
+      setToastMessage(t("messages.timespanLimit"));
+      return;
+    }
+    const savedTime = finishDateTime;
+    setTimespan(timespan => ({
+      ...timespan,
+      finishedAt: time,
+    }));
     const payload = {
       orderId: parseInt(orderId),
       orderOperationId: parseInt(operationId),
@@ -110,33 +149,21 @@ const NewTimespan: React.FC = () => {
     operationId && TIMESPAN_REQUEST.updateTimespan(timespan.timespanId, payload, setLoading, setToastMessage)
     .catch(() =>{
       setToastMessage(t("orders.timeOverlap"));
+      setTimespan(timespan =>({...timespan, finishedAt: savedTime as string}))
     });
+    setNeedSave(true);
   };
 
   const handleSave = () => {
-    setFinishDateTime("");
-    setIsStart(false);
     history.push(ROUTES.SCANNER_QR);
   };
 
-  const { hours, minutes } = getTimeDifference(finishDateTime, startDateTime);
-
-  // Block navigation
-  useEffect(() => {
-    const unblock = history.block(location => {
-      if (block) {
-        return false;
-      }
-    });
-
-    return () => {
-      unblock();
-    };
-  }, [history, block]);
+  const seconds = getTimeDifference(finishDateTime ?? getCurrentDateTimeISO(), startDateTime);
+  const { hours, minutes } = formatTime(seconds);
 
   return (
     <IonPage>
-      <Header title={t("orders.implementationTime")} backButtonHref={isStart ? "" : ROUTES.SCANNER_QR} />
+      <Header title={(orderOperation ?? timespan?.orderOperation?.name ?? "").toLocaleLowerCase()} backButtonHref={ROUTES.MENU} />
       <IonContent>
         {isLoading ? (
           <div className="preloader">
@@ -144,9 +171,18 @@ const NewTimespan: React.FC = () => {
           </div>
         ) : (
           <>
-            <InputReadonly label={t("orders.orderName")} value={qrOrderName || "-"} />
-            <InputReadonly label={t("orders.orderYear")} value={qrOrderYear || "-"} />
-            <InputReadonly label={t("orders.orderItem")} value={qrOrderItem || "-"} />
+            <InputReadonly
+              label={t("orders.orderName")}
+              value={timespan?.orderOperation?.orderItem?.order?.name || orderName || "-"}
+            />
+            <InputReadonly
+              label={t("orders.orderYear")}
+              value={String(timespan?.orderOperation?.orderItem?.order?.orderYear || orderYear || "-")}
+            />
+            <InputReadonly
+              label={t("orders.orderItem")}
+              value={timespan?.orderOperation?.orderItem?.name || orderItem || "-"}
+            />
             <IonList className={`${style.page} ion-padding`}>
               <IonList className={style.list}>
                 <IonLabel className={style.label}>{t("form.date")}</IonLabel>
@@ -186,11 +222,16 @@ const NewTimespan: React.FC = () => {
                 }`}</IonLabel>
               </div>
 
-              {finishDateTime && (
-                <IonButton expand="block" onClick={handleSave}>
-                  {t("text.startNewOperation")}
-                </IonButton>
-              )}
+              {finishDateTime &&
+                (needSave ? (
+                  <IonButton expand="block" onClick={() => setNeedSave(false)}>
+                    {t("operations.save")}
+                  </IonButton>
+                ) : (
+                  <IonButton expand="block" onClick={handleSave}>
+                    {t("text.startNewOperation")}
+                  </IonButton>
+                ))}
               <IonToast
                 position="top"
                 isOpen={!!toastMessage}
@@ -200,7 +241,7 @@ const NewTimespan: React.FC = () => {
                 buttons={[
                   {
                     text: t("operations.dismiss"),
-                    role: 'cancel',
+                    role: "cancel",
                     handler: () => {
                       setToastMessage(null);
                     },

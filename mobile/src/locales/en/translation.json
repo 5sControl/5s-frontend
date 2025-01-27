@@ -12,7 +12,13 @@
     "scanner": "QR Scanner",
     "language": "Interface language",
     "users": "Employees",
-    "cameras": "Camera Settings"
+    "cameras": "Camera Settings",
+    "myTasks": "My tasks",
+    "workStatus": {
+      "workInProgress": "Work in progress",
+      "noWork": "No work"
+    }
+    
   },
   "config": {
     "title": "Configuration",
@@ -35,6 +41,7 @@
     "validDate": "Please set a valid start date.",
     "startTime": "The start time cannot be greater than the end time",
     "finishDate": "The finish date cannot be earlier than the start date.",
+    "timespanLimit": "The date cannot be from the future.",
     "saveData": "Please save your data!",
     "employeeNotFound": "Employee not found",
     "validLength": "Maximum text length reached",
@@ -78,6 +85,7 @@
     "time": "Planned Time",
     "name": "name",
     "ordersView": "Orders View",
+    "products": "Products",
     "scheduled": "Show scheduled time",
     "startTime": "Start time",
     "datePlaceholder": "Select Date and Start Time",

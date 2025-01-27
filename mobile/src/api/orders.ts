@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getCookieValueByName } from "../utils/helpers";
-import { ICompleteOrder, IOrders, IReference, ITimespan } from "../models/interfaces/orders.interface";
+import { ICompleteOrder, IOrderItemTimespan, IOrders, IReference, ITimespan } from "../models/interfaces/orders.interface";
 import {
   IOrderOperation,
   IOrderOperationAddBody,
@@ -8,105 +8,102 @@ import {
   IProductOperationAddBody,
 } from "../models/interfaces/operationItem.interface";
 import { IItem, IItemAddBody, IOrderItemAddBody, IOrderItemUpdateBody, Item } from "../models/interfaces/item.interface";
+import { API_BASE_URL } from "../config";
 
+const BASE_URL = API_BASE_URL;
 const BASE = "api/erp-reference";
+
 const URLS = {
-  ORDERS: `${import.meta.env.VITE_API_BASE_URL}${BASE}/orders/`,
+  ORDERS: `/orders/`,
 
-  OPERATIONS: `${import.meta.env.VITE_API_BASE_URL}${BASE}/operations/`,
+  OPERATIONS: `/operations/`,
 
-  ITEMS: `${import.meta.env.VITE_API_BASE_URL}${BASE}/items/`,
+  ITEMS: `/items/`,
 
-  ORDER_ITEMS: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-items/`,
+  ORDER_ITEMS: `/order-items/`,
 
-  ORDER_ITEM_OPERATIONS: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operations/`,
+  ORDER_ITEM_OPERATIONS: `/order-operations/`,
 
-  TIMESPANS: `${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operation-timespans/`,
+  TIMESPANS: `/order-operation-timespans/`,
 };
 
-const request = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+const axiosConfig = () => ({
   headers: {
+    Authorization: getCookieValueByName("token"),
     "ngrok-skip-browser-warning": "true",
   },
 });
 
-request.interceptors.request.use(
-  (config) => {
-    config.headers.Authorization = getCookieValueByName("token");
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+const constructUrl = (endpoint: string) => `${BASE_URL}${BASE}${endpoint}`;
 
 export const ORDERS_API = {
-  getOrders: () => request.get(URLS.ORDERS),
+  getOrders: () => axios.get(constructUrl(URLS.ORDERS), axiosConfig()),
   addOrder: (body: IAddOrder) =>
-    request.post(URLS.ORDERS, body),
+    axios.post(constructUrl(URLS.ORDERS), body, axiosConfig()),
   getOrder: (id: number) =>
-    request.get<IOrders>(URLS.ORDERS + id + "/"),
+    axios.get<IOrders>(constructUrl(URLS.ORDERS + id + "/"), axiosConfig()),
   updateOrder: (id: number, body: any) =>
-    request.patch(URLS.ORDERS + id + "/", body),
+    axios.patch(constructUrl(URLS.ORDERS + id + "/"), body, axiosConfig()),
   completeOrder: (body: ICompleteOrder) =>
-    request.patch(URLS.ORDERS + "complete/", body),
+    axios.patch(constructUrl(URLS.ORDERS + "complete/"), body, axiosConfig()),
 
   addOrderItemOperation: (body: IOrderOperationAddBody) =>
-    request.post(URLS.ORDER_ITEM_OPERATIONS, {}),
+    axios.post(constructUrl(URLS.ORDER_ITEM_OPERATIONS), {}, axiosConfig()),
   getOrderItemOperations: (orderItemId: number) =>
-    request.get<IOrderOperation[]>(URLS.ORDER_ITEM_OPERATIONS + "order-item/" + orderItemId + "/"),
+    axios.get<IOrderOperation[]>(constructUrl(URLS.ORDER_ITEM_OPERATIONS + "order-item/" + orderItemId + "/"), axiosConfig()),
   getOrderOperationById: (id: number) =>
-    request.get<IOrderOperation>(URLS.ORDER_ITEM_OPERATIONS + id + "/"),
+    axios.get<IOrderOperation>(constructUrl(URLS.ORDER_ITEM_OPERATIONS + id + "/"), axiosConfig()),
   deleteOrderOperation: (id: number) =>
-    request.delete<IOrderOperation>(URLS.ORDER_ITEM_OPERATIONS + id + "/"),
+    axios.delete<IOrderOperation>(constructUrl(URLS.ORDER_ITEM_OPERATIONS + id + "/"), axiosConfig()),
 
   getOrderItemOperationsByName: (orderId: number, orderItemName: string) =>
-    request.get<any>(`${import.meta.env.VITE_API_BASE_URL}${BASE}/order-operations/order/${orderId}/order-item/${orderItemName}/`),
+    axios.get<any>(constructUrl(`/order-operations/order/${orderId}/order-item/${orderItemName}/`), axiosConfig()),
 };
 
 export const OPERATIONS_API = {
   addOperation: (body: IProductOperationAddBody) =>
-    request.post(URLS.OPERATIONS, body),
+    axios.post(constructUrl(URLS.OPERATIONS), body, axiosConfig()),
   getOperations: () =>
-    request.get<IProductOperation[]>(URLS.OPERATIONS),
+    axios.get<IProductOperation[]>(constructUrl(URLS.OPERATIONS), axiosConfig()),
   getOperationById: (id: number) =>
-    request.get<IProductOperation>(URLS.OPERATIONS + id + "/"),
+    axios.get<IProductOperation>(constructUrl(URLS.OPERATIONS + id + "/"), axiosConfig()),
   updateOperation: (id: number, body: IProductOperationAddBody) =>
-    request.patch(URLS.OPERATIONS + id + "/", body),
+    axios.patch(constructUrl(URLS.OPERATIONS + id + "/"), body, axiosConfig()),
 };
 
 export const ITEMS_API = {
   addItem: (body: IItemAddBody) =>
-    request.post(URLS.ITEMS, body),
+    axios.post(constructUrl(URLS.ITEMS), body, axiosConfig()),
   getItems: () =>
-    request.get<IItem[]>(URLS.ITEMS),
+    axios.get<IItem[]>(constructUrl(URLS.ITEMS), axiosConfig()),
   getItemById: (id: number) =>
-    request.get<IItem>(URLS.ITEMS + id + "/"),
+    axios.get<IItem>(constructUrl(URLS.ITEMS + id + "/"), axiosConfig()),
   updateItem: (id: number, body: IItemAddBody) =>
-    request.patch(URLS.ITEMS + id + "/", body),
+    axios.patch(constructUrl(URLS.ITEMS + id + "/"), body, axiosConfig()),
 };
 
 export const TIMESPAN_API = {
   addTimespan: (body: ITimespanAddBody) =>
-    request.post(URLS.TIMESPANS, body),
+    axios.post(constructUrl(URLS.TIMESPANS), body, axiosConfig()),
   updateTimespan: (id: number, body: ITimespanUpdateBody) =>
-    request.patch(URLS.TIMESPANS + id + "/", body),
+    axios.patch(constructUrl(URLS.TIMESPANS + id + "/"), body, axiosConfig()),
   getTimespan: (id: number) =>
-    request.get<ITimespan>(URLS.TIMESPANS + id + "/"),
+    axios.get<ITimespan>(constructUrl(URLS.TIMESPANS + id + "/"), axiosConfig()),
   getOrderItemTimespans: (orderItemId: number) =>
-    request.get<any>(URLS.TIMESPANS + "order-item/" + orderItemId + "/"),
+    axios.get<any>(constructUrl(URLS.TIMESPANS + "order-item/" + orderItemId + "/"), axiosConfig()),
+  getTimespansByEmployee: (employeeId: number) => 
+    axios.get<ITimespan[]>(constructUrl(URLS.TIMESPANS + "employee/" + employeeId + "/"), axiosConfig())
 };
 
 export const ORDER_ITEMS_API = {
   addOrderItem: (body: IOrderItemAddBody) =>
-    request.post(URLS.ORDER_ITEMS, body),
+    axios.post(constructUrl(URLS.ORDER_ITEMS), body, axiosConfig()),
   updateOrderItem: (id: number, body: IOrderItemUpdateBody) =>
-    request.patch(URLS.ORDER_ITEMS + id + "/", body),
+    axios.patch(constructUrl(URLS.ORDER_ITEMS + id + "/"), body, axiosConfig()),
   getOrderItems: (orderId: number) =>
-    request.get<Item[]>(URLS.ORDER_ITEMS + "order/" + orderId + "/"),
+    axios.get<Item[]>(constructUrl(URLS.ORDER_ITEMS + "order/" + orderId + "/"), axiosConfig()),
   deleteOrderItem: (id: number) =>
-    request.delete(URLS.ORDER_ITEMS + id + "/"),
+    axios.delete(constructUrl(URLS.ORDER_ITEMS + id + "/"), axiosConfig()),
 };
 
 export interface ITimespanAddBody {

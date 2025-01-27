@@ -114,6 +114,7 @@ const AddUser = () => {
           </div>
         ) : (
             <>
+            <div style={{height: '80vh', overflow: 'scroll', paddingBottom: "20px"}}>
               <div className={styles.section}>
                 <IonNote className={`ion-padding ${styles.sectionNote}`}>
                   {t("users.settings")}
@@ -188,7 +189,7 @@ const AddUser = () => {
                 duration={TOAST_DELAY}
                 onDidDismiss={() => setToastMessage("")}
                 />
-
+</div>
                 <BottomButton
                 handleClick={openModal}
                 label={t("operations.save")}
