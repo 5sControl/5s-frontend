@@ -4,11 +4,11 @@ import { useHistory, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../components/preloader/preloader";
-import { IonContent, IonList, IonNote, IonPage, IonToast, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonList, IonNote, IonPage, IonToast } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
-import { createUser, getUser, updateUser } from "../../../api/users";
-import { IAddUser, IUser } from "../../../models/interfaces/employee.interface";
+import { createUser } from "../../../api/users";
+import { IAddUser } from "../../../models/interfaces/employee.interface";
 import { Input } from "../../../components/inputs/input/Input";
 import MenuListButton from "../../../components/menuListButton/MenuListButton";
 import Select from "../../../components/selects/select/Select";
@@ -20,6 +20,7 @@ import { setSelectedWorkplace } from "../../../store/workpaceSlice";
 import "../../../styles/common.scss";
 import { isInvalidText } from "../../../utils/isInvalidText";
 import styles from '../users.module.scss'
+import isValidEmail from "../../../utils/isValidEmail";
 
 const AddUser = () => {
   const { t } = useTranslation();
@@ -57,6 +58,7 @@ const AddUser = () => {
       setLoading(true);
       const data: IAddUser = {
         username: user.username,
+        email: user.email,
         last_name: user.last_name,
         first_name: user.first_name,
         password: user.password,
@@ -82,8 +84,17 @@ const AddUser = () => {
   };
 
   const openModal = () => {
-    if (!user.username || !user.first_name || !user.last_name || user.password.length < minPasswordLength 
-      || isInvalidText(user.username, {numbers: true, spaces: true}) || isInvalidText(user.first_name) || isInvalidText(user.last_name)) {
+    if (
+      !user.username ||
+      !user.first_name ||
+      !user.last_name ||
+      !user.email ||
+      user.password.length < minPasswordLength ||
+      isInvalidText(user.username, { numbers: true, spaces: true }) ||
+      isInvalidText(user.first_name) ||
+      isInvalidText(user.last_name) ||
+      !isValidEmail(user.email)
+    ) {
       setHighlightRequired(true);
       return;
     }
@@ -128,7 +139,6 @@ const AddUser = () => {
                     state={highlightRequired && (!user.username || isInvalidText(user.username, {numbers: true}) || userExists) ? "error" : "neutral" }
                     errorMessage={isInvalidText(user.username, {numbers: true}) ? t("form.invalidCharacters") : userExists ? t("messages.employeeExists") : t("form.required")}
                     maxLength={30}/>
-
                 <Input 
                     label={t("users.password")} 
                     value={user?.password || ""} 
@@ -138,6 +148,14 @@ const AddUser = () => {
                     state={highlightRequired && user.password.length < minPasswordLength ? "error" : "neutral" }
                     errorMessage={t("form.passwordLength")}
                     autocomplete="new-password" />
+                <Input 
+                    label={"Email"} 
+                    value={user?.email || ""} 
+                    required 
+                    handleChange={event => setUser({ ...user, email: event.target.value })}
+                    state={highlightRequired && (!user.email || !isValidEmail(user.email)) ? "error" : "neutral" }
+                    errorMessage={!isValidEmail(user.email) || userExists ? t("form.invalidEmail") : t("form.required")}
+                    maxLength={30}/>
 
               </div>
               <div className={styles.section}>
