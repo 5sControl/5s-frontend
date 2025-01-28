@@ -1,16 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IRecoverPasswordStepProps } from "../RecoverPassword";
+import { requestResetPassword, verifyCode } from "../../../../api/authorization";
 
-const DIGITS = 6, CODE_TIMEOUT = 59;
+const DIGITS = 6,
+  CODE_TIMEOUT = 59;
 
 const VerifyCode = ({ onPrevStep, onNextStep, setRecoverData, recoverData }: IRecoverPasswordStepProps) => {
   const { t } = useTranslation();
   const [errorMessage, setErrorMessage] = useState("");
   const [codeTimeout, setCodeTimeout] = useState(60);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const intervalId = useRef<NodeJS.Timeout | null>(null);
   const code = inputRefs.current.map(inputRef => inputRef?.value ?? "").join("");
-  
+
   const handleInput = (index: number, event: React.FormEvent<HTMLInputElement>) => {
     const target = event.currentTarget;
     const inputLength = target.value.length;
@@ -24,7 +27,6 @@ const VerifyCode = ({ onPrevStep, onNextStep, setRecoverData, recoverData }: IRe
       const inputValues = target.value.split("");
       inputValues.forEach((value, valueIndex) => {
         const nextValueIndex = index + valueIndex;
-        console.log(value);
         if (inputRefs.current[nextValueIndex]) {
           inputRefs.current[nextValueIndex].value = value;
         }
@@ -68,26 +70,36 @@ const VerifyCode = ({ onPrevStep, onNextStep, setRecoverData, recoverData }: IRe
     }
   };
 
-  const requestCode = () => {
+  const startTimer = () => {
+    if (intervalId.current) {
+      clearInterval(intervalId.current);
+    }
     const timerStart = new Date();
     setCodeTimeout(CODE_TIMEOUT);
-    const codeTimer = setInterval(() => {
+    intervalId.current = setInterval(() => {
       const diff = CODE_TIMEOUT - Math.round((new Date().getTime() - timerStart.getTime()) / 1000);
       if (diff >= 0) {
         setCodeTimeout(diff);
       }
     }, 500);
-    return () => {
-      clearInterval(codeTimer);
-    };
+  };
+  const requestCode = () => {
+    requestResetPassword(recoverData.email);
+    startTimer();
   };
 
-  useEffect(requestCode, []);
+  useEffect(startTimer, []);
 
   const onContinue = () => {
     setErrorMessage("");
-    setRecoverData({...recoverData, code});
-    onNextStep();
+    verifyCode(recoverData.email, code)
+      .then(() => {
+        setRecoverData({ ...recoverData, code });
+        onNextStep();
+      })
+      .catch(() => {
+        setErrorMessage(t("form.auth.invalidCode"));
+      });
   };
 
   return (
@@ -109,9 +121,13 @@ const VerifyCode = ({ onPrevStep, onNextStep, setRecoverData, recoverData }: IRe
       </div>
       {errorMessage && <span className="error-message">{errorMessage}</span>}
       {codeTimeout ? (
-        <div className="code-timeout">{t("form.auth.requestANewCodeIn")} 00:{codeTimeout}</div>
+        <div className="code-timeout">
+          {t("form.auth.requestANewCodeIn")} 00:{codeTimeout}
+        </div>
       ) : (
-        <button className="authorization__button outlined" onClick={requestCode}>{t("form.auth.requestCodeAgain")}</button>
+        <button className="authorization__button outlined" onClick={requestCode}>
+          {t("form.auth.requestCodeAgain")}
+        </button>
       )}
       <div>
         <button className={"authorization__button"} onClick={onContinue} disabled={code.length != DIGITS}>

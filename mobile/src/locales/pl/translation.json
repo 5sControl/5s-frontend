@@ -172,7 +172,10 @@
       "requestANewCodeIn": "Poproś o nowy kod poprzez",
       "enterPassword": "Wprowadź nowe hasło do swojego konta!",
       "successful": "Udany!",
-      "passwordChanged": "Gratulacje! Twoje hasło zostało zmienione. Kliknij Kontynuuj, aby się zalogować"
+      "passwordChanged": "Gratulacje! Twoje hasło zostało zmienione. Kliknij Kontynuuj, aby się zalogować",
+      "emailNotFound": "Nie znaleziono użytkownika z takim adresem e-mail",
+      "invalidCode": "Nieprawidłowy kod",
+      "failedUpdatePassword": "Nie udało się zaktualizować hasła"
     },
     "required": "To pole jest wymagane",
     "passwordLength": "Hasło musi mieć co najmniej 4 znaki",

@@ -173,7 +173,10 @@
       "requestANewCodeIn": "Request a new code in",
       "enterPassword": "Enter a new password for your account!",
       "successful": "Successful!",
-      "passwordChanged": "Congratulations! Your password has been changed. Click continue to login"
+      "passwordChanged": "Congratulations! Your password has been changed. Click continue to login",
+      "emailNotFound": "User with such an email was not found",
+      "invalidCode": "Invalid code",
+      "failedUpdatePassword": "Failed to update password"
     },
     "required": "This field is required",
     "passwordLength": "Password must be at least 4 characters",

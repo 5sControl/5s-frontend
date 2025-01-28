@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Input } from "../../../../components/inputs/input/Input";
 import { IRecoverPasswordStepProps } from "../RecoverPassword";
+import { resetPassword } from "../../../../api/authorization";
 
-const ResetPassword = ({ onPrevStep, onNextStep }: IRecoverPasswordStepProps) => {
+const ResetPassword = ({ onPrevStep, onNextStep, recoverData }: IRecoverPasswordStepProps) => {
   const { t } = useTranslation();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -13,9 +14,9 @@ const ResetPassword = ({ onPrevStep, onNextStep }: IRecoverPasswordStepProps) =>
     setPassword(e.target.value);
   };
 
-  const handleConfirmPasswordChange = (e) => {
+  const handleConfirmPasswordChange = e => {
     setConfirmPassword(e.target.value);
-  }
+  };
 
   const onContinue = () => {
     setErrorMessage("");
@@ -24,10 +25,12 @@ const ResetPassword = ({ onPrevStep, onNextStep }: IRecoverPasswordStepProps) =>
       return;
     }
     if (password != confirmPassword) {
-        setErrorMessage(t("form.passwordsNotEqual"));
-        return;
+      setErrorMessage(t("form.passwordsNotEqual"));
+      return;
     }
-    onNextStep();
+    resetPassword(recoverData.email, recoverData.code, password, confirmPassword)
+      .then(onNextStep)
+      .catch(() => setErrorMessage(t("form.auth.failedUpdatePassword")));
   };
 
   return (

@@ -34,6 +34,12 @@ const RecoverPassword = () => {
   };
 
   const onNextStep = () => {
+    if (currentStep == 4) {
+      history.push("/");
+      setCurrentStep(1);
+      setRecoverData({email: "", code: ""});
+      return;
+    }
     setCurrentStep(currentStep + 1);
   };
 
@@ -41,7 +47,12 @@ const RecoverPassword = () => {
     <IonPage>
       <IonContent>
         {currentStep == 4 ? (
-          <Success />
+          <Success
+            onPrevStep={onPrevStep}
+            onNextStep={onNextStep}
+            recoverData={recoverData}
+            setRecoverData={setRecoverData}
+          />
         ) : (
           <div className="authorization">
             <img className="authorization__logo" src={FiveS} />

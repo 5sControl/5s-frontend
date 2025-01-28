@@ -3,6 +3,7 @@ import { Input } from "../../../../components/inputs/input/Input";
 import { useState } from "react";
 import { IRecoverPasswordStepProps } from "../RecoverPassword";
 import isValidEmail from "../../../../utils/isValidEmail";
+import { requestResetPassword } from "../../../../api/authorization";
 
 const RequestReset = ({onPrevStep, onNextStep, setRecoverData, recoverData}: IRecoverPasswordStepProps) => {
     const { t } = useTranslation();
@@ -23,7 +24,7 @@ const RequestReset = ({onPrevStep, onNextStep, setRecoverData, recoverData}: IRe
             setErrorMessage(t("form.invalidEmail"));
             return;
         }
-        onNextStep();
+        requestResetPassword(email).then(onNextStep).catch(() => setErrorMessage(t("form.auth.emailNotFound")))
     }
 
     return <>
