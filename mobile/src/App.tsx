@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { useCookies } from "react-cookie";
@@ -45,7 +45,7 @@ import OrderOperations from "./pages/order/orderOperations/orderOperations";
 import AddOrderOperation from "./pages/order/addOrderOperation/addOrderOperation";
 import NewTimespan from "./pages/timespan/newTimespan/newTimespan";
 import EditTimespan from "./pages/timespan/editTimespan/editTimespan";
-import { Authorization } from "./components/authorization/Authorization";
+import { Authorization } from "./pages/authorization/Authorization";
 import { isVerifyToken } from "./api/authorization";
 import { OperationDetail } from "./pages/ordersView/operationDetail/operationDetail";
 import Scanner from "./pages/scanner/Scanner";
@@ -86,6 +86,7 @@ import OrderReport from "./pages/reports/orderReport/OrderReport";
 import TimespanCameras from "./pages/timespan/camera/TimespanCameras";
 import OrderProducts from "./pages/order/orderProducts/OrderProducts";
 import { API_BASE_PATH } from "./config";
+import RecoverPassword from "./pages/authorization/recoverPassword/RecoverPassword";
 
 setupIonicReact();
 
@@ -237,7 +238,7 @@ function App() {
                 <OrderOperations />
               </Route>
               <Route exact path={ROUTES.ORDER_PRODUCTS(":orderId")}>
-                <OrderProducts/>
+                <OrderProducts />
               </Route>
               <Route exact path={ROUTES.ORDER_ADD_ITEM}>
                 <AddOrderItem />
@@ -348,9 +349,15 @@ function App() {
               {/* DYNAMIC ROUTES */}
             </IonRouterOutlet>
           ) : (
-            <Route path="/*">
-              <Authorization />
-            </Route>
+            <IonRouterOutlet>
+              <Route exact path={ROUTES.RECOVER_PASSWORD}>
+                <RecoverPassword />
+              </Route>
+              <Route exact path="/">
+                <Authorization />
+              </Route>
+              <Redirect to="/"/>
+            </IonRouterOutlet>
           )}
         </PermissionProvider>
       </IonReactRouter>
