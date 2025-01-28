@@ -1,4 +1,4 @@
-import { IonContent, IonItem, IonList, IonPage, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonItem, IonList, IonPage, useIonRouter, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../../shared/constants/routes";
@@ -70,11 +70,16 @@ const TimespanCameras = () => {
     </div>
   );
 
+  const onBackClick = () => {
+    history.go(-1);
+  }
+
   return (
     <IonPage>
       <Header
         title={t("camera.plural")}
         backButtonHref={ROUTES.ORDER_TIMESPAN_EDIT(orderId, itemId, operationId, timespanId)}
+        onBackClick={onBackClick}
       />
       <IonContent>
         {loading ? (
