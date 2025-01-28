@@ -44,7 +44,7 @@
     "saveData": "Пожалуйста, сохраните свои данные!",
     "employeeNotFound": "Работник не найден",
     "validLength": "Достигнута максимальная длина текста",
-    "employeeExists": "Имя пользователя занято"
+    "employeeExists": "Работник с таким именим или email уже существует"
   },
   "directory": {
     "newDirectory": "Новый справочник",
@@ -168,7 +168,8 @@
     "passwordLength": "Длина пароля должна составлять минимум 4 символа",
     "selectWorkplace": "Необходимо выбрать рабочее место сотрудника",
     "invalidCharacters": "Недопустимые символы",
-    "passwordsNotEqual": "Пароли не совпадают"
+    "passwordsNotEqual": "Пароли не совпадают",
+    "invalidEmail": "Неверный формат email"
   },
   "orders": {
     "order": "Заказ",

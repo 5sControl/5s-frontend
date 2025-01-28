@@ -45,7 +45,7 @@
     "saveData": "Please save your data!",
     "employeeNotFound": "Employee not found",
     "validLength": "Maximum text length reached",
-    "employeeExists": "Employee with the same username already exists"
+    "employeeExists": "An employee with the same name or email already exists"
   },
   "directory": {
     "newDirectory": "New directory",
@@ -169,7 +169,8 @@
     "passwordLength": "Password must be at least 4 characters",
     "selectWorkplace": "Select employee's workplace",
     "invalidCharacters": "Invalid characters",
-    "passwordsNotEqual": "Passwords are not equal"
+    "passwordsNotEqual": "Passwords are not equal",
+    "invalidEmail": "Invalid email format"
   },
   "orders": {
     "order": "Order",
