@@ -85,6 +85,7 @@
     "name": "nazwa",
     "ordersView": "Widok zamówień",
     "products": "Produkty",
+    "tasks": "zadania",
     "scheduled": "Pokaż zaplanowany czas",
     "startTime": "Czas rozpoczęcia",
     "datePlaceholder": "Wybierz datę i czas rozpoczęcia",
@@ -319,6 +320,15 @@
       "select": "Wybierz lub wprowadź",
       "selectAreas": "Wybierz jedną lub więcej obszarów z lewej strony",
       "add": "Dodaj strefę"
+    }
+  },
+  "timespans":{
+    "inProcess": "W toku",
+    "done": "Zrobione",
+    "notFound":
+    {
+      "inProgress": "Brak bieżących zadań!",
+      "done": "Brak ukończonych zadań!"
     }
   }
 }

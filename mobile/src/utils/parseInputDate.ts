@@ -101,6 +101,31 @@ export const updateDateTime = (originalDateTime: string, newDate: string) => {
   return localDateString(newDateObj);
 }
 
+export const formatDateWithFullMonthName = (dateString: string, language: string): string => {
+  const translateFullMonths = {
+    en: [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ],
+    ru: [
+      "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня",
+      "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"
+    ],
+    pl: [
+      "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
+      "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
+    ]
+  };
+  
+  const months = translateFullMonths[language];
+  const date = new Date(dateString);
+
+  const day: number = date.getDate();
+  const month: string = months[date.getMonth()];
+
+  return `${day} ${month}`;
+}
+
 export const updateTime = (originalDateTime: string, newTime: string) => {
 
   const originalDateObj = new Date(originalDateTime);

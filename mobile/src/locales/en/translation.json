@@ -86,6 +86,7 @@
     "name": "name",
     "ordersView": "Orders View",
     "products": "Products",
+    "tasks": "tasks",
     "scheduled": "Show scheduled time",
     "startTime": "Start time",
     "datePlaceholder": "Select Date and Start Time",
@@ -320,6 +321,15 @@
       "select": "Select or enter",
       "selectAreas": "Select one or more areas on the left",
       "add": "Add Zone"
+    }
+  },
+  "timespans":{
+    "inProcess": "In progress",
+    "done": "Done",
+    "notFound":
+    {
+      "inProcess": "There are no current tasks!",
+      "done": "There are no completed tasks!"
     }
   }
 }

@@ -56,6 +56,10 @@ export const ROUTES = {
   ORDER_TIMESPAN_CAMERAS: (orderId: string, itemId: string, operationId: string, timespanId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}/timespan/${timespanId}/cameras`,
   ORDER_TIMESPAN_CAMERA: (orderId: string, itemId: string, operationId: string, timespanId: string, cameraId: string) => `/order/${orderId}/item/${itemId}/operation/${operationId}/timespan/${timespanId}/camera/${cameraId}`,
 
+  EMPLOYEE_TASK_GET: (timespanId: string) => (`/timespan/${timespanId}`),
+  EMPLOYEE_TASK_EDIT:(timespanId: string) => (`/timespan/${timespanId}/edit`),
+  EMPLOYEE_TASKS :(userId: string) => `/user/${userId}/timespans`,
+  
   REPORTS: `/reports`,
   REPORT_FULL: `/report`,
   REPORT_INDIVIDUAL: `/reports-individual`,
