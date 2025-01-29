@@ -308,6 +308,11 @@
   },
   "timespans":{
     "inProcess": "W toku",
-    "done": "Zrobione"
+    "done": "Zrobione",
+    "notFound":
+    {
+      "inProgress": "Brak bieżących zadań!",
+      "done": "Brak ukończonych zadań!"
+    }
   }
 }

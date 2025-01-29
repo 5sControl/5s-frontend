@@ -94,7 +94,7 @@ const User = () => {
               {item.role === "admin"? "": <div className="ion-padding">
                 <MenuListButton
                   title={t("text.tasks")}
-                  handleItemClick={() => history.push(ROUTES.EMPLOYEE_TIMESPANS(String(item.id)))} /> 
+                  handleItemClick={() => history.push(ROUTES.EMPLOYEE_TASKS(String(item.id)), { username: item.username })} /> 
               </div>
               }
                 <InputReadonly label={t("users.username")} value={item.username} />

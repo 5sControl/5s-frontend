@@ -1,0 +1,49 @@
+.timespan-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10vh;
+    margin: 10px 16px 10px 16px;
+    background-color: white;
+}
+
+.timespan-label {
+    justify-content: center;
+    height: 100%;
+    flex: 1;
+    padding: 15px 0 15px 0;
+}
+
+.timespan-item-columns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.timespan-item-column {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    color: #666;
+}
+
+.timespan-label h2 {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.timespan-label p {
+    margin-left: 0;
+    color: #666;
+    font-size: 14px;
+    text-transform: lowercase;
+}
+
+.not-found-message{
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    justify-content: center;
+}

@@ -86,7 +86,9 @@ import OrderReport from "./pages/reports/orderReport/OrderReport";
 import TimespanCameras from "./pages/timespan/camera/TimespanCameras";
 import OrderProducts from "./pages/order/orderProducts/OrderProducts";
 import { API_BASE_PATH } from "./config";
-import EmployeeTimespansPage from "./pages/employeeTimespans/employeeTimespans";
+import EmployeeTasks from "./pages/tasks/employeeTasks/EmployeeTasks";
+import GetTask from "./pages/tasks/getTask/GetTask";
+import EditTask from "./pages/tasks/editTask/EditTask";
 
 setupIonicReact();
 
@@ -258,6 +260,12 @@ function App() {
               <Route exact path={ROUTES.ORDER_TIMESPAN_EDIT(":orderId", ":itemId", ":operationId", ":timespanId")}>
                 <EditTimespan />
               </Route>
+              <Route exact path={ROUTES.EMPLOYEE_TASK_GET(":timespanId")}>
+                <GetTask />
+              </Route>
+              <Route exact path={ROUTES.EMPLOYEE_TASK_EDIT(":timespanId")}>
+                <EditTask />
+              </Route>
               <Route exact path={ROUTES.ORDER_TIMESPAN_CAMERAS(":orderId", ":itemId", ":operationId", ":timespanId")}>
                 <TimespanCameras />
               </Route>
@@ -321,8 +329,8 @@ function App() {
               <Route exact path={ROUTES.USER_EDIT_WORKPLACES(":id")}>
                 <Workplaces />
               </Route>
-              <Route exact path={ROUTES.EMPLOYEE_TIMESPANS(":userId")}>
-                <EmployeeTimespansPage />
+              <Route exact path={ROUTES.EMPLOYEE_TASKS(":userId")}>
+                <EmployeeTasks />
               </Route>
 
               <Route exact path={ROUTES.CAMERAS}>
