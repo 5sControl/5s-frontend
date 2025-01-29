@@ -10,6 +10,7 @@ export interface IUser {
   id: number,
   date_joined: string,
   username: string,
+  email: string,
   first_name: string,
   last_name: string,
   role: ROLE,
@@ -19,6 +20,7 @@ export interface IUser {
 
 export interface IAddUser {
   username: string,
+  email: string,
   first_name?: string,
   last_name?: string,
   role: ROLE,

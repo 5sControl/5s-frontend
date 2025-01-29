@@ -3,6 +3,9 @@ import { API_BASE_URL } from "../config";
 
 const API_AUTH = "api/auth/jwt/create/";
 const API_VERIFYTOKEN = "api/auth/jwt/verify/";
+const API_REQUEST_RESET_PASSWORD = "api/employees/password-reset/"
+const API_VERIFY_CODE = "/api/employees/verify-reset-code/"
+const API_RESET_PASSWORD = "/api/employees/set-new-password/";
 
 export const authorizationRequest = (email: string, password: string) => {
     return axios.post(`${API_BASE_URL}${API_AUTH}`, {
@@ -18,3 +21,25 @@ export const authorizationRequest = (email: string, password: string) => {
       "ngrok-skip-browser-warning": "true",
     });
   };
+
+  export const requestResetPassword = (email: string) => {
+    return axios.post(`${API_BASE_URL}${API_REQUEST_RESET_PASSWORD}`, {
+      email
+    })
+  }
+
+  export const verifyCode = (email: string, code: string) => {
+    return axios.post(`${API_BASE_URL}${API_VERIFY_CODE}`, {
+      email,
+      code
+    })
+  }
+
+  export const resetPassword = (email: string, code: string, newPassword: string, confirmPassword: string) => {
+    return axios.post(`${API_BASE_URL}${API_RESET_PASSWORD}`, {
+      email,
+      code,
+      new_password: newPassword,
+      confirm_password: confirmPassword
+    })
+  }

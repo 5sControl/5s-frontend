@@ -55,6 +55,7 @@ const Scanner = () => {
             orderName: orderName,
             orderYear: data.orderItem.order.orderYear,
             orderItem: data.orderItem.name,
+            orderOperation: decodedText.split('\\')[4]
           };
           dispatch(setTimespan(timespanData));
           redirectToOrder(orderId.toString(), orderItemId.toString(), operationId.toString());

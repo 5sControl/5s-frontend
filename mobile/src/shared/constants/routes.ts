@@ -3,6 +3,7 @@ export const ROUTES = {
   MENU: "/",
 
   AUTHORIZATION: "/authorization",
+  RECOVER_PASSWORD: "/recover-password",
   CONFIGURATION: "/configuration",
   CONNECTIONS: "/configuration/connections",
   CONNECTIONS_ADD: "/configuration/connections/add",

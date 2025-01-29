@@ -98,6 +98,7 @@ const User = () => {
               </div>
               }
                 <InputReadonly label={t("users.username")} value={item.username} />
+                <InputReadonly label={"Email"} value={item.email} />
                 <InputReadonly label={t("users.fullName")} value={`${item.last_name} ${item.first_name}`} />
                 <IonItem className="input__field">
                         <IonLabel className="input__label">{t("users.role")}</IonLabel>

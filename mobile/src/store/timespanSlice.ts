@@ -6,16 +6,18 @@ const timespanSlice = createSlice({
         orderName: null,
         orderYear: null,
         orderItem: null,
+        orderOperation: null,
         timespanWorker: null,
         timespanStatus: null
     },
     reducers: {
         setTimespan(state, action) {
-            const { orderName, orderYear, orderItem, timespanWorker, timespanStatus } = action.payload;
+            const { orderName, orderYear, orderItem, timespanWorker, timespanStatus, orderOperation } = action.payload;
 
             if (orderName) state.orderName = orderName;
             if (orderYear) state.orderYear = orderYear;
             if (orderItem) state.orderItem = orderItem;
+            if (orderOperation) state.orderOperation = orderOperation;
             if (timespanWorker) state.timespanWorker = timespanWorker;
             if (timespanStatus) state.timespanStatus = timespanStatus;
         },

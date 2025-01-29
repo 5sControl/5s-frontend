@@ -358,12 +358,18 @@ const getTimespansByEmployee = async (employeeId: number, setTimespans: React.Di
         const timespans = await TIMESPAN_API.getTimespansByEmployee(employeeId)
         if (timespans.status === STATUS.OK) {
             setTimespans(timespans.data);
+        } else if (timespans.status === STATUS.NOT_FOUND) {
+            setTimespans([]);
         } else {
             setMessage && setMessage('Something went wrong')
         }
     } catch (e) {
         const err = e as AxiosError
-        setMessage && setMessage(err.message)
+        if (err.status === STATUS.NOT_FOUND) {
+            setTimespans([]);
+        } else {
+            setMessage && setMessage(err.message)
+        }
     } finally {
         setLoading && setLoading(false)
     }
