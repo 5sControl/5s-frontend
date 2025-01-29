@@ -223,7 +223,6 @@ const AddUser = () => {
         title={`${t("operations.saveChanges")}?`}
         confirmText={t("operations.save")}
         cancelText={t("operations.cancel")}
-        preventDismiss={true}
       />
     </IonPage>
   );
