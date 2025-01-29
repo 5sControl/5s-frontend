@@ -171,7 +171,7 @@ const EditTask: React.FC = () => {
           <>
             {startDateTime && (
               <>
-                <InputReadonly label={t("orders.orderNumber")} value={timespan.orderOperation.orderItem.order.orderNumber} />
+                <InputReadonly label={t("orders.orderNumber")} value={String(timespan.orderOperation.orderItem.order.orderNumber)} />
                 <InputReadonly label={t("orders.orderYear")} value={String(timespan.orderOperation.orderItem.order.orderYear)} />
                 <InputReadonly label={t("orders.orderItem")} value={String(timespan.orderOperation.orderItem.name)} />
                 

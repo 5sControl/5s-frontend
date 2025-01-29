@@ -13,7 +13,8 @@ export interface Item {
         estimatedTimeUnit: string,
         additionalInfo: string,
         name: string,
-        orderYear: number
+        orderYear: number, 
+        orderNumber: number
     }
 }
 
