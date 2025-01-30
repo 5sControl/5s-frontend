@@ -3,8 +3,7 @@ import { useTranslation } from "react-i18next";
 import { IRecoverPasswordStepProps } from "../RecoverPassword";
 import { requestResetPassword, verifyCode } from "../../../../api/authorization";
 
-const DIGITS = 6,
-  CODE_TIMEOUT = 59;
+const DIGITS = 6, CODE_TIMEOUT = 59;
 
 const VerifyCode = ({ onPrevStep, onNextStep, setRecoverData, recoverData }: IRecoverPasswordStepProps) => {
   const { t } = useTranslation();
@@ -12,14 +11,18 @@ const VerifyCode = ({ onPrevStep, onNextStep, setRecoverData, recoverData }: IRe
   const [codeTimeout, setCodeTimeout] = useState(60);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const intervalId = useRef<NodeJS.Timeout | null>(null);
-  const code = inputRefs.current.map(inputRef => inputRef?.value ?? "").join("");
+  const [code, setCode] = useState("");
 
+  const updateCode = () => {
+    setCode(inputRefs.current.map(inputRef => inputRef?.value ?? "").join(""));
+  }
   const handleInput = (index: number, event: React.FormEvent<HTMLInputElement>) => {
     const target = event.currentTarget;
     const inputLength = target.value.length;
 
     if (!inputLength || !/^\d$/.test(target.value)) {
       target.value = "";
+      updateCode();
       return;
     }
 
@@ -37,6 +40,7 @@ const VerifyCode = ({ onPrevStep, onNextStep, setRecoverData, recoverData }: IRe
     if (inputRefs.current[nextIndex]) {
       inputRefs.current[nextIndex].focus();
     }
+    updateCode();
   };
 
   const handleKeyDown = (index: number, event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -68,6 +72,7 @@ const VerifyCode = ({ onPrevStep, onNextStep, setRecoverData, recoverData }: IRe
       default:
         break;
     }
+    updateCode(); 
   };
 
   const startTimer = () => {
@@ -122,7 +127,7 @@ const VerifyCode = ({ onPrevStep, onNextStep, setRecoverData, recoverData }: IRe
       {errorMessage && <span className="error-message">{errorMessage}</span>}
       {codeTimeout ? (
         <div className="code-timeout">
-          {t("form.auth.requestANewCodeIn")} 00:{codeTimeout}
+          {t("form.auth.requestANewCodeIn")} 00:{(codeTimeout < 10 ? "0" : "") + codeTimeout}
         </div>
       ) : (
         <button className="authorization__button outlined" onClick={requestCode}>

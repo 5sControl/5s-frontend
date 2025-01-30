@@ -29,6 +29,7 @@ const RecoverPassword = () => {
   const onPrevStep = () => {
     if (currentStep === 1) {
       history.go(-1);
+      setRecoverData({ email: "", code: "" });
     }
     setCurrentStep(1);
   };
