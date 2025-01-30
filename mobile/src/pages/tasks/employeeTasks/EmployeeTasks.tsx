@@ -30,7 +30,7 @@ const EmployeeTasks = () => {
     const history = useHistory();
     const [toastMessage, setToastMessage] = useState<string | null>(null);
     const [searchText, setSearchText] = useState<string>("");
-    const [selectedSegment, setSelectedSegment] = useState<string>(TIMESPAN_STATES.DONE);
+    const [selectedSegment, setSelectedSegment] = useState<string>(TIMESPAN_STATES.INPROCESS);
     const [loading, setLoading] = useState<boolean>(false);
     const dateValue = format(new Date(), 'yyyy-MM-dd')+ 'T09:00:00.000Z';
     const handleSetSearch = (value: string) => setSearchText(value);
