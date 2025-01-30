@@ -28,7 +28,7 @@ const AddUser = () => {
   const history = useHistory();
   const [cookies] = useCookies(["token"]);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<IAddUser>({username: "", last_name: "", first_name: "", password: "", role: ROLE.WORKER} as IAddUser);
+  const [user, setUser] = useState<IAddUser>({username: "", last_name: "", first_name: "", password: "", email: "", role: ROLE.WORKER} as IAddUser);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [customRole, setCustomRole] = useState(false);
   const [highlightRequired, setHighlightRequired] = useState(false);
@@ -42,19 +42,53 @@ const AddUser = () => {
         value: role
     }));
   const { selectedWorkplace } = useSelector((state: any) => state.workplace);
+  const [backOnClose, setBackOnClose] = useState(false);
   const minPasswordLength = 4;
 
   function getUserRole () {
     return localStorage.getItem("userRole");
   }
 
-  const navigateBack = () => {
+  const isChanged =
+    ["username", "last_name", "first_name", "password", "email"].some(key => !!user[key]) ||
+    selectedWorkplace ||
+    user.role != ROLE.WORKER;
+
+  const goBack = () => {
     history.push(ROUTES.USERS, { direction: "back" });
     dispatch(setSelectedWorkplace(null));
+  }
+
+  const onNavigateBack = () => {
+    if (!isChanged) {
+      goBack();
+      return;
+    }
+    setBackOnClose(true);
+    setIsOpenModal(true);
   };
 
+  const isFormValid = () => {
+    if (
+      !user.username ||
+      !user.first_name ||
+      !user.last_name ||
+      !user.email ||
+      user.password.length < minPasswordLength ||
+      isInvalidText(user.username, { numbers: true, spaces: true }) ||
+      isInvalidText(user.first_name) ||
+      isInvalidText(user.last_name) ||
+      !isValidEmail(user.email)
+    ) {
+      setHighlightRequired(true);
+      return false;
+    }
+    return true;
+  }
+
   const handleSave = () => {
-    if (user) {
+    setBackOnClose(false);
+    if (user && isFormValid()) {
       setLoading(true);
       const data: IAddUser = {
         username: user.username,
@@ -69,7 +103,7 @@ const AddUser = () => {
         .then(() => {
             setUserExists(false);
             setHighlightRequired(false);
-            navigateBack();
+            goBack();
         })
         .catch(error => {
             setUserExists(true);
@@ -84,26 +118,17 @@ const AddUser = () => {
   };
 
   const openModal = () => {
-    if (
-      !user.username ||
-      !user.first_name ||
-      !user.last_name ||
-      !user.email ||
-      user.password.length < minPasswordLength ||
-      isInvalidText(user.username, { numbers: true, spaces: true }) ||
-      isInvalidText(user.first_name) ||
-      isInvalidText(user.last_name) ||
-      !isValidEmail(user.email)
-    ) {
-      setHighlightRequired(true);
+    if (!isFormValid()) {
       return;
     }
     setIsOpenModal(true);
   };
 
-  const handleCloseModal = () => {
+  const closeModal = () => {
     setIsOpenModal(false);
-    navigateBack();
+    if (backOnClose) {
+      goBack();
+    }
   };
 
   const handleConfirmModal = () => {
@@ -117,7 +142,7 @@ const AddUser = () => {
 
   return (
     <IonPage>
-      <Header title={t("operations.add")} onBackClick={navigateBack} backButtonHref={ROUTES.USERS}></Header>
+      <Header title={t("operations.add")} onBackClick={onNavigateBack} backButtonHref={ROUTES.USERS}></Header>
       <IonContent>
         {loading ? (
           <div className="preloader">
@@ -153,8 +178,8 @@ const AddUser = () => {
                     value={user?.email || ""} 
                     required 
                     handleChange={event => setUser({ ...user, email: event.target.value })}
-                    state={highlightRequired && (!user.email || !isValidEmail(user.email)) ? "error" : "neutral" }
-                    errorMessage={!isValidEmail(user.email) || userExists ? t("form.invalidEmail") : t("form.required")}
+                    state={highlightRequired && (!user.email || !isValidEmail(user.email) || userExists) ? "error" : "neutral" }
+                    errorMessage={userExists ? t("messages.employeeExists") : (!isValidEmail(user.email) ? t("form.invalidEmail") : t("form.required"))}
                     maxLength={30}/>
 
               </div>
@@ -211,6 +236,7 @@ const AddUser = () => {
                 <BottomButton
                 handleClick={openModal}
                 label={t("operations.save")}
+                disabled={!isChanged}
               />
             </>
         )}
@@ -218,7 +244,7 @@ const AddUser = () => {
       <ConfirmationModal
         type="primary"
         isOpen={isOpenModal}
-        onClose={handleCloseModal}
+        onClose={closeModal}
         onConfirm={handleConfirmModal}
         title={`${t("operations.saveChanges")}?`}
         confirmText={t("operations.save")}
