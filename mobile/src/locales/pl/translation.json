@@ -173,8 +173,8 @@
       "requestANewCodeIn": "Poproś o nowy kod poprzez",
       "enterPassword": "Wprowadź nowe hasło do swojego konta!",
       "successful": "Udany!",
-      "passwordChanged": "Gratulacje! Twoje hasło zostało zmienione. Kliknij Kontynuuj, aby się zalogować",
-      "emailNotFound": "Nie znaleziono użytkownika z takim adresem e-mail",
+      "passwordChanged": "Gratulacje! Twoje hasło zostało zmienione. Kliknij Kontynuować, aby się zalogować",
+      "emailNotFound": "Nie znaleziono użytkownika o tym adresie e-mail",
       "invalidCode": "Nieprawidłowy kod",
       "failedUpdatePassword": "Nie udało się zaktualizować hasła"
     },
