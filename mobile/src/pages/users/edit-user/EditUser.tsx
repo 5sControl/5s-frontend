@@ -30,6 +30,7 @@ const EditUser = () => {
   const [cookies] = useCookies(["token"]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<IUser>({} as IUser);
+  const [initialUser, setInitialUser] = useState({} as IUser);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [highlightRequired, setHighlightRequired] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -44,6 +45,7 @@ const EditUser = () => {
   const { selectedWorkplace } = useSelector((state: any) => state.workplace);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [backOnClose, setBackOnClose] = useState(false);
   const minPasswordLength = 4;
 
   function getUserRole () {
@@ -51,10 +53,12 @@ const EditUser = () => {
   }
 
   useIonViewWillEnter(() => {
+    if (user.id) return;
     setLoading(true);
     getUser(Number(id), cookies.token)
       .then(response => {
         setUser(response.data);
+        setInitialUser(response.data);
       })
       .catch(error => {
         console.error(error);
@@ -64,9 +68,24 @@ const EditUser = () => {
       });
   });
 
-  const navigateBack = () => {
+  const isChanged =
+    Object.keys(initialUser).some(key => initialUser[key] != user[key]) ||
+    initialUser?.workplace?.id != (selectedWorkplace?.id || user?.workplace?.id) ||
+    password ||
+    confirmPassword;
+
+  const goBack = () => {
     history.push(ROUTES.USER(id), { direction: "back" });
     dispatch(setSelectedWorkplace(null));
+  }
+
+  const onNavigateBack = () => {
+    if (!isChanged) {
+      goBack();
+      return;
+    }
+    setIsOpenModal(true);
+    setBackOnClose(true);
   };
 
   const getUpdatedUser = () => {
@@ -85,7 +104,8 @@ const EditUser = () => {
   }
 
   const handleSave = () => {
-    if (user) {
+    setBackOnClose(false);
+    if (user && isFormValid()) {
       setLoading(true);
       const updatedUser: Partial<IUpdateUser> = getUpdatedUser();
       setHighlightRequired(true);
@@ -93,7 +113,7 @@ const EditUser = () => {
         .then(() => {
           setUserExists(false);
           setHighlightRequired(false);
-          navigateBack();
+          goBack();
         })
         .catch(error => {
           setUserExists(true);
@@ -107,7 +127,7 @@ const EditUser = () => {
     }
   };
 
-  const openModal = () => {
+  const isFormValid = () => {
     if (
       !user.username ||
       !user.first_name ||
@@ -121,14 +141,23 @@ const EditUser = () => {
       password !== confirmPassword
     ) {
       setHighlightRequired(true);
+      return false;
+    }
+    return true;
+  }
+
+  const openModal = () => {
+    if (!isFormValid()) {
       return;
     }
     setIsOpenModal(true);
   };
 
-  const handleCloseModal = () => {
+  const closeModal = () => {
     setIsOpenModal(false);
-    navigateBack();
+    if (backOnClose) {
+     goBack();
+    }
   };
 
   const handleConfirmModal = () => {
@@ -137,13 +166,12 @@ const EditUser = () => {
   };
 
   const navigateWorkplaceClick = () => {
-    updateUser(Number(id), getUpdatedUser(), cookies.token);
     history.push(ROUTES.USER_EDIT_WORKPLACES(id), { direction: "forward" });
   }
 
   return (
     <IonPage>
-      <Header title={t("operations.edit")} onBackClick={openModal} backButtonHref={ROUTES.USER(id)}></Header>
+      <Header title={t("operations.edit")} onBackClick={onNavigateBack} backButtonHref={ROUTES.USER(id)}></Header>
       <IonContent>
         {loading ? (
           <div className="preloader">
@@ -170,8 +198,8 @@ const EditUser = () => {
                     value={user?.email || ""} 
                     required 
                     handleChange={event => setUser({ ...user, email: event.target.value })}
-                    state={highlightRequired && (!user.email || !isValidEmail(user.email)) ? "error" : "neutral" }
-                    errorMessage={!isValidEmail(user.email) || userExists ? t("form.invalidEmail") : t("form.required")}
+                    state={highlightRequired && (!user.email || !isValidEmail(user.email) || userExists) ? "error" : "neutral" }
+                    errorMessage={userExists ? t("messages.employeeExists") : (!isValidEmail(user.email) ? t("form.invalidEmail") : t("form.required"))}
                     maxLength={30}/>  
                 <Input 
                     label={t("users.newPassword")} 
@@ -249,6 +277,7 @@ const EditUser = () => {
               <BottomButton
                               handleClick={openModal}
                               label={t("operations.save")}
+                              disabled={!isChanged}
                               />
               {/* </div> */}
             </>
@@ -257,7 +286,7 @@ const EditUser = () => {
       <ConfirmationModal
         type="primary"
         isOpen={isOpenModal}
-        onClose={handleCloseModal}
+        onClose={closeModal}
         onConfirm={handleConfirmModal}
         title={`${t("operations.saveChanges")}?`}
         confirmText={t("operations.save")}
