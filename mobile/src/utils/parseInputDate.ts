@@ -112,8 +112,8 @@ export const formatDateWithFullMonthName = (dateString: string, language: string
       "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"
     ],
     pl: [
-      "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
-      "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
+      "Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Сzerwca",
+      "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"
     ]
   };
   
@@ -143,7 +143,6 @@ export const updateTime = (originalDateTime: string, newTime: string) => {
 }
 
 export const getTimeDifference = (date1: string, date2: string) => {
-  let hours = 0, minutes = 0;
   const dateObj1 = new Date(date1);
   const dateObj2 = new Date(date2);
 

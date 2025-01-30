@@ -38,8 +38,8 @@
     "incorrectCredentials": "Nieprawidłowy email lub hasło. Spróbuj ponownie.",
     "orderName": "Utwórz nazwę zamówienia i spróbuj ponownie",
     "validDate": "Proszę ustawić poprawną datę początkową.",
-    "startTime": "Czas rozpoczęcia nie może być większy niż czas zakończenia",
-    "finishDate": "Data zakończenia nie może być wcześniejsza niż data rozpoczęcia.",
+    "startTime": "Czas rozpoczęcia nie może być późniejsza niż godzina zakończenia",
+    "finishDate": "Czas zakończenia nie może być wcześniejszy niż czas rozpoczęcia",
     "timespanLimit": "Data nie może pochodzić z przyszłości.",
     "saveData": "Proszę zapisać swoje dane!",
     "employeeNotFound": "Pracownik nie został znaleziony",
@@ -85,7 +85,7 @@
     "name": "nazwa",
     "ordersView": "Widok zamówień",
     "products": "Produkty",
-    "tasks": "zadania",
+    "tasks": "Zadania",
     "scheduled": "Pokaż zaplanowany czas",
     "startTime": "Czas rozpoczęcia",
     "datePlaceholder": "Wybierz datę i czas rozpoczęcia",
@@ -207,7 +207,7 @@
     "implementationTime": "Czas realizacji",
     "startOperation": "Początek operacji",
     "operationTime": "Czas operacji:",
-    "timeOverlap": "Wybierz inny termin",
+    "timeOverlap": "Wybierz inny czas",
     "finishOperation": "Koniec operacji",
     "date": "Data",
     "orderItems": "Węzły",
@@ -327,7 +327,7 @@
     "done": "Zrobione",
     "notFound":
     {
-      "inProgress": "Brak bieżących zadań!",
+      "inProcess": "Brak bieżących zadań!",
       "done": "Brak ukończonych zadań!"
     }
   }
