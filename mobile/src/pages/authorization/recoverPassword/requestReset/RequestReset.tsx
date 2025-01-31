@@ -6,7 +6,7 @@ import isValidEmail from "../../../../utils/isValidEmail";
 import { requestResetPassword } from "../../../../api/authorization";
 
 const RequestReset = ({onPrevStep, onNextStep, setRecoverData, recoverData}: IRecoverPasswordStepProps) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [errorMessage, setErrorMessage] = useState("");
 
     const handleChange = (e) => {
@@ -24,7 +24,9 @@ const RequestReset = ({onPrevStep, onNextStep, setRecoverData, recoverData}: IRe
             setErrorMessage(t("form.invalidEmail"));
             return;
         }
-        requestResetPassword(email).then(onNextStep).catch(() => setErrorMessage(t("form.auth.emailNotFound")))
+        requestResetPassword(email, i18n.language)
+          .then(onNextStep)
+          .catch(() => setErrorMessage(t("form.auth.emailNotFound")));
     }
 
     return <>
