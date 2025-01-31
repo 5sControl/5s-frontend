@@ -220,6 +220,11 @@
     "orderYear": "Год заказа",
     "startedAt": "Начало работы",
     "estimatedAt": "Срок исполнения",
+    "completedAt": "Конец работы",
+    "deadlineExpired": "Срок истек",
+    "deadlineExpiredWeeks": "Срок истек более 2-x недель назад",
+    "deadlineExpiredMonth": "Срок истек более месяца назад",
+    "deadlineExpiredMonths": "Срок истек более 2-х месяцев назад",
     "statusValues": {
       "pending": "Не начат",
       "inProgress": "В работе",
