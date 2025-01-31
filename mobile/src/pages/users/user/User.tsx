@@ -94,6 +94,7 @@ const User = () => {
               {item.role === "admin"? "": <div className="ion-padding">
                 <MenuListButton
                   title={t("text.tasks")}
+                  lines="none"
                   handleItemClick={() => history.push(ROUTES.EMPLOYEE_TASKS(String(item.id)), { username: item.username })} /> 
               </div>
               }

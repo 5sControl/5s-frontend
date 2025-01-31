@@ -73,6 +73,7 @@ export const Input: React.FC<InputProps> = ({
         maxlength={maxLength}
         className={`${styles.input} ${styles[state]} ${isFocused ? styles.focus : ""}`}
         autocomplete={autocomplete || "off"}
+        {...(type == "number" ? {inputmode: "numeric"} : {})}
       >
         {type === "password" && !hidePassword && <IonInputPasswordToggle slot="end" color="medium" />}
       </IonInput>
