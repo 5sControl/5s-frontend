@@ -1,8 +1,7 @@
-import { IonContent, IonDatetime, IonList, IonSegment, IonSegmentButton, SegmentChangeEventDetail, IonIcon, IonItem, IonLabel, IonPage, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonList, IonSegment, IonSegmentButton, SegmentChangeEventDetail, IonIcon, IonItem, IonLabel, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ROUTES } from "../../../shared/constants/routes";
-import { useState, useEffect, useMemo, SetStateAction } from "react";
-import { useCookies } from "react-cookie";
+import { useState, useMemo, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import { TIMESPAN_STATES } from "../../../models/enums/timespansStates.enum";
@@ -10,7 +9,6 @@ import { TIMESPAN_REQUEST } from "../../../dispatcher";
 import { ITimespan } from "../../../models/interfaces/orders.interface";
 import { Calendar, ArrowRight, Clock } from "../../../assets/svg/SVGcomponent";
 import { formatDateWithFullMonthName, extractTime } from "../../../utils/parseInputDate";
-import { IUser } from "../../../models/interfaces/employee.interface";
 import './EmployeeTasksPage.scss';
 import { format } from "date-fns";
 
@@ -19,12 +17,10 @@ interface LocationState {
 }
 
 const EmployeeTasks = () => {
-    const [cookies] = useCookies(["token"]);
     const { userId }: { userId: string } = useParams();
     const location = useLocation<LocationState>();
     const {username} = location.state || ""; 
-    const { t } = useTranslation();
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
     const currentLanguage = i18n.language;
     const [timespans, setTimespans] = useState<ITimespan[]>([]);
     const history = useHistory();
@@ -43,7 +39,6 @@ const EmployeeTasks = () => {
         setLoading(true);
         setSearchText("");
         TIMESPAN_REQUEST.getTimespansByEmployee(+userId, setTimespans as React.Dispatch<SetStateAction<ITimespan[]>>, setLoading, setToastMessage);
-        console.log(toastMessage);
     });
 
     const filteredTimespans = useMemo(() => 
@@ -57,12 +52,17 @@ const EmployeeTasks = () => {
         ? t("timespans.notFound.inProcess")
         : t("timespans.notFound.done")
     , [selectedSegment]);
+ 
+    const onBackClick = () => {
+        history.go(-1);
+    }
 
     return (
         <IonPage>
             <Header 
                 title={username} 
                 backButtonHref={ROUTES.USERS}
+                onBackClick={onBackClick}
                 searchBar={Boolean(timespans?.length)} 
                 searchText={searchText}
                 onSearchChange={handleSetSearch}
