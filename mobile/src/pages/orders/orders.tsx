@@ -24,6 +24,8 @@ import MenuListButton from "../../components/menuListButton/MenuListButton";
 import { Preloader } from "../../components/preloader/preloader";
 import { OperationStatus } from "../../models/types/ordersStatus";
 import { OPERATION_STATUS_ENUM } from "../../models/enums/statuses.enum";
+import styles from "./orders.module.scss";
+import { daysDifference, formatDateUTC } from "../../utils/parseInputDate";
 
 export const OrdersPage: React.FC = () => {
   const { t } = useTranslation();
@@ -77,6 +79,26 @@ export const OrdersPage: React.FC = () => {
     }
   }, [history, searchParams]);
 
+  const checkDeadline = (item: IOrders): string => {
+    const estimatedAt = new Date(item.startedAt);
+    estimatedAt.setHours(0, 0, 0, 0);
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    if (item.completedAt || !item.startedAt || !item.estimatedAt || currentDate <= estimatedAt) {
+      return "";
+    }
+    const daysDiff = daysDifference(currentDate, estimatedAt);
+    if (daysDiff <= 14) {
+      return t("orders.deadlineExpired");
+    }
+    if (daysDiff <= 30) {
+      return t("orders.deadlineExpiredWeeks")
+    }
+    if (daysDiff <= 60) {
+      return t("orders.deadlineExpiredMonth");
+    }
+    return t("orders.deadlineExpiredMonths");
+  } 
   return (
     <IonPage>
       <Header
@@ -85,7 +107,7 @@ export const OrdersPage: React.FC = () => {
         searchBar={Boolean(orders?.length)}
         searchText={searchText}
         onSearchChange={handleSetSearch}
-        endButton={<img src={Chart} alt="orders view" onClick={() => handleItemClick(ROUTES.ORDERSVIEW)}/>}
+        endButton={<img src={Chart} alt="orders view" onClick={() => handleItemClick(ROUTES.ORDERSVIEW)} />}
       />
       <IonContent color="light">
         {isLoading ? (
@@ -94,27 +116,48 @@ export const OrdersPage: React.FC = () => {
           </div>
         ) : (
           <>
-        <div className="segment-wrapper ion-padding">
-          <IonSegment value={selectedStatus} onIonChange={handleStatusChange}>
-            <IonSegmentButton value={OPERATION_STATUS_ENUM.PENDING}>
-              <IonLabel>{t("orders.statusValues.pending")}</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton value={OPERATION_STATUS_ENUM.IN_PROGRESS}>
-              <IonLabel>{t("orders.statusValues.inProgress")}</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton value={OPERATION_STATUS_ENUM.COMPLETED}>
-              <IonLabel>{t("orders.statusValues.done")}</IonLabel>
-            </IonSegmentButton>
-          </IonSegment>
-        </div>
-        <IonList inset>{filteredOrders.map(item => (
-          <MenuListButton
-            key={item.id}
-            title={concatOrderNumberName(item)}
-            handleItemClick={() => handleItemClick(ROUTES.ORDER(String(item.id)))}
-          />
-          ))}
-        </IonList>
+            <div className="segment-wrapper ion-padding">
+              <IonSegment value={selectedStatus} onIonChange={handleStatusChange}>
+                <IonSegmentButton value={OPERATION_STATUS_ENUM.PENDING}>
+                  <IonLabel>{t("orders.statusValues.pending")}</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value={OPERATION_STATUS_ENUM.IN_PROGRESS}>
+                  <IonLabel>{t("orders.statusValues.inProgress")}</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value={OPERATION_STATUS_ENUM.COMPLETED}>
+                  <IonLabel>{t("orders.statusValues.done")}</IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </div>
+            <IonList inset>
+              {filteredOrders.map(item => (
+                <MenuListButton
+                  key={item.id}
+                  title={concatOrderNumberName(item)}
+                  handleItemClick={() => handleItemClick(ROUTES.ORDER(String(item.id)))}
+                >
+                  <div className={styles.orderCardItems}>
+                    {checkDeadline(item) && <div className={styles.deadlineExpired}>{checkDeadline(item)}</div>}
+                    {item.startedAt && (
+                      <div>
+                        <span className={styles.strong}>{t("orders.startedAt")}: </span>
+                        {formatDateUTC(item.startedAt)}
+                      </div>
+                    )}
+                    <div>
+                      <span className={styles.strong}>{t("orders.estimatedAt")}: </span>
+                      {item.estimatedAt ? formatDateUTC(item.estimatedAt) : "-"}
+                    </div>
+                    {item.completedAt && (
+                      <div>
+                        <span className={styles.strong}>{t("orders.completedAt")}: </span>
+                        {formatDateUTC(item.completedAt)}
+                      </div>
+                    )}
+                  </div>
+                </MenuListButton>
+              ))}
+            </IonList>
             <Fab icon={Plus} handleFabClick={() => handleFabClick(ROUTES.ORDER_ADD)} />
             <IonToast
               isOpen={!!toastMessage}

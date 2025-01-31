@@ -6,7 +6,7 @@ import { requestResetPassword, verifyCode } from "../../../../api/authorization"
 const DIGITS = 6, CODE_TIMEOUT = 59;
 
 const VerifyCode = ({ onPrevStep, onNextStep, setRecoverData, recoverData }: IRecoverPasswordStepProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [errorMessage, setErrorMessage] = useState("");
   const [codeTimeout, setCodeTimeout] = useState(60);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -89,7 +89,7 @@ const VerifyCode = ({ onPrevStep, onNextStep, setRecoverData, recoverData }: IRe
     }, 500);
   };
   const requestCode = () => {
-    requestResetPassword(recoverData.email);
+    requestResetPassword(recoverData.email, i18n.language);
     startTimer();
   };
 

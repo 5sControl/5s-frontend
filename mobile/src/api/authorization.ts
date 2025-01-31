@@ -22,9 +22,10 @@ export const authorizationRequest = (email: string, password: string) => {
     });
   };
 
-  export const requestResetPassword = (email: string) => {
+  export const requestResetPassword = (email: string, lang: string) => {
     return axios.post(`${API_BASE_URL}${API_REQUEST_RESET_PASSWORD}`, {
-      email
+      email,
+      language_code: lang
     })
   }
 

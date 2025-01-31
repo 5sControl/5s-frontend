@@ -64,7 +64,7 @@ export const formatDateUTC = (dateString: string): string => {
   const date = new Date(dateString);
   const day = String(date.getUTCDate()).padStart(2, '0');
   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  const year = String(date.getUTCFullYear()).slice(2);
+  const year = String(date.getUTCFullYear());
 
   return `${day}.${month}.${year}`;
 }
@@ -254,3 +254,17 @@ export const convertToCustomFormat = (dateString: string): string => {
 export const truncateDate = (dateString: string): string => {
   return dateString.split('.')[0];
 };
+
+export const daysDifference = (date1: string | Date, date2: string | Date): number => {
+  const startDate = new Date(date1);
+  const endDate = new Date(date2);
+  
+  startDate.setHours(0, 0, 0, 0);
+  endDate.setHours(0, 0, 0, 0);
+  
+  const timeDifference = endDate.getTime() - startDate.getTime();
+  
+  const dayDifference = Math.abs(timeDifference / (1000 * 60 * 60 * 24));
+  
+  return dayDifference;
+}

@@ -1,6 +1,5 @@
 import { IonIcon, IonItem, IonLabel } from "@ionic/react";
 import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
 import styles from "./menuListButton.module.scss";
 
 type MenuListButtonProps = {
@@ -14,6 +13,7 @@ type MenuListButtonProps = {
   state?: "neutral" | "error";
   errorMessage?: string;
   disabled?: boolean; 
+  children?: ReactNode
 };
 
 const MenuListButton = ({
@@ -26,10 +26,9 @@ const MenuListButton = ({
   handleItemClick,
   state = "neutral",
   errorMessage,
-  disabled = false 
+  disabled = false,
+  children 
 }: MenuListButtonProps) => {
-  const { t } = useTranslation();
-
   const itemContent = (
     <IonItem
       button={button && !disabled} 
@@ -44,7 +43,10 @@ const MenuListButton = ({
           {note && <p>{note}</p>}
         </IonLabel>
       ) : (
-        <IonLabel>{title}</IonLabel>
+        <IonLabel style={{padding: "0.5rem"}}>
+          {title}
+          {children}
+        </IonLabel>
       )}
     </IonItem>
   );

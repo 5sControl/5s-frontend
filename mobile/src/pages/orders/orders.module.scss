@@ -11,3 +11,22 @@
   padding: 24px 16px;
 }
 
+.orderCardItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  font-size: 14px;
+
+  .deadlineExpired {
+    background-color: #FCE8E3;
+    padding: 0.2rem 0;
+    width: 280px;
+    text-align: center;
+  }
+
+  .strong {
+    color: #666666;
+  }
+}
+
