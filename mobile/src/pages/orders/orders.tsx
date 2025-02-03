@@ -80,7 +80,7 @@ export const OrdersPage: React.FC = () => {
   }, [history, searchParams]);
 
   const checkDeadline = (item: IOrders): string => {
-    const estimatedAt = new Date(item.startedAt);
+    const estimatedAt = new Date(item.estimatedAt);
     estimatedAt.setHours(0, 0, 0, 0);
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
