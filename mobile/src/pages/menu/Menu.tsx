@@ -15,6 +15,7 @@ import "./Menu.scss";
 import { Preloader } from "../../components/preloader/preloader";
 import { ITimespan } from "../../models/interfaces/orders.interface";
 import { TIMESPAN_REQUEST } from "../../dispatcher";
+import { API_BASE_URL, APP_VERSION } from "../../config";
 
 export const Menu: React.FC = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
@@ -113,7 +114,7 @@ export const Menu: React.FC = () => {
               <MenuListButton title={t("menu.language")} handleItemClick={() => handleItemClick(ROUTES.LANGUAGE)} />
             </IonList>
             <IonFooter className="footer">
-              <IonText>Version 0.8</IonText>
+              <IonText>{`Version ${APP_VERSION}`}</IonText>
             </IonFooter>
           </>
         ) : (
