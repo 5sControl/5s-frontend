@@ -220,7 +220,7 @@
     "orderYear": "Rok zamówienia",
     "startedAt": "Rozpoczęcie pracy",
     "estimatedAt": "Termin",
-    "completedAt": "koniec pracy",
+    "completedAt": "Koniec pracy",
     "deadlineExpired": "Termin upłynął",
     "deadlineExpiredWeeks": "Termin minął ponad 2 tygodnie temu",
     "deadlineExpiredMonth": "Termin minął ponad miesiąc temu",
