@@ -1,5 +1,5 @@
 import React from 'react';
-import './RoleLabel.scss'
+import styles from './RoleLabel.module.scss'
 import { ROLE } from '../../models/enums/roles.enum';
 
 type RoleLabelProps = {
@@ -10,9 +10,9 @@ const RoleLabel: React.FC<RoleLabelProps>  = ({role}) =>{
     
     return (
         <span className={`
-            ${role === ROLE.ADMIN ? 'statusAdmin' : 
-            role === ROLE.SUPERUSER ? 'statusSuperuser' : 
-            'statusWorker'} status`}>
+            ${role === ROLE.ADMIN ? styles.statusAdmin : 
+            role === ROLE.SUPERUSER ? styles.statusSuperuser : 
+            styles.statusWorker} ${styles.status}`}>
             {role}
         </span>
     )

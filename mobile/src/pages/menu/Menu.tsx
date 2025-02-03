@@ -103,7 +103,7 @@ export const Menu: React.FC = () => {
               <IonList inset={true}>
                 <MenuListButton title={t("menu.scanner")} handleItemClick={() => handleItemClick(ROUTES.SCANNER_QR)} disabled={workInProgress}/>
                 <div className="my-work-btn"> 
-                  <MenuListButton title={t("menu.myTasks")} handleItemClick={() => history.push(ROUTES.EMPLOYEE_TASKS(user.id), {username: t("menu.myTasks")})}/>
+                  <MenuListButton lines="none" title={t("menu.myTasks")} handleItemClick={() => history.push(ROUTES.EMPLOYEE_TASKS(user.id), {username: t("menu.myTasks")})}/>
                   <div className={"status " + (workInProgress ? "work" : "no-work")}>{workInProgress ? t("menu.workStatus.workInProgress") : t("menu.workStatus.noWork")}</div>
                 </div>
               </IonList>

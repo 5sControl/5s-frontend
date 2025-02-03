@@ -41,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
             </IonButton>
           </IonButtons>
         )}
-        <IonTitle className="header__title">{title}</IonTitle>
+        <IonTitle className={"header__title " + (backButtonHref || endButton ? "padding" : "")}>{title}</IonTitle>
         {endButton && (
           <IonButtons slot="end" className="header__end">
             {endButton}

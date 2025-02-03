@@ -23,12 +23,14 @@
 
 .status {
   position: absolute;
-  top: 0;
-  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2.25rem;
+  padding: 0.3rem;
   z-index: 1;
   color: #212121;
   font-size: 12px;
-  border-radius: 30px;
+  border-radius: 3px;
   display: block;
 }
 

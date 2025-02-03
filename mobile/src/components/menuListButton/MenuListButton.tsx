@@ -14,6 +14,7 @@ type MenuListButtonProps = {
   errorMessage?: string;
   disabled?: boolean; 
   children?: ReactNode
+  lines?: "none" | "full" | "inset"
 };
 
 const MenuListButton = ({
@@ -27,10 +28,12 @@ const MenuListButton = ({
   state = "neutral",
   errorMessage,
   disabled = false,
-  children 
+  children, 
+  lines
 }: MenuListButtonProps) => {
   const itemContent = (
     <IonItem
+      lines={lines}
       button={button && !disabled} 
       onClick={!disabled ? handleItemClick : undefined} 
       style={{ "--min-height": height }}
