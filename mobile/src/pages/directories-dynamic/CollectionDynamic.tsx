@@ -1,4 +1,4 @@
-import { IonContent, IonItem, IonList, IonPage, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonItem, IonList, IonPage } from "@ionic/react";
 import { Header } from "../../components/header/Header";
 import { Preloader } from "../../components/preloader/preloader";
 import { useTranslation } from "react-i18next";
@@ -8,15 +8,14 @@ import { directoriesMeta } from "./Meta";
 import Fab from "../../components/fab/Fab";
 import { Plus } from "../../assets/svg/SVGcomponent";
 import { useHistory } from "react-router-dom";
-import i18n from "../../i18";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export const CollectionDynamic = () => {
 	const meta = directoriesMeta
 	const { t } = useTranslation();
 	const history = useHistory();
 	const { data, isLoading, refetch } = useGetCollectionQuery(meta)
-	const lang = i18n.language
+	const [searchText, setSearchText] = useState("");
 
 	const onPressItem = (id: any) => {
 		history.push(meta.collection + '/' + id);
@@ -26,24 +25,28 @@ export const CollectionDynamic = () => {
 		history.push(meta.collection + '/' + "create/new");
 	}
 
-	const title = meta.translations && meta.translations[lang] || meta.label
+	const onSearchChange = (value: string) => setSearchText(value);
 
-  useEffect(() => {
-    const unlisten = history.listen(() => {
-      refetch();
-    });
+	useEffect(() => {
+		const unlisten = history.listen(() => {
+		refetch();
+		});
 
-    return () => {
-      unlisten();
-    };
-  }, [history, refetch]);
+		return () => {
+		unlisten();
+		};
+	}, [history, refetch]);
 
-
+	const filteredData = useMemo(() => data?.filter(item => item.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())), [data, searchText]);
+	
 	return (
 		<IonPage>
 			<Header
-				title={title}
+				title={t("menu.generalDirectories")}
 				backButtonHref={'/configuration'}
+				searchBar={true}
+				searchText={searchText}
+				onSearchChange={onSearchChange}
 			/>
 			<IonContent>
 				<Fab icon={Plus} handleFabClick={() => onPressAddItem()} />
@@ -57,7 +60,7 @@ export const CollectionDynamic = () => {
 							<IonItem>{t("messages.noDatabases")}</IonItem>
 							:
 							<>
-								{data.map(item => (
+								{filteredData.map(item => (
 									<MenuListButton
 										key={item[meta.displayField]}
 										title={item[meta.displayField]}

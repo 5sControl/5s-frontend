@@ -3,23 +3,19 @@ import { Header } from "../../../components/header/Header";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useState, useMemo, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory, useParams, useLocation } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { TIMESPAN_STATES } from "../../../models/enums/timespansStates.enum";
 import { TIMESPAN_REQUEST } from "../../../dispatcher";
 import { ITimespan } from "../../../models/interfaces/orders.interface";
 import { Calendar, ArrowRight, Clock } from "../../../assets/svg/SVGcomponent";
 import { formatDateWithFullMonthName, extractTime } from "../../../utils/parseInputDate";
 import './EmployeeTasksPage.scss';
-import { format } from "date-fns";
-
-interface LocationState {
-    username: string;
-}
+import { useAppSelector } from "../../../store";
+import { ROLE } from "../../../models/enums/roles.enum";
 
 const EmployeeTasks = () => {
     const { userId }: { userId: string } = useParams();
-    const location = useLocation<LocationState>();
-    const {username} = location.state || ""; 
+    const { role } = useAppSelector(state => state.user);
     const { t, i18n } = useTranslation();
     const currentLanguage = i18n.language;
     const [timespans, setTimespans] = useState<ITimespan[]>([]);
@@ -28,7 +24,7 @@ const EmployeeTasks = () => {
     const [searchText, setSearchText] = useState<string>("");
     const [selectedSegment, setSelectedSegment] = useState<string>(TIMESPAN_STATES.INPROCESS);
     const [loading, setLoading] = useState<boolean>(false);
-    const dateValue = format(new Date(), 'yyyy-MM-dd')+ 'T09:00:00.000Z';
+
     const handleSetSearch = (value: string) => setSearchText(value);
 
     const handleSegmentChange = (event: CustomEvent<SegmentChangeEventDetail>) => {
@@ -60,10 +56,11 @@ const EmployeeTasks = () => {
     return (
         <IonPage>
             <Header 
-                title={username} 
+                title={role == ROLE.ADMIN ? t("text.tasks") : t("menu.myTasks")} 
                 backButtonHref={ROUTES.USERS}
                 onBackClick={onBackClick}
                 searchBar={Boolean(timespans?.length)} 
+                searchPlaceholder={t("operations.tasks.search")}
                 searchText={searchText}
                 onSearchChange={handleSetSearch}
             />

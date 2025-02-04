@@ -179,7 +179,7 @@ const EditTimespan: React.FC = () => {
 
                 <IonList className={`${style.page} ion-padding`}>
                   <IonList className={style.list}>
-                    <IonLabel className={style.label}>{t("form.date")}</IonLabel>
+                    <IonLabel className={style.label}>{t("form.operationDate")}</IonLabel>
                     <InputDate value={formatDate(startDateTime)} onClick={() => setIsDateChange(true)}></InputDate>
                   </IonList>
                   <IonList className={style.sized}>

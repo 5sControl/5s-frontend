@@ -10,6 +10,7 @@
     "orders": "Orders",
     "reports": "Reports",
     "scanner": "QR Scanner",
+    "scanQR": "Scan QR",
     "language": "Interface language",
     "users": "Employees",
     "cameras": "Camera Settings",
@@ -114,7 +115,23 @@
     "download": "Download",
     "share": "Share",
     "print": "Print",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss",
+    "tasks": {
+        "search": "Find task"
+    },
+    "orders": {
+      "search": "Find order"
+    },
+    "directories": {
+      "add": "Add directory",
+      "edit": "Edit directory"
+    },
+    "users": {
+      "delete": "Are you sure you want to delete the employee?",
+      "edit": "Edit employee",
+      "add": "Add employee",
+      "search": "Find an employee"
+    }
   },
   "db": {
     "products": {
@@ -154,6 +171,7 @@
   "form": {
     "name": "Name",
     "date": "Date",
+    "operationDate": "Operation date",
     "duration": "Duration",
     "namePlaceholder": "Enter a name",
     "selectOperation": "Select Operation",
@@ -260,17 +278,17 @@
     "displayedOperations": "Displayed operations"
   },
   "users": {
-    "username": "Username",
+    "username": "Login",
     "fullName": "Full name",
-    "firstName": "First name",
-    "lastName": "Last name",
+    "firstName": "Employee's first name",
+    "lastName": "Employee's last name",
     "password": "Password",
     "newPassword": "New password",
     "confirmPassword": "Confirm password",
-    "role": "Role",
+    "role": "Employee role",
     "workplace": "Workplace",
     "dateJoined": "Date joined",
-    "settings": "User settings",
+    "settings": "Employee settings",
     "info": "Employee information"
   },
   "scanner": {

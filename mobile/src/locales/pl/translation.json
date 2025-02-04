@@ -10,6 +10,7 @@
     "orders": "Zamówienia",
     "reports": "Raporty",
     "scanner": "Skaner QR",
+    "scanQR": "Skanuj QR",
     "language": "Język interfejsu",
     "users": "Pracownicy",
     "cameras": "Ustawienia kamer",
@@ -113,7 +114,24 @@
     "download": "Pobierz",
     "share": "Udostępnij",
     "print": "Drukuj",
-    "dismiss": "Zamknij"
+    "dismiss": "Zamknij",
+    "tasks": {
+      "search": "Znajdź zadanie"
+    },
+    "orders": {
+      "search": "Znajdź porządek"
+    },
+    "directories": {
+        "add": "Dodaj katalog",
+        "edit": "Edytować katalog"
+    },
+    "users": {
+      "delete": "Czy jesteś pewien, że chcesz usunąć pracownika?",
+      "edit": "Edytować pracownika",
+      "add": "Dodaj pracownika",
+      "search": "Znajdź pracownika"
+    }
+    
   },
   "db": {
     "products": {
@@ -153,6 +171,7 @@
   "form": {
     "name": "Nazwa",
     "date": "Data",
+    "operationDate": "Data operacji",
     "duration": "Czas trwania",
     "namePlaceholder": "Wpisz nazwę",
     "selectOperation": "Wybierz operację",
@@ -259,17 +278,17 @@
     "displayedOperations": "Wyświetlane operacje"
   },
   "users": {
-    "username": "Nazwa użytkownika",
+    "username": "Zaloguj się przy logowaniu",
     "fullName": "Nazwisko Imię",
-    "firstName": "Imię",
-    "lastName": "Nazwisko",
+    "firstName": "Imię pracownika",
+    "lastName": "Nazwisko pracownika",
     "password": "Hasło",
     "newPassword": "Nowe hasło",
     "confirmPassword": "Potwierdź hasło",
-    "role": "Rola",
+    "role": "Rola pracownika",
     "workplace": "Miejsce pracy",
     "dateJoined": "Data dołączenia",
-    "settings": "Ustawienia użytkownika",
+    "settings": "Ustawienia pracownika",
     "info": "Informacje o pracowniku"
   },
   "scanner": {

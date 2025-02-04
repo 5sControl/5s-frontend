@@ -118,7 +118,7 @@ const {orderName} = location.state || "";
                 <InputReadonly label={t("orders.orderNumber")} value={String(timespan.orderOperation.orderItem.order.orderNumber)} />
                 <InputReadonly label={t("orders.orderYear")} value={String(timespan.orderOperation.orderItem.order.orderYear)} />
                 <InputReadonly label={t("orders.orderItem")} value={String(timespan.orderOperation.orderItem.name)} />
-                <InputReadonly label={t("form.date")} value={formatDate(startDateTime)} />
+                <InputReadonly label={t("form.operationDate")} value={formatDate(startDateTime)} />
                 <InputReadonly label={t("orders.startOperation")} value={extractTime(startDateTime)} />
                 <InputReadonly label={t("orders.finishOperation")} value={extractTime(finishDateTime)} />
                 <InputReadonly label={t("orders.operationTime")} value={`${hours} ${t("time.hour")} ${
