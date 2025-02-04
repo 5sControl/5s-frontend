@@ -4,7 +4,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useParams } from "react-router";
 import InputDate from "../../../components/inputs/inputDate/inputDate";
 import {
-  getTimeDifference,
   mergeDateAndTime,
   formatYMD,
   getCurrentDateTimeISO,
@@ -43,6 +42,7 @@ const EditTask: React.FC = () => {
   const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
   const [isDateChange, setIsDateChange] = useState<boolean>(false);
   const [startDateTime, setStartDateTime] = useState<string>("");
+  const [durationTime, setDurationTime] = useState<number>(0);
   const [isStart, setIsStart] = useState<boolean>(true);
   const [finishDateTime, setFinishDateTime] = useState<string>("");
   const [isSave, setSave] = useState<boolean>(true);
@@ -53,9 +53,7 @@ const EditTask: React.FC = () => {
   const history = useHistory();
   const startModalRef = useRef<HTMLIonModalElement>(null);
   const finishModalRef = useRef<HTMLIonModalElement>(null);
-
-  const seconds = getTimeDifference(finishDateTime, startDateTime);
-  const { hours, minutes } = formatTime(seconds);
+  const { hours, minutes } = formatTime(durationTime);
   
   useIonViewWillEnter(() => {
     timespanId && TIMESPAN_REQUEST.getTimespan(parseInt(timespanId, RADIX), setTimespan, setLoading, setToastMessage);
@@ -65,6 +63,7 @@ const EditTask: React.FC = () => {
     if (timespan) {
       timespan.startedAt && setStartDateTime(formatYMD(timespan.startedAt));
       timespan.finishedAt && setFinishDateTime(formatYMD(timespan.finishedAt));
+      setDurationTime(timespan?.duration ?? null)
     }
   }, [timespan]);
 
