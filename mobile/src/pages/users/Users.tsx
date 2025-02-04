@@ -74,6 +74,7 @@ const Users = () => {
         title={t("menu.users")}
         backButtonHref={ROUTES.MENU}
         searchBar={Boolean(items?.length)}
+        searchPlaceholder={t("operations.users.search")}
         searchText={searchText}
         onSearchChange={handleSetSearch}
       />

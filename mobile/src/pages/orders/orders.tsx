@@ -106,6 +106,7 @@ export const OrdersPage: React.FC = () => {
         backButtonHref={ROUTES.MENU}
         searchBar={Boolean(orders?.length)}
         searchText={searchText}
+        searchPlaceholder={t("operations.orders.search")}
         onSearchChange={handleSetSearch}
         endButton={<img src={Chart} alt="orders view" onClick={() => handleItemClick(ROUTES.ORDERSVIEW)} />}
       />
@@ -116,7 +117,7 @@ export const OrdersPage: React.FC = () => {
           </div>
         ) : (
           <>
-            <div className="segment-wrapper ion-padding">
+            <div className={"segment-wrapper ion-padding " + styles.statuses}>
               <IonSegment value={selectedStatus} onIonChange={handleStatusChange}>
                 <IonSegmentButton value={OPERATION_STATUS_ENUM.PENDING}>
                   <IonLabel>{t("orders.statusValues.pending")}</IonLabel>
@@ -129,9 +130,10 @@ export const OrdersPage: React.FC = () => {
                 </IonSegmentButton>
               </IonSegment>
             </div>
-            <IonList inset>
+            <IonList inset className={styles.ordersList}>
               {filteredOrders.map(item => (
                 <MenuListButton
+                  lines="none"
                   key={item.id}
                   title={concatOrderNumberName(item)}
                   handleItemClick={() => handleItemClick(ROUTES.ORDER(String(item.id)))}

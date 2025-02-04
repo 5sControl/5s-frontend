@@ -14,7 +14,6 @@ import { useHistory } from "react-router";
 export const CollectionCreateDynamic = () => {
 	const meta = directoriesMeta
 	const lang = i18n.language
-	const title = meta.translations && meta.translations[lang] || meta.label
 	const dispatch = useAppDispatch()
 	const history = useHistory();
 	const [newItems, setNewItems] = useState<Map<string, any>>(new Map())
@@ -70,7 +69,7 @@ export const CollectionCreateDynamic = () => {
 	return (
 		<IonPage>
 			<Header
-				title={title}
+				title={t("operations.directories.add")}
 				onBackClick={navigateBack}
 				backButtonHref={`/configuration/${meta.collection}`}
 			/>

@@ -142,7 +142,7 @@ const AddUser = () => {
 
   return (
     <IonPage>
-      <Header title={t("operations.add")} onBackClick={onNavigateBack} backButtonHref={ROUTES.USERS}></Header>
+      <Header title={t("operations.users.add")} onBackClick={onNavigateBack} backButtonHref={ROUTES.USERS}></Header>
       <IonContent>
         {loading ? (
           <div className="preloader">

@@ -109,7 +109,7 @@ const Order = () => {
 
   return (
     <IonPage color="light">
-      <Header title={order?.orderNumber} backButtonHref={ROUTES.ORDERS} />
+      <Header title={(order.orderNumber ?? "") + " " + (order.name ?? "")} backButtonHref={ROUTES.ORDERS} />
       <IonContent>
         {isLoading ? (
           <div className="preloader">

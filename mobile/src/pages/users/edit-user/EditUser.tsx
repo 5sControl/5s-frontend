@@ -171,7 +171,7 @@ const EditUser = () => {
 
   return (
     <IonPage>
-      <Header title={t("operations.edit")} onBackClick={onNavigateBack} backButtonHref={ROUTES.USER(id)}></Header>
+      <Header title={t("operations.users.edit")} onBackClick={onNavigateBack} backButtonHref={ROUTES.USER(id)}></Header>
       <IonContent>
         {loading ? (
           <div className="preloader">
