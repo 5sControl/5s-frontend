@@ -50,9 +50,9 @@ export const directoriesMeta: CollectionMeta = {
 			field: "name",
 			dataType: DataTypes.string,
 			translations: {
-				"en": "Name",
-				"pl": "Nazwa",
-				"ru": "Название"
+				"en": "Directory name",
+				"pl": "Nazwa katalogu",
+				"ru": "Название справочника"
 			},
 			label: "Name",
 			visible: true,

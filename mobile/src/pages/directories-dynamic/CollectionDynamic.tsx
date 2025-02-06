@@ -44,7 +44,7 @@ export const CollectionDynamic = () => {
 			<Header
 				title={t("menu.generalDirectories")}
 				backButtonHref={'/configuration'}
-				searchBar={true}
+				searchBar={!!data?.length}
 				searchText={searchText}
 				onSearchChange={onSearchChange}
 			/>

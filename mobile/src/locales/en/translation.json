@@ -56,12 +56,16 @@
     "name": "Name",
     "operations": {
       "title": "Operations",
-      "newOperation": "New Operation",
+      "name": "Operation name",
+      "newOperation": "Add an operation",
+      "edit": "Edit operation",
       "estimatedTime": "Estimated Time"
     },
     "items": {
       "title": "Items",
-      "newItem": "New Item"
+      "name": "Item name",
+      "newItem": "Add item",
+      "edit": "Edit item"
     },
     "employees": {
       "title": "Employees",
@@ -113,6 +117,7 @@
     "finish": "Finish",
     "saveChanges": "Save changes",
     "download": "Download",
+    "downloadReport": "Download report",
     "share": "Share",
     "print": "Print",
     "dismiss": "Dismiss",
@@ -123,11 +128,12 @@
       "search": "Find order"
     },
     "directories": {
+      "search": "Find directory",
       "add": "Add directory",
       "edit": "Edit directory"
     },
     "users": {
-      "delete": "Are you sure you want to delete the employee?",
+      "delete": "Are you sure you want to delete the employee",
       "edit": "Edit employee",
       "add": "Add employee",
       "search": "Find an employee"
@@ -221,7 +227,7 @@
     "namepPlace": "Name Place",
     "nameEquipment": "Name Equipment",
     "number": "N",
-    "name": "Name",
+    "name": "Order name",
     "status": "Status",
     "implementationTime": "Implementation Time",
     "startOperation": "Start of Operation",

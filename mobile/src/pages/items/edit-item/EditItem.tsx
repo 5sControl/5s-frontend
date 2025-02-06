@@ -81,7 +81,7 @@ const EditItem = () => {
 
   return (
     <IonPage>
-      <Header title={t("directory.edit")} onBackClick={handleBackClick} backButtonHref={ROUTES.ITEM(id)}></Header>
+      <Header title={t("directory.items.edit")} onBackClick={handleBackClick} backButtonHref={ROUTES.ITEM(id)}></Header>
       <IonContent>
         {loading ? (
           <div className="preloader">
@@ -90,7 +90,7 @@ const EditItem = () => {
         ) : (
           <SingleInputPage
             backHref={ROUTES.ITEM(id)}
-            label={t("directory.name")}
+            label={t("directory.items.name")}
             value={itemName}
             required
             handleChange={handleChangeInput}

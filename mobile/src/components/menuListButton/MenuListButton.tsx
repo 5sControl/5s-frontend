@@ -15,6 +15,7 @@ type MenuListButtonProps = {
   disabled?: boolean; 
   children?: ReactNode
   lines?: "none" | "full" | "inset"
+  detailIcon?: string
 };
 
 const MenuListButton = ({
@@ -29,7 +30,8 @@ const MenuListButton = ({
   errorMessage,
   disabled = false,
   children, 
-  lines
+  lines,
+  detailIcon
 }: MenuListButtonProps) => {
   const itemContent = (
     <IonItem
@@ -38,6 +40,7 @@ const MenuListButton = ({
       onClick={!disabled ? handleItemClick : undefined} 
       style={{ "--min-height": height }}
       className={`${state === "error" ? styles.error : ''} ${disabled ? styles.disabled : ''}`} 
+      {...(detailIcon ? {detailIcon} : {})}
     >
       {icon && <IonIcon icon={icon} />}
       {account ? (
@@ -46,7 +49,7 @@ const MenuListButton = ({
           {note && <p>{note}</p>}
         </IonLabel>
       ) : (
-        <IonLabel style={{padding: "0.5rem"}}>
+        <IonLabel style={{padding: "0.5rem 0"}}>
           {title}
           {children}
         </IonLabel>

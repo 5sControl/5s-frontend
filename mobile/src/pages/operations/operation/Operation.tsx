@@ -8,8 +8,10 @@ import { IonContent, IonPage, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { getOperation } from "../../../api/operations";
 import { IOperation } from "../../../models/interfaces/operation.interface";
+import { useTranslation } from "react-i18next";
 
 const Operation = () => {
+  const { t } = useTranslation();
   const [cookies] = useCookies(["token"]);
   const { id }: { id: string } = useParams();
   const [operation, setOperation] = useState<IOperation>();
@@ -40,6 +42,7 @@ const Operation = () => {
             <Card
               deleteCard={deleteCard}
               itemTitle={operation.name}
+              titleLabel={t("directory.operations.name")}
               backHref={ROUTES.OPERATIONS}
               editHref={ROUTES.OPERATION_EDIT(id)}
               showConfirmationModal={showConfirmationModal}

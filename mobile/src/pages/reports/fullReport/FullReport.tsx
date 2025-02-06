@@ -2,14 +2,15 @@ import { IonContent, IonItem, IonList, IonPage, useIonViewWillEnter } from "@ion
 import { Header } from "../../../components/header/Header";
 import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../../shared/constants/routes";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Preloader } from "../../../components/preloader/preloader";
 import MenuListButton from "../../../components/menuListButton/MenuListButton";
 import { useCookies } from "react-cookie";
-import { formatDateYMD } from "../../../utils/parseInputDate";
+import { formatDate, formatDateYMD } from "../../../utils/parseInputDate";
 import { getOrderReport, getReport } from "../../../api/reports";
 import File from "../../../components/file/File";
 import { useParams } from "react-router";
+import DownloadIcon from "../../../assets/svg/downloadIcon.svg";
 
 const FullReport = () => {
   const { t } = useTranslation();
@@ -18,6 +19,10 @@ const FullReport = () => {
   const [report, setReport] = useState();
   const [loading, setLoading] = useState(true);
   const { orderId }: { orderId?: string } = useParams();
+  const date = useMemo(() => {
+    const reportDate = localStorage.getItem("reportDate");
+    return reportDate ? JSON.parse(reportDate) : null;
+  }, []);
 
   const onPressDownload = async () => {
     try {
@@ -68,9 +73,7 @@ const FullReport = () => {
 
   useIonViewWillEnter(() => {
     setLoading(true);
-    const reportDate = localStorage.getItem("reportDate");
-    if (reportDate) {
-      const date = JSON.parse(reportDate);
+    if (date) {
       const startReportDate = formatDateYMD(date.startDate);
       const endReportDate = formatDateYMD(date.endDate);
       setReportName(`${startReportDate}_to_${endReportDate}${orderId ? "_assembly" : ""}.xlsx`);
@@ -114,9 +117,10 @@ const FullReport = () => {
           </div>
         ) : report ? (
           <>
+            <p className="ion-padding">{formatDate(date.startDate)} - {formatDate(date.endDate)}</p>
             <File fileName={reportName!} />
             <IonList inset={true}>
-              <MenuListButton title={t("operations.download")} handleItemClick={onPressDownload} />
+              <MenuListButton title={t("operations.downloadReport")} handleItemClick={onPressDownload} detailIcon={DownloadIcon}/>
               {/* <MenuListButton title={t("operations.share")} handleItemClick={onPressShare} /> 
               <MenuListButton title={t("operations.print")} handleItemClick={onPressPrint} /> */}
             </IonList>
