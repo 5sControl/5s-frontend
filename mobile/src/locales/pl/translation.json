@@ -55,12 +55,16 @@
     "name": "Nazwa",
     "operations": {
       "title": "Operacje",
-      "newOperation": "Nowa operacja",
+      "name": "Nazwa operacji",
+      "newOperation": "Dodaj operację",
+      "edit": "Edytuj operację",
       "estimatedTime": "Szacowany czas"
     },
     "items": {
       "title": "Przedmioty",
-      "newItem": "Nowy przedmiot"
+      "name": "Nazwa przedmiotu",
+      "newItem": "Dodaj przedmiot",
+      "edit": "Edytuj przedmiot"
     },
     "employees": {
       "title": "Pracownicy",
@@ -112,6 +116,7 @@
     "finish": "Zakończ",
     "saveChanges": "Zapisz zmiany",
     "download": "Pobierz",
+    "downloadReport": "Pobierz raport",
     "share": "Udostępnij",
     "print": "Drukuj",
     "dismiss": "Zamknij",
@@ -119,14 +124,15 @@
       "search": "Znajdź zadanie"
     },
     "orders": {
-      "search": "Znajdź porządek"
+      "search": "Znajdź zamówienie"
     },
     "directories": {
-        "add": "Dodaj katalog",
-        "edit": "Edytować katalog"
+      "search": "Znajdź katalog",
+      "add": "Dodaj katalog",
+      "edit": "Edytować katalog"
     },
     "users": {
-      "delete": "Czy jesteś pewien, że chcesz usunąć pracownika?",
+      "delete": "Czy jesteś pewien, że chcesz usunąć pracownika",
       "edit": "Edytować pracownika",
       "add": "Dodaj pracownika",
       "search": "Znajdź pracownika"
@@ -221,7 +227,7 @@
     "namepPlace": "Nazwa miejsca",
     "nameEquipment": "Nazwa sprzętu",
     "number": "N",
-    "name": "Nazwa",
+    "name": "Nazwa zamówienia",
     "status": "Status",
     "implementationTime": "Czas realizacji",
     "startOperation": "Początek operacji",

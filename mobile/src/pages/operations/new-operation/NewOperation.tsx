@@ -113,7 +113,7 @@ const NewOperation = () => {
         <SingleInputPage
           title={t("directory.operations.newOperation")}
           backHref={ROUTES.OPERATIONS}
-          label={t("directory.name")}
+          label={t("directory.operations.name")}
           value={operationName}
           required
           handleChange={handleChangeInput}

@@ -17,7 +17,7 @@ type RouteParams = {
 };
 
 export const CollectionItemDynamic = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const history = useHistory();
   const meta = directoriesMeta;
   const { id } = useParams<RouteParams>();
@@ -72,7 +72,7 @@ export const CollectionItemDynamic = () => {
               return (
                 <InputReadonly
                   key={field.field}
-                  label={t(`form.${field.label?.toLocaleLowerCase()}`) ?? data[field.field]}
+                  label={field.translations?.[i18n.language] ?? data[field.field]}
                   value={data[field.field]}
                 />
               );

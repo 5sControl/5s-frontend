@@ -179,7 +179,7 @@ const EditUser = () => {
           </div>
         ) : (
             <>
-            <div style={{height: '80vh', overflow: 'scroll', paddingBottom: "20px"}}>
+            <div style={{height: "calc(100vh - 150px)", overflow: 'scroll', paddingBottom: "20px"}}>
               <div className={styles.section}>
                 <IonNote className={`ion-padding ${styles.sectionNote}`}>
                   {t("users.settings")}

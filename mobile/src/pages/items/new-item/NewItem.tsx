@@ -73,7 +73,7 @@ const NewItem = () => {
         <SingleInputPage
           title={t("directory.items.newItem")}
           backHref={ROUTES.ITEMS}
-          label={t("directory.name")}
+          label={t("directory.items.name")}
           value={itemName}
           required
           handleChange={handleChangeInput}

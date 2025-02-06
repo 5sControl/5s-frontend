@@ -149,96 +149,116 @@ const AddUser = () => {
             <Preloader />
           </div>
         ) : (
-            <>
-            <div style={{height: '80vh', overflow: 'scroll', paddingBottom: "20px"}}>
+          <>
+            <div style={{ height: "calc(100vh - 150px)", overflow: "scroll", paddingBottom: "20px" }}>
               <div className={styles.section}>
-                <IonNote className={`ion-padding ${styles.sectionNote}`}>
-                  {t("users.settings")}
-                </IonNote>
+                <IonNote className={`ion-padding ${styles.sectionNote}`}>{t("users.settings")}</IonNote>
 
-                <Input 
-                    label={t("users.username")} 
-                    value={user?.username || ""} 
-                    required 
-                    handleChange={event => setUser({ ...user, username: event.target.value })}
-                    state={highlightRequired && (!user.username || isInvalidText(user.username, {numbers: true}) || userExists) ? "error" : "neutral" }
-                    errorMessage={isInvalidText(user.username, {numbers: true}) ? t("form.invalidCharacters") : userExists ? t("messages.employeeExists") : t("form.required")}
-                    maxLength={30}/>
-                <Input 
-                    label={t("users.password")} 
-                    value={user?.password || ""} 
-                    type="password" 
-                    required 
-                    handleChange={event => setUser({ ...user, password: event.target.value })}
-                    state={highlightRequired && user.password.length < minPasswordLength ? "error" : "neutral" }
-                    errorMessage={t("form.passwordLength")}
-                    autocomplete="new-password" />
-                <Input 
-                    label={"Email"} 
-                    value={user?.email || ""} 
-                    required 
-                    handleChange={event => setUser({ ...user, email: event.target.value })}
-                    state={highlightRequired && (!user.email || !isValidEmail(user.email) || userExists) ? "error" : "neutral" }
-                    errorMessage={userExists ? t("messages.employeeExists") : (!isValidEmail(user.email) ? t("form.invalidEmail") : t("form.required"))}
-                    maxLength={30}/>
-
+                <Input
+                  label={t("users.username")}
+                  value={user?.username || ""}
+                  required
+                  handleChange={event => setUser({ ...user, username: event.target.value })}
+                  state={
+                    highlightRequired &&
+                    (!user.username || isInvalidText(user.username, { numbers: true }) || userExists)
+                      ? "error"
+                      : "neutral"
+                  }
+                  errorMessage={
+                    isInvalidText(user.username, { numbers: true })
+                      ? t("form.invalidCharacters")
+                      : userExists
+                      ? t("messages.employeeExists")
+                      : t("form.required")
+                  }
+                  maxLength={30}
+                />
+                <Input
+                  label={t("users.password")}
+                  value={user?.password || ""}
+                  type="password"
+                  required
+                  handleChange={event => setUser({ ...user, password: event.target.value })}
+                  state={highlightRequired && user.password.length < minPasswordLength ? "error" : "neutral"}
+                  errorMessage={t("form.passwordLength")}
+                  autocomplete="new-password"
+                />
+                <Input
+                  label={"Email"}
+                  value={user?.email || ""}
+                  required
+                  handleChange={event => setUser({ ...user, email: event.target.value })}
+                  state={
+                    highlightRequired && (!user.email || !isValidEmail(user.email) || userExists) ? "error" : "neutral"
+                  }
+                  errorMessage={
+                    userExists
+                      ? t("messages.employeeExists")
+                      : !isValidEmail(user.email)
+                      ? t("form.invalidEmail")
+                      : t("form.required")
+                  }
+                  maxLength={30}
+                />
               </div>
               <div className={styles.section}>
-                <IonNote className={`ion-padding ${styles.sectionNote}`}>
-                  {t("users.info")}
-                </IonNote>
+                <IonNote className={`ion-padding ${styles.sectionNote}`}>{t("users.info")}</IonNote>
 
-                <Input 
-                    label={t("users.lastName")} 
-                    value={user?.last_name || ""} 
-                    required 
-                    handleChange={event => setUser({ ...user, last_name: event.target.value })}
-                    state={highlightRequired && (!user.last_name || isInvalidText(user.last_name)) ? "error" : "neutral" }
-                    errorMessage={isInvalidText(user.last_name) ? t("form.invalidCharacters") : t("form.required")}
-                    maxLength={30}
-                    type="text"/>
-                <Input 
-                    label={t("users.firstName")} 
-                    value={user?.first_name || ""} 
-                    required 
-                    handleChange={event => setUser({ ...user, first_name: event.target.value })}
-                    state={highlightRequired && (!user.first_name || isInvalidText(user.first_name)) ? "error" : "neutral" }
-                    errorMessage={isInvalidText(user.first_name) ? t("form.invalidCharacters") : t("form.required")}
-                    maxLength={30}
-                    type="text"/>
-                
-                <Select value={!customRole ? t("users.role") : user.role} placeholder={!customRole ? t("users.role") : user.role} selectList={roles} handleChange={event => {
+                <Input
+                  label={t("users.lastName")}
+                  value={user?.last_name || ""}
+                  required
+                  handleChange={event => setUser({ ...user, last_name: event.target.value })}
+                  state={highlightRequired && (!user.last_name || isInvalidText(user.last_name)) ? "error" : "neutral"}
+                  errorMessage={isInvalidText(user.last_name) ? t("form.invalidCharacters") : t("form.required")}
+                  maxLength={30}
+                  type="text"
+                />
+                <Input
+                  label={t("users.firstName")}
+                  value={user?.first_name || ""}
+                  required
+                  handleChange={event => setUser({ ...user, first_name: event.target.value })}
+                  state={
+                    highlightRequired && (!user.first_name || isInvalidText(user.first_name)) ? "error" : "neutral"
+                  }
+                  errorMessage={isInvalidText(user.first_name) ? t("form.invalidCharacters") : t("form.required")}
+                  maxLength={30}
+                  type="text"
+                />
+
+                <Select
+                  value={!customRole ? t("users.role") : user.role}
+                  placeholder={!customRole ? t("users.role") : user.role}
+                  selectList={roles}
+                  handleChange={event => {
                     setUser({ ...user, role: event.target.value });
-                    setCustomRole(true)}   
-                }/>
-                
-                {
-                  user.role === ROLE.WORKER &&
+                    setCustomRole(true);
+                  }}
+                />
+
+                {user.role === ROLE.WORKER && (
                   <IonList inset={true}>
-                    <MenuListButton 
-                      title={selectedWorkplace?.name || t("users.workplace")} 
+                    <MenuListButton
+                      title={selectedWorkplace?.name || t("users.workplace")}
                       handleItemClick={navigateWorkplaceClick}
                       // state={highlightRequired && !selectedWorkplace && user.role === ROLE.WORKER ? "error" : "neutral"}
                       // errorMessage={t("form.selectWorkplace")}
                     />
-                </IonList>
-                }
+                  </IonList>
+                )}
+              </div>
 
-              </div> 
-
-                <IonToast
+              <IonToast
                 isOpen={!!toastMessage}
                 message={toastMessage || undefined}
                 duration={TOAST_DELAY}
                 onDidDismiss={() => setToastMessage("")}
-                />
-</div>
-                <BottomButton
-                handleClick={openModal}
-                label={t("operations.save")}
-                disabled={!isChanged}
               />
-            </>
+            </div>
+            <BottomButton handleClick={openModal} label={t("operations.save")} disabled={!isChanged} />
+          </>
         )}
       </IonContent>
       <ConfirmationModal

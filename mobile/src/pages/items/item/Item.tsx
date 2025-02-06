@@ -46,6 +46,7 @@ const Item = () => {
           <Card
             deleteCard={deleteCard}
             itemTitle={item.name}
+            titleLabel={t("directory.items.name")}
             backHref={ROUTES.ITEMS}
             editHref={ROUTES.ITEM_EDIT(id)}
             showConfirmationModal={showConfirmationModal}
