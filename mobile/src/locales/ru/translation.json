@@ -120,6 +120,12 @@
     "share": "Поделиться",
     "print": "Распечатать",
     "dismiss": "Скрыть",
+    "operations": {
+      "search": "Найти операцию"
+    },
+    "items": {
+      "search": "Найти узел"
+    },
     "tasks": {
       "search": "Найти задачу"
     },
@@ -226,7 +232,7 @@
     "namepPlace": "Название места",
     "nameEquipment": "Название оборудования",
     "number": "N",
-    "name": "Название заказа",
+    "name": "Название",
     "status": "Статус",
     "implementationTime": "Время выполнения",
     "startOperation": "Начало операции",

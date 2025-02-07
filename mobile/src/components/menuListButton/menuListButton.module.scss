@@ -3,6 +3,10 @@
   border-radius: 5px;
 }
 
+ion-item:hover {
+    --ion-item-background: #f8f8f8;
+}
+
 .footer {
   margin-top: .2rem;
   width: 100%;
