@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { authorizationRequest } from "../../api/authorization";
-import { Input } from "../inputs/input/Input";
+import { Input } from "../../components/inputs/input/Input";
 
 import { FiveS } from "../../assets/svg/SVGcomponent";
 import logo from "../../assets/svg/icon.svg";
@@ -11,6 +11,9 @@ import { useTranslation } from "react-i18next";
 import { getCurrentUserInfo } from "../../api/users";
 import { setUserRole } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
+import { ROUTES } from "../../shared/constants/routes";
+import { Link } from "react-router-dom";
+import { IonContent, IonPage } from "@ionic/react";
 
 export const Authorization = () => {
   const dispatch = useDispatch();
@@ -72,40 +75,49 @@ export const Authorization = () => {
   };
 
   return (
-    <div className="authorization">
-      <img className="authorization__logo" src={FiveS} />
-      <h2 className="authorization__title">{`${t("form.auth.signin")} 5S Control`}</h2>
-      <div className="authorization__container">
-        <Input
-          label={t('form.auth.login')}
-          bold={false}
-          value={email}
-          required={true}
-          type="text"
-          placeholder={t("form.auth.loginPlaceholder")}
-          state={errorResponse ? "error" : "neutral"}
-          handleChange={e => setEmail(e.target.value)}
-        />
-        <Input
-          label={t('form.auth.pwd')}
-          bold={false}
-          value={password}
-          required={true}
-          type="password"
-          placeholder={t("form.auth.pwdPlaceholder")}
-          state={errorResponse ? "error" : "neutral"}
-          handleChange={e => {
-            setPassword(e.target.value);
-            setErrorPassword(false);
-          }}
-          onKeyDown={e => pressEnter(e)}
-        />
-        {errorResponse && <span className="authorization__error_response">{t("messages.incorrectCredentials")}</span>}
-        {errorPassword && <span className="authorization__error_password">{t("form.required")}</span>}
-        <button className={"authorization__button"} onClick={post}>
-          {t("form.auth.submit")}
-        </button>
-      </div>
-    </div>
+    <IonPage>
+      <IonContent>
+        <div className="authorization">
+          <img className="authorization__logo" src={FiveS} />
+          <h2 className="authorization__title">{`${t("form.auth.signin")} 5S Control`}</h2>
+          <div className="authorization__container">
+            <Input
+              label={t("form.auth.login")}
+              bold={false}
+              value={email}
+              required={true}
+              type="text"
+              placeholder={t("form.auth.loginPlaceholder")}
+              state={errorResponse ? "error" : "neutral"}
+              handleChange={e => setEmail(e.target.value)}
+            />
+            <Input
+              label={t("form.auth.pwd")}
+              bold={false}
+              value={password}
+              required={true}
+              type="password"
+              placeholder={t("form.auth.pwdPlaceholder")}
+              state={errorResponse ? "error" : "neutral"}
+              handleChange={e => {
+                setPassword(e.target.value);
+                setErrorPassword(false);
+              }}
+              onKeyDown={e => pressEnter(e)}
+            />
+            <Link className="authorization__password-recovery-link" to={ROUTES.RECOVER_PASSWORD}>
+              {t("form.auth.forgotPassword")}
+            </Link>
+            {errorResponse && (
+              <span className="authorization__error_response">{t("messages.incorrectCredentials")}</span>
+            )}
+            {errorPassword && <span className="authorization__error_password">{t("form.required")}</span>}
+            <button className={"authorization__button"} onClick={post}>
+              {t("form.auth.submit")}
+            </button>
+          </div>
+        </div>
+      </IonContent>
+    </IonPage>
   );
 };

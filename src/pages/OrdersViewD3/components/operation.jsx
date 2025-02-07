@@ -27,7 +27,7 @@ export const Operation = ({ content, x, y, onClose, setOperationOV }) => {
             setOperation({
               data: {
                 ...content.buf,
-                video: res.data,
+                videos: [res.data],
               }
             })
           })
@@ -56,24 +56,43 @@ export const Operation = ({ content, x, y, onClose, setOperationOV }) => {
     fetchVideo();
   }, [content]);
 
-  const operationClickHandler = () => {
-    setOperationOV(operation);
+  const operationClickHandler = (video) => () => {
+    setOperationOV({
+      ...operation,
+      video
+    });
   };
 
+  const videos = operation?.videos?.filter(video => !!video.status);
+
   return (
-    <div className={styles.operation} style={{ top: y, left: x }} ref={refOperation}>
+    <div
+      className={styles.operation}
+      style={{ top: y, left: x }}
+      ref={refOperation}
+    >
       {operation.algorithm && (
-        <span className={styles.name}>{parsingAlgorithmName(operation.algorithm)}</span>
+        <span className={styles.name}>
+          {parsingAlgorithmName(operation.algorithm)}
+        </span>
       )}
-      {operation.oprName && <span className={styles.name}>{operation.oprName}</span>}
+      {operation.oprName && (
+        <span className={styles.name}>{operation.oprName}</span>
+      )}
       <div>
         {loading ? (
           <span className={styles.loading}>Loading...</span>
-        ) : operation.video && operation.video.status ? (
-          <span onClick={operationClickHandler} className={styles.video}>
-            <VideoCamera width='16px' color='#fe6100' />
-            &nbsp; Open Video
-          </span>
+        ) : videos?.length ? (
+          videos.map((video, index) => (
+            <span
+              onClick={operationClickHandler(video)}
+              className={styles.video}
+              key={index}
+            >
+              <VideoCamera width="16px" color="#fe6100" />
+              &nbsp; Open Video
+            </span>
+          ))
         ) : (
           <span className={styles.noVideo}>
             <NoVideo />
@@ -82,17 +101,29 @@ export const Operation = ({ content, x, y, onClose, setOperationOV }) => {
         )}
       </div>
       {operation.cameraName && (
-        <span className={styles.name}>{parsingAlgorithmName(operation.cameraName)}</span>
+        <span className={styles.name}>
+          {parsingAlgorithmName(operation.cameraName)}
+        </span>
       )}
       {operation.frsName && operation.lstName && (
-        <span className={styles.name}>{`${operation.frsName} ${operation.lstName}`}</span>
+        <span
+          className={styles.name}
+        >{`${operation.frsName} ${operation.lstName}`}</span>
       )}
-      <span className={styles.respTime}>{`${moment(operation.sTime).format('HH:mm:ss')} (${duration})`}</span>
-      <span><a href={operation.url} className={styles.link}>Additional</a></span>
+      <span className={styles.respTime}>{`${moment(operation.sTime).format(
+        "HH:mm:ss"
+      )} (${duration})`}</span>
+      <span>
+        <a href={operation.url} className={styles.link}>
+          Additional
+        </a>
+      </span>
       <span className={styles.status}>
-        {operation.status === null && <QuestionSquere color={'var(--LowEmphasis)'} />}
-        {operation.status && <CheckCircle color={'var(--Green)'} />}
-        {operation.status === false && <Error color={'var(--Red)'} />}
+        {operation.status === null && (
+          <QuestionSquere color={"var(--LowEmphasis)"} />
+        )}
+        {operation.status && <CheckCircle color={"var(--Green)"} />}
+        {operation.status === false && <Error color={"var(--Red)"} />}
       </span>
     </div>
   );

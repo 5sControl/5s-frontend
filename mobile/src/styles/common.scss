@@ -104,6 +104,7 @@ ion-button.bottom-50 {
   padding: 0 16px;
   position: fixed;
   bottom: 50px;
+  z-index: 3;
 }
 
 .card__wrapper {
@@ -175,7 +176,7 @@ ion-datetime {
   padding-bottom: 0;
 
   ion-segment {
-    --background: #7878801f;
+    --background: #E0E0E0;
   }
 
   ion-segment-button::part(indicator-background) {

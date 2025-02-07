@@ -68,7 +68,7 @@ const Scanner = () => {
 
   return (
     <IonPage>
-      <Header title={t("menu.scanner")} backButtonHref={ROUTES.MENU} />
+      <Header title={t("menu.scanQR")} backButtonHref={ROUTES.MENU} />
       <IonContent className="ion-padding">
         {/* <Html5QrcodePlugin fps={10} qrbox={250} disableFlip={false} qrCodeSuccessCallback={onNewScanResult} /> */}
         <QrCode qrCodeSuccessCallback={onNewScanResult} />

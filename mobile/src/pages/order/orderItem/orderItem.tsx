@@ -31,6 +31,7 @@ const OrderItem = () => {
   const [orderItemName, setOrderItemName] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
 
   useIonViewWillEnter(() => {
@@ -78,10 +79,26 @@ const OrderItem = () => {
     [timespans]
   );
 
+  const filteredRows = useMemo(
+    () =>
+      tableItems.filter(
+        row => row.values[1] && row.values[1].toString().toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
+      ),
+    [searchText, tableItems]
+  );
+
+  console.log(searchText);
   return (
     <IonPage>
       <>
-        <Header title={operationId ? operation?.name : orderItemName} backButtonHref={ROUTES.ORDER(String(orderId))} />
+        <Header
+          title={operationId ? operation?.name : orderItemName}
+          backButtonHref={ROUTES.ORDER(String(orderId))}
+          searchBar={!!tableItems?.length}
+          searchPlaceholder={t("operations.users.search")}
+          searchText={searchText}
+          onSearchChange={(value) => setSearchText(value)}
+        />
         <IonContent>
           {isLoading ? (
             <div className="preloader">
@@ -100,7 +117,7 @@ const OrderItem = () => {
                         { label: t("orders.time"), size: 3 },
                         { label: t("orders.date"), size: 4 },
                       ]}
-                      rows={tableItems}
+                      rows={filteredRows}
                     />
                     <IonToast
                       isOpen={!!toastMessage}

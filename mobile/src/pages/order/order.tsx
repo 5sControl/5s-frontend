@@ -109,7 +109,7 @@ const Order = () => {
 
   return (
     <IonPage color="light">
-      <Header title={order?.orderNumber} backButtonHref={ROUTES.ORDERS} />
+      <Header title={(order.orderNumber ?? "") + " " + (order.name ?? "")} backButtonHref={ROUTES.ORDERS} />
       <IonContent>
         {isLoading ? (
           <div className="preloader">
@@ -119,7 +119,7 @@ const Order = () => {
           <>
             {/* {isLoaded && ( */}
             <>
-              <InputReadonly label={t("orders.name")} value={order?.name || "-"} />
+              <InputReadonly label={t("orders.orderName")} value={order?.name || "-"} />
               <InputReadonly
                 label={t("orders.estimatedAt")}
                 value={order?.estimatedAt ? formatDate(order?.estimatedAt) : "-"}

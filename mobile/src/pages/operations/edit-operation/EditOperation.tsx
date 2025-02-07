@@ -113,7 +113,7 @@ const EditDirectoryCard = () => {
 
   return (
     <IonPage>
-      <Header title={t("directory.edit")} onBackClick={handleBackClick} backButtonHref={ROUTES.OPERATION(id)}></Header>
+      <Header title={t("directory.operations.edit")} onBackClick={handleBackClick} backButtonHref={ROUTES.OPERATION(id)}></Header>
       <IonContent>
         {loading ? (
           <div className="preloader">
@@ -123,7 +123,7 @@ const EditDirectoryCard = () => {
           <>
             <SingleInputPage
               backHref={ROUTES.OPERATION(id)}
-              label={t("directory.name")}
+              label={t("directory.operations.name")}
               value={operationName}
               required
               handleChange={handleChangeOperationName}

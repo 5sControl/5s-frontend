@@ -15,6 +15,7 @@ import "./Menu.scss";
 import { Preloader } from "../../components/preloader/preloader";
 import { ITimespan } from "../../models/interfaces/orders.interface";
 import { TIMESPAN_REQUEST } from "../../dispatcher";
+import { API_BASE_URL, APP_VERSION } from "../../config";
 
 export const Menu: React.FC = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
@@ -103,7 +104,7 @@ export const Menu: React.FC = () => {
               <IonList inset={true}>
                 <MenuListButton title={t("menu.scanner")} handleItemClick={() => handleItemClick(ROUTES.SCANNER_QR)} disabled={workInProgress}/>
                 <div className="my-work-btn"> 
-                  <MenuListButton title={t("menu.myTasks")} handleItemClick={() => handleItemClick(ROUTES.ORDER_TIMESPAN(String(timespans[0]?.orderOperation.orderItem?.order?.id), String(timespans[0]?.orderOperation.orderItem?.id), String(timespans[0]?.orderOperation?.id)))} disabled={!workInProgress}/>
+                  <MenuListButton lines="none" title={t("menu.myTasks")} handleItemClick={() => handleItemClick(ROUTES.EMPLOYEE_TASKS(user.id))}/>
                   <div className={"status " + (workInProgress ? "work" : "no-work")}>{workInProgress ? t("menu.workStatus.workInProgress") : t("menu.workStatus.noWork")}</div>
                 </div>
               </IonList>
@@ -113,7 +114,7 @@ export const Menu: React.FC = () => {
               <MenuListButton title={t("menu.language")} handleItemClick={() => handleItemClick(ROUTES.LANGUAGE)} />
             </IonList>
             <IonFooter className="footer">
-              <IonText>Version 0.8</IonText>
+              <IonText>{`Version ${APP_VERSION}`}</IonText>
             </IonFooter>
           </>
         ) : (
