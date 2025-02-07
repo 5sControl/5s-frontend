@@ -45,6 +45,7 @@ export const CollectionDynamic = () => {
 				title={t("menu.generalDirectories")}
 				backButtonHref={'/configuration'}
 				searchBar={!!data?.length}
+				searchPlaceholder={t("operations.directories.search")}
 				searchText={searchText}
 				onSearchChange={onSearchChange}
 			/>

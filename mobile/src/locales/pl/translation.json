@@ -120,6 +120,12 @@
     "share": "Udostępnij",
     "print": "Drukuj",
     "dismiss": "Zamknij",
+    "operations": {
+        "search": "Znajdź operację"
+    },
+    "items": {
+        "search": "Znajdź przedmiot"
+    },
     "tasks": {
       "search": "Znajdź zadanie"
     },
@@ -227,7 +233,7 @@
     "namepPlace": "Nazwa miejsca",
     "nameEquipment": "Nazwa sprzętu",
     "number": "N",
-    "name": "Nazwa zamówienia",
+    "name": "Nazwa",
     "status": "Status",
     "implementationTime": "Czas realizacji",
     "startOperation": "Początek operacji",
