@@ -5,6 +5,7 @@ export type VideoDataStatus = {
     file_name: string;
     camera_ip?: string;
     video_start_from?: number;
+    playlist: string;
 };
 
 export type OrderDetail = {
