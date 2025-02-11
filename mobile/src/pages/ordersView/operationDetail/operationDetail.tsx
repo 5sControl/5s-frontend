@@ -14,8 +14,11 @@ import { useHistory, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useState } from "react";
 import { getOrderViewOperation } from "../../../api/ordersView";
-import moment from "moment";
 import { GreenStatus, GreyStatus } from "../../../assets/svg/SVGcomponent";
+import { useRef, useState } from "react";
+import { getOrderViewOperation } from "../../../api/ordersView";
+import moment from "moment";
+import { GreenStatus, GreyStatus, Download } from "../../../assets/svg/SVGcomponent";
 import "./operationDetail.scss";
 import { Preloader } from "../../../components/preloader/preloader";
 import "../../../styles/common.scss";
@@ -28,7 +31,7 @@ import HlsVideoPlayer from "../../../components/hlsVideoPlayer/HlsVideoPlayer";
 
 export const OperationDetail = () => {
   const [cookies] = useCookies(["token"]);
-  const { orderId, itemId, operationId, timespanId, cameraId } = useParams<{
+  const { timespanId, cameraId } = useParams<{
     orderId: string;
     itemId: string;
     operationId: string;
@@ -79,11 +82,12 @@ export const OperationDetail = () => {
   };
 
   const backHandler = () => {
-    if (orderId && itemId && operationId) {
-      history.push(ROUTES.ORDER_TIMESPAN_CAMERAS(orderId, itemId, operationId, timespanId), { direction: "back" });
-      return;
-    }
-    history.push(ROUTES.ORDERSVIEW, { direction: "back" });
+    history.go(-1);
+    // if (orderId && itemId && operationId) {
+    //   history.push(ROUTES.ORDER_TIMESPAN_CAMERAS(orderId, itemId, operationId, timespanId), { direction: "back" });
+    //   return;
+    // }
+    // history.push(ROUTES.ORDERSVIEW, { direction: "back" });
   };
 
   return (
