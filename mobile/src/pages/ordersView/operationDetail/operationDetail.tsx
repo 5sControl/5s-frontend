@@ -1,3 +1,4 @@
+import { ROUTES } from "../../../shared/constants/routes";
 import {
   IonButton,
   IonButtons,
@@ -11,6 +12,9 @@ import {
 } from "@ionic/react";
 import { useHistory, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { useState } from "react";
+import { getOrderViewOperation } from "../../../api/ordersView";
+import { GreenStatus, GreyStatus } from "../../../assets/svg/SVGcomponent";
 import { useRef, useState } from "react";
 import { getOrderViewOperation } from "../../../api/ordersView";
 import moment from "moment";
@@ -18,11 +22,12 @@ import { GreenStatus, GreyStatus, Download } from "../../../assets/svg/SVGcompon
 import "./operationDetail.scss";
 import { Preloader } from "../../../components/preloader/preloader";
 import "../../../styles/common.scss";
-import ReactPlayer from "react-player";
 import { OrderDetail } from "../../../models/interfaces/ordersView.interface";
 import { arrowBack } from "ionicons/icons";
+import { Download } from "../../../assets/svg/SVGcomponent";
 import { downloadFile } from "../../../utils/downloadFile";
 import { API_BASE_URL } from "../../../config";
+import HlsVideoPlayer from "../../../components/hlsVideoPlayer/HlsVideoPlayer";
 
 export const OperationDetail = () => {
   const [cookies] = useCookies(["token"]);
@@ -36,8 +41,6 @@ export const OperationDetail = () => {
   const [detail, setDetail] = useState<OrderDetail>({} as OrderDetail);
   const [duration, setDuration] = useState("");
   const [loading, setLoading] = useState(true);
-  const playerRef = useRef<any>(null);
-  const [isReady, setIsReady] = useState(false);
   const [videoIndex, setVideoIndex] = useState<number>(0);
   const history = useHistory();
   const [noVideo, setNoVideo] = useState(false);
@@ -75,16 +78,6 @@ export const OperationDetail = () => {
       const videoUrl = `${API_BASE_URL}${detail?.videos[index].file_name}`;
 
       downloadFile(videoUrl, detail.videos[index].file_name);
-    }
-  };
-
-  const handlePlay = (index = 0) => {
-    if (detail) {
-      if (!isReady) {
-        const timeToStart = (detail?.videos[index].video_start_from || 0) / 1000;
-        playerRef.current.seekTo(timeToStart, "seconds");
-        setIsReady(true);
-      }
     }
   };
 
@@ -139,22 +132,9 @@ export const OperationDetail = () => {
                   <img src={detail.status === null ? GreyStatus : GreenStatus} />
                 </div>
               </div>
-
-                <ReactPlayer
-                ref={playerRef}
-                width="100%"
-                height="100%"
-                playing={true}
-                volume={0.9}
-                controls={true}
-                preload="auto"
-                config={{
-                  file: {
-                    forceVideo: true,
-                  },
-                }}
-                url={`${API_BASE_URL}${detail?.videos[videoIndex]?.file_name}`}
-                onReady={() => handlePlay(videoIndex)}
+              <HlsVideoPlayer
+                base64Playlist={detail?.videos[videoIndex]?.playlist}
+                timeToStart={(detail?.videos[videoIndex].video_start_from || 0) / 1000}
               />
               </>
           }
