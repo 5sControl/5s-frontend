@@ -42,6 +42,7 @@ const OrderReport = () => {
         title={t("reports.orderDetails")}
         backButtonHref={ROUTES.REPORTS}
         searchBar={Boolean(orders?.length)}
+        searchPlaceholder={t("operations.orders.search")}
         searchText={searchText}
         onSearchChange={handleSetSearch}
       />

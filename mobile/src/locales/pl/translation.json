@@ -10,6 +10,7 @@
     "orders": "Zamówienia",
     "reports": "Raporty",
     "scanner": "Skaner QR",
+    "scanQR": "Skanuj QR",
     "language": "Język interfejsu",
     "users": "Pracownicy",
     "cameras": "Ustawienia kamer",
@@ -38,13 +39,13 @@
     "incorrectCredentials": "Nieprawidłowy email lub hasło. Spróbuj ponownie.",
     "orderName": "Utwórz nazwę zamówienia i spróbuj ponownie",
     "validDate": "Proszę ustawić poprawną datę początkową.",
-    "startTime": "Czas rozpoczęcia nie może być większy niż czas zakończenia",
-    "finishDate": "Data zakończenia nie może być wcześniejsza niż data rozpoczęcia.",
-    "timespanLimit": "Data nie może pochodzić z przyszłości.",
+    "startTime": "Czas rozpoczęcia nie może być późniejsza niż czas zakończenia",
+    "finishDate": "Czas zakończenia nie może być wcześniejszy niż czas rozpoczęcia",
+    "timespanLimit": "Czas nie może pochodzić z przyszłości.",
     "saveData": "Proszę zapisać swoje dane!",
     "employeeNotFound": "Pracownik nie został znaleziony",
     "validLength": "Osiągnięto maksymalną długość tekstu",
-    "employeeExists": "Pracownik o tym samym nazwisku już istnieje"
+    "employeeExists": "Pracownik o tym samym nazwisku lub adresie e-mail już istnieje"
   },
   "directory": {
     "newDirectory": "Nowy katalog",
@@ -54,12 +55,16 @@
     "name": "Nazwa",
     "operations": {
       "title": "Operacje",
-      "newOperation": "Nowa operacja",
+      "name": "Nazwa operacji",
+      "newOperation": "Dodaj operację",
+      "edit": "Edytuj operację",
       "estimatedTime": "Szacowany czas"
     },
     "items": {
       "title": "Przedmioty",
-      "newItem": "Nowy przedmiot"
+      "name": "Nazwa przedmiotu",
+      "newItem": "Dodaj przedmiot",
+      "edit": "Edytuj przedmiot"
     },
     "employees": {
       "title": "Pracownicy",
@@ -85,6 +90,7 @@
     "name": "nazwa",
     "ordersView": "Widok zamówień",
     "products": "Produkty",
+    "tasks": "Zadania",
     "scheduled": "Pokaż zaplanowany czas",
     "startTime": "Czas rozpoczęcia",
     "datePlaceholder": "Wybierz datę i czas rozpoczęcia",
@@ -110,9 +116,34 @@
     "finish": "Zakończ",
     "saveChanges": "Zapisz zmiany",
     "download": "Pobierz",
+    "downloadReport": "Pobierz raport",
     "share": "Udostępnij",
     "print": "Drukuj",
-    "dismiss": "Zamknij"
+    "dismiss": "Zamknij",
+    "operations": {
+        "search": "Znajdź operację"
+    },
+    "items": {
+        "search": "Znajdź przedmiot"
+    },
+    "tasks": {
+      "search": "Znajdź zadanie"
+    },
+    "orders": {
+      "search": "Znajdź zamówienie"
+    },
+    "directories": {
+      "search": "Znajdź katalog",
+      "add": "Dodaj katalog",
+      "edit": "Edytować katalog"
+    },
+    "users": {
+      "delete": "Czy jesteś pewien, że chcesz usunąć pracownika",
+      "edit": "Edytować pracownika",
+      "add": "Dodaj pracownika",
+      "search": "Znajdź pracownika"
+    }
+    
   },
   "db": {
     "products": {
@@ -152,6 +183,7 @@
   "form": {
     "name": "Nazwa",
     "date": "Data",
+    "operationDate": "Data operacji",
     "duration": "Czas trwania",
     "namePlaceholder": "Wpisz nazwę",
     "selectOperation": "Wybierz operację",
@@ -162,13 +194,29 @@
       "loginPlaceholder": "Wprowadź nazwę użytkownika",
       "pwdPlaceholder": "Wprowadź hasło",
       "pwd": "Hasło",
-      "submit": "Zaloguj się"
+      "submit": "Zaloguj się",
+      "continue": "Kontynuować",
+      "back": "Z powrotem",
+      "requestCodeAgain": "Poproś o kod ponownie",
+      "forgotPassword": "Zapomniałeś hasła?",
+      "enterEmail": "Podaj swój adres e-mail, aby otrzymać kod weryfikacyjny!",
+      "enterCode": "Proszę wprowadzić 6-cyfrowy kod!",
+      "requestANewCodeIn": "Poproś o nowy kod poprzez",
+      "enterPassword": "Wprowadź nowe hasło do swojego konta!",
+      "successful": "Udany!",
+      "passwordChanged": "Gratulacje! Twoje hasło zostało zmienione. Kliknij Kontynuować, aby się zalogować",
+      "emailNotFound": "Nie znaleziono użytkownika o tym adresie e-mail",
+      "invalidCode": "Nieprawidłowy kod",
+      "failedUpdatePassword": "Nie udało się zaktualizować hasła"
     },
     "required": "To pole jest wymagane",
     "passwordLength": "Hasło musi mieć co najmniej 4 znaki",
     "selectWorkplace": "Wybierz miejsce pracy",
     "invalidCharacters": "Nieprawidłowe znaki",
-    "passwordsNotEqual": "Hasła nie pasują"
+    "passwordsNotEqual": "Hasła nie pasują",
+    "enterPassword": "Wprowadź hasło",
+    "repeatPassword": "Powtórz hasło",
+    "invalidEmail": "Nieprawidłowy format wiadomości email"
   },
   "orders": {
     "order": "Zamówienie",
@@ -190,7 +238,7 @@
     "implementationTime": "Czas realizacji",
     "startOperation": "Początek operacji",
     "operationTime": "Czas operacji:",
-    "timeOverlap": "Wybierz inny termin",
+    "timeOverlap": "Wybierz inny czas",
     "finishOperation": "Koniec operacji",
     "date": "Data",
     "orderItems": "Węzły",
@@ -201,8 +249,13 @@
     "orderName": "Nazwa zamówienia",
     "orderNumber": "Numer zamówienia",
     "orderYear": "Rok zamówienia",
-    "startedAt": "Data startu",
+    "startedAt": "Rozpoczęcie pracy",
     "estimatedAt": "Termin",
+    "completedAt": "Koniec pracy",
+    "deadlineExpired": "Termin upłynął",
+    "deadlineExpiredWeeks": "Termin minął ponad 2 tygodnie temu",
+    "deadlineExpiredMonth": "Termin minął ponad miesiąc temu",
+    "deadlineExpiredMonths": "Termin minął ponad 2 miesiące temu",
     "statusValues": {
       "pending": "Nie rozpoczęty",
       "inProgress": "W trakcie",
@@ -237,17 +290,17 @@
     "displayedOperations": "Wyświetlane operacje"
   },
   "users": {
-    "username": "Nazwa użytkownika",
+    "username": "Zaloguj się przy logowaniu",
     "fullName": "Nazwisko Imię",
-    "firstName": "Imię",
-    "lastName": "Nazwisko",
+    "firstName": "Imię pracownika",
+    "lastName": "Nazwisko pracownika",
     "password": "Hasło",
     "newPassword": "Nowe hasło",
     "confirmPassword": "Potwierdź hasło",
-    "role": "Rola",
+    "role": "Rola pracownika",
     "workplace": "Miejsce pracy",
     "dateJoined": "Data dołączenia",
-    "settings": "Ustawienia użytkownika",
+    "settings": "Ustawienia pracownika",
     "info": "Informacje o pracowniku"
   },
   "scanner": {
@@ -303,6 +356,15 @@
       "select": "Wybierz lub wprowadź",
       "selectAreas": "Wybierz jedną lub więcej obszarów z lewej strony",
       "add": "Dodaj strefę"
+    }
+  },
+  "timespans":{
+    "inProcess": "W toku",
+    "done": "Zrobione",
+    "notFound":
+    {
+      "inProcess": "Brak bieżących zadań!",
+      "done": "Brak ukończonych zadań!"
     }
   }
 }

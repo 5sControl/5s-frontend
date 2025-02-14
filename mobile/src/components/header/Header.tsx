@@ -12,6 +12,7 @@ type HeaderProps = {
   endButton?: ReactNode;
   searchBar?: boolean;
   searchText?: string;
+  searchPlaceholder?: string;
   onSearchChange?: (v: string) => void;
   onBackClick?: () => void;
 };
@@ -22,6 +23,7 @@ export const Header: React.FC<HeaderProps> = ({
   endButton,
   searchBar,
   searchText,
+  searchPlaceholder,
   onSearchChange,
   onBackClick,
 }) => {
@@ -41,7 +43,7 @@ export const Header: React.FC<HeaderProps> = ({
             </IonButton>
           </IonButtons>
         )}
-        <IonTitle className="header__title">{title}</IonTitle>
+        <IonTitle className={"header__title " + (backButtonHref || endButton ? "padding" : "")}>{title}</IonTitle>
         {endButton && (
           <IonButtons slot="end" className="header__end">
             {endButton}
@@ -51,7 +53,7 @@ export const Header: React.FC<HeaderProps> = ({
       {searchBar && (
         <IonToolbar className="search__toolbar">
           <IonSearchbar
-            placeholder={t("operations.search")}
+            placeholder={searchPlaceholder ?? t("operations.search")}
             debounce={300}
             value={searchText}
             onIonInput={e => onSearchChange && onSearchChange(e.detail.value!)}

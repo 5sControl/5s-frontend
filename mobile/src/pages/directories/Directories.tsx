@@ -59,6 +59,7 @@ const Directories = () => {
         title={t("menu.directories")}
         backButtonHref={ROUTES.MENU}
         searchBar={Boolean(items?.length)}
+        searchPlaceholder={t("operations.directories.search")}
         searchText={searchText}
         onSearchChange={handleSetSearch}
       />

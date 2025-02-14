@@ -49,6 +49,7 @@ const Employees = () => {
         title={t("directory.employees.title")}
         backButtonHref={ROUTES.DIRECTORIES}
         searchBar={Boolean(items?.length)}
+        searchPlaceholder={t("operations.users.search")}
         searchText={searchText}
         onSearchChange={handleSetSearch}
       />

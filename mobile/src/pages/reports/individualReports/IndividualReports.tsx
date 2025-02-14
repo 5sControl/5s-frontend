@@ -57,6 +57,7 @@ const IndividualReports = () => {
         title={t("reports.individualReports")}
         backButtonHref={orderId ? ROUTES.REPORT_ORDERS : ROUTES.REPORTS}
         searchBar={!!items?.length}
+        searchPlaceholder={t("operations.users.search")}
         searchText={searchText}
         onSearchChange={handleSetSearch}
       />

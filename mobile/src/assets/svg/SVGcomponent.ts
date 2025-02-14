@@ -38,6 +38,8 @@ import DeleteWhite from './deleteWhite.svg';
 import ArrowDown from './arrowDown.svg';
 import NoVideoBig from './noVideoBig.svg';
 import Camera from './camera.svg';
+import Calendar from './calendar.svg';
+import Clock from './clock.svg';
 
 export {
   AddCover,
@@ -79,5 +81,7 @@ export {
   DeleteWhite,
   ArrowDown,
   NoVideoBig,
-  Camera
+  Camera,
+  Calendar,
+  Clock
 };

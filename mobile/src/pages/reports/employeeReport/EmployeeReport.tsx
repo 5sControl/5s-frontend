@@ -1,7 +1,7 @@
 import { IonContent, IonItem, IonList, IonPage, IonToast, useIonViewWillEnter } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ROUTES } from "../../../shared/constants/routes";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { IEmployee } from "../../../models/interfaces/employee.interface";
 import { useParams } from "react-router";
 import { useCookies } from "react-cookie";
@@ -9,10 +9,11 @@ import { getEmployee } from "../../../api/employees";
 import { Preloader } from "../../../components/preloader/preloader";
 import MenuListButton from "../../../components/menuListButton/MenuListButton";
 import { useTranslation } from "react-i18next";
-import { formatDateYMD } from "../../../utils/parseInputDate";
+import { formatDate, formatDateYMD } from "../../../utils/parseInputDate";
 import { getEmployeeReport, getOrderEmployeeReport } from "../../../api/reports";
 import File from "../../../components/file/File";
 import { TOAST_DELAY } from "../../../constants/toastDelay";
+import DownloadIcon from "../../../assets/svg/downloadIcon.svg";
 
 const EmployeeReport = () => {
   const { t } = useTranslation();
@@ -23,6 +24,10 @@ const EmployeeReport = () => {
   const [report, setReport] = useState();
   const [loading, setLoading] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const date = useMemo(() => {
+    const reportDate = localStorage.getItem("reportDate");
+    return reportDate ? JSON.parse(reportDate) : null;
+  }, []);
 
   const onPressDownload = () => {
     console.log("download");
@@ -50,14 +55,12 @@ const EmployeeReport = () => {
   };
 
   useIonViewWillEnter(() => {
-    const reportDate = localStorage.getItem("reportDate");
     setLoading(true);
-    if (reportDate) {
+    if (date) {
       getEmployee(Number(employeeId), cookies.token)
         .then(response => {
           setEmployee(response.data);
 
-          const date = JSON.parse(reportDate);
           const startReportDate = formatDateYMD(date.startDate);
           const endReportDate = formatDateYMD(date.endDate);
           setReportName(
@@ -95,9 +98,10 @@ const EmployeeReport = () => {
           </div>
         ) : report ? (
           <>
+            <p className="ion-padding">{formatDate(date.startDate)} - {formatDate(date.endDate)}</p>
             <File fileName={reportName!} />
             <IonList inset={true}>
-              <MenuListButton title={t("operations.download")} handleItemClick={onPressDownload} />
+              <MenuListButton title={t("operations.downloadReport")} handleItemClick={onPressDownload} detailIcon={DownloadIcon}/>
               {/* <MenuListButton title={t("operations.share")} handleItemClick={onPressShare} /> */}
               {/* <MenuListButton title={t("operations.print")} handleItemClick={onPressPrint} /> */}
             </IonList>

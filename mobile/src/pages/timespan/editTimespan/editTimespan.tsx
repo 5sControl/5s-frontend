@@ -38,6 +38,7 @@ const EditTimespan: React.FC = () => {
   const [timespan, setTimespan] = useState<ITimespan>({} as ITimespan);
   const [isDateChange, setIsDateChange] = useState<boolean>(false);
   const [startDateTime, setStartDateTime] = useState<string>("");
+  const [durationTime, setDurationTime] = useState<number>(0);
   const [isStart, setIsStart] = useState<boolean>(true);
   const [finishDateTime, setFinishDateTime] = useState<string>("");
   const [isSave, setSave] = useState<boolean>(true);
@@ -48,9 +49,7 @@ const EditTimespan: React.FC = () => {
   const history = useHistory();
   const startModalRef = useRef<HTMLIonModalElement>(null);
   const finishModalRef = useRef<HTMLIonModalElement>(null);
-
-  const seconds = getTimeDifference(finishDateTime, startDateTime);
-  const { hours, minutes } = formatTime(seconds);
+  const { hours, minutes } = formatTime(durationTime);
   const status = !timespan.startedAt ? t("orders.statusValues.pending") : (!timespan.finishedAt ? t("orders.statusValues.inProgress") : t("orders.statusValues.done"));
   
   useIonViewWillEnter(() => {
@@ -61,6 +60,7 @@ const EditTimespan: React.FC = () => {
     if (timespan) {
       timespan.startedAt && setStartDateTime(formatYMD(timespan.startedAt));
       timespan.finishedAt && setFinishDateTime(formatYMD(timespan.finishedAt));
+      setDurationTime(timespan?.duration ?? 0)
     }
   }, [timespan]);
 
@@ -179,7 +179,7 @@ const EditTimespan: React.FC = () => {
 
                 <IonList className={`${style.page} ion-padding`}>
                   <IonList className={style.list}>
-                    <IonLabel className={style.label}>{t("form.date")}</IonLabel>
+                    <IonLabel className={style.label}>{t("form.operationDate")}</IonLabel>
                     <InputDate value={formatDate(startDateTime)} onClick={() => setIsDateChange(true)}></InputDate>
                   </IonList>
                   <IonList className={style.sized}>

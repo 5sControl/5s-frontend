@@ -64,7 +64,7 @@ export const formatDateUTC = (dateString: string): string => {
   const date = new Date(dateString);
   const day = String(date.getUTCDate()).padStart(2, '0');
   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  const year = String(date.getUTCFullYear()).slice(2);
+  const year = String(date.getUTCFullYear());
 
   return `${day}.${month}.${year}`;
 }
@@ -101,6 +101,31 @@ export const updateDateTime = (originalDateTime: string, newDate: string) => {
   return localDateString(newDateObj);
 }
 
+export const formatDateWithFullMonthName = (dateString: string, language: string): string => {
+  const translateFullMonths = {
+    en: [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ],
+    ru: [
+      "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня",
+      "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"
+    ],
+    pl: [
+      "Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Сzerwca",
+      "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"
+    ]
+  };
+  
+  const months = translateFullMonths[language];
+  const date = new Date(dateString);
+
+  const day: number = date.getDate();
+  const month: string = months[date.getMonth()];
+
+  return `${day} ${month}`;
+}
+
 export const updateTime = (originalDateTime: string, newTime: string) => {
 
   const originalDateObj = new Date(originalDateTime);
@@ -118,7 +143,6 @@ export const updateTime = (originalDateTime: string, newTime: string) => {
 }
 
 export const getTimeDifference = (date1: string, date2: string) => {
-  let hours = 0, minutes = 0;
   const dateObj1 = new Date(date1);
   const dateObj2 = new Date(date2);
 
@@ -230,3 +254,17 @@ export const convertToCustomFormat = (dateString: string): string => {
 export const truncateDate = (dateString: string): string => {
   return dateString.split('.')[0];
 };
+
+export const daysDifference = (date1: string | Date, date2: string | Date): number => {
+  const startDate = new Date(date1);
+  const endDate = new Date(date2);
+  
+  startDate.setHours(0, 0, 0, 0);
+  endDate.setHours(0, 0, 0, 0);
+  
+  const timeDifference = endDate.getTime() - startDate.getTime();
+  
+  const dayDifference = Math.abs(timeDifference / (1000 * 60 * 60 * 24));
+  
+  return dayDifference;
+}

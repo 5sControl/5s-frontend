@@ -14,7 +14,6 @@ import { useHistory, useParams } from "react-router";
 export const CollectionUpdateDynamic = () => {
 	const meta = directoriesMeta
 	const lang = i18n.language
-	const title = meta.translations && meta.translations[lang] || meta.label
 	const { id } = useParams<{ id: any }>();
 	const { data } = useGetCollectionItemQuery({ meta, itemId: id })
 	const history = useHistory();
@@ -77,7 +76,7 @@ export const CollectionUpdateDynamic = () => {
 	return (
 		<IonPage>
 			<Header
-				title={title}
+				title={t("operations.directories.edit")}
 				onBackClick={navigateBack}
 				backButtonHref={`/configuration/${meta.collection}/${id}`}
 			/>

@@ -16,6 +16,8 @@ import { ConfirmationModal } from "../../../components/confirmationModal/confirm
 import Chip from "../../../components/chip/chip";
 import RoleLabel from "../../../components/roleLabel/RoleLabel";
 import Fab from "../../../components/fab/Fab";
+import MenuListButton from "../../../components/menuListButton/MenuListButton";
+
 
 const User = () => {
   const [cookies] = useCookies(["token"]);
@@ -76,7 +78,7 @@ const User = () => {
   return (
     <IonPage>
       <Header 
-        title={item?.username} 
+        title={item?.last_name + " " + item?.first_name} 
         backButtonHref={ROUTES.USERS} 
         endButton={<IonIcon onClick={handleOpenModal} style={{ fontSize: "24px" }} icon={TrashBin}></IonIcon>}/>
       <IonContent>
@@ -89,8 +91,17 @@ const User = () => {
           )
           :
           <>
+              {item.role === "admin"? "": <div className="ion-padding">
+                <MenuListButton
+                  title={t("text.tasks")}
+                  lines="none"
+                  handleItemClick={() => history.push(ROUTES.EMPLOYEE_TASKS(String(item.id)), { username: item.username })} /> 
+              </div>
+              }
                 <InputReadonly label={t("users.username")} value={item.username} />
-                <InputReadonly label={t("users.fullName")} value={`${item.last_name} ${item.first_name}`} />
+                <InputReadonly label={"Email"} value={item.email} />
+                <InputReadonly label={t("users.firstName")} value={item.first_name} />
+                <InputReadonly label={t("users.lastName")} value={item.last_name} />
                 <IonItem className="input__field">
                         <IonLabel className="input__label">{t("users.role")}</IonLabel>
                         <RoleLabel role={item.role} />
@@ -107,7 +118,7 @@ const User = () => {
                     isOpen={showConfirmationModal}
                     onConfirm={handleDeleteClick}
                     onClose={handleCancelClick}
-                    title={`${t("operations.delete")} "${item.username}" ?`}
+                    title={`${t("operations.users.delete")} "${item.last_name + " " + item.first_name}"?`}
                     confirmText={t("operations.delete")}
                     cancelText={t("operations.cancel")}
                     preventDismiss={true}

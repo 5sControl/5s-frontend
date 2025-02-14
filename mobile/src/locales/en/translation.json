@@ -3,16 +3,17 @@
   "menu": {
     "ordersView": "Orders View",
     "configuration": "Configuration",
-    "dataConfiguration": "Data Configuration",
+    "dataConfiguration": "Data configuration",
     "directories": "Directories",
     "generalDirectories": "General directories",
-    "accountSettings": "Account Settings",
+    "accountSettings": "Account settings",
     "orders": "Orders",
     "reports": "Reports",
     "scanner": "QR Scanner",
+    "scanQR": "Scan QR",
     "language": "Interface language",
     "users": "Employees",
-    "cameras": "Camera Settings",
+    "cameras": "Camera settings",
     "myTasks": "My tasks",
     "workStatus": {
       "workInProgress": "Work in progress",
@@ -39,13 +40,13 @@
     "incorrectCredentials": "Incorrect email or password. Please, try again.",
     "orderName": "Create order name and try again",
     "validDate": "Please set a valid start date.",
-    "startTime": "The start time cannot be greater than the end time",
-    "finishDate": "The finish date cannot be earlier than the start date.",
-    "timespanLimit": "The date cannot be from the future.",
+    "startTime": "The start time cannot be later than the end time",
+    "finishDate": "The end time cannot be earlier than the start time",
+    "timespanLimit": "Time cannot be from the future.",
     "saveData": "Please save your data!",
     "employeeNotFound": "Employee not found",
     "validLength": "Maximum text length reached",
-    "employeeExists": "Employee with the same username already exists"
+    "employeeExists": "An employee with the same name or email already exists"
   },
   "directory": {
     "newDirectory": "New directory",
@@ -55,12 +56,16 @@
     "name": "Name",
     "operations": {
       "title": "Operations",
-      "newOperation": "New Operation",
+      "name": "Operation name",
+      "newOperation": "Add an operation",
+      "edit": "Edit operation",
       "estimatedTime": "Estimated Time"
     },
     "items": {
       "title": "Items",
-      "newItem": "New Item"
+      "name": "Item name",
+      "newItem": "Add item",
+      "edit": "Edit item"
     },
     "employees": {
       "title": "Employees",
@@ -86,12 +91,13 @@
     "name": "name",
     "ordersView": "Orders View",
     "products": "Products",
+    "tasks": "Tasks",
     "scheduled": "Show scheduled time",
     "startTime": "Start time",
     "datePlaceholder": "Select Date and Start Time",
     "logout": "Log out",
     "norecords": "No records",
-    "noOperations": "No Operations",
+    "noOperations": "No operations",
     "finishedIn": "Finished in",
     "startOfOperation": "Start of operation",
     "endOfOperation": "End of operation",
@@ -111,9 +117,33 @@
     "finish": "Finish",
     "saveChanges": "Save changes",
     "download": "Download",
+    "downloadReport": "Download report",
     "share": "Share",
     "print": "Print",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss",
+    "operations": {
+      "search": "Find operation"
+    },
+    "items": {
+      "search": "Find item"
+    },
+    "tasks": {
+        "search": "Find task"
+    },
+    "orders": {
+      "search": "Find order"
+    },
+    "directories": {
+      "search": "Find directory",
+      "add": "Add directory",
+      "edit": "Edit directory"
+    },
+    "users": {
+      "delete": "Are you sure you want to delete the employee",
+      "edit": "Edit employee",
+      "add": "Add employee",
+      "search": "Find an employee"
+    }
   },
   "db": {
     "products": {
@@ -123,7 +153,7 @@
     },
     "productsCategory": {
       "button": "Products",
-      "title": "Product Categories",
+      "title": "Product categories",
       "singular": "product category"
     },
     "operations": {
@@ -153,6 +183,7 @@
   "form": {
     "name": "Name",
     "date": "Date",
+    "operationDate": "Operation date",
     "duration": "Duration",
     "namePlaceholder": "Enter a name",
     "selectOperation": "Select Operation",
@@ -163,47 +194,68 @@
       "loginPlaceholder": "Enter Username",
       "pwdPlaceholder": "Enter Password",
       "pwd": "Password",
-      "submit": "Log In"
+      "submit": "Log In",
+      "continue": "Continue",
+      "back": "Back",
+      "requestCodeAgain": "Request code again",
+      "forgotPassword": "Forgot your password?",
+      "enterEmail": "Please enter your Email Address to receive a Verification Code!",
+      "enterCode": "Please enter the 6-digit Code!",
+      "requestANewCodeIn": "Request a new code in",
+      "enterPassword": "Enter a new password for your account!",
+      "successful": "Successful!",
+      "passwordChanged": "Congratulations! Your password has been changed. Click Continue to log in",
+      "emailNotFound": "User with this email address is not found",
+      "invalidCode": "Invalid code",
+      "failedUpdatePassword": "Failed to update password"
     },
     "required": "This field is required",
-    "passwordLength": "Password must be at least 4 characters",
+    "passwordLength": "Password length must be at least 4 characters",
     "selectWorkplace": "Select employee's workplace",
     "invalidCharacters": "Invalid characters",
-    "passwordsNotEqual": "Passwords are not equal"
+    "passwordsNotEqual": "Passwords don't match",
+    "enterPassword": "Enter password",
+    "repeatPassword": "Repeat the password",
+    "invalidEmail": "Invalid email format"
   },
   "orders": {
     "order": "Order",
     "orders": "Orders",
-    "newOrder": "New Order",
-    "newOperations": "New Operations",
+    "newOrder": "New order",
+    "newOperations": "New operations",
     "operations": "Operations",
     "operation": "Operation",
     "parts": "Parts",
     "place": "Place",
     "equipment": "Equipment",
     "implementation": "Implementation",
-    "nameparts": "Name Parts",
-    "namepPlace": "Name Place",
-    "nameEquipment": "Name Equipment",
+    "nameparts": "Name parts",
+    "namepPlace": "Name place",
+    "nameEquipment": "Name equipment",
     "number": "N",
     "name": "Name",
     "status": "Status",
-    "implementationTime": "Implementation Time",
-    "startOperation": "Start of Operation",
+    "implementationTime": "Implementation time",
+    "startOperation": "Start of operation",
     "operationTime": "Operation time:",
     "timeOverlap": "Choose another time",
-    "finishOperation": "Finish of Operation",
+    "finishOperation": "Finish of operation",
     "date": "Date",
-    "orderItems": "Order Items",
-    "orderItem": "Order Item",
+    "orderItems": "Order items",
+    "orderItem": "Order item",
     "suffix": "Suffix",
     "id": "Id",
     "worker": "Worker",
-    "orderName": "Order Name",
-    "orderNumber": "Order Number",
-    "orderYear": "Order Year",
-    "startedAt": "Start Date",
+    "orderName": "Order name",
+    "orderNumber": "Order number",
+    "orderYear": "Order year",
+    "startedAt": "Start of work",
     "estimatedAt": "Deadline",
+    "completedAt": "End of work",
+    "deadlineExpired": "The deadline has expired",
+    "deadlineExpiredWeeks": "The deadline expired more than 2 weeks ago",
+    "deadlineExpiredMonth": "The deadline expired more than a month ago",
+    "deadlineExpiredMonths": "The deadline expired more than 2 months ago",
     "statusValues": {
       "pending": "Not started",
       "inProgress": "In progress",
@@ -225,30 +277,30 @@
   "reports": {
     "report": "Report",
     "fullReport": "Full report",
-    "individualReports": "Individual Reports",
+    "individualReports": "Individual reports",
     "orderDetails": "Order details",
     "startDate": "Report start date",
     "endDate": "Report end date"
   },
   "ordersView": {
-    "orderSearch": "Order Search",
+    "orderSearch": "Order search",
     "settings": "Settings",
     "workday": "Work day",
     "erp": "Used ERP",
     "displayedOperations": "Displayed operations"
   },
   "users": {
-    "username": "Username",
+    "username": "Login",
     "fullName": "Full name",
-    "firstName": "First name",
-    "lastName": "Last name",
+    "firstName": "Employee's first name",
+    "lastName": "Employee's last name",
     "password": "Password",
     "newPassword": "New password",
     "confirmPassword": "Confirm password",
-    "role": "Role",
+    "role": "Employee role",
     "workplace": "Workplace",
     "dateJoined": "Date joined",
-    "settings": "User settings",
+    "settings": "Employee settings",
     "info": "Employee information"
   },
   "scanner": {
@@ -304,6 +356,15 @@
       "select": "Select or enter",
       "selectAreas": "Select one or more areas on the left",
       "add": "Add Zone"
+    }
+  },
+  "timespans":{
+    "inProcess": "In progress",
+    "done": "Done",
+    "notFound":
+    {
+      "inProcess": "There are no current tasks!",
+      "done": "There are no completed tasks!"
     }
   }
 }

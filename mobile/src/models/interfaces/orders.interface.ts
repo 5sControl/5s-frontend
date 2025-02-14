@@ -33,7 +33,8 @@ export interface IReference {
     updatedAt: string
     employeeId: number
     orderOperation: IOrderOperation;
-    employeeName: string
+    employeeName: string;
+    duration: number;
 }
 
 export interface IOrderItemTimespan {

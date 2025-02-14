@@ -14,12 +14,13 @@ type CardsProps = {
   backHref: string;
   editHref?: string;
   itemTitle: string;
+  titleLabel?: string;
   showConfirmationModal: boolean;
   handleCloseModal: () => void;
   deleteCard: (id: number, token: string) => Promise<void>;
 };
 
-const Card = ({ backHref, editHref, itemTitle, showConfirmationModal, deleteCard, handleCloseModal }: CardsProps) => {
+const Card = ({ backHref, editHref, itemTitle, titleLabel, showConfirmationModal, deleteCard, handleCloseModal }: CardsProps) => {
   const { id }: any = useParams();
   const { t } = useTranslation();
   const [cookies] = useCookies(["token"]);
@@ -46,7 +47,7 @@ const Card = ({ backHref, editHref, itemTitle, showConfirmationModal, deleteCard
 
   return (
     <>
-      <InputReadonly label={t("directory.name")} value={itemTitle} />
+      <InputReadonly label={titleLabel ?? t("directory.name")} value={itemTitle} />
       {editHref && (
         <Fab
           icon={EditWhiteIcon}
