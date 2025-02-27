@@ -45,7 +45,8 @@
     "saveData": "Proszę zapisać swoje dane!",
     "employeeNotFound": "Pracownik nie został znaleziony",
     "validLength": "Osiągnięto maksymalną długość tekstu",
-    "employeeExists": "Pracownik o tym samym nazwisku lub adresie e-mail już istnieje"
+    "employeeExists": "Pracownik o tym samym nazwisku lub adresie e-mail już istnieje",
+    "successFinish": "Czas został pomyślnie zakończony"
   },
   "directory": {
     "newDirectory": "Nowy katalog",

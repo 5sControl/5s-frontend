@@ -46,7 +46,8 @@
     "saveData": "Please save your data!",
     "employeeNotFound": "Employee not found",
     "validLength": "Maximum text length reached",
-    "employeeExists": "An employee with the same name or email already exists"
+    "employeeExists": "An employee with the same name or email already exists",
+    "successFinish": "Timespan successfully finished"
   },
   "directory": {
     "newDirectory": "New directory",
