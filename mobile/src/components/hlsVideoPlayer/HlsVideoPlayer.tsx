@@ -11,7 +11,7 @@ const HlsVideoPlayer = ({ base64Playlist, onLoad }: VideoPlayerProps) => {
   const playerRef = useRef<HTMLVideoElement | null>(null);
   useEffect(() => {
     let hls: Hls | null = null;
-    const playlistUrl = createBlobUrl(base64Playlist);
+    const playlistUrl = API_BASE_URL + base64Playlist;
     const videoElement = playerRef.current;
 
     if (videoElement) {
@@ -41,31 +41,6 @@ const HlsVideoPlayer = ({ base64Playlist, onLoad }: VideoPlayerProps) => {
       URL.revokeObjectURL(playlistUrl);
     };
   }, [base64Playlist]);
-
-  function createBlobUrl(base64: string): string {
-    const binaryString = window.atob(base64);
-    const len = binaryString.length;
-    const bytes = new Uint8Array(len);
-    const updatedLines: string[] = [];
-
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-
-    const decodedPlaylist = new TextDecoder().decode(bytes);
-    const lines = decodedPlaylist.split('\n');
-
-    for (const line of lines) {
-      if (line.startsWith('#EXT')) {
-        updatedLines.push(line);
-      } else if (line) {
-        updatedLines.push(API_BASE_URL + line);
-      }
-    }
-
-    const blob = new Blob([updatedLines.join('\n')], { type: 'application/x-mpegURL' });
-    return URL.createObjectURL(blob);
-  }
 
   return (
     <video
