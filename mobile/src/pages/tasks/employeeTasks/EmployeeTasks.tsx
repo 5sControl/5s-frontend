@@ -90,8 +90,8 @@ const EmployeeTasks = () => {
             ).catch(() =>{
                 setToastMessage(t("orders.timeOverlap"));
             });
-            showToastMessage(t("messages.successFinish"));
-            closeFinishModal();
+            // showToastMessage(t("messages.successFinish"));
+            // closeFinishModal();
 
             TIMESPAN_REQUEST.getTimespansByEmployee(
                 +userId, 
