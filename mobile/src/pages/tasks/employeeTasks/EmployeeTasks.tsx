@@ -82,7 +82,7 @@ const EmployeeTasks = () => {
                 timespanToFinish.timespanId,
                 { 
                   startedAt: timespanToFinish.startedAt, 
-                  finishedAt: new Date().toISOString()
+                  finishedAt: new Date(Date.now() - 2000).toISOString()
                 },
                 setLoading,
                 setToastMessage,
