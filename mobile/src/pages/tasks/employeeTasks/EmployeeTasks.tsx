@@ -60,10 +60,10 @@ const EmployeeTasks = () => {
         history.go(-1);
     }
 
-    // const handleNavigate = () => {
-    //     history.go(-1);
-    //     closeFinishModal();
-    // };
+    const handleNavigate = () => {
+        history.go(-1);
+        closeFinishModal();
+    };
 
     const openFinishModal = (timespan: ITimespan) => {
         setTimespanToFinish(timespan);
@@ -86,7 +86,7 @@ const EmployeeTasks = () => {
                 },
                 setLoading,
                 setToastMessage,
-                // handleNavigate
+                handleNavigate
             ).catch(() =>{
                 setToastMessage(t("orders.timeOverlap"));
             });
