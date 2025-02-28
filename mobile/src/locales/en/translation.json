@@ -302,7 +302,10 @@
     "workplace": "Workplace",
     "dateJoined": "Date joined",
     "settings": "Employee settings",
-    "info": "Employee information"
+    "info": "Employee information",
+    "workStartTime":  "Work start time",
+    "workEndTime": "Work end time",
+    "timeNotSet": "Time not set"
   },
   "scanner": {
     "start": "Start scanning",

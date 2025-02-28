@@ -302,7 +302,10 @@
     "workplace": "Miejsce pracy",
     "dateJoined": "Data dołączenia",
     "settings": "Ustawienia pracownika",
-    "info": "Informacje o pracowniku"
+    "info": "Informacje o pracowniku",
+    "workStartTime": "Czas rozpoczęcia pracy",
+    "workEndTime": "Czas zakończenia pracy",
+    "timeNotSet": "Czas nie ustawiony"
   },
   "scanner": {
     "start": "Rozpocznij skanowanie",

@@ -16,6 +16,8 @@ export interface IUser {
   role: ROLE,
   password: string,
   workplace: IWorkplace
+  work_start_time: string,
+  work_end_time: string
 }
 
 export interface IAddUser {
