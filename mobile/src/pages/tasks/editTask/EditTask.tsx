@@ -23,6 +23,10 @@ import { Preloader } from "../../../components/preloader/preloader";
 import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
 import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 import TimeSelector from "../../../components/timeSelector/TimeSelector";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { ROLE } from "../../../models/enums/roles.enum";
+import { Camera } from "../../../assets/svg/SVGcomponent";
 const RADIX = 10;
 
 interface LocationState {
@@ -54,6 +58,7 @@ const EditTask: React.FC = () => {
   const startModalRef = useRef<HTMLIonModalElement>(null);
   const finishModalRef = useRef<HTMLIonModalElement>(null);
   const { hours, minutes } = formatTime(durationTime);
+  const userRole = useSelector((state: RootState) => state.user.role);
   
   useIonViewWillEnter(() => {
     timespanId && TIMESPAN_REQUEST.getTimespan(parseInt(timespanId, RADIX), setTimespan, setLoading, setToastMessage);
@@ -153,6 +158,7 @@ const EditTask: React.FC = () => {
       setIsSaveModalOpen(true);
     }
   };
+console.log(userRole,1);
 
   return (
     <IonPage>
@@ -160,6 +166,17 @@ const EditTask: React.FC = () => {
         title={orderName}
         backButtonHref={ROUTES.ORDER_ITEM(String(orderId), String(itemId))}
         onBackClick={backClick}
+        endButton={
+          userRole !== ROLE.WORKER && (
+            <img
+              src={Camera}
+              alt="camera"
+              onClick={() =>
+                history.push(ROUTES.ORDER_TIMESPAN_CAMERAS(orderId, itemId, operationId, timespanId))
+              }
+            />
+          )
+        }
       />
       <IonContent>
         {isLoading ? (
