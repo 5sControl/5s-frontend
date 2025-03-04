@@ -27,7 +27,9 @@ export interface IAddUser {
   last_name?: string,
   role: ROLE,
   password: string,
-  workplace?: number
+  workplace?: number,
+  work_start_time: string,
+  work_end_time: string
 }
 
 export interface IUpdateUser {

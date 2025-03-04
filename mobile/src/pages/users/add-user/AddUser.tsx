@@ -97,7 +97,9 @@ const AddUser = () => {
         first_name: user.first_name,
         password: user.password,
         role: user.role,
-        workplace: user.role === ROLE.WORKER ? selectedWorkplace?.id ?? null : null
+        workplace: user.role === ROLE.WORKER ? selectedWorkplace?.id ?? null : null,
+        work_start_time: user.work_start_time,
+        work_end_time: user.work_end_time
       }
       createUser(data, cookies.token)
         .then(() => {
@@ -239,6 +241,7 @@ const AddUser = () => {
                 />
 
                 {user.role === ROLE.WORKER && (
+                  <>
                   <IonList inset={true}>
                     <MenuListButton
                       title={selectedWorkplace?.name || t("users.workplace")}
@@ -247,6 +250,21 @@ const AddUser = () => {
                       // errorMessage={t("form.selectWorkplace")}
                     />
                   </IonList>
+                    <Input
+                    label={t("users.workStartTime")}
+                    value={user.work_start_time || ""}
+                    handleChange={event => setUser({ ...user, work_start_time: event.target.value })}
+                    type="time"
+                    required={false}
+                  />
+                  <Input
+                    label={t("users.workEndTime")}
+                    value={user.work_end_time || ""}
+                    handleChange={event => setUser({ ...user, work_end_time: event.target.value })}
+                    type="time"
+                    required={false}
+                  />
+                </>
                 )}
               </div>
 
