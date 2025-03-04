@@ -130,7 +130,7 @@ export const OperationDetail = () => {
               </div>
               <HlsVideoPlayer
                 onLoad={onVideoLoad}
-                base64Playlist={detail?.videos[videoIndex]?.playlist}
+                manifestPath={detail?.videos[videoIndex]?.playlist}
               />
               </>
           }

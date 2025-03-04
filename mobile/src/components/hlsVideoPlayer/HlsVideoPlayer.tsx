@@ -3,19 +3,27 @@ import Hls from 'hls.js';
 import { API_BASE_URL } from '../../config';
 
 interface VideoPlayerProps {
-  base64Playlist: string;
+  manifestPath: string;
   onLoad?: (videoElement: HTMLVideoElement) => void;
 }
 
-const HlsVideoPlayer = ({ base64Playlist, onLoad }: VideoPlayerProps) => {
+const HlsVideoPlayer = ({ manifestPath, onLoad }: VideoPlayerProps) => {
   const playerRef = useRef<HTMLVideoElement | null>(null);
   useEffect(() => {
     let hls: Hls | null = null;
-    const playlistUrl = API_BASE_URL + base64Playlist;
+    const playlistUrl = API_BASE_URL + manifestPath;
     const videoElement = playerRef.current;
+    console.log(manifestPath, 1);
+    let timeLogger;
 
     if (videoElement) {
+      videoElement.muted = true;
       videoElement.volume = 0.9;
+
+      timeLogger = setInterval(() => {
+        console.log('currentTime:', videoElement.currentTime);
+      }, 1000);
+      
     }
 
     if (Hls.isSupported() && playlistUrl) {
@@ -26,10 +34,15 @@ const HlsVideoPlayer = ({ base64Playlist, onLoad }: VideoPlayerProps) => {
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           videoElement.play();
         });
+        hls.on(Hls.Events.ERROR, (event, data) => {
+          console.error('Ошибка HLS:', data);
+        });
       }
     } else if (videoElement?.canPlayType('application/vnd.apple.mpegurl')) {
       videoElement.src = playlistUrl;
       videoElement.addEventListener('loadedmetadata', () => {
+        console.log(12);
+        
         videoElement.play();
       });
     }
@@ -37,10 +50,10 @@ const HlsVideoPlayer = ({ base64Playlist, onLoad }: VideoPlayerProps) => {
     return () => {
       if (hls) {
         hls.destroy();
+        clearInterval(timeLogger);
       }
-      URL.revokeObjectURL(playlistUrl);
     };
-  }, [base64Playlist]);
+  }, [manifestPath]);
 
   return (
     <video
