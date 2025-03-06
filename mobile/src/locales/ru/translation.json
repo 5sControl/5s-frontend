@@ -15,6 +15,7 @@
     "users": "Сотрудники",
     "cameras": "Настройка камер",
     "myTasks": "Мои задачи",
+    "workTimeEnded": "Рабочее время закончилось",
     "workStatus": {
       "workInProgress": "Работа в процессе",
       "noWork": "Работа отсутствует"

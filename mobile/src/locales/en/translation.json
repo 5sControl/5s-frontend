@@ -15,6 +15,7 @@
     "users": "Employees",
     "cameras": "Camera settings",
     "myTasks": "My tasks",
+    "workTimeEnded": "Work time has ended",
     "workStatus": {
       "workInProgress": "Work in progress",
       "noWork": "No work"
