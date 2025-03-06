@@ -15,6 +15,7 @@
     "users": "Pracownicy",
     "cameras": "Ustawienia kamer",
     "myTasks": "Moje zadania",
+    "workTimeEnded": "Czas pracy dobiegł końca",
     "workStatus": {
       "workInProgress": "Prace w toku",
       "noWork": "Brak pracy"
@@ -45,7 +46,8 @@
     "saveData": "Proszę zapisać swoje dane!",
     "employeeNotFound": "Pracownik nie został znaleziony",
     "validLength": "Osiągnięto maksymalną długość tekstu",
-    "employeeExists": "Pracownik o tym samym nazwisku lub adresie e-mail już istnieje"
+    "employeeExists": "Pracownik o tym samym nazwisku lub adresie e-mail już istnieje",
+    "successFinish": "Czas został pomyślnie zakończony"
   },
   "directory": {
     "newDirectory": "Nowy katalog",
@@ -301,7 +303,10 @@
     "workplace": "Miejsce pracy",
     "dateJoined": "Data dołączenia",
     "settings": "Ustawienia pracownika",
-    "info": "Informacje o pracowniku"
+    "info": "Informacje o pracowniku",
+    "workStartTime": "Czas rozpoczęcia pracy",
+    "workEndTime": "Czas zakończenia pracy",
+    "timeNotSet": "Czas nie ustawiony"
   },
   "scanner": {
     "start": "Rozpocznij skanowanie",

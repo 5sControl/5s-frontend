@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { IonContent, IonFooter, IonList, IonPage, IonText, useIonViewWillEnter } from "@ionic/react";
@@ -15,37 +15,64 @@ import "./Menu.scss";
 import { Preloader } from "../../components/preloader/preloader";
 import { ITimespan } from "../../models/interfaces/orders.interface";
 import { TIMESPAN_REQUEST } from "../../dispatcher";
-import { API_BASE_URL, APP_VERSION } from "../../config";
+import { APP_VERSION } from "../../config";
+import { IUser } from "../../models/interfaces/employee.interface";
 
 export const Menu: React.FC = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState<IUser | null>(null);
   const [timespans, setTimespans] = useState<ITimespan[]>([]);
+  const [isLoading, setLoading] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [workEnded, setWorkEnded] = useState(false);
+
   const history = useHistory();
   const { t } = useTranslation();
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [isLoading, setLoading] = useState(false);
   const workInProgress = timespans[0] && !timespans[0].finishedAt;
 
-  useIonViewWillEnter(() => {
-    if (cookies.token) {
-      getCurrentUserInfo(cookies.token)
-        .then((response: any) => {
-          if (response.data) {
-            setUser(response.data);
-            const { id, role } = response.data;
-            if (role == "worker") {
-              TIMESPAN_REQUEST.getTimespansByEmployee(id, setTimespans, setLoading, setToastMessage);
-            }
+  
+
+  const checkIfWorkTimeEnded = (workEndTime: string) => {
+    const [h, m, s] = workEndTime.split(":");
+    const now = new Date();
+    const endTime = new Date();
+
+    endTime.setHours(parseInt(h), parseInt(m), parseInt(s), 0);
+
+    return now > endTime;
+  };
+
+  useIonViewWillEnter( () => {
+    if (!cookies.token) return;
+    (async () => {
+      try {
+        const response = await getCurrentUserInfo(cookies.token);
+        if (response?.data) {
+          const userData = response.data;
+          setUser(userData);
+
+          if (userData.role === "worker") {
+            TIMESPAN_REQUEST.getTimespansByEmployee(
+              userData.id,
+              setTimespans,
+              setLoading,
+              setToastMessage
+            );
           }
-        })
-        .catch((error: any) => {
-          console.error("Error fetching user list:", error);
-        });
-    }
+
+          if (userData.work_end_time) {
+            const isEnded = checkIfWorkTimeEnded(userData.work_end_time);
+            setWorkEnded(isEnded);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    })();
   });
 
   const handleItemClick = (path: string) => history.push(path);
+
   const logout = () => removeCookie("token", { path: "/" });
 
   return (
@@ -58,7 +85,11 @@ export const Menu: React.FC = () => {
         }
       />
       <IonContent color="light">
-        {Object.values(user).length ? (
+        {!user ? (
+          <div className="preloader">
+            <Preloader />
+          </div>
+        ) : (
           <>
             <Logout username={user.username} logout={logout} />
 
@@ -86,11 +117,17 @@ export const Menu: React.FC = () => {
               </Restricted>
               {!isMobile && (
                 <Restricted to="view_cameras">
-                  <MenuListButton title={t("menu.cameras")} handleItemClick={() => handleItemClick(ROUTES.CAMERAS)} />
+                  <MenuListButton
+                    title={t("menu.cameras")}
+                    handleItemClick={() => handleItemClick(ROUTES.CAMERAS)}
+                  />
                 </Restricted>
               )}
               <Restricted to="view_users">
-                <MenuListButton title={t("menu.users")} handleItemClick={() => handleItemClick(ROUTES.USERS)} />
+                <MenuListButton
+                  title={t("menu.users")}
+                  handleItemClick={() => handleItemClick(ROUTES.USERS)}
+                />
               </Restricted>
               <Restricted to="view_reference">
                 <MenuListButton
@@ -102,27 +139,43 @@ export const Menu: React.FC = () => {
 
             <Restricted to="proccess_qr_code_order_operation">
               <IonList inset={true}>
-                <MenuListButton title={t("menu.scanner")} handleItemClick={() => handleItemClick(ROUTES.SCANNER_QR)} disabled={workInProgress}/>
-                <div className="my-work-btn"> 
-                  <MenuListButton lines="none" title={t("menu.myTasks")} handleItemClick={() => handleItemClick(ROUTES.EMPLOYEE_TASKS(user.id))}/>
-                  <div className={"status " + (workInProgress ? "work" : "no-work")}>{workInProgress ? t("menu.workStatus.workInProgress") : t("menu.workStatus.noWork")}</div>
+                <MenuListButton
+                  title={workEnded ? t("menu.workTimeEnded") : t("menu.scanner")}
+                  handleItemClick={() => handleItemClick(ROUTES.SCANNER_QR)}
+                  disabled={workEnded || workInProgress}
+                />
+
+                <div className="my-work-btn">
+                  <MenuListButton
+                    lines="none"
+                    title={t("menu.myTasks")}
+                    handleItemClick={() => handleItemClick(ROUTES.EMPLOYEE_TASKS(String(user.id)))}
+                  />
+                  <div className={"status " + (workInProgress ? "work" : "no-work")}>
+                    {workInProgress
+                      ? t("menu.workStatus.workInProgress")
+                      : t("menu.workStatus.noWork")}
+                  </div>
                 </div>
               </IonList>
             </Restricted>
 
             <IonList inset={true}>
-              <MenuListButton title={t("menu.language")} handleItemClick={() => handleItemClick(ROUTES.LANGUAGE)} />
+              <MenuListButton
+                title={t("menu.language")}
+                handleItemClick={() => handleItemClick(ROUTES.LANGUAGE)}
+              />
             </IonList>
+
             <IonFooter className="footer">
               <IonText>{`Version ${APP_VERSION}`}</IonText>
             </IonFooter>
           </>
-        ) : (
-          <div className="preloader">
-            <Preloader />
-          </div>
         )}
       </IonContent>
     </IonPage>
   );
 };
+
+export default Menu;
+

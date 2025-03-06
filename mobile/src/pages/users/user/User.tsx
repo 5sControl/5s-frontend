@@ -70,7 +70,7 @@ const User = () => {
         setLoading(false);
       });
   };
-
+  console.log(item);
   const handleCancelClick = () => {
     handleCloseModal();
   };
@@ -107,8 +107,15 @@ const User = () => {
                         <RoleLabel role={item.role} />
                 </IonItem>
                 {item.workplace && <InputReadonly label={t("users.workplace")} value={item.workplace?.name || '-'} />}
+                <InputReadonly 
+                  label={t("users.workStartTime")} 
+                  value={item.work_start_time ? item.work_start_time.slice(0, 5) : t("users.timeNotSet")} 
+                />
+                <InputReadonly 
+                  label={t("users.workEndTime")} 
+                  value={item.work_end_time ? item.work_end_time.slice(0, 5) : t("users.timeNotSet")} 
+                />
                 
-
                 <Fab
                     icon={EditWhiteIcon}
                     handleFabClick={handleFabClick}/>

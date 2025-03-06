@@ -1,4 +1,4 @@
-import { IonContent, IonList, IonSegment, IonSegmentButton, SegmentChangeEventDetail, IonIcon, IonItem, IonLabel, IonPage, useIonViewWillEnter } from "@ionic/react";
+import { IonContent, IonList, IonSegment, IonSegmentButton, SegmentChangeEventDetail, IonIcon, IonItem, IonLabel, IonPage, useIonViewWillEnter, IonButton, IonToast } from "@ionic/react";
 import { Header } from "../../../components/header/Header";
 import { ROUTES } from "../../../shared/constants/routes";
 import { useState, useMemo, SetStateAction } from "react";
@@ -12,6 +12,7 @@ import { formatDateWithFullMonthName, extractTime } from "../../../utils/parseIn
 import './EmployeeTasksPage.scss';
 import { useAppSelector } from "../../../store";
 import { ROLE } from "../../../models/enums/roles.enum";
+import { ConfirmationModal } from "../../../components/confirmationModal/confirmationModal";
 
 const EmployeeTasks = () => {
     const { userId }: { userId: string } = useParams();
@@ -26,6 +27,12 @@ const EmployeeTasks = () => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const handleSetSearch = (value: string) => setSearchText(value);
+
+    const [finishModalOpen, setFinishModalOpen] = useState<boolean>(false);
+    const [timespanToFinish, setTimespanToFinish] = useState<ITimespan | null>(null);
+    const showToastMessage = (message: string) => {
+        setToastMessage(message);
+    };
 
     const handleSegmentChange = (event: CustomEvent<SegmentChangeEventDetail>) => {
         setSelectedSegment(event.detail.value as string);
@@ -52,6 +59,47 @@ const EmployeeTasks = () => {
     const onBackClick = () => {
         history.go(-1);
     }
+
+    const handleNavigate = () => {
+        history.go(-1);
+        closeFinishModal();
+    };
+
+    const openFinishModal = (timespan: ITimespan) => {
+        setTimespanToFinish(timespan);
+        setFinishModalOpen(true);
+    };
+
+    const closeFinishModal = () => {
+        setTimespanToFinish(null);
+        setFinishModalOpen(false);
+    };
+
+    const confirmFinishTimespan = async () => {
+        if (!timespanToFinish) return;
+        try {
+            await TIMESPAN_REQUEST.updateTimespan(
+                timespanToFinish.timespanId,
+                { 
+                  startedAt: timespanToFinish.startedAt, 
+                  finishedAt: new Date(Date.now() - 2000).toISOString()
+                },
+                setLoading,
+                setToastMessage,
+                handleNavigate
+            );
+            closeFinishModal();
+
+            TIMESPAN_REQUEST.getTimespansByEmployee(
+                +userId, 
+                setTimespans as React.Dispatch<SetStateAction<ITimespan[]>>, 
+                setLoading, 
+                setToastMessage
+            );
+        } catch (error) {
+            showToastMessage(t("messages.errorFinish"));
+        }
+    };
 
     return (
         <IonPage>
@@ -98,6 +146,34 @@ const EmployeeTasks = () => {
                         </IonItem>
                     )):  <div className="not-found-message">{notFoundMessage}</div>}
                 </IonList>
+                {selectedSegment === TIMESPAN_STATES.INPROCESS && filteredTimespans.length === 1 && (
+                  <div className="ion-padding">
+                    <IonButton 
+                      expand="block" 
+                      onClick={() => openFinishModal(filteredTimespans[0])}
+                    >
+                      {t("operations.finish")}
+                    </IonButton>
+                  </div>
+                )}
+
+                <ConfirmationModal
+                 type="primary"
+                  isOpen={finishModalOpen}
+                  onClose={closeFinishModal}
+                  onConfirm={confirmFinishTimespan}
+                  title={t("operations.saveChanges")}
+                  confirmText={t("operations.save")}
+                  cancelText={t("operations.cancel")}
+                />
+
+                <IonToast
+                  position="top"
+                  isOpen={!!toastMessage}
+                  message={toastMessage || undefined}
+                  duration={3000}
+                  onDidDismiss={() => setToastMessage(null)}
+                />
             </IonContent>
         </IonPage>
     );

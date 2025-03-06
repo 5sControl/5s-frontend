@@ -95,7 +95,9 @@ const EditUser = () => {
       last_name: user.last_name,
       role: user.role,
       email: user.email,
-      workplace_id: user.role === ROLE.WORKER ? (selectedWorkplace?.id || user.workplace?.id || null) : null
+      workplace_id: user.role === ROLE.WORKER ? (selectedWorkplace?.id || user.workplace?.id || null) : null,
+      work_start_time: user.work_start_time,
+      work_end_time: user.work_end_time
     };
     if (password && password === confirmPassword){
       Object.assign(updatedUser, {password});
@@ -254,7 +256,8 @@ const EditUser = () => {
                     setUser({ ...user, role: event.target.value });
                 }} />
                 {
-                  user.role === ROLE.WORKER &&                
+                  user.role === ROLE.WORKER &&     (
+                    <>          
                   <IonList inset={true}>
                     <MenuListButton 
                       title={selectedWorkplace?.name || user.workplace?.name || t("users.workplace")} 
@@ -263,7 +266,22 @@ const EditUser = () => {
                       // errorMessage={t("form.selectWorkplace")}
                     />
                   </IonList>
-                }
+                  <Input
+                  label={t("users.workStartTime")}
+                  value={user.work_start_time || ""}
+                  handleChange={event => setUser({ ...user, work_start_time: event.target.value })}
+                  type="time"
+                  required={false}
+                />
+                <Input
+                  label={t("users.workEndTime")}
+                  value={user.work_end_time || ""}
+                  handleChange={event => setUser({ ...user, work_end_time: event.target.value })}
+                  type="time"
+                  required={false}
+                />
+              </>
+                )}
               </div>
                 <IonToast
                     isOpen={!!toastMessage}

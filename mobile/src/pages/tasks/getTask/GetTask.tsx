@@ -19,6 +19,9 @@ import { Preloader } from "../../../components/preloader/preloader";
 import InputReadonly from "../../../components/inputs/inputReadonly/inputReadonly";
 import { Camera, EditWhiteIcon } from "../../../assets/svg/SVGcomponent";
 import Fab from "../../../components/fab/Fab";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { ROLE } from "../../../models/enums/roles.enum";
 const RADIX = 10;
 
 interface LocationState {
@@ -44,6 +47,8 @@ const {orderName} = location.state || "";
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
   const history = useHistory();
+  const userRole = useSelector((state: RootState) => state.user.role);
+  
 
   const seconds = getTimeDifference(finishDateTime, startDateTime);
   const { hours, minutes } = formatTime(seconds);
@@ -105,11 +110,15 @@ const {orderName} = location.state || "";
         backButtonHref={ROUTES.ORDER_ITEM(String(orderId), String(itemId))}
         onBackClick={backClick}
         endButton={
-          <img
-            src={Camera}
-            alt="camera"
-            onClick={() => history.push(ROUTES.ORDER_TIMESPAN_CAMERAS(orderId, itemId, operationId, timespanId))}
-          />
+          userRole !== ROLE.WORKER && (
+            <img
+              src={Camera}
+              alt="camera"
+              onClick={() =>
+                history.push(ROUTES.ORDER_TIMESPAN_CAMERAS(orderId, itemId, operationId, timespanId))
+              }
+            />
+          )
         }
       />
       <IonContent>

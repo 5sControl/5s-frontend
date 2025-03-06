@@ -5,11 +5,11 @@ const API_CAMERASELECT = "api/camera-algorithms/camera/";
 const API_CAMERACREATE = "api/cameras/create-camera/";
 const API_CAMERADELETE = "api/camera-algorithms/delete-camera/";
 const API_CAMERAFIND = "api/core/find_cameras/";
-const API_CAMERACHECK = "api/onvif/check_camera/";
+const API_CAMERACHECK = "api/cam-stream/cameras/verification";
 const API_CAMERAZONES = "api/camera-algorithms/zone-cameras/";
 const API_ZONES = "api/camera-algorithms/zone/";
 const API_ALGORITHMZONES = "api/camera-algorithms/zones-algorithms/";
-const API_VIDEO = "api/onvif/is_video_available/";
+const API_VIDEO = "api/cam-stream/videos/availability";
 
 export const getSelectedCameras = (hostname, cookies) => {
   return axios.get(`${process.env.REACT_APP_NGROK}${API_CAMERASELECT}`, {
@@ -132,7 +132,8 @@ export const getAlgorithmZones = (hostname, cookies, camera) => {
 };
 
 export const getVideo = (hostname, body) => {
-  return axios.post(`${process.env.REACT_APP_NGROK}${API_VIDEO}`, body, {
+  const {time, camera_ip} = body;
+  return axios.get(`${process.env.REACT_APP_NGROK}${API_VIDEO}?time=${time}&cameraIp=${camera_ip}`, {
     headers: {
       "ngrok-skip-browser-warning": "true",
     },
