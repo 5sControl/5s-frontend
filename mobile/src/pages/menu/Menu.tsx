@@ -24,23 +24,10 @@ export const Menu: React.FC = () => {
   const [timespans, setTimespans] = useState<ITimespan[]>([]);
   const [isLoading, setLoading] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [workEnded, setWorkEnded] = useState(false);
 
   const history = useHistory();
   const { t } = useTranslation();
   const workInProgress = timespans[0] && !timespans[0].finishedAt;
-
-  
-
-  const checkIfWorkTimeEnded = (workEndTime: string) => {
-    const [h, m, s] = workEndTime.split(":");
-    const now = new Date();
-    const endTime = new Date();
-
-    endTime.setHours(parseInt(h), parseInt(m), parseInt(s), 0);
-
-    return now > endTime;
-  };
 
   useIonViewWillEnter( () => {
     if (!cookies.token) return;
@@ -58,11 +45,6 @@ export const Menu: React.FC = () => {
               setLoading,
               setToastMessage
             );
-          }
-
-          if (userData.work_end_time) {
-            const isEnded = checkIfWorkTimeEnded(userData.work_end_time);
-            setWorkEnded(isEnded);
           }
         }
       } catch (error) {
@@ -140,9 +122,9 @@ export const Menu: React.FC = () => {
             <Restricted to="proccess_qr_code_order_operation">
               <IonList inset={true}>
                 <MenuListButton
-                  title={workEnded ? t("menu.workTimeEnded") : t("menu.scanner")}
+                  title={t("menu.scanner")}
                   handleItemClick={() => handleItemClick(ROUTES.SCANNER_QR)}
-                  disabled={workEnded || workInProgress}
+                  disabled={workInProgress}
                 />
 
                 <div className="my-work-btn">
