@@ -2,14 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { IonButton, IonContent, IonLabel, IonToast, IonPage, IonList, useIonViewWillEnter } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
-import InputDate from "../../../components/inputs/inputDate/inputDate";
 import {
   getTimeDifference,
   mergeDateAndTime,
-  formatYMD,
   getCurrentDateTimeISO,
-  updateTimeInDate,
-  formatDate,
   formatISOBeforeSend,
   formatTime,
   parseToDate,
@@ -77,8 +73,6 @@ const EditTimespan: React.FC = () => {
     // }
     if (timespan) {
       if (timespan.startedAt) {
-        console.log(timespan.startedAt, 'timespan.startedAt');
-        
         setStartDate(parseToDate(timespan.startedAt));
         setStartTime(parseToTime(timespan.startedAt));
       }
@@ -94,7 +88,6 @@ const EditTimespan: React.FC = () => {
     if (startDate && startTime && finishDate && finishTime) {
       const startISO = mergeDateAndTime(startDate, startTime);
       const finishISO = mergeDateAndTime(finishDate, finishTime);
-      // getTimeDifference должна возвращать разницу, например, в минутах
       const diff = getTimeDifference(startISO, finishISO);
       setDurationTime(diff);
     } else {
@@ -150,7 +143,6 @@ const EditTimespan: React.FC = () => {
       showToastMessage("Please select a valid start time");
       return;
     }
-console.log(timespanId,15);
 
     const startedAt = formatISOBeforeSend(mergeDateAndTime(startDate, startTime));
     let finishedAt = "";
@@ -186,13 +178,9 @@ console.log(timespanId,15);
       .then(() => {
         setSave(true);
         setIsModalOpen(false);
-        console.log(787878);
-        
         handleNavigate();
       })
-      .catch((error) => {
-        console.log(error,2323);
-        
+      .catch(() => {
         setToastMessage("Time overlaps with another timespan");
         setIsSaveModalOpen(false);
       });
@@ -248,8 +236,6 @@ console.log(timespanId,15);
   // };
 
   const backClick = () => {
-    console.log(isSave, "isSave");
-    
     if (isSave) {
       handleNavigate();
     } else {
