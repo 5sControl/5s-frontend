@@ -9,7 +9,7 @@ type DataSelectorProps = {
   date: string;
   setDate: (date: string) => void;
   modalRef: RefObject<HTMLIonModalElement>;
-  setSave: (save: boolean) => void;
+  setSave?: (save: boolean) => void;
   minDate?: string;
   maxDate?: string;
   time?: boolean;
@@ -33,7 +33,7 @@ const DateSelector = ({ label, date, modalRef, setSave, maxDate, minDate, time, 
 
   const handleSave = () => {
     setDate(selectedDate);
-    setSave(false);
+    if (setSave) setSave(false);
     modalRef.current?.dismiss();
   };
 
