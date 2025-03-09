@@ -189,9 +189,11 @@ export const mergeDateAndTime = (dateStr1: string, dateStr2: string) => {
 
 
 
-export const formatTime = (seconds: number) => {
+export const formatTime = (seconds: number, live = false) => {
   let hours = Math.floor(seconds / 3600);
-  let minutes = Math.round((seconds % 3600) / 60);
+  let minutes = live
+    ? Math.floor((seconds % 3600) / 60)
+    : Math.round((seconds % 3600) / 60);
   if(minutes >= 60){
     hours +=1;
     minutes = 0; 
