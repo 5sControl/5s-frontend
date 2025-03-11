@@ -48,6 +48,8 @@ const EditTimespan: React.FC = () => {
   const history = useHistory();
   // const startModalRef = useRef<HTMLIonModalElement>(null);
   // const finishModalRef = useRef<HTMLIonModalElement>(null);
+  console.log(durationTime,66);
+  
   const { hours, minutes } = formatTime(durationTime);
   const status = !timespan.startedAt ? t("orders.statusValues.pending") : (!timespan.finishedAt ? t("orders.statusValues.inProgress") : t("orders.statusValues.done"));
 
@@ -90,8 +92,6 @@ const EditTimespan: React.FC = () => {
       const finishISO = mergeDateAndTime(finishDate, finishTime);
       const diff = getTimeDifference(startISO, finishISO);
       setDurationTime(diff);
-    } else {
-      setDurationTime(0);
     }
   }, [startDate, startTime, finishDate, finishTime]);
 

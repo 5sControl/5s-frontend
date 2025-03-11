@@ -98,8 +98,6 @@ const EditTask: React.FC = () => {
         const finishISO = mergeDateAndTime(finishDate, finishTime);
         const diff = getTimeDifference(startISO, finishISO);
         setDurationTime(diff);
-      } else {
-        setDurationTime(0);
       }
     }, [startDate, startTime, finishDate, finishTime]);
 
