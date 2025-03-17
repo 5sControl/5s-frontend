@@ -4,11 +4,10 @@ import { useRef, useState, useEffect, Fragment } from "react";
 import Moveable from "react-moveable";
 import { IoIosCloseCircle } from "react-icons/io";
 import { generateString } from "../../../../utils/randomizer";
-import { Coordinat, DrawingCoordinates, NewCoordinates } from "../../../../models/interfaces/coordinates.interface";
+import { Coordinat, DrawingCoordinates, NewCoordinates, FourPointsNewCoordinates } from "../../../../models/interfaces/coordinates.interface";
 import Scale from "../../../scale/Scale";
 import { Scaleble } from "../../../scale/EditScale";
 import styles from "./zonesCoordinat.module.scss";
-import { FourPointsNewCoordinates } from "../../../../models/interfaces/coordinates.interface";
 import { useIonViewWillEnter } from "@ionic/react";
 import "./moveable.scss";
 import { API_BASE_URL } from "../../../../config";
@@ -64,6 +63,23 @@ export const ZonesCoordinates: React.FC<PropsType> = ({
       window.removeEventListener("resize", handleImageLoad);
     };
   });
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (image.current) {
+        handleImageLoad();
+        onChangeSize();
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    document.addEventListener("fullscreenchange", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("fullscreenchange", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (oldBox.length > 0) {
