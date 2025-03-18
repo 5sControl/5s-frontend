@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../../shared/constants/routes";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { Preloader } from "../../../components/preloader/preloader";
@@ -78,7 +78,8 @@ const AddUser = () => {
       isInvalidText(user.username, { numbers: true, spaces: true }) ||
       isInvalidText(user.first_name) ||
       isInvalidText(user.last_name) ||
-      !isValidEmail(user.email)
+      !isValidEmail(user.email) ||
+      (user.role === ROLE.WORKER && (!selectedWorkplace || !user.work_start_time || !user.work_end_time))
     ) {
       setHighlightRequired(true);
       return false;
@@ -242,29 +243,31 @@ const AddUser = () => {
 
                 {user.role === ROLE.WORKER && (
                   <>
-                  <IonList inset={true}>
+                    <IonList inset={true}>
                     <MenuListButton
                       title={selectedWorkplace?.name || t("users.workplace")}
                       handleItemClick={navigateWorkplaceClick}
-                      // state={highlightRequired && !selectedWorkplace && user.role === ROLE.WORKER ? "error" : "neutral"}
-                      // errorMessage={t("form.selectWorkplace")}
                     />
-                  </IonList>
+                    </IonList>
                     <Input
                     label={t("users.workStartTime")}
                     value={user.work_start_time || ""}
                     handleChange={event => setUser({ ...user, work_start_time: event.target.value })}
                     type="time"
-                    required={false}
-                  />
-                  <Input
+                    required={true}
+                    state={highlightRequired && !user.work_start_time ? "error" : "neutral"}
+                    errorMessage={t("form.required")}
+                    />
+                    <Input
                     label={t("users.workEndTime")}
                     value={user.work_end_time || ""}
                     handleChange={event => setUser({ ...user, work_end_time: event.target.value })}
                     type="time"
-                    required={false}
-                  />
-                </>
+                    required={true}
+                    state={highlightRequired && !user.work_end_time ? "error" : "neutral"}
+                    errorMessage={t("form.required")}
+                    />
+                  </>
                 )}
               </div>
 
