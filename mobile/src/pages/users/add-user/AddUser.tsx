@@ -79,7 +79,7 @@ const AddUser = () => {
       isInvalidText(user.first_name) ||
       isInvalidText(user.last_name) ||
       !isValidEmail(user.email) ||
-      (user.role === ROLE.WORKER && (!selectedWorkplace || !user.work_start_time || !user.work_end_time))
+      (user.role === ROLE.WORKER && (!user.work_start_time || !user.work_end_time))
     ) {
       setHighlightRequired(true);
       return false;
