@@ -5,11 +5,13 @@ import "./ConfirmationModal.scss";
 type ConfirmationModalProps = {
   type: "primary" | "danger";
   isOpen: boolean;
-  onClose: () => void;
   onConfirm: () => void;
   title: string;
   confirmText: string;
   cancelText: string;
+  onCancel?: () => void;
+  onClose?: () => void;
+  onDismiss?: () => void;
   description?: string;
   preventDismiss?: boolean;
 };
@@ -17,6 +19,8 @@ type ConfirmationModalProps = {
 export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   isOpen,
   onClose,
+  onDismiss,
+  onCancel,
   onConfirm,
   title,
   type,
@@ -27,8 +31,8 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 }) => {
 
   const handleDismiss = () => {
-    if (!preventDismiss) {
-      onClose();
+    if (!preventDismiss && onDismiss) {
+      onDismiss();
     }
   };
 
@@ -46,7 +50,14 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           fill="outline"
           className="modal__button outlined"
           shape="round"
-          onClick={() => onClose()}
+          onClick={() => {
+            if (onCancel) {
+              onCancel();
+            }
+            if (onClose) {
+              onClose();
+            }
+          }}
         >
           {cancelText}
         </IonButton>

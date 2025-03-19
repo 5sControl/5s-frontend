@@ -15,6 +15,7 @@
     "users": "Employees",
     "cameras": "Camera settings",
     "myTasks": "My tasks",
+    "workTimeEnded": "Work time has ended",
     "workStatus": {
       "workInProgress": "Work in progress",
       "noWork": "No work"
@@ -46,7 +47,8 @@
     "saveData": "Please save your data!",
     "employeeNotFound": "Employee not found",
     "validLength": "Maximum text length reached",
-    "employeeExists": "An employee with the same name or email already exists"
+    "employeeExists": "An employee with the same name or email already exists",
+    "successFinish": "Timespan successfully finished"
   },
   "directory": {
     "newDirectory": "New directory",
@@ -236,10 +238,10 @@
     "name": "Name",
     "status": "Status",
     "implementationTime": "Implementation time",
-    "startOperation": "Start of operation",
+    "startOperation": "Start",
     "operationTime": "Operation time:",
     "timeOverlap": "Choose another time",
-    "finishOperation": "Finish of operation",
+    "finishOperation": "Finish",
     "date": "Date",
     "orderItems": "Order items",
     "orderItem": "Order item",
@@ -301,7 +303,10 @@
     "workplace": "Workplace",
     "dateJoined": "Date joined",
     "settings": "Employee settings",
-    "info": "Employee information"
+    "info": "Employee information",
+    "workStartTime":  "Work start time",
+    "workEndTime": "Work end time",
+    "timeNotSet": "Time not set"
   },
   "scanner": {
     "start": "Start scanning",

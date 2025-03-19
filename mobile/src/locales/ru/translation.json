@@ -15,6 +15,7 @@
     "users": "Сотрудники",
     "cameras": "Настройка камер",
     "myTasks": "Мои задачи",
+    "workTimeEnded": "Рабочее время закончилось",
     "workStatus": {
       "workInProgress": "Работа в процессе",
       "noWork": "Работа отсутствует"
@@ -45,7 +46,8 @@
     "saveData": "Пожалуйста, сохраните свои данные!",
     "employeeNotFound": "Работник не найден",
     "validLength": "Достигнута максимальная длина текста",
-    "employeeExists": "Работник с таким именем или email уже существует"
+    "employeeExists": "Работник с таким именем или email уже существует",
+    "successFinish": "Таймспан успешно завершен"
   },
   "directory": {
     "newDirectory": "Новый справочник",
@@ -235,10 +237,10 @@
     "name": "Название",
     "status": "Статус",
     "implementationTime": "Время выполнения",
-    "startOperation": "Начало операции",
+    "startOperation": "Началo",
     "operationTime": "Время операции:",
     "timeOverlap": "Выберите другое время",
-    "finishOperation": "Окончание операции",
+    "finishOperation": "Конец",
     "date": "Дата",
     "orderItems": "Узлы / Продукции",
     "orderItem": "Узел",
@@ -300,7 +302,10 @@
     "workplace": "Рабочее место",
     "dateJoined": "Дата регистрации",
     "settings": "Настройки сотрудника",
-    "info": "Информация о сотруднике"
+    "info": "Информация о сотруднике",
+    "workStartTime": "Начало работы",
+    "workEndTime": "Окончание работы",
+    "timeNotSet": "Время не установлено"
   },
   "scanner": {
     "start": "Начать сканирование",

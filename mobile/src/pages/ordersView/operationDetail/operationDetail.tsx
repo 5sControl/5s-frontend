@@ -40,7 +40,6 @@ export const OperationDetail = () => {
   const [videoIndex, setVideoIndex] = useState<number>(0);
   const history = useHistory();
   const [noVideo, setNoVideo] = useState(false);
-
   //   const videoIndex = cameraId ? detail.videos.findIndex(video => video.camera_ip === cameraId) : 0;
 
   useIonViewWillEnter(() => {
@@ -51,11 +50,6 @@ export const OperationDetail = () => {
           setNoVideo(true);
         }
         setDetail(response.data);
-        const startTime = moment(operation.sTime);
-        const endTime = moment(operation.eTime);
-        const duration = moment.duration(endTime.diff(startTime));
-        const formattedDuration = moment.utc(duration.asMilliseconds()).format("HH:mm:ss");
-        setDuration(formattedDuration);
         if (cameraId) {
           setVideoIndex(response.data.videos.findIndex(video => video.camera_ip === cameraId));
         }
@@ -85,6 +79,12 @@ export const OperationDetail = () => {
     // }
     // history.push(ROUTES.ORDERSVIEW, { direction: "back" });
   };
+
+  const onVideoLoad = (video: HTMLVideoElement) => {
+    if (video.duration) {
+      setDuration(moment.utc(video.duration * 1000).format("HH:mm:ss"));
+    }
+  }
 
   return (
     <IonPage color="light">
@@ -118,7 +118,7 @@ export const OperationDetail = () => {
                 <div className="subtitle">
                   <span>Time: </span>
                   <span className="subtitle_value">{moment(detail.sTime).format("HH:mm:ss")} </span>
-                  <span>({duration})</span>
+                  <span>{duration && `(${duration})`}</span>
                 </div>
                 <div className="subtitle">
                   <span>Order: </span>
@@ -129,8 +129,8 @@ export const OperationDetail = () => {
                 </div>
               </div>
               <HlsVideoPlayer
-                base64Playlist={detail?.videos[videoIndex]?.playlist}
-                timeToStart={(detail?.videos[videoIndex].video_start_from || 0) / 1000}
+                onLoad={onVideoLoad}
+                manifestPath={detail?.videos[videoIndex]?.playlist}
               />
               </>
           }

@@ -158,17 +158,42 @@ export const getTimeDifference = (date1: string, date2: string) => {
   return 0;
 }
 
+// export const mergeDateAndTime = (dateStr1: string, dateStr2: string) => {
+
+//   const [datePart1] = dateStr1.split('T');
+//   const [, timePart2] = dateStr2.split('T');
+//   const mergedDateTime = `${datePart1}T${timePart2}`;
+//   return mergedDateTime;
+// }
+
 export const mergeDateAndTime = (dateStr1: string, dateStr2: string) => {
 
-  const [datePart1] = dateStr1.split('T');
-  const [, timePart2] = dateStr2.split('T');
-  const mergedDateTime = `${datePart1}T${timePart2}`;
-  return mergedDateTime;
+  const datePart = dateStr1.includes('T')
+    ? dateStr1.split('T')[0]
+    : dateStr1.split(' ')[0];
+
+  let timePart = "";
+  if (dateStr2.includes('T')) {
+    const parts = dateStr2.split('T');
+    timePart = parts[1] || "";
+  } else if (dateStr2.includes(' ')) {
+    const parts = dateStr2.split(' ');
+    timePart = parts[1] || "";
+  } else {
+    timePart = dateStr2;
+  }
+
+  console.log(dateStr1, dateStr2, 777);
+  return `${datePart}T${timePart}`;
 }
 
-export const formatTime = (seconds: number) => {
+
+
+export const formatTime = (seconds: number, live = false) => {
   let hours = Math.floor(seconds / 3600);
-  let minutes = Math.round((seconds % 3600) / 60);
+  let minutes = live
+    ? Math.floor((seconds % 3600) / 60)
+    : Math.round((seconds % 3600) / 60);
   if(minutes >= 60){
     hours +=1;
     minutes = 0; 
@@ -223,7 +248,19 @@ export const extractTime = (dateString: string): string => {
   return `${hours}:${minutes}`;
 }
 
+// export const extractTime = (dateString: string): string => {
+//   const date = new Date(dateString);
+//   const year = date.getFullYear();
+//   const month = (date.getMonth() + 1).toString().padStart(2, "0");
+//   const day = date.getDate().toString().padStart(2, "0");
+//   const hours = date.getHours().toString().padStart(2, "0");
+//   const minutes = date.getMinutes().toString().padStart(2, "0");
+//   return `${year}-${month}-${day} ${hours}:${minutes}`;
+// };
+
 export const formatISOBeforeSend = (dateString: string): string => {
+  console.log(dateString,6666);
+  
   return (new Date(dateString)).toISOString();
 }
 
@@ -267,4 +304,23 @@ export const daysDifference = (date1: string | Date, date2: string | Date): numb
   const dayDifference = Math.abs(timeDifference / (1000 * 60 * 60 * 24));
   
   return dayDifference;
+}
+
+export function parseToDate(isoString: string): string {
+  if (!isoString) return "";
+  const date = new Date(isoString);
+  const year = date.getFullYear();
+  // Месяцы в Date начинаются с 0, поэтому прибавляем 1 и дополняем нулём, если нужно
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+export function parseToTime(isoString: string): string {
+  if (!isoString) return "";
+  const date = new Date(isoString);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  
+  return `${hours}:${minutes}`;
 }

@@ -15,28 +15,21 @@ export const CameraTest: React.FC<PropsType> = ({ cameraIP, userName, password }
   const [isPreloader, setPreloader] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
 
-  const cameraChecking = () => {
+  const cameraChecking = async () => {
     setPreloader(true);
-    setImageTest('');
-    checkCamera(window.location.hostname, cameraIP, userName, password)
-      .then((resp) => {
-        return resp.json();
-      })
-      .then((response) => {
-        if (response.status) {
-          const uint8Array = new Uint8Array(response.image.data);
-          const blob = new Blob([uint8Array], { type: 'image/jpeg' });
-          const imageUrl = URL.createObjectURL(blob);
-          setImageTest(imageUrl);
-        } else {
-          setImageTest('');
-        }
-        setPreloader(false);
-        setIsNotification(true);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    setImageTest("");
+   const response = await checkCamera(window.location.hostname, cameraIP, userName, password)
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const imageUrl = URL.createObjectURL(blob);
+      setImageTest(imageUrl);
+      setPreloader(false);
+      setIsNotification(true);
+    } else {
+      setPreloader(false);
+      setIsNotification(true);
+    }
   };
 
   useEffect(() => {
