@@ -1,6 +1,5 @@
 import { IonButton, IonDatetime, IonModal } from "@ionic/react";
-import { extractTime } from "../../utils/parseInputDate";
-import { RefObject, useEffect, useState } from "react";
+import { RefObject, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./timeSelector.module.css";
 
@@ -8,9 +7,10 @@ type TimeSelectorProps = {
   time: string;
   modalRef: RefObject<HTMLIonModalElement>;
   setTime: (time: string) => void;
+  setSave?: (save: boolean) => void;
 };
 
-const TimeSelector = ({ time, modalRef, setTime }: TimeSelectorProps) => {
+const TimeSelector = ({ time, modalRef, setTime, setSave }: TimeSelectorProps) => {
   const { t } = useTranslation();
   const [selectedTime, setSelectedTime] = useState<string>(time);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
@@ -22,6 +22,7 @@ const TimeSelector = ({ time, modalRef, setTime }: TimeSelectorProps) => {
 
   const handleSave = () => {
     setTime(selectedTime);
+    if (setSave) setSave(false);
     modalRef.current?.dismiss();
   };
 
@@ -39,7 +40,7 @@ const TimeSelector = ({ time, modalRef, setTime }: TimeSelectorProps) => {
         className={`${!isModalOpen && "outlined"} ${styles.button}`}
         onClick={handleTimeClick}
       >
-        {extractTime(time)}
+        {time}
       </IonButton>
 
       <IonModal ref={modalRef} onWillDismiss={handleCancel}>

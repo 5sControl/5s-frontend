@@ -9,12 +9,13 @@ type DataSelectorProps = {
   date: string;
   setDate: (date: string) => void;
   modalRef: RefObject<HTMLIonModalElement>;
+  setSave?: (save: boolean) => void;
   minDate?: string;
   maxDate?: string;
   time?: boolean;
 };
 
-const DateSelector = ({ label, date, modalRef, maxDate, minDate, time, setDate }: DataSelectorProps) => {
+const DateSelector = ({ label, date, modalRef, setSave, maxDate, minDate, time, setDate }: DataSelectorProps) => {
   const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState<string>(date);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
@@ -32,6 +33,7 @@ const DateSelector = ({ label, date, modalRef, maxDate, minDate, time, setDate }
 
   const handleSave = () => {
     setDate(selectedDate);
+    if (setSave) setSave(false);
     modalRef.current?.dismiss();
   };
 
@@ -50,7 +52,7 @@ const DateSelector = ({ label, date, modalRef, maxDate, minDate, time, setDate }
 
       <IonModal ref={modalRef} onWillDismiss={handleCancel}>
         <IonDatetime
-          presentation={time ? "date-time" : "date"}
+          presentation={time ? "time" : "date"}
           value={selectedDate}
           onIonChange={e => setSelectedDate(e.detail.value as string)}
           locale={t("lang")}
