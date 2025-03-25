@@ -1,9 +1,8 @@
-import { ArrowDown, DeleteWhite } from "../../../../assets/svg/SVGcomponent";
+import { ArrowDown } from "../../../../assets/svg/SVGcomponent";
 import { Input } from "../../../inputs/input/Input";
 import styles from "../zones.module.scss";
 import { useEffect, useState } from "react";
-import Select from "../../../selects/select/Select";
-import { DeleteButton } from "../../../deleteButton/DeleteButton";
+import DynamicSelectInput from "../../../selects/select/Select";
 import { IonButton } from "@ionic/react";
 import { useTranslation } from "react-i18next";
 
@@ -82,7 +81,7 @@ const Item = ({
             placeholder={t("camera.zoneSegment.namePlaceholder")}
             maxLength={30}
           />
-          <Select
+          <DynamicSelectInput
             label={t("camera.workplace")}
             value={value || zona.workplace}
             placeholder={value || t("camera.zoneSegment.select")}
