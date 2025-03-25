@@ -16,3 +16,36 @@
 ion-select::part(icon) {
   margin-right: .5rem;
 }
+
+.autocomplete {
+  position: relative;
+  margin: .5rem 1rem;
+
+  &__list {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    z-index: 999;
+    max-height: 150px;
+    overflow-y: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  &__item {
+    padding: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+
+  &__empty {
+    padding: 10px;
+    color: #999;
+    font-size: 14px;
+  }
+}
