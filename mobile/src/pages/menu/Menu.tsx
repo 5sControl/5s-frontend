@@ -111,6 +111,12 @@ export const Menu: React.FC = () => {
                   handleItemClick={() => handleItemClick(ROUTES.USERS)}
                 />
               </Restricted>
+              <Restricted to="view_users">
+                <MenuListButton
+                  title={t("menu.employeeTasksStatus")}
+                  handleItemClick={() => handleItemClick(ROUTES.EMPLOYEE_TASKS_STATUS)}
+                />
+              </Restricted>
               <Restricted to="view_reference">
                 <MenuListButton
                   title={t("menu.directories")}
