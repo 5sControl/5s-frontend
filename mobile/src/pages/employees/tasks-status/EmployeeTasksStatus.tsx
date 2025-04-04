@@ -7,6 +7,7 @@ import { TIMESPAN_API } from "../../../api/orders";
 import { getUserList } from "../../../api/users";
 import { ROUTES } from "../../../shared/constants/routes";
 import { Header } from "../../../components/header/Header";
+import { format } from "date-fns";
 
 interface Employee {
   id: number;
@@ -34,6 +35,47 @@ interface Timespan {
   employeeId: number;
   employeeName: string;
 }
+
+const formatEmployeeData = (employee: Employee, timespans: Timespan[]) => {
+  const employeeTimespans = timespans.filter((timespan) => timespan.employeeId === employee.id);
+  const orderNumber = employeeTimespans.length > 0
+    ? employeeTimespans[0].orderOperation.orderItem.order.orderNumber
+    : "-";
+
+  const operationName = employeeTimespans.length > 0
+    ? employeeTimespans[0].orderOperation.name
+    : "-";
+
+  const timespanLink = employeeTimespans.length > 0 && employeeTimespans[0].startedAt
+    ? (
+        <a href={`/mobile${ROUTES.ORDER_TIMESPAN_EDIT(
+          String(employeeTimespans[0].orderOperation.orderItem.order.id),
+          String(employeeTimespans[0].orderOperation.orderItem.id),
+          String(employeeTimespans[0].orderOperation.id),
+          String(employeeTimespans[0].timespanId)
+        )}`}>
+          {format(new Date(employeeTimespans[0].startedAt), "HH:mm yyyy-MM-dd")}
+        </a>
+      )
+    : "-";
+
+  const orderLink = employeeTimespans.length > 0 && employeeTimespans[0].orderOperation.orderItem.order.id
+    ? (
+        <a href={`/mobile${ROUTES.ORDER(String(employeeTimespans[0].orderOperation.orderItem.order.id))}`}>
+            {orderNumber}
+        </a>
+      )
+    : "-";
+
+  const nameClass = employeeTimespans.length > 0 ? styles.greenText : styles.redText;
+  const rowClass = employeeTimespans.length > 0
+    ? employeeTimespans[0].startedAt
+      ? "greenBackground"
+      : "redBackground"
+    : "redBackground";
+
+  return { operationName, timespanLink, orderLink, nameClass, rowClass };
+};
 
 export const EmployeeTasksStatus: React.FC = () => {
   const [cookies] = useCookies(["token"]);
@@ -105,36 +147,12 @@ export const EmployeeTasksStatus: React.FC = () => {
               <IonLabel>{t("timespan")}</IonLabel>
             </IonItem>
             {sortedEmployees.map((employee) => {
-              const employeeTimespans = getEmployeeTimespan(employee.id);
-              const orderNumber = employeeTimespans.length > 0
-                ? employeeTimespans[0].orderOperation.orderItem.order.orderNumber
-                : "-";
-              const operationName = employeeTimespans.length > 0
-                ? employeeTimespans[0].orderOperation.name
-                : "-";
-              const timespanLink = employeeTimespans.length > 0
-                ? (
-                    <a href={`/mobile${ROUTES.ORDER_TIMESPAN_EDIT(
-                      String(employeeTimespans[0].orderOperation.orderItem.order.id),
-                      String(employeeTimespans[0].orderOperation.orderItem.id),
-                      String(employeeTimespans[0].orderOperation.id),
-                      String(employeeTimespans[0].timespanId)
-                    )}`}>
-                      {t("menu.viewTimespan")}
-                    </a>
-                  )
-                : "-";
-              const nameClass = employeeTimespans.length > 0 ? styles.greenText : styles.redText;
-              const rowClass = employeeTimespans.length > 0
-                ? employeeTimespans[0].startedAt
-                  ? "greenBackground"
-                  : "redBackground"
-                : "redBackground";
+              const { operationName, timespanLink, orderLink, nameClass, rowClass } = formatEmployeeData(employee, timespans);
 
               return (
                 <IonItem key={employee.id} className={rowClass}>
                   <IonLabel className={nameClass}>{employee.username}</IonLabel>
-                  <IonLabel>{orderNumber}</IonLabel>
+                  <IonLabel>{orderLink}</IonLabel>
                   <IonLabel>{operationName}</IonLabel>
                   <IonLabel>{timespanLink}</IonLabel>
                 </IonItem>
