@@ -1,4 +1,8 @@
 {
+  "employee": "Pracownik",
+  "order": "Zamówienie",
+  "operation": "Operacja",
+  "timespan": "Czas pracy",
   "lang": "pl",
   "menu": {
     "ordersView": "Widok zamówień",
@@ -16,6 +20,9 @@
     "cameras": "Ustawienia kamer",
     "myTasks": "Moje zadania",
     "workTimeEnded": "Czas pracy dobiegł końca",
+    "employeeTasksStatus": "Status zadań pracownika",
+    "viewTimespan": "Zobacz Czas Operacji",
+    "loading": "Ładowanie",
     "workStatus": {
       "workInProgress": "Prace w toku",
       "noWork": "Brak pracy"
