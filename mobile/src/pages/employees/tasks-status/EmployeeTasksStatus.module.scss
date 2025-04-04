@@ -1,0 +1,47 @@
+
+.table {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+
+  .headerItem {
+    text-transform: uppercase;
+    font-weight: bold;
+    --background: #f4f4f4;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    padding: 10px 0;
+  }
+
+  IonItem {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    transition: background-color 0.3s ease;
+    align-items: center;
+    width: 100%;
+  }
+
+  .greenText {
+    color: green;
+  }
+
+  .redText {
+    color: red;
+  }
+
+@media (max-width: 768px) {
+  .table {
+    margin: 10px;
+  }
+
+  .tableHeader {
+    font-size: 14px;
+    gap: 5px;
+  }
+
+  IonItem {
+    font-size: 14px;
+  }
+}
+}
