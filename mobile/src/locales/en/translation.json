@@ -1,4 +1,8 @@
 {
+  "employee": "Employee",
+  "order": "Order",
+  "operation": "Operation",
+  "timespan": "Timespan",
   "lang": "en",
   "menu": {
     "ordersView": "Orders View",
@@ -16,6 +20,9 @@
     "cameras": "Camera settings",
     "myTasks": "My tasks",
     "workTimeEnded": "Work time has ended",
+    "employeeTasksStatus": "Active employee tasks",
+    "viewTimespan": "View Timespan",
+    "loading": "Loading",
     "workStatus": {
       "workInProgress": "Work in progress",
       "noWork": "No work"

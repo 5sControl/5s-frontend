@@ -33,6 +33,7 @@ export const ROUTES = {
 
   EMPLOYEES: "/employees",
   EMPLOYEE_ADD: "/employees/add",
+  EMPLOYEE_TASKS_STATUS: "/employee-tasks-status",
   EMPLOYEE: (employeeId: string) => `/employee/${employeeId}`,
   EMPLOYEE_EDIT: (employeeId: string) => `/employee/${employeeId}/edit`,
 

@@ -90,6 +90,7 @@ import EmployeeTasks from "./pages/tasks/employeeTasks/EmployeeTasks";
 import GetTask from "./pages/tasks/getTask/GetTask";
 import EditTask from "./pages/tasks/editTask/EditTask";
 import RecoverPassword from "./pages/authorization/recoverPassword/RecoverPassword";
+import EmployeeTasksStatus from "./pages/employees/tasks-status/EmployeeTasksStatus";
 
 
 setupIonicReact();
@@ -218,6 +219,9 @@ function App() {
 
               <Route exact path={ROUTES.EMPLOYEES}>
                 <Employees />
+              </Route>
+              <Route exact path={ROUTES.EMPLOYEE_TASKS_STATUS}>
+<               EmployeeTasksStatus/>
               </Route>
               <Route exact path={ROUTES.EMPLOYEE(":id")}>
                 <Employee />
