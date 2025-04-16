@@ -1,4 +1,8 @@
 {
+  "employee": "Сотрудник",
+  "order": "Заказ",
+  "operation": "Операция",
+  "timespan": "Таймспан",
   "lang": "ru",
   "menu": {
     "ordersView": "Просмотр заказов",
@@ -16,6 +20,9 @@
     "cameras": "Настройка камер",
     "myTasks": "Мои задачи",
     "workTimeEnded": "Рабочее время закончилось",
+    "employeeTasksStatus": "Активные задачи сотрудников",
+    "viewTimespan": "Посмотреть Таймспан",
+    "loading": "Загрузка",
     "workStatus": {
       "workInProgress": "Работа в процессе",
       "noWork": "Работа отсутствует"

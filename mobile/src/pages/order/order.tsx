@@ -106,10 +106,17 @@ const Order = () => {
       setCompletedOrder(true);
     });
   };
+  const onBackClick = () => {
+    history.go(-1);
+  }
 
   return (
     <IonPage color="light">
-      <Header title={(order.orderNumber ?? "") + " " + (order.name ?? "")} backButtonHref={ROUTES.ORDERS} />
+      <Header
+        title={(order.orderNumber ?? "") + " " + (order.name ?? "")}
+        backButtonHref={ROUTES.ORDERS}
+        onBackClick={onBackClick}
+      />
       <IonContent>
         {isLoading ? (
           <div className="preloader">
