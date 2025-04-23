@@ -87,10 +87,26 @@ export const Menu: React.FC = () => {
                   title={t("menu.reports")}
                   handleItemClick={() => handleItemClick(ROUTES.REPORTS)}
                 />
+                <MenuListButton
+                  title={t("menu.employeeTasksStatus")}
+                  handleItemClick={() => handleItemClick(ROUTES.EMPLOYEE_TASKS_STATUS)}
+                />
               </IonList>
             </Restricted>
 
             <IonList inset={true}>
+              <Restricted to="view_users">
+                <MenuListButton
+                  title={t("menu.users")}
+                  handleItemClick={() => handleItemClick(ROUTES.USERS)}
+                />
+              </Restricted>
+              <Restricted to="view_reference">
+                <MenuListButton
+                  title={t("menu.directories")}
+                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)}
+                />
+              </Restricted>
               <Restricted to="view_reference">
                 <MenuListButton
                   title={t("menu.dataConfiguration")}
@@ -105,24 +121,6 @@ export const Menu: React.FC = () => {
                   />
                 </Restricted>
               )}
-              <Restricted to="view_users">
-                <MenuListButton
-                  title={t("menu.users")}
-                  handleItemClick={() => handleItemClick(ROUTES.USERS)}
-                />
-              </Restricted>
-              <Restricted to="view_users">
-                <MenuListButton
-                  title={t("menu.employeeTasksStatus")}
-                  handleItemClick={() => handleItemClick(ROUTES.EMPLOYEE_TASKS_STATUS)}
-                />
-              </Restricted>
-              <Restricted to="view_reference">
-                <MenuListButton
-                  title={t("menu.directories")}
-                  handleItemClick={() => handleItemClick(ROUTES.DIRECTORIES)}
-                />
-              </Restricted>
             </IonList>
 
             <Restricted to="proccess_qr_code_order_operation">
