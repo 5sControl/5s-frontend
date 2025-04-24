@@ -89,26 +89,45 @@ export const EmployeeTasksStatus: React.FC = () => {
     const fetchEmployees = async () => {
       setLoading(true);
       try {
-        const response = await getUserList(cookies.token);
-        const filteredEmployees = response.data.filter((employee: Employee) => employee.role !== "admin");
+        const { data } = await getUserList(cookies.token);
+        const filteredEmployees = data.filter((employee: Employee) => employee.role !== "admin");
         setEmployees(filteredEmployees);
 
-        const allTimespans: Timespan[] = [];
+        const timespanPromises = filteredEmployees.map((employee) =>
+        TIMESPAN_API
+          .getTimespansByEmployee(employee.id)
+          .then((res) => ({ status: "fulfilled", employee, data: res.data }))
+          .catch((error) => ({ status: "rejected", employee, error }))
+        );
 
-        for (const employee of filteredEmployees) {
-          try {
-            const response = await TIMESPAN_API.getTimespansByEmployee(employee.id);
-            const employeeTimespans = response.data.filter(
-              (timespan: Timespan) => timespan.finishedAt === null
+        const results = await Promise.allSettled(timespanPromises);
+
+        const allTimespans: Timespan[] = [];
+        results.forEach((result) => {
+          if (
+            result.status === "fulfilled" &&
+            result.value.status === "fulfilled"
+          ) {
+            const { employee, data } = result.value;
+            const openTimespans = (data as Timespan[]).filter(
+              (t) => t.finishedAt === null
             );
-            employeeTimespans.forEach((timespan: Timespan) => {
-              timespan.employeeName = employee.username;
+            openTimespans.forEach((t) => {
+              t.employeeName = employee.username;
             });
-            allTimespans.push(...employeeTimespans);
-          } catch (error) {
-            console.error(`Error fetching timespans for employee ${employee.id}:`, error);
+            allTimespans.push(...openTimespans);
+          } else if (
+            result.status === "fulfilled" &&
+            result.value.status === "rejected"
+          ) {
+            console.error(
+              `Timespans error for employee ${result.value.employee.id}:`,
+              result.value.error
+            );
+          } else if (result.status === "rejected") {
+            console.error("Unexpected promise rejection:", result.reason);
           }
-        }
+        });
 
         setTimespans(allTimespans);
       } catch (error) {
