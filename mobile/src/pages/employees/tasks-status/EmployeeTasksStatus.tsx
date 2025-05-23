@@ -23,6 +23,7 @@ interface OrderOperation {
     order: {
       id: number;
       orderNumber: number;
+      name: string
     };
   };
 }
@@ -36,10 +37,26 @@ interface Timespan {
   employeeName: string;
 }
 
+const createOrderLink = (employeeTimespans: Timespan[], orderIdentificator: string | number) => {
+    const orderLink = employeeTimespans.length > 0 && employeeTimespans[0].orderOperation.orderItem.order.id
+    ? (
+        <a href={`/mobile${ROUTES.ORDER(String(employeeTimespans[0].orderOperation.orderItem.order.id))}`}>
+            {orderIdentificator}
+        </a>
+      )
+    : "-";
+
+    return orderLink;
+} 
+
 const formatEmployeeData = (employee: Employee, timespans: Timespan[]) => {
   const employeeTimespans = timespans.filter((timespan) => timespan.employeeId === employee.id);
   const orderNumber = employeeTimespans.length > 0
     ? employeeTimespans[0].orderOperation.orderItem.order.orderNumber
+    : "-";
+
+  const orderName = employeeTimespans.length > 0
+    ? employeeTimespans[0].orderOperation.orderItem.order.name
     : "-";
 
   const operationName = employeeTimespans.length > 0
@@ -59,13 +76,8 @@ const formatEmployeeData = (employee: Employee, timespans: Timespan[]) => {
       )
     : "-";
 
-  const orderLink = employeeTimespans.length > 0 && employeeTimespans[0].orderOperation.orderItem.order.id
-    ? (
-        <a href={`/mobile${ROUTES.ORDER(String(employeeTimespans[0].orderOperation.orderItem.order.id))}`}>
-            {orderNumber}
-        </a>
-      )
-    : "-";
+  const orderLinkByOrderNumber = createOrderLink(employeeTimespans, orderNumber)
+  const orderLinkByOrderName = createOrderLink(employeeTimespans, orderName)
 
   const nameClass = employeeTimespans.length > 0 ? styles.greenText : styles.redText;
   const rowClass = employeeTimespans.length > 0
@@ -74,7 +86,7 @@ const formatEmployeeData = (employee: Employee, timespans: Timespan[]) => {
       : "redBackground"
     : "redBackground";
 
-  return { operationName, timespanLink, orderLink, nameClass, rowClass };
+  return { operationName, timespanLink, orderLinkByOrderNumber, orderLinkByOrderName, nameClass, rowClass };
 };
 
 export const EmployeeTasksStatus: React.FC = () => {
@@ -162,16 +174,19 @@ export const EmployeeTasksStatus: React.FC = () => {
             <IonItem className={styles.headerItem}>
               <IonLabel>{t("employee")}</IonLabel>
               <IonLabel>{t("order")}</IonLabel>
+              <IonLabel>{t("orders.orderName")}</IonLabel>
               <IonLabel>{t("operation")}</IonLabel>
               <IonLabel>{t("timespan")}</IonLabel>
             </IonItem>
             {sortedEmployees.map((employee) => {
-              const { operationName, timespanLink, orderLink, nameClass, rowClass } = formatEmployeeData(employee, timespans);
+
+              const { operationName, timespanLink, orderLinkByOrderNumber, orderLinkByOrderName, nameClass, rowClass } = formatEmployeeData(employee, timespans);
 
               return (
                 <IonItem key={employee.id} className={rowClass}>
                   <IonLabel className={nameClass}>{employee.username}</IonLabel>
-                  <IonLabel>{orderLink}</IonLabel>
+                  <IonLabel>{orderLinkByOrderNumber}</IonLabel>
+                  <IonLabel>{orderLinkByOrderName}</IonLabel>
                   <IonLabel>{operationName}</IonLabel>
                   <IonLabel>{timespanLink}</IonLabel>
                 </IonItem>
