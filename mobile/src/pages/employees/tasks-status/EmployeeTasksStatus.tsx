@@ -179,7 +179,6 @@ export const EmployeeTasksStatus: React.FC = () => {
               <IonLabel>{t("timespan")}</IonLabel>
             </IonItem>
             {sortedEmployees.map((employee) => {
-
               const { operationName, timespanLink, orderLinkByOrderNumber, orderLinkByOrderName, nameClass, rowClass } = formatEmployeeData(employee, timespans);
 
               return (
