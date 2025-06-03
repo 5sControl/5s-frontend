@@ -21,7 +21,7 @@ The connections between the project repositories are illustrated by the followin
 </p>
 
 
-**5controlS Platform:**
+**5Scontrol Platform:**
 1. [5s-webserver](https://github.com/5sControl/5s-webserver)
 2. [5s-backend](https://github.com/5sControl/5s-backend)
 3. [5s-frontend](https://github.com/5sControl/5s-frontend)
@@ -120,7 +120,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 # **Contributing**
 Thank you for considering contributing to 5sControl. We truly believe that we can build an outstanding product together!
 
-We welcome a variety of ways to contribute. Read below to learn how you can take part in improving 5controlS.
+We welcome a variety of ways to contribute. Read below to learn how you can take part in improving 5Scontrol.
 
 ## **Code of conduct**
 
