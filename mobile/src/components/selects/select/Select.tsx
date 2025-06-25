@@ -13,9 +13,10 @@ type SelectProps = {
   handleChange: (selectedIP: any) => void;
   handleFocus?: () => void;
   isLoading?: boolean;
+  baseStyle?: boolean
 };
 
-const DynamicSelectInput = ({ label, placeholder, selectList, value, handleChange, handleFocus, isLoading}: SelectProps) => {
+const DynamicSelectInput = ({ label, placeholder, selectList, value, handleChange, handleFocus, isLoading, baseStyle}: SelectProps) => {
   const { t } = useTranslation();
   const [inputValue, setInputValue] = useState(value || "");
   const [showList, setShowList] = useState(false);
@@ -57,6 +58,8 @@ return (
           setShowList(true);
         }}
         onIonBlur={onBlur}
+        className={baseStyle ? 'input': ''}
+        
       />
 
       {isLoading && <IonSpinner name="dots" />}

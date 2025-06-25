@@ -13,6 +13,27 @@
   }
 }
 
+.input {
+  margin-top: .3rem;
+  border: var(--LowEmphasis) 1px solid;
+  border-radius: 4px;
+  padding: 0 0 0 12px !important;
+  background-color: #FFF;
+  transition: .3s all;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #fff inset; /* Цвет фона при автозаполнении */
+  -webkit-text-fill-color: #000 !important; /* Цвет текста при автозаполнении */
+}
+
+input:-internal-autofill-selected {
+  background-color: #fff !important;
+}
+
 ion-select::part(icon) {
   margin-right: .5rem;
 }
