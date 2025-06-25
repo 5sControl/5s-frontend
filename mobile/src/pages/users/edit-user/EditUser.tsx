@@ -251,9 +251,15 @@ const EditUser = () => {
                     maxLength={30}
                     type="text"/>
 
-                <DynamicSelectInput value={user.role} placeholder={user.role} selectList={roles} handleChange={event => {
-                    setUser({ ...user, role: event.target.value });
-                }} />
+                <DynamicSelectInput 
+                  value={user.role} 
+                  placeholder={user.role} 
+                  selectList={roles} 
+                  handleChange={value => {
+                    setUser({ ...user, role: value });
+                  }} 
+                  label={ t("users.role")}
+                  baseStyle={true} />
                 {
                   user.role === ROLE.WORKER &&     (
                     <>          

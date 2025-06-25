@@ -235,10 +235,12 @@ const AddUser = () => {
                   value={!customRole ? t("users.role") : user.role}
                   placeholder={!customRole ? t("users.role") : user.role}
                   selectList={roles}
-                  handleChange={event => {
-                    setUser({ ...user, role: event.target.value });
+                  label={ t("users.role")}
+                  handleChange={value => {
+                    setUser({ ...user, role: value });
                     setCustomRole(true);
                   }}
+                  baseStyle={true}
                 />
 
                 {user.role === ROLE.WORKER && (
